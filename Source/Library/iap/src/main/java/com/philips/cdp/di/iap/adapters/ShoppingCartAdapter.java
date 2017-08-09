@@ -116,7 +116,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void bindCountView(final View view, final int position) {
-        mSelectedItemPosition = position;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -126,7 +125,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        //mSelectedItemPosition = position;
+                        mSelectedItemPosition = position;
                         mQuantityStatus = getQuantityStatus(newCount, oldCount);
                         mNewCount = newCount;
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
@@ -156,6 +155,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
+        mSelectedItemPosition = selectedItem;
         setTheProductDataForDisplayingInProductDetailPage(selectedItem);
 /*        List<RowItem> rowItems = new ArrayList<>();
 
@@ -212,7 +212,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedTotalPrice());
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
-
             getNetworkImage(shoppingCartProductHolder, imageURL);
 
             shoppingCartProductHolder.mIvOptions.setOnClickListener(new View.OnClickListener() {
@@ -232,14 +231,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
                 }
             });
-            /*shoppingCartProductHolder.mProductName.setText(""+mData.size() +cartData.getProductTitle().toString());
-            shoppingCartProductHolder.mProductPrice.setText(cartData.getFormattedTotalPrice().toString());*/
-//            shoppingCartProductHolder.mProductPrice.setText(cartData.getFormattedTotalPrice().toString());
-           /* System.out.println(" 111 getFormattedTotalPriceWithTax : " +cartData.getFormattedTotalPriceWithTax());
-            System.out.println(" 111 getFormattedTotalPrice : " +cartData.getFormattedTotalPrice());
-            System.out.println(" 111 getValuePrice : " +cartData.getValuePrice());
-            System.out.println(" 111 getVatActualValue : " +cartData.getVatActualValue());*/
-
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
@@ -284,7 +275,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDailyCollectionView.setVisibility(View.GONE);*/
                 }
 
-                String freeDeliverySpendAmount = "200";
+                String freeDeliverySpendAmount = "100";
                 String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_free_description);
                 freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
                 shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);

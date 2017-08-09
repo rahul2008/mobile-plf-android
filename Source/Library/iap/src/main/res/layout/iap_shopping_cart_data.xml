@@ -4,7 +4,7 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="wrap_content">
 
-    <GridLayout
+    <LinearLayout
         android:id="@+id/parent_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -26,8 +26,8 @@
             android:layout_toEndOf="@+id/image">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/price_label"
                 style="@style/UIDLabel"
+                android:id="@+id/price_label"
                 android:layout_width="160dip"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
@@ -71,7 +71,7 @@
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="16sp" />
         </RelativeLayout>
-    </GridLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/line"
