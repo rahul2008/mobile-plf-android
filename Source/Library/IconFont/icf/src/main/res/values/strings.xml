@@ -1,3 +1,30 @@
+<?xml version="1.0"?>
 <resources>
-    <string name="app_name">IconFont</string>
+  <string name="dls_star">0xF007</string>
+  <string name="dls_warning">0xF008</string>
+  <string name="dls_balloonspeech">0xF009</string>
+  <string name="dls_capture">0xF00A</string>
+  <string name="dls_checkmark_xbold_24">0xF00B</string>
+  <string name="dls_checkmark_xbold_32">0xF00C</string>
+  <string name="dls_checkmark_xbold">0xF00D</string>
+  <string name="dls_circleplay">0xF00E</string>
+  <string name="dls_conversationspeech">0xF00F</string>
+  <string name="dls_exclamationmark_24">0xF010</string>
+  <string name="dls_exclamationmark_32">0xF011</string>
+  <string name="dls_exclamationmark">0xF012</string>
+  <string name="dls_information">0xF013</string>
+  <string name="dls_linkexternal_32">0xF014</string>
+  <string name="dls_linkexternal">0xF015</string>
+  <string name="dls_location">0xF016</string>
+  <string name="dls_message_32">0xF017</string>
+  <string name="dls_message">0xF018</string>
+  <string name="dls_questionmark_24">0xF019</string>
+  <string name="dls_questionmark_32">0xF01A</string>
+  <string name="dls_questionmark">0xF01B</string>
+  <string name="dls_revise">0xF01C</string>
+  <string name="dls_socialmediafacebook">0xF01D</string>
+  <string name="dls_socialmediagoogleplus">0xF01E</string>
+  <string name="dls_socialmediatwitter">0xF01F</string>
+  <string name="dls_startaction">0xF020</string>
+  <string name="dls_userstart">0xF021</string>
 </resources>
