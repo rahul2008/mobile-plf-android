@@ -735,12 +735,23 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                 });
             }
-        } else if (countrySource != null) {
+        } else if (countrySource != null && compareCountrySource(countrySource)) {
             listener.onSuccess(homeCountry, OnGetHomeCountryListener.SOURCE.valueOf(countrySource));
         } else {
             listener.onSuccess(homeCountry, null);
         }
     }
+
+
+    private boolean compareCountrySource(String countrySource) {
+        if (countrySource.equalsIgnoreCase(OnGetHomeCountryListener.SOURCE.GEOIP.toString())
+                || countrySource.equalsIgnoreCase(OnGetHomeCountryListener.SOURCE.SIMCARD.toString())
+                || countrySource.equalsIgnoreCase(OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE.toString())) {
+            return true;
+        }
+        return false;
+    }
+
 
     private String getCountryCodeFromSim() {
         try {
