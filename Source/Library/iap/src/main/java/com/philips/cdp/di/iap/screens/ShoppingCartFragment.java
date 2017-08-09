@@ -114,9 +114,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
-
-//        mAdapter = new ShoppingCartAdapter(mContext, mData, this);
-//        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void updateCartOnResume() {
@@ -328,7 +325,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             updateCartDetails(mShoppingCartAPI);
         }
-        // dismissProgressDialog();
     }
 
     @Override

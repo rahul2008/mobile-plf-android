@@ -142,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dip"
                 android:paddingLeft="@dimen/border16_margin_left_right"
+                android:visibility="gone"
                 android:paddingRight="@dimen/border16_margin_left_right">
 
                 <com.philips.platform.uid.view.widget.Label
