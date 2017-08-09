@@ -57,6 +57,9 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
@@ -129,6 +132,8 @@ public class THSManager {
     @VisibleForTesting
     private User mUser;
 
+    AppInfraInterface mAppInfra;
+
     @VisibleForTesting
     public boolean TEST_FLAG = false;
 
@@ -197,7 +202,7 @@ public class THSManager {
 
     public void authenticateMutualAuthToken(Context context,final THSLoginCallBack THSLoginCallBack) throws AWSDKInstantiationException {
         User user = getUser(context);
-        String token = user.getHsdpUUID()+":" + "DataCore:" + user.getHsdpAccessToken();
+        String token = user.getHsdpUUID()+":" + getAppName() +":"+ user.getHsdpAccessToken();
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
@@ -1181,5 +1186,20 @@ public class THSManager {
     @VisibleForTesting
     public void setUser(User user){
         mUser = user;
+    }
+
+    private String getAppName() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey("appname", "telehealthservices", configError));
+        return propertyForKey.toString();
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return mAppInfra;
+    }
+
+    public void setAppInfra(AppInfraInterface mAppInfra) {
+        this.mAppInfra = mAppInfra;
     }
 }
