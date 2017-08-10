@@ -8,6 +8,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKCallback;
+import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -26,6 +27,8 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     @Override
     public void onEvent(int componentID) {
         // todo clear fragments till Practice (Show practice)
+        mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSPracticeFragment.TAG,0);
+
     }
 
     void fetchVisitSummary() {
@@ -37,9 +40,12 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
     }
 
-    void sendRatings(Integer providerRating, Integer visitRating) {
-        try {
-            THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), providerRating, visitRating, this);
+    void sendRatings(Float providerRating, Float visitRating) {
+
+       try {
+           int providerRatingInt = Math.round(providerRating);
+           int visitRatingInt = Math.round(visitRating);
+           THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), providerRatingInt, visitRatingInt, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -67,13 +73,26 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     @Override
     public void onResponse(THSVisitSummary tHSVisitSummary, THSSDKError tHSSDKError) {
 
+        updateView(tHSVisitSummary);
+
+    }
+
+    private void updateView(THSVisitSummary tHSVisitSummary){
+        mTHSVisitSummaryFragment.providerName.setText(tHSVisitSummary.getVisitSummary().getAssignedProviderInfo().getFullName());
+        mTHSVisitSummaryFragment.providerPractice.setText(tHSVisitSummary.getVisitSummary().getAssignedProviderInfo().getPracticeInfo().getName());
+        if(tHSVisitSummary.getVisitSummary().getVisitCost().isFree()){
+            mTHSVisitSummaryFragment.visitCost.setText("$ 0");
+        }else{
+            mTHSVisitSummaryFragment.visitCost.setText(tHSVisitSummary.getVisitSummary().getVisitCost().getDeferredBillingWrapUpText());
+        }
+
         Address address = tHSVisitSummary.getVisitSummary().getShippingAddress();
         String consumerFullName = tHSVisitSummary.getVisitSummary().getConsumerInfo().getFullName();
         updateShippingAddressView(address, consumerFullName);
-
         Pharmacy pharmacy = tHSVisitSummary.getVisitSummary().getPharmacy();
         updatePharmacyDetailsView(pharmacy);
     }
+
 
     @Override
     public void onResponse(Void var1, SDKError var2) {

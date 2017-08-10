@@ -29,6 +29,10 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
      Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
 
+    Label providerName;
+    Label providerPractice;
+    Label visitCost;
+
     Integer mProviderRating;
     Integer mVisitRating;
 
@@ -42,6 +46,11 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         view.findViewById(R.id.isAvailableLayout).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_consumer_shipping_address).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_pharmacy).setVisibility(View.GONE);
+
+
+        providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
+        providerPractice = (Label) view.findViewById(R.id.details_practiceNameLabel);
+        visitCost= (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
 
         Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
         prescriptionLabel.setText("Your prescription was sent to");
@@ -59,8 +68,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         continueButton.setOnClickListener(this);
 
         mTHSVisitSummaryPresenter = new THSVisitSummaryPresenter(this);
-       // mTHSVisitSummaryPresenter.fetchVisitSummary();
-       // thsRatingDialogFragment = new THSRatingDialogFragment();
+        mTHSVisitSummaryPresenter.fetchVisitSummary();
+
         thsRatingDialogFragment = new THSRatingDialogFragment();
         thsRatingDialogFragment.setThsVisitSummaryPresenter(mTHSVisitSummaryPresenter);
         thsRatingDialogFragment.show(getFragmentManager(),"TAG");

@@ -41,8 +41,8 @@ public class THSRatingDialogFragment extends DialogFragment {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                thsVisitSummaryPresenter.sendRatings(  providerInputRatingBar.getNumStars(),
-                visitInputRatingBar.getNumStars());
+                thsVisitSummaryPresenter.sendRatings(  providerInputRatingBar.getRating(),
+                visitInputRatingBar.getRating());
                 dismiss();
             }
         });

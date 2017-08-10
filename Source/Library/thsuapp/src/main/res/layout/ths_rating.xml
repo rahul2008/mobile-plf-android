@@ -37,11 +37,12 @@
     <com.philips.platform.uid.view.widget.RatingBar
         android:id="@+id/ths_provider_ratingbar"
         style="@style/UIDRatingBarInput"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_provider_rating_label"
         android:numStars="5"
-
+        android:stepSize="1.0"
+        android:layout_centerHorizontal="true"
 
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
@@ -55,17 +56,19 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="24dp"
-        android:text="Rate your provider"
+        android:text="Rate your overall experience"
 
         ></com.philips.platform.uid.view.widget.Label>
 
     <com.philips.platform.uid.view.widget.RatingBar
         android:id="@+id/ths_visit_ratingbar"
         style="@style/UIDRatingBarInput"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_visit_rating_label"
-
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:stepSize="1.0"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="24dp"/>
