@@ -31,4 +31,5 @@ class PairingFragmentPresenter {
         stateContext.setState(new UnPairDeviceState(deviceID, deviceStatusListener, mActivity));
         stateContext.start();
     }
+
 }

@@ -48,6 +48,8 @@ public class PairDeviceState extends AbstractBaseState implements com.philips.pl
 //        DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
 //                getSubjectProfileIdList(subjectProfileList), getStandardObservationNameList(), "urn:cdp|datareceiver_stg", this);
 
+
+
         DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
                 list, list, "urn:cdp|datareceiver_stg", this);
     }

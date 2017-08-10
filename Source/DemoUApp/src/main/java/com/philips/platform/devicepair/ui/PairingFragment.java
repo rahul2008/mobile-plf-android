@@ -8,7 +8,6 @@ package com.philips.platform.devicepair.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,14 +112,14 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                /*if (mAppliancesList != null && mAppliancesList.size() > 0) {
+                if (mAppliancesList != null && mAppliancesList.size() > 0) {
                     PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
                     if (pairDeviceDetails != null) {
+                        showProgressDialog(getString(R.string.pairing_device));
                         mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
                     }
-                }*/
-                showProgressDialog(getString(R.string.pairing_device));
-                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
+                }
+//                pairToDevice(mAppliancesList.get(position));
             }
         });
 
@@ -154,9 +153,9 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         super.onResume();
 
         //For testing
-        List<String> test = new ArrayList<>();
+       /* List<String> test = new ArrayList<>();
         test.add("1c5a6bfffecc9127");
-        updateDiscoveredDevices(test);
+        updateDiscoveredDevices(test);*/
 
         if (!isProgressShowing()) {
             showProgressDialog(getString(R.string.get_paired_device));
@@ -195,12 +194,12 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     }
 
     //For testing
-    private PairDevice getTestDeviceDetails() {
+    /*private PairDevice getTestDeviceDetails() {
         mPairDevice = new PairDevice();
         mPairDevice.setDeviceID("1c5a6bfffecc9127");
         mPairDevice.setDeviceType("urn:philips-com:device:DiProduct:1");
         return mPairDevice;
-    }
+    }*/
 
     private PairDevice getDeviceDetails(String id) {
         for (int i = 0; i < mAppliancesList.size(); i++) {
@@ -260,6 +259,14 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         return devices;
     }
 
+   /* private void pairToDevice(Appliance appliance) {
+        PairingPort pairingPort = appliance.getPairingPort();
+        String permission[] = new String[0];
+        String secretKeyGen = "";
+        pairingPort.triggerPairing("cphuser", "", new User(mContext).getHsdpUUID(),
+                secretKeyGen, "urn:cdp|datareceiver_stg", permission);
+    }
+*/
     public void updateDiscoveredDevices(List<String> discoveredDevices) {
         mDiscoveredDevices = discoveredDevices;
         updateAvailableDevices();
@@ -341,7 +348,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     @Override
     public void onProfileCreated() {
         showProgressDialog(getString(R.string.pairing_device));
-        mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
+        mLaunchFragmentPresenter.pairDevice(mPairDevice, PairingFragment.this);
     }
 
     private void launchConsents() {
@@ -364,17 +371,17 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     @Override
     public void onSyncComplete() {
-        mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
+//        mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
     }
 
     @Override
     public void onSyncFailed(Exception e) {
-        final Handler handler = new Handler();
+        /*final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
             }
-        }, 10000);
+        }, 10000);*/
     }
 }
