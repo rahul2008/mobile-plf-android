@@ -4,7 +4,7 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/parent_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -18,53 +18,30 @@
 
         <RelativeLayout
             android:id="@+id/product_details"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:layout_marginTop="20dip"
             android:layout_toEndOf="@+id/image">
 
-            <LinearLayout
-                android:id="@+id/product_title"
-                android:layout_width="match_parent"
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
+                android:id="@+id/price_label"
+                android:layout_width="160dip"
                 android:layout_height="wrap_content"
-                android:weightSum="2"
-                android:orientation="horizontal">
-
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:id="@+id/price_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:textSize="18sp"
-                    android:layout_weight="2"
-                    android:paddingRight="5dp"
-                    android:textStyle="bold"
-                    android:text="Daily Collection Miniblender"
-                    android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"/>
-
-                <com.shamanland.fonticon.FontIconTextView
-                    android:id="@+id/right_arrow"
-                    style="@style/iap_right_arrow_product_catalog"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:gravity="right"
-                    android:layout_marginRight="12dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_toEndOf="@+id/price_label"
-                    android:layout_toRightOf="@+id/price_label"/>
-
-            </LinearLayout>
+                android:includeFontPadding="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="@string/daily_selling_product"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/after_discount_price"
                 style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/product_title"
+                android:layout_below="@+id/price_label"
                 android:layout_marginRight="15dip"
                 android:layout_marginTop="@dimen/reg_layout_margin_10dp"
                 android:textSize="18sp"
@@ -78,14 +55,24 @@
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/product_title"
+                android:layout_below="@+id/price_label"
                 android:layout_marginTop="@dimen/reg_layout_margin_10dp"
                 android:layout_toRightOf="@+id/after_discount_price"
                 android:text="$777"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="16sp" />
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:id="@+id/right_arrow"
+                style="@style/iap_right_arrow_product_catalog"
+                android:layout_width="15dip"
+                android:layout_height="15dip"
+                android:layout_marginRight="11dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/line"

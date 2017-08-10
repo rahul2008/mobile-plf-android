@@ -114,6 +114,7 @@
     <dimen name="iap_text_size_16sp">16sp</dimen>
     <dimen name="max_width">648dp</dimen>
     <dimen name="iap_discount_price">16sp</dimen>
+    <dimen name="iap_continue_shopping_btn_margin">20dp</dimen>
 
     <item name="iap_match_parent" type="dimen" format="integer">-1</item>
 </resources>
