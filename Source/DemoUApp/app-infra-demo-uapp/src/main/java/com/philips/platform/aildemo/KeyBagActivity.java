@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
+import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -56,17 +57,21 @@ public class KeyBagActivity extends AppCompatActivity {
 		ArrayList<String> strings = new ArrayList<>();
 		strings.add(serviceIdEditText.getText().toString());
 		strings.add("userreg.janrain.cdn");
-		keyBagInterface.getServicesForServiceIds(strings, aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
-			@Override
-			public void onSuccess(ArrayList<AIKMService> aikmServices) {
-				updateView(aikmServices);
-			}
+		try {
+			keyBagInterface.getServicesForServiceIds(strings, aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
+                @Override
+                public void onSuccess(ArrayList<AIKMService> aikmServices) {
+                    updateView(aikmServices);
+                }
 
-			@Override
-			public void onError(ERRORVALUES error, String message) {
-				Log.e(getClass().getSimpleName(), message);
-			}
-		});
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+                    Log.e(getClass().getSimpleName(), message);
+                }
+            });
+		} catch (KeyBagJsonFileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 	}
 

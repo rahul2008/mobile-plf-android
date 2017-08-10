@@ -30,19 +30,19 @@ public class KeyBagManager implements KeyBagInterface {
     //TODO - variables below need to be removed
     private ServiceDiscoveryManagerCSV sdmCSV;
 
-    public KeyBagManager(AppInfra mAppInfra) throws KeyBagJsonFileNotFoundException {
+    public KeyBagManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
-        keyBagHelper = new KeyBagHelper(mAppInfra);
-        keyBagHelper.init(mAppInfra.getAppInfraContext());
-
         //TODO - need to remove invoking below api
         initServiceDiscovery();
     }
 
     @Override
-    public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference, Map<String, String> replacement,
-                                         @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) {
+    public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
+                                         Map<String, String> replacement,
+                                         @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) throws KeyBagJsonFileNotFoundException {
 
+        keyBagHelper = new KeyBagHelper(appInfra);
+        keyBagHelper.init(appInfra.getAppInfraContext());
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = getServiceUrlMapListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
 

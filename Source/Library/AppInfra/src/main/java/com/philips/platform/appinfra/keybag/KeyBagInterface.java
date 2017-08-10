@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra.keybag;
 
 
+import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
@@ -11,5 +12,5 @@ public interface KeyBagInterface {
 
     void getServicesForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
                                   Map<String, String> replacement,
-                                  ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener);
+                                  ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) throws KeyBagJsonFileNotFoundException;
 }

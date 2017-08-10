@@ -36,7 +36,6 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 
@@ -459,17 +458,13 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 @Override
                 public void run() {
                     final KeyBagManager keyBagManager;
-                    try {
-                        keyBagManager = new KeyBagManager(ai);
-                        ai.setKeyBagInterface(keyBagInterface == null ? keyBagManager : keyBagInterface);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    keyBagManager = new KeyBagManager(ai);
+                    ai.setKeyBagInterface(keyBagInterface == null ? keyBagManager : keyBagInterface);
                 }
             }).start();
 
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
-            postLog(ai,startTime, "App-infra initialization ends with ");
+            postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
     }
