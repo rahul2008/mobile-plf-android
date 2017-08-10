@@ -37,6 +37,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSetti
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.devicepair.uappdependencies.DevicePairingUappInterface;
@@ -48,6 +49,7 @@ import java.sql.SQLException;
 
 public class DevicePairingState extends BaseState {
 
+    public static final String TAG = DevicePairingState.class.getSimpleName();
     private FragmentLauncher mFragmentLauncher;
 
     public DevicePairingState() {
@@ -117,6 +119,7 @@ public class DevicePairingState extends BaseState {
 
             DataServicesManager.getInstance().initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
+            RALog.e(TAG, exception.getMessage());
         }
     }
 
