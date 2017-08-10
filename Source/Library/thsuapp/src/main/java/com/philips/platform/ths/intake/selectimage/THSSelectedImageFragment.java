@@ -149,7 +149,12 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
 
         @Override
         public int getCount() {
-            return selectedImagePojoList.size();
+            if(null != selectedImagePojoList && selectedImagePojoList.size() > 0){
+                return selectedImagePojoList.size();
+            }else {
+                return 0;
+            }
+
         }
 
         @Override

@@ -3,16 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.philips.platform.uid.view.widget.ProgressBar
-        android:id="@+id/imageUploadProgressBar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="6dp" />
-
     <ImageView
         android:id="@+id/symptom_image"
         android:layout_margin="6dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@+id/imageUploadProgressBar"
+        style="@style/UIDProgressBarCircularIndeterminateSmall"
         android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:layout_margin="10dp" />
+
 
 </RelativeLayout>
