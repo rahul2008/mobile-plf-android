@@ -1,5 +1,5 @@
 /* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
@@ -18,7 +18,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
- * Created by philips on 29/06/17.
+ * State class to launch Comm lib demo micro app.
  */
 
 public class DemoCMLState extends BaseState {
@@ -30,12 +30,10 @@ public class DemoCMLState extends BaseState {
         super(AppStates.TESTDICOMM);
     }
 
-    private CommlibUapp uAppInterface;
-
     @Override
     public void navigate(UiLauncher uiLauncher) {
         //TODO:Needs to launch comm lib demo micro app
-        uAppInterface = getCommLibUApp();
+        CommlibUapp uAppInterface = getCommLibUApp();
         if (uAppInterface != null) {
             Log.d(TAG, "CommlibUApp is null");
             try {
