@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.KeyManagementException;
@@ -143,6 +144,8 @@ public class LanRequest extends Request {
 
             try {
                 responseCode = conn.getResponseCode();
+            } catch (SocketTimeoutException e) {
+                responseCode = HttpURLConnection.HTTP_GATEWAY_TIMEOUT;
             } catch (Exception e) {
                 responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
                 DICommLog.e(DICommLog.LOCALREQUEST, "Failed to get responsecode");
