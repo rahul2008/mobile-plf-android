@@ -178,13 +178,19 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        exclude group: 'com.android.support'
-        transitive = true
+
+    if(project.ext.has('useprojectdependencies')) {
+        compile project(':ail')
+        compile project(':uid')
+    } else {
+        compile(group: 'com.philips.cdp', name: 'xAppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
+        compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+            exclude group: 'com.android.support'
+            transitive = true
+        }
     }
 
     testCompile 'junit:junit:4.12'
