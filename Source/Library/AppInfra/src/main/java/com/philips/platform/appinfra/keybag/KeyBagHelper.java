@@ -142,6 +142,8 @@ class KeyBagHelper {
                         aikmService.setmError("Key bag index not matched");
                         e.printStackTrace();
                     }
+                } else {
+                    aikmService.setmError("Error in Json Syntax");
                 }
             } else {
                 aikmService.setmError(value.getmError());
