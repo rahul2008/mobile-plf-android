@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.philips.cdp.devicepair.uappdependencies.WifiCommLibUappSettings;
 import com.philips.cdp2.demouapp.CommlibUapp;
@@ -35,7 +34,7 @@ public class DemoCMLState extends BaseState {
         //TODO:Needs to launch comm lib demo micro app
         CommlibUapp uAppInterface = getCommLibUApp();
         if (uAppInterface != null) {
-            Log.d(TAG, "CommlibUApp is null");
+            RALog.d(TAG, "CommlibUApp is null");
             try {
                 uAppInterface.init(new DefaultCommlibUappDependencies(context.getApplicationContext()), new WifiCommLibUappSettings(context.getApplicationContext()));
             }// pass App-infra instance instead of null
