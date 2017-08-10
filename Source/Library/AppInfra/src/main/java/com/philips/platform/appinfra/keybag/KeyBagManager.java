@@ -103,7 +103,7 @@ public class KeyBagManager implements KeyBagInterface {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                keyBagHelper.mapDeObfuscatedValue(urlMap,aikmServices);
+                keyBagHelper.mapDeObfuscatedValue(urlMap, aikmServices);
                 onGetKeyBagMapListener.onSuccess(aikmServices);
             }
 

@@ -127,25 +127,28 @@ class KeyBagHelper {
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
             ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
-            String serviceId = aikmServices.get(i).getServiceId();
-            if (serviceId != null) {
-                String keyBagHelperIndex = getKeyBagIndex(value.getConfigUrls());
+            AIKMService aikmService = aikmServices.get(i);
+            String serviceId = aikmService.getServiceId();
+            String keyBagHelperIndex = getKeyBagIndex(value.getConfigUrls());
+            if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
                 int index = Integer.parseInt(keyBagHelperIndex);
                 Object propertiesForKey = getPropertiesForKey(serviceId);
                 if (propertiesForKey instanceof JSONArray) {
                     JSONArray jsonArray = (JSONArray) propertiesForKey;
                     try {
                         JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-                        aikmServices.get(i).setKeyBag(mapData(jsonObject, index, serviceId));
+                        aikmService.setKeyBag(mapData(jsonObject, index, serviceId));
                     } catch (JSONException e) {
+                        aikmService.setmError("Key bag index not matched");
                         e.printStackTrace();
                     }
                 }
+            } else {
+                aikmService.setmError(value.getmError());
             }
             i = i + 1;
         }
     }
-
 
     private void initKeyBagProperties(Context mContext) throws KeyBagJsonFileNotFoundException {
         Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
