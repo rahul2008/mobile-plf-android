@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
+ * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
 public class MomentType {
