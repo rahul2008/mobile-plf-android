@@ -123,8 +123,7 @@ class KeyBagHelper {
         return null;
     }
 
-
-    void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aikmServices) {
+    private void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aikmServices) {
         int i = 0;
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
@@ -203,14 +202,6 @@ class KeyBagHelper {
         }
         return null;
     }
-/*
-    void getIndexFromServiceDiscovery(String appendedServiceId, KeyBagInterface.AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener) {
-        if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE) {
-            sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, onGetServiceUrlListener);
-        } else if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.LANGUAGE_PREFERENCE) {
-            sdmCSV.getServiceUrlWithLanguagePreference(appendedServiceId, onGetServiceUrlListener);
-        }
-    }*/
 
     //TODO - need to remove this once we get keybag url's from DS
     private void initServiceDiscovery() {
@@ -229,16 +220,8 @@ class KeyBagHelper {
             }
         });
     }
-/*
-    void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, KeyBagInterface.AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-        if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE) {
-            sdmCSV.getServicesWithCountryPreference(serviceIds, onGetServiceUrlMapListener);
-        } else if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.LANGUAGE_PREFERENCE) {
-            sdmCSV.getServicesWithLanguagePreference(serviceIds, onGetServiceUrlMapListener);
-        }
-    }*/
 
-    ArrayList<String> getAppendedServiceIds(ArrayList<String> serviceIds) {
+    private ArrayList<String> getAppendedServiceIds(ArrayList<String> serviceIds) {
         ArrayList<String> appendedServiceIds = new ArrayList<>();
         for (String serviceId : serviceIds) {
             if (!TextUtils.isEmpty(serviceId))
@@ -264,7 +247,7 @@ class KeyBagHelper {
     }
 
 
-    void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aiKmServices) {
+    private void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aiKmServices) {
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
             ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
@@ -276,8 +259,7 @@ class KeyBagHelper {
         }
     }
 
-
-    void mapKeyIndex(AISDResponse.AISDPreference aiSdPreference, final ArrayList<AIKMService> aiKmServices, ArrayList<String> serviceIds, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+    private void mapKeyIndex(AISDResponse.AISDPreference aiSdPreference, final ArrayList<AIKMService> aiKmServices, ArrayList<String> serviceIds, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
         serviceIds = getAppendedServiceIds(serviceIds);
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
         if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference) {
@@ -285,7 +267,6 @@ class KeyBagHelper {
         } else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
             sdmCSV.getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
     }
-
 
     @NonNull
     private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final ArrayList<AIKMService> aikmServices) {
@@ -302,7 +283,6 @@ class KeyBagHelper {
             }
         };
     }
-
 
     @NonNull
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final ArrayList<String> serviceIds, final ArrayList<AIKMService> aiKmServices,
