@@ -31,7 +31,6 @@ public class DemoCMLState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        //TODO:Needs to launch comm lib demo micro app
         CommlibUapp uAppInterface = getCommLibUApp();
         if (uAppInterface != null) {
             RALog.d(TAG, "CommlibUApp is null");
