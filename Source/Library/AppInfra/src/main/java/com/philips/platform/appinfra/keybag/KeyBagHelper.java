@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.keybag;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,6 +16,7 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
@@ -130,25 +132,29 @@ class KeyBagHelper {
             AIKMService aikmService = aikmServices.get(i);
             String serviceId = aikmService.getServiceId();
             String keyBagHelperIndex = getKeyBagIndex(value.getConfigUrls());
-            if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
-                int index = Integer.parseInt(keyBagHelperIndex);
-                Object propertiesForKey = getPropertiesForKey(serviceId);
-                if (propertiesForKey instanceof JSONArray) {
-                    JSONArray jsonArray = (JSONArray) propertiesForKey;
-                    try {
-                        JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-                        aikmService.setKeyBag(mapData(jsonObject, index, serviceId));
-                    } catch (JSONException e) {
-                        aikmService.setmError("Key bag index not matched");
-                        e.printStackTrace();
-                    }
-                } else {
-                    aikmService.setmError("Error in Json Syntax");
+            mapAndValidateKey(value, aikmService, serviceId, keyBagHelperIndex);
+            i = i + 1;
+        }
+    }
+
+    private void mapAndValidateKey(ServiceDiscoveryService value, AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
+        if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
+            int index = Integer.parseInt(keyBagHelperIndex);
+            Object propertiesForKey = getPropertiesForKey(serviceId);
+            if (propertiesForKey instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) propertiesForKey;
+                try {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(index);
+                    aikmService.setKeyBag(mapData(jsonObject, index, serviceId));
+                } catch (JSONException e) {
+                    aikmService.setmError("Key bag index not matched");
+                    e.printStackTrace();
                 }
             } else {
-                aikmService.setmError(value.getmError());
+                aikmService.setmError("Error in Json Syntax");
             }
-            i = i + 1;
+        } else {
+            aikmService.setmError(value.getmError());
         }
     }
 
@@ -239,5 +245,80 @@ class KeyBagHelper {
                 appendedServiceIds.add(serviceId.concat(".kindex"));
         }
         return appendedServiceIds;
+    }
+
+    void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, AISDResponse.AISDPreference aiSdPreference,
+                                   Map<String, String> replacement,
+                                   ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener) {
+        if (replacement != null) {
+            if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
+                sdmCSV.getServicesWithCountryPreference(serviceIds, serviceUrlMapListener, replacement);
+            else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
+                sdmCSV.getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener, replacement);
+        } else {
+            if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
+                sdmCSV.getServicesWithCountryPreference(serviceIds, serviceUrlMapListener);
+            else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
+                sdmCSV.getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener);
+        }
+    }
+
+
+    void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aiKmServices) {
+        for (Object object : urlMap.entrySet()) {
+            Map.Entry pair = (Map.Entry) object;
+            ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
+            AIKMService aikmService = new AIKMService();
+            aikmService.setServiceId((String) pair.getKey());
+            aikmService.init(value.getLocale(), value.getConfigUrls());
+            aikmService.setmError(value.getmError());
+            aiKmServices.add(aikmService);
+        }
+    }
+
+
+    void mapKeyIndex(AISDResponse.AISDPreference aiSdPreference, final ArrayList<AIKMService> aiKmServices, ArrayList<String> serviceIds, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+        serviceIds = getAppendedServiceIds(serviceIds);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
+        if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference) {
+            sdmCSV.getServicesWithCountryPreference(serviceIds, keyBagIndexListener);
+        } else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
+            sdmCSV.getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
+    }
+
+
+    @NonNull
+    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final ArrayList<AIKMService> aikmServices) {
+        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                mapDeObfuscatedValue(urlMap, aikmServices);
+                onGetKeyBagMapListener.onSuccess(aikmServices);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                onGetKeyBagMapListener.onError(error, message);
+            }
+        };
+    }
+
+
+    @NonNull
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final ArrayList<String> serviceIds, final ArrayList<AIKMService> aiKmServices,
+                                                                                          final AISDResponse.AISDPreference aiSdPreference,
+                                                                                          final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                mapServiceDiscoveryResponse(urlMap, aiKmServices);
+                mapKeyIndex(aiSdPreference, aiKmServices, serviceIds, onGetKeyBagMapListener);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                onGetKeyBagMapListener.onError(error, message);
+            }
+        };
     }
 }
