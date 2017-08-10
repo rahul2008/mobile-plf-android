@@ -35,9 +35,12 @@
           -->
 
         <!--Don't use below, as we want status bar background native on lollipop-->
-        <!--<item name="android:colorPrimaryDark" tools:targetApi="lollipop">-->
-            <!--?attr/uidNavigationSecondaryBackgroundColor-->
-        <!--</item>-->
+        <!--<item name="android:colorPrimaryDark" tools:targetApi="lollipop">
+            ?attr/uidNavigationSecondaryBackgroundColor
+        </item>-->
+        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">
+            ?attr/uidNavigationPrimaryBackgroundColor
+        </item>
         <item name="android:actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
         <item name="actionMenuTextAppearance">@style/UIDToolbarMenuTextAppearance</item>
 
