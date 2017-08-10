@@ -116,12 +116,15 @@ public class ProductModelSelectionHelper {
 
     public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
 
-        themeConfiguration =((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
-        DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
-
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
+
+        if(uiLauncher instanceof  ActivityLauncher) {
+            themeConfiguration = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
+            DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
+        }
+
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, mAppInfraInterface, null,
                 productModelSelectionType.getSector(),
                 productModelSelectionType.getCatalog());
