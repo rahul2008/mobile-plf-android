@@ -25,7 +25,7 @@ node ('android&&docker') {
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
             '''
             }
-			if (BranchName =~ /master|develop|release.*/) {
+			if (BranchName =~ /master|release.*/) {
 			stage ('build PSRA') {
             sh '''#!/bin/bash -l
                 chmod -R 775 .
@@ -92,7 +92,7 @@ node ('android&&docker') {
                 }                
             } 
             stage ('reporting and archiving') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
                 junit allowEmptyResults: false, testResults: 'Source/AppFramework/*/build/test-results/*/*.xml' 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Hamburger Release UnitTest'])  
                 archiveArtifacts '**/*dependencies*.lock'
