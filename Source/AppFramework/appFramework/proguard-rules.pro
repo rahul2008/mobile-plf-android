@@ -434,3 +434,12 @@ public static <fields>;
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
 #-----------------------------app infra ends here-----------------------------------
+
+
+#-----------------------------Apeligent starts here-----------------------------------
+-dontwarn com.crittercism.**
+-keep public class com.crittercism.**
+-keepclassmembers public class com.crittercism.**{*;}
+
+-keepattributes LineNumberTable
+#------------------------------Apeligent ends here------------------------------------
