@@ -112,7 +112,7 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     void createLogger(String pComponentId) {
-        final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra);
+        final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra, mComponentID, mComponentVersion);
         final HashMap<String, Object> loggingProperty = loggingConfiguration.getLoggingProperties(mAppInfra);
         if (null != loggingProperty) {
             final String logLevel = loggingConfiguration.getLogLevel(loggingProperty);
