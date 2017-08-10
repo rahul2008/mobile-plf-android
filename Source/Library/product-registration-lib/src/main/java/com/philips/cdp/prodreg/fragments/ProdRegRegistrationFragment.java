@@ -169,6 +169,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 return  prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString());
             }
         });
+        date_input_field.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence charSequence) {
+                return prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
+            }
+        });
 
         return view;
     }
@@ -276,8 +282,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
-        date_input_field.showError();
-        date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity, ProdRegError.INVALID_DATE.getCode()).getDescription());
+        if(date_EditText.length() != 0) {
+            date_input_field.showError();
+            date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
+                    ProdRegError.INVALID_DATE.getCode()).getDescription());
+        } else {
+            date_input_field.hideError();
+        }
+
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
