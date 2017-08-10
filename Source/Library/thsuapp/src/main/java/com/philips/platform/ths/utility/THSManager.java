@@ -1085,7 +1085,7 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().removeHealthDocumentRecord(getPTHConsumer().getConsumer(), documentRecord, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
-                thsDeleteDocumentCallback.onDeleteSuccess(sdkError);
+                thsDeleteDocumentCallback.onDeleteSuccess(aVoid,sdkError);
             }
 
             @Override

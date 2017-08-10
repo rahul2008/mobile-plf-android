@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -39,6 +40,7 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
@@ -71,6 +73,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private THSConsumer thsConsumer;
+    private  THSSelectedImageFragment thsSelectedImageFragment;
+    private List<DocumentRecord> documentRecordList;
+    private THSFileUtils thsFileUtils;
 
     //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
@@ -82,6 +87,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
         }
+        thsFileUtils = new THSFileUtils();
+        documentRecordList = new ArrayList<>();
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         selectedImagePojosList = new ArrayList<>();
@@ -143,8 +150,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         mThsVisitContext = visitContext;
         if (getContext() != null) {
             List<Topic> topics = visitContext.getTopics();
-            for (final Topic topic : topics
-                    ) {
+            for (final Topic topic : topics) {
                 CheckBox checkBox = new CheckBox(getContext());
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 checkBox.setLayoutParams(layoutParams);
@@ -236,7 +242,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-            mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
+            mTHSSymptomsPresenter.fetchHealthDocuments();
         }
     }
 
@@ -287,7 +293,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                         resultCode == RESULT_OK) {
                     String[] projection = {MediaStore.Images.Media.DATA};
                     Cursor cursor =
-                            getActivity().managedQuery(mCapturedImageURI, projection, null,
+                            getActivity().getContentResolver().query(mCapturedImageURI, projection, null,
                                     null, null);
                     int column_index_data = cursor.getColumnIndexOrThrow(
                             MediaStore.Images.Media.DATA);
@@ -298,15 +304,23 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 break;
         }
 
+        updateDocumentsToUpload(picturePath);
+        mTHSSymptomsPresenter.uploadDocuments(mCapturedImageURI);
+
+    }
+
+    public void updateDocumentsToUpload(String picturePath) {
         THSSelectedImagePojo image = new THSSelectedImagePojo();
-        image.setTitle("SelectedImage");
+
+        String filename = null;
+        filename = thsFileUtils.getFileName(getContext(),mCapturedImageURI);
+        image.setTitle(filename);
         image.setDatetime(System.currentTimeMillis());
         image.setPath(picturePath);
+        image.setIsUploaded(false);
         selectedImagePojosList.add(image);
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);
-        mTHSSymptomsPresenter.uploadDocuments(thsConsumer, mCapturedImageURI);
-
     }
 
     @Override
@@ -324,7 +338,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 break;
             case REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
+                    //mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
                 } else {
                     showToast("Permission to select image denied");
                 }
@@ -332,12 +346,27 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     }
 
-    THSSelectedImageFragment thsSelectedImageFragment;
+    public void updateDocumentRecordList(DocumentRecord documentRecord){
+        if(null != documentRecordList){
+            documentRecordList.add(documentRecord);
+        }
+        int position = 0;
+        for(THSSelectedImagePojo thsSelectedImagePojo: selectedImagePojosList){
+            if(documentRecord.getName().contains(thsSelectedImagePojo.getTitle().substring(0,thsSelectedImagePojo.getTitle().indexOf(".")))){
+                thsSelectedImagePojo.setIsUploaded(true);
+                selectedImagePojosList.set(position,thsSelectedImagePojo);
+            }
+            position++;
+        }
+        thsImageRecyclerViewAdapter.notifyDataSetChanged();
+        imageListView.setAdapter(thsImageRecyclerViewAdapter);
+
+    }
 
     @Override
     public void onImageClicked(int position) {
         thsSelectedImageFragment = new THSSelectedImageFragment();
-        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojosList);
+        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojosList,documentRecordList);
         thsSelectedImageFragment.setSelectedImageFragmentCallback(this);
         thsSelectedImageFragment.show(getActivity().getSupportFragmentManager(), "");
     }
