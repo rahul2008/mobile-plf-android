@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.devicepair.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-public class DevicePairingLaunchActivity extends UiKitActivity implements ActionBarListener {
+public class DevicePairingLaunchActivity extends AppCompatActivity implements ActionBarListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

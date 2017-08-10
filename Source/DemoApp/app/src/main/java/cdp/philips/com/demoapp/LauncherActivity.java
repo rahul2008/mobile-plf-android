@@ -7,13 +7,13 @@ package cdp.philips.com.demoapp;
 
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.devicepair.uappdependencies.DevicePairingUappInterface;
 import com.philips.platform.devicepair.uappdependencies.DevicePairingUappSettings;
@@ -22,7 +22,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-public class LauncherActivity extends UiKitActivity implements ActionBarListener {
+public class LauncherActivity extends AppCompatActivity implements ActionBarListener {
 
     private DevicePairingUappInterface devicePairingUappInterface;
     private Button mLaunchAsActivity;
