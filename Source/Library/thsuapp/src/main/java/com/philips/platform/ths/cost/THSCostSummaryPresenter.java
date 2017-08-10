@@ -7,18 +7,22 @@
 package com.philips.platform.ths.cost;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.insurance.THSInsuranceCallback;
+import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.payment.THSCreditCardDetailFragment;
+import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
 
-public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSVisit, SDKError> {
+public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSVisit, SDKError> ,THSInsuranceCallback.THSSDKCallBack<THSSubscription, THSSDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
 
@@ -47,6 +51,13 @@ public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidate
 
     }
 
+    void fetchExistingSubscription() {
+        try {
+            THSManager.getInstance().getExistingSubscription(mTHSBaseFragment.getFragmentActivity(), this);
+        } catch (Exception e) {
+
+        }
+    }
 
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
@@ -66,6 +77,18 @@ public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidate
                 ((THSCostSummaryFragment) mTHSBaseFragment).costSmallLabel.setText("."+costStringArray[1]);
             }
         }
+    }
+
+    @Override
+    public void onResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
+        if(null!=tHSSubscription && null!=tHSSubscription.getSubscription()){
+            Subscription subscription= tHSSubscription.getSubscription();
+            ((THSCostSummaryFragment) mTHSBaseFragment).mInsuranceName.setText(subscription.getHealthPlan().getName());
+            ((THSCostSummaryFragment) mTHSBaseFragment).mInsuranceMemberId.setText("Member ID: "+subscription.getSubscriberId());
+            ((THSCostSummaryFragment) mTHSBaseFragment).mInsuranceSubscriptionType.setText(subscription.getRelationship().getName());
+
+        }
+
     }
 
     @Override
