@@ -16,6 +16,15 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+/**
+ * A {@link CommunicationStrategy} that combines multiple CommunicationStrategies.
+ * <p>
+ * CommunicationStrategies supplied to CombinedCommunicationStrategy are used in order. If the first
+ * CommunicationStrategy is not available the second one is used, and so on. If no available
+ * CommunicationStrategy can be found all calls will return errors.
+ *
+ * @publicApi
+ */
 public class CombinedCommunicationStrategy extends CommunicationStrategy {
 
     @NonNull
@@ -37,9 +46,9 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
         notifyAvailabilityChanged();
 
         for (CommunicationStrategy c : communicationStrategies) {
-            c.addAvailabilityListener(new AvailabilityListener() {
+            c.addAvailabilityListener(new AvailabilityListener<CommunicationStrategy>() {
                 @Override
-                public void onAvailabilityChanged(@NonNull Availability object) {
+                public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
                     CommunicationStrategy newStrategy = firstAvailableStrategy();
                     if (newStrategy != lastPreferredStrategy) {
                         notifyAvailabilityChanged();
@@ -81,6 +90,12 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
         findStrategy().unsubscribe(portName, productId, responseHandler);
     }
 
+    /**
+     * Determines if this {@link CommunicationStrategy} is available.
+     *
+     * @return true if any of the underlying CommunicationStrategies are available.
+     * @see Availability#isAvailable()
+     */
     @Override
     public boolean isAvailable() {
         return firstAvailableStrategy() != null;

@@ -28,6 +28,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * <p>
  * The application should subscribe to notifications using the {@link ApplianceListener} interface.
  * It's also possible to just obtain the set of available appliances using {@link #getAvailableAppliances()}
+ *
+ * @publicApi
  */
 public class ApplianceManager {
 
