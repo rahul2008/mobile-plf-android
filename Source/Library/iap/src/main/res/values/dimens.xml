@@ -105,6 +105,7 @@
 
     //DLS Compliance
     <dimen name="border16_margin_left_right">16dp</dimen>
+    <dimen name="border18_margin_left_right">18dp</dimen>
     <dimen name="border12_margin">12dp</dimen>
     <dimen name="border24_margin">24dp</dimen>
     <dimen name="border8_margin">8dp</dimen>

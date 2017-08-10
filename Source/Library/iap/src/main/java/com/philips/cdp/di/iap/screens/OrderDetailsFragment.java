@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,9 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.OrderDetailAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.controller.OrderController;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
@@ -38,6 +41,8 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.R.attr.data;
 
 
 public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
@@ -58,7 +63,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private ScrollView mParentView;
     private TextView mPaymentCardType;
     private OrderDetail mOrderDetail;
-    private OrderDetailAdapter mAdapter;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
     private View mPaymentDivider;
@@ -68,6 +72,13 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private String mPhoneContact;
     private String mOpeningHoursWeekdays;
     private String mOpeningHoursSaturday;
+    private TextView tvDeliveryMode;
+    private TextView tvDeliveryModePrice;
+    private TextView tvTotal;
+    private TextView tvPriceTotal;
+    private TextView tvVat;
+    private TextView tvPriceVat;
+    private TableLayout tlProductDetailContainer;
 
 
     @Override
@@ -100,13 +111,38 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
 
+        //Order summary IDS starts
+
+     /*   tv_delivery_mode
+                tv_price_deliverymode
+        tv_discount_gift
+                tv_price_discount_gift
+        tv_total
+                tv_price_total
+        tv_vat
+                tv_price_vat
+        tv_product_quantity_name
+                tv_price_product*/
+
+        tvDeliveryMode = (TextView) view.findViewById(R.id.tv_delivery_mode);
+        tvDeliveryModePrice =(TextView)view.findViewById(R.id.tv_price_deliverymode);
+
+        tvTotal =(TextView)view.findViewById(R.id.tv_total);
+        tvPriceTotal =(TextView)view.findViewById(R.id.tv_price_total);
+
+        tvVat =(TextView)view.findViewById(R.id.tv_vat);
+        tvPriceVat =(TextView)view.findViewById(R.id.tv_price_vat);
+
+        tlProductDetailContainer = (TableLayout) view.findViewById(R.id.tl_product_detail_container);
+
+
+        //Order summary IDS ends
+
 //        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
 //        mTrackOrderLayout.setOnClickListener(this);
 
         mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
-        mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
-
-        mAdapter = new OrderDetailAdapter(mContext, mProducts);
+        mShippingStatus = (TextView) view.findViewById(R.id.tv_shipping_status_message);
         mPaymentDivider = view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
@@ -190,12 +226,46 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
         }
         //     mProducts.add(product);
-        mAdapter.notifyDataSetChanged();
+
         int totalQuantity = 0;
         for (ProductData data : productList) {
             totalQuantity += data.getQuantity();
         }
-        mTvQuantity.setText(" (" + totalQuantity + " items)");
+        mTvQuantity.setText(String.format(mContext.getString(R.string.no_of_products),totalQuantity+""));
+
+        setProductSummary(productList);
+    }
+
+    private void setProductSummary(ArrayList<ProductData> productList) {
+
+
+        if (!productList.isEmpty()) {
+            ProductData data = productList.get(0);
+
+            populateProductNameQuantityAndPrice(productList);
+
+            tvPriceTotal.setText(data.getFormatedPrice());
+
+            }
+
+    }
+
+    private void handleTax(ProductData data) {
+
+    }
+
+    private void populateProductNameQuantityAndPrice(ArrayList<ProductData> productList) {
+
+        for(ProductData productData:productList){
+
+            View v=View.inflate(mContext, R.layout.iap_order_detail_summary_product, null);
+            TextView product_quantity_name = (TextView) v.findViewById(R.id.tv_product_quantity_name);
+            TextView price_product = (TextView) v.findViewById(R.id.tv_price_product);
+            product_quantity_name.setText(productData.getQuantity()+""+"x"+" "+ productData.getProductTitle());
+            price_product.setText(productData.getFormatedPrice());
+            tlProductDetailContainer.addView(v);
+        }
+
     }
 
     @Override
@@ -266,8 +336,12 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         String orderStatus = detail.getStatusDisplay();
-        mOrderState.setText(orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1));
-        mOrderNumber.setText(detail.getCode());
+        String statusString=orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1);
+
+        mOrderState.setText(String.format(mContext.getString(R.string.order_state_msg),statusString));
+
+        mOrderNumber.setText(String.format(mContext.getString(R.string.order_number_msg),detail.getCode()));
+
         mTvQuantity.setText(" (" + mOrderDetail.getDeliveryItemsQuantity() + " item)");
         if (detail.getDeliveryOrderGroups() != null) {
             if (mController == null)
@@ -278,7 +352,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mController.requestPrxData(detailList, this);
         }
         if (detail.getTotalPriceWithTax() != null) {
-            mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
+//            mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
         }
 
         if (detail.getDeliveryAddress() != null) {

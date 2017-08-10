@@ -59,7 +59,7 @@ public class Utility {
             IAPLog.d(Utility.TAG, e.getMessage());
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE MMM dd, yyyy"); // Set your date format
         return sdf.format(convertedDate);
     }
 

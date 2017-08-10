@@ -264,5 +264,14 @@
 
     <string name="iap_zero_results_found"> 0 results found for %s .</string>
     <string name="iap_zero_results_message">This filters our product list. Please check that there are no typos in your filter term.</string>
+    <string name="order_number_msg"> Order number: %s</string>
+    <string name="order_state_msg"> Your order is %s</string>
+    <string name="contact_msg"> Please contact Philips Consumer Care (0844 - 338 - 0409) for further support. </string>
+    <string name="order_ready_msg"> We are just getting your order ready. We will send you a note when it is ready for dispatch, usually with in 24 hour of your order confirmation. </string>
+    <string name="order_on_way_msg"> Your order will be delivered by FedEx(Parcel Postage). Your tracking number is  %s . </string>
+    <string name="no_of_products"> %s products</string>
+    <string name="your_details">Your details</string>
+    <string name="iap_including_vat_percentage">Including %s VAT</string>
+    <string name="iap_delivery_via_what">Delivery via %s</string>
 
 </resources>
