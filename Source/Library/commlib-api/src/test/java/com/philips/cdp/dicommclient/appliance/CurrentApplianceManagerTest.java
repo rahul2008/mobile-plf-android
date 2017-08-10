@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclient.appliance;
 
 import android.os.Handler;
@@ -13,6 +14,7 @@ import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -25,6 +27,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@Ignore // Is going to be removed, test kept for reference.
 public class CurrentApplianceManagerTest {
 
     private CurrentApplianceManager currentApplianceManager;
