@@ -37,7 +37,7 @@ public class DemoCMLState extends BaseState {
             RALog.d(TAG, "CommlibUApp is null");
             try {
                 uAppInterface.init(new DefaultCommlibUappDependencies(context.getApplicationContext()), new WifiCommLibUappSettings(context.getApplicationContext()));
-            }// pass App-infra instance instead of null
+            }
             catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }
