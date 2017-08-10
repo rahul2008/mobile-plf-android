@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -64,14 +63,5 @@ public class DevicePairingStateTest extends TestCase {
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
         assertEquals(1, fragmentCount);
-    }
-
-    public TestAppFrameworkApplication getApplicationContext() {
-        return (TestAppFrameworkApplication) RuntimeEnvironment.application;
-    }
-
-    @Test
-    public void initTest() {
-        devicePairingState.init(getApplicationContext());
     }
 }
