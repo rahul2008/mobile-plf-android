@@ -62,7 +62,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_order_history, false);
+        setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
     }
 
     @Override
