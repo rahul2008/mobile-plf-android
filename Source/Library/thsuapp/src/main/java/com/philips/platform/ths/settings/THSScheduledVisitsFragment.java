@@ -22,8 +22,6 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
-import static android.R.attr.name;
-
 public class THSScheduledVisitsFragment extends THSBaseFragment {
     public static final String TAG = THSScheduledVisitsFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
@@ -55,7 +53,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     public void updateList(List<Appointment> appointments) {
         String text = getString(R.string.ths_number_of_visits_scheduled,appointments.size());
         mNumberOfAppointmentsLabel.setText(text);
-        mThsScheduledVisitsAdapter = new THSScheduledVisitsAdapter(appointments);
+        mThsScheduledVisitsAdapter = new THSScheduledVisitsAdapter(appointments, this);
         mRecyclerView.setAdapter(mThsScheduledVisitsAdapter);
     }
 }

@@ -23,72 +23,19 @@
         android:layout_below="@+id/ths_appointment_date"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
-    <RelativeLayout
-        android:id="@+id/providerDetailLayout"
+    <include
+        android:id="@+id/provider_details_layout_container"
+        layout="@layout/ths_provider_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
-        android:layout_below="@+id/ths_scheduled_appintment_separator">
-
-    <com.philips.platform.ths.utility.CircularImageView
-        android:id="@+id/ths_providerImage"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:src="@drawable/doctor_placeholder"
-        android:layout_marginTop="@dimen/pth_fab_margin"
-        android:layout_marginBottom="@dimen/pth_fab_margin"
-        android:layout_alignParentTop="true" />
-
-        <RelativeLayout
-            android:layout_toRightOf="@id/ths_providerImage"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/providerNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
-            android:text="Dr. Eylin White"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-            android:textSize="@dimen/pth_title_text"
-
-            android:layout_marginLeft="@dimen/uid_label_margin_start"
-            android:layout_marginStart="@dimen/uid_label_margin_start"
-            />
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/practiceNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/providerNameLabel"
-            android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
-            android:text="Pediatrician"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-            android:textSize="@dimen/pth_title_text"
-            android:layout_marginLeft="@dimen/uid_label_margin_start"
-            android:layout_marginStart="@dimen/uid_label_margin_start"
-            />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:src="@mipmap/right_arrow_icon" />
-        </RelativeLayout>
-
-    </RelativeLayout>
+        android:layout_below="@+id/ths_scheduled_appintment_separator"
+        />
 
     <View
         android:id="@+id/ths_scheduled_appintment_below_provider_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ths_list_space"
-        android:layout_below="@+id/providerDetailLayout"
+        android:layout_below="@+id/provider_details_layout_container"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <LinearLayout

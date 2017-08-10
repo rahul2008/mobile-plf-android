@@ -76,6 +76,10 @@
         <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
     </style>
 
+    <style name="ths_body_text_bold" parent="ths_body_text_bold">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
+
     <style name="ths_skip_text">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>

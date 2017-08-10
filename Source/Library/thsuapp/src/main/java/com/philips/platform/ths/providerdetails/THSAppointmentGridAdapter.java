@@ -30,7 +30,6 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     private ArrayList<Date> cardList = new ArrayList();
     private Context mContext;
-    public final String TIME_FORMATTER = "h:mm a";
     private THSBaseFragment thsBaseFragment;
     private THSProviderInfo thsProviderInfo;
 
@@ -120,6 +119,6 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     }
 
     public String getFormatedTime(Date date){
-        return new SimpleDateFormat(TIME_FORMATTER, Locale.getDefault()).format(date);
+        return new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
     }
 }

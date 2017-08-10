@@ -97,4 +97,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
     <string name="ths_cancel_visit">Cancel visit</string>
     <string name="ths_start_visit">start visit</string>
+    <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
+    <string name="ths_appointment_visit_better">Make your visit better!</string>
+    <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
 </resources>

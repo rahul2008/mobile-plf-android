@@ -6,23 +6,24 @@
 
 package com.philips.platform.ths.settings;
 
-import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProvider;
-import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
@@ -31,9 +32,11 @@ import java.util.Locale;
 
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder> {
     List<Appointment> mAppointmentList;
+    THSScheduledVisitsFragment mThsScheduledVisitsFragment;
 
-    public THSScheduledVisitsAdapter(List<Appointment> appointments) {
+    public THSScheduledVisitsAdapter(List<Appointment> appointments, THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mAppointmentList = appointments;
+        mThsScheduledVisitsFragment = thsScheduledVisitsFragment;
     }
 
     @Override
@@ -49,7 +52,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         final Appointment appointment = mAppointmentList.get(position);
         final Provider assignedProvider = appointment.getAssignedProvider();
-        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(appointment.getSchedule().getScheduledStartTime()).toString();
+        final Long scheduledStartTime = appointment.getSchedule().getScheduledStartTime();
+        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
         holder.mLabelAppointmrntDate.setText(date);
 
         holder.mLabelPracticeName.setText(assignedProvider.getSpecialty().getName());
@@ -57,16 +61,31 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         if (assignedProvider.hasImage()) {
             try {
+                final Drawable drawable = ContextCompat.getDrawable(mThsScheduledVisitsFragment.getContext(), R.drawable.doctor_placeholder);
                 THSManager.getInstance().getAwsdk(holder.mImageViewCircularImageView.getContext()).
                         getPracticeProvidersManager().
                         newImageLoader(assignedProvider,
-                                holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder
-                        (holder.mImageViewCircularImageView.getResources().getDrawable(R.drawable.doctor_placeholder)).
-                        build().load();
+                                holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder(drawable).build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
         }
+
+        holder.mCancelVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        holder.mStartVisit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putLong(THSConstants.THS_DATE,scheduledStartTime);
+                mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG,bundle);
+            }
+        });
 
     }
 
@@ -81,6 +100,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         CircularImageView mImageViewCircularImageView;
         Label mLabelProviderName;
         Label mLabelPracticeName;
+        Label mCancelVisit;
+        Label mStartVisit;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -88,6 +109,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             this.mImageViewCircularImageView = (CircularImageView) view.findViewById(R.id.ths_providerImage);
             this.mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
             this.mLabelPracticeName = (Label) view.findViewById(R.id.practiceNameLabel);
+            this.mStartVisit = (Label) view.findViewById(R.id.ths_start_visit);
+            this.mCancelVisit = (Label)view.findViewById(R.id.ths_cancel_visit);
         }
     }
 }
