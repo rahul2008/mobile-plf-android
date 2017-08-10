@@ -267,4 +267,5 @@
     <!--Sidebar-->
     <dimen name="uid_sidebar_sublayout_min_height">56dp</dimen>
     <dimen name="uid_sidebar_max_width">320dp</dimen>
+    <dimen name="uid_sidebar_elevation">5dp</dimen>
 </resources>

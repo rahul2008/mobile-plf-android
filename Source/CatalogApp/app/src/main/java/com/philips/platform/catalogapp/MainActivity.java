@@ -150,6 +150,10 @@ public class MainActivity extends UIDActivity {
 
     }
 
+    public SideBar getSideBar(){
+        return sideBarLayout;
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
