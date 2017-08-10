@@ -65,9 +65,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-		final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
-		registerLater = (Button) view.findViewById(R.id.no_thanks_button);
-		productImage = (ImageView) view.findViewById(R.id.prodimage);
+		final Button registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
+		registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
+		productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
 		registerButton.setOnClickListener(onClickRegister());
 		registerLater.setOnClickListener(onClickNoThanks());
 		ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage", "ProductRegistrationOfferScreen");

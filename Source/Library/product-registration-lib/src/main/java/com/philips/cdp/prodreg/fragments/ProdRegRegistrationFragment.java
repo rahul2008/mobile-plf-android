@@ -148,7 +148,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productTitleTextView = (Label) view.findViewById(R.id.product_title);
         productCtnTextView = (Label) view.findViewById(R.id.product_ctn);
         productRegSucess = (Label) view.findViewById(R.id.product_registered) ;
-        dateErrorTextView = (Label) view.findViewById(R.id.dateErrorTextView);
+        //dateErrorTextView = (Label) view.findViewById(R.id.dateErrorTextView);
       //  serialNumberErrorTextView = (Label) view.findViewById(R.id.serialNumberErrorTextView);
      //   serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
