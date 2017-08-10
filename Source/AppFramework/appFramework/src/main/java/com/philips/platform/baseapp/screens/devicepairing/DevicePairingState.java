@@ -6,12 +6,12 @@
 package com.philips.platform.baseapp.screens.devicepairing;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMUpdatingInterfaceImpl;
@@ -39,10 +39,9 @@ import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInter
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.philips.platform.devicepair.uappdependencies.DevicePairingUappLaunchInput;
 import com.philips.platform.devicepair.uappdependencies.DevicePairingUappInterface;
+import com.philips.platform.devicepair.uappdependencies.DevicePairingUappLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.sql.SQLException;
@@ -50,7 +49,6 @@ import java.sql.SQLException;
 public class DevicePairingState extends BaseState {
 
     private FragmentLauncher mFragmentLauncher;
-    private Context mActivityContext;
 
     public DevicePairingState() {
         super(AppStates.DEVICE_PAIRING);
@@ -59,12 +57,11 @@ public class DevicePairingState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         mFragmentLauncher = (FragmentLauncher) uiLauncher;
-        mActivityContext = mFragmentLauncher.getFragmentActivity();
-        ((AbstractAppFrameworkBaseActivity) mActivityContext).handleFragmentBackStack(null, null, getUiStateData().getFragmentLaunchState());
-        lauchDevicePairing();
+        ((AbstractAppFrameworkBaseActivity) mFragmentLauncher.getFragmentActivity()).handleFragmentBackStack(null, null, getUiStateData().getFragmentLaunchState());
+        launchDevicePairing();
     }
 
-    private void lauchDevicePairing() {
+    public void launchDevicePairing() {
         DevicePairingUappLaunchInput devicePairingUappLaunchInput = new DevicePairingUappLaunchInput();
         new DevicePairingUappInterface().launch(mFragmentLauncher, devicePairingUappLaunchInput);
     }
@@ -120,7 +117,6 @@ public class DevicePairingState extends BaseState {
 
             DataServicesManager.getInstance().initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
-            Toast.makeText(context, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
         }
     }
 
