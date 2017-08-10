@@ -9,5 +9,7 @@ import java.util.Map;
 
 public interface KeyBagInterface {
 
-    void getValueForServiceId(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference, Map<String, String> replacement, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener);
+    void getServicesForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
+                                  Map<String, String> replacement,
+                                  ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener);
 }

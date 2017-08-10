@@ -32,6 +32,5 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         super.setUp();
         AppInfra appInfraMock = mock(AppInfra.class);
         keyBagInterface = new KeyBagManager(appInfraMock);
-        keyBagInterface.init();
     }
 }

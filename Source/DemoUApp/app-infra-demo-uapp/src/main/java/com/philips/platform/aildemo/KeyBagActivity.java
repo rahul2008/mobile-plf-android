@@ -56,7 +56,7 @@ public class KeyBagActivity extends AppCompatActivity {
 		ArrayList<String> strings = new ArrayList<>();
 		strings.add(serviceIdEditText.getText().toString());
 		strings.add("userreg.janrain.cdn");
-		keyBagInterface.getValueForServiceId(strings, aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
+		keyBagInterface.getServicesForServiceIds(strings, aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
 			@Override
 			public void onSuccess(ArrayList<AIKMService> aikmServices) {
 				updateView(aikmServices);

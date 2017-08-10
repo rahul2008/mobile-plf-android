@@ -20,6 +20,28 @@
     {
       "new" : "7ff2e35031",
       "clientId" : "9f0df8f0"
+    },
+    {
+      "clientId" : "2eec3c82a6abd9"
+    }
+  ],
+  "userreg.janrain.cdn" : [
+    {
+      "clientId" : "c9e153c5"
+    },
+    {
+      "clientId" : "0ce51950ec"
+    },
+    {
+      "clientId" : "d0f1cfb3aa"
+    },
+    {
+      "new" : "b1f9f948ec",
+      "clientId" : "02cc3dd7da"
+    },
+    {
+      "new" : "e6e173c5da",
+      "clientId" : "b83d533301"
     }
   ]
 }

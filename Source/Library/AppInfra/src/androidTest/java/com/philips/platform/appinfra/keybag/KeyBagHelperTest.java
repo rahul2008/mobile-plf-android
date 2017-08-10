@@ -5,10 +5,13 @@
  */
 package com.philips.platform.appinfra.keybag;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static org.mockito.Mockito.mock;
 
 public class KeyBagHelperTest extends AppInfraInstrumentation {
 
@@ -17,6 +20,7 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        AppInfra mAppInfra = mock(AppInfra.class);
         keyBagHelper = new KeyBagHelper(mAppInfra);
     }
 

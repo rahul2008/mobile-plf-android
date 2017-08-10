@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -22,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -110,7 +110,7 @@ class KeyBagHelper {
         return null;
     }
 
-    void init(Context mContext) throws FileNotFoundException {
+    void init(Context mContext) throws KeyBagJsonFileNotFoundException {
         initKeyBagProperties(mContext);
     }
 
@@ -147,7 +147,7 @@ class KeyBagHelper {
     }
 
 
-    private void initKeyBagProperties(Context mContext) throws FileNotFoundException {
+    private void initKeyBagProperties(Context mContext) throws KeyBagJsonFileNotFoundException {
         Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
         StringBuilder total;
         try {
@@ -161,7 +161,7 @@ class KeyBagHelper {
             rootJsonObject = new JSONObject(total.toString());
         } catch (JSONException | IOException e) {
             if (e instanceof IOException)
-                throw new FileNotFoundException();
+                throw new KeyBagJsonFileNotFoundException();
             else
                 e.printStackTrace();
         }

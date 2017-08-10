@@ -9,13 +9,13 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class KeyBagManager implements KeyBagInterface {
     //TODO - variables below need to be removed
     private ServiceDiscoveryManagerCSV sdmCSV;
 
-    public KeyBagManager(AppInfra mAppInfra) throws FileNotFoundException {
+    public KeyBagManager(AppInfra mAppInfra) throws KeyBagJsonFileNotFoundException {
         this.appInfra = mAppInfra;
         keyBagHelper = new KeyBagHelper(mAppInfra);
         keyBagHelper.init(mAppInfra.getAppInfraContext());
@@ -40,29 +40,29 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @Override
-    public void getValueForServiceId(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference, Map<String, String> replacement,
-                                     @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) {
+    public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference, Map<String, String> replacement,
+                                         @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) {
 
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = getServiceUrlMapListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
 
         if (replacement != null) {
             if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
-                sdmCSV.getServicesWithCountryPreference(serviceIds, keyBagIndexListener, replacement);
+                sdmCSV.getServicesWithCountryPreference(serviceIds, serviceUrlMapListener, replacement);
             else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-                sdmCSV.getServicesWithLanguagePreference(serviceIds, keyBagIndexListener, replacement);
+                sdmCSV.getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener, replacement);
         } else {
             if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
-                sdmCSV.getServicesWithCountryPreference(serviceIds, keyBagIndexListener);
+                sdmCSV.getServicesWithCountryPreference(serviceIds, serviceUrlMapListener);
             else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-                sdmCSV.getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
+                sdmCSV.getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener);
         }
     }
 
     @NonNull
-    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ArrayList<String> serviceIds, final ArrayList<AIKMService> aiKmServices,
-                                                                                        final AISDResponse.AISDPreference aiSdPreference,
-                                                                                        final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final ArrayList<String> serviceIds, final ArrayList<AIKMService> aiKmServices,
+                                                                                          final AISDResponse.AISDPreference aiSdPreference,
+                                                                                          final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
@@ -91,15 +91,15 @@ public class KeyBagManager implements KeyBagInterface {
 
     private void mapKeyIndex(AISDResponse.AISDPreference aiSdPreference, final ArrayList<AIKMService> aiKmServices, ArrayList<String> serviceIds, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
         serviceIds = keyBagHelper.getAppendedServiceIds(serviceIds);
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener listener = getServiceUrlMapListener(onGetKeyBagMapListener, aiKmServices);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
         if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference) {
-            sdmCSV.getServicesWithCountryPreference(serviceIds, listener);
+            sdmCSV.getServicesWithCountryPreference(serviceIds, keyBagIndexListener);
         } else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-            sdmCSV.getServicesWithLanguagePreference(serviceIds, listener);
+            sdmCSV.getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
     }
 
     @NonNull
-    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final ArrayList<AIKMService> aikmServices) {
+    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final ArrayList<AIKMService> aikmServices) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
