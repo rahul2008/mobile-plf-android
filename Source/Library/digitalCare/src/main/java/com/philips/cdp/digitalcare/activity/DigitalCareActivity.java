@@ -13,9 +13,14 @@ package com.philips.cdp.digitalcare.activity;
 
 import android.os.Bundle;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 /**
  * The Acitivity Class used while the component used as Activity Invoking.
@@ -27,6 +32,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getDlSThemeLauncher();
         if(savedInstanceState!=null){
             // if app killed by vm.
             savedInstanceState =null;
@@ -40,7 +46,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         initActionBar();
         animateThisScreen();
         showFragment(new SupportHomeFragment());
-        enableActionBarHome();
+        //enableActionBarHome();
     }
 
     public void animateThisScreen() {
@@ -67,6 +73,13 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
                 packageName);
         setRequestedOrientation(orientation);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
+    }
+
+    private void getDlSThemeLauncher() {
+        ThemeConfiguration config = DigitalCareConfigManager.getInstance().getThemeConfiguration();
+        setTheme(DigitalCareConfigManager.getInstance().getDlsTheme());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
 
     private int getAnInt(Bundle bundleExtras, String startAnimationId) {

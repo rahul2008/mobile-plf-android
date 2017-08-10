@@ -51,8 +51,11 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
@@ -478,9 +481,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().
                 getUiLauncher();
-        uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.
-                getmUiKitTheme());
-        uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().
+        uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getDlsThemeConfiguration(), uiLauncher.getUiKitTheme(), null);
+               // getmUiKitTheme());
+        uiLauncher.setCustomAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().
                         getEnterAnimation(),
                 DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());
         ProductModelSelectionHelper.getInstance().
