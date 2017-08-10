@@ -133,7 +133,7 @@ dependencies {
         exclude group: 'joda-time', module: 'joda-time'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.1' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
