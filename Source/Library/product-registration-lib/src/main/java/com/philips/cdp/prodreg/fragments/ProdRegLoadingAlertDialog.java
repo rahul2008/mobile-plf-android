@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Timer;
@@ -34,4 +35,16 @@ public class ProdRegLoadingAlertDialog {
                     alertDialogBuilder.dismiss();
         }
     }
+
+    public static void dlsdialog(String title, final Activity activity) {
+        AlertDialogFragment.Builder fragment = new AlertDialogFragment.Builder(activity.getApplicationContext())
+                .setTitle(title)
+                .setNegativeButton("CONTINUE", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        activity.finish();
+                    }
+                });
+    }
+
 }

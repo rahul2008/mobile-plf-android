@@ -90,24 +90,6 @@
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
                 android:textSize="14sp"/>
 
-            <!--<com.philips.platform.uid.view.widget.EditText-->
-                <!--android:id="@+id/serial_edit_text"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/pr_b_value_sm"-->
-                <!--android:ellipsize="end"-->
-                <!--android:hint="@string/PPR_Please_Enter_SerialNum_Txtfldtxt"-->
-                <!--android:maxLines="1"-->
-                <!--android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"-->
-                <!--android:textSize="14sp"/>-->
-
-            <!--<com.philips.platform.uid.view.widget.Label-->
-                <!--android:id="@+id/serialNumberErrorTextView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/pr_b_value_sm"-->
-                <!--android:drawablePadding="2dp"-->
-                <!--android:drawableStart="@drawable/uid_ic_data_validation"/>-->
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/serial_input_field"
@@ -152,27 +134,21 @@
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
                 android:textSize="14sp"/>
 
-            <com.philips.platform.uid.view.widget.EditText
-                android:id="@+id/date_edit_text"
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/data_input_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/prodreg_calendar_inverted"
-                android:ellipsize="end"
-                android:hint="@string/purchase_date_format"
-                android:maxLines="1"
-                android:layout_marginBottom="@dimen/pr_b_value_sm"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
-                android:textSize="14sp"/>
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/PPR_Invalid_SerialNum_ErrMsg">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/dateErrorTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/pr_b_value_sm"
-                android:drawablePadding="2dp"
-                android:drawableStart="@drawable/uid_ic_data_validation"
-                android:visibility="gone"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/date_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/prodreg_calendar_inverted"
+                    android:hint="@string/purchase_date_format"
+                    />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Button
