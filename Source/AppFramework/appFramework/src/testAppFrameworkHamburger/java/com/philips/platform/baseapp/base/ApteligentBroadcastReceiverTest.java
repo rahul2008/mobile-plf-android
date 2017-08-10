@@ -6,13 +6,11 @@
 package com.philips.platform.baseapp.base;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 
 import com.crittercism.app.Crittercism;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 
@@ -33,6 +31,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.baseapp.base.ApteligentBroadcastReceiver.ACTION_NAME;
+import static com.philips.platform.baseapp.base.ApteligentBroadcastReceiver.ACTION_TAGGING_DATA;
+import static com.philips.platform.baseapp.base.ApteligentBroadcastReceiver.PAGE_NAME;
+import static com.philips.platform.baseapp.base.ApteligentBroadcastReceiver.TAGGING_DATA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -42,8 +44,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 @PrepareForTest(Crittercism.class)
 public class ApteligentBroadcastReceiverTest {
-    public static final String TAGGING_DATA = "TAGGING_DATA";
-    public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
     private ApteligentBroadcastReceiver broadcastReceiver;
     private AppFrameworkApplication mockAppFrameworkApplication;
     private Intent intent = null;
@@ -127,7 +127,7 @@ public class ApteligentBroadcastReceiverTest {
      **/
     private Map<String, Object> addAnalyticsDataObjectForPage(String pageName) {
         final Map<String, Object> contextData = new HashMap<>();
-        contextData.put(AppTagging.PAGE_NAME, pageName);
+        contextData.put(PAGE_NAME, pageName);
         return contextData;
     }
 
@@ -136,7 +136,7 @@ public class ApteligentBroadcastReceiverTest {
      **/
     private Map<String, Object> addAnalyticsDataObjectForAction(String actionName) {
         final Map<String, Object> contextData = new HashMap<>();
-        contextData.put(AppTagging.ACTION_NAME, actionName);
+        contextData.put(ACTION_NAME, actionName);
         return contextData;
     }
 }

@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.crittercism.app.Crittercism;
-import com.philips.platform.appinfra.tagging.AppTagging;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import org.json.JSONException;
@@ -25,8 +24,12 @@ import java.util.Map;
  */
 public class ApteligentBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = ApteligentBroadcastReceiver.class.getSimpleName();
+    protected static final String TAGGING_DATA = "TAGGING_DATA";
+    protected static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
     private static final String pageKeyName = "trackPage: ";
     private static final String actionKeyName = "trackAction: ";
+    protected static final String PAGE_NAME = "ailPageName";
+    protected static final String ACTION_NAME = "ailActionName";
     private Context mContext = null;
 
         protected ApteligentBroadcastReceiver(Context context) {
@@ -39,15 +42,15 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
 
                 JSONObject jsonObject = new JSONObject();
 
-                if(intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
+                if(intent.getAction() == ACTION_TAGGING_DATA) {
                     Map textExtraTaggingData;
                     String eventPageValue;
 
                     textExtraTaggingData = getSerializableExtra(intent);
-                    eventPageValue = getTaggingData(textExtraTaggingData, AppTagging.PAGE_NAME);
+                    eventPageValue = getTaggingData(textExtraTaggingData, PAGE_NAME);
 
                     if(eventPageValue == null) {
-                        String eventActionValue = getTaggingData(textExtraTaggingData, AppTagging.ACTION_NAME);
+                        String eventActionValue = getTaggingData(textExtraTaggingData, ACTION_NAME);
                         if(eventActionValue == null) {
                             return;
                         }
@@ -88,6 +91,6 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
     }
 
     protected Map getSerializableExtra(Intent intent) {
-        return (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
+        return (Map) intent.getSerializableExtra(TAGGING_DATA);
     }
 }
