@@ -18,9 +18,8 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.core.util.ObservableCollection;
+import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
@@ -46,6 +45,10 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     @Nullable
     private SSLContext sslContext;
 
+    private boolean isAvailable;
+    private boolean isConnected;
+    private boolean isCached;
+
     private final EncryptionDecryptionFailedListener encryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
@@ -59,10 +62,38 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         }
     };
 
+    private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
+
+        @Override
+        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
+            isConnected = connectivityMonitor.isAvailable();
+            handleAvailabilityChanged();
+        }
+    };
+
+    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
+        @Override
+        public void onRemoved(String cppId) {
+            isCached = false;
+            handleAvailabilityChanged();
+        }
+
+        @Override
+        public void onAdded(String cppId) {
+            isCached = true;
+            handleAvailabilityChanged();
+        }
+    };
+
     public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, ConnectivityMonitor connectivityMonitor) {
         this.networkNode = networkNode;
+
         this.deviceCache = deviceCache;
+        this.deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
+        this.isCached = deviceCache.contains(networkNode.getCppId());
+
         this.connectivityMonitor = connectivityMonitor;
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
 
         if (networkNode.isHttps()) {
             try {
@@ -77,26 +108,6 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
         requestQueue = createRequestQueue();
         localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
-
-        connectivityMonitor.addAvailabilityListener(new AvailabilityListener() {
-            @Override
-            public void onAvailabilityChanged(@NonNull Availability ignored) {
-                notifyAvailabilityChanged();
-                // TODO FIXME Fix subscriptions on reconnect?
-            }
-        });
-
-        deviceCache.addModificationListener(networkNode.getCppId(), new ObservableCollection.ModificationListener<String>() {
-            @Override
-            public void onRemoved(String object) {
-                notifyAvailabilityChanged();
-            }
-
-            @Override
-            public void onAdded(String object) {
-                notifyAvailabilityChanged();
-            }
-        });
     }
 
     @VisibleForTesting
@@ -149,7 +160,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return deviceCache.contains(networkNode.getCppId()) && connectivityMonitor.isConnected();
+        return isAvailable;
     }
 
     @VisibleForTesting
@@ -205,5 +216,14 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void disableCommunication() {
         localSubscriptionHandler.disableSubscription();
+    }
+
+    private synchronized void handleAvailabilityChanged() {
+        boolean currentAvailability = isAvailable;
+
+        isAvailable = isCached && isConnected;
+        if (isAvailable != currentAvailability) {
+            notifyAvailabilityChanged();
+        }
     }
 }

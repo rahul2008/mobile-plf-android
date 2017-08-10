@@ -22,9 +22,7 @@ public abstract class CommunicationStrategy implements Availability<Communicatio
     private static final String SUBSCRIBER_KEY = "subscriber";
     private static final String TTL_KEY = "ttl";
 
-    private boolean cachedAvailability;
-
-    private Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
+    protected Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 
@@ -72,6 +70,12 @@ public abstract class CommunicationStrategy implements Availability<Communicatio
         }};
     }
 
+    protected void notifyAvailabilityChanged() {
+        for (AvailabilityListener<CommunicationStrategy> listener : availabilityListeners) {
+            listener.onAvailabilityChanged(this);
+        }
+    }
+
     @Override
     public void addAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
         availabilityListeners.add(listener);
@@ -81,14 +85,5 @@ public abstract class CommunicationStrategy implements Availability<Communicatio
     @Override
     public void removeAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
         availabilityListeners.remove(listener);
-    }
-
-    protected void notifyAvailabilityChanged() {
-        if (cachedAvailability != isAvailable()) {
-            cachedAvailability = isAvailable();
-            for (AvailabilityListener<CommunicationStrategy> listener : availabilityListeners) {
-                listener.onAvailabilityChanged(this);
-            }
-        }
     }
 }

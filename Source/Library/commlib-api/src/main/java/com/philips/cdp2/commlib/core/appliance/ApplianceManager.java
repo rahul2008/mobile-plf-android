@@ -43,7 +43,7 @@ public class ApplianceManager {
 
     private final DICommApplianceFactory applianceFactory;
 
-    private final Set<ApplianceListener<? extends Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
+    private final Set<ApplianceListener<Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
 
     private final Handler handler = HandlerProvider.createHandler();
@@ -58,8 +58,11 @@ public class ApplianceManager {
                     notifyApplianceFound(appliance);
                 }
             } else {
-                if (availableAppliances.remove(cppId) != null) {
-                    notifyApplianceLost(appliance);
+                final Appliance lostAppliance = availableAppliances.remove(cppId);
+
+                if (lostAppliance != null) {
+                    lostAppliance.removeAvailabilityListener(this);
+                    notifyApplianceLost(lostAppliance);
                 }
             }
         }
@@ -142,10 +145,9 @@ public class ApplianceManager {
     /**
      * Store an appliance.
      *
-     * @param <A>       the appliance type parameter
      * @param appliance the appliance
      */
-    public <A extends Appliance> void storeAppliance(@NonNull A appliance) {
+    public void storeAppliance(@NonNull Appliance appliance) {
         // TODO
         throw new UnsupportedOperationException("Not implemented yet.");
     }
@@ -156,7 +158,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener didn't exist yet and was therefore added
      */
-    public <A extends Appliance> boolean addApplianceListener(@NonNull ApplianceListener<A> applianceListener) {
+    public boolean addApplianceListener(@NonNull ApplianceListener applianceListener) {
         return applianceListeners.add(applianceListener);
     }
 
@@ -166,7 +168,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public <A extends Appliance> boolean removeApplianceListener(@NonNull ApplianceListener<A> applianceListener) {
+    public boolean removeApplianceListener(@NonNull ApplianceListener applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
@@ -175,7 +177,7 @@ public class ApplianceManager {
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
-        for (final ApplianceListener listener : applianceListeners) {
+        for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -185,8 +187,8 @@ public class ApplianceManager {
         }
     }
 
-    private <A extends Appliance> void notifyApplianceUpdated(final @NonNull A appliance) {
-        for (final ApplianceListener listener : applianceListeners) {
+    private void notifyApplianceUpdated(final @NonNull Appliance appliance) {
+        for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -196,8 +198,8 @@ public class ApplianceManager {
         }
     }
 
-    private <A extends Appliance> void notifyApplianceLost(final @NonNull A appliance) {
-        for (final ApplianceListener listener : applianceListeners) {
+    private void notifyApplianceLost(final @NonNull Appliance appliance) {
+        for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {

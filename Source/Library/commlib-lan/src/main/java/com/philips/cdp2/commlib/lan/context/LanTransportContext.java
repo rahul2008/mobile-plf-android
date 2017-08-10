@@ -43,7 +43,7 @@ public class LanTransportContext implements TransportContext<LanTransportContext
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
             isAvailable = connectivityMonitor.isAvailable();
-            notifyAvailabilityListeners(LanTransportContext.this);
+            notifyAvailabilityListeners();
         }
     };
 
@@ -94,9 +94,9 @@ public class LanTransportContext implements TransportContext<LanTransportContext
         availabilityListeners.remove(listener);
     }
 
-    private void notifyAvailabilityListeners(@NonNull LanTransportContext lanTransportContext) {
+    private void notifyAvailabilityListeners() {
         for (AvailabilityListener<LanTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(lanTransportContext);
+            listener.onAvailabilityChanged(this);
         }
     }
 

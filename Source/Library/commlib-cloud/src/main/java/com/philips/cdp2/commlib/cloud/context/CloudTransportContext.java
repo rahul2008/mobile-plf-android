@@ -32,7 +32,7 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
             isAvailable = connectivityMonitor.isAvailable();
-            notifyAvailabilityListeners(CloudTransportContext.this);
+            notifyAvailabilityListeners();
         }
     };
 
@@ -78,9 +78,9 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
         return cloudController;
     }
 
-    private void notifyAvailabilityListeners(@NonNull CloudTransportContext availability) {
+    private void notifyAvailabilityListeners() {
         for (AvailabilityListener<CloudTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(availability);
+            listener.onAvailabilityChanged(this);
         }
     }
 

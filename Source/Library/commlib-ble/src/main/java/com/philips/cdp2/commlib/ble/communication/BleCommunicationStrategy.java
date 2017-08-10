@@ -20,6 +20,7 @@ import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNDevice;
 
@@ -44,13 +45,29 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private final BleDeviceCache deviceCache;
     @NonNull
     private final ScheduledThreadPoolExecutor requestExecutor;
+    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
+        @Override
+        public void onRemoved(String cppId) {
+            isAvailable = false;
+            notifyAvailabilityChanged();
+        }
+
+        @Override
+        public void onAdded(String cppId) {
+            isAvailable = true;
+            notifyAvailabilityChanged();
+        }
+    };
+
     @NonNull
     private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+
     @NonNull
     private Handler callbackHandler;
 
     private final long subscriptionPollingInterval;
     private Map<PortParameters, PollingSubscription> subscriptionsCache = new ConcurrentHashMap<>();
+    private boolean isAvailable;
 
     /**
      * Instantiates a new Ble communication strategy with a sensible default subscription polling interval value.
@@ -84,6 +101,10 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval) {
         this.cppId = cppId;
         this.deviceCache = deviceCache;
+        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
+
+        this.isAvailable = deviceCache.contains(cppId);
+
         this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.requestExecutor = new ScheduledThreadPoolExecutor(1);
@@ -151,7 +172,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return deviceCache.contains(cppId);
+        return this.isAvailable;
     }
 
     /**

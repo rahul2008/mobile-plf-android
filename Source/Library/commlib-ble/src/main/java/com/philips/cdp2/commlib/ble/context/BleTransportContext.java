@@ -39,7 +39,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         @Override
         public void onStateUpdated(@NonNull SHNCentral shnCentral) {
             isAvailable = shnCentral.isBluetoothAdapterEnabled();
-            notifyAvailabilityListeners(BleTransportContext.this);
+            notifyAvailabilityListeners();
         }
     };
 
@@ -103,9 +103,9 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         availabilityListeners.remove(listener);
     }
 
-    private void notifyAvailabilityListeners(@NonNull BleTransportContext availability) {
+    private void notifyAvailabilityListeners() {
         for (AvailabilityListener<BleTransportContext> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(availability);
+            listener.onAvailabilityChanged(this);
         }
     }
 
