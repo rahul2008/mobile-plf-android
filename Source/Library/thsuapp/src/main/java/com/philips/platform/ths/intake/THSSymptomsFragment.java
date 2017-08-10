@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
+import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.ImageButton;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
-        THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback {
+        THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     protected THSSymptomsPresenter mTHSSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
@@ -73,9 +75,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private THSConsumer thsConsumer;
-    private  THSSelectedImageFragment thsSelectedImageFragment;
+    private THSSelectedImageFragment thsSelectedImageFragment;
     private List<DocumentRecord> documentRecordList;
     private THSFileUtils thsFileUtils;
+    private EditText additional_comments_edittext;
 
     //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
@@ -89,6 +92,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         }
         thsFileUtils = new THSFileUtils();
         documentRecordList = new ArrayList<>();
+        additional_comments_edittext = (EditText) view.findViewById(R.id.additional_comments_edittext);
+        additional_comments_edittext.setOnTouchListener(this);
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         selectedImagePojosList = new ArrayList<>();
@@ -313,7 +318,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         THSSelectedImagePojo image = new THSSelectedImagePojo();
 
         String filename = null;
-        filename = thsFileUtils.getFileName(getContext(),mCapturedImageURI);
+        filename = thsFileUtils.getFileName(getContext(), mCapturedImageURI);
         image.setTitle(filename);
         image.setDatetime(System.currentTimeMillis());
         image.setPath(picturePath);
@@ -346,15 +351,15 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     }
 
-    public void updateDocumentRecordList(DocumentRecord documentRecord){
-        if(null != documentRecordList){
+    public void updateDocumentRecordList(DocumentRecord documentRecord) {
+        if (null != documentRecordList) {
             documentRecordList.add(documentRecord);
         }
         int position = 0;
-        for(THSSelectedImagePojo thsSelectedImagePojo: selectedImagePojosList){
-            if(documentRecord.getName().contains(thsSelectedImagePojo.getTitle().substring(0,thsSelectedImagePojo.getTitle().indexOf(".")))){
+        for (THSSelectedImagePojo thsSelectedImagePojo : selectedImagePojosList) {
+            if (documentRecord.getName().contains(thsSelectedImagePojo.getTitle().substring(0, thsSelectedImagePojo.getTitle().indexOf(".")))) {
                 thsSelectedImagePojo.setIsUploaded(true);
-                selectedImagePojosList.set(position,thsSelectedImagePojo);
+                selectedImagePojosList.set(position, thsSelectedImagePojo);
             }
             position++;
         }
@@ -366,7 +371,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onImageClicked(int position) {
         thsSelectedImageFragment = new THSSelectedImageFragment();
-        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojosList,documentRecordList);
+        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojosList, documentRecordList);
         thsSelectedImageFragment.setSelectedImageFragmentCallback(this);
         thsSelectedImageFragment.show(getActivity().getSupportFragmentManager(), "");
     }
@@ -380,4 +385,16 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v.getId() == R.id.additional_comments_edittext) {
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
+                    break;
+            }
+        }
+        return false;
+    }
 }

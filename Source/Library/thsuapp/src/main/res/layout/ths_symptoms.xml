@@ -79,10 +79,15 @@
 
             <!-- TODO: Spoorti - Need to check what is text box filled style and change it-->
             <com.philips.platform.uid.view.widget.EditText
-                android:id="@+id/edit_farenheit"
+                android:id="@+id/additional_comments_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="10"
+                android:layout_height="200dp"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:gravity="top"
+                android:isScrollContainer="true"
                 android:layout_below="@id/additional_comment"
                 android:layout_marginLeft="@dimen/pth_fab_margin"
                 android:layout_marginRight="@dimen/pth_fab_margin"
@@ -93,8 +98,8 @@
                 android:id="@+id/camera_click_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/edit_farenheit"
-                android:layout_alignStart="@+id/edit_farenheit"
+                android:layout_alignBottom="@+id/additional_comments_edittext"
+                android:layout_alignStart="@+id/additional_comments_edittext"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="@dimen/pth_fab_margin"
                 android:layout_marginRight="@dimen/pth_fab_margin"
@@ -106,7 +111,7 @@
                 android:id="@+id/imagelist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edit_farenheit"
+                android:layout_below="@+id/additional_comments_edittext"
                 android:layout_marginLeft="@dimen/pth_fab_margin"
                 android:layout_marginRight="@dimen/pth_fab_margin" />
 
