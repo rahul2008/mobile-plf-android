@@ -1,8 +1,13 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2017.
  *   All rights reserved.
  */
-package com.philips.cdp.dicommclient.util;
+package com.philips.cdp2.commlib.core.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

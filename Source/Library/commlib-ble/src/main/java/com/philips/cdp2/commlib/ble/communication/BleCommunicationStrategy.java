@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
+import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
 
 /**
  * The type BleCommunicationStrategy.

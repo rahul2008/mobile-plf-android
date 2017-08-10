@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
@@ -9,10 +14,10 @@ import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.util.GsonProvider;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Collections;

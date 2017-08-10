@@ -17,9 +17,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.GsonProvider;
-import com.philips.cdp2.commlib.lan.communication.LanRequest;
-import com.philips.cdp2.commlib.lan.communication.LanRequestType;
+import com.philips.cdp2.commlib.core.util.GsonProvider;
 
 import java.util.HashMap;
 

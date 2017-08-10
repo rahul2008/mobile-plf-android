@@ -8,8 +8,8 @@ package com.philips.cdp2.demouapp.port.air;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.GsonProvider;
 
 public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T> {
 

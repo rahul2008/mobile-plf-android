@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved. 
  */
@@ -10,10 +15,10 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
+import com.philips.cdp2.commlib.core.util.GsonProvider;
 
 import java.io.IOException;
 import java.util.Arrays;
