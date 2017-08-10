@@ -106,7 +106,7 @@ public class AutomationTestHelper {
         }
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.welcome_screen_parent_two),
+                allOf(withId(R.id.welcome_screen_parent_one),
                         withParent(withId(R.id.welcome_screen_parent_one))));
         sleepSixSec();
         if(exists(appCompatButton)){

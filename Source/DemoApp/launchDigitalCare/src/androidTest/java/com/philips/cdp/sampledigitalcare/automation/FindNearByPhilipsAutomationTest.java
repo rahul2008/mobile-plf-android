@@ -61,7 +61,7 @@ public class FindNearByPhilipsAutomationTest extends AutomationTestHelper {
         }
 
         ViewInteraction relativeLayout = onView(
-                allOf(withId(R.id.welcome_screen_parent_two),
+                allOf(withId(R.id.welcome_screen_parent_one),
                         withParent(withId(R.id.welcome_screen_parent_one))));
         sleepFourSec();
         if(exists(relativeLayout)){
@@ -79,7 +79,7 @@ public class FindNearByPhilipsAutomationTest extends AutomationTestHelper {
         }
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.welcome_screen_parent_two), withText("Find product")));
+                allOf(withId(R.id.welcome_screen_parent_one), withText("Find product")));
         if(exists(appCompatButton)){
             appCompatButton.perform(scrollTo(), click());
         }
@@ -127,7 +127,7 @@ public class FindNearByPhilipsAutomationTest extends AutomationTestHelper {
         }
 
         ViewInteraction relativeLayout1 = onView(
-                allOf(withId(R.id.welcome_screen_parent_two),
+                allOf(withId(R.id.welcome_screen_parent_one),
                         withParent(withId(R.id.welcome_screen_parent_one))));
         sleepFourSec();
         if(exists(relativeLayout1)){
