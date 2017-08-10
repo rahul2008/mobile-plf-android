@@ -9,8 +9,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
-import com.philips.cdp.devicepair.uappdependencies.WifiCommLibUappInterface;
-import com.philips.cdp.devicepair.uappdependencies.WifiCommLibUappLaunchInput;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -41,6 +39,8 @@ import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInter
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+import com.philips.platform.devicepair.uappdependencies.DevicePairingUappLaunchInput;
+import com.philips.platform.devicepair.uappdependencies.DevicePairingUappInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -65,8 +65,8 @@ public class DevicePairingState extends BaseState {
     }
 
     private void lauchDevicePairing() {
-        WifiCommLibUappLaunchInput wifiCommLibUappLaunchInput = new WifiCommLibUappLaunchInput();
-        new WifiCommLibUappInterface().launch(mFragmentLauncher, wifiCommLibUappLaunchInput);
+        DevicePairingUappLaunchInput devicePairingUappLaunchInput = new DevicePairingUappLaunchInput();
+        new DevicePairingUappInterface().launch(mFragmentLauncher, devicePairingUappLaunchInput);
     }
 
     @Override
