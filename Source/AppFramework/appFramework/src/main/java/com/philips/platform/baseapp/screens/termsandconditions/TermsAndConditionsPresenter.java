@@ -24,9 +24,9 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
     private Context context;
 
-    public static final String TERMS_AND_CONDITIONS_KEY = "app.termsandconditions";
+    public static final String TERMS_AND_CONDITIONS = "app.termsandconditions";
 
-    public static final String PRIVACY_KEY = "app.privacynotice";
+    public static final String PRIVACY = "app.privacynotice";
 
     public TermsAndConditionsPresenter(TermsAndConditionsContract.View viewListener, Context context) {
         this.viewListener = viewListener;
@@ -37,14 +37,14 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
     public void loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum state) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        String key;
+        String value;
         if (state== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED) {
-            key = PRIVACY_KEY;
+            value = PRIVACY;
         } else {
-            key = TERMS_AND_CONDITIONS_KEY;
+            value = TERMS_AND_CONDITIONS;
         }
 
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(key, new
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(value, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {
