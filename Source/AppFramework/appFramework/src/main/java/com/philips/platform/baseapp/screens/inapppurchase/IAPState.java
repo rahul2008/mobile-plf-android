@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -97,7 +98,8 @@ public abstract class IAPState extends BaseState {
         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
-
+            ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
+                    R.mipmap.philips_shop_overlay, IAPState.TAG);
         } catch (RuntimeException e) {
             //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors - (Had sent mail to Thiru long time ago. NO response. Will send another one to Bopanna)
             RALog.e(TAG,e.getMessage());

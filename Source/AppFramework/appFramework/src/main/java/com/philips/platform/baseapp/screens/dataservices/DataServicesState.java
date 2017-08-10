@@ -99,6 +99,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                 handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Data_Services_Screen, -1, DataServicesState.TAG);
     }
 
     @Override

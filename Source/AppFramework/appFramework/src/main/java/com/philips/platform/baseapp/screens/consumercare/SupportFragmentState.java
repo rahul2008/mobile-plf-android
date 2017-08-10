@@ -80,6 +80,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         updateDataModel();
         launchCC();
+
+        ((AbstractAppFrameworkBaseActivity) activityContext).showOverlayDialog(R.string.RA_DLS_Help_Support_screen_sub, R.mipmap.consumer_care_overlay, SupportFragmentState.TAG);
     }
 
     public FragmentActivity getFragmentActivity() {

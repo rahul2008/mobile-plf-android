@@ -320,5 +320,13 @@ Receive free product accessories</string>
     <string name="RA_DLS_HomeScreen_Title" translatable="false">Reference App home</string>
     <string name="RA_DLS_home_page_text" translatable="false">Reference App</string>
     <string name="RA_DLS_home_page_sub_text" translatable="false">ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
+    <string name="RA_DLS_Help_Data_Services_Screen" translatable="false"> This is the demo screen which is used for demonstrating the data services
+        functionalities like adding/deleting a user moments like temperature. Please make sure you login before you proceed.</string>
+    <string name="RA_DLS_Help_debug_Screen" translatable="false"> This is the demo screen which is only for testing purpose. This enables the user to change the application state.
+    User can login to development, testing, staging environments from here. From one application tester/developer can realize all different environments using same email ID.
+    \nIt is highly recommended to kill the application after environment change. </string>
+    <string name="RA_DLS_Help_Support_screen_sub" translatable="false">You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions, product information and reviews.</string>
+
+    <string name="RA_DLS_Help_Philips_Shop" translatable="false">You can make Philips purchases or via 3rd party retailers here.</string>
 
 </resources>

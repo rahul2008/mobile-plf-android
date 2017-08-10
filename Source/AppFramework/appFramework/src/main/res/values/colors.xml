@@ -6,4 +6,5 @@
 
     <!--This 'transparent' is required, bcz consumer care is using this keywork-->
     <color name="transparent">@android:color/transparent</color>
+    <color name="overlay_background">#343434</color>
 </resources>
