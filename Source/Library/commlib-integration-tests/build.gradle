@@ -97,6 +97,7 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.cucumber
     testCompile deps.cucumber_junit
+    testCompile project(path: ':commlib-testutils', configuration: 'debug')
 
     androidTestCompile deps.junit
     androidTestCompile(deps.android_testrunner) {
