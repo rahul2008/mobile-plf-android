@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -19,6 +21,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class THSMicroAppInterfaceImpl implements UappInterface {
     private Context context;
+    private AppInfraInterface appInfra;
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
@@ -26,6 +29,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
+        appInfra = uappDependencies.getAppInfra();
     }
 
     /**
@@ -34,6 +38,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         THSMicroAppLaunchInput THSMicroAppLaunchInput = (THSMicroAppLaunchInput) uappLaunchInput;
+        THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
