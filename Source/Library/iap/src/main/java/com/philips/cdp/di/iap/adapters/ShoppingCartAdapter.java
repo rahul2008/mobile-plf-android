@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,14 +72,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void setCountArrow(final Context context, final boolean isEnable) {
-        if (isEnable)
+        if (isEnable){
             countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
-        else
+            countArrow.setColorFilter(new
+                    PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
+        }else{
             countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
+        }
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
         countArrow.setBounds(0, 0, width, height);
-
     }
 
     @Override

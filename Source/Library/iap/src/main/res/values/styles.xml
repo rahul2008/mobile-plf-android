@@ -286,8 +286,8 @@
     </style>
 
     <style name="ButtonsCategoryStyle" parent="UIDLabel.RecyclerViewHeaderText">
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/iap_btn_height_45</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
@@ -298,4 +298,5 @@
         <item name="android:background">@color/iap_button_border_color</item>
     </style>
 
+    <dimen name="iap_btn_height_45">45dp</dimen>
 </resources>
