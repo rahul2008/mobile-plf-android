@@ -22,7 +22,7 @@ public class IAPRetailerFlowState extends IAPState {
         RALog.d(TAG, "updateDataModel called ");
         setLaunchType(IAPState.IAP_CATALOG_VIEW);
         try {
-            setCtnList(new ArrayList<>(Arrays.asList(CTNUtil.getCtnForCountry(getApplicationContext().getCountry()))));
+            setCtnList(new ArrayList<>(Arrays.asList(CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry()))));
         } catch (RuntimeException e) {
             RALog.e(TAG,e.getMessage());
             Toast.makeText(getApplicationContext(), R.string.RA_CTN_Null, Toast.LENGTH_LONG).show();

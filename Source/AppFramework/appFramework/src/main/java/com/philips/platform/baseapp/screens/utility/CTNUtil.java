@@ -1,6 +1,7 @@
 package com.philips.platform.baseapp.screens.utility;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Created by admin on 07/08/17.
@@ -9,6 +10,7 @@ import android.content.Context;
 public class CTNUtil {
 
     public static String getCtnForCountry(String country) {
+        Log.d("sanjeet", "country : "+country);
         switch (country) {
             case "HK":
                 return "HX6322/04";

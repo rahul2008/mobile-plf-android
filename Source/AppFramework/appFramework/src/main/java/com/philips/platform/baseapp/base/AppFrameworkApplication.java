@@ -82,10 +82,7 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-        RALog.d(LOG, "IAP state begin::");
-        iapState = new IAPRetailerFlowState();
-        iapState.init(this);
-        RALog.d(LOG, "IAP state end::");
+
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
@@ -161,15 +158,23 @@ public class AppFrameworkApplication extends Application {
             @Override
             public void onSuccess(String s, SOURCE source) {
                 country = s;
+                initializeIAP();
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 country = "US";
+                initializeIAP();
             }
         });
     }
 
+    private void initializeIAP() {
+        RALog.d(LOG, "IAP state begin::");
+        iapState = new IAPRetailerFlowState();
+        iapState.init(this);
+        RALog.d(LOG, "IAP state end::");
+    }
     public String getCountry() {
         return country;
     }

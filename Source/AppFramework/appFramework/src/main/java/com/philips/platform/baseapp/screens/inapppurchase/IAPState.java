@@ -43,6 +43,8 @@ public abstract class IAPState extends BaseState implements IAPListener {
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
+    IAPSettings iapSettings ;
+    IAPDependencies iapDependencies;
 
     public IAPState() {
         super(AppStates.IAP);
@@ -58,7 +60,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
-        iapInterface = getApplicationContext().getIap().getIapInterface();
+        init(activityContext.getApplicationContext());
         updateDataModel();
         if (isCountryUS(getApplicationContext())){
             setProductListListener(activityContext);
@@ -69,7 +71,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     private boolean isCountryUS(Context context) {
-        return ((AppFrameworkApplication) context).getCountry().equals("US");
+        return ((AppFrameworkApplication) context).getAppInfra().getServiceDiscovery().getHomeCountry().equals("US");
     }
 
     private void setProductListListener(Context activityContext) {
@@ -140,9 +142,9 @@ public abstract class IAPState extends BaseState implements IAPListener {
         RALog.d(TAG," init IAP ");
         applicationContext = context;
         iapInterface = new IAPInterface();
-        IAPSettings iapSettings = new IAPSettings(applicationContext);
-        IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        iapSettings.setUseLocalData(!isCountryUS(applicationContext));
+        iapSettings = new IAPSettings(applicationContext);
+        iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
+        iapSettings.setUseLocalData(false);
         iapInterface.init(iapDependencies, iapSettings);
     }
 
