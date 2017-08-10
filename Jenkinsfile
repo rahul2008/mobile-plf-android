@@ -67,7 +67,7 @@ node ('android&&docker') {
                 }                
             }  
             stage ('reporting') {
-                androidLint canComputeNew: true, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                androidLint canComputeNew: true, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
                 junit allowEmptyResults: true, testResults: 'Source/DemoApp/*/build/test-results/*/*.xml'
                 junit allowEmptyResults: true, testResults: 'Source/DemoUApp/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/DemoApp/app/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
