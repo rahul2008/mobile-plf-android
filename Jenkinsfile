@@ -56,7 +56,7 @@ node ('android&&docker') {
             }
 
            stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
                 junit allowEmptyResults: true, testResults: "Source/Library/*/build/test-results/**/*.xml"
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release']) 
                 archiveArtifacts '**/dependencies*.lock'
