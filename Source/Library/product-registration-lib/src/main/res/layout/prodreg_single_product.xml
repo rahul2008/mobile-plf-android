@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PPR_SerialNum_Lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="14sp"/>
 
 
@@ -131,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="14sp"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -139,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/PPR_Invalid_SerialNum_ErrMsg">
+               >
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/date_edit_text"
@@ -156,6 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_edit_text_layout"
+            android:layout_marginBottom="@dimen/pr_marginbottom"
             android:layout_marginTop="@dimen/pr_margintop"
             android:text="@string/PPR_Register_Btntxt"
             android:textAllCaps="false"/>

@@ -47,7 +47,6 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ValidationEditText;
@@ -67,8 +66,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private LinearLayout dateParentLayout, serialNumberParentLayout, successLayout;
     private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,productRegSucess;
     private ImageView productImageView;
-    //private EditText serial_number_editText;
-    private EditText date_EditText;
+    private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private Button registerButton;
@@ -76,9 +74,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private Label tickIcon;
     private Dialog dialog;
     private DatePickerDialog datePickerDialog;
-    private Label dateErrorTextView ,findSerialTextView;
- //   private Label serialNumberErrorTextView;
-    private InputValidationLayout serial_input_field;
+    private Label findSerialTextView;
+    private InputValidationLayout serial_input_field ,date_input_field;
     private ValidationEditText field_serial;
 
     @SuppressWarnings("SimpleDateFormat")
@@ -148,10 +145,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productTitleTextView = (Label) view.findViewById(R.id.product_title);
         productCtnTextView = (Label) view.findViewById(R.id.product_ctn);
         productRegSucess = (Label) view.findViewById(R.id.product_registered) ;
-        //dateErrorTextView = (Label) view.findViewById(R.id.dateErrorTextView);
-      //  serialNumberErrorTextView = (Label) view.findViewById(R.id.serialNumberErrorTextView);
-     //   serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
-        date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
+        date_input_field = (InputValidationLayout) view.findViewById(R.id.data_input_field);
+        date_EditText = (ValidationEditText) view.findViewById(R.id.date_edit_text);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         prSuccessConfigurableTextView = (Label) view.findViewById(R.id.pr_success_configurable_textView);
         registerButton = (Button) view.findViewById(R.id.btn_register);
@@ -252,7 +247,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void handleSerialNumberEditTextOnError() {
-
         field_serial.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
@@ -265,6 +259,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         findSerialTextView.setVisibility(View.VISIBLE);
         if (field_serial.length() != 0) {
             serial_input_field.showError();
+            serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else {
             serial_input_field.hideError();
         }
@@ -281,8 +276,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
-        dateErrorTextView.setVisibility(View.VISIBLE);
-        dateErrorTextView.setText(new ErrorHandler().getError(mActivity, ProdRegError.INVALID_DATE.getCode()).getDescription());
+        date_input_field.showError();
+        date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity, ProdRegError.INVALID_DATE.getCode()).getDescription());
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
@@ -326,7 +321,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     return true;
                 }
                 return false;
-            }
+             }
         };
     }
 
@@ -386,7 +381,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void isValidDate(boolean validDate) {
         if (validDate) {
-            dateErrorTextView.setVisibility(View.GONE);
+            date_input_field.hideError();
         } else
             showErrorMessageDate();
     }
