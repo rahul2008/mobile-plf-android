@@ -14,7 +14,25 @@ public class THSSelectedImagePojo {
     private String title, description, path;
     private Calendar datetime;
     private long datetimeLong;
+    private boolean isUploaded;
     protected SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
+
+
+    /**
+     *
+     * @return
+     */
+    public boolean isUploaded() {
+        return isUploaded;
+    }
+
+    /**
+     *
+     * @param uploaded
+     */
+    public void setIsUploaded(boolean uploaded) {
+        isUploaded = uploaded;
+    }
 
     /**
      * Gets title.
