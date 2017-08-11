@@ -5,12 +5,15 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -19,8 +22,8 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.philips.cdp.di.iap.Constants.OrderStatus;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.adapters.OrderDetailAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static android.R.attr.data;
+import static com.philips.cdp.di.iap.Constants.OrderStatus.*;
 
 
 public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
@@ -56,6 +60,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView mTime;
     private TextView mOrderNumber;
     private TextView mOrderState;
+    private ImageView mIvOrderState;
     private TextView mDeliveryName;
     private TextView mDeliveryAddress;
     private TextView mBillingName;
@@ -65,7 +70,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private OrderDetail mOrderDetail;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
-    private View mPaymentDivider;
+    // private View mPaymentDivider;
     private TextView mShippingStatus;
     private LinearLayout mProductListView;
 
@@ -79,6 +84,9 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView tvVat;
     private TextView tvPriceVat;
     private TableLayout tlProductDetailContainer;
+    private Button btncall;
+    private TextView tvCardName;
+    private TextView tvCardNo;
 
 
     @Override
@@ -98,6 +106,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         mTime = (TextView) view.findViewById(R.id.tv_time);
         mOrderNumber = (TextView) view.findViewById(R.id.tv_order_number);
         mOrderState = (TextView) view.findViewById(R.id.tv_order_state);
+        mIvOrderState = (ImageView) view.findViewById(R.id.iv_order_state);
         mDeliveryName = (TextView) view.findViewById(R.id.tv_shipping_first_name);
         mDeliveryAddress = (TextView) view.findViewById(R.id.tv_shipping_address);
         mBillingName = (TextView) view.findViewById(R.id.tv_billing_first_name);
@@ -105,50 +114,35 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
 
+        tvCardName = (TextView) view.findViewById(R.id.tv_card_name);
+        tvCardNo = (TextView) view.findViewById(R.id.tv_card_no);
+
+        btncall=(Button) view.findViewById(R.id.btn_call);
+        btncall.setOnClickListener(this);
+
         Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
 
         Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
 
-        //Order summary IDS starts
-
-     /*   tv_delivery_mode
-                tv_price_deliverymode
-        tv_discount_gift
-                tv_price_discount_gift
-        tv_total
-                tv_price_total
-        tv_vat
-                tv_price_vat
-        tv_product_quantity_name
-                tv_price_product*/
-
         tvDeliveryMode = (TextView) view.findViewById(R.id.tv_delivery_mode);
-        tvDeliveryModePrice =(TextView)view.findViewById(R.id.tv_price_deliverymode);
+        tvDeliveryModePrice = (TextView) view.findViewById(R.id.tv_price_deliverymode);
 
-        tvTotal =(TextView)view.findViewById(R.id.tv_total);
-        tvPriceTotal =(TextView)view.findViewById(R.id.tv_price_total);
+        tvTotal = (TextView) view.findViewById(R.id.tv_total);
+        tvPriceTotal = (TextView) view.findViewById(R.id.tv_price_total);
 
-        tvVat =(TextView)view.findViewById(R.id.tv_vat);
-        tvPriceVat =(TextView)view.findViewById(R.id.tv_price_vat);
+        tvVat = (TextView) view.findViewById(R.id.tv_vat);
+        tvPriceVat = (TextView) view.findViewById(R.id.tv_price_vat);
 
         tlProductDetailContainer = (TableLayout) view.findViewById(R.id.tl_product_detail_container);
 
 
-        //Order summary IDS ends
-
-//        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
-//        mTrackOrderLayout.setOnClickListener(this);
-
         mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
         mShippingStatus = (TextView) view.findViewById(R.id.tv_shipping_status_message);
-        mPaymentDivider = view.findViewById(R.id.payment_divider);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-//            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(IAPConstant.ORDER_COMPLETED.equalsIgnoreCase(bundle.getString(IAPConstant.ORDER_STATUS))))
-//                mTrackOrderLayout.setVisibility(View.GONE);
             if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
                 mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
                 if (mOrderDetail != null) {
@@ -222,7 +216,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             ((TextView) productInfo.findViewById(R.id.tv_productName)).setText(product.getProductTitle());
             ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
             ((TextView) productInfo.findViewById(R.id.tv_total_price)).setText(product.getFormatedPrice());
-            ((TextView) productInfo.findViewById(R.id.ctn_no)).setText(product.getCtnNumber());
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
         }
         //     mProducts.add(product);
@@ -231,7 +224,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         for (ProductData data : productList) {
             totalQuantity += data.getQuantity();
         }
-        mTvQuantity.setText(String.format(mContext.getString(R.string.no_of_products),totalQuantity+""));
+        mTvQuantity.setText(String.format(mContext.getString(R.string.no_of_products), totalQuantity + ""));
 
         setProductSummary(productList);
     }
@@ -246,7 +239,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
             tvPriceTotal.setText(data.getFormatedPrice());
 
-            }
+        }
 
     }
 
@@ -256,12 +249,12 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     private void populateProductNameQuantityAndPrice(ArrayList<ProductData> productList) {
 
-        for(ProductData productData:productList){
+        for (ProductData productData : productList) {
 
-            View v=View.inflate(mContext, R.layout.iap_order_detail_summary_product, null);
+            View v = View.inflate(mContext, R.layout.iap_order_detail_summary_product, null);
             TextView product_quantity_name = (TextView) v.findViewById(R.id.tv_product_quantity_name);
             TextView price_product = (TextView) v.findViewById(R.id.tv_price_product);
-            product_quantity_name.setText(productData.getQuantity()+""+"x"+" "+ productData.getProductTitle());
+            product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
             price_product.setText(productData.getFormatedPrice());
             tlProductDetailContainer.addView(v);
         }
@@ -296,51 +289,39 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void onClick(View v) {
         if (v.getId() == R.id.btn_paynow)
             Toast.makeText(mContext, "Yet to implement", Toast.LENGTH_SHORT).show();
-        else
-//            if (v.getId() == R.id.track_order_layout) {
-//            Bundle bundle = new Bundle();
-//            if (mOrderDetail != null) {
-//                bundle.putString(IAPConstant.PURCHASE_ID, mOrderDetail.getCode());
-//                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0) != null) {
-//                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0));
-//                }
-//                if (mOrderDetail.getDeliveryAddress() != null) {
-//                    bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
-//                    bundle.putString(IAPConstant.DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
-//                }
-//
-//                if (mOrderDetail.getOrdertrackUrl() != null) {
-//                    bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
-//                }
-//                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
-//            }
-//        } else
-            if (v.getId() == R.id.btn_cancel) {
-                Bundle bundle = new Bundle();
-                if (mOrderDetail != null) {
-                    if (mPhoneContact == null) {
-                        NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-                    } else {
-                        bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
-                        bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
-                        bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
-                        bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                        addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
-                    }
+        else if (v.getId() == R.id.btn_cancel) {
+            Bundle bundle = new Bundle();
+            if (mOrderDetail != null) {
+                if (mPhoneContact == null) {
+                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                            mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+                } else {
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
+                    bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
+                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
                 }
             }
+        }
+
+        if(v.getId() == R.id.btn_call){
+            dialCallCenter("0844 - 338 - 0409");
+        }
 
     }
 
     public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         String orderStatus = detail.getStatusDisplay();
-        String statusString=orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1);
+        String statusString = orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1);
 
-        mOrderState.setText(String.format(mContext.getString(R.string.order_state_msg),statusString));
+        mOrderState.setText(String.format(mContext.getString(R.string.order_state_msg), statusString));
 
-        mOrderNumber.setText(String.format(mContext.getString(R.string.order_number_msg),detail.getCode()));
+        int stateImageID = getDrawableIDFromOrderState(statusString);
+        //Need to be done once all resources are there .
+        // mIvOrderState.setImageResource(stateImageID);
+        mOrderNumber.setText(String.format(mContext.getString(R.string.order_number_msg), detail.getCode()));
 
         mTvQuantity.setText(" (" + mOrderDetail.getDeliveryItemsQuantity() + " item)");
         if (detail.getDeliveryOrderGroups() != null) {
@@ -352,7 +333,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mController.requestPrxData(detailList, this);
         }
         if (detail.getTotalPriceWithTax() != null) {
-//            mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
+//           mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
         }
 
         if (detail.getDeliveryAddress() != null) {
@@ -365,10 +346,11 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
             }
             if (detail.getPaymentInfo().getCardType() != null) {
-                mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
+                mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode());
+                tvCardName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName());
+                tvCardNo.setText(detail.getPaymentInfo().getCardNumber());
             } else {
                 mPaymentModeLayout.setVisibility(View.GONE);
-                mPaymentDivider.setVisibility(View.GONE);
             }
 
 
@@ -376,15 +358,23 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
             mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
-//            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-//                String trackTraceId = detail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0);
-//                //  @SuppressLint("StringFormatMatches")
-//                String text = getResources().getString(R.string.iap_order_completed_text_default);
-//                mShippingStatus.setText(text);
-//            } else {
-//                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
-//            }
         }
+    }
+
+    private int getDrawableIDFromOrderState(String statusString) {
+        int drawableID = 0;
+
+        if (statusString.equalsIgnoreCase(OrderStatus.PENDING.getDescription())) {
+
+        }
+        if (statusString.equalsIgnoreCase(OrderStatus.PROCESSING.getDescription())) {
+
+        }
+
+        if (statusString.equalsIgnoreCase(OrderStatus.COMPLETED.getDescription())) {
+
+        }
+        return drawableID;
     }
 
 
@@ -416,5 +406,25 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             }
         }
         return false;
+    }
+
+    void updateCallUsButton(){
+        //Do something here pabitra
+
+    }
+
+    void disableCallButton(){
+        btncall.setText(mContext.getString(R.string.call_center_closed));
+        btncall.setEnabled(false);
+    }
+
+    void enableCallButton(){
+        btncall.setText(mContext.getString(R.string.call_us));
+        btncall.setEnabled(true);
+    }
+
+    void dialCallCenter(String phoneNumber){
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
+        startActivity(intent);
     }
 }

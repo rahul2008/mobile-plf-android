@@ -23,23 +23,20 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_delivery_mode"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+                style="@style/iapCentralesansBookFont"
                 android:text="@string/iap_delivery_via_what"
                 android:layout_weight="1"
-                android:background="#dcdcdc"
-                android:textColor="#000000"
-                android:padding="20dip"
-                android:gravity="center"/>
+                android:gravity="left"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_price_deliverymode"
-                android:text="$129.99"
+                style="@style/iapCentralesansMediumFont"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                 android:layout_weight="1"
-                android:background="#d3d3d3"
-                android:textColor="#000000"
-                android:padding="20dip"
-                android:gravity="center"/>
+                android:gravity="right"/>
 
         </TableRow>
 
@@ -76,23 +73,21 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_total"
                 android:text="Total"
+                style="@style/iapCentralesansBookFont"
+                android:textSize="@dimen/iap_text_size_16sp"
                 android:layout_weight="1"
-                android:background="#dcdcdc"
-                android:textColor="#000000"
-                android:padding="20dip"
-                android:gravity="center"/>
+                android:gravity="left"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_price_total"
+                style="@style/iapCentralesansMediumFont"
+                android:textSize="@dimen/header"
                 android:text="$234.98"
                 android:layout_weight="1"
-                android:background="#d3d3d3"
-                android:textColor="#000000"
-                android:padding="20dip"
-                android:gravity="center"/>
+                android:gravity="right"/>
 
         </TableRow>
 
@@ -102,23 +97,22 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_vat"
                 android:text="@string/iap_including_vat"
+                style="@style/iapCentralesansBookFont"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+                android:textColor="?attr/uidTextTertiaryTextColor"
                 android:layout_weight="1"
-                android:background="#dcdcdc"
-                android:textColor="#000000"
-                android:padding="20dip"
-                android:gravity="center"/>
+                android:gravity="left"/>
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_price_vat"
-                android:text="$234.98"
+                style="@style/iapCentralesansMediumFont"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+                android:textColor="?attr/uidTextTertiaryTextColor"
                 android:layout_weight="1"
-                android:background="#d3d3d3"
-                android:textColor="#000000"
-                android:padding="20dip"
-                android:gravity="center"/>
+                android:gravity="right"/>
 
         </TableRow>
 

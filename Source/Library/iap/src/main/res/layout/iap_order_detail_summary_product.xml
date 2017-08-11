@@ -3,22 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_product_quantity_name"
         android:layout_weight="1"
-        android:background="#dcdcdc"
-        android:gravity="center"
-        android:padding="20dip"
-        android:text="2x product name"
-        android:textColor="#000000" />
+        android:gravity="left"
+        android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+        style="@style/iapCentralesansBookFont"
+         />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_price_product"
         android:layout_weight="1"
-        android:background="#d3d3d3"
-        android:gravity="center"
-        android:padding="20dip"
-        android:text="$129.99"
-        android:textColor="#000000" />
+        android:gravity="right"
+        style="@style/iapCentralesansMediumFont"
+        android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+        />
 
 </TableRow>

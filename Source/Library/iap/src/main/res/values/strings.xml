@@ -273,5 +273,7 @@
     <string name="your_details">Your details</string>
     <string name="iap_including_vat_percentage">Including %s VAT</string>
     <string name="iap_delivery_via_what">Delivery via %s</string>
+    <string name="call_center_closed">Our Call Center is closed.</string>
+    <string name="call_us">Call us</string>
 
 </resources>
