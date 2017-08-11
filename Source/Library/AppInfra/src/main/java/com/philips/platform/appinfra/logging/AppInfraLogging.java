@@ -132,12 +132,8 @@ public class AppInfraLogging implements LoggingInterface {
                 }
             }
         } else {
-                 /*
-               FALLBACK
-               if  logging.debugConfig OR  logging.releaseConfig NOT present in appconfig.json
-                then read from logging.properties*/
+                 /* added just to make unit test cases pass */
             mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
-            loggingConfiguration.fallBackToLoggingPropertiesFile(mComponentID, mComponentVersion);
             mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         }
     }

@@ -333,15 +333,6 @@ class LoggingConfiguration {
         return mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME);
     }
 
-    void fallBackToLoggingPropertiesFile(String mComponentID, String mComponentVersion) {
-        this.mComponentID = mComponentID;
-        this.mComponentVersion = mComponentVersion;
-        readLogConfigFileFromAppAsset();
-        activateLogger();
-        enableConsoleLog(true);
-    }
-
-
     FileHandler getCurrentLogFileHandler(Logger logger) {
         FileHandler logFileHandler = null;
         if (null != logger) {

@@ -53,8 +53,8 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         logger = mock(Logger.class);
         logManager = mock(LogManager.class);
         Context context = getInstrumentation().getContext();
-        mAppInfra = new AppInfra.Builder().build(context);
-        mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
+        mAppInfra = mock(AppInfra.class);
+        when(mAppInfra.getAppInfraContext()).thenReturn(context);
         loggingConfiguration = new LoggingConfiguration(mAppInfra,"","") {
             @Override
             public Logger getJavaLogger() {
@@ -123,6 +123,8 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
 
     public void testConfigureComponentLevelLogging() {
         try {
+            LoggingInterface loggingInterface = mock(LoggingInterface.class);
+            when(mAppInfra.getLogging()).thenReturn(loggingInterface);
             JSONObject jsonObject = new JSONObject(config);
             JSONObject releaseConfig = jsonObject.getJSONObject("LOGGING.RELEASECONFIG");
             HashMap<String, Object> loggingProperty = new HashMap<>();
@@ -139,6 +141,8 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
 
     public void testConsoleLogConfiguration() {
         final ConsoleHandler consoleHandler = mock(ConsoleHandler.class);
+        LoggingInterface loggingInterface = mock(LoggingInterface.class);
+        when(mAppInfra.getLogging()).thenReturn(loggingInterface);
         final LogFormatter logFormatter = mock(LogFormatter.class);
         try {
             loggingConfiguration = new LoggingConfiguration(mAppInfra,"","") {
