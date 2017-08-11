@@ -6,7 +6,8 @@ import android.content.Intent;
 import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -27,15 +27,20 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.launchertype.UiLauncher;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+//import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
+//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Locale;
 
@@ -65,6 +70,8 @@ public class DigitalCareConfigManager {
     private String productReviewUrl = null;
 
     private String country = null;
+    private static int DLS_THEME;
+    private static ThemeConfiguration themeConfiguration;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -115,6 +122,7 @@ public class DigitalCareConfigManager {
             // initializeTaggingContext(mContext);
         }
 
+
         ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
 
 
@@ -137,7 +145,7 @@ public class DigitalCareConfigManager {
      */
     protected void invokeDigitalCareAsFragment(FragmentActivity context,
                                                int parentContainerResId,
-                                               ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                               ActionBarListener actionbarUpdateListener, int enterAnim,
                                                int exitAnim) {
         if (mContext == null) {
             throw new RuntimeException("Please initialise context, before Support page is invoked");
@@ -163,6 +171,7 @@ public class DigitalCareConfigManager {
     protected void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
 
+
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
             if (productModelSelectionType.getHardCodedProductList().length == 0)
@@ -175,8 +184,9 @@ public class DigitalCareConfigManager {
 
             DigiCareLogger.i(TAG, "Launching as Activity");
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            themeConfiguration = activityLauncher.getDlsThemeConfiguration();
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
-                    uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
+                    uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation() );
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {
@@ -184,7 +194,7 @@ public class DigitalCareConfigManager {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(),
                     fragmentLauncher.getParentContainerResourceID(),
-                    fragmentLauncher.getActionbarUpdateListener(),
+                    fragmentLauncher.getActionbarListener(),
                     uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
         }
@@ -236,9 +246,8 @@ public class DigitalCareConfigManager {
      * @param orientation
      */
     protected void invokeDigitalCareAsActivity(int startAnimation, int endAnimation,
-                                               com.philips.cdp.productselection.launchertype.
                                                        ActivityLauncher.ActivityOrientation
-                                                       orientation) {
+                                                       orientation ) {
         if (mContext == null) {
             throw new RuntimeException("Please initialise context, " +
                     " and locale before Support page is invoked");
@@ -449,6 +458,14 @@ public class DigitalCareConfigManager {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
+    }
+
+    public int getDlsTheme(){
+        return DLS_THEME;
     }
 
     /**

@@ -43,8 +43,10 @@ import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -59,7 +61,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     public static boolean isInternetAvailable;
     private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
     private static int mContainerId = 0;
-    private static ActionbarUpdateListener mActionbarUpdateListener = null;
+    private static ActionBarListener mActionbarUpdateListener = null;
     private static String mPreviousPageName = null;
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
@@ -405,7 +407,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         mFragmentLauncher = fragmentLauncher;
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         mActivityContext = fragmentLauncher.getFragmentActivity();
-        mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
+        mActionbarUpdateListener = fragmentLauncher.getActionbarListener();
 
         String startAnim = null;
         String endAnim = null;
@@ -473,7 +475,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             TextView actionBarTitle =
 
                     ((TextView) getActivity().findViewById(
-                            R.id.action_bar_title));
+                            R.id.uid_toolbar_title));
             actionBarTitle.setText(getActionbarTitle());
         } else {
             updateActionbar();
@@ -483,9 +485,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private void updateActionbar() {
         if (this.getClass().getSimpleName()
                 .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), false);
         } else {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), true);
         }
     }
 

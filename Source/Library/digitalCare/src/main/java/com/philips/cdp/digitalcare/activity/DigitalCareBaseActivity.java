@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -28,9 +31,12 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.listeners.ActivityTitleListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.UiLauncher;
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 
 public abstract class DigitalCareBaseActivity extends UiKitActivity implements ActivityTitleListener{
@@ -42,6 +48,9 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
     protected TextView mActionBarTitle = null;
     protected FragmentManager fragmentManager = null;
     protected DigitalCareConfigManager mDigitalCareConfigManager = null;
+    private Toolbar toolbar;
+/*
+
     protected OnClickListener actionBarClickListener = new OnClickListener() {
 
         @Override
@@ -58,6 +67,8 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
                 backstackFragment();
         }
     };
+*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +77,25 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
         UiLauncher uiLauncher = DigitalCareConfigManager.getInstance().getUiLauncher();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            this.setTheme(activityLauncher.getmUiKitTheme());
+            this.setTheme(activityLauncher.getUiKitTheme());
         }
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
     }
 
     protected void initActionBar() throws ClassCastException {
-        mActionbarlayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
+        UIDHelper.setupToolbar(this);
+        toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back_icon);
+
+        /*mActionbarlayout = (RelativeLayout) findViewById(R.id.action_bar_icon_parent);
         mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
         mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 
         mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
         mActionBarArrow.setOnClickListener(actionBarClickListener);
-        mActionbarlayout.setOnClickListener(actionBarClickListener);
+        mActionbarlayout.setOnClickListener(actionBarClickListener);*/
     }
 
     @Override
@@ -88,6 +103,23 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
         super.onConfigurationChanged(newConfig);
     }
 
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backstackFragment();
+                return true;
+            default:
+                break;
+        }
+        return true;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -123,7 +155,7 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            enableActionBarHome();
+//            //enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
@@ -142,7 +174,7 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
         transaction.commit();
     }
 
-    private void enableActionBarLeftArrow() {
+/*    private void enableActionBarLeftArrow() {
         mActionBarMenuIcon.setVisibility(View.GONE);
         mActionBarArrow.setVisibility(View.VISIBLE);
         mActionBarArrow.bringToFront();
@@ -154,11 +186,11 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity implements A
         mActionBarArrow.setVisibility(View.GONE);
         mActionBarTitle.setText(getResources().getString(
                 R.string.actionbar_title_support));
-    }
+    }*/
 
     protected void showFragment(Fragment fragment) {
         try {
-            enableActionBarLeftArrow();
+           // enableActionBarLeftArrow();
             FragmentTransaction fragmentTransaction = fragmentManager
                     .beginTransaction();
 

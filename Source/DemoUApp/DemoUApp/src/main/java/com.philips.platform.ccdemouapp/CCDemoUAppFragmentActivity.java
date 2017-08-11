@@ -131,23 +131,28 @@ public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.On
 
             ccInterface.init(ccDependencies, ccSettings);
             //ccInterface.launch(launcher, ccLaunchInput);
-            mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-                @Override
-                public void onSuccess(String s, SOURCE source) {
-                    if(s.equals("CN")) {
-                        ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
-                    } else {
-                        ccLaunchInput.setLiveChatUrl(null);
+
+            if(mAppInfraInterface == null) {
+                mAppInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
+            }
+            else {
+                mAppInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                    @Override
+                    public void onSuccess(String s, SOURCE source) {
+                        if (s.equals("CN")) {
+                            ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        } else {
+                            ccLaunchInput.setLiveChatUrl(null);
+                        }
+                        ccInterface.launch(launcher, ccLaunchInput);
                     }
-                    ccInterface.launch(launcher, ccLaunchInput);
-                }
 
-                @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
-                    ccInterface.launch(launcher, ccLaunchInput);
-                }
-            });
-
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        ccInterface.launch(launcher, ccLaunchInput);
+                    }
+                });
+            }
             try {
                 initActionBar();
             } catch (ClassCastException e) {

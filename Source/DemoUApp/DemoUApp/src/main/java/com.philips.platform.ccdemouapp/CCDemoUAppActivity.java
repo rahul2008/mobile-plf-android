@@ -38,7 +38,11 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapplibrary.R;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -310,12 +314,9 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
                 uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
-                final com.philips.platform.uappframework.launcher.ActivityLauncher activityLauncher =
-                        new com.philips.platform.uappframework.launcher.ActivityLauncher
-                                (com.philips.platform.uappframework.
-                                        launcher.ActivityLauncher.
-                                        ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                        themeHelper.getThemeResourceId());
+                final ActivityLauncher activityLauncher =
+                        new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),
+                                        themeHelper.getThemeResourceId(), null);
 
             activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
@@ -330,31 +331,35 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             CcDependencies ccDependencies = new CcDependencies(appInfraInterface);
             ccInterface.init(ccDependencies, ccSettings);
             //ccInterface.launch(activityLauncher, ccLaunchInput);
-            appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-                @Override
-                public void onSuccess(String s, SOURCE source) {
-                    if (s.equals("CN")) {
-                        ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
-                    } else {
-                        ccLaunchInput.setLiveChatUrl(null);
+            if(appInfraInterface == null) {
+                appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
+            }
+            else {
+                appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                    @Override
+                    public void onSuccess(String s, SOURCE source) {
+                        if (s.equals("CN")) {
+                            ccLaunchInput.setLiveChatUrl("http://ph-china.livecom.cn/webapp/index.html?app_openid=ph_6idvd4fj&token=PhilipsTest");
+                        } else {
+                            ccLaunchInput.setLiveChatUrl(null);
+                        }
+
+                        if (!(ctnList.length == 0))
+                            ccInterface.launch(activityLauncher, ccLaunchInput);
+                        else
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
                     }
 
-                    if(!(ctnList.length == 0))
-                        ccInterface.launch(activityLauncher, ccLaunchInput);
-                    else
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
-                }
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
 
-                @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
-
-                    if(!(ctnList.length == 0))
-                        ccInterface.launch(activityLauncher, ccLaunchInput);
-                    else
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
-                }
-            });
-
+                        if (!(ctnList.length == 0))
+                            ccInterface.launch(activityLauncher, ccLaunchInput);
+                        else
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         } else if (i1 == R.id.launchAsFragment) {
             mActivityButtonSelected = false;
             mFragmentButtonSelected = true;
@@ -385,9 +390,9 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
 
     protected  void initTheme(){
         UIDHelper.injectCalligraphyFonts();
-        themeHelper = new ThemeHelper(this);
-        ThemeConfiguration config = themeHelper.getThemeConfig();
+        ThemeConfiguration config = getDlsThemeConfiguration(); //themeHelper.getThemeConfig();
         config.add(AccentRange.ORANGE);
+        themeHelper = new ThemeHelper(this);
         setTheme(themeHelper.getThemeResourceId());
         UIDHelper.init(config);
         FontIconTypefaceHolder.init(getAssets(),"digitalcarefonts/CCIcon.ttf");
@@ -395,6 +400,10 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
 
     protected void changeTheme(){
         themeHelper.changeTheme();
+    }
+
+    protected ThemeConfiguration getDlsThemeConfiguration() {
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.ORANGE);
     }
 
     @Override
