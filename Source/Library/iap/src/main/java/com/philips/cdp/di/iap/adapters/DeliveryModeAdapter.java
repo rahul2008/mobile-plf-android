@@ -33,11 +33,11 @@ public class DeliveryModeAdapter extends ArrayAdapter<DeliveryModes> {
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
-        View v = View.inflate(mContext, R.layout.iap_delivery_mode_spinner_item, null);
+        View view = View.inflate(mContext, R.layout.iap_delivery_mode_spinner_item, null);
 
-        TextView deliveryModeName = (TextView) v.findViewById(R.id.delivery_mode_name);
-        TextView deliveryModeDescription = (TextView) v.findViewById(R.id.delivery_mode_description);
-        TextView deliveryModePrice = (TextView) v.findViewById(R.id.delivery_mode_price);
+        TextView deliveryModeName = (TextView) view.findViewById(R.id.iap_title_ups_parcel);
+        TextView deliveryModeDescription = (TextView) view.findViewById(R.id.iap_available_time);
+        TextView deliveryModePrice = (TextView) view.findViewById(R.id.iap_delivery_parcel_amount);
 
         DeliveryModes modes = mModes.get(position);
 
@@ -53,6 +53,6 @@ public class DeliveryModeAdapter extends ArrayAdapter<DeliveryModes> {
         } else {
             deliveryModePrice.setText("0.0");
         }
-        return v;
+        return view;
     }
 }

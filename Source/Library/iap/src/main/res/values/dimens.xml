@@ -117,4 +117,5 @@
     <dimen name="iap_continue_shopping_btn_margin">20dp</dimen>
 
     <item name="iap_match_parent" type="dimen" format="integer">-1</item>
+    <dimen name="iap_btn_height_48">48dp</dimen>
 </resources>

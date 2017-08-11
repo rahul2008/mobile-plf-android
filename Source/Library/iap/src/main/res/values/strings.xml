@@ -277,4 +277,5 @@
     <string name="iap_including_tax">Including 21% tax</string>
     <string name="daily_selling_product">Daily Collection Miniblender</string>
     <string name="nothing_in_cart">Nothing in your cart</string>
+    <string name="iap_confirm">Confirm</string>
 </resources>

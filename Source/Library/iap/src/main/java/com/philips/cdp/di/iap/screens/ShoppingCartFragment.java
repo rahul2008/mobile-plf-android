@@ -210,9 +210,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
                         mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
             }
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
-            DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
+           /* DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
                     (mContext, this);
-            mDeliveryModeDialog.showDialog();
+            mDeliveryModeDialog.showDialog();*/
+            addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    AddressSelectionFragment.TAG);
         }
     }
 

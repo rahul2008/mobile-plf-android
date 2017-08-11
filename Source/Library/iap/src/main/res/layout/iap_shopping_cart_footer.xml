@@ -38,6 +38,7 @@
                 android:layout_marginTop="10dip"
                 android:orientation="horizontal"
                 android:weightSum="2"
+                android:visibility="gone"
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingRight="@dimen/border16_margin_left_right">
 
@@ -71,8 +72,8 @@
                 android:text="$0.00" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/cart_Summary"
                 style="@style/ButtonsCategoryStyle"
+                android:id="@+id/cart_Summary"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dip"
                 android:textSize="@dimen/iap_text_size_16sp"

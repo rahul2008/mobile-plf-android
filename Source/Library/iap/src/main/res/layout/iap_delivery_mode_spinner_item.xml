@@ -1,35 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/delivery_mode_name"
-        style="@style/tvBoldTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/iap_product_detail_left_padding"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_toStartOf="@+id/delivery_mode_price" />
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/delivery_mode_description"
-        style="@style/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/delivery_mode_name"
-        android:layout_below="@id/delivery_mode_name"
-        android:layout_marginBottom="@dimen/iap_order_detail_margin_bottom"
-        android:layout_marginTop="@dimen/iap_order_one_spacing" />
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/iap_ups_parcel_radio_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Iap_RadioButtonStyle"/>
 
-    <TextView
-        android:id="@+id/delivery_mode_price"
-        style="@style/tvBoldTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/delivery_mode_name"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/iap_order_detail_margin_bottom" />
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_title_ups_parcel"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="@dimen/iap_text_size_16sp"
+                android:text="Sample title"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_available_time"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+                android:text="Sample title"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_delivery_parcel_amount"
+                style="@style/UIDLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="@dimen/iap_text_size_16sp"
+                android:text="Sample title"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/iap_confirm_btn"
+        style="@style/UIDExtraWideButton.Center"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/border16_margin_left_right"
+        android:layout_marginRight="@dimen/border16_margin_left_right"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_btn_height_48"
+        android:visibility="visible"
+        android:text="@string/iap_confirm"
+        />
+</LinearLayout>

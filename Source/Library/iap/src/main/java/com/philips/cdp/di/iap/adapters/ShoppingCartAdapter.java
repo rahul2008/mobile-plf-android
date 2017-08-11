@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +27,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -47,8 +47,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
-    private Drawable mEditDrawable;
-
     private boolean mIsFreeDelivery;
     private int mSelectedItemPosition = -1;
     private int mQuantityStatus;
@@ -64,20 +62,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mResources = context.getResources();
         mData = shoppingCartData;
         setCountArrow(context, true);
-        initDrawables();
         mOutOfStock = isOutOfStock;
     }
 
-    private void initDrawables() {
-        mEditDrawable = VectorDrawable.create(mContext, R.drawable.pencil_01);
-    }
-
     private void setCountArrow(final Context context, final boolean isEnable) {
-        if (isEnable){
+        if (isEnable) {
             countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
             countArrow.setColorFilter(new
                     PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
-        }else{
+        } else {
             countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
         }
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
@@ -171,8 +164,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
             String imageURL = cartData.getImageURL();
-           // shoppingCartProductHolder.mTvActualPrice.setText(cartData.getFormattedTotalPrice());
-           // shoppingCartProductHolder.mTvActualPrice.setPaintFlags(shoppingCartProductHolder.mTvActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            // shoppingCartProductHolder.mTvActualPrice.setText(cartData.getFormattedTotalPrice());
+            // shoppingCartProductHolder.mTvActualPrice.setPaintFlags(shoppingCartProductHolder.mTvActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedTotalPrice());
@@ -217,10 +210,26 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     } else {
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
-                    shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
+
+                    shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
+                        }
+                    });
                 } else {
                     mIsFreeDelivery = true;
                 }
+
+               /* shoppingCartFooter.mDeliveryModeRadioBtn.setOnCheckedChangeListener(new OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        // checkedId is the RadioButton selected
+                    }
+                });*/
+
 
                 //Need to remove this hardcoded 100 val
                 String freeDeliverySpendAmount = "100";
@@ -228,22 +237,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
                 shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);
 
-                for(int i=0; i<mData.size(); i++){
+                for (int i = 0; i < mData.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
-                    mProductName.setText(""+mData.get(i).getQuantity()+"x " +mData.get(i).getProductTitle().toString());
+                    mProductName.setText("" + mData.get(i).getQuantity() + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }
             }
-
-            shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    launchDeliveryDailog();
-                }
-            });
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +254,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 showProductDetails(holder.getAdapterPosition());
             }
         });
+
     }
 
     private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter) {
@@ -368,6 +371,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryFreeSpend;
         LinearLayout mPriceContainer;
         LinearLayout mDeliveryUPSParcelContainer;
+        RadioButton mDeliveryModeRadioBtn;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -383,6 +387,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryFreeSpend = (TextView) itemView.findViewById(R.id.delivery_free_description);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (LinearLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
+            mDeliveryModeRadioBtn = (RadioButton) itemView.findViewById(R.id.iap_ups_parcel_radio_btn);
         }
     }
 
@@ -400,14 +405,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
 
-    private void launchDeliveryDailog(){
-        DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
+    private void launchDeliveryDailog() {
+        /*DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
                 (mContext, new DeliveryModeDialog.DialogListener() {
                     @Override
                     public void onItemClick(int position) {
 
                     }
                 });
-        mDeliveryModeDialog.showDialog();
+        mDeliveryModeDialog.showDialog();*/
     }
 }

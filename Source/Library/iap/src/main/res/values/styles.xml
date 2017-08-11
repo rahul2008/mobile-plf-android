@@ -297,6 +297,18 @@
         <item name="android:layout_height">1dip</item>
         <item name="android:background">@color/iap_button_border_color</item>
     </style>
+    <style name="Iap_RadioButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/border16_margin_left_right</item>
+        <item name="android:layout_marginEnd">@dimen/border16_margin_left_right</item>
+    </style>
 
-    <dimen name="iap_btn_height_48">48dp</dimen>
+    <style name="TestRadioGroupStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/border16_margin_left_right</item>
+        <item name="android:layout_marginEnd">@dimen/border16_margin_left_right</item>
+    </style>
+
 </resources>

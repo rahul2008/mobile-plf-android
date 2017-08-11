@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout"
+    android:id="@+id/parent_layout"
     android:layout_width="@dimen/iap_match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
@@ -17,7 +17,7 @@
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continues_btn"
         style="@style/UIDExtraWideButton.Center"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/iap_btn_height_48"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -31,7 +31,7 @@
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/checkout_btn"
         style="@style/UIDExtraWideButton.Center"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/iap_btn_height_48"
         android:layout_above="@id/continues_btn"
         android:layout_marginLeft="@dimen/iap_continue_shopping_btn_margin"
