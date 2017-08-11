@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_time_slot_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <View
         android:background="?attr/uidSeparatorContentNormalBackgroundColor"
@@ -39,16 +39,15 @@
     <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
         android:id="@+id/grid"
         android:layout_below="@id/line_separator_2"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:numColumns="3"
         android:columnWidth="100dp"
-        android:numColumns="auto_fit"
         android:verticalSpacing="8dp"
         android:horizontalSpacing="8dp"
-        android:stretchMode="none"
         android:gravity="center"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
-        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         />
 </RelativeLayout>

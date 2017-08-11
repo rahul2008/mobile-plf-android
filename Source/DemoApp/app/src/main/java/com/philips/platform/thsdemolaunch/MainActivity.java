@@ -58,13 +58,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
-        User user = new User(this);
+        /*User user = new User(this);
         if(user!=null && !user.isUserSignIn()) {
             startRegistrationFragment();
         }else {
             launchAmwell();
-        }
-        //launchAmwell();
+        }*/
+        launchAmwell();
     }
 
 
@@ -93,18 +93,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     @Override
     public void onBackPressed() {
 
-        boolean backState = false;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (currentFrag instanceof BackEventListener) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-        }
-
-        if (!backState) {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
-        }
-        else {
-            finishAffinity();
         }
     }
 

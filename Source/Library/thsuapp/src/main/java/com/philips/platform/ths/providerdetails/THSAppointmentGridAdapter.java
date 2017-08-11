@@ -30,7 +30,7 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     private ArrayList<Date> cardList = new ArrayList();
     private Context mContext;
-    public final String TIME_FORMATTER = "h:mm a";
+    public final String TIME_FORMATTER = "HH:mm";
     private THSBaseFragment thsBaseFragment;
     private THSProviderInfo thsProviderInfo;
 
