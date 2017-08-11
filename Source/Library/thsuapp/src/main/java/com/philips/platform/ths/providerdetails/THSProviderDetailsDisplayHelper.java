@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
+import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
@@ -34,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSProviderDetailsDisplayHelper {
+public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListener{
 
     private View.OnClickListener mOnClickListener;
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
@@ -52,6 +53,7 @@ public class THSProviderDetailsDisplayHelper {
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
     private RelativeLayout available_provider_details_container;
+    private THSAppointmentGridAdapter itemsAdapter;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -215,9 +217,9 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     private void setAppointmentsToView(List<Date> dates) {
-        THSAppointmentGridAdapter itemsAdapter =
+        itemsAdapter =
                 new THSAppointmentGridAdapter(mContext, dates,
-                        thsBaseFragment,mThsPRoviderDetailsViewInterface.getTHSProviderInfo());
+                        thsBaseFragment,mThsPRoviderDetailsViewInterface.getTHSProviderInfo(),this);
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }
@@ -252,5 +254,12 @@ public class THSProviderDetailsDisplayHelper {
 
     public void updateEstimateCost(EstimatedVisitCost estimatedVisitCost) {
         visitCostValueLabel.setText("$"+estimatedVisitCost.getCost());
+    }
+
+    @Override
+    public void onGridItemClicked(int position) {
+        gridView.setAdapter(itemsAdapter);
+        itemsAdapter.setSelectedPosition(position);
+        itemsAdapter.notifyDataSetChanged();
     }
 }
