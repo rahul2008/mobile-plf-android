@@ -41,6 +41,7 @@
     <string name="ths_confirm">Confirm</string>
     <string name="ths_no_available_appointments">No available appointments</string>h
     <string name="ths_select_date_and_time">Select date and time</string>
+    <string name="ths_pick_a_provider">Pick a provider</string>
     <string name="ths_provider_details">Your provider</string>
     <string name="ths_with">With:</string>
     <string name="ths_select_other_provider">Your selected provider has no appointments on this date. Please pick another date or choose from the available provider</string>

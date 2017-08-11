@@ -12,11 +12,13 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.providerdetails.THSFetchEstimatedCostCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -28,7 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError> {
+public class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError>,THSFetchEstimatedCostCallback {
     private THSBaseFragment mThsBaseFragment;
     private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
     private OnDateSetChangedInterface onDateSetChangedInterface;
@@ -128,6 +130,11 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
+        try {
+            THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(),THSManager.getInstance().getPTHConsumer(),provider,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
         getProviderAvailability(provider);
     }
 
@@ -154,5 +161,15 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     @Override
     public void onFailure(Throwable throwable) {
         mThsBaseFragment.hideProgressBar();
+    }
+
+    @Override
+    public void onEstimatedCostFetchSuccess(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
+        mthsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+
     }
 }

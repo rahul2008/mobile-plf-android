@@ -13,11 +13,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -50,14 +47,13 @@ import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
-        SearchBox.ExpandListener, SearchBox.QuerySubmitListener, THSPharmacyListViewListener {
+        THSPharmacyListViewListener {
 
     public static String TAG = THSPharmacyListFragment.class.getSimpleName();
     private UIDNavigationIconToggler navIconToggler;
@@ -78,7 +74,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private boolean isListSelected = false;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
-    private SearchBox searchBox;
     protected THSConsumer thsConsumer;
     protected Address address;
     private Location location;
@@ -104,51 +99,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     public void setPharmaciesList(List<Pharmacy> pharmaciesList){
         this.pharmaciesList = pharmaciesList;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.ths_pharmacy_search_menu,menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        searchBox = (SearchBox) menu.findItem(R.id.ths_pharmacy_search).getActionView();
-        searchBox.setExpandListener(this);
-        searchBox.setQuerySubmitListener(this);
-        searchBox.setQuery(searchBox.getQuery());
-        searchBox.setSearchBoxHint("Search for pharmacy");
-        searchBox.setDecoySearchViewHint("Search for pharmacy");
-        searchBox.setExpandListener(this);
-        searchBox.setQuerySubmitListener(this);
-        searchBox.setSearchIconified(true);
-        searchBox.setSearchCollapsed(true);
-    }
 
-    @Override
-    public void onSearchExpanded() {
-        navIconToggler.hideNavigationIcon();
-    }
-
-    @Override
-    public void onSearchCollapsed() {
-        navIconToggler.restoreNavigationIcon();
-    }
-
-    @Override
-    public void onQuerySubmit(CharSequence charSequence) {
-        if(TextUtils.isDigitsOnly(charSequence)){
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,null,null,charSequence.toString());
-        }else {
-            showToast("Please enter zip code only");
-        }
-    }
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
         this.thsConsumer = thsConsumer;
         this.address = address;
