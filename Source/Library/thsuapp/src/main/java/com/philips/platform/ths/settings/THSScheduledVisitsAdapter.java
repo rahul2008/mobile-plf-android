@@ -83,6 +83,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putLong(THSConstants.THS_DATE,scheduledStartTime);
+                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,appointment.getAssignedProvider().getPracticeInfo());
+                bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
                 mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG,bundle);
             }
         });

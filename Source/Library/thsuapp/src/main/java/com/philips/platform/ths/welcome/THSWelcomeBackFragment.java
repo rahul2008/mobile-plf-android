@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.americanwell.sdk.entity.practice.PracticeInfo;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -32,19 +34,26 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     ImageView mArrow;
     Label mLabel;
     Button mBtnGetStarted;
+    private THSWelcomeBackPresenter mThsWelcomeBackPresenter;
+    private PracticeInfo mPracticeInfo;
+    private Provider mProvider;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_back_fragment, container, false);
+        mThsWelcomeBackPresenter = new THSWelcomeBackPresenter(this);
 
         mLabel = (Label) view.findViewById(R.id.ths_appointment_time);
         mArrow = (ImageView) view.findViewById(R.id.ths_arrow);
         mArrow.setVisibility(View.GONE);
+        mBtnGetStarted = (Button) view.findViewById(R.id.ths_get_started);
         mBtnGetStarted.setOnClickListener(this);
 
         final Bundle arguments = getArguments();
         Long date = arguments.getLong(THSConstants.THS_DATE);
+        mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+        mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
 
         final String format = new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
         String text = getString(R.string.ths_appointment_start_time,format);
@@ -57,7 +66,15 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.ths_get_started){
-            addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,null);
+            mThsWelcomeBackPresenter.onEvent(R.id.ths_get_started);
         }
+    }
+
+    public PracticeInfo getmPracticeInfo() {
+        return mPracticeInfo;
+    }
+
+    public Provider getProvider() {
+        return mProvider;
     }
 }
