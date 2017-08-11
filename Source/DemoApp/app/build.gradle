@@ -121,7 +121,7 @@ android {
 
         release {
             minifyEnabled false
-            shrinkResources true
+            shrinkResources false
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
