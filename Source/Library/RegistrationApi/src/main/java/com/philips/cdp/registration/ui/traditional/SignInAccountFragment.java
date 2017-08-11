@@ -141,12 +141,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onViewCreated");
         compositeDisposable.add(observeLoginButton());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroyView");
         compositeDisposable.dispose();
     }
 

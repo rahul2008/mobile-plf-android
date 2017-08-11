@@ -139,7 +139,7 @@
         android:layout_weight="4"
         android:layout_marginLeft="@dimen/reg_layout_margin_16dp"
         android:layout_marginBottom="32dp"
-        android:text="Forgot password?"
+        android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"
         android:textSize="12sp" />
 
 </LinearLayout>
