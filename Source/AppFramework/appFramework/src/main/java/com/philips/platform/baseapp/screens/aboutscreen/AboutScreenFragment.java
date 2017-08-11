@@ -16,6 +16,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -32,6 +33,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
     public static final String TAG = AboutScreenFragment.class.getSimpleName();
 
     private AboutScreenContract.Action aboutScreenActionListener;
+
 
     @Override
     public void onResume() {
@@ -73,11 +75,16 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
         privacyPolicyTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startAppTagging();
                 aboutScreenActionListener.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
             }
         });
         startAppTagging(TAG);
         return view;
 
+    }
+
+    protected void startAppTagging() {
+        AppFrameworkTagging.getInstance().trackAction("rap:triggerchurn");
     }
 }
