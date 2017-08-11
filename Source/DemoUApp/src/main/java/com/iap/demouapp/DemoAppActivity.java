@@ -279,7 +279,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput) {
-        if (isNetworkAvailable(this)) {
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
             try {
                // showProgressDialog();
@@ -291,9 +290,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 dismissProgressDialog();
                 Toast.makeText(DemoAppActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
