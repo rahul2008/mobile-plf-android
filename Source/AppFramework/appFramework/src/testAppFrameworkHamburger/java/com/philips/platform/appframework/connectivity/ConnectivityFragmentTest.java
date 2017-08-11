@@ -171,7 +171,6 @@ public class ConnectivityFragmentTest {
     public void onActivityResultTest(){
         connectivityFragment.onActivityResult(REQUEST_ENABLE_BT, Activity.RESULT_CANCELED,new Intent());
         assertEquals("Please enable bluetooth",ShadowToast.getTextOfLatestToast());
-//        connectivityFragment.onActivityResult(REQUEST_ENABLE_BT, Activity.RESULT_OK,new Intent());
     }
 
      public static class ConnectivityFragmentMock extends ConnectivityFragment{

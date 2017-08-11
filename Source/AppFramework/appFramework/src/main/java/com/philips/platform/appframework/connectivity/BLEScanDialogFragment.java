@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.appframework.R;
@@ -27,10 +24,10 @@ import java.util.Set;
  */
 public class BLEScanDialogFragment extends DialogFragment {
 
-    private static final String TAG ="BLEScanDialogFragment";
+    private static final String TAG = "BLEScanDialogFragment";
     private BLEScanDialogListener bleScanDialogListener;
 
-    private LeDeviceListAdapter leDeviceListAdapter;
+    private BleDeviceListAdapter leDeviceListAdapter;
 
     private ProgressBar progressBar;
 
@@ -46,7 +43,7 @@ public class BLEScanDialogFragment extends DialogFragment {
             for (Appliance appliance : savedApplianceList) {
                 if (appliance instanceof BleReferenceAppliance) {
                     storedpplianceList.add((BleReferenceAppliance) appliance);
-                    RALog.d(TAG,"Added Applicance to appliance list");
+                    RALog.d(TAG, "Added Applicance to appliance list");
                 }
             }
         }
@@ -69,7 +66,7 @@ public class BLEScanDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.reference_device_scan_dialog, null);
         builder.setView(view);
-        leDeviceListAdapter = new LeDeviceListAdapter(storedpplianceList);
+        leDeviceListAdapter = new BleDeviceListAdapter(getActivity(),storedpplianceList);
         ListView deviceListView = (ListView) view.findViewById(R.id.device_listview);
         progressBar = (ProgressBar) view.findViewById(R.id.scanning_progress_bar);
         deviceListView.setAdapter(leDeviceListAdapter);
@@ -89,79 +86,6 @@ public class BLEScanDialogFragment extends DialogFragment {
     public void addDevice(BleReferenceAppliance shnDevice) {
         leDeviceListAdapter.addDevice(shnDevice);
     }
-
-    // Adapter for holding devices found through scanning.
-    private class LeDeviceListAdapter extends BaseAdapter {
-        private ArrayList<BleReferenceAppliance> mLeDevices;
-        private LayoutInflater mInflator;
-
-        public LeDeviceListAdapter(ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
-            super();
-            mLeDevices = bleReferenceApplianceList;
-            mInflator = getActivity().getLayoutInflater();
-        }
-
-        public void addDevice(BleReferenceAppliance device) {
-            if (!mLeDevices.contains(device)) {
-                mLeDevices.add(device);
-                notifyDataSetChanged();
-            }
-        }
-
-        public BleReferenceAppliance getDevice(int position) {
-            return mLeDevices.get(position);
-        }
-
-        public void clear() {
-            mLeDevices.clear();
-        }
-
-        @Override
-        public int getCount() {
-            return mLeDevices.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return mLeDevices.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            ViewHolder viewHolder;
-            // General ListView optimization code.
-            if (view == null) {
-                view = mInflator.inflate(R.layout.listitem_device, null);
-                viewHolder = new ViewHolder();
-                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
-                viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
-                view.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-
-            BleReferenceAppliance device = mLeDevices.get(i);
-            final String deviceName = device.getName();
-            if (deviceName != null && deviceName.length() > 0)
-                viewHolder.deviceName.setText(deviceName);
-            else
-                viewHolder.deviceName.setText(R.string.RA_unknown_device);
-            viewHolder.deviceAddress.setText(device.getNetworkNode().getCppId());
-            view.setTag(R.string.RA_ble_ref_device, device);
-            return view;
-        }
-    }
-
-    static class ViewHolder {
-        TextView deviceName;
-        TextView deviceAddress;
-    }
-
     public void showProgressBar() {
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
