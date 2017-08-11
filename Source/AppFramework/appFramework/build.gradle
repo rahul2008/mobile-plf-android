@@ -134,7 +134,7 @@ publishing {
             artifact zipDocuments
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-psraRelease.apk")
+			
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -369,20 +369,16 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:multidex:1.0.1'
-
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar',changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar',changing: true) {
-
-        transitive=true
+        transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'iap', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar',changing: true) {
-        transitive=true
+    compile(group: 'com.philips.cdp', name: 'iap', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        transitive = true
     }
-
     compile(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
 
 
@@ -391,41 +387,44 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.1' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.1' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-
-    compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '6.0.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         exclude group: 'joda-time', module: 'joda-time'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: '3.0.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
-        exclude group: 'com.philips.cdp', module:'RegistrationApi'
+        exclude group: 'com.philips.cdp', module: 'RegistrationApi'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        exclude group: 'joda-time', module: 'joda-time'
         transitive = true
     }
 
+
+    compile 'joda-time:joda-time:2.9.2'
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
     compile("joda-time:joda-time:2.9.2")
@@ -447,7 +446,6 @@ dependencies {
     testCompile 'org.json:json:20170516'
 
     compile project(':pushnotification')
-    compile project(':wifirefuapp')
 }
 
 task copyToLib(type: Copy) {
