@@ -7,7 +7,6 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.TestAppFrameworkApplication;
@@ -35,7 +34,6 @@ import static junit.framework.Assert.assertNotNull;
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class WelcomeFragmentTest {
     private SplashFragmentTest.LaunchActivityMockAbstract launchActivity;
-    private ImageView logo;
     private WelcomeFragmentMockAbstract welcomeFragment;
     private ViewPager pager;
     private FontIconView leftArrow,rightArrow;
