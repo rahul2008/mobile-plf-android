@@ -131,7 +131,7 @@
             android:layout_below="@+id/ths_cost_summary_insurance_seperator_top"
             android:paddingLeft="@dimen/pth_fab_margin"
             android:paddingRight="@dimen/pth_fab_margin"
-
+            android:gravity="center_vertical"
 
             android:text="Insurance" />
 
@@ -209,7 +209,7 @@
             android:layout_below="@+id/ths_cost_summary_payment_seperator_top"
             android:paddingLeft="@dimen/pth_fab_margin"
             android:paddingRight="@dimen/pth_fab_margin"
-
+            android:gravity="center_vertical"
             android:text="Payment Method" />
 
         <RelativeLayout

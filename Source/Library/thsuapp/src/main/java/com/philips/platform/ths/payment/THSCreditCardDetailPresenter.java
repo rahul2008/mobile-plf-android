@@ -9,17 +9,19 @@ package com.philips.platform.ths.payment;
 import android.os.Bundle;
 
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
+import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
 
-public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSSDKCallBack<THSPaymentMethod, THSSDKError> {
+public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
 
     private THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
     private THSCreatePaymentRequest mThsCreatePaymentRequest;
     private CreatePaymentRequest mCreatePaymentRequest;
+    private PaymentMethod mPaymentMethod;
 
 
     public THSCreditCardDetailPresenter(THSCreditCardDetailFragment thsCreditCardDetailFragment) {
@@ -102,7 +104,9 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             bundle.putInt("expirationMonth", Integer.parseInt(expirationMonth));
             bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
             bundle.putString("CVVcode", CVVcode);
-
+            if(null!=mPaymentMethod && null!=mPaymentMethod.getBillingAddress()){
+                bundle.putParcelable("address",mPaymentMethod.getBillingAddress());
+            }
             final THSCreditCardBillingAddressFragment fragment = new THSCreditCardBillingAddressFragment();
             fragment.setFragmentLauncher(mTHSCreditCardDetailFragment.getFragmentLauncher());
             mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle);
@@ -113,15 +117,16 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
     /////////start of getPaymentMethod callback ////////////
     @Override
-    public void onResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
+    public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         mTHSCreditCardDetailFragment.hideProgressBar();
         if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
-
+             mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
+            mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
         }
     }
 
     @Override
-    public void onFailure(Throwable throwable) {
+    public void onGetPaymentFailure(Throwable throwable) {
         mTHSCreditCardDetailFragment.hideProgressBar();
     }
     /////////end of getPaymentMethod callback ////////////

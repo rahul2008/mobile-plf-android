@@ -19,6 +19,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.R.id.ths_cost_summary_insurance_detail_relativelayout;
 import static com.philips.platform.ths.utility.THSConstants.IS_INSURANCE_AVAILABLE_KEY;
 
 public class THSCostSummaryFragment extends THSBaseFragment implements View.OnClickListener {
@@ -30,6 +31,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     protected Label costBigLabel;
     protected Label costSmallLabel;
     private RelativeLayout mRelativeLayoutCostContainer;
+    private RelativeLayout mInsuranceDetailRelativeLayout;
+    private RelativeLayout mPaymentMethodDetailRelativeLayout;
 
      Label mInsuranceName, mInsuranceMemberId, mInsuranceSubscriptionType;
      Label mCardType, mMaskedCardNumber, mCardExpirationDate;
@@ -56,15 +59,18 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mMaskedCardNumber=(Label) view.findViewById(R.id.ths_cost_summary_masked_card_number);
         mCardExpirationDate=(Label) view.findViewById(R.id.ths_cost_summary_card_expiration);
 
-
+        mInsuranceDetailRelativeLayout = (RelativeLayout) view.findViewById(ths_cost_summary_insurance_detail_relativelayout);
+        mInsuranceDetailRelativeLayout.setOnClickListener(this);
+        mPaymentMethodDetailRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_payment_detail_relativelayout);
+        mPaymentMethodDetailRelativeLayout.setOnClickListener(this);
 
         boolean isInsuranceAvialable = bundle.getBoolean(IS_INSURANCE_AVAILABLE_KEY);
-        if(isInsuranceAvialable){
+       /* if(isInsuranceAvialable){
             mPresenter.fetchExistingSubscription();
         }else{
             mInsuranceName.setText("No Insurance");
         }
-        mPresenter.createVisit();
+        mPresenter.createVisit();*/
         return view;
     }
 
@@ -83,6 +89,14 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mPresenter.fetchExistingSubscription();
+        mPresenter.createVisit();
+        mPresenter.getPaymentMethod();
+    }
+
     /**
      * Called when a view has been clicked.
      *
@@ -92,6 +106,10 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     public void onClick(View v) {
         if(v.getId() == R.id.ths_cost_summary_continue_button){
             mPresenter.onEvent(R.id.ths_cost_summary_continue_button);
+        } else if (v.getId() == R.id.ths_cost_summary_insurance_detail_relativelayout){
+            mPresenter.onEvent(R.id.ths_cost_summary_insurance_detail_relativelayout);
+        }else if (v.getId() == R.id.ths_cost_summary_payment_detail_relativelayout){
+            mPresenter.onEvent(R.id.ths_cost_summary_payment_detail_relativelayout);
         }
 
     }

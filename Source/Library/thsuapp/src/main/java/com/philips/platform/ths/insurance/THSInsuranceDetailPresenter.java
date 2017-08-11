@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSSDKCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
+public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
     private THSBaseFragment mTHSBaseFragment;
     private boolean hasInsurance;
 
@@ -135,7 +135,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     ////////// start of getExistingSubscription call back
     @Override
-    public void onResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
+    public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
         Subscription subscription = tHSSubscription.getSubscription();
@@ -166,7 +166,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
 
     @Override
-    public void onFailure(Throwable throwable) {
+    public void onGetInsuranceFailure(Throwable throwable) {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
 
     }
@@ -187,6 +187,11 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
         final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
         fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
         mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
     ///////// start update suscription call back
 

@@ -399,7 +399,7 @@ public class THSManagerTest {
         THSManager.getProviderList(contextMock, mConsumer, practice, THSProvidersListCallback);
         verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class), any(State.class), any(Language.class), any(Integer.class), providerListCaptor.capture());
         SDKCallback value = providerListCaptor.getValue();
-//        value.onResponse(any(List.class), any(SDKError.class));
+//        value.onGetPaymentMethodResponse(any(List.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
     }
 
@@ -436,8 +436,8 @@ public class THSManagerTest {
         THSManager.searchMedication(contextMock, "dol" ,pTHSDKValidatedCallback);
         verify(consumerManagerMock).searchMedications(any(Consumer.class), any(String.class),getSearchedMedicationCaptor.capture());
         SDKCallback value = getSearchedMedicationCaptor.getValue();
-//        value.onResponse(any(List.class), any(SDKError.class));
-        //value.onFailure(any(Throwable.class));  //todo
+//        value.onGetPaymentMethodResponse(any(List.class), any(SDKError.class));
+        //value.onGetPaymentFailure(any(Throwable.class));  //todo
     }
 
     @Test
@@ -447,7 +447,7 @@ public class THSManagerTest {
         verify(consumerManagerMock).updateMedications(any(Consumer.class), any(List.class),getUpdateMedicationCaptor.capture());
         SDKCallback value = getUpdateMedicationCaptor.getValue();
         value.onResponse(any(List.class), any(SDKPasswordError.class));
-//        value.onFailure(any(Throwable.class));
+//        value.onGetPaymentFailure(any(Throwable.class));
     }
 
 
@@ -459,8 +459,8 @@ public class THSManagerTest {
         THSManager.updateConsumer(contextMock, "67767262" ,pTHUpdateConsumerCallback);
         verify(consumerManagerMock).updateConsumer(any(ConsumerUpdate.class),getUpdateConsumerCaptor.capture());
         SDKCallback value = getUpdateConsumerCaptor.getValue();
-        value.onResponse(any(Consumer.class), any(SDKError.class));
-        value.onFailure(any(Throwable.class));
+        value.onGetPaymentMethodResponse(any(Consumer.class), any(SDKError.class));
+        value.onGetPaymentFailure(any(Throwable.class));
     }*/
 
 
