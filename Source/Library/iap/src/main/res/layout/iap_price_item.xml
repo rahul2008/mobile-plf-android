@@ -15,6 +15,7 @@
             style="@style/UIDLabel"
             android:layout_width="0dip"
             android:layout_weight="0.7"
+            android:textSize="@dimen/iap_retailers_store_name_size_12sp"
             android:layout_height="wrap_content"
             android:text="@string/iap_1x_daily_collection" />
 
@@ -24,6 +25,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:textSize="@dimen/iap_retailers_store_name_size_12sp"
             android:layout_weight="0.3"
             android:text="$29.99" />
     </LinearLayout>

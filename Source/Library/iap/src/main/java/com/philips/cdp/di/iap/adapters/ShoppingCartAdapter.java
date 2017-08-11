@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -178,14 +179,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
             getNetworkImage(shoppingCartProductHolder, imageURL);
-
-           /* shoppingCartProductHolder.mIvOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    showProductDetails(view, holder.getAdapterPosition());
-                }
-            });*/
-
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
 
@@ -244,6 +237,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }
             }
+
+            shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchDeliveryDailog();
+                }
+            });
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -367,6 +367,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView mEditIcon;
         TextView mDeliveryFreeSpend;
         LinearLayout mPriceContainer;
+        LinearLayout mDeliveryUPSParcelContainer;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -381,6 +382,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
             mDeliveryFreeSpend = (TextView) itemView.findViewById(R.id.delivery_free_description);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
+            mDeliveryUPSParcelContainer = (LinearLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
         }
     }
 
@@ -396,5 +398,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
+    }
+
+    private void launchDeliveryDailog(){
+        DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
+                (mContext, new DeliveryModeDialog.DialogListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                    }
+                });
+        mDeliveryModeDialog.showDialog();
     }
 }

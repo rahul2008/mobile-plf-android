@@ -15,7 +15,7 @@
                 android:id="@+id/extra_option"
                 style="@style/ButtonsCategoryStyle"
                 android:layout_height="42dp"
-                android:textSize="18sp"
+                android:textSize="@dimen/iap_text_size_16sp"
                 android:background="@color/uid_gray_level_10"
                 android:text="@string/iap_extra_option" />
 
@@ -28,10 +28,11 @@
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingRight="@dimen/border16_margin_left_right"
                 android:text="@string/iap_delivery_ups_parcel"
-                android:textSize="18sp"
+                android:textSize="@dimen/iap_text_size_16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/delivery_ups_parcel_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
@@ -41,11 +42,12 @@
                 android:paddingRight="@dimen/border16_margin_left_right">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/delivery_free_description"
                     style="@style/UIDLabel"
+                    android:id="@+id/delivery_free_description"
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                     android:text="@string/iap_delivery_free_description" />
 
                 <com.shamanland.fonticon.FontIconTextView
@@ -63,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
+                android:textSize="@dimen/iap_text_size_16sp"
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingRight="@dimen/border16_margin_left_right"
                 android:text="$0.00" />
@@ -72,7 +75,7 @@
                 style="@style/ButtonsCategoryStyle"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dip"
-                android:textSize="18sp"
+                android:textSize="@dimen/iap_text_size_16sp"
                 android:background="@color/uid_gray_level_10"
                 android:text="@string/iap_cart_summary" />
 
@@ -99,6 +102,7 @@
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                     android:text="@string/iap_delivery_via_ups" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -106,6 +110,7 @@
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                     android:layout_gravity="right"
                     android:text="$0.00" />
             </GridLayout>
@@ -123,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/iap_total"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/iap_text_size_16sp"
                     android:textStyle="bold" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -133,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="$330.00"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/iap_text_size_16sp"
                     android:textStyle="bold" />
             </GridLayout>
 
@@ -150,6 +155,7 @@
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                     android:text="@string/iap_including_tax" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -157,6 +163,7 @@
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                     android:layout_gravity="right"
                     android:text="$20.00" />
             </GridLayout>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel"
         android:id="@+id/header"
-        style="@style/tvHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/iap_delivery_method"
@@ -14,8 +15,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
+        android:layout_height="@dimen/iap_divider_height"/>
 
     <ListView
         android:id="@+id/lv"

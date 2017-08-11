@@ -3,6 +3,7 @@
     android:layout_width="@dimen/iap_match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
@@ -54,11 +55,11 @@
         style="@style/UIDExtraWideButton.Center"
         android:id="@+id/btn_continue_shopping"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/iap_btn_height_45"
+        android:layout_height="@dimen/iap_btn_height_48"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/border16_margin_left_right"
         android:layout_marginRight="@dimen/border16_margin_left_right"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:enabled="true"
         android:text="@string/iap_continue_shopping" />
 </LinearLayout>
