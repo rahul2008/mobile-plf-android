@@ -12,12 +12,13 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
-import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
 
 /**
  * The type ApplianceManager.
@@ -45,8 +46,9 @@ public class ApplianceManager {
 
     private final Set<ApplianceListener<Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
+    private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
 
-    private final Handler handler = HandlerProvider.createHandler();
+    private final Handler handler = createHandler();
 
     private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
         @Override
@@ -61,7 +63,6 @@ public class ApplianceManager {
                 final Appliance lostAppliance = availableAppliances.remove(cppId);
 
                 if (lostAppliance != null) {
-                    lostAppliance.removeAvailabilityListener(this);
                     notifyApplianceLost(lostAppliance);
                 }
             }
@@ -75,12 +76,18 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            if (availableAppliances.containsKey(networkNode.getCppId())) {
+            final String cppId = networkNode.getCppId();
+            if (availableAppliances.containsKey(cppId)) {
                 onNetworkNodeUpdated(networkNode);
+            } else if (allAppliances.containsKey(cppId)) {
+                Appliance foundAppliance = allAppliances.get(cppId);
+                availableAppliances.put(cppId, foundAppliance);
+                notifyApplianceFound(foundAppliance);
             } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
                 final Appliance appliance = (Appliance) applianceFactory.createApplianceForNode(networkNode);
                 appliance.addAvailabilityListener(applianceAvailabilityListener);
-                availableAppliances.put(networkNode.getCppId(), appliance);
+                allAppliances.put(cppId, appliance);
+                availableAppliances.put(cppId, appliance);
                 notifyApplianceFound(appliance);
             }
         }
@@ -98,6 +105,7 @@ public class ApplianceManager {
         public void onNetworkNodeUpdated(NetworkNode networkNode) {
             final Appliance appliance = availableAppliances.get(networkNode.getCppId());
             appliance.getNetworkNode().updateWithValuesFrom(networkNode);
+            notifyApplianceUpdated(appliance);
         }
 
         @Override
