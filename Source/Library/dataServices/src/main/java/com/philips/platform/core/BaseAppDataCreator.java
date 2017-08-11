@@ -1,8 +1,8 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.core;
 
@@ -30,18 +30,19 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates a Moment Object
+     *
      * @param creatorId The User-UUID from User Object (User-Registration Component)
      * @param subjectId The User-UUID from User Object (User-Registration Component)
-     * @param type Moment Type
+     * @param type      Moment Type
      * @return returns a moment object created.
      */
     @NonNull
     Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type, final DateTime expirationDate);
 
-
     /**
      * Creates a MomentDetail Object
-     * @param type Type of the MomentDetail
+     *
+     * @param type   Type of the MomentDetail
      * @param moment The Moment to which the MomentDetail has to be attached
      * @return returns the momentDetail Object
      */
@@ -50,7 +51,8 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates a Measurement Object
-     * @param type The type of the Measurement
+     *
+     * @param type             The type of the Measurement
      * @param measurementGroup The MeasurementGroup to which the Measurement has to be attached
      * @return returns a measurement object
      */
@@ -58,7 +60,8 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates a MeasurementDetail Object
-     * @param type The type of MeasurementDetail
+     *
+     * @param type        The type of MeasurementDetail
      * @param measurement The Measurement to which the MeasurementDetail has to be attached.
      * @return returns a MeasurementDetail object
      */
@@ -67,6 +70,7 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the MeasurementGroup Object
+     *
      * @param measurementGroup The MeasurementGroup to which the MeasurementGroup has to be attached
      * @return returns a measurementGroup Object
      */
@@ -75,6 +79,7 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates a MeasurementGroup Object
+     *
      * @param moment The Moment to which the MeasurementGroup has to be attached
      * @return
      */
@@ -83,7 +88,8 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates a MeasurementGroupDetail Object
-     * @param type The type of the MeasurementGroupDetail
+     *
+     * @param type             The type of the MeasurementGroupDetail
      * @param measurementGroup The MeasurementGroup to which the MeasurementGroupDetail has to be attached
      * @return returns the MeasurementGroupDetail Object
      */
@@ -92,10 +98,11 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the SynchronizationData Object
-     * @param guid The guid of the Moment (The MomentId returned from Server)
-     * @param inactive The inactive field of the moment (inactive = true: means deleted on server, inactive = false: means not deleted on server)
+     *
+     * @param guid             The guid of the Moment (The MomentId returned from Server)
+     * @param inactive         The inactive field of the moment (inactive = true: means deleted on server, inactive = false: means not deleted on server)
      * @param lastModifiedTime The lastModified time that comes from server response
-     * @param version version of the moment that comes from server
+     * @param version          version of the moment that comes from server
      * @return returns the synchronization object
      */
     @NonNull
@@ -103,9 +110,10 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates a consentDetail Object
-     * @param type The type of the consentDetail
-     * @param status the status of the consentDetail (Ex: refused/ Accepted)
-     * @param version Document Version of the consentDetail (default: draft )
+     *
+     * @param type                       The type of the consentDetail
+     * @param status                     the status of the consentDetail (Ex: refused/ Accepted)
+     * @param version                    Document Version of the consentDetail (default: draft )
      * @param deviceIdentificationNumber deviceIdentificationNumber of the consent detail (default: manual)
      * @return returns the ConsentDetail Object
      */
@@ -114,7 +122,8 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the Setting Object
-     * @param type The Type of the User Setting
+     *
+     * @param type  The Type of the User Setting
      * @param value The Value of the User Setting
      * @return returns the User Settings Object created.
      */
@@ -123,8 +132,9 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the UserCharacteristics Object
-     * @param type The type of UserCharacteristics
-     * @param value The value of UserCharacteristics
+     *
+     * @param type            The type of UserCharacteristics
+     * @param value           The value of UserCharacteristics
      * @param characteristics the UserCharacteristics Object to which the UserCharacteristics object has to be attached
      * @return returns the UserCharacteristics Object
      */
@@ -133,7 +143,8 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the UserCharacteristics Object
-     * @param type The Type of the UserCharacteristics
+     *
+     * @param type  The Type of the UserCharacteristics
      * @param value The value of the UserCharacteristics
      * @return returns the UserCharacteristics Object
      */
@@ -142,6 +153,7 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the Insight Object
+     *
      * @return returns the Insight Object created
      */
     @NonNull
@@ -149,8 +161,9 @@ public interface BaseAppDataCreator {
 
     /**
      * Creates the Insight metaData Object
-     * @param key MetaData Key
-     * @param value MetaData Value
+     *
+     * @param key     MetaData Key
+     * @param value   MetaData Value
      * @param insight The Insight to which the metaData has to be attached
      * @return returns the insightMetaData Object
      */
