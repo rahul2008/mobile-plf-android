@@ -130,7 +130,11 @@ public class AppInfraLogging implements LoggingInterface {
                     loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
                     getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                 }
+            } else {
+                mJavaLogger = loggingConfiguration.getLogger(pComponentId);
+                getJavaLogger().setLevel(Level.OFF);
             }
+
         } else {
                  /* added just to make unit test cases pass */
             mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
@@ -138,7 +142,7 @@ public class AppInfraLogging implements LoggingInterface {
         }
     }
 
-    protected Logger getJavaLogger(){
+    protected Logger getJavaLogger() {
         return mJavaLogger;
     }
 
