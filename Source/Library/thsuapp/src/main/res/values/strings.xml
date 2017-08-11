@@ -92,4 +92,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
+
+    <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
 </resources>

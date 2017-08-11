@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_payment_detail_card_cvc_edittext"
 
-        android:text="What's this" />
+        android:text="\? What's this" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_payment_detail_continue_button"

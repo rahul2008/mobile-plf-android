@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true">
 
     <RelativeLayout
@@ -176,12 +177,13 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ths_insurance_detail_skip_button"
-            style="@style/UIDImageTextButton.Center"
+            app:uidComponentType="Secondary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_continue_button"
             android:layout_marginBottom="@dimen/pth_margin_bottom"
-            android:text="Skip this"
+            android:text="My plan is not listed. Skip this"
 
             />
 

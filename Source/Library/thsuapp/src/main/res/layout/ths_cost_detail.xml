@@ -133,7 +133,10 @@
             android:paddingRight="@dimen/pth_fab_margin"
             android:gravity="center_vertical"
 
-            android:text="Insurance" />
+            android:text="Insurance"
+            android:textSize="16sp"
+            android:lineSpacingExtra="6dp"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
 
         <RelativeLayout
             android:id="@+id/ths_cost_summary_insurance_detail_relativelayout"
@@ -164,8 +167,9 @@
                     android:id="@+id/ths_cost_summary_insurance_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Blue Cross Blue Shield"
-                    android:textSize="@dimen/pth_body_text">
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textSize="@dimen/pth_small_body_text"
+                    android:lineSpacingExtra="6sp">
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -174,7 +178,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ths_cost_summary_insurance_name"
-                    android:text="Member Id: 236545">
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textSize="@dimen/pth_small_body_text"
+                    android:lineSpacingExtra="6sp"
+                    >
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -183,7 +190,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ths_cost_summary_insurance_member_id"
-                    android:text="Primary subscriber">
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textSize="@dimen/pth_small_body_text"
+                    android:lineSpacingExtra="6sp"
+
+                  >
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -210,7 +221,11 @@
             android:paddingLeft="@dimen/pth_fab_margin"
             android:paddingRight="@dimen/pth_fab_margin"
             android:gravity="center_vertical"
-            android:text="Payment Method" />
+            android:text="Payment Method"
+            android:textSize="16sp"
+            android:lineSpacingExtra="6dp"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            />
 
         <RelativeLayout
             android:id="@+id/ths_cost_summary_payment_detail_relativelayout"
@@ -241,8 +256,10 @@
                     android:id="@+id/ths_cost_summary_card_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Visa Card"
-                    android:textSize="@dimen/pth_body_text">
+
+                    android:textSize="@dimen/pth_small_body_text"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor">
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -251,7 +268,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ths_cost_summary_card_type"
-                    android:text="xxx xxxx xxxx **42">
+                    android:textSize="@dimen/pth_small_body_text"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    >
 
                 </com.philips.platform.uid.view.widget.Label>
 
@@ -260,7 +280,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ths_cost_summary_masked_card_number"
-                    android:text="Exp date: 10/2017">
+                    android:textSize="@dimen/pth_small_body_text"
+                    android:lineSpacingExtra="6sp"
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                   >
 
                 </com.philips.platform.uid.view.widget.Label>
 

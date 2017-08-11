@@ -123,9 +123,12 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     public void onEvent(int componentID) {
         if (componentID == R.id.ths_insurance_detail_skip_button) {
             // skip insurance update
-            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            if (((THSInsuranceDetailFragment) mTHSBaseFragment).isLaunchedFromCostSummary) {
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
+            } else {
+                THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            }
         } else if (componentID == R.id.ths_insurance_detail_continue_button) {
             updateTHSInsuranceSubscription();
         }
@@ -184,9 +187,13 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     public void onResponse(Void aVoid, SDKError sdkError) {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         AmwellLog.i("updateInsurance", "success");
-        final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+        if (((THSInsuranceDetailFragment) mTHSBaseFragment).isLaunchedFromCostSummary) {
+            ((THSInsuranceDetailFragment) mTHSBaseFragment).getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
+        } else {
+            THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+            //fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+        }
     }
 
     @Override

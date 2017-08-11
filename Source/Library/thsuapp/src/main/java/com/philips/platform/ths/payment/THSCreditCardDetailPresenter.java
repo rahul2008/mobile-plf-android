@@ -7,13 +7,19 @@
 package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+
+import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
@@ -30,7 +36,13 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
     @Override
     public void onEvent(int componentID) {
-        saveCreditCardDetail();
+        if (componentID == R.id.ths_payment_detail_continue_button) {
+            saveCreditCardDetail();
+        } else if (componentID == R.id.ths_payment_detail_card_cvc_help) {
+            showCVVdetail(true, true, false);
+        } else if (componentID == R.id.uid_alert_positive_button) {
+            mTHSCreditCardDetailFragment.alertDialogFragment.dismiss();
+        }
 
     }
 
@@ -104,8 +116,8 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             bundle.putInt("expirationMonth", Integer.parseInt(expirationMonth));
             bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
             bundle.putString("CVVcode", CVVcode);
-            if(null!=mPaymentMethod && null!=mPaymentMethod.getBillingAddress()){
-                bundle.putParcelable("address",mPaymentMethod.getBillingAddress());
+            if (null != mPaymentMethod && null != mPaymentMethod.getBillingAddress()) {
+                bundle.putParcelable("address", mPaymentMethod.getBillingAddress());
             }
             final THSCreditCardBillingAddressFragment fragment = new THSCreditCardBillingAddressFragment();
             fragment.setFragmentLauncher(mTHSCreditCardDetailFragment.getFragmentLauncher());
@@ -120,7 +132,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         mTHSCreditCardDetailFragment.hideProgressBar();
         if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
-             mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
+            mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
             mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
         }
     }
@@ -130,4 +142,19 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
         mTHSCreditCardDetailFragment.hideProgressBar();
     }
     /////////end of getPaymentMethod callback ////////////
+
+
+    void showCVVdetail(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCreditCardDetailFragment.getFragmentActivity())
+                .setMessage(showLargeContent ? mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination) : mTHSCreditCardDetailFragment.getFragmentActivity().getResources().getString(R.string.cvv_explaination)).
+                        setPositiveButton(" Ok ", mTHSCreditCardDetailFragment);
+
+        if (isWithTitle) {
+            builder.setTitle("What's this?");
+
+        }
+        mTHSCreditCardDetailFragment.alertDialogFragment = builder.setCancelable(false).create();
+        mTHSCreditCardDetailFragment.alertDialogFragment.show(mTHSCreditCardDetailFragment.getFragmentManager(), CVV_HELP_TEXT);
+
+    }
 }
