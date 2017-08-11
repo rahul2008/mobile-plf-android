@@ -54,5 +54,6 @@ public class Constants {
 
     public static final String UR_LOGIN_COMPLETED = "UR_LOGIN_COMPLETED";
     public static final String SHARED_PREF = "SHARED_PREF";
+    public static final String TAGGING_CHURN="rap:triggerchurn";
 
 }

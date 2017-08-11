@@ -20,6 +20,8 @@ import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
+import static com.philips.platform.baseapp.screens.utility.Constants.TAGGING_CHURN;
+
 /**
  * About screen to display content and version number
  * This class is for sutomising the about screen present from UiKit Lib
@@ -30,7 +32,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 
 public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implements AboutScreenContract.View {
 
-    public static final String TAG = AboutScreenFragment.class.getSimpleName();
+    private static final String TAG = AboutScreenFragment.class.getSimpleName();
 
     private AboutScreenContract.Action aboutScreenActionListener;
 
@@ -85,6 +87,6 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
     }
 
     protected void startAppTagging() {
-        AppFrameworkTagging.getInstance().trackAction("rap:triggerchurn");
+        AppFrameworkTagging.getInstance().trackAction(TAGGING_CHURN);
     }
 }
