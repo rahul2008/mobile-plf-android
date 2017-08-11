@@ -13,11 +13,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +45,7 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
@@ -160,7 +160,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
         findSerialTextView = (Label)view.findViewById(R.id.findSerialTextView);
         makeTextViewHyperlink(findSerialTextView);
-        findSerialTextView.setOnClickListener(onClickFindSerialNumber());
         serial_input_field = (InputValidationLayout) view.findViewById(R.id.serial_input_field);
         field_serial = (ValidationEditText) view.findViewById(R.id.field_serial);
         serial_input_field.setValidator(new InputValidationLayout.Validator() {
@@ -187,15 +186,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 clearFragmentStack();
                 handleCallBack(false);
                 unRegisterProdRegListener();
-            }
-        };
-    }
-
-    private View.OnClickListener onClickFindSerialNumber() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                prodRegRegistrationController.onClickFindSerialNumber();
             }
         };
     }
@@ -298,11 +288,17 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     /**
      * Sets a hyperlink style to the textview.
      */
-    private void makeTextViewHyperlink(Label tv) {
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
-        ssb.append(tv.getText());
-        ssb.setSpan(new URLSpan("#"), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv.setText(ssb, Label.BufferType.SPANNABLE);
+    private void makeTextViewHyperlink(Label findSerialTextView) {
+        UIDClickableSpan clickableSpan = new UIDClickableSpan(new Runnable() {
+            @Override
+            public void run() {
+                prodRegRegistrationController.onClickFindSerialNumber();
+            }
+        });
+        SpannableString string = SpannableString.valueOf(findSerialTextView.getText());
+        string.setSpan(clickableSpan, 0, string.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        clickableSpan.shouldDrawUnderline(false);
+        findSerialTextView.setText(string);
     }
 
     private View.OnTouchListener onClickPurchaseDate() {
