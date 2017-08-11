@@ -8,19 +8,15 @@ package com.philips.platform.ths.welcome;
 
 import android.os.Bundle;
 
-import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
-import com.philips.platform.ths.practice.THSPractice;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
@@ -40,7 +36,7 @@ public class THSWelcomeBackPresenter implements THSBasePresenter, THSOnDemandSpe
             thsProviderInfo.setTHSProviderInfo(provider);
 
             Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_PROVIDER,thsProviderInfo);
+            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
             mThsWelcomeBackFragment.addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,bundle);
         }
     }
