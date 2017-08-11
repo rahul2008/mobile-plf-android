@@ -16,7 +16,6 @@
         android:clickable="true"
         android:src="@android:drawable/ic_input_add" />
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/timeline"
         android:layout_width="match_parent"
@@ -30,7 +29,7 @@
         android:divider="#33cae3e9"
         android:dividerHeight="1dp"
         android:footerDividersEnabled="false"
-        android:listSelector="#003478"
+        android:listSelector="@color/colorPrimary"
         android:overScrollFooter="@android:color/transparent"
         android:scrollbars="none">
 

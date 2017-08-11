@@ -1,9 +1,8 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
-
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.core.utils;
 
 import android.os.Handler;
@@ -17,11 +16,6 @@ import org.greenrobot.eventbus.EventBus;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @Singleton
 public class EventingImpl implements Eventing {
 
