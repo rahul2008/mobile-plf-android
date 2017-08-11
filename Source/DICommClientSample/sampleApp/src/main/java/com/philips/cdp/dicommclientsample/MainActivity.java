@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclientsample;
 
 import android.content.Intent;
@@ -24,6 +25,8 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.appliance.reference.WifiReferenceAppliance;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,8 +56,14 @@ public class MainActivity extends AppCompatActivity {
         listViewAppliances.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
-                startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                final Appliance appliance = applianceAdapter.getItem(position);
+                CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
+
+                if (appliance instanceof AirPurifier) {
+                    startActivity(new Intent(MainActivity.this, AirPurifierActivity.class));
+                } else if (appliance instanceof WifiReferenceAppliance) {
+                    startActivity(new Intent(MainActivity.this, WifiReferenceApplianceActivity.class));
+                }
             }
         });
 

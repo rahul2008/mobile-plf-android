@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
@@ -80,7 +81,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     private String getDICommNestedPortName(int scheduleNumber) {
-        return String.format("%s/%d", getDICommPortName(), scheduleNumber);
+        return String.format(Locale.US, "%s/%d", getDICommPortName(), scheduleNumber);
     }
 
     public void setSchedulePortListener(SchedulePortListener listener) {

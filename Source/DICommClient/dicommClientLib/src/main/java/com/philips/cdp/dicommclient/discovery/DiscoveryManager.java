@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclient.discovery;
 
 import android.content.Context;
@@ -14,7 +15,6 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -27,11 +27,17 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 
 /**
  * Discovery of the appliances is managed by Discovery Manager. It is the main
@@ -40,81 +46,99 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * Manager. In order to build this list, the Discovery Manager makes use of
  * input from SSDP, a pairing database and network changes.
  *
- * @author Jeroen Mols
- * @date 30 Apr 2014
+ * @publicApi
  */
 public class DiscoveryManager<T extends Appliance> {
 
-    private static DiscoveryManager<? extends Appliance> mInstance;
+    private static DiscoveryManager<? extends Appliance> sInstance;
 
     private LinkedHashMap<String, T> mAllAppliancesMap;
-    private List<NetworkNode> mAddedAppliances;
 
+    private final Context mContext;
+    private List<NetworkNode> mAddedAppliances;
     private DICommApplianceFactory<T> mApplianceFactory;
     private NetworkNodeDatabase mNetworkNodeDatabase;
-    private DICommApplianceDatabase<T> mApplianceDatabase;
 
+    private DICommApplianceDatabase<T> mApplianceDatabase;
     private static final Object mDiscoveryLock = new Object();
     private NetworkMonitor mNetwork;
+
     private SsdpServiceHelper mSsdpHelper;
 
     private List<DiscoveryEventListener> mDiscoveryEventListenersList;
-
     public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
     public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
     private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
     private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
 
-    private static Handler mDiscoveryTimeoutHandler = new Handler() {
+    private static class DiscoveryTimeoutHandler<A extends Appliance> extends Handler {
+
+        private final WeakReference<DiscoveryManager<A>> reference;
+
+        DiscoveryTimeoutHandler(DiscoveryManager<A> discoveryManager) {
+            this.reference = new WeakReference<>(discoveryManager);
+        }
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
-                synchronized (mDiscoveryLock) {
-                    DiscoveryManager.getInstance().markNonDiscoveredAppliancesRemote();
-                }
-            } else if (msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
-                synchronized (mDiscoveryLock) {
-                    DiscoveryManager.getInstance().markLostAppliancesInBackgroundOfflineOrRemote();
+            DiscoveryManager<A> discoveryManager = reference.get();
+
+            if (discoveryManager != null) {
+                if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
+                    synchronized (mDiscoveryLock) {
+                        discoveryManager.markNonDiscoveredAppliancesRemote();
+                    }
+                } else if (msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
+                    synchronized (mDiscoveryLock) {
+                        discoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
+                    }
                 }
             }
         }
-    };
+    }
+
+    private static DiscoveryTimeoutHandler sDiscoveryTimeoutHandler = new DiscoveryTimeoutHandler<>(sInstance);
 
     static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory) {
         return createSharedInstance(applicationContext, cloudController, applianceFactory, new NullApplianceDatabase<U>());
     }
 
     static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
-        if (mInstance != null) {
+        if (sInstance != null) {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }
 
         NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
 
-        DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
+        DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase, networkMonitor);
         discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
-        mInstance = discoveryManager;
+        sInstance = discoveryManager;
+
         return discoveryManager;
     }
 
     public static synchronized DiscoveryManager<? extends Appliance> getInstance() {
-        return mInstance;
+        return sInstance;
     }
 
-    /* package, for testing */ DiscoveryManager(DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+    /* package, for testing */ DiscoveryManager(@NonNull Context context, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+        mContext = context;
         mApplianceFactory = applianceFactory;
         mApplianceDatabase = applianceDatabase;
 
-        mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
+        mNetworkNodeDatabase = new NetworkNodeDatabase(mContext);
         initializeAppliancesMapFromDataBase();
 
         mNetwork = networkMonitor;
 
         mNetwork.addListener(mNetworkChangedCallback);
         if (mDiscoveryEventListenersList == null) {
-            mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
+            mDiscoveryEventListenersList = new ArrayList<>();
         }
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     public void addDiscoveryEventListener(DiscoveryEventListener listener) {
@@ -162,14 +186,11 @@ public class DiscoveryManager<T extends Appliance> {
     // TODO DIComm refactor: this method should be removed from public interface
     public void removeFromDiscoveredList(String cppId) {
         if (cppId == null || cppId.isEmpty()) return;
-        Appliance appliance = mAllAppliancesMap.remove(cppId);
-        if (appliance != null) {
-            appliance.getNetworkNode().setEncryptionKeyUpdatedListener(null);
-        }
+        mAllAppliancesMap.remove(cppId);
     }
 
     // TODO DIComm refactor: this method should be removed from public interface
-    public void updatePairingStatus(String cppId, NetworkNode.PAIRED_STATUS state) {
+    public void updatePairingStatus(String cppId, NetworkNode.PairingState state) {
         if (cppId == null || cppId.isEmpty()) return;
         if (mAllAppliancesMap.containsKey(cppId)) {
             mAllAppliancesMap.get(cppId).getNetworkNode().setPairedState(state);
@@ -192,7 +213,7 @@ public class DiscoveryManager<T extends Appliance> {
             if (addToNewApplianceList) {
                 //Add connected appliance only, ignore disconnected
                 if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
-                    appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+                    appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.NOT_PAIRED);
                     newAppliances.add(appliance);
                 }
             }
@@ -304,7 +325,7 @@ public class DiscoveryManager<T extends Appliance> {
 
         NetworkNode networkNode = createNetworkNode(deviceModel);
         if (networkNode == null) return false;
-        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   modelname: " + networkNode.getModelName());
+        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   devicetype: " + networkNode.getDeviceType());
         if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
             updateExistingAppliance(networkNode);
         } else {
@@ -332,7 +353,6 @@ public class DiscoveryManager<T extends Appliance> {
 
     private void updateExistingAppliance(NetworkNode networkNode) {
         T existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
-        boolean notifyListeners = true;
 
         if (networkNode.getHomeSsid() != null && !networkNode.getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
             existingAppliance.getNetworkNode().setHomeSsid(networkNode.getHomeSsid());
@@ -346,7 +366,6 @@ public class DiscoveryManager<T extends Appliance> {
         if (!existingAppliance.getName().equals(networkNode.getName())) {
             existingAppliance.getNetworkNode().setName(networkNode.getName());
             updateApplianceInDatabase(existingAppliance);
-            notifyListeners = true;
         }
 
         if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
@@ -357,40 +376,32 @@ public class DiscoveryManager<T extends Appliance> {
 
         if (existingAppliance.getNetworkNode().getConnectionState() != networkNode.getConnectionState()) {
             existingAppliance.getNetworkNode().setConnectionState(networkNode.getConnectionState());
-            notifyListeners = true;
         }
 
-        if (existingAppliance.getNetworkNode().getHttps() != networkNode.getHttps()) {
-            existingAppliance.getNetworkNode().setHttps(networkNode.getHttps());
-            updateApplianceInDatabase(existingAppliance);
-            notifyListeners = true;
-        }
-
-        if (notifyListeners) {
-            notifyDiscoveryListener();
-        }
+        notifyDiscoveryListener();
         DICommLog.d(DICommLog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
     }
 
     /**
      * Completely new appliance - never seen before
      */
-    private void addNewAppliance(NetworkNode networkNode) {
+    private void addNewAppliance(final NetworkNode networkNode) {
         if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
             DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
             return;
         }
         final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
-        appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
-            @Override
-            public void onKeyUpdate() {
-                updateApplianceInDatabase(appliance);
-            }
-        });
 
         mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
         DICommLog.d(DICommLog.DISCOVERY, "Successfully added appliance: " + appliance);
         notifyDiscoveryListener();
+
+        networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                onNetworkNodeChanged(propertyChangeEvent, appliance, networkNode);
+            }
+        });
     }
 
     public void markLostAppliancesInBackgroundOfflineOrRemote() {
@@ -457,7 +468,7 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     private boolean isPaired(final Appliance appliance) {
-        return appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED;
+        return appliance.getNetworkNode().getPairedState() == NetworkNode.PairingState.PAIRED;
     }
 
     private boolean isConnectedRemotely(final Appliance appliance) {
@@ -560,7 +571,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     private boolean updateConnectedStateOnlineViaCpp(Appliance appliance) {
         DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOnlineViaCpp: " + appliance.getName());
-        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.NOT_PAIRED)
+        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PairingState.NOT_PAIRED)
             return false;
         if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED)
             return false;
@@ -590,12 +601,12 @@ public class DiscoveryManager<T extends Appliance> {
      */
     private void connectViaCppAfterLocalAttemptDelayed() {
         DICommLog.i(DICommLog.DISCOVERY, "START delayed job to connect via cpp to appliances that did not appear local");
-        mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
+        sDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
     }
 
     private void cancelConnectViaCppAfterLocalAttempt() {
-        if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
-            mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
+        if (sDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
+            sDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
             DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to connect via cpp to appliances");
         }
     }
@@ -606,12 +617,12 @@ public class DiscoveryManager<T extends Appliance> {
      */
     public void syncLocalAppliancesWithSsdpStackDelayed() {
         DICommLog.i(DICommLog.DISCOVERY, "START delayed job to mark local appliances offline that did not reappear after ssdp restart");
-        mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
+        sDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
     }
 
     public void cancelSyncLocalAppliancesWithSsdpStack() {
-        if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
-            mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
+        if (sDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
+            sDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
             DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to mark local appliances offline");
         }
     }
@@ -625,9 +636,8 @@ public class DiscoveryManager<T extends Appliance> {
         String cppId = ssdpDevice.getCppId();
         String ipAddress = deviceModel.getIpAddress();
         String name = ssdpDevice.getFriendlyName();
-        String modelName = ssdpDevice.getModelName();
+        String deviceType = ssdpDevice.getModelName();
         String networkSsid = mNetwork.getLastKnownNetworkSsid();
-        boolean isHttps = deviceModel.getHttps();
         Long bootId = -1l;
         String modelNumber = ssdpDevice.getModelNumber();
         try {
@@ -642,10 +652,9 @@ public class DiscoveryManager<T extends Appliance> {
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
-        networkNode.setModelName(modelName);
+        networkNode.setDeviceType(deviceType);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
-        networkNode.setHttps(isHttps);
 
         if (!isValidNetworkNode(networkNode)) return null;
 
@@ -665,8 +674,8 @@ public class DiscoveryManager<T extends Appliance> {
             DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - name is null");
             return false;
         }
-        if (networkNode.getModelName() == null || networkNode.getModelName().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - modelName is null");
+        if (networkNode.getDeviceType() == null || networkNode.getDeviceType().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - devicetype is null");
             return false;
         }
         return true;
@@ -734,9 +743,9 @@ public class DiscoveryManager<T extends Appliance> {
                     break;
             }
         }
-        DICommLog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
-        DICommLog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
-        DICommLog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
+        DICommLog.d(tag, String.format(Locale.US, offline, offline.length() - offline.replace(",", "").length()));
+        DICommLog.d(tag, String.format(Locale.US, local, local.length() - local.replace(",", "").length()));
+        DICommLog.d(tag, String.format(Locale.US, cpp, cpp.length() - cpp.replace(",", "").length()));
     }
 
     private List<T> loadAllAddedAppliancesFromDatabase() {
@@ -744,7 +753,7 @@ public class DiscoveryManager<T extends Appliance> {
 
         List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 
-        for (NetworkNode networkNode : networkNodes) {
+        for (final NetworkNode networkNode : networkNodes) {
             if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
                 DICommLog.e(DICommLog.DISCOVERY, "Did not load appliance from database - factory cannot create appliance");
                 continue;
@@ -752,10 +761,10 @@ public class DiscoveryManager<T extends Appliance> {
 
             final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
             mApplianceDatabase.loadDataForAppliance(appliance);
-            networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+            networkNode.addPropertyChangeListener(new PropertyChangeListener() {
                 @Override
-                public void onKeyUpdate() {
-                    updateApplianceInDatabase(appliance);
+                public void propertyChange(PropertyChangeEvent evt) {
+                    onNetworkNodeChanged(evt, appliance, networkNode);
                 }
             });
             result.add(appliance);
@@ -789,9 +798,18 @@ public class DiscoveryManager<T extends Appliance> {
         return rowsDeleted;
     }
 
+    private void onNetworkNodeChanged(PropertyChangeEvent propertyChangeEvent, T appliance, NetworkNode networkNode) {
+        DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+        mNetworkNodeDatabase.save(networkNode);
+
+        if (propertyChangeEvent.getPropertyName().equals(KEY_ENCRYPTION_KEY)) {
+            updateApplianceInDatabase(appliance);
+        }
+    }
+
     // ********** START TEST METHODS ************
     public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends Appliance> dummyManager) {
-        mInstance = dummyManager;
+        sInstance = dummyManager;
     }
 
     public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
@@ -811,7 +829,7 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     public Handler getDiscoveryTimeoutHandlerForTesting() {
-        return mDiscoveryTimeoutHandler;
+        return sDiscoveryTimeoutHandler;
     }
     // ********** END TEST METHODS ************
 }

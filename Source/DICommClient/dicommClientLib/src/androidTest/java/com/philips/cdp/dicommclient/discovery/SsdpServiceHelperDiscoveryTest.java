@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.discovery;
@@ -11,11 +11,11 @@ import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.MockitoTestCase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -452,7 +452,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         }
 
         @Override
-        public Set<String> getSupportedModelNames() {
+        public Set<String> getSupportedDeviceTypes() {
             return null;
         }
     }

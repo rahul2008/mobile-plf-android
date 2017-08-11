@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.security;
@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -24,10 +23,7 @@ import static junit.framework.Assert.fail;
 
 public class ByteUtilTest extends RobolectricTest {
 
-    private String key = "173B7E0A9A54CB3E96A70237F6974940";
-    public final static String DEVICE_ID = "deviceId";
-    public final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
-    String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
+    private final String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
 
     @Test
     public void testRandom() {
@@ -37,9 +33,10 @@ public class ByteUtilTest extends RobolectricTest {
     @SuppressLint("DefaultLocale")
     @Test
     public void testByteToHex() {
-        String testStr = new String("01144add4445aaa839812cccad").toUpperCase();
+        String testStr = "01144add4445aaa839812cccad".toUpperCase();
         String result = ByteUtil.bytesToCapitalizedHex(ByteUtil.hexToBytes(testStr));
 
+        String key = "173B7E0A9A54CB3E96A70237F6974940";
         String result2 = ByteUtil.bytesToCapitalizedHex(ByteUtil.hexToBytes(key));
 
         assertEquals(testStr, result);
@@ -48,9 +45,9 @@ public class ByteUtilTest extends RobolectricTest {
 
     @Test
     public void testBase64() {
-        byte[] testData = new String(
-                "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=")
-                .getBytes();
+        byte[] testData =
+                "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4="
+                        .getBytes();
         byte[] result = null;
         try {
             String encoded = ByteUtil.encodeToBase64(testData);
@@ -60,15 +57,16 @@ public class ByteUtilTest extends RobolectricTest {
             fail(e.getMessage());
         }
 
-        byte[] testData2 = new String(
-                "aj2DQZ4KYo6z4zrnjt/a7Vg6MH2wtDUbsAS3WixxNBZVvUaihF/mLGGlHRqU/eSyYyBNv6YbIm/QxPxIvhQOtCT3Nr7WU5J6lXzQ7N1gRsTfeIG78IUNQx+5Bqy86dmDfGFFoqESG/7nWZEkvk5UjcKI5WQHMrUOI0241KnzZG6hX66GkILMrONIM2uR+IsZyi5NoVwf9d9uDZaAlLupdSrEaqkxEkwF495pM1BzvTZUqb0qrrE/9K8TU4IYJFlRJvwGBN6PLdgKsTDb9jgyJ6ypk6qA4sIYi+VsRsrtv9M=")
-                .getBytes();
+        byte[] testData2 =
+                "aj2DQZ4KYo6z4zrnjt/a7Vg6MH2wtDUbsAS3WixxNBZVvUaihF/mLGGlHRqU/eSyYyBNv6YbIm/QxPxIvhQOtCT3Nr7WU5J6lXzQ7N1gRsTfeIG78IUNQx+5Bqy86dmDfGFFoqESG/7nWZEkvk5UjcKI5WQHMrUOI0241KnzZG6hX66GkILMrONIM2uR+IsZyi5NoVwf9d9uDZaAlLupdSrEaqkxEkwF495pM1BzvTZUqb0qrrE/9K8TU4IYJFlRJvwGBN6PLdgKsTDb9jgyJ6ypk6qA4sIYi+VsRsrtv9M="
+                        .getBytes();
         byte[] result2 = null;
         try {
             String encoded2 = ByteUtil.encodeToBase64(testData2);
             result2 = ByteUtil.decodeFromBase64(encoded2);
         } catch (Exception e) {
-            assertNotNull(result2);
+            e.printStackTrace();
+            fail(e.getMessage());
         }
 
         assertTrue(Arrays.equals(testData, result));
@@ -77,11 +75,10 @@ public class ByteUtilTest extends RobolectricTest {
 
     @Test
     public void testGetRandomBytes() {
-        byte[] byteArr1 = ByteUtil.getRandomByteArray(2);
-        byte[] byteArr2 = ByteUtil.getRandomByteArray(2);
+        byte[] byteArr1 = ByteUtil.getRandomByteArray(16);
+        byte[] byteArr2 = ByteUtil.getRandomByteArray(16);
 
-        assertFalse(byteArr1[0] == byteArr2[0]);
-        assertFalse(byteArr1[1] == byteArr2[1]);
+        assertFalse(Arrays.equals(byteArr1, byteArr2));
     }
 
     @Test
@@ -89,6 +86,7 @@ public class ByteUtilTest extends RobolectricTest {
         String testStr = "Hello Security";
         byte[] testBytes = testStr.getBytes();
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+
         assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
     }
 
@@ -96,6 +94,7 @@ public class ByteUtilTest extends RobolectricTest {
     public void testAddRandomBytesCaseTwo() {
         byte[] testBytes = null;
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+
         assertNull(testRandomBytes);
     }
 
@@ -103,6 +102,7 @@ public class ByteUtilTest extends RobolectricTest {
     public void testAddRandomBytesCaseThree() {
         byte[] testBytes = data.getBytes();
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+
         assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
     }
 
@@ -114,6 +114,7 @@ public class ByteUtilTest extends RobolectricTest {
         byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testRandomBytes);
 
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
+
         assertEquals(testStr, testStr1);
     }
 
@@ -122,7 +123,9 @@ public class ByteUtilTest extends RobolectricTest {
         String testStr = "H";
         byte[] testBytes = testStr.getBytes();
         byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
+
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
+
         assertEquals(testStr, testStr1);
     }
 
@@ -131,7 +134,9 @@ public class ByteUtilTest extends RobolectricTest {
         String testStr = "";
         byte[] testBytes = testStr.getBytes();
         byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
+
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
+
         assertEquals(testStr, testStr1);
     }
 
@@ -139,17 +144,18 @@ public class ByteUtilTest extends RobolectricTest {
     public void testRemoveRandomBytesCaseThree() {
         byte[] testBytes = null;
         byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
+
         assertNull(afterRemoveBytes);
     }
 
     @Test
     public void testRemoveRandomBytesCaseFour() {
-
         byte[] testBytes = data.getBytes();
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
         byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testRandomBytes);
 
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
+
         assertEquals(data, testStr1);
     }
 }

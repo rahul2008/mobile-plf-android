@@ -63,3 +63,6 @@ DIComm/.idea/
 Source/DICommClientSample/gradle.properties
 Source/PurAir/gradle.properties
 Source/pluginreferenceboard/build
+Source/DemoApp/build
+Source/DemoUApp/build
+profiles_settings.xml

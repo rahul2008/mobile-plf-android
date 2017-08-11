@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
@@ -12,7 +12,6 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -20,6 +19,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.util.Collection;
 import java.util.Date;
@@ -170,13 +170,13 @@ public class PairingHandler<T extends Appliance> {
                 DICommLog.i(DICommLog.PAIRING, "Notification relationship added successfully - Pairing completed");
                 DICommLog.i(DICommLog.PAIRING, "Pairing status set to true");
 
-                mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+                mAppliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
                 mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
                 //TODO see user story COM-89
                 DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
                 T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
-                appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+                appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
                 discoveryManager.updateApplianceInDatabase(appliance);
 
                 notifyListenerSuccess();
@@ -424,7 +424,7 @@ public class PairingHandler<T extends Appliance> {
             setPairingAttempts(mAppliance.getNetworkNode().getCppId());
             startPairingPortTask(pairingRelation);
         } else {
-            mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+            mAppliance.getNetworkNode().setPairedState(NetworkNode.PairingState.NOT_PAIRED);
             if (pairingListener != null) {
                 pairingListener.onPairingFailed(mAppliance);
             }
@@ -449,14 +449,14 @@ public class PairingHandler<T extends Appliance> {
         DICommLog.i(DICommLog.PAIRING, "In PairToPurifier: " + networkNode.getPairedState());
 
         // First time pairing or on EWS
-        if (networkNode.getPairedState() == NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
+        if (networkNode.getPairedState() == NetworkNode.PairingState.NOT_PAIRED) {
             return true;
         }
         //Everyday check for pairing
         long lastPairingCheckTime = networkNode.getLastPairedTime();
         long diffInDays = PairingHandler.getDiffInDays(lastPairingCheckTime);
 
-        if (networkNode.getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED && diffInDays != 0) {
+        if (networkNode.getPairedState() == NetworkNode.PairingState.PAIRED && diffInDays != 0) {
             return true;
         }
         return false;

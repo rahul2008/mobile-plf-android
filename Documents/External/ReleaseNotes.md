@@ -1,7 +1,90 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version NEXT
+Version {next}
+-------------
+
+### Functionality Delivered
+* \#37438: component now exposes its version and tla via BuildConfig
+* \#35191: Pin mismatch api added
+	* `onPortError` will give `Error.INSECURE_CONNECTION` when there is a pin mismatch.
+	* `LanTransportContext` received utility methods to handle pin mismatches:
+		* `LanTransportContext#rejectNewPinFor`
+		* `LanTransportContext#acceptNewPinFor`
+		* `LanTransportContext#findAppliancesWithMismatchedPinIn`
+
+### Backwards Compatibility
+* N/A
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+`DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
+
+### Defects solved
+* N/A
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* N/A
+
+Version 7.0.0
+-------------
+
+### Functionality Delivered
+* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
+
+### Backwards Compatibility
+* Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their `DICommApplianceFactory.createApplianceForNode(..)` implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+* `NetworkNode.PAIRED_STATUS` has been renamed to `NetworkNode.PairingState`
+* `NetworkNode` no longer extends `Observable`, but adds `PropertyChangeSupport` instead.
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
+
+Version 6.0.0
+-------------
+
+### Functionality Delivered
+* \#9356 Product quality HTTPS
+* \#35182 Subscriptions working for HTTPS nodes
+
+### Backwards Compatibility
+* Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
+
+### Features not covered
+* NA
+
+### Breaking Changes
+* NetworkNode.getModelName() and NetworkNode.setModelName(String modelName) are renamed to NetworkNode.getDeviceType() and NetworkNode.setDeviceType(String deviceType)
+* See backwards compatibility
+
+### Defects solved
+* \#49699 Software Version and ModelId incorrectly required in device port
+* \#56704: GetProps requests for LAN now significantly sped up.
+
+### Residual anomalies
+* NA
+
+### Risks and mitigations
+* NA
+
+Version 5.0.0
 -------------
 
 ### API Changes

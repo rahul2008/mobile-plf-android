@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.core;
@@ -57,7 +57,7 @@ public final class CommCentral {
         DICommLog.d(TAG, "Starting discovery for model ids: " + modelIds.toString());
 
         for (DiscoveryStrategy strategy : this.discoveryStrategies) {
-            strategy.start(applianceFactory.getSupportedModelNames(), modelIds);
+            strategy.start(applianceFactory.getSupportedDeviceTypes(), modelIds);
         }
     }
 

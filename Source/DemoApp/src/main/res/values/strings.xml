@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ (C) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <string name="app_name">Commlib DemoApp</string>
+    <string name="launch_uapp_as_fragment">Launch uApp as fragment</string>
+    <string name="launch_uapp_as_activity">Launch uApp as activity</string>
+</resources>

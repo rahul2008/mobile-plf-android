@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.cdp.dicommclient.appliance;
 
@@ -78,7 +78,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testSetFirstRemotePurifierPaired() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         verifyAddedPurifier(appliance1);
@@ -142,7 +142,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         ConnectionState device2ConnectedState = ConnectionState.CONNECTED_REMOTELY;
         Appliance appliance2 = createAppliance(null, null, null, -1, device2ConnectedState);
         appliance2 = Mockito.spy(appliance2);
-        appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
@@ -205,7 +205,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
 
         Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance2 = Mockito.spy(appliance2);
-        appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
@@ -266,7 +266,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         reset(appliance1);
         Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance2 = Mockito.spy(appliance2);
-        appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
@@ -277,7 +277,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testSetDisconnectedPurifierAfterPaired() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         reset(appliance1);
@@ -292,7 +292,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testSetLocalPurifierAfterPaired() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         reset(appliance1);
@@ -308,7 +308,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testSetRemotePurifierNotPairedAfterPaired() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         reset(appliance1);
@@ -324,13 +324,13 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testSetRemotePurifierPairedAfterPaired() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         reset(appliance1);
         Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance2 = Mockito.spy(appliance2);
-        appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance2);
 
         verifyRemovedPurifier(appliance1);
@@ -390,7 +390,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testRemovePurifierPairedAfterRemotePaired() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         reset(appliance1);
@@ -433,7 +433,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testPurifierRemotedAfterLocal() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
@@ -481,7 +481,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testPurifierRemoteAfterDisconnected() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
@@ -530,7 +530,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
     public void testPurifierDisconnectedAfterRemote() {
         Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);

@@ -2,3 +2,5 @@
  * (c) Koninklijke Philips N.V., 2017.
  *     All rights reserved.
  */
+
+ apply from: projectDir.absolutePath + '/../common/gradle/project.gradle'

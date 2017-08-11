@@ -4,6 +4,7 @@
  */
 package com.philips.cdp2.commlib.lan;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -75,6 +76,7 @@ public class NetworkMonitorTest {
 
     private static final String TEST_SSID = "TEST_SSID";
 
+    @SuppressLint("WifiManagerPotentialLeak")
     @Before
     public void setup() {
         initMocks(this);
@@ -82,6 +84,7 @@ public class NetworkMonitorTest {
 
         when(mockContext.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(mockConnectivityManager);
         when(mockContext.getSystemService(Context.WIFI_SERVICE)).thenReturn(mockWifiManager);
+        when(mockContext.getApplicationContext()).thenReturn(mockContext);
 
         when(mockIntent.getAction()).thenReturn("TEST_ACTION");
 

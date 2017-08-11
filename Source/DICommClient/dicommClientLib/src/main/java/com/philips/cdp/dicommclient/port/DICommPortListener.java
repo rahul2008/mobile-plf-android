@@ -1,9 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
+
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.request.Error;
 
@@ -27,6 +29,6 @@ public interface DICommPortListener<P extends DICommPort> {
      */
     void onPortUpdate(P port);
 
-    void onPortError(P port, Error error, String errorData);
+    void onPortError(P port, Error error, @Nullable String errorData);
 
 }

@@ -1,14 +1,27 @@
 /*
- * (c) Koninklijke Philips N.V., 2016, 2017.
- *     All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
+
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 
     repositories {
-        maven { url repos.jcenter }
-        maven { url repos.plugin }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     dependencies {
@@ -35,14 +48,27 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name
+archivesBaseName = "dicommClientLib"
 
 version = objcdp.getVersion()
 
 repositories {
-    maven { url repos.jcenter }
-    maven { url objcdp.getArtifactoryUrl() }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
 }
+
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
@@ -105,6 +131,7 @@ android {
         minSdkVersion versions.minsdk
         versionCode 1
         versionName version
+        buildConfigField "String", "TLA", "\"cml\""
     }
 
     packagingOptions {
@@ -119,12 +146,49 @@ android {
         release {
             consumerProguardFiles 'proguard-rules.pro'
         }
+
+        all {
+            buildConfigField "int", "minsdk", Integer.toString(versions.minsdk)
+            buildConfigField "int", "maxsdk", Integer.toString(versions.target)
+        }
     }
 
     lintOptions {
         abortOnError false
     }
     publishNonDefault true
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                excludes["com.philips.cdp2.demouapp.*"]
+            }
+        }
+    }
+}
+
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return true //it.file.text.contains("* @publicApi")
+    }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/")
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    failOnError false
 }
 
 dependencies {
@@ -133,11 +197,12 @@ dependencies {
         releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
         testCompile project(path: ':cloudcontroller', configuration: 'debug')
     } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: '3.1.3' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.3' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
     provided deps.support.annotations
+
     compile deps.gson
 
     testCompile deps.junit
@@ -145,7 +210,7 @@ dependencies {
     testCompile deps.powermock_junit
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile('org.robolectric:robolectric:3.1.4') {
+    testCompile('org.robolectric:robolectric:3.2') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
@@ -164,15 +229,23 @@ dependencies {
 
 pitest {
     targetClasses = [
+            'com.philips.cdp.dicommclient.port.common.*',
             'com.philips.cdp2.commlib.cloud.*',
             'com.philips.cdp2.commlib.core.*',
             'com.philips.cdp2.commlib.lan.communication.*',
             'com.philips.cdp2.commlib.lan.context.*',
             'com.philips.cdp2.commlib.lan.discovery.*',
+            'com.philips.cdp2.commlib.lan.security.*',
+            'com.philips.cdp.dicommclient.request.*',
     ]  /* specify target classes to be mutated */
-    pitestVersion = "1.1.10"
+    excludedClasses = [
+            'com.philips.cdp2.commlib.core.port.firmware.util.FirmwarePortStateWaiterTest',
+            'com.philips.cdp.dicommclient.port.common.PairingHandlerTest',
+    ]
+    pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
-    threads = 8 /* specify number of threads */
+    threads = 1 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = rootDir.absolutePath + "/build/report/pitest/"
+    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    timestampedReports = false
 }
