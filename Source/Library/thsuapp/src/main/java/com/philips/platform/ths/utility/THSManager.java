@@ -1184,13 +1184,29 @@ public class THSManager {
 
     }
 
+    public void cancelAppointment(Context context, Appointment appointment, final THSInitializeCallBack thsInitializeCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().cancelAppointment(getPTHConsumer().getConsumer(), appointment, new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                thsInitializeCallBack.onInitializationResponse(aVoid,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsInitializeCallBack.onInitializationFailure(throwable);
+            }
+        });
+    }
+
     public void abondonCurrentVisit(Context context)throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().abandonCurrentVisit();
     }
 
 
-    public void fetchEstimatedVisitCost(Context context,THSConsumer thsConsumer,Provider provider, final THSFetchEstimatedCostCallback thsFetchEstimatedCostCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getEstimatedVisitCost(thsConsumer.getConsumer(), provider, new SDKCallback<EstimatedVisitCost, SDKError>() {
+    public void fetchEstimatedVisitCost(Context context, Provider provider, final THSFetchEstimatedCostCallback thsFetchEstimatedCostCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getEstimatedVisitCost(getPTHConsumer().getConsumer(), provider, new SDKCallback<EstimatedVisitCost, SDKError>() {
             @Override
             public void onResponse(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
                 thsFetchEstimatedCostCallback.onEstimatedCostFetchSuccess(estimatedVisitCost,sdkError);

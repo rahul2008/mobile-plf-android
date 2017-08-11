@@ -22,6 +22,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.THSConstants;
 
 /**
  * This class is used to display the provider details selected by the user.
@@ -46,6 +47,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,view);
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
+
+        final Bundle arguments = getArguments();
+        mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+
         onRefresh();
         return view;
     }
@@ -124,6 +129,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public void onRefresh() {
+
+        if(mProvider!=null){
+            providerDetailsPresenter.onProviderDetailsReceived(mProvider,null);
+            return;
+        }
+
         if(mThsProviderDetailsDisplayHelper == null)
             return;
         mThsProviderDetailsDisplayHelper.setRefreshing();

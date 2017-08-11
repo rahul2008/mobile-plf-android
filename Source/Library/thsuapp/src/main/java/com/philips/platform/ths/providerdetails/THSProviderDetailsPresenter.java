@@ -65,7 +65,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         THSConsumer thsConsumer = new THSConsumer();
         thsConsumer.setConsumer(viewInterface.getConsumerInfo());
         try {
-            THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(),thsConsumer,provider,this);
+            THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

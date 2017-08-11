@@ -13,11 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
+import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     private THSScheduledVisitsPresenter mThsSchedulesVisitsPresenter;
     private THSScheduledVisitsAdapter mThsScheduledVisitsAdapter;
     private Label mNumberOfAppointmentsLabel;
+    RelativeLayout mRelativeLayout;
 
     @Nullable
     @Override
@@ -37,12 +41,17 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         mNumberOfAppointmentsLabel = (Label) view.findViewById(R.id.ths_number_of_visits);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ths_visit_dates_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getAppointments();
+    }
+
+    private void getAppointments() {
         try {
             mThsSchedulesVisitsPresenter.getAppointmentsSince(null);
         } catch (AWSDKInstantiationException e) {
@@ -55,5 +64,10 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         mNumberOfAppointmentsLabel.setText(text);
         mThsScheduledVisitsAdapter = new THSScheduledVisitsAdapter(appointments, this);
         mRecyclerView.setAdapter(mThsScheduledVisitsAdapter);
+    }
+
+    public void refreshList() {
+        createCustomProgressBar(mRelativeLayout,BIG);
+        getAppointments();
     }
 }

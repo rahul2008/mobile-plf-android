@@ -13,26 +13,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsPresenter;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
-import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder> {
+import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
+
+public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
+    AlertDialogFragment alertDialogFragment;
 
     public THSScheduledVisitsAdapter(List<Appointment> appointments, THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mAppointmentList = appointments;
@@ -74,7 +80,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         holder.mCancelVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showCancelDialog(appointment,true, true, true);
             }
         });
 
@@ -88,6 +94,16 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG,bundle);
             }
         });
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
+                mThsScheduledVisitsFragment.addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
+            }
+        };
+        holder.mProviderLayout.setOnClickListener(listener);
 
     }
 
@@ -104,6 +120,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         Label mLabelPracticeName;
         Label mCancelVisit;
         Label mStartVisit;
+        RelativeLayout mProviderLayout;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -113,6 +130,44 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             this.mLabelPracticeName = (Label) view.findViewById(R.id.practiceNameLabel);
             this.mStartVisit = (Label) view.findViewById(R.id.ths_start_visit);
             this.mCancelVisit = (Label)view.findViewById(R.id.ths_cancel_visit);
+            this.mProviderLayout = (RelativeLayout) view.findViewById(R.id.provider_details_layout_container);
         }
+    }
+
+    void showCancelDialog(final Appointment appointment, final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+
+
+        final View.OnClickListener positiveButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
+                presenter.cancelAppointment(appointment);
+                alertDialogFragment.dismiss();
+            }
+        };
+
+        final View.OnClickListener negativeButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialogFragment.dismiss();
+            }
+        };
+
+
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsScheduledVisitsFragment.getFragmentActivity())
+                .setMessage(showLargeContent ? "Your visit shall be cancelled" : "Your visit shall be cancelled").
+                        setPositiveButton(" Yes ", positiveButtonListener).
+                        setNegativeButton(" No  ", negativeButtonListener);
+        if (isWithTitle) {
+            builder.setTitle("Do you really want to cancel your visit");
+            if (showIcon) {
+                builder.setIcon(R.drawable.uid_ic_cross_icon);
+
+            }
+        }
+        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment.show(mThsScheduledVisitsFragment.getFragmentManager(), CANCEL_VISIT_ALERT_DIALOG_TAG);
+        alertDialogFragment.setPositiveButtonListener(positiveButtonListener);
+        alertDialogFragment.setNegativeButtonListener(negativeButtonListener);
     }
 }
