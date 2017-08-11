@@ -25,7 +25,7 @@ node ('android&&docker') {
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
             '''
             }
-			if (BranchName =~ /master|release.*/) {
+			if (BranchName =~ /master|develop|release.*/) {
 			stage ('build PSRA') {
             sh '''#!/bin/bash -l
                 chmod -R 775 .
