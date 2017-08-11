@@ -139,29 +139,29 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
-        dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
-        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
+        dateParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
+        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
-        productTitleTextView = (Label) view.findViewById(R.id.product_title);
-        productCtnTextView = (Label) view.findViewById(R.id.product_ctn);
-        productRegSucess = (Label) view.findViewById(R.id.product_registered) ;
-        date_input_field = (InputValidationLayout) view.findViewById(R.id.data_input_field);
-        date_EditText = (ValidationEditText) view.findViewById(R.id.date_edit_text);
+        productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
+        productCtnTextView = (Label) view.findViewById(R.id.prg_registerScreen_ctn_label);
+        productRegSucess = (Label) view.findViewById(R.id.product_registered);
+        date_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
+        date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         prSuccessConfigurableTextView = (Label) view.findViewById(R.id.pr_success_configurable_textView);
-        registerButton = (Button) view.findViewById(R.id.btn_register);
+        registerButton = (Button) view.findViewById(R.id.prg_registerScreen_register_button);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
-        productImageView = (ImageView) view.findViewById(R.id.product_image);
+        productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
         tickIcon = (Label) view.findViewById(R.id.tick_icon);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
         continueButton.setOnClickListener(onClickContinue());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
-        findSerialTextView = (Label)view.findViewById(R.id.findSerialTextView);
+        findSerialTextView = (Label)view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
         makeTextViewHyperlink(findSerialTextView);
-        serial_input_field = (InputValidationLayout) view.findViewById(R.id.serial_input_field);
-        field_serial = (ValidationEditText) view.findViewById(R.id.field_serial);
+        serial_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_validationLayout);
+        field_serial = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_serialNumber_validationEditText);
         serial_input_field.setValidator(new InputValidationLayout.Validator() {
             @Override
             public boolean validate(CharSequence charSequence) {

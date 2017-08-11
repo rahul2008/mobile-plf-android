@@ -37,7 +37,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 	private List<RegisteredProduct> registeredProducts;
 	private int resId = 0;
 	private Bundle dependencies;
-	private Button registerLater;
 	private ImageView productImage;
 
 	@Override
@@ -66,7 +65,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 
 		View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
 		final Button registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
-		registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
+		Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
 		productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
 		registerButton.setOnClickListener(onClickRegister());
 		registerLater.setOnClickListener(onClickNoThanks());

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/parent_id"
+            android:id="@+id/prg_registerScreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -16,7 +16,7 @@
 
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/product_title"
+            android:id="@+id/prg_registerScreen_productTitle_label"
             style="@style/ProductRegistrationHeaderTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,10 +25,10 @@
             android:visibility="gone"/>
 
         <LinearLayout
-            android:id="@+id/product_ctn_layout"
+            android:id="@+id/prg_registerScreen_ctn_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/product_title"
+            android:layout_below="@+id/prg_registerScreen_productTitle_label"
             android:orientation="horizontal"
             >
 
@@ -46,7 +46,7 @@
                 android:visibility="gone"/>
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/product_ctn"
+                android:id="@+id/prg_registerScreen_ctn_label"
                 style="@style/ProductRegistrationCtnTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,10 +64,10 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/product_image"
+            android:id="@+id/prg_registerScreen_product_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/product_ctn_layout"
+            android:layout_below="@+id/prg_registerScreen_ctn_layout"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/pr_c_value_sm"
             android:layout_marginTop="@dimen/pr_margintop"
@@ -75,15 +75,16 @@
             android:src="@drawable/prodreg_placeholder"/>
 
         <LinearLayout
-            android:id="@+id/serial_edit_text_layout"
+            android:id="@+id/prg_registerScreen_serialNumber_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/product_image"
+            android:layout_below="@+id/prg_registerScreen_product_image"
             android:orientation="vertical"
             android:visibility="gone">
 
 
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/prg_registerScreen_serialNumber_Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PPR_SerialNum_Lbltxt"
@@ -92,14 +93,14 @@
 
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/serial_input_field"
+                android:id="@+id/prg_registerScreen_serialNumber_validationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="@string/PPR_Invalid_SerialNum_ErrMsg">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/field_serial"
+                    android:id="@+id/prg_registerScreen_serialNumber_validationEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/PPR_Please_Enter_SerialNum_Txtfldtxt"
@@ -108,7 +109,7 @@
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/findSerialTextView"
+                android:id="@+id/prg_registerScreen_findSerialNumber_Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/pr_b_value_sm"
@@ -119,15 +120,16 @@
 
 
         <LinearLayout
-            android:id="@+id/date_edit_text_layout"
+            android:id="@+id/prg_registerScreen_dateOfPurchase_Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/serial_edit_text_layout"
+            android:layout_below="@+id/prg_registerScreen_serialNumber_layout"
             android:orientation="vertical"
             android:visibility="gone">
 
 
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/prg_registerScreen_dateOfPurchase_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
@@ -135,14 +137,14 @@
                 android:textSize="14sp"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/data_input_field"
+                android:id="@+id/prg_registerScreen_dateOfPurchase_validationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                >
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/date_edit_text"
+                    android:id="@+id/prg_registerScreen_dateOfPurchase_validationEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/prodreg_calendar_inverted"
@@ -152,10 +154,10 @@
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_register"
+            android:id="@+id/prg_registerScreen_register_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_edit_text_layout"
+            android:layout_below="@+id/prg_registerScreen_dateOfPurchase_Layout"
             android:layout_marginBottom="@dimen/pr_marginbottom"
             android:layout_marginTop="@dimen/pr_margintop"
             android:text="@string/PPR_Register_Btntxt"
@@ -165,7 +167,7 @@
             android:id="@+id/successLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_register"
+            android:layout_below="@+id/prg_registerScreen_register_button"
             android:orientation="vertical"
             android:visibility="gone">
 
