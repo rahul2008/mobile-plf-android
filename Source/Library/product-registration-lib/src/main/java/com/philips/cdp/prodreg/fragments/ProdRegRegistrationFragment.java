@@ -77,6 +77,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private Label findSerialTextView;
     private InputValidationLayout serial_input_field ,date_input_field;
     private ValidationEditText field_serial;
+    private boolean isRegisterButtonClicked = false;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -272,11 +273,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
-        if(date_EditText.length() != 0) {
+        if(date_EditText.length() != 0 || (date_EditText.length()==0 &&isRegisterButtonClicked)) {
             date_input_field.showError();
             date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
                     ProdRegError.INVALID_DATE.getCode()).getDescription());
-        } else {
+        }
+        else {
             date_input_field.hideError();
         }
 
@@ -338,7 +340,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                registerButton.setEnabled(false);
+               // registerButton.setEnabled(false);
+                isRegisterButtonClicked = true;
                 prodRegRegistrationController.registerProduct(date_EditText.getText().toString(), field_serial.getText().toString());
             }
         };
