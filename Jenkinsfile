@@ -76,7 +76,6 @@ node ('android&&docker') {
                 archiveArtifacts '**/*dependencies*.lock'
             }  
             stage('informing') {
-                step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
             stage('Cleaning workspace') {
