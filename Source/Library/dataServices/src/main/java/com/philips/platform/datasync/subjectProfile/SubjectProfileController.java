@@ -47,7 +47,7 @@ public class SubjectProfileController {
     public boolean createSubjectProfile(UCoreCreateSubjectProfileRequest uCoreCreateSubjectProfileRequest) {
         if (isUserInvalid()) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -70,7 +70,7 @@ public class SubjectProfileController {
     public boolean getSubjectProfileList() {
         if (isUserInvalid()) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -92,7 +92,7 @@ public class SubjectProfileController {
     public boolean getSubjectProfile(String subjectID) {
         if (isUserInvalid()) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -114,7 +114,7 @@ public class SubjectProfileController {
     public boolean deleteSubjectProfile(String subjectID) {
         if (isUserInvalid()) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 

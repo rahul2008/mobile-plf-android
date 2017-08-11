@@ -1,8 +1,8 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.core;
 
@@ -23,20 +23,12 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
-import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
 
-import java.util.Map;
-
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class BaseAppCore implements BaseAppDataCreator {
     @Inject
     Eventing eventing;
@@ -128,7 +120,6 @@ public class BaseAppCore implements BaseAppDataCreator {
         return database.createSettings(type, value);
     }
 
-
     @NonNull
     @Override
     public Characteristics createCharacteristics(String type, String value, Characteristics characteristics) {
@@ -149,9 +140,8 @@ public class BaseAppCore implements BaseAppDataCreator {
 
     @NonNull
     @Override
-    public InsightMetadata createInsightMetaData(String key, String value ,Insight insight) {
-        return database.createInsightMetaData(key,value,insight);
+    public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
+        return database.createInsightMetaData(key, value, insight);
     }
-
 
 }

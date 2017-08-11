@@ -45,7 +45,7 @@ public class PushNotificationController {
     public boolean registerPushNotification(UCorePushNotification uCorePushNotification) {
         if (isUserInvalid()) {
             eventing.post(new PushNotificationErrorResponse(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -65,7 +65,7 @@ public class PushNotificationController {
     public boolean unRegisterPushNotification(String appVariant, String token) {
         if (isUserInvalid()) {
             eventing.post(new PushNotificationErrorResponse(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 

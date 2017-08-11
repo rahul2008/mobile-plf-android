@@ -48,7 +48,7 @@ public class DevicePairingController {
     public boolean pairDevices(UCoreDevicePair uCoreDevicePair) {
         if (isUserInvalid()) {
             mEventing.post(new DevicePairingErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -71,7 +71,7 @@ public class DevicePairingController {
     public boolean unPairDevice(String deviceID) {
         if (isUserInvalid()) {
             mEventing.post(new DevicePairingErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
@@ -93,7 +93,7 @@ public class DevicePairingController {
     public boolean getPairedDevices() {
         if (isUserInvalid()) {
             mEventing.post(new DevicePairingErrorResponseEvent(createDataServicesError(DataServicesErrorConstants.DS_INVALID_USER_ERROR_CODE,
-                    DataServicesErrorConstants.DS_IVALID_USER_ERROR_MESSAGE)));
+                    DataServicesErrorConstants.DS_INVALID_USER_ERROR_MESSAGE)));
             return false;
         }
 
