@@ -6,33 +6,47 @@
 
 package com.philips.platform.ths.intake.selectimage;
 
+import android.widget.Toast;
+
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.DocumentRecord;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSManager;
 
 
 public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSDeleteDocumentCallback {
+    THSSelectedImageFragmentViewCallback thsSelectedImageFragmentViewCallback;
+
+    public THSSelectedImageFragmentPresenter(THSSelectedImageFragmentViewCallback thsSelectedImageFragmentViewCallback){
+        this.thsSelectedImageFragmentViewCallback = thsSelectedImageFragmentViewCallback;
+    }
     @Override
     public void onEvent(int componentID) {
 
 
         if (componentID == R.id.ths_delete_selected_image_button) {
-            deleteDocument();
         }
     }
 
-    private void deleteDocument() {
-
-        //THSManager.getInstance().deletedHealthDocument();
+    public void deleteDocument(DocumentRecord documentRecord) {
+        thsSelectedImageFragmentViewCallback.updateProgreeDialog(true);
+        try {
+            THSManager.getInstance().deletedHealthDocument(thsSelectedImageFragmentViewCallback.getFragmentActivity(),documentRecord,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onDeleteSuccess(SDKError sdkError) {
-
+    public void onDeleteSuccess(Void voidResponse, SDKError sdkError) {
+        thsSelectedImageFragmentViewCallback.updateProgreeDialog(false);
+        Toast.makeText(thsSelectedImageFragmentViewCallback.getFragmentActivity(),"Delete success",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(Throwable throwable) {
-
+        Toast.makeText(thsSelectedImageFragmentViewCallback.getFragmentActivity(),"Delete failure"+throwable.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
     }
 }
