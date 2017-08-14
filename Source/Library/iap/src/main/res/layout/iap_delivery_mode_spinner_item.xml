@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/border16_margin_left_right"
+        android:layout_marginRight="@dimen/border16_margin_left_right"
         android:orientation="horizontal">
 
         <com.philips.platform.uid.view.widget.RadioButton
@@ -63,4 +64,10 @@
         android:visibility="gone"
         android:text="@string/iap_confirm"
         />
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/uid_gray_level_10"/>
 </LinearLayout>

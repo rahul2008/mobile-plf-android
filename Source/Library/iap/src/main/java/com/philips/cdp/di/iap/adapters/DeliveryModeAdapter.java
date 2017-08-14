@@ -23,17 +23,17 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     private Context mContext;
     private List<DeliveryModes> mModes;
     private int mSelectedIndex;
+    private View.OnClickListener mConfirmBtnClick;
 
-    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes) {
-        System.out.println("Kkkkkk 0 : "+modes.size());
+    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes, View.OnClickListener confirmBtnClick) {
         mContext = context;
         mModes = modes;
         mSelectedIndex = 0;
+        mConfirmBtnClick = confirmBtnClick;
     }
 
     @Override
     public DeliverySelectionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        System.out.println("Kkkkkk 1");
         View view = View.inflate(parent.getContext(), R.layout.iap_delivery_mode_spinner_item, null);
         return new DeliverySelectionHolder(view);
     }
@@ -41,7 +41,6 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     @Override
     public void onBindViewHolder(DeliverySelectionHolder holder, int position) {
 
-        System.out.println("Kkkkkk 3");
         DeliveryModes modes = mModes.get(position);
         if (modes.getName() != null && !modes.getName().equals(""))
             holder.deliveryModeName.setText(modes.getName());
@@ -55,8 +54,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         } else {
             holder.deliveryModePrice.setText("0.0");
         }
-        System.out.println("Kkkkkk 4");
-        setToggleStatus(holder.deliveryRadioBtnToggle, position);
+        setToggleStatus(holder.deliveryRadioBtnToggle, position, holder.deliveryConfirmBtn);
         bindToggleButton(holder, holder.deliveryRadioBtnToggle);
 
     }
@@ -71,17 +69,18 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         });
     }
 
-    private void setToggleStatus(final RadioButton toggle, final int position) {
+    private void setToggleStatus(final RadioButton toggle, final int position, Button deliveryConfirmBtn) {
         if (mSelectedIndex == position) {
             toggle.setChecked(true);
+            deliveryConfirmBtn.setVisibility(View.VISIBLE);
         } else {
             toggle.setChecked(false);
+            deliveryConfirmBtn.setVisibility(View.GONE);
         }
     }
 
     @Override
     public int getItemCount() {
-        System.out.println("Kkkkkk getItemCount : " +mModes.size());
         return mModes.size();
     }
 
@@ -96,20 +95,26 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
 
         public DeliverySelectionHolder(View view) {
             super(view);
-            System.out.println("Kkkkkk 2");
             deliveryModeName = (TextView) view.findViewById(R.id.iap_title_ups_parcel);
             deliveryModeDescription = (TextView) view.findViewById(R.id.iap_available_time);
             deliveryModePrice = (TextView) view.findViewById(R.id.iap_delivery_parcel_amount);
             deliveryConfirmBtn = (Button) view.findViewById(R.id.iap_delivery_confirm_btn);
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
-
             view.setOnClickListener(this);
+            deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("mmmmm val :"+deliveryModePrice.getText().toString());
+                    deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
+                   // mConfirmBtnClick.onClick(view);
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
             mSelectedIndex = getAdapterPosition();
-            setToggleStatus(deliveryRadioBtnToggle, getAdapterPosition());
+            setToggleStatus(deliveryRadioBtnToggle, getAdapterPosition(),deliveryConfirmBtn);
             notifyDataSetChanged();
         }
     }

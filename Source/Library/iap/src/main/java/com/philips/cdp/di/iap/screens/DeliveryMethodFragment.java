@@ -23,7 +23,7 @@ import java.util.List;
 public class DeliveryMethodFragment extends InAppBaseFragment {
 
     private Context mContext;
-    private RecyclerView mDeliveryList;
+    private RecyclerView mDeliveryRecyclerView;
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
         DeliveryMethodFragment fragment = new DeliveryMethodFragment();
@@ -48,7 +48,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_delivery_method_fragment, container, false);
-        mDeliveryList = (RecyclerView) view.findViewById(R.id.iap_parcel_delivery_list);
+        mDeliveryRecyclerView = (RecyclerView) view.findViewById(R.id.iap_parcel_delivery_list);
         return view;
     }
 
@@ -56,16 +56,23 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mDeliveryList.setLayoutManager(layoutManager);
+        mDeliveryRecyclerView.setLayoutManager(layoutManager);
         settingDataToAdapter();
     }
 
     private void settingDataToAdapter(){
         List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
-        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
-       // mDeliveryList.setClickable(true);
-        mDeliveryList.setAdapter(mDeliveryModeAdapter);
+        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes,mConfirmBtnClick);
+        mDeliveryRecyclerView.setAdapter(mDeliveryModeAdapter);
         mDeliveryModeAdapter.notifyDataSetChanged();
     }
+
+    private View.OnClickListener mConfirmBtnClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            getFragmentManager().popBackStack();
+        }
+    };
 }
