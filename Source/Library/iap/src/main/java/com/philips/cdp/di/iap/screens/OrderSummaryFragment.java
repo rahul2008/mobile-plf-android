@@ -299,9 +299,8 @@ public class OrderSummaryFragment extends InAppBaseFragment implements
     @Override
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
-            DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
-                    (mContext, this);
-            mDeliveryModeDialog.showDialog();
+            addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    AddressSelectionFragment.TAG);
         }
     }
 

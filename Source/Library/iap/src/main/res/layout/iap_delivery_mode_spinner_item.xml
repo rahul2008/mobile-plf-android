@@ -53,14 +53,14 @@
     </LinearLayout>
 
     <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/iap_confirm_btn"
+        android:id="@+id/iap_delivery_confirm_btn"
         style="@style/UIDExtraWideButton.Center"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="@dimen/border16_margin_left_right"
         android:layout_marginRight="@dimen/border16_margin_left_right"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_btn_height_48"
-        android:visibility="visible"
+        android:visibility="gone"
         android:text="@string/iap_confirm"
         />
 </LinearLayout>

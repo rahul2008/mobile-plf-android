@@ -13,10 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.List;
 
@@ -40,9 +38,9 @@ public class DeliveryModeDialog {
         ListView deliveryList = (ListView) convertView.findViewById(R.id.lv);
         List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
-        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
+       /* DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes);
         deliveryList.setClickable(true);
-        deliveryList.setAdapter(mDeliveryModeAdapter);
+        deliveryList.setAdapter(mDeliveryModeAdapter);*/
 
         final Dialog dialog = alertDialog.create();
         dialog.show();

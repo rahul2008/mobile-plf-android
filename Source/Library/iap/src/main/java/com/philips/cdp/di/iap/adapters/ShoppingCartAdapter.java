@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -186,6 +185,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
             ShoppingCartData data;
+
             if (mData.get(0) != null) {
                 data = mData.get(0);
 
@@ -221,15 +221,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 } else {
                     mIsFreeDelivery = true;
                 }
-
-               /* shoppingCartFooter.mDeliveryModeRadioBtn.setOnCheckedChangeListener(new OnCheckedChangeListener()
-                {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        // checkedId is the RadioButton selected
-                    }
-                });*/
-
 
                 //Need to remove this hardcoded 100 val
                 String freeDeliverySpendAmount = "100";
@@ -371,7 +362,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryFreeSpend;
         LinearLayout mPriceContainer;
         LinearLayout mDeliveryUPSParcelContainer;
-        RadioButton mDeliveryModeRadioBtn;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -387,7 +377,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryFreeSpend = (TextView) itemView.findViewById(R.id.delivery_free_description);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (LinearLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
-            mDeliveryModeRadioBtn = (RadioButton) itemView.findViewById(R.id.iap_ups_parcel_radio_btn);
         }
     }
 
@@ -403,16 +392,5 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
-    }
-
-    private void launchDeliveryDailog() {
-        /*DeliveryModeDialog mDeliveryModeDialog = new DeliveryModeDialog
-                (mContext, new DeliveryModeDialog.DialogListener() {
-                    @Override
-                    public void onItemClick(int position) {
-
-                    }
-                });
-        mDeliveryModeDialog.showDialog();*/
     }
 }
