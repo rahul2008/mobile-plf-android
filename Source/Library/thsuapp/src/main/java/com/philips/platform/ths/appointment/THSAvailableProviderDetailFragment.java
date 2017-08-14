@@ -33,6 +33,8 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     private THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
     private Practice mPractice;
     private RelativeLayout mRelativelayout;
+    private THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
+    private int position;
 
     @Nullable
     @Override
@@ -48,8 +50,9 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         mDate = (Date) arguments.getSerializable(THSConstants.THS_DATE);
         mPractice = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
 
-        THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this,this,view);
+        thsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this,this,view);
         thsAvailableDetailProviderPresenter = new THSAvailableProviderDetailPresenter(this,thsProviderDetailsDisplayHelper,this);
+        thsAvailableDetailProviderPresenter.updateContinueButtonState(false);
         refreshView();
         return view;
     }
@@ -60,15 +63,24 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     @Override
-    public Practice getPracticeInfo(){
+    public void onCalenderItemClick(int position) {
+        this.position = position;
+        thsAvailableDetailProviderPresenter.updateContinueButtonState(true);
+    }
+
+    @Override
+    public Practice  getPracticeInfo(){
         return mPractice;
     }
 
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
-        if(viewId == R.id.calendar_container){
-           thsAvailableDetailProviderPresenter.onEvent(R.id.calendar_container);
+        if(viewId == R.id.calendar_container) {
+            thsAvailableDetailProviderPresenter.onEvent(viewId);
+        }
+        if(viewId == R.id.detailsButtonContinue){
+            thsAvailableDetailProviderPresenter.launchConfirmAppointment(position);
         }
     }
 

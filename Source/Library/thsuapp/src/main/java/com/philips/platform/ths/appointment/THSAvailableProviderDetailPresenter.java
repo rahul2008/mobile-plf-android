@@ -45,6 +45,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.calendar_container) {
+
             final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -67,6 +68,9 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
         }
 
+    }
+    public void launchConfirmAppointment(int position){
+        mthsProviderDetailsDisplayHelper.launchConfirmAppointmentFragment(position);
     }
 
     private void launchAvailableProviderDetailBasedOnAvailibity() {
@@ -117,6 +121,10 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
             e.printStackTrace();
             mThsBaseFragment.hideProgressBar();
         }
+    }
+
+    public void updateContinueButtonState(boolean isEnabled){
+        mthsProviderDetailsDisplayHelper.updateContinueButtonState(isEnabled);
     }
 
     public void fetchProviderDetails(Context context, THSProviderInfo thsProviderInfo) {

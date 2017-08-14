@@ -150,6 +150,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         mThsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
     }
 
+    @Override
+    public void onCalenderItemClick(int position) {
+
+    }
+
     public void setProvider(Provider mProvider) {
         this.mProvider = mProvider;
     }
