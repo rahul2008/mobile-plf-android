@@ -7,6 +7,7 @@
 package com.philips.platform.ths.cost;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.insurance.Subscription;
@@ -32,7 +33,7 @@ import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COS
 
 public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError> {
 
-    private THSBaseFragment mTHSBaseFragment;
+    private THSCostSummaryFragment mTHSBaseFragment;
 
     public THSCostSummaryPresenter(THSCostSummaryFragment thsCostSummaryFragment) {
         mTHSBaseFragment = thsCostSummaryFragment;
@@ -41,14 +42,14 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.ths_cost_summary_continue_button) {
-            ((THSCostSummaryFragment) mTHSBaseFragment).addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
+            mTHSBaseFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
 
-        } else if (componentID == R.id.ths_cost_summary_payment_detail_relativelayout) {
+        } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout) {
             final THSCreditCardDetailFragment fragment = new THSCreditCardDetailFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            ((THSCostSummaryFragment) mTHSBaseFragment).addFragment(fragment, THSCreditCardDetailFragment.TAG, null);
+            mTHSBaseFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, null);
 
-        } else if (componentID == R.id.ths_cost_summary_insurance_detail_relativelayout) {
+        } else if (componentID == R.id.ths_cost_summary_insurance_detail_framelayout) {
             THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
@@ -90,15 +91,15 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     // start of createVisit callbacks
     @Override
     public void onCreateVisitResponse(THSVisit tHSVisit, THSSDKError tHSSDKError) {
-        ((THSCostSummaryFragment) mTHSBaseFragment).hideProgressBar();
+        mTHSBaseFragment.hideProgressBar();
         if (null != tHSVisit) {
             THSManager.getInstance().setTHSVisit(tHSVisit);
             double costDouble = tHSVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
             String costString = String.valueOf(costDouble);
             String[] costStringArray = costString.split("\\.");// seperate the decimal value
-            ((THSCostSummaryFragment) mTHSBaseFragment).costBigLabel.setText("$" + costStringArray[0]);
+            mTHSBaseFragment.costBigLabel.setText("$" + costStringArray[0]);
             if (!"0".equals(costStringArray[1])) { // if decimal part is zero then dont show
-                ((THSCostSummaryFragment) mTHSBaseFragment).costSmallLabel.setText("." + costStringArray[1]);
+                mTHSBaseFragment.costSmallLabel.setText("." + costStringArray[1]);
             }
         }
     }
@@ -119,10 +120,17 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     @Override
     public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
         if (null != tHSSubscription && null != tHSSubscription.getSubscription()) {
+            // show insurance detail
+            mTHSBaseFragment.mNoInsuranceDetailRelativeLayout.setVisibility(View.GONE);
+            mTHSBaseFragment.mInsuranceDetailRelativeLayout.setVisibility(View.VISIBLE);
             Subscription subscription = tHSSubscription.getSubscription();
-            ((THSCostSummaryFragment) mTHSBaseFragment).mInsuranceName.setText(subscription.getHealthPlan().getName());
-            ((THSCostSummaryFragment) mTHSBaseFragment).mInsuranceMemberId.setText("Member ID: " + subscription.getSubscriberId());
-            ((THSCostSummaryFragment) mTHSBaseFragment).mInsuranceSubscriptionType.setText(subscription.getRelationship().getName());
+            mTHSBaseFragment.mInsuranceName.setText(subscription.getHealthPlan().getName());
+            mTHSBaseFragment.mInsuranceMemberId.setText("Member ID: " + subscription.getSubscriberId());
+            mTHSBaseFragment.mInsuranceSubscriptionType.setText(subscription.getRelationship().getName());
+        } else {
+            // show no insurance detail
+            mTHSBaseFragment.mInsuranceDetailRelativeLayout.setVisibility(View.GONE);
+            mTHSBaseFragment.mNoInsuranceDetailRelativeLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -137,10 +145,28 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     @Override
     public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
+            // show payment detail
+            mTHSBaseFragment.mNoPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
+            mTHSBaseFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.VISIBLE);
             PaymentMethod paymentMethod = tHSPaymentMethod.getPaymentMethod();
-            ((THSCostSummaryFragment) mTHSBaseFragment).mCardType.setText(paymentMethod.getType());
-            ((THSCostSummaryFragment) mTHSBaseFragment).mMaskedCardNumber.setText("xxxx xxxx xxxx " + paymentMethod.getLastDigits());
-            // ((THSCostSummaryFragment) mTHSBaseFragment).mCardExpirationDate.setText(paymentMethod.);
+            mTHSBaseFragment.mCardType.setText(paymentMethod.getType());
+            mTHSBaseFragment.mMaskedCardNumber.setText("xxxx xxxx xxxx " + paymentMethod.getLastDigits());
+
+            //  show  "Ok, continue" button
+            mTHSBaseFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
+            mTHSBaseFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.VISIBLE);
+
+            //mTHSBaseFragment.mCardExpirationDate.setText(paymentMethod.);
+        } else {
+            // show no payment detail
+            mTHSBaseFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
+            mTHSBaseFragment.mNoPaymentMethodDetailRelativeLayout.setVisibility(View.VISIBLE);
+            mTHSBaseFragment.mCostSummaryContinueButton.setText("Add payment method");
+
+
+            //  show  "Add payment method" button
+            mTHSBaseFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.GONE);
+            mTHSBaseFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.VISIBLE);
         }
     }
 
