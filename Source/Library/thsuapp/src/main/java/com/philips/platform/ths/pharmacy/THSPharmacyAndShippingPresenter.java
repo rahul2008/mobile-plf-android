@@ -38,10 +38,9 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
             Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
             if(consumer.getSubscription()!=null &&consumer.getSubscription().getHealthPlan()!=null ){
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(IS_INSURANCE_AVAILABLE_KEY,true);
+
                 fragment.setFragmentLauncher(((THSBaseFragment) thsBaseView).getFragmentLauncher());
-                ((THSBaseFragment) thsBaseView).addFragment(fragment, THSCostSummaryFragment.TAG, bundle);
+                ((THSBaseFragment) thsBaseView).addFragment(fragment, THSCostSummaryFragment.TAG, null);
             }else {
                 final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
                 fragment.setFragmentLauncher(((THSBaseFragment) thsBaseView).getFragmentLauncher());

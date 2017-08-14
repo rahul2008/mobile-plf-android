@@ -86,14 +86,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mCostSummaryContinueButtonRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_continue_button_relativelayout);
         mAddPaymentMethodButtonRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_add_payment_method_button_relativelayout);
 
-
-        boolean isInsuranceAvialable = bundle.getBoolean(IS_INSURANCE_AVAILABLE_KEY);
-       /* if(isInsuranceAvialable){
-            mPresenter.fetchExistingSubscription();
-        }else{
-            mInsuranceName.setText("No Insurance");
-        }
-        mPresenter.createVisit();*/
         return view;
     }
 

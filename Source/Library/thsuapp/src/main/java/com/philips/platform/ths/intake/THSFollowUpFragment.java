@@ -44,7 +44,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
     protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
-    private ProgressBarButton mFollowUpContinueButton;
+    ProgressBarButton mFollowUpContinueButton;
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
     protected String updatedPhone;
@@ -103,7 +103,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.pth_intake_follow_up_continue_button) {
-            mFollowUpContinueButton.showProgressIndicator();
+
             mTHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_continue_button);
 
         } else if (v.getId() == R.id.pth_intake_follow_up_i_agree_link_text) {
