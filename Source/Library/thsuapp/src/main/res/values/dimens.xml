@@ -30,4 +30,5 @@
 
     <!-- Settings -->
     <dimen name="ths_list_space">8dp</dimen>
+    <dimen name="ths_list_space_normal">1dp</dimen>
 </resources>

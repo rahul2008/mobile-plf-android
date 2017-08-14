@@ -99,5 +99,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_start_visit">start visit</string>
     <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
     <string name="ths_appointment_visit_better">Make your visit better!</string>
+    <string name="visit_history">Visit History</string>
+    <string name="ths_visit_summary">Visit Summary</string>
+    <string name="ths_credit_card_charge">Your credit card was charged </string>
+    <string name="ths_visit_report">Your Visit Report</string>
+    <string name="ths_visit_prescription">Your prescription was sent to</string>
+    <string name="ths_visit_medication">Your medication will be shipped to</string>
+    <string name="ths_download_report">Download report</string>
+    <string name="ths_download_report_size">(PDF, 21MB)</string>
     <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
 </resources>

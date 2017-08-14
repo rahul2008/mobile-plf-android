@@ -49,7 +49,9 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
 
         final Bundle arguments = getArguments();
-        mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+
+        if (arguments != null)
+            mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
 
         onRefresh();
         return view;

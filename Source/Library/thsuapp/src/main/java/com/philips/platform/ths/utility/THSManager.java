@@ -1244,8 +1244,8 @@ public class THSManager {
         this.mAppInfra = mAppInfra;
     }
 
-    public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback visitReportListCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVisitReports(getPTHConsumer().getConsumer(), date, true, new SDKCallback<List<VisitReport>, SDKError>() {
+    public void getVisitHistory(final Context context, SDKLocalDate date, boolean scheduledOnly, final THSVisitReportListCallback visitReportListCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReports(getPTHConsumer().getConsumer(), date, null, new SDKCallback<List<VisitReport>, SDKError>() {
             @Override
             public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
 

@@ -55,7 +55,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
     public void onBindViewHolder(final CustomViewHolder holder, int position) {
         final VisitReport visitReport = mVisitReports.get(position);
 
-        final Long scheduledStartTime = visitReport.getSchedule().getScheduledStartTime();
+        final Long scheduledStartTime = visitReport.getSchedule().getActualStartTime();
         final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
         holder.mLabelAppointmrntDate.setText(date);
 
@@ -96,7 +96,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(THSConstants.THS_PROVIDER,mVisitReportDetail.getAssignedProviderInfo());
+                bundle.putParcelable(THSConstants.THS_VISIT_REPORT_DETAIL,mVisitReportDetail);
                 mThsVisitHistoryFragment.addFragment(new THSVisitHistoryDetailFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         };
@@ -105,7 +105,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mVisitReports.size();
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
