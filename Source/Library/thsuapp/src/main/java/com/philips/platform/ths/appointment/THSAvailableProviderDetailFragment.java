@@ -82,6 +82,9 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         if(viewId == R.id.detailsButtonContinue){
             thsAvailableDetailProviderPresenter.launchConfirmAppointment(position);
         }
+        if(viewId == R.id.set_reminder_layout){
+            thsAvailableDetailProviderPresenter.onEvent(viewId);
+        }
     }
 
     public THSProviderInfo getProviderEntity() {

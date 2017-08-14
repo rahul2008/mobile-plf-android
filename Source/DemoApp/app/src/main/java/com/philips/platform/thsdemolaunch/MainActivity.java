@@ -58,13 +58,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
-        /*User user = new User(this);
+        User user = new User(this);
         if(user!=null && !user.isUserSignIn()) {
             startRegistrationFragment();
         }else {
             launchAmwell();
-        }*/
-        launchAmwell();
+        }
+        //launchAmwell();
     }
 
 

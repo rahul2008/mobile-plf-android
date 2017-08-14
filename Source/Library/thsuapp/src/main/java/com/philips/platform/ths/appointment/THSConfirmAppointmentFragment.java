@@ -70,7 +70,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
                 THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
                         newImageLoader(mThsProviderInfo.getProviderInfo(), mImageProviderImage,
                                 ProviderImageSize.SMALL).placeholder(mImageProviderImage.getResources().
-                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+                        getDrawable(R.drawable.doctor_placeholder,getActivity().getTheme())).build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }

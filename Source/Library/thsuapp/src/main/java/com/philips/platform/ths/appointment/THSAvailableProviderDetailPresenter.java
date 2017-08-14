@@ -67,6 +67,9 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
         }
+        if(componentID == R.id.set_reminder_layout){
+            mthsProviderDetailsDisplayHelper.launchSetRemainderDialogFragment();
+        }
 
     }
     public void launchConfirmAppointment(int position){

@@ -8,6 +8,7 @@ package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
 import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
+import com.philips.platform.ths.appointment.THSSetReminderDialogFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
@@ -54,9 +56,10 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
-    private RelativeLayout available_provider_details_container;
+    private RelativeLayout available_provider_details_container,set_a_reminder_layout;
     private THSAppointmentGridAdapter itemsAdapter;
     private List<Date> dates;
+    private THSSetReminderDialogFragment thsSetReminderDialogFragment;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -100,8 +103,14 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         mLabelDate = (Label) view.findViewById(R.id.calendar_container);
         mLabelDate.setOnClickListener(mOnClickListener);
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
+        set_a_reminder_layout = (RelativeLayout) view.findViewById(R.id.set_reminder_layout);
+        set_a_reminder_layout.setOnClickListener(mOnClickListener);
     }
 
+    public void launchSetRemainderDialogFragment(){
+        thsSetReminderDialogFragment = new THSSetReminderDialogFragment();
+        thsSetReminderDialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(),THSSetReminderDialogFragment.TAG);
+    }
     public void updateView(Provider provider,List<Date> dates){
         available_provider_details_container.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
