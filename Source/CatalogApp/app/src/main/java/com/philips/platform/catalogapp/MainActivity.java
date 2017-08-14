@@ -46,6 +46,7 @@ import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -71,6 +72,7 @@ public class MainActivity extends UIDActivity {
     private SideBar sideBarLayout;
     private ActionBarDrawerToggle drawerToggle;
     private RecyclerView recyclerView;
+    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
@@ -108,9 +110,10 @@ public class MainActivity extends UIDActivity {
         sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
 
         drawerToggle = setupDrawerToggle();
-        recyclerView = ((RecyclerView) findViewById(R.id.sidebar_recyclerview));
 
-        //enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
+        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
+        recyclerView = ((RecyclerView) findViewById(R.id.sidebar_recyclerview));
+        recyclerView.addItemDecoration(separatorItemDecoration);
         initializeRecyclerView(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -212,9 +215,11 @@ public class MainActivity extends UIDActivity {
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    boolean isSelected = holder.itemView.isSelected();
+
+                    sideBarLayout.closeDrawer(GravityCompat.START);
+                    /*boolean isSelected = holder.itemView.isSelected();
                     holder.itemView.setSelected(!isSelected);
-                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
+                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);*/
                 }
             });
         }

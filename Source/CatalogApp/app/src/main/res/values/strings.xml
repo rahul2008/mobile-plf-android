@@ -275,5 +275,7 @@
     <string name="show_side_bar">Show sidebar</string>
     <string name="sidebar_open">Open</string>
     <string name="sidebar_close">Close</string>
+    <string name="sidebar_header_item">Header Item</string>
+    <string name="sidebar_footer_item">Footer Item</string>
 
 </resources>

@@ -87,4 +87,11 @@
     <dimen name="uid_ui_picker_margin_left_right">16dp</dimen>
     <dimen name="uid_add_location_margin_start">32dp</dimen>
 
+    <!-- Sidebar-->
+    <dimen name="sidebar_footer_height">56dp</dimen>
+    <dimen name="sidebar_left_avatar_height_width">40dp</dimen>
+    <dimen name="sidebar_right_avatar_height_width">96dp</dimen>
+    <dimen name="sidebar_item_margin_left_right">16dp</dimen>
+    <dimen name="sidebar_view_drawable_padding">22dp</dimen>
+
 </resources>
