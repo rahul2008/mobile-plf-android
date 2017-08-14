@@ -8,18 +8,25 @@ package com.philips.cdp2.commlib.core.communication;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_CONNECTED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -37,15 +44,28 @@ public class CombinedCommunicationStrategyTest {
     ResponseHandler responseHandlerMock;
     @Mock
     SubscriptionEventListener subscriptionEventListenerMock;
+    @Mock
+    AvailabilityListener<CommunicationStrategy> strategyAvailabilityListenerMock;
+
+    private AvailabilityListener<CommunicationStrategy> strategyAvailabilityListener;
 
     @Before
     public void setUp() {
         initMocks(this);
     }
 
+    @SuppressWarnings("unchecked")
     private CommunicationStrategy createCommunicationStrategy(boolean available) {
         CommunicationStrategy strategy = mock(CommunicationStrategy.class);
         when(strategy.isAvailable()).thenReturn(available);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                strategyAvailabilityListener = invocation.getArgumentAt(0, AvailabilityListener.class);
+                return null;
+            }
+        }).when(strategy).addAvailabilityListener(isA(AvailabilityListener.class));
+
         return strategy;
     }
 
@@ -147,6 +167,189 @@ public class CombinedCommunicationStrategyTest {
         strategy.putProperties(null, null, 0, responseHandlerMock);
 
         verify(responseHandlerMock).onError(eq(NOT_CONNECTED), anyString());
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndAStrategyStillAvailable_thenNoListenersAreCalled() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        when(one.isAvailable()).thenReturn(false);
+        reset(strategyAvailabilityListenerMock);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(strategyAvailabilityListenerMock, never()).onAvailabilityChanged(strategy);
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndAStrategyStillNotAvailable_thenNoListenersAreCalled() {
+        CommunicationStrategy one = createCommunicationStrategy(UNAVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(UNAVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        reset(strategyAvailabilityListenerMock);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(strategyAvailabilityListenerMock, never()).onAvailabilityChanged(strategy);
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndAStrategyBecomesAvailable_thenListenersAreCalled() {
+        CommunicationStrategy one = createCommunicationStrategy(UNAVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(UNAVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        when(two.isAvailable()).thenReturn(true);
+        reset(strategyAvailabilityListenerMock);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(strategyAvailabilityListenerMock).onAvailabilityChanged(strategy);
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndNoStrategiesStillAvailable_thenListenersAreCalled() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(UNAVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        when(one.isAvailable()).thenReturn(false);
+        reset(strategyAvailabilityListenerMock);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(strategyAvailabilityListenerMock).onAvailabilityChanged(strategy);
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndAnotherStrategyStillAvailable_thenMoveSubscription() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        whenSubscribeThenSuccess(one);
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+        when(one.isAvailable()).thenReturn(false);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(one).unsubscribe(eq("portname"), eq(1), any(ResponseHandler.class));
+        verify(two).subscribe(eq("portname"), eq(1), eq(0), any(ResponseHandler.class));
+    }
+
+    @Test
+    public void whenUnsubscribingAfterAvailabilityChange_thenBothStrategiesUnsubscribed() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        whenSubscribeThenSuccess(one);
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+        when(one.isAvailable()).thenReturn(false);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+        strategy.unsubscribe("portname", 1, responseHandlerMock);
+
+        verify(one).unsubscribe(eq("portname"), eq(1), any(ResponseHandler.class));
+        verify(two).unsubscribe(eq("portname"), eq(1), any(ResponseHandler.class));
+    }
+
+    @Test
+    public void whenAvailabilityChangeAfterSubscribe_thenNoSubscriptionMove() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        whenSubscribeThenSuccess(one);
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+        when(one.isAvailable()).thenReturn(false);
+
+        strategy.unsubscribe("portname", 1, responseHandlerMock);
+        reset(one, two);
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(one, never()).unsubscribe(anyString(), anyInt(), any(ResponseHandler.class));
+        verify(two, never()).unsubscribe(anyString(), anyInt(), any(ResponseHandler.class));
+        verify(one, never()).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
+        verify(two, never()).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
+    }
+
+    @Test
+    public void whenSubscribingWithoutAvailability_thenErrorCalledOnResponseHandler() {
+        CommunicationStrategy one = createCommunicationStrategy(UNAVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(UNAVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+
+        verify(responseHandlerMock).onError(eq(NOT_CONNECTED), anyString());
+    }
+
+    @Test
+    public void whenSubscriptionFailedAvailabilityChangesAndAnotherStrategyStillAvailable_thenDontMoveSubscription() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                invocation.getArgumentAt(3, ResponseHandler.class).onError(NOT_CONNECTED, "");
+                return null;
+            }
+        }).when(one).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+        when(one.isAvailable()).thenReturn(false);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(one, never()).unsubscribe(anyString(), anyInt(), any(ResponseHandler.class));
+        verify(two, never()).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndNoOtherStrategyAvailable_thenOnlyRemoveSubscription() {
+        CommunicationStrategy one = createCommunicationStrategy(AVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(UNAVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        whenSubscribeThenSuccess(one);
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+        when(one.isAvailable()).thenReturn(false);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(one).unsubscribe(eq("portname"), eq(1), any(ResponseHandler.class));
+        verify(two, never()).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
+    }
+
+    @Test
+    public void whenAvailabilityChangesAndMorePreferredOtherStrategyAvailable_thenMoveSubscription() {
+        CommunicationStrategy one = createCommunicationStrategy(UNAVAILABLE);
+        CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
+        strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
+        whenSubscribeThenSuccess(two);
+        strategy.subscribe("portname", 1, 0, responseHandlerMock);
+        when(one.isAvailable()).thenReturn(true);
+
+        strategyAvailabilityListener.onAvailabilityChanged(one);
+
+        verify(two).unsubscribe(eq("portname"), eq(1), any(ResponseHandler.class));
+        verify(one).subscribe(eq("portname"), eq(1), eq(0), any(ResponseHandler.class));
+    }
+
+    private void whenSubscribeThenSuccess(CommunicationStrategy two) {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                invocation.getArgumentAt(3, ResponseHandler.class).onSuccess("");
+                return null;
+            }
+        }).when(two).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
     }
 
     @Test
