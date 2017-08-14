@@ -95,7 +95,6 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
             timeslot.setTextColor(colorStateList);
 
             if(position == selectedPosition){
-                timeslot.setSelected(true);
                 timeslot.setPressed(true);
             }
             timeslot.setOnClickListener(new View.OnClickListener() {

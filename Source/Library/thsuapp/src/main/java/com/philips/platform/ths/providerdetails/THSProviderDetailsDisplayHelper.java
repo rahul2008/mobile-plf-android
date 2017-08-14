@@ -258,8 +258,9 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
 
     @Override
     public void onGridItemClicked(int position) {
-        gridView.setAdapter(itemsAdapter);
         itemsAdapter.setSelectedPosition(position);
         itemsAdapter.notifyDataSetChanged();
+        gridView.setAdapter(itemsAdapter);
+
     }
 }
