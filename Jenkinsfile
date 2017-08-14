@@ -49,7 +49,7 @@ node ('android&&docker') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
                         cd ./Source/AppFramework
-                        ./gradlew -PenvCode=${JENKINS_ENV} zipDoc appFramework:aP
+                        ./gradlew -PenvCode=${JENKINS_ENV} zipDoc appFramework:aP :appFramework:printArtifactoryApkPath
                     '''
                 }
                 // HockeyApp publishing disabled on request of Raymond Kloprogge (2017-08-02)
@@ -61,8 +61,7 @@ node ('android&&docker') {
                 //        ./gradlew -PenvCode=${JENKINS_ENV} uploadToHockeyApp
                 //    '''
                 //}
-            } 
-
+            }
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l       
                     chmod -R 775 . 
@@ -70,14 +69,23 @@ node ('android&&docker') {
                     ./gradlew -PenvCode=${JENKINS_ENV} :appFramework:saveResDep :appFramework:saveAllResolvedDependencies :appFramework:saveAllResolvedDependenciesGradleFormat
                 ''' 
             }
-
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
+            stage('Trigger E2E Test'){
+                APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
+                if (BranchName =~ /master|develop|release.*/) {
+                    if (BranchName =~ /develop.*/) {
+                        BranchName = "develop"
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'rap'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                    if (BranchName =~ /release.*/) {
+                        BranchName = "release"
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    if (BranchName =~ /master.*/) {
+                        BranchName = "release"
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    echo "APK_NAME = ${APK_NAME}"
+                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
                 }
             }
         } catch(err) {
