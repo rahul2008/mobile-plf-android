@@ -7,7 +7,6 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
-import com.philips.cdp.devicepair.uappdependencies.WifiCommLibUappSettings;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -15,6 +14,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
  * State class to launch Comm lib demo micro app.
@@ -35,7 +35,7 @@ public class DemoCMLState extends BaseState {
         if (uAppInterface != null) {
             RALog.d(TAG, "CommlibUApp is null");
             try {
-                uAppInterface.init(new DefaultCommlibUappDependencies(context.getApplicationContext()), new WifiCommLibUappSettings(context.getApplicationContext()));
+                uAppInterface.init(new DefaultCommlibUappDependencies(context.getApplicationContext()), new UappSettings(context.getApplicationContext()));
             }
             catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
