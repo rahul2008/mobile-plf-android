@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.core.communication;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 import java.util.Map;
 
@@ -50,8 +49,7 @@ public class NullCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableCommunication(
-            SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication() {
     }
 
     @Override

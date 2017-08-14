@@ -96,7 +96,7 @@ public class ApplianceManager {
         public void onNetworkNodeLost(NetworkNode networkNode) {
             final Appliance appliance = availableAppliances.get(networkNode.getCppId());
 
-            if (appliance != null && !appliance.isAvailable()) {
+            if (appliance != null) {
                 notifyApplianceLost(availableAppliances.remove(networkNode.getCppId()));
             }
         }
@@ -104,8 +104,11 @@ public class ApplianceManager {
         @Override
         public void onNetworkNodeUpdated(NetworkNode networkNode) {
             final Appliance appliance = availableAppliances.get(networkNode.getCppId());
-            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
-            notifyApplianceUpdated(appliance);
+
+            if (appliance != null) {
+                appliance.getNetworkNode().updateWithValuesFrom(networkNode);
+                notifyApplianceUpdated(appliance);
+            }
         }
 
         @Override

@@ -19,6 +19,8 @@ import com.philips.cdp.dicommclient.util.WrappedHandler;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.Collections;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -59,7 +61,7 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
 
         mLocalSubscriptionHandler = new LocalSubscriptionHandlerImpl();
 
-        mLocalSubscriptionHandler.enableSubscription(mNetworkNode, mSubscriptionEventListener);
+        mLocalSubscriptionHandler.enableSubscription(mNetworkNode, Collections.singleton(mSubscriptionEventListener));
     }
 
     @Test

@@ -10,25 +10,30 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
+import java.util.Set;
+
 public abstract class SubscriptionHandler {
 
-    private SubscriptionEventListener mSubscriptionEventListener;
+    private Set<SubscriptionEventListener> mSubscriptionEventListeners;
     private WrappedHandler mSubscriptionEventResponseHandler;
 
-    public abstract void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener);
-	public abstract void disableSubscription();
+    public abstract void enableSubscription(NetworkNode networkNode, Set<SubscriptionEventListener> subscriptionEventListeners);
 
-	protected void postSubscriptionEventOnUIThread(final String decryptedData, SubscriptionEventListener subscriptionEventListener) {
+    public abstract void disableSubscription();
 
-		mSubscriptionEventListener = subscriptionEventListener;
-		mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
+    protected void postSubscriptionEventOnUIThread(final String decryptedData, Set<SubscriptionEventListener> subscriptionEventListeners) {
+
+        mSubscriptionEventListeners = subscriptionEventListeners;
+        mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
 
 		Runnable responseRunnable = new Runnable() {
 	        @Override
 	        public void run() {
 	        	DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
-	        	mSubscriptionEventListener.onSubscriptionEventReceived(decryptedData);
-	    }};
+                for (SubscriptionEventListener subscriptionEventListener : mSubscriptionEventListeners) {
+                    subscriptionEventListener.onSubscriptionEventReceived(decryptedData);
+                }
+            }};
 
         mSubscriptionEventResponseHandler.post(responseRunnable);
     }

@@ -363,11 +363,12 @@ public class CombinedCommunicationStrategyTest {
                 sub3
         );
 
-        strategy.enableCommunication(subscriptionEventListenerMock);
+        strategy.addSubscriptionEventListener(subscriptionEventListenerMock);
+        strategy.enableCommunication();
 
-        verify(sub1).enableCommunication(subscriptionEventListenerMock);
-        verify(sub2).enableCommunication(subscriptionEventListenerMock);
-        verify(sub3).enableCommunication(subscriptionEventListenerMock);
+        verify(sub1).enableCommunication();
+        verify(sub2).enableCommunication();
+        verify(sub3).enableCommunication();
     }
 
     @Test

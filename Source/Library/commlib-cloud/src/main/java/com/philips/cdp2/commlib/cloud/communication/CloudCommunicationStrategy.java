@@ -22,7 +22,6 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
@@ -120,10 +119,10 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableCommunication(final SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication() {
         startDcsIfNecessary();
 
-        remoteSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
+        remoteSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
     }
 
     @Override

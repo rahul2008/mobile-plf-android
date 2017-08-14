@@ -69,7 +69,7 @@ public class CommunicationStrategyTest {
             }
 
             @Override
-            public void enableCommunication(final SubscriptionEventListener subscriptionEventListener) {
+            public void enableCommunication() {
 
             }
 

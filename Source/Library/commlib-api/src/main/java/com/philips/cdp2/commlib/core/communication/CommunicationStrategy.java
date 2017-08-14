@@ -24,7 +24,7 @@ public abstract class CommunicationStrategy implements Availability<Communicatio
 
     protected Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
 
-    private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
+    protected final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 
     public abstract void getProperties(String portName, int productId, ResponseHandler responseHandler);
 
@@ -40,7 +40,7 @@ public abstract class CommunicationStrategy implements Availability<Communicatio
 
     public abstract boolean isAvailable();
 
-    public abstract void enableCommunication(SubscriptionEventListener subscriptionEventListener);
+    public abstract void enableCommunication();
 
     public abstract void disableCommunication();
 

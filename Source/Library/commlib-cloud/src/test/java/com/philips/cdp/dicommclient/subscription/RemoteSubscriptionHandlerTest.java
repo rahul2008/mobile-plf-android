@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
+import static java.util.Collections.singleton;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.startsWith;
 import static org.mockito.Mockito.mock;
@@ -55,7 +56,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
         mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
 
-        mRemoteSubscriptionHandler.enableSubscription(mMockNetworkNode, mSubscriptionEventListener);
+        mRemoteSubscriptionHandler.enableSubscription(mMockNetworkNode, singleton(mSubscriptionEventListener));
     }
 
     @Test

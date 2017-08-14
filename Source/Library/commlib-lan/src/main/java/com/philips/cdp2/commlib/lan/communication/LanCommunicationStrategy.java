@@ -16,7 +16,6 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
@@ -37,7 +36,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     private RequestQueue requestQueue;
     private DISecurity diSecurity;
     private boolean isKeyExchangeOngoing;
-    private LocalSubscriptionHandler localSubscriptionHandler;
+    private final LocalSubscriptionHandler localSubscriptionHandler;
     private final NetworkNode networkNode;
     @NonNull
     private final LanDeviceCache deviceCache;
@@ -92,9 +91,6 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         this.deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
         this.isCached = deviceCache.contains(networkNode.getCppId());
 
-        this.connectivityMonitor = connectivityMonitor;
-        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
-
         if (networkNode.isHttps()) {
             try {
                 sslContext = createSSLContext();
@@ -108,6 +104,9 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
         requestQueue = createRequestQueue();
         localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+
+        this.connectivityMonitor = connectivityMonitor;
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
     }
 
     @VisibleForTesting
@@ -209,13 +208,13 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
-        localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
+    public void enableCommunication() {
+
     }
 
     @Override
     public void disableCommunication() {
-        localSubscriptionHandler.disableSubscription();
+
     }
 
     private synchronized void handleAvailabilityChanged() {
@@ -224,6 +223,12 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         isAvailable = isCached && isConnected;
         if (isAvailable != currentAvailability) {
             notifyAvailabilityChanged();
+        }
+
+        if (isAvailable) {
+            localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
+        } else {
+            localSubscriptionHandler.disableSubscription();
         }
     }
 }

@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.Arrays;
@@ -191,9 +190,9 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
     }
 
     @Override
-    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication() {
         for (CommunicationStrategy strategy : communicationStrategies) {
-            strategy.enableCommunication(subscriptionEventListener);
+            strategy.enableCommunication();
         }
     }
 

@@ -14,13 +14,13 @@ import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
+import com.philips.cdp2.commlib.lan.LanDeviceCache;
+import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -28,8 +28,6 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -45,8 +43,6 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private final LanDeviceCache deviceCache;
     private final ConnectivityMonitor connectivityMonitor;
     private final WifiNetworkProvider wifiNetworkProvider;
-
-    private Map<String, NetworkNode> networkNodeCache = new HashMap<>();
 
     private final Handler.Callback ssdpCallback = new Handler.Callback() {
 
@@ -81,6 +77,8 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
             deviceCache.remove(networkNode.getCppId());
+
+            notifyNetworkNodeLost(networkNode);
         }
     };
 
@@ -123,14 +121,14 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             return;
         }
 
-        if (this.networkNodeCache.containsKey(networkNode.getCppId())) {
+        if (this.deviceCache.contains(networkNode.getCppId())) {
             DICommLog.i(DICommLog.SSDP, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
 
             notifyNetworkNodeUpdated(networkNode);
         } else {
-            this.networkNodeCache.put(networkNode.getCppId(), networkNode);
-            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
             DICommLog.i(DICommLog.SSDP, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
 
             notifyNetworkNodeDiscovered(networkNode);
         }

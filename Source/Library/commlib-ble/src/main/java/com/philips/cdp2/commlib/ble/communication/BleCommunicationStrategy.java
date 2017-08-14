@@ -11,7 +11,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
@@ -177,11 +176,9 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     /**
      * Enables continuous connection to the appliance, allowing for faster data transfer.
-     *
-     * @param subscriptionEventListener
      */
     @Override
-    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication() {
         if (isAvailable()) {
             SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.connect();

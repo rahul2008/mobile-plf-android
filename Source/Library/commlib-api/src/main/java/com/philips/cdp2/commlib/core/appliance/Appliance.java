@@ -184,7 +184,7 @@ public abstract class Appliance implements Availability<Appliance> {
      * Enable listening for subscription notifications.
      */
     public void enableCommunication() {
-        communicationStrategy.enableCommunication(subscriptionEventListener);
+        communicationStrategy.enableCommunication();
     }
 
     /**

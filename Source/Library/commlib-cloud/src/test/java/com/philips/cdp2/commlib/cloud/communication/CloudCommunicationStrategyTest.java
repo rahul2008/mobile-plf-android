@@ -38,8 +38,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -216,7 +218,8 @@ public class CloudCommunicationStrategyTest {
     public void whenEnableSubscriptionIsCalledThenDSCIsStarted() {
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        cloudCommunicationStrategy.enableCommunication(subscriptionEventListener);
+        cloudCommunicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
+        cloudCommunicationStrategy.enableCommunication();
 
         verify(requestQueueMock).addRequestInFrontOfQueue(any(StartDcsRequest.class));
     }
@@ -225,9 +228,10 @@ public class CloudCommunicationStrategyTest {
     public void whenEnableSubscriptionIsCalledThenEnableSubscriptionIsCalled() {
         when(cloudControllerMock.getState()).thenReturn(CloudController.ICPClientDCSState.STOPPED);
         SubscriptionEventListener subscriptionEventListener = mock(SubscriptionEventListener.class);
-        cloudCommunicationStrategy.enableCommunication(subscriptionEventListener);
+        cloudCommunicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
+        cloudCommunicationStrategy.enableCommunication();
 
-        verify(remoteSubscriptionHandlerMock).enableSubscription(networkNodeMock, subscriptionEventListener);
+        verify(remoteSubscriptionHandlerMock).enableSubscription(eq(networkNodeMock), eq(singleton(subscriptionEventListener)));
     }
 
     @Test
