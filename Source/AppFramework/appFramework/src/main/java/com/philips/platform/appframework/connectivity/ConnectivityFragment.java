@@ -62,7 +62,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
 
-    private CommCentral commCentral;
+    private CommCentral mCommCentral;
 
     /**
      * Presenter object for Connectivity
@@ -118,7 +118,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
-        commCentral= getCommCentral();
+        mCommCentral = getCommCentral();
         startAppTagging(TAG);
         return rootView;
     }
@@ -196,7 +196,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                 if (isFragmentLive()) {
                     try {
                         bleScanDialogFragment = new BLEScanDialogFragment();
-                        bleScanDialogFragment.setSavedApplianceList(commCentral.getApplianceManager().getAvailableAppliances());
+                        bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
@@ -211,7 +211,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                             }
                         });
 
-                        commCentral.startDiscovery();
+                        mCommCentral.startDiscovery();
                         handler.postDelayed(stopDiscoveryRunnable, 30000);
                         updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                     } catch (MissingPermissionException e) {
@@ -235,8 +235,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private Runnable stopDiscoveryRunnable = new Runnable() {
         @Override
         public void run() {
-            if (commCentral != null && isFragmentLive()) {
-                commCentral.stopDiscovery();
+            if (mCommCentral != null && isFragmentLive()) {
+                mCommCentral.stopDiscovery();
                 if (bleScanDialogFragment != null) {
                     bleScanDialogFragment.hideProgressBar();
                     if (bleScanDialogFragment.getDeviceCount() == 0) {

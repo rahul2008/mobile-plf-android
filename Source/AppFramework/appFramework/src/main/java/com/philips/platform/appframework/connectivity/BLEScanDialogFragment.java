@@ -31,7 +31,7 @@ public class BLEScanDialogFragment extends DialogFragment {
 
     private ProgressBar progressBar;
 
-    private ArrayList<BleReferenceAppliance> storedpplianceList = new ArrayList<>();
+    private ArrayList<BleReferenceAppliance> storedApplianceList = new ArrayList<>();
 
     /**
      * Set saved appliance list
@@ -42,7 +42,7 @@ public class BLEScanDialogFragment extends DialogFragment {
         if (savedApplianceList != null) {
             for (Appliance appliance : savedApplianceList) {
                 if (appliance instanceof BleReferenceAppliance) {
-                    storedpplianceList.add((BleReferenceAppliance) appliance);
+                    storedApplianceList.add((BleReferenceAppliance) appliance);
                     RALog.d(TAG, "Added Applicance to appliance list");
                 }
             }
@@ -66,7 +66,7 @@ public class BLEScanDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.reference_device_scan_dialog, null);
         builder.setView(view);
-        leDeviceListAdapter = new BleDeviceListAdapter(getActivity(),storedpplianceList);
+        leDeviceListAdapter = new BleDeviceListAdapter(getActivity(), storedApplianceList);
         ListView deviceListView = (ListView) view.findViewById(R.id.device_listview);
         progressBar = (ProgressBar) view.findViewById(R.id.scanning_progress_bar);
         deviceListView.setAdapter(leDeviceListAdapter);

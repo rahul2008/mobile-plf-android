@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.connectivity;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +27,14 @@ public class BleDeviceListAdapter extends BaseAdapter {
     private LayoutInflater mInflator;
     private Context context;
 
-    public BleDeviceListAdapter(Context context,ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
+    public BleDeviceListAdapter(@NonNull Context context, ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
         super();
         this.context=context;
         mLeDevices = bleReferenceApplianceList;
         mInflator = LayoutInflater.from(context);
     }
 
-    public void addDevice(BleReferenceAppliance device) {
+    public void addDevice(@NonNull BleReferenceAppliance device) {
         if (!mLeDevices.contains(device)) {
             mLeDevices.add(device);
             notifyDataSetChanged();
