@@ -32,7 +32,7 @@ import static com.philips.platform.baseapp.screens.utility.Constants.TAGGING_CHU
 
 public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implements AboutScreenContract.View {
 
-    private static final String TAG = AboutScreenFragment.class.getSimpleName();
+    public static final String TAG = AboutScreenFragment.class.getSimpleName();
 
     private AboutScreenContract.Action aboutScreenActionListener;
 
