@@ -49,6 +49,7 @@ public class SideBar extends DrawerLayout {
         //setScrimColor(Color.TRANSPARENT);
         float elevation= context.getResources().getDimensionPixelSize(R.dimen.uid_sidebar_elevation);
         setDrawerElevation(elevation);
+        //setFitsSystemWindows(true);
         //setDrawerShadow(R.drawable.uid_sidebar_shadow, GravityCompat.START);
         //setBackground(context.getResources().getDrawable(R.drawable.uid_sidebar_shadow));
 
