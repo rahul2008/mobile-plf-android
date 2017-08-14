@@ -372,6 +372,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
             handler.removeCallbacks(stopDiscoveryRunnable);
             handler.removeCallbacksAndMessages(null);
         }
+        mCommCentral=null;
         super.onDestroyView();
     }
 
