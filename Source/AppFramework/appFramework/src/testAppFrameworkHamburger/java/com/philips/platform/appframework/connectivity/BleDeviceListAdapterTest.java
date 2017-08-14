@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.connectivity;
 
 import android.content.Context;
@@ -17,7 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 
 /**
- * Created by philips on 11/08/17.
+ * Test for BleDeviceListAdapter
  */
 @RunWith(MockitoJUnitRunner.class)
 public class BleDeviceListAdapterTest {

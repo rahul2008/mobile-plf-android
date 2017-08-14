@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.connectivity;
 
 import android.support.v4.app.FragmentManager;
@@ -33,7 +38,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
 /**
- * Created by Abhishek Gadewar on 11/08/17.
+ * Test for BLEScanDialogFragment
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)

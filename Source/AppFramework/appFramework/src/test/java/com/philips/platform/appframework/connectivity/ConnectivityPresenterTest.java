@@ -1,5 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or disseminationpackage com.philips.platform.appframework.connectivity;
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.import android.content.Context;
+*/
 package com.philips.platform.appframework.connectivity;
-
 import android.content.Context;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -31,7 +35,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by philips on 03/02/17.
+ * Test for ConnectivityPresenter
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -120,11 +124,6 @@ public class ConnectivityPresenterTest {
         verify(view).onDeviceMeasurementError(any(Error.class),any(String.class));
     }
 
-//    @Test
-//    public void getMoment_SuccessTest(){
-//
-//    }
-
     @Test
     public void processMoment_Success_Test(){
         connectivityPresenterMock=new ConnectivityPresenterMock(view,user,context);
@@ -175,7 +174,7 @@ public class ConnectivityPresenterTest {
         }
 
         public void postMoment(){
-
+           //Avoided postMoment call
         }
 
         protected AppInfraInterface getAppInfra(){

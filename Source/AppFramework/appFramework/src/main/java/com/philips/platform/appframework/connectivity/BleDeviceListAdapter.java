@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.connectivity;
 
 import android.content.Context;
@@ -13,7 +18,7 @@ import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppl
 import java.util.ArrayList;
 
 /**
- * Created by philips on 11/08/17.
+ * Adapter for list of ble ref node
  */
 
 public class BleDeviceListAdapter extends BaseAdapter {

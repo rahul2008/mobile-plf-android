@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 package com.philips.platform.appframework.connectivity;
 
 import android.app.Activity;
@@ -40,8 +46,9 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
+
 /**
- * Created by philips on 29/07/17.
+ * Test for ConnectivityFragment
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
@@ -70,10 +77,10 @@ public class ConnectivityFragmentTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        activityController= Robolectric.buildActivity(TestActivity.class);
-        testActivity=activityController.create().start().get();
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        testActivity = activityController.create().start().get();
         connectivityFragment = new ConnectivityFragmentMock();
-        testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment,null).commit();
+        testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment, null).commit();
         connectionState = (TextView) connectivityFragment.getView().findViewById(R.id.connectionState);
         momentValueEditText = (EditText) connectivityFragment.getView().findViewById(R.id.moment_value_editbox);
         editText = (EditText) connectivityFragment.getView().findViewById(R.id.measurement_value_editbox);
@@ -116,36 +123,26 @@ public class ConnectivityFragmentTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         activityController.pause().stop().destroy();
-        connectivityFragment=null;
+        connectivityFragment = null;
     }
 
     @Test
-    public void testStartDiscoveryClick(){
+    public void testStartDiscoveryClick() {
         connectivityFragment.getView().findViewById(R.id.start_connectivity_button).performClick();
         Mockito.when(bluetoothAdapter.isEnabled()).thenReturn(false);
         assertNotNull(shadowOf(testActivity).getNextStartedActivity());
     }
 
     @Test
-    public void testMomentValueClick(){
+    public void testMomentValueClick() {
         connectivityFragment.getView().findViewById(R.id.get_momentumvalue_button).performClick();
         verify(connectivityPresenter).processMoment(any(String.class));
     }
 
-//    @Test
-//    public void testStartDiscovery(){
-//        Mockito.when(bluetoothAdapter.isEnabled()).thenReturn(true);
-//        ShadowApplication application= Shadows.shadowOf(testActivity.getApplication());
-//        String[] perms = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-//        application.grantPermissions(perms);
-//        connectivityFragment.getView().findViewById(R.id.start_connectivity_button).performClick();
-//        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
-//    }
-
     @Test
-    public void onProcessMomentProgressTest(){
+    public void onProcessMomentProgressTest() {
         connectivityFragment.onProcessMomentProgress("Progress dialog");
         assertNotNull(ShadowDialog.getLatestDialog());
         connectivityFragment.onProcessMomentProgress("Progress dialog");
@@ -153,37 +150,37 @@ public class ConnectivityFragmentTest {
     }
 
     @Test
-    public void onRequestPermissionsResultTest(){
-        int[] permission={PackageManager.PERMISSION_DENIED};
-        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,null,permission);
-        assertEquals("Need permission",ShadowToast.getTextOfLatestToast());
-        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION,null,permission);
-        assertEquals("Need permission",ShadowToast.getTextOfLatestToast());
+    public void onRequestPermissionsResultTest() {
+        int[] permission = {PackageManager.PERMISSION_DENIED};
+        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION, null, permission);
+        assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
+        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION, null, permission);
+        assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
     }
 
     @Test
-    public void onProcessMomentErrorTest(){
+    public void onProcessMomentErrorTest() {
         connectivityFragment.onProcessMomentError("Error");
-        assertEquals("Error",ShadowToast.getTextOfLatestToast());
+        assertEquals("Error", ShadowToast.getTextOfLatestToast());
     }
 
     @Test
-    public void onActivityResultTest(){
-        connectivityFragment.onActivityResult(REQUEST_ENABLE_BT, Activity.RESULT_CANCELED,new Intent());
-        assertEquals("Please enable bluetooth",ShadowToast.getTextOfLatestToast());
+    public void onActivityResultTest() {
+        connectivityFragment.onActivityResult(REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
+        assertEquals("Please enable bluetooth", ShadowToast.getTextOfLatestToast());
     }
 
-     public static class ConnectivityFragmentMock extends ConnectivityFragment{
+    public static class ConnectivityFragmentMock extends ConnectivityFragment {
 
         @Override
         protected ConnectivityPresenter getConnectivityPresenter() {
             return connectivityPresenter;
         }
 
-         @Override
-         protected BluetoothAdapter getBluetoothAdapter() {
-             return bluetoothAdapter;
-         }
-     }
+        @Override
+        protected BluetoothAdapter getBluetoothAdapter() {
+            return bluetoothAdapter;
+        }
+    }
 
 }
