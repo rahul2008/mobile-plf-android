@@ -46,10 +46,10 @@ public class CancelOrderFragment extends InAppBaseFragment {
         Bundle bundle = getArguments();
         if (null != bundle) {
             phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
-            phoneNumberText.setText(mContext.getString(R.string.iap_call));
+            phoneNumberText.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(phoneNumber,
+                    HybrisDelegate.getInstance().getStore().getCountry()));
             String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
             String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
-            enableCallButton(weekdaysTiming, saturdayTiming);
             openingTimingText.setText(weekdaysTiming + "\n" + saturdayTiming);
             cancelOrderId.setText(String.format(mContext.getString(R.string.iap_cancel_order_number), bundle.getString(IAPConstant.IAP_ORDER_ID)));
             refOrderText.setText(String.format(mContext.getString(R.string.iap_cancel_order_dls_for_your_ref_sg), bundle.getString(IAPConstant.IAP_ORDER_ID)));
@@ -66,11 +66,6 @@ public class CancelOrderFragment extends InAppBaseFragment {
         });
 
         return rootView;
-    }
-
-    private void enableCallButton(String weekdaysTiming, String saturdayTiming) {
-        System.out.println("weekdaysTiming = " + weekdaysTiming);
-        System.out.println("saturdayTiming = " + saturdayTiming);
     }
 
     @Override
