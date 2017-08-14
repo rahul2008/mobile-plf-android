@@ -20,6 +20,7 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
+import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -35,6 +36,7 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
     private ActionBarListener actionBarListener;
     private RelativeLayout mRealtiveLayoutPracticeContainer;
     private Button mBtnAppointment;
+    private Button mVisitBtn;
 
 
     @Nullable
@@ -46,6 +48,8 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
         mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
         mBtnAppointment = (Button) view.findViewById(R.id.ths_appointment_list);
+        mVisitBtn = (Button) view.findViewById(R.id.ths_visit_list);
+        mVisitBtn.setOnClickListener(this);
         mBtnAppointment.setOnClickListener(this);
         return view;
     }
@@ -109,6 +113,8 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
         int id = view.getId();
         if (id == R.id.ths_appointment_list) {
             addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
+        }else if (id == R.id.ths_visit_list) {
+            addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
         }
     }
 }

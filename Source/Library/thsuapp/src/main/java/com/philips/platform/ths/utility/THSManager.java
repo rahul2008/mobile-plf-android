@@ -50,6 +50,9 @@ import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.VisitEndReason;
+import com.americanwell.sdk.entity.visit.VisitReport;
+import com.americanwell.sdk.entity.visit.VisitReportDetail;
+import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -58,7 +61,6 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -112,6 +114,8 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
+import com.philips.platform.ths.settings.THSVisitReportDetailCallback;
+import com.philips.platform.ths.settings.THSVisitReportListCallback;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
@@ -316,11 +320,11 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-      /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
+       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
 
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
+   /*     initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -1238,5 +1242,36 @@ public class THSManager {
 
     public void setAppInfra(AppInfraInterface mAppInfra) {
         this.mAppInfra = mAppInfra;
+    }
+
+    public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback visitReportListCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReports(getPTHConsumer().getConsumer(), date, true, new SDKCallback<List<VisitReport>, SDKError>() {
+            @Override
+            public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
+
+
+                visitReportListCallback.onResponse(visitReports,sdkError);
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                visitReportListCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void getVisitReportDetail(Context context, VisitReport visitReport, final THSVisitReportDetailCallback thsVisitReportDetailCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReportDetail(getPTHConsumer().getConsumer(), visitReport, new SDKCallback<VisitReportDetail, SDKError>() {
+            @Override
+            public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
+                thsVisitReportDetailCallback.onResponse(visitReportDetail,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsVisitReportDetailCallback.onFailure(throwable);
+            }
+        });
     }
 }
