@@ -10,6 +10,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
 /**
@@ -83,7 +84,10 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         if(tHSVisitSummary.getVisitSummary().getVisitCost().isFree()){
             mTHSVisitSummaryFragment.visitCost.setText("$ 0");
         }else{
-            mTHSVisitSummaryFragment.visitCost.setText(tHSVisitSummary.getVisitSummary().getVisitCost().getDeferredBillingWrapUpText());
+            //mTHSVisitSummaryFragment.visitCost.setText(tHSVisitSummary.getVisitSummary().getVisitCost().getDeferredBillingWrapUpText());
+            double cost= tHSVisitSummary.getVisitSummary().getVisitCost().getExpectedConsumerCopayCost();
+
+            mTHSVisitSummaryFragment.visitCost.setText(Double.toString(cost));
         }
 
         Address address = tHSVisitSummary.getVisitSummary().getShippingAddress();
@@ -96,12 +100,12 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
     @Override
     public void onResponse(Void var1, SDKError var2) {
-
+        AmwellLog.d("Send rating","success");
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        AmwellLog.d("Send rating","failure");
     }
 
 

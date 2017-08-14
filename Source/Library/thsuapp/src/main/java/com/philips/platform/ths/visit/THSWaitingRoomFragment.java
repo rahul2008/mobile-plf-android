@@ -45,9 +45,9 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     public static final String CANCEL_VISIT_ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     private ActionBarListener actionBarListener;
-     ProgressBarWithLabel mProgressBarWithLabel;
+    ProgressBarWithLabel mProgressBarWithLabel;
     THSWaitingRoomPresenter mTHSWaitingRoomPresenter;
-     AlertDialogFragment alertDialogFragment;
+    AlertDialogFragment alertDialogFragment;
 
     Label mProviderNameLabel;
     Label mProviderPracticeLabel;
@@ -64,22 +64,16 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mProgressBarWithLabel = (ProgressBarWithLabel) view.findViewById(R.id.ths_waiting_room_ProgressBarWithLabel);
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
         mCancelVisitButton.setOnClickListener(this);
-        mProviderImageView = (CircularImageView)view.findViewById(R.id.details_providerImage);
+        mProviderImageView = (CircularImageView) view.findViewById(R.id.details_providerImage);
 
-        return  view;
+        return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(mMessageReceiver,
-                new IntentFilter("visitFinishedResult"));
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
+        //setRetainInstance(true);
         actionBarListener = getActionBarListener();
 
         mTHSWaitingRoomPresenter.startVisit();
@@ -103,21 +97,25 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Waiting", true);
         }
-        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(mMessageReceiver,
-                new IntentFilter("visitFinishedResult"));
+
     }
 
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            String message = intent.getStringExtra("message");
-            mTHSWaitingRoomPresenter.handleVisitFinish(intent);
-            //Log.d("receiver", "Got message: " + message);
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_CANCELED && requestCode == REQUEST_VIDEO_VISIT) {
+            //  todo getPresenter().setResult(resultCode, data);
+            THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
+            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, null);
         }
-    };
+    }
+
 
     @Override
     public int getContainerID() {
@@ -125,7 +123,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     }
 
 
-     void showCancelDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+    void showCancelDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity())
                 .setMessage(showLargeContent ? "Your visit shall be cancelled" : "Your visit shall be cancelled").
                         setPositiveButton(" Yes ", this).
@@ -142,9 +140,6 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     }
 
 
-
-
-
     /**
      * Called when a view has been clicked.
      *
@@ -152,14 +147,15 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
      */
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.ths_waiting_room_cancel_button);{
-           // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
+        if (v.getId() == R.id.ths_waiting_room_cancel_button) ;
+        {
+            // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
             if (v.getId() == R.id.uid_alert_negative_button) {
                 alertDialogFragment.dismiss();
-            }else if (v.getId() == R.id.uid_alert_positive_button) {
+            } else if (v.getId() == R.id.uid_alert_positive_button) {
                 mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
 
-            }else {
+            } else {
                 showCancelDialog(true, true, true);
             }
         }
@@ -167,22 +163,5 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
     }
 
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-        //LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        int y=10;
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        int y=15;
-    }
 }
