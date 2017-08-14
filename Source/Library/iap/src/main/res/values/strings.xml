@@ -5,6 +5,7 @@
     <!-- Shopping Cart screen -->
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_shopping_cart_item">Shopping Cart item</string>
+    <string name="iap_product_item_quantity">Quantity: </string>
     <string name="iap_delete">Delete</string>
     <string name="iap_info">Info</string>
     <string name="iap_continue_shopping">Continue shopping</string>
