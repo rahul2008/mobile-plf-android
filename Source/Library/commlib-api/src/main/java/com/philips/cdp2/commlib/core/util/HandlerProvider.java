@@ -30,4 +30,12 @@ public class HandlerProvider {
             return mockedHandler;
         }
     }
+
+    public static Handler createHandler(Handler.Callback callback) {
+        if (mockedHandler == null) {
+            return new Handler(callback);
+        } else {
+            return mockedHandler;
+        }
+    }
 }

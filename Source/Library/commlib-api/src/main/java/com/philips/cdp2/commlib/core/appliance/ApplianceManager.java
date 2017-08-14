@@ -7,12 +7,14 @@ package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
-import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,29 +47,9 @@ public class ApplianceManager {
     private final DICommApplianceFactory applianceFactory;
 
     private final Set<ApplianceListener<Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
-    private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
-    private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
+    private Map<String, Appliance> applianceMap = new ConcurrentHashMap<>();
 
     private final Handler handler = createHandler();
-
-    private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
-        @Override
-        public void onAvailabilityChanged(@NonNull Appliance appliance) {
-            final String cppId = appliance.getNetworkNode().getCppId();
-            if (appliance.isAvailable()) {
-                if (!availableAppliances.containsKey(cppId)) {
-                    availableAppliances.put(cppId, appliance);
-                    notifyApplianceFound(appliance);
-                }
-            } else {
-                final Appliance lostAppliance = availableAppliances.remove(cppId);
-
-                if (lostAppliance != null) {
-                    notifyApplianceLost(lostAppliance);
-                }
-            }
-        }
-    };
 
     private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
@@ -77,33 +59,29 @@ public class ApplianceManager {
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
             final String cppId = networkNode.getCppId();
-            if (availableAppliances.containsKey(cppId)) {
+
+            if (applianceMap.containsKey(cppId)) {
                 onNetworkNodeUpdated(networkNode);
-            } else if (allAppliances.containsKey(cppId)) {
-                Appliance foundAppliance = allAppliances.get(cppId);
-                availableAppliances.put(cppId, foundAppliance);
-                notifyApplianceFound(foundAppliance);
             } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
                 final Appliance appliance = (Appliance) applianceFactory.createApplianceForNode(networkNode);
-                appliance.addAvailabilityListener(applianceAvailabilityListener);
-                allAppliances.put(cppId, appliance);
-                availableAppliances.put(cppId, appliance);
+                applianceMap.put(cppId, appliance);
+
                 notifyApplianceFound(appliance);
             }
         }
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+            final Appliance appliance = applianceMap.get(networkNode.getCppId());
 
             if (appliance != null) {
-                notifyApplianceLost(availableAppliances.remove(networkNode.getCppId()));
+                notifyApplianceLost(applianceMap.remove(networkNode.getCppId()));
             }
         }
 
         @Override
         public void onNetworkNodeUpdated(NetworkNode networkNode) {
-            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+            final Appliance appliance = applianceMap.get(networkNode.getCppId());
 
             if (appliance != null) {
                 appliance.getNetworkNode().updateWithValuesFrom(networkNode);
@@ -140,17 +118,18 @@ public class ApplianceManager {
      * @return The currently available appliances
      */
     public Set<Appliance> getAvailableAppliances() {
-        return new CopyOnWriteArraySet<>(availableAppliances.values());
+        return Collections.unmodifiableSet(new HashSet<>(applianceMap.values()));
     }
 
     /**
      * Find appliance by cpp id.
      *
      * @param cppId the cpp id
-     * @return the appliance
+     * @return the appliance, if found
      */
+    @Nullable
     public Appliance findApplianceByCppId(final String cppId) {
-        return availableAppliances.get(cppId);
+        return applianceMap.get(cppId);
     }
 
     /**
@@ -161,6 +140,10 @@ public class ApplianceManager {
     public void storeAppliance(@NonNull Appliance appliance) {
         // TODO
         throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    private void loadAppliancesFromPersistentStorage() {
+        // TODO
     }
 
     /**
@@ -181,10 +164,6 @@ public class ApplianceManager {
      */
     public boolean removeApplianceListener(@NonNull ApplianceListener applianceListener) {
         return applianceListeners.remove(applianceListener);
-    }
-
-    private void loadAppliancesFromPersistentStorage() {
-        // TODO
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {

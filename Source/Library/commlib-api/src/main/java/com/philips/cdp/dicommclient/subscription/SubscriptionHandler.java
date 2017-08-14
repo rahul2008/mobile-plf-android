@@ -26,22 +26,22 @@ public abstract class SubscriptionHandler {
         mSubscriptionEventListeners = subscriptionEventListeners;
         mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
 
-		Runnable responseRunnable = new Runnable() {
-	        @Override
-	        public void run() {
-	        	DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
+        Runnable responseRunnable = new Runnable() {
+            @Override
+            public void run() {
+                DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
                 for (SubscriptionEventListener subscriptionEventListener : mSubscriptionEventListeners) {
                     subscriptionEventListener.onSubscriptionEventReceived(decryptedData);
                 }
-            }};
+            }
+        };
 
         mSubscriptionEventResponseHandler.post(responseRunnable);
     }
 
-
-	protected WrappedHandler getSubscriptionEventResponseHandler() {
-        if(mSubscriptionEventResponseHandler==null){
-        	mSubscriptionEventResponseHandler = new WrappedHandler(HandlerProvider.createHandler());
+    protected WrappedHandler getSubscriptionEventResponseHandler() {
+        if (mSubscriptionEventResponseHandler == null) {
+            mSubscriptionEventResponseHandler = new WrappedHandler(HandlerProvider.createHandler());
         }
         return mSubscriptionEventResponseHandler;
     }

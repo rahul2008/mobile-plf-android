@@ -397,7 +397,7 @@ public class DeviceModel {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("SSDP discovered device detials [mUsn:").append(mUsn);
+        builder.append("SSDP discovered device details [Usn:").append(mUsn);
         builder.append("][Nts:").append(mNts).append(']');
         builder.append("[Location:").append(mLocation).append("][ IpAddress:");
         builder.append(ipAddress).append("][ Port:").append(mPort);

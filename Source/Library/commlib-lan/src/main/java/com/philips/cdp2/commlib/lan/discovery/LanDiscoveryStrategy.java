@@ -18,6 +18,7 @@ import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
-    private static long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
+    private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
 
     private static final Object LOCK = new Object();
 
@@ -73,6 +74,13 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     };
 
+    private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
+        @Override
+        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
+            // TODO pause/resume SSDP based on connectivity
+        }
+    };
+
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
@@ -84,9 +92,11 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, WifiNetworkProvider wifiNetworkProvider) {
         this.deviceCache = deviceCache;
-        this.connectivityMonitor = connectivityMonitor;
         this.wifiNetworkProvider = wifiNetworkProvider;
         this.ssdpServiceHelper = new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
+
+        this.connectivityMonitor = connectivityMonitor;
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
     }
 
     @Override

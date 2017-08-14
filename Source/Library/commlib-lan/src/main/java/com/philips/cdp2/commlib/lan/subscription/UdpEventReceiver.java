@@ -18,21 +18,21 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class UdpEventReceiver {
 
-    private static UdpEventReceiver mInstance;
+    private static UdpEventReceiver INSTANCE;
 
-    private final UdpEventListener mUdpEventListener;
+    private final UdpEventListener udpEventListener;
     private final Set<UdpEventListener> udpEventListeners = new CopyOnWriteArraySet<>();
-    private UdpReceivingThread mUdpReceivingThread;
+    private UdpReceivingThread udpReceivingThread;
 
     public synchronized static UdpEventReceiver getInstance() {
-        if (mInstance == null) {
-            mInstance = new UdpEventReceiver();
+        if (INSTANCE == null) {
+            INSTANCE = new UdpEventReceiver();
         }
-        return mInstance;
+        return INSTANCE;
     }
 
     private UdpEventReceiver() {
-        mUdpEventListener = new UdpEventListener() {
+        udpEventListener = new UdpEventListener() {
             @Override
             public void onUDPEventReceived(String data, String fromIp) {
                 notifyAllEventListeners(data, fromIp);
@@ -51,23 +51,23 @@ public class UdpEventReceiver {
     }
 
     private synchronized void startUdpThreadIfNecessary() {
-        if (mUdpReceivingThread != null) return;
+        if (udpReceivingThread != null) return;
 
         DICommLog.i(DICommLog.UDPRECEIVER, "Starting new Thread to receive UDP events");
-        mUdpReceivingThread = new UdpReceivingThread(mUdpEventListener);
-        mUdpReceivingThread.start();
+        udpReceivingThread = new UdpReceivingThread(udpEventListener);
+        udpReceivingThread.start();
     }
 
     private synchronized void stopUdpThreadIfNecessary() {
         if (shouldStopUdpThread()) {
-            mUdpReceivingThread.stopThread();
-            mUdpReceivingThread = null;
+            udpReceivingThread.stopThread();
+            udpReceivingThread = null;
             DICommLog.i(DICommLog.UDPRECEIVER, "Stopped Thread to receive UDP events");
         }
     }
 
     private boolean shouldStopUdpThread() {
-        return mUdpReceivingThread != null && udpEventListeners.isEmpty();
+        return udpReceivingThread != null && udpEventListeners.isEmpty();
     }
 
     private void addUdpEventListener(UdpEventListener udpEventListener) {
