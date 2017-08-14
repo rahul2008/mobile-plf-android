@@ -561,3 +561,18 @@ tasks.withType(Test) {
     maxParallelForks = Runtime.runtime.availableProcessors()
     maxHeapSize="2048m"
 }
+
+task('printArtifactoryApkPath') {
+    doLast {
+        if(new File('apkname.txt').exists()) {
+            new File('apkname.txt').delete()
+        }
+        File apkname = new File('apkname.txt')
+        apkname.append(objcdp.getArtifactoryContextUrl() + \
+        "/" + objcdp.getArtifactoryPublishRepoKey() + \
+        "/" + project.group.replace('.','/') + "/" + \
+        archivesBaseName + "/" + version + \
+        "/" + archivesBaseName + "-" + version + ".apk")
+        println "Artifactory path of apk stored in apkname.txt"
+    }
+}
