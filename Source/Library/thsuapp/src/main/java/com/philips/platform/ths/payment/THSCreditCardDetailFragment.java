@@ -16,8 +16,12 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 
 
 public class THSCreditCardDetailFragment extends THSBaseFragment implements View.OnClickListener {
@@ -31,7 +35,9 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     EditText mCardExpiryMonthEditText;
     EditText mCardExpiryYearEditText;
     EditText mCVCcodeEditText;
+    Label cvvDetail;
     private Button mPaymentDetailContinueButton;
+    AlertDialogFragment alertDialogFragment;
 
 
     @Nullable
@@ -47,6 +53,8 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         mPaymentDetailContinueButton = (Button) view.findViewById(R.id.ths_payment_detail_continue_button);
         mPaymentDetailContinueButton.setOnClickListener(this);
         mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_payment_detail_container);
+        cvvDetail = (Label) view.findViewById(R.id.ths_payment_detail_card_cvc_help);
+        cvvDetail.setOnClickListener(this);
         return view;
     }
 
@@ -56,6 +64,18 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         actionBarListener = getActionBarListener();
         createCustomProgressBar(mProgressbarContainer, BIG);
         mTHSCreditCardDetailPresenter.getPaymentMethod();
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //This needs to be taken care by proposition to avoid losing listener on rotation
+        alertDialogFragment = (AlertDialogFragment) getFragmentManager().findFragmentByTag(CVV_HELP_TEXT);
+        if (alertDialogFragment != null) {
+            alertDialogFragment.setPositiveButtonListener(this);
+
+        }
     }
 
     @Override
@@ -74,7 +94,12 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ths_payment_detail_continue_button) ;
-        mTHSCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_continue_button);
+        if (v.getId() == R.id.ths_payment_detail_continue_button) {
+            mTHSCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_continue_button);
+        } else if (v.getId() == R.id.ths_payment_detail_card_cvc_help) {
+            mTHSCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_card_cvc_help);
+        } else if (v.getId() == R.id.uid_alert_positive_button) {
+            mTHSCreditCardDetailPresenter.onEvent(R.id.uid_alert_positive_button);
+        }
     }
 }

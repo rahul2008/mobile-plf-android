@@ -35,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
+
 public class THSInsuranceDetailFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
@@ -66,6 +68,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     protected HealthPlan mHealthPlan;
     protected Relationship mInsuranceRelationship;
     private RelativeLayout mRelativeLayoutInsuranceContainer;
+    boolean isLaunchedFromCostSummary = false;
 
 
     @Nullable
@@ -76,7 +79,10 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         mAlertDialog = new AlertDialog.Builder(getActivity());
 
         View convertView = (View) inflater.inflate(R.layout.ths_list, null);
-
+        Bundle bundle = getArguments();
+        if (null != bundle) {
+            isLaunchedFromCostSummary = bundle.getBoolean(IS_LAUNCHED_FROM_COST_SUMMARY);
+        }
         mHealPlanListView = (ListView) convertView.findViewById(R.id.ths_listView);
         mRelativeLayoutInsuranceContainer = (RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
         insuranceEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_insurance_edit_text);

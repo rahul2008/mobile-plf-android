@@ -13,9 +13,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.registration.THSConsumer;
@@ -27,29 +25,30 @@ import java.util.Map;
 
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError>
         , THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
-    private THSBaseView uiBaseView;
+    private THSFollowUpFragment mTHSFollowUpFragment;
     private Pharmacy pharmacy;
 
     public THSFollowUpPresenter(THSFollowUpFragment tHSFollowUpFragment) {
-        this.uiBaseView = tHSFollowUpFragment;
+        this.mTHSFollowUpFragment = tHSFollowUpFragment;
     }
 
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.pth_intake_follow_up_continue_button) {
 
-            if (null != ((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText() && !((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().isEmpty()) {
+            if (null != mTHSFollowUpFragment.mPhoneNumberEditText.getText() && !mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().isEmpty()) {
+                mTHSFollowUpFragment.mFollowUpContinueButton.showProgressIndicator();
                 acceptLegalText();
-                updateConsumer(((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().trim());
+                updateConsumer(mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().trim());
+            }else {
+                mTHSFollowUpFragment.showToast("Please Enter a valid Phone Number");
             }
-            // uiBaseView.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
+            // mTHSFollowUpFragment.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
             final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
-            fragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
-            uiBaseView.addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
-        }else {
-            ((THSBaseFragment)uiBaseView).showToast("Please Enter a valid Phone Number");
+            fragment.setFragmentLauncher(mTHSFollowUpFragment.getFragmentLauncher());
+            mTHSFollowUpFragment.addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
         }
     }
 
@@ -65,7 +64,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
 
         try {
-            THSManager.getInstance().updateConsumer(uiBaseView.getFragmentActivity(), updatedPhoner, this);
+            THSManager.getInstance().updateConsumer(mTHSFollowUpFragment.getFragmentActivity(), updatedPhoner, this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -75,7 +74,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     public void fetchConsumerPreferredPharmacy(THSConsumer thsConsumer) {
         try {
-            THSManager.getInstance().getConsumerPreferredPharmacy(uiBaseView.getFragmentActivity(), thsConsumer, this);
+            THSManager.getInstance().getConsumerPreferredPharmacy(mTHSFollowUpFragment.getFragmentActivity(), thsConsumer, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -83,7 +82,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     public void getConsumerShippingAddress(THSConsumer thsConsumer) {
         try {
-            THSManager.getInstance().getConsumerShippingAddress(uiBaseView.getFragmentActivity(), thsConsumer, this);
+            THSManager.getInstance().getConsumerShippingAddress(mTHSFollowUpFragment.getFragmentActivity(), thsConsumer, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -91,7 +90,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1) {
-
+        mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
+        mTHSFollowUpFragment.showToast(var1.toString());
     }
 
     @Override
@@ -103,7 +103,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerFailure(Throwable var1) {
-
+        mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
+       mTHSFollowUpFragment.showToast(var1.getMessage());
     }
 
     @Override
@@ -111,18 +112,18 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         if (null != pharmacy) {
             this.pharmacy = pharmacy;
             getConsumerShippingAddress(THSManager.getInstance().getPTHConsumer());
-            //((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
+            //mTHSFollowUpFragment.displaySearchPharmacy();
         } else {
-            ((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
+            mTHSFollowUpFragment.displaySearchPharmacy();
         }
     }
 
     @Override
     public void onSuccessfulFetch(Address address, SDKError sdkError) {
         if (null != address) {
-            ((THSFollowUpFragment) uiBaseView).displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
+            mTHSFollowUpFragment.displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
         } else {
-            ((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
+            mTHSFollowUpFragment.displaySearchPharmacy();
         }
     }
 
