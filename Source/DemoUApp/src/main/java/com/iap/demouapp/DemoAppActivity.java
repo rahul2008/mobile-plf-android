@@ -130,7 +130,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         //Integration interface
 
         mIAPSettings = new IAPSettings(this);
-        setLocalFromServiceDiscovery();
+        if (mUser.isUserSignIn())
+            setLocalFromServiceDiscovery();
+        else {
+            mRegister.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+        }
         // enableViews();
 
     }
@@ -434,7 +439,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.GONE);
         }
 
-         mIapInterface.getCompleteProductList(this);
+        mIapInterface.getCompleteProductList(this);
     }
 
     @Override
