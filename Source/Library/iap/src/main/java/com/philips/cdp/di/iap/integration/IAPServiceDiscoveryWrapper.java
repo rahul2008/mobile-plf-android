@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -45,6 +46,7 @@ public class IAPServiceDiscoveryWrapper {
                 if (locale != null) {
                     setLangAndCountry(locale);
                 }
+
                 //Condition for launching IAP screens
                 if (iapListener == null && entry == null) {
                     if (configUrls == null || configUrls.isEmpty()) {
@@ -55,6 +57,7 @@ public class IAPServiceDiscoveryWrapper {
                         //    String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                         mIAPSettings.setHostPort(configUrls + "/");
                     }
+                    pIAPHandler.initControllerFactory();
                     launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
                 } else {
                     //Condition for returning gatCartCount API and getCompleteProductlist API
@@ -66,13 +69,13 @@ public class IAPServiceDiscoveryWrapper {
                         //String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                         mIAPSettings.setHostPort(configUrls + "/");
                         mIAPSettings.setProposition(loadConfigParams());
+                        pIAPHandler.initControllerFactory();
                         if (entry.equalsIgnoreCase("completeProductList"))
                             pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
                         else
                             pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
                     }
                 }
-                pIAPHandler.initControllerFactory();
             }
 
             @Override
@@ -109,8 +112,8 @@ public class IAPServiceDiscoveryWrapper {
         localeArray = locale.split("_");
         CartModelContainer.getInstance().setLanguage(localeArray[0]);
         CartModelContainer.getInstance().setCountry(localeArray[1]);
-
-//        IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
+        HybrisDelegate.getInstance().getStore().setLangAndCountry(localeArray[0], localeArray[1]);
+        IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
 //    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener, final String entry) {
