@@ -21,7 +21,7 @@ public class IAPSettings extends UappSettings {
         return mUseLocalData;
     }
 
-    public void setUseLocalData(boolean isLocalData) {
+    void setUseLocalData(boolean isLocalData) {
         mUseLocalData = isLocalData;
     }
 

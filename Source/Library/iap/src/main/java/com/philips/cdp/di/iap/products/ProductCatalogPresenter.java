@@ -12,19 +12,17 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.GetProductCatalogRequest;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,15 +57,15 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     public void getCompleteProductList(final IAPListener iapListener) {
-        String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
-        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
-        completeProductList(iapListener, currentCountryCode, savedCountry);
+//        String currentCountryCode = HybrisDelegate.getInstance().getStore().getCountry();
+//        String savedCountry = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+        completeProductList(iapListener);
     }
 
-    public void completeProductList(IAPListener iapListener, String currentCountryCode, String savedCountry) {
-        if (currentCountryCode.equalsIgnoreCase(savedCountry)
-                && CartModelContainer.getInstance().getProductList() != null
-                && CartModelContainer.getInstance().getProductList().size() != 0) {
+    public void completeProductList(IAPListener iapListener) {
+        if (
+                CartModelContainer.getInstance().getProductList() != null
+                        && CartModelContainer.getInstance().getProductList().size() != 0) {
             iapListener.onGetCompleteProductList(getProductCatalogDataFromStoredData());
         } else {
             CartModelContainer.getInstance().clearCategorisedProductList();
@@ -164,7 +162,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void onModelDataError(final Message msg) {
-       // if(mProductCatalogListener== null) return;
+        // if(mProductCatalogListener== null) return;
         if (msg.obj instanceof IAPNetworkError)
             mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
         else {

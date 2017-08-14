@@ -16,7 +16,6 @@ import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -126,13 +125,13 @@ public class ProductCatalogHelper {
     }
 
     public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPListener listener) {
+        storeData(data);
         if (mProductCatalogListener != null) {
             mProductCatalogListener.onLoadFinished(data, paginationEntity);
         }
         if (listener != null) {
             listener.onGetCompleteProductList(getProductCTNs(data));
         }
-        storeData(data);
     }
 
     protected ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
@@ -147,21 +146,21 @@ public class ProductCatalogHelper {
         CartModelContainer container = CartModelContainer.getInstance();
         if (data == null) return;
 
-        String currentCountry = container.getCountry();
+       // String currentCountry = container.getCountry();
         String CTN;
         for (ProductCatalogData entry : data) {
             CTN = entry.getCtnNumber();
-            String countryFromPreferenceForKey = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
-            if (countryFromPreferenceForKey != null) {
-                if (CTN != null && currentCountry.equalsIgnoreCase(countryFromPreferenceForKey)) {
+            //String countryFromPreferenceForKey = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
+           // if (countryFromPreferenceForKey != null) {
+                if (CTN != null ) {
                     if (!container.isProductCatalogDataPresent(CTN)) {
                         container.addProduct(CTN, entry);
                     }
                 } else {
                     CartModelContainer.getInstance().clearCategorisedProductList();
                 }
-            }
+//            }
         }
-        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
+       // Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
     }
 }

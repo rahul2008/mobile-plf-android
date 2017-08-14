@@ -32,7 +32,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
-            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mIAPHandler, (IAPLaunchInput) uappLaunchInput);
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mIAPHandler, (IAPLaunchInput) uappLaunchInput, null, null);
         } else {
             throw new RuntimeException("User is not logged in.");// Confirm the behaviour on error Callback
         }
@@ -42,8 +42,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getProductCartCount(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn())
-            // mIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
-            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mIAPHandler, iapListener, "productCartCount");
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
         else throw new RuntimeException("User is not logged in.");
     }
 
@@ -51,9 +50,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getCompleteProductList(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn()) {
-            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mIAPHandler, iapListener, "completeProductList");
-//            mIAPHandler.initIAPRequisite();
-//            mIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
         } else throw new RuntimeException("User is not logged in.");
     }
 }
