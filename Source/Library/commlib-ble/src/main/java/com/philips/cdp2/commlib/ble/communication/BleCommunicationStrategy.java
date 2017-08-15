@@ -12,6 +12,7 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
@@ -44,17 +45,25 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private final BleDeviceCache deviceCache;
     @NonNull
     private final ScheduledThreadPoolExecutor requestExecutor;
+
     private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
         @Override
         public void onRemoved(String cppId) {
             isAvailable = false;
-            notifyAvailabilityChanged();
         }
 
         @Override
         public void onAdded(String cppId) {
-            isAvailable = true;
-            notifyAvailabilityChanged();
+            final BleCacheData cacheData = deviceCache.getCacheData(BleCommunicationStrategy.this.cppId);
+            cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
+                @Override
+                public void onAvailabilityChanged(@NonNull BleCacheData object) {
+                    if (isAvailable != object.isAvailable()) {
+                        isAvailable = object.isAvailable();
+                        notifyAvailabilityChanged();
+                    }
+                }
+            });
         }
     };
 
@@ -100,13 +109,13 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval) {
         this.cppId = cppId;
         this.deviceCache = deviceCache;
-        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
-
-        this.isAvailable = deviceCache.contains(cppId);
 
         this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.requestExecutor = new ScheduledThreadPoolExecutor(1);
+
+        this.isAvailable = deviceCache.contains(cppId);
+        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
     }
 
     @Override

@@ -89,18 +89,22 @@ public class DeviceCache<T extends CacheData> implements ObservableCollection<St
     }
 
     @Override
-    public void addModificationListener(String forObject, ModificationListener<String> listener) {
-        if (modificationListeners.get(forObject) == null) {
-            modificationListeners.put(forObject, new CopyOnWriteArraySet<ModificationListener<String>>());
+    public void addModificationListener(String forCppId, ModificationListener<String> listener) {
+        if (modificationListeners.get(forCppId) == null) {
+            modificationListeners.put(forCppId, new CopyOnWriteArraySet<ModificationListener<String>>());
         }
 
-        modificationListeners.get(forObject).add(listener);
+        modificationListeners.get(forCppId).add(listener);
+
+        if (deviceMap.containsKey(forCppId)) {
+            listener.onAdded(forCppId);
+        }
     }
 
     @Override
-    public void removeModificationListener(String forObject, ModificationListener<String> listener) {
-        if (modificationListeners.get(forObject) != null) {
-            modificationListeners.get(forObject).remove(listener);
+    public void removeModificationListener(String forCppId, ModificationListener<String> listener) {
+        if (modificationListeners.get(forCppId) != null) {
+            modificationListeners.get(forCppId).remove(listener);
         }
     }
 }

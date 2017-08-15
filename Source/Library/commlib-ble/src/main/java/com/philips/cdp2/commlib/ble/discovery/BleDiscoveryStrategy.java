@@ -64,6 +64,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
             }
 
             if (cacheData.getDevice().getState() == Disconnected) {
+                cacheData.setAvailable(false);
                 notifyNetworkNodeLost(networkNode);
             } else {
                 cacheData.resetTimer();
