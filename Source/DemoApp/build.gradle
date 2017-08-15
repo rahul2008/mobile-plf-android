@@ -10,7 +10,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+//        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
@@ -24,18 +26,18 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
+//        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+//        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
+//        maven {
+//            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'
+//        }
+//        maven {
+//            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+//            credentials {
+//                username = "readonly"
+//                password = "123qweasdzxc"
+//            }
+//        }
     }
 
     tasks.withType(Test) {

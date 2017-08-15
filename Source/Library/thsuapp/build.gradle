@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 apply from: 'build-awsdk-dependencies.gradle'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'jacoco'
@@ -14,19 +15,15 @@ def coverageSourceDirs = [
 
 buildscript {
     repositories {
-
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'}
-
         maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
-                password = "readonly"
+                password = "123qweasdzxc"
             }
         }
         maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -38,7 +35,7 @@ buildscript {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.6.2'
@@ -56,31 +53,13 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = project.name
-
+archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url objcdp.getArtifactoryUrl() }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
+        maven {url "https://clojars.org/repo/"}
         maven {
             url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
@@ -88,12 +67,82 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {url "https://clojars.org/repo/"}
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
     }
 }
 
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications ('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    from files(objcdp.getExternalDocPath()) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 25
@@ -103,7 +152,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.0"
+        versionName objcdp.getVersionWithHash()
 
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 25
