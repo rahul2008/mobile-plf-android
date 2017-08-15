@@ -60,7 +60,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     private void setUpRecoveryEmail() {
         recoveryEmail.setInputType(InputType.TYPE_CLASS_TEXT);
-        recoveryEmail.setHint(getString(R.string.reg_recover_email_enter_your_email));
+        recoveryEmail.setHint(getString(R.string.reg_EmailAddPlaceHolder_txtField));
     }
 
     @Override
