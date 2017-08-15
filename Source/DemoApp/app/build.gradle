@@ -122,7 +122,7 @@ publishing {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
@@ -238,9 +238,14 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-        // set JVM arguments for the test JVM(s)
+
         unitTests.all {
+            // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
         }
     }
 }
@@ -275,4 +280,8 @@ dependencies {
 task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
 }

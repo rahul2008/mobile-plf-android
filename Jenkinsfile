@@ -15,7 +15,7 @@ node ('android&&docker') {
 	timestamps {
 		try {
             stage ('Checkout') {
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/pth-android-telehealth-app']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ths-android-telehealth-app']]])
                 step([$class: 'StashNotifier'])
             }
             stage ('build') {
@@ -39,8 +39,7 @@ node ('android&&docker') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
                         cd ./Source/DemoApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish
                     '''
                 }
             }
@@ -60,7 +59,7 @@ node ('android&&docker') {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'pth'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ths'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 }
             }
         } catch(err) {
