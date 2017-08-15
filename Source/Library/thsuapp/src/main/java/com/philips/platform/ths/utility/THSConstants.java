@@ -33,4 +33,11 @@ public class THSConstants {
     public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
 
+    public static final String IS_INSURANCE_AVAILABLE_KEY = "IS_INSURANCE_AVAILABLE_KEY";
+    public static final String IS_PAYMENT_METHOD_AVAILABLE_KEY = "IS_PAYMENT_METHOD_AVAILABLE_KEY";
+    public static final String IS_LAUNCHED_FROM_COST_SUMMARY = "IS_LAUNCHED_FROM_COST_SUMMARY";
+    public static final String CVV_HELP_TEXT = "CVV_HELP_TEXT";
+
+
+
 }

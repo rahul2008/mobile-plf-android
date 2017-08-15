@@ -7,11 +7,13 @@
 package com.philips.platform.ths.payment;
 
 import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, THSPaymentCallback.THSSDKValidatedCallback<THSPaymentMethod, THSSDKError> {
+public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> {
 
     private THSCreditCardBillingAddressFragment mTHSBillingAddressFragment;
     private THSCreatePaymentRequest mTHSCreatePaymentRequest;
@@ -78,19 +80,39 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     }
 
 
+    void updateAddresIfAvailable(Address address) {
+        if (null != address) {
+            mTHSBillingAddressFragment.mAddressOneEditText.setText(address.getAddress1());
+            mTHSBillingAddressFragment.mAddressTwoEditText.setText(address.getAddress2());
+            mTHSBillingAddressFragment.mCityEditText.setText(address.getCity());
+            mTHSBillingAddressFragment.mZipcodeEditText.setText(address.getZipCode());
+            State currentState = address.getState();
+            if (null != currentState) {
+                //  currentState.
+                int currentStateindex = mTHSBillingAddressFragment.stateList.indexOf(currentState);
+                if (currentStateindex > -1) {
+                    mTHSBillingAddressFragment.stateSpinner.setSelection(currentStateindex);
+                }
+            }
+        }
+
+    }
+
     //// start os update payment callback
     @Override
-    public void onResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
+    public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null == tHSSDKError.getSdkError()) {
             AmwellLog.i("updatePayment", "success");
-            mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
+            //mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
+            mTHSBillingAddressFragment.getFragmentActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG,0);
+
         } else {
             AmwellLog.i("updatePayment", "failed");
         }
     }
 
     @Override
-    public void onFailure(Throwable throwable) {
+    public void onGetPaymentFailure(Throwable throwable) {
         AmwellLog.i("updatePayment", "failed");
     }
 
