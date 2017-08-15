@@ -73,7 +73,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
-        assertEquals(1,chapterAdapter.getItemCount());
+        assertEquals(2,chapterAdapter.getItemCount());
     }
 
     @Test
