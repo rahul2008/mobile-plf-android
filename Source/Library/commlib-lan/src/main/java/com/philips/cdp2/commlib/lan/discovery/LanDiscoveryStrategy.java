@@ -37,7 +37,7 @@ import static java.util.Objects.requireNonNull;
 
 public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
-    private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
+    private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.MINUTES.toMillis(1);
 
     private static final Object LOCK = new Object();
 
@@ -136,7 +136,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
         if (this.deviceCache.contains(networkNode.getCppId())) {
             DICommLog.i(DICommLog.SSDP, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
-            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
+            deviceCache.getCacheData(networkNode.getCppId()).resetTimer();
 
             notifyNetworkNodeUpdated(networkNode);
         } else {

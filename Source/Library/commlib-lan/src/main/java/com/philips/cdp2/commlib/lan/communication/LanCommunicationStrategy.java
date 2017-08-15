@@ -149,6 +149,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
+        localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
         requestQueue.addRequest(request);
@@ -230,10 +231,12 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
             notifyAvailabilityChanged();
         }
 
-        if (isAvailable) {
-            localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
-        } else {
-            localSubscriptionHandler.disableSubscription();
+        if (localSubscriptionHandler != null) {
+            if (isAvailable) {
+                localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
+            } else {
+                localSubscriptionHandler.disableSubscription();
+            }
         }
     }
 }
