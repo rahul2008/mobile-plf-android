@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 
+import com.crittercism.app.Crittercism;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -39,6 +40,7 @@ import com.squareup.leakcanary.LeakCanary;
 public class AppFrameworkApplication extends Application {
     private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
+    public static final String Apteligent_APP_ID = "69bb94377f0949908f3eeba142b8b21100555300";
     public AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
@@ -63,6 +65,11 @@ public class AppFrameworkApplication extends Application {
             LeakCanary.install(this);
         }
         super.onCreate();
+
+        /*
+         * Apteligent initialization.
+         */
+        Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
     }
 
     /**
@@ -108,8 +115,6 @@ public class AppFrameworkApplication extends Application {
         }
         RALog.d("test", "onCreate end::");
         callback.onAppStatesInitialization();
-
-
     }
 
 
@@ -187,6 +192,8 @@ public class AppFrameworkApplication extends Application {
         if (connectivityChangeReceiver != null) {
             unregisterReceiver(connectivityChangeReceiver);
         }
+        AppFrameworkTagging.getInstance().releaseApteligentReceiver();
+
         super.onTerminate();
     }
 
@@ -209,7 +216,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-        appInfra = getAppInfraInstance();
+        appInfra = createAppInfraInstance();
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
@@ -239,7 +246,7 @@ public class AppFrameworkApplication extends Application {
         });
     }
 
-    protected AppInfra getAppInfraInstance() {
+    protected AppInfra createAppInfraInstance() {
         return new AppInfra.Builder().build(getApplicationContext());
     }
 }
