@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.lan.discovery;
 
 import android.net.wifi.SupplicantState;
@@ -32,6 +33,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Objects.requireNonNull;
+
 public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
@@ -42,7 +45,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private final SsdpServiceHelper ssdpServiceHelper;
     @NonNull
     private final LanDeviceCache deviceCache;
-    private final ConnectivityMonitor connectivityMonitor;
+    @NonNull
     private final WifiNetworkProvider wifiNetworkProvider;
 
     private final Handler.Callback ssdpCallback = new Handler.Callback() {
@@ -90,13 +93,16 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     };
 
-    public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, WifiNetworkProvider wifiNetworkProvider) {
+    public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
+        requireNonNull(deviceCache);
+        requireNonNull(connectivityMonitor);
+        requireNonNull(wifiNetworkProvider);
+
         this.deviceCache = deviceCache;
         this.wifiNetworkProvider = wifiNetworkProvider;
         this.ssdpServiceHelper = new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
 
-        this.connectivityMonitor = connectivityMonitor;
-        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
+        connectivityMonitor.addAvailabilityListener(availabilityListener);
     }
 
     @Override
