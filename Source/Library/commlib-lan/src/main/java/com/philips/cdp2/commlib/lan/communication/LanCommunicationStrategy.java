@@ -32,18 +32,22 @@ import java.util.Map;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
 
+import static java.util.Objects.requireNonNull;
+
 public class LanCommunicationStrategy extends CommunicationStrategy {
-    private RequestQueue requestQueue;
-    private DISecurity diSecurity;
-    private boolean isKeyExchangeOngoing;
-    private final LocalSubscriptionHandler localSubscriptionHandler;
-    private final NetworkNode networkNode;
     @NonNull
-    private final LanDeviceCache deviceCache;
-    private final ConnectivityMonitor connectivityMonitor;
+    private final RequestQueue requestQueue;
+    @NonNull
+    private final DISecurity diSecurity;
+    @NonNull
+    private final LocalSubscriptionHandler localSubscriptionHandler;
+    @NonNull
+    private final NetworkNode networkNode;
+
     @Nullable
     private SSLContext sslContext;
 
+    private boolean isKeyExchangeOngoing;
     private boolean isAvailable;
     private boolean isConnected;
     private boolean isCached;
@@ -84,11 +88,11 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         }
     };
 
-    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, ConnectivityMonitor connectivityMonitor) {
-        this.networkNode = networkNode;
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor) {
+        this.networkNode = requireNonNull(networkNode);
 
-        this.deviceCache = deviceCache;
-        this.deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
+        requireNonNull(deviceCache);
+        deviceCache.addModificationListener(networkNode.getCppId(), deviceCacheListener);
         this.isCached = deviceCache.contains(networkNode.getCppId());
 
         if (networkNode.isHttps()) {
@@ -105,11 +109,12 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         requestQueue = createRequestQueue();
         localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
 
-        this.connectivityMonitor = connectivityMonitor;
-        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
+        requireNonNull(connectivityMonitor);
+        connectivityMonitor.addAvailabilityListener(availabilityListener);
     }
 
     @VisibleForTesting
+    @NonNull
     RequestQueue createRequestQueue() {
         return new RequestQueue();
     }

@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.commlib.lan.communication;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
@@ -51,6 +53,7 @@ public class LanCommunicationStrategyTest {
 
         lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock, connectivityMonitor) {
             @Override
+            @NonNull
             RequestQueue createRequestQueue() {
                 return requestQueueMock;
             }

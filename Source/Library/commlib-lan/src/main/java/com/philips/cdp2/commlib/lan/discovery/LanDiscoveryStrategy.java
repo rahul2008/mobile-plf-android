@@ -94,14 +94,11 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     };
 
     public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
-        requireNonNull(deviceCache);
-        requireNonNull(connectivityMonitor);
-        requireNonNull(wifiNetworkProvider);
-
-        this.deviceCache = deviceCache;
-        this.wifiNetworkProvider = wifiNetworkProvider;
+        this.deviceCache = requireNonNull(deviceCache);
+        this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
         this.ssdpServiceHelper = new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
 
+        requireNonNull(connectivityMonitor);
         connectivityMonitor.addAvailabilityListener(availabilityListener);
     }
 
