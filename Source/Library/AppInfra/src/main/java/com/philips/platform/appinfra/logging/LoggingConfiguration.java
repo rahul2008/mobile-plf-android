@@ -191,7 +191,7 @@ class LoggingConfiguration {
                 consoleHandler.setFormatter(getLogFormatter());
                 // mConsoleHandler.setFilter(new LogFilter(null,"ev1"));
                 getJavaLogger().addHandler(consoleHandler);
-            } else {
+            } else if (mAppInfra.getLogging() != null) {
                 // nothing to do, mConsoleHandler already added to Logger
                 mAppInfra.getLogging().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Console logger already added to current Logger" + getJavaLogger().getName());
             }
