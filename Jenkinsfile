@@ -1,4 +1,4 @@
-#!/usr/bin/env groovy																											
+#!/usr/bin/env groovy                                                                                                           
 
 /* please see ReadMe.md for explanation */ 
 
@@ -14,9 +14,9 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_CDP2_TeamSabers@philips.com'
 def errors = []
 
-node ('android&&device') {
-	timestamps {
-		try {
+node ('android&&docker') {
+    timestamps {
+        try {
             stage ('Checkout') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/dcc-android-consumercare-app']]])
                 step([$class: 'StashNotifier'])
@@ -27,7 +27,7 @@ node ('android&&device') {
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
                     '''
                 }
             } else {
@@ -36,25 +36,17 @@ node ('android&&device') {
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease
                     '''
                 }
             }
-			stage ('save dependencies list') {
+            stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
-    			    cd ./Source/DemoApp 
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-                	cd ../Library 
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    cd ./Source/DemoApp 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat                  
+                    cd ../Library 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
-            }
-
-            stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
-                archiveArtifacts '**/dependencies.lock'
             }
 
             if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
@@ -77,15 +69,22 @@ node ('android&&device') {
                     }
                 }                
             } 
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                junit allowEmptyResults: true, testResults: 'Source/DemoApp/launchDigitalCare/build/reports/lint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/Library/digitalCare/build/reports/lint-results.xml'
+                archiveArtifacts '**/*dependencies*.lock'
+            }
             stage('informing') {
-            	step([$class: 'StashNotifier'])
-            	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+                step([$class: 'StashNotifier'])
+                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
         }         
-	} // end timestamps
+    } // end timestamps
 } // end node ('android')
 
 node('master') {
