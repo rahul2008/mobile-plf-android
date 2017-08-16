@@ -13,7 +13,6 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
@@ -173,10 +172,7 @@ public class PairingHandler<T extends Appliance> {
                 mAppliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
                 mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
-                DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
-                T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
-                appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-                discoveryManager.updateApplianceInDatabase(appliance);
+                // TODO: Store the Appliance in the database
 
                 notifyListenerSuccess();
             }

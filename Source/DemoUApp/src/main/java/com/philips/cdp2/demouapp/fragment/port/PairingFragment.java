@@ -64,8 +64,7 @@ public class PairingFragment extends Fragment {
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
-                discoveryManager.insertApplianceToDatabase(appliance);
+                // Store appliance into database
 
                 showToast("Pairing successful");
             }
