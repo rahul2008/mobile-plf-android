@@ -227,15 +227,6 @@ class KeyBagHelper {
         }
     }
 
-    private void mapKeyIndex(AISDResponse.AISDPreference aiSdPreference, final ArrayList<AIKMService> aiKmServices, ArrayList<String> serviceIds, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
-        serviceIds = getAppendedServiceIds(serviceIds);
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
-        if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference) {
-            mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIds, keyBagIndexListener);
-        } else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-            mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
-    }
-
     @NonNull
     private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final ArrayList<AIKMService> aikmServices) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -260,7 +251,7 @@ class KeyBagHelper {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 mapServiceDiscoveryResponse(urlMap, aiKmServices);
-                mapKeyIndex(aiSdPreference, aiKmServices, serviceIds, onGetKeyBagMapListener);
+                getServiceDiscoveryUrlMap(getAppendedServiceIds(serviceIds), aiSdPreference, null, getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices));
             }
 
             @Override
