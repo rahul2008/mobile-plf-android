@@ -273,7 +273,7 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="iap_order_right_arrow" parent="FontIcon.Small"/>
+    <style name="iap_order_right_arrow" parent="FontIcon.Small" />
 
     <style name="ButtonsCategoryStyle" parent="UIDLabel.RecyclerViewHeaderText">
         <item name="android:layout_width">match_parent</item>
@@ -287,6 +287,7 @@
         <item name="android:layout_height">1dip</item>
         <item name="android:background">@color/iap_button_border_color</item>
     </style>
+
     <style name="Iap_RadioButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -297,5 +298,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/border16_margin_left_right</item>
         <item name="android:layout_marginEnd">@dimen/border16_margin_left_right</item>
+    </style>
+
+    <style name="IAPQuietButton" parent="UIDQuietButton">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 </resources>

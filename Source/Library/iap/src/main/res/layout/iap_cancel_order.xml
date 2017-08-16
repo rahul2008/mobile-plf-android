@@ -46,10 +46,11 @@
         android:textSize="@dimen/iap_text_size_16sp"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/border24_margin"
-        android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor" />
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/bt_phone_number"
+        style="@style/iapCentralesansBookFont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="true"

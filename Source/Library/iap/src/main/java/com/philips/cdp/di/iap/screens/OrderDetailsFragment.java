@@ -45,8 +45,6 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.R.attr.phoneNumber;
-
 
 public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
 
@@ -115,16 +113,13 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
-        tvOpeningTimings=(TextView)view.findViewById(R.id.tv_opening_timings);
-        btncall=(Button) view.findViewById(R.id.btn_call);
+        tvOpeningTimings = (TextView) view.findViewById(R.id.tv_opening_timings);
+        btncall = (Button) view.findViewById(R.id.btn_call);
         btncall.setOnClickListener(this);
-
 
 
         tvCardName = (TextView) view.findViewById(R.id.tv_card_name);
         tvCardNo = (TextView) view.findViewById(R.id.tv_card_no);
-        Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
-        mBuyNow.setOnClickListener(this);
 
         Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
@@ -240,8 +235,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     }
 
     private void setProductSummary(ArrayList<ProductData> productList) {
-
-
         if (!productList.isEmpty()) {
             ProductData data = productList.get(0);
 
@@ -250,11 +243,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             tvPriceTotal.setText(data.getFormatedPrice());
 
         }
-
-    }
-
-    private void handleTax(ProductData data) {
-
     }
 
     private void populateProductNameQuantityAndPrice(ArrayList<ProductData> productList) {
@@ -317,8 +305,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             }
         }
 
-        if(v.getId() == R.id.btn_call){
-            dialCallCenter("0844 - 338 - 0409");
+        if (v.getId() == R.id.btn_call) {
+            dialCallCenter(mPhoneContact);
         }
 
     }
@@ -326,7 +314,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         String orderStatus = detail.getStatusDisplay();
-        String statusString = orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1);
+        String statusString = orderStatus.substring(0, 1).toLowerCase() + orderStatus.substring(1);
 
         mOrderState.setText(String.format(mContext.getString(R.string.order_state_msg), statusString));
 
@@ -420,23 +408,11 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         return false;
     }
 
-    void updateCallUsButton(){
-        //Do something here pabitra
-
-    }
-
-    void disableCallButton(){
-        btncall.setText(mContext.getString(R.string.call_center_closed));
-        btncall.setEnabled(false);
-    }
-
-    void enableCallButton(){
-        btncall.setText(mContext.getString(R.string.call_us));
-        btncall.setEnabled(true);
-    }
-
-    void dialCallCenter(String phoneNumber){
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
-        startActivity(intent);
+    void dialCallCenter(String phoneNumber) {
+        Intent i = new Intent(Intent.ACTION_DIAL);
+        String p = "tel:" + PhoneNumberUtils.formatNumber(phoneNumber,
+                HybrisDelegate.getInstance().getStore().getCountry());
+        i.setData(Uri.parse(p));
+        startActivity(i);
     }
 }

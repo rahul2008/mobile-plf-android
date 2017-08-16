@@ -303,4 +303,6 @@
     <string name="daily_selling_product">Daily Collection Miniblender</string>
     <string name="nothing_in_cart">Nothing in your cart</string>
     <string name="iap_confirm">Confirm</string>
+    <string name="iap_empty_purchase_history_dls">If you placed your order using this app, please check that you have received an order confirmation email.</string>
+    <string name="iap_other_channel_dls">If you placed your ordered using another retailer than your order may not show up here.</string>
 </resources>
