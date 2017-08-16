@@ -49,7 +49,7 @@ class IAPHandler {
     }
 
     void initIAPRequisite() {
-        initControllerFactory();
+      //  initControllerFactory();
         initHybrisDelegate();
     }
 

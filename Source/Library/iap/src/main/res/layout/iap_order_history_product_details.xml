@@ -19,7 +19,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_productName"
-            style="@style/iapCentralesansBoldFont"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_productName"
             android:layout_marginTop="@dimen/iap_margin_4dp"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:textSize="@dimen/iap_text_size_12" />
 
     </RelativeLayout>

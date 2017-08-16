@@ -40,19 +40,19 @@ public class CancelOrderFragment extends InAppBaseFragment {
 
         Button phoneNumberText = (Button) rootView.findViewById(R.id.bt_phone_number);
         TextView cancelOrderId = (TextView) rootView.findViewById(R.id.tv_cancel_order_history_title);
-        TextView keepOrderText = (TextView) rootView.findViewById(R.id.tv_from_other_channel);
+        TextView refOrderText = (TextView) rootView.findViewById(R.id.iap_cancel_order_ref);
         TextView openingTimingText = (TextView) rootView.findViewById(R.id.tv_opening_timings);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-                phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
-                phoneNumberText.setText(mContext.getString(R.string.iap_call)+ " " + PhoneNumberUtils.formatNumber(phoneNumber,
-                        HybrisDelegate.getInstance().getStore().getCountry()));
-                String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
-                String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
-                openingTimingText.setText(mContext.getString(R.string.iap_opening_hours) + weekdaysTiming + "\n" + saturdayTiming);
-                cancelOrderId.setText(mContext.getString(R.string.iap_cancel_your_order) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
-                keepOrderText.setText(mContext.getString(R.string.iap_keep_order_number) + " #" + bundle.getString(IAPConstant.IAP_ORDER_ID));
+            phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
+            phoneNumberText.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(phoneNumber,
+                    HybrisDelegate.getInstance().getStore().getCountry()));
+            String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
+            String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
+            openingTimingText.setText(weekdaysTiming + "\n" + saturdayTiming);
+            cancelOrderId.setText(String.format(mContext.getString(R.string.iap_cancel_order_number), bundle.getString(IAPConstant.IAP_ORDER_ID)));
+            refOrderText.setText(String.format(mContext.getString(R.string.iap_cancel_order_dls_for_your_ref_sg), bundle.getString(IAPConstant.IAP_ORDER_ID)));
         }
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +64,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
                 startActivity(i);
             }
         });
+
         return rootView;
     }
 
@@ -76,7 +77,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_cancel_order_title, true);
+        setTitleAndBackButtonVisibility(R.string.iap_cancel_your_order, true);
     }
 
     @Override

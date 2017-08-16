@@ -32,7 +32,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
@@ -234,12 +233,12 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     @Test
     public void testGetCompleteProductListWithStoredProductList() throws Exception {
         CartModelContainer.getInstance().addProduct("HX8033/11", new ProductCatalogData());
-        mProductCatalogPresenter.completeProductList(this, "US", "US");
+        mProductCatalogPresenter.completeProductList(this);
     }
 
     @Test
     public void testGetCompleteProductListWithSameCountryCode() throws Exception {
-        mProductCatalogPresenter.completeProductList(this, "US", "US");
+        mProductCatalogPresenter.completeProductList(this);
     }
 
     @Override

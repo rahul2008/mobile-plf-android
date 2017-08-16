@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_order_state"
             android:text="@string/iap_order_number_with_colon"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:textSize="@dimen/iap_text_size_12" />
 
         <!--  <com.philips.platform.uid.view.widget.Label
@@ -116,7 +116,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/total_item_text"
-            style="@style/iapCentralesansBoldFont"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -137,12 +137,12 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_total_price"
-            style="@style/iapCentralesansBoldFont"
+            style="@style/iapCentralesansMediumFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-            android:textSize="@dimen/iap_text_size_16sp" />
+            android:textSize="@dimen/header" />
     </RelativeLayout>
 
 </LinearLayout>

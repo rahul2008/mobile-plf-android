@@ -5,6 +5,7 @@
     <!-- Shopping Cart screen -->
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_shopping_cart_item">Shopping Cart item</string>
+    <string name="iap_product_item_quantity">Quantity: </string>
     <string name="iap_delete">Delete</string>
     <string name="iap_info">Info</string>
     <string name="iap_continue_shopping">Continue shopping</string>
@@ -283,5 +284,10 @@
     <string name="iap_order_state">Your order is %s</string>
     <string name="iap_order_number_with_colon">Order number: %s</string>
     <string name="iap_quantity">Quantity: %s</string>
+    //Cancel Order
+    <string name="iap_cancel_order_number">Cancel order number %s</string>
+    <string name="iap_cancel_order_dls_msg">You can cancel your order before it is shipped. Our consumer care team can assist you with this.</string>
+    <string name="iap_cancel_order_dls_for_your_ref_sg">For your reference, your order number is %s.</string>
+
 
 </resources>

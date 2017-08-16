@@ -66,9 +66,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 View hiddenInfo = View.inflate(mContext, R.layout.iap_order_history_product_details, null);
                 orderHistoryHolder.mProductDetailsLayout.addView(hiddenInfo);
                 ((TextView) hiddenInfo.findViewById(R.id.tv_productName)).setText(data.getProductTitle());
-                int quantity = data.getQuantity();
-                System.out.print("Quantity = " + quantity);
-                ((TextView) hiddenInfo.findViewById(R.id.tv_product_number)).setText(String.format(mContext.getString(R.string.iap_quantity), quantity));
+                String quantity = String.format(mContext.getString(R.string.iap_quantity), String.valueOf(data.getQuantity()));
+                ((TextView) hiddenInfo.findViewById(R.id.tv_product_number)).setText(quantity);
                 getNetworkImage(((NetworkImageView) hiddenInfo.findViewById(R.id.iv_product_image)),
                         data.getImageURL());
                 // totalQuantity += data.getQuantity();
@@ -141,15 +140,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
             mOrderSummaryLayout = (RelativeLayout) itemView.findViewById(R.id.order_summary);
-            mOrderSummaryLayout.setOnClickListener(this);
             mProductDetailsLayout = (LinearLayout) itemView.findViewById(R.id.product_detail);
+            mProductDetailsLayout.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
             mSelectedIndex = getAdapterPosition();
-            if (v.getId() == R.id.order_summary) {
+            if (v.getId() == R.id.product_detail) {
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.PURCHASE_HISTORY_DETAIL);
             }
         }
