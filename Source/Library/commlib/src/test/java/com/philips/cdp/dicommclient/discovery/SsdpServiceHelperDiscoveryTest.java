@@ -65,7 +65,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
                 break;
             try {
                 Thread.sleep(SLEEP_STEP);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }
@@ -85,7 +85,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
 //	public void testDiscoveryOnStart() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -94,8 +94,8 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 //	}
 
     public void testDiscoveryOnStartStart() {
-        mHelper.startDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.start();
+        mHelper.stop();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -104,17 +104,17 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStartStop() {
-        mHelper.startDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.start();
+        mHelper.stop();
 
         verify(mService, atMost(1)).startDeviceDiscovery(any(Callback.class));
         verify(mService, never()).stopDeviceDiscovery();
     }
 
 //	public void testDiscoveryOnStartProcessStop() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
 //		verify(mService).startDeviceDiscovery(any(Callback.class));
@@ -122,12 +122,12 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 //	}
 
     public void testDiscoveryOnStartStopWait() {
-        mHelper.startDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.start();
+        mHelper.stop();
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -136,13 +136,13 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStartProcessStopWait() {
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -151,9 +151,9 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStartStopStart() {
-        mHelper.startDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
+        mHelper.stop();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -162,10 +162,10 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStartProcessStopStart() {
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
-        mHelper.startDiscoveryAsync();
+        mHelper.stop();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -175,15 +175,15 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStartStopWaitStart() {
-        mHelper.startDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.start();
+        mHelper.stop();
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -192,16 +192,16 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStartProcessStopWaitStart() {
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -210,7 +210,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStop() {
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -219,12 +219,12 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopWait() {
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -233,8 +233,8 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopStop() {
-        mHelper.stopDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
+        mHelper.stop();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -243,16 +243,16 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopStopWaitWait() {
-        mHelper.stopDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
+        mHelper.stop();
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -261,8 +261,8 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopStart() {
-        mHelper.stopDiscoveryAsync();
-        mHelper.startDiscoveryAsync();
+        mHelper.stop();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -271,12 +271,12 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopWaitStart() {
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -285,9 +285,9 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopStartStop() {
-        mHelper.stopDiscoveryAsync();
-        mHelper.startDiscoveryAsync();
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
+        mHelper.start();
+        mHelper.stop();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -296,10 +296,10 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopStartProcessStop() {
-        mHelper.stopDiscoveryAsync();
-        mHelper.startDiscoveryAsync();
+        mHelper.stop();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         mHelper.removePendingMessagesOnQueueForTesting();
 
         verify(mService).startDeviceDiscovery(any(Callback.class));
@@ -307,18 +307,18 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopStartProcessStopWaitWait() {
-        mHelper.stopDiscoveryAsync();
-        mHelper.startDiscoveryAsync();
+        mHelper.stop();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
 
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -327,14 +327,14 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopWaitStartProcessStop() {
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         mHelper.removePendingMessagesOnQueueForTesting();
 
         verify(mService).startDeviceDiscovery(any(Callback.class));
@@ -342,17 +342,17 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     }
 
     public void testDiscoveryOnStopWaitStartProcessStopWait() {
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -365,7 +365,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         DiscoveryManager discMan = mock(DiscoveryManager.class);
         DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
 
-        mHelper.startDiscoveryAsync();
+        mHelper.start();
         waitForMessagesToBeProcessed(SHORT_TIMEOUT);
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -381,10 +381,10 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         DiscoveryManager discMan = mock(DiscoveryManager.class);
         DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
 
-        mHelper.stopDiscoveryAsync();
+        mHelper.stop();
         try {
             Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -460,7 +460,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 
     private static class TestAppliance extends Appliance {
 
-        public TestAppliance(NetworkNode networkNode) {
+        TestAppliance(NetworkNode networkNode) {
             super(networkNode, new NullCommunicationStrategy());
         }
 

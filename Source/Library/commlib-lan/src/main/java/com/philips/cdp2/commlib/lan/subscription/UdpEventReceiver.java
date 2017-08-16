@@ -72,13 +72,13 @@ public class UdpEventReceiver {
 
     private void addUdpEventListener(UdpEventListener udpEventListener) {
         if (udpEventListeners.add(udpEventListener)) {
-            DICommLog.i(DICommLog.UDPRECEIVER, "Added new listener to set");
+            DICommLog.i(DICommLog.UDPRECEIVER, "Added new UDP event listener.");
         }
     }
 
     public void removeUdpEventListener(UdpEventListener udpEventListener) {
         if (udpEventListeners.remove(udpEventListener)) {
-            DICommLog.i(DICommLog.UDPRECEIVER, "Removed listener from set");
+            DICommLog.i(DICommLog.UDPRECEIVER, "Removed UDP event listener.");
         }
     }
 

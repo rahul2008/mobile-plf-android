@@ -212,7 +212,7 @@ public class DiscoveryManager<T extends Appliance> {
                     case WIFI_WITH_INTERNET:
                         markOtherNetworkAppliancesRemote(networkSsid);
                         connectViaCppAfterLocalAttemptDelayed();
-                        mSsdpHelper.startDiscoveryAsync();
+                        mSsdpHelper.start();
                         DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
                         break;
                     default:

@@ -17,157 +17,156 @@ import java.util.ArrayList;
 import java.util.Set;
 
 @Deprecated
-public class SsdpServiceHelper implements StartStopInterface {
+public class SsdpServiceHelper implements SsdpDiscovery, StartStopInterface {
 
-	private SsdpService mSsdpService = null;
-	private Callback mSsdpCallback = null;
+    private SsdpService mSsdpService = null;
+    private Callback mSsdpCallback = null;
 
-	private final Object threadLock = new Object();
-	private SsdpServiceHelperThread mThread = null;
+    private final Object threadLock = new Object();
+    private SsdpServiceHelperThread mThread = null;
 
-	private static final int TIMEOUT_STARTTHREAD = 3000;
-	private static final int DELAY_STOPSSDP = 3000;
+    private static final int TIMEOUT_STARTTHREAD = 3000;
+    private static final int DELAY_STOPSSDP = 3000;
 
-	private int mTestDelay = -1;
+    private int mTestDelay = -1;
 
-	public SsdpServiceHelper(SsdpService ssdpService, Callback callback) {
-		mSsdpService = ssdpService;
-		mSsdpCallback = callback;
-	}
+    public SsdpServiceHelper(SsdpService ssdpService, Callback callback) {
+        mSsdpService = ssdpService;
+        mSsdpCallback = callback;
+    }
 
-	public void startDiscoveryAsync() {
-		synchronized (threadLock) {
-			if (mThread == null) {
-				createNewStartStopThread();
-			}
-			mThread.startDiscoveryAsync();
-		}
-	}
+    public void start() {
+        synchronized (threadLock) {
+            if (mThread == null) {
+                createNewStartStopThread();
+            }
+            mThread.startDiscoveryAsync();
+        }
+    }
 
-	public void stopDiscoveryAsync() {
-		synchronized (threadLock) {
-			if (mThread == null) {
-				createNewStartStopThread();
-			}
-			mThread.stopDiscoveryAsync();
-		}
-	}
+    public void stop() {
+        synchronized (threadLock) {
+            if (mThread == null) {
+                createNewStartStopThread();
+            }
+            mThread.stopDiscoveryAsync();
+        }
+    }
 
-	public void stopDiscoveryImmediate() {
-		synchronized (threadLock) {
-			long startTime = System.currentTimeMillis();
-			mSsdpService.stopDeviceDiscovery();
-			DICommLog.i(DICommLog.SSDPHELPER,
-					"Stopping SsdpService took - "
-							+ (System.currentTimeMillis() - startTime) + "ms");
-		}
-	}
+    public void stopDiscoveryImmediate() {
+        synchronized (threadLock) {
+            long startTime = System.currentTimeMillis();
+            mSsdpService.stopDeviceDiscovery();
+            DICommLog.i(DICommLog.SSDPHELPER,
+                    "Stopping SsdpService took - "
+                            + (System.currentTimeMillis() - startTime) + "ms");
+        }
+    }
 
-	public ArrayList<String> getOnlineDevicesCppId() {
-		Set<DeviceModel> devices = mSsdpService.getAliveDeviceList();
-		ArrayList<String> onlineEui64s = new ArrayList<String>();
-		if (devices == null) {
-			DICommLog.i(DICommLog.SSDPHELPER, "Ssdp service returned NULL online devices");
-			return onlineEui64s;
-		}
+    public ArrayList<String> getOnlineDevicesCppId() {
+        Set<DeviceModel> devices = mSsdpService.getAliveDeviceList();
+        ArrayList<String> onlineEui64s = new ArrayList<String>();
+        if (devices == null) {
+            DICommLog.i(DICommLog.SSDPHELPER, "Ssdp service returned NULL online devices");
+            return onlineEui64s;
+        }
 
-		for (DeviceModel model : devices) {
-			if (model == null || model.getSsdpDevice() == null)
-				continue;
-			onlineEui64s.add(model.getSsdpDevice().getCppId());
-		}
-		DICommLog.i(DICommLog.SSDPHELPER, "Ssdp service returned " + onlineEui64s.size()
-				+ " online devices");
-		return onlineEui64s;
-	}
+        for (DeviceModel model : devices) {
+            if (model == null || model.getSsdpDevice() == null)
+                continue;
+            onlineEui64s.add(model.getSsdpDevice().getCppId());
+        }
+        DICommLog.i(DICommLog.SSDPHELPER, "Ssdp service returned " + onlineEui64s.size()
+                + " online devices");
+        return onlineEui64s;
+    }
 
-	private void createNewStartStopThread() {
-		synchronized (threadLock) {
-			if (mThread != null)
-				return;
+    private void createNewStartStopThread() {
+        synchronized (threadLock) {
+            if (mThread != null)
+                return;
 
-			long startTime = System.currentTimeMillis();
-			Object startLock = new Object();
-			mThread = new SsdpServiceHelperThread(this, startLock,
-					getSsdpStopDelay());
+            long startTime = System.currentTimeMillis();
+            Object startLock = new Object();
+            mThread = new SsdpServiceHelperThread(this, startLock, getSsdpStopDelay());
 
-			synchronized (startLock) {
-				try {
-					mThread.start();
-					startLock.wait(TIMEOUT_STARTTHREAD);
-				} catch (InterruptedException e) {
-					DICommLog.i(DICommLog.SSDPHELPER, "Interrupted - " + e);
-					e.printStackTrace();
-				}
-			}
+            synchronized (startLock) {
+                try {
+                    mThread.start();
+                    startLock.wait(TIMEOUT_STARTTHREAD);
+                } catch (InterruptedException e) {
+                    DICommLog.i(DICommLog.SSDPHELPER, "Interrupted - " + e);
+                    e.printStackTrace();
+                }
+            }
 
-			DICommLog.i(DICommLog.SSDPHELPER,
-					"Starting StartStopThread took "
-							+ (System.currentTimeMillis() - startTime) + "ms");
-		}
-	}
+            DICommLog.i(DICommLog.SSDPHELPER,
+                    "Starting StartStopThread took "
+                            + (System.currentTimeMillis() - startTime) + "ms");
+        }
+    }
 
-	@Override
-	public void startDiscoveryFromHandler() {
-		long startTime = System.currentTimeMillis();
-		mSsdpService.startDeviceDiscovery(mSsdpCallback);
-		// DiscoveryManager.getInstance().syncLocalAppliancesWithSsdpStackDelayed();
-		DICommLog.i(DICommLog.SSDPHELPER,
-				"Starting SsdpService took - "
-						+ (System.currentTimeMillis() - startTime) + "ms");
-	}
+    @Override
+    public void startDiscoveryFromHandler() {
+        long startTime = System.currentTimeMillis();
+        mSsdpService.startDeviceDiscovery(mSsdpCallback);
+        // DiscoveryManager.getInstance().syncLocalAppliancesWithSsdpStackDelayed();
+        DICommLog.i(DICommLog.SSDPHELPER,
+                "Starting SsdpService took - "
+                        + (System.currentTimeMillis() - startTime) + "ms");
+    }
 
-	@Override
-	public void stopDiscoveryFromHandler() {
-		long startTime = System.currentTimeMillis();
-		mSsdpService.stopDeviceDiscovery();
-		// DiscoveryManager.getInstance().cancelSyncLocalAppliancesWithSsdpStack();
-		DICommLog.i(DICommLog.SSDPHELPER,
-				"Stopping SsdpService took - "
-						+ (System.currentTimeMillis() - startTime) + "ms");
+    @Override
+    public void stopDiscoveryFromHandler() {
+        long startTime = System.currentTimeMillis();
+        mSsdpService.stopDeviceDiscovery();
+        // DiscoveryManager.getInstance().cancelSyncLocalAppliancesWithSsdpStack();
+        DICommLog.i(DICommLog.SSDPHELPER,
+                "Stopping SsdpService took - "
+                        + (System.currentTimeMillis() - startTime) + "ms");
 
-		synchronized (threadLock) {
-			if (mThread.stopIfNecessary()) {
-				mThread = null;
-				DICommLog.i(DICommLog.SSDPHELPER, "Stopping StartStopThread");
-			}
-		}
-	}
+        synchronized (threadLock) {
+            if (mThread.stopIfNecessary()) {
+                mThread = null;
+                DICommLog.i(DICommLog.SSDPHELPER, "Stopping StartStopThread");
+            }
+        }
+    }
 
-	private int getSsdpStopDelay() {
-		if (mTestDelay > 0)
-			return mTestDelay;
-		return DELAY_STOPSSDP;
-	}
+    private int getSsdpStopDelay() {
+        if (mTestDelay > 0)
+            return mTestDelay;
+        return DELAY_STOPSSDP;
+    }
 
-	// UTILITY METHODS TO ALLOW TESTING
-	public boolean testIsThreadAlive() {
-		if (mThread == null)
-			return false;
-		if (mThread.isAlive())
-			return true;
-		return false;
-	}
+    // UTILITY METHODS TO ALLOW TESTING
+    public boolean testIsThreadAlive() {
+        if (mThread == null)
+            return false;
+        if (mThread.isAlive())
+            return true;
+        return false;
+    }
 
-	public HandlerThread getThreadForTesting() {
-		return mThread;
-	}
+    public HandlerThread getThreadForTesting() {
+        return mThread;
+    }
 
-	public boolean noMorePendingMessagesForTesting() {
-		synchronized (mThread) {
-			return !mThread.hasMessagesOnQueueForTesting();
-		}
-	}
+    public boolean noMorePendingMessagesForTesting() {
+        synchronized (mThread) {
+            return !mThread.hasMessagesOnQueueForTesting();
+        }
+    }
 
-	public void removePendingMessagesOnQueueForTesting() {
-		if (mThread == null)
-			return;
-		synchronized (mThread) {
-			mThread.clearMessagesOnQueueForTesting();
-		}
-	}
+    public void removePendingMessagesOnQueueForTesting() {
+        if (mThread == null)
+            return;
+        synchronized (mThread) {
+            mThread.clearMessagesOnQueueForTesting();
+        }
+    }
 
-	public void setStopDelayForTesting(int delay) {
-		mTestDelay = delay;
-	}
+    public void setStopDelayForTesting(int delay) {
+        mTestDelay = delay;
+    }
 }

@@ -96,7 +96,7 @@ public class MessageController implements MessageNotifier {
             }
             msg.registerHandler(handler);
         } else {
-            Log.d(LOG, String.format("MessageContoller Message name=%s was already sent by this MessageController", message.what));
+            Log.d(LOG, String.format("MessageController message name=%s was already sent by this MessageController", message.what));
         }
         message.recycle();
     }
@@ -198,8 +198,6 @@ public class MessageController implements MessageNotifier {
         }
 
         for (final Handler handler : messageHandlers) {
-            Log.e(ConnectionLibContants.LOG_TAG, "messageHandlers size= " + messageHandlers.size());
-
             if (handler != null) {
                 handler.sendMessage(Message.obtain(message));
             }

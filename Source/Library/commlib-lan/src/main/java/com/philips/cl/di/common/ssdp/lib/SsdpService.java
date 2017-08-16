@@ -178,9 +178,9 @@ public class SsdpService extends HandlerThread {
             final DeviceModel discoveredDeviceModel = deviceListModel.getAliveDevicesMap().get(device.getUsn());
             String bootId = "";
             if (discoveredDeviceModel != null) {
-                bootId = discoveredDeviceModel.getBootID();
+                bootId = discoveredDeviceModel.getBootId();
             }
-            DICommLog.i(ConnectionLibContants.LOG_TAG, "Old bootId: " + bootId + ", new bootId: " + device.getBootID());
+            DICommLog.i(ConnectionLibContants.LOG_TAG, "Old bootId: " + bootId + ", new bootId: " + device.getBootId());
 
             DICommLog.i(ConnectionLibContants.LOG_TAG, "Device alive: " + device.getUsn());
             final String location = device.getLocation();

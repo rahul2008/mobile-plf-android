@@ -41,13 +41,13 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 	}
 
 //	public void testThreadOnStart() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //		assertTrue(mHelper.testIsThreadAlive());
 //	}
 //
 //	public void testThreadOnStartWait() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		try {
 //			Thread.sleep(STOPMESSAGE_TIMEOUT);
 //		} catch(Exception e) {
@@ -57,9 +57,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStartStart() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -68,9 +68,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStartStop() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -79,11 +79,11 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStartStopStart() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread3 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -92,11 +92,11 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStartStopStartWait() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread3 = mHelper.getThreadForTesting();
 //		try {
 //			Thread.sleep(STOPMESSAGE_TIMEOUT);
@@ -109,9 +109,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStartStopWait() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		try {
 //			Thread.sleep(STOPMESSAGE_TIMEOUT);
@@ -124,13 +124,13 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStartWaitStart() {
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread1 = mHelper.getThreadForTesting();
 //		try {
 //			Thread.sleep(STOPMESSAGE_TIMEOUT);
 //		} catch(Exception e) {
 //		}
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -139,13 +139,13 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStop() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //		assertTrue(mHelper.testIsThreadAlive());
 //	}
 //
 //	public void testThreadOnStopWait() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		try {
 //			Thread.sleep(STOPMESSAGE_TIMEOUT);
 //		} catch(Exception e) {
@@ -155,9 +155,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopStop() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -166,9 +166,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopStopWait() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -182,7 +182,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopWaitStop() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -190,7 +190,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //		} catch(Exception e) {
 //		}
 //
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -200,7 +200,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopWaitStopWait() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -208,7 +208,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //		} catch(Exception e) {
 //		}
 //
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -224,9 +224,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopStart() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -235,9 +235,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopStartWait() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -251,7 +251,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopWaitStart() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -259,7 +259,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //		} catch(Exception e) {
 //		}
 //
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -269,7 +269,7 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopWaitStartStop() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
 //
 //		try {
@@ -277,9 +277,9 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //		} catch(Exception e) {
 //		}
 //
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread3 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -290,11 +290,11 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopStartStop() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread3 = mHelper.getThreadForTesting();
 //		mHelper.removePendingMessagesOnQueueForTesting();
 //
@@ -303,11 +303,11 @@ public class SsdpServiceHelperThreadTest extends RobolectricTest {
 //	}
 //
 //	public void testThreadOnStopStartStopWait() {
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread1 = mHelper.getThreadForTesting();
-//		mHelper.startDiscoveryAsync();
+//		mHelper.start();
 //		Thread thread2 = mHelper.getThreadForTesting();
-//		mHelper.stopDiscoveryAsync();
+//		mHelper.stop();
 //		Thread thread3 = mHelper.getThreadForTesting();
 //
 //		try {

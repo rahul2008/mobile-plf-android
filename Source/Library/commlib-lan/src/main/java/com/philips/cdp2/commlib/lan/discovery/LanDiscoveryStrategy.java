@@ -11,7 +11,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp.dicommclient.discovery.SsdpDiscovery;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -35,18 +37,26 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.requireNonNull;
 
-public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
+public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
-    private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.MINUTES.toMillis(1);
+    private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
 
     private static final Object LOCK = new Object();
 
     @NonNull
-    private final SsdpServiceHelper ssdpServiceHelper;
+    private final SsdpDiscovery ssdp;
+
     @NonNull
     private final LanDeviceCache deviceCache;
+
     @NonNull
     private final WifiNetworkProvider wifiNetworkProvider;
+
+    @NonNull
+    private Set<String> deviceTypes;
+
+    @NonNull
+    private Set<String> modelIds;
 
     private final Handler.Callback ssdpCallback = new Handler.Callback() {
 
@@ -80,26 +90,37 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            // TODO pause/resume SSDP based on connectivity
+            if (connectivityMonitor.isAvailable()) {
+                ssdp.start();
+            } else {
+                ssdp.stop();
+            }
         }
     };
 
-    private ExpirationCallback expirationCallback = new ExpirationCallback() {
+    private final ExpirationCallback expirationCallback = new ExpirationCallback() {
+
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
-            deviceCache.remove(networkNode.getCppId());
-
-            notifyNetworkNodeLost(networkNode);
+            handleNetworkNodeLost(networkNode);
         }
     };
 
     public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache, final @NonNull ConnectivityMonitor connectivityMonitor, @NonNull WifiNetworkProvider wifiNetworkProvider) {
         this.deviceCache = requireNonNull(deviceCache);
         this.wifiNetworkProvider = requireNonNull(wifiNetworkProvider);
-        this.ssdpServiceHelper = new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
+        this.ssdp = createSsdpDiscovery();
+
+        this.deviceTypes = Collections.emptySet();
+        this.modelIds = Collections.emptySet();
 
         requireNonNull(connectivityMonitor);
         connectivityMonitor.addAvailabilityListener(availabilityListener);
+    }
+
+    @VisibleForTesting
+    SsdpDiscovery createSsdpDiscovery() {
+        return new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
     }
 
     @Override
@@ -114,23 +135,35 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
-        ssdpServiceHelper.startDiscoveryAsync();
+        this.deviceTypes = deviceTypes;
+        this.modelIds = modelIds;
+
+        ssdp.start();
         deviceCache.resetTimers();
 
-        DICommLog.d(DICommLog.DISCOVERY, "SSDP started.");
+        DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
     }
 
     @Override
     public void stop() {
-        ssdpServiceHelper.stopDiscoveryAsync();
+        ssdp.stop();
         deviceCache.stopTimers();
 
-        DICommLog.d(DICommLog.DISCOVERY, "SSDP stopped.");
+        DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
     }
 
-    private void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
+    @VisibleForTesting
+    void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
         final NetworkNode networkNode = createNetworkNode(deviceModel);
         if (networkNode == null) {
+            return;
+        }
+
+        if (!deviceTypes.isEmpty() && !deviceTypes.contains(networkNode.getDeviceType())) {
+            return;
+        }
+
+        if (!modelIds.isEmpty() && !modelIds.contains(networkNode.getModelId())) {
             return;
         }
 
@@ -147,19 +180,25 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     }
 
-    private void onDeviceLost(@NonNull DeviceModel deviceModel) {
+    @VisibleForTesting
+    void onDeviceLost(@NonNull DeviceModel deviceModel) {
         final NetworkNode networkNode = createNetworkNode(deviceModel);
         if (networkNode == null) {
             return;
         }
+        handleNetworkNodeLost(networkNode);
+    }
+
+    private void handleNetworkNodeLost(final @NonNull NetworkNode networkNode) {
         deviceCache.remove(networkNode.getCppId());
         DICommLog.i(DICommLog.SSDP, "Lost device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
 
         notifyNetworkNodeLost(networkNode);
     }
 
+    @VisibleForTesting
     @Nullable
-    private NetworkNode createNetworkNode(@NonNull DeviceModel deviceModel) {
+    NetworkNode createNetworkNode(@NonNull DeviceModel deviceModel) {
         SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
         if (ssdpDevice == null) {
             return null;
@@ -174,9 +213,8 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String modelNumber = ssdpDevice.getModelNumber();
 
         try {
-            bootId = Long.parseLong(deviceModel.getBootID());
-        } catch (NumberFormatException e) {
-            // NOP
+            bootId = Long.parseLong(deviceModel.getBootId());
+        } catch (NumberFormatException ignored) {
         }
 
         NetworkNode networkNode = new NetworkNode();

@@ -169,7 +169,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener didn't exist yet and was therefore added
      */
-    public boolean addApplianceListener(@NonNull ApplianceListener applianceListener) {
+    public boolean addApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.add(applianceListener);
     }
 
@@ -179,7 +179,7 @@ public class ApplianceManager {
      * @param applianceListener the listener
      * @return true, if the listener was present and therefore removed
      */
-    public boolean removeApplianceListener(@NonNull ApplianceListener applianceListener) {
+    public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
