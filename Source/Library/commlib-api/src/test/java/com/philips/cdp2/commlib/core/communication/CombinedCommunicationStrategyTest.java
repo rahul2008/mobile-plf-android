@@ -388,4 +388,40 @@ public class CombinedCommunicationStrategyTest {
         verify(sub2).disableCommunication();
         verify(sub3).disableCommunication();
     }
+
+    @Test
+    public void whenAddingSubscriptionListeners_thenPassedToSubStrategies() {
+        final CommunicationStrategy sub1 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub2 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub3 = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(
+                sub1,
+                sub2,
+                sub3
+        );
+
+        strategy.addSubscriptionEventListener(subscriptionEventListenerMock);
+
+        verify(sub1).addSubscriptionEventListener(subscriptionEventListenerMock);
+        verify(sub2).addSubscriptionEventListener(subscriptionEventListenerMock);
+        verify(sub3).addSubscriptionEventListener(subscriptionEventListenerMock);
+    }
+
+    @Test
+    public void whenRemovingSubscriptionListeners_thenPassedToSubStrategies() {
+        final CommunicationStrategy sub1 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub2 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub3 = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(
+                sub1,
+                sub2,
+                sub3
+        );
+
+        strategy.removeSubscriptionEventListener(subscriptionEventListenerMock);
+
+        verify(sub1).removeSubscriptionEventListener(subscriptionEventListenerMock);
+        verify(sub2).removeSubscriptionEventListener(subscriptionEventListenerMock);
+        verify(sub3).removeSubscriptionEventListener(subscriptionEventListenerMock);
+    }
 }
