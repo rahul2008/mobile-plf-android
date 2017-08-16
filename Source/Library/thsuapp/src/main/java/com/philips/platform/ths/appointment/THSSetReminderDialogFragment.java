@@ -67,8 +67,8 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
             if (checkedRBId == R.id.ths_rb_one_week) {
                 reminderValue = THSConstants.THS_ONE_WEEK_REMINDER;
             }
+            thsDialogFragmentCallback.onPostData(reminderValue);
+            getDialog().dismiss();
         }
-        thsDialogFragmentCallback.onPostData(reminderValue);
-        getDialog().dismiss();
     }
 }
