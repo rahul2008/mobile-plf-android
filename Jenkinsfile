@@ -18,22 +18,28 @@ node ('android&&docker') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/dsc-android-dataservices']]])
                 step([$class: 'StashNotifier'])
             }
+            stage ('build') {
+                sh '''#!/bin/bash -l
+                    chmod -R 755 .
+                    cd ./Source/DemoApp
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
+                '''
+            }
+
+            stage ('test') {
+                sh '''#!/bin/bash -l
+                    chmod -R 755 .
+                    cd ./Source/DemoApp
+                    ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testReleaseUnitTest
+                '''
+            }
+
             if (BranchName =~ /master|develop|release.*/) {
-                stage ('build') {
+                stage ('publish') {
                     sh '''#!/bin/bash -l
-                        chmod -R 755 . 
+                        chmod -R 755 .
                         cd ./Source/DemoApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
-                    '''
-                }
-            } else {
-                stage ('build') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 775 . 
-                        cd ./Source/DemoApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
+                        ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish
                     '''
                 }
             }
@@ -71,8 +77,7 @@ node ('android&&docker') {
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
                 junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testReleaseUnitTest/release', reportFiles: 'index.html', reportName: 'unit test release']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testDebugUnitTest/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
                 archiveArtifacts '**/*dependencies*.lock'
             }  
             stage('informing') {
