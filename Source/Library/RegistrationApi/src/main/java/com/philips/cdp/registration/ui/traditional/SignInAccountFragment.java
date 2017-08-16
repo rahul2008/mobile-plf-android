@@ -243,7 +243,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtEmail.requestFocus();
 
         mEtPassword.setOnClickListener(this);
-        mEtPassword.setValidator(password -> password.length() > 0);
+        mEtPassword.setValidator(password -> password.length() >= 8);
         mEtPassword.setErrorMessage("Please enter a valid password");
         underlineResetPassword();
         mRegError = (XRegError) view.findViewById(R.id.usr_loginScreen_error_view);
@@ -264,7 +264,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private Disposable observeLoginButton() {
         return Observable.combineLatest(getLoginIdObservable(), getPasswordObservable(),
                 (loginValid, passwordValid) -> loginValid && passwordValid)
-                .subscribe(enabled -> mBtnSignInAccount.setEnabled(enabled));
+                .subscribe(enabled -> mBtnSignInAccount.setEnabled(enabled && networkUtility.isNetworkAvailable()));
     }
 
     private Observable<Boolean> getLoginIdObservable() {
@@ -416,7 +416,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void showSignInSpinner() {
-        mBtnSignInAccount.setEnabled(false);
+//        mBtnSignInAccount.setEnabled(false);
         mEtEmail.setClickable(false);
         mEtPassword.setClickable(false);
 //        mEtPassword.showPasswordEtFocusDisable();
@@ -425,7 +425,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void hideSignInSpinner() {
 //        mPbSignInSpinner.setVisibility(View.INVISIBLE);
-        mBtnSignInAccount.setEnabled(true);
+//        mBtnSignInAccount.setEnabled(true);
         mEtEmail.setClickable(true);
         mEtPassword.setClickable(true);
 //        mEtPassword.showEtPasswordFocusEnable();
@@ -473,15 +473,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void updateUiStatus() {
-        if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString()) && networkUtility.isNetworkAvailable()) {
-            mBtnSignInAccount.setEnabled(true);
+        if (networkUtility.isNetworkAvailable()) {
+//            mBtnSignInAccount.setEnabled(true);
             mRegError.hideError();
-        } else if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString()) && networkUtility.isNetworkAvailable()) {
-            mBtnSignInAccount.setEnabled(false);
         } else {
-            if (loginValidationEditText.getText().length() != 0) {
-                mBtnSignInAccount.setEnabled(false);
-            }
+//            mBtnSignInAccount.setEnabled(false);
         }
     }
 
@@ -500,10 +496,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :"
-                + isOnline);
+        RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :" + isOnline);
         handleUiState();
         updateUiStatus();
+        mBtnSignInAccount.setEnabled(isOnline);
     }
 
     @Override
@@ -541,7 +537,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void updateResendUIState() {
-        mBtnSignInAccount.setEnabled(true);
+//        mBtnSignInAccount.setEnabled(true);
         hideResendSpinner();
     }
 
