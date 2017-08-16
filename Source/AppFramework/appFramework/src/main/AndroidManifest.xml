@@ -68,6 +68,13 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyABLxPKwgjrCBnnLvP55yAYnhpAHZmhLvY" />
+        <receiver
+            android:name=".ConnectivityChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
 
         <!--<receiver android:name="com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver           <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

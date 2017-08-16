@@ -4,7 +4,6 @@
     package="com.philips.cdp.devicepair">
 
     <application
-        android:allowBackup="true"
         android:supportsRtl="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
