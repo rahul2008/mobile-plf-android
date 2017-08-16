@@ -82,13 +82,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             }
 
 
-            final Bundle bundle = new Bundle();
-           // awsdk.saveInstanceState(bundle);
+            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), null,this);
 
-            Intent intent = new Intent(mTHSWaitingRoomFragment.getFragmentActivity(),THSVisitFinishedActivity.class);
-            intent.putExtra("awsdkState", bundle);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), intent,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -153,8 +148,8 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         // start activity
 
 
-       // mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
-        mTHSWaitingRoomFragment.getActivity().startActivity(intent);
+       mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
+
     }
 
     @Override

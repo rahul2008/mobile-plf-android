@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -85,6 +86,8 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
+        Address address = mBundle.getParcelable("address");
+        mTHSCreditCardBillingAddressPresenter.updateAddresIfAvailable(address);
         //createCustomProgressBar(mProgressbarContainer, MEDIUM);
     }
 

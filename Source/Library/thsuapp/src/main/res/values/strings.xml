@@ -95,6 +95,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
 
+    <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
+    <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>
+    <string name="ths_no_payment_method">"You currently don't have any payment methods saved. Please add a payment method."</string>
+
     <!-- Set Reminder Dialog text strings -->
     <string name="ths_rb_no_reminder">No Reminder</string>
     <string name="ths_rb_15_mins_reminder">15 mins before</string>

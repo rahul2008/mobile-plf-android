@@ -20,6 +20,8 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioButton;
 import com.philips.platform.uid.view.widget.RadioGroup;
 
+import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
+
 public class THSInsuranceConfirmationFragment extends THSBaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     public static final String TAG = THSInsuranceConfirmationFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
@@ -27,12 +29,16 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     private RadioGroup mConfirmationRadioGroup;
     private int mConfirmationRadioButtonSelectedID;
     private Button confirmationContinueButton;
-
+    boolean isLaunchedFromCostSummary = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_confirmation, container, false);
+        Bundle bundle = getArguments();
+        if (null != bundle) {
+            isLaunchedFromCostSummary = bundle.getBoolean(IS_LAUNCHED_FROM_COST_SUMMARY);
+        }
         mPresenter = new THSInsuranceConfirmationPresenter(this);
         mConfirmationRadioGroup = (RadioGroup) view.findViewById(R.id.pth_insurance_confirmation_radio_group);
         mConfirmationRadioGroup.setOnCheckedChangeListener(this);

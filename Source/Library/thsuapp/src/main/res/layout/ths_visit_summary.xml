@@ -70,7 +70,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/pth_fab_margin"
-                android:text="$45.9"
 
                 android:textSize="30sp"></com.philips.platform.uid.view.widget.Label>
 
