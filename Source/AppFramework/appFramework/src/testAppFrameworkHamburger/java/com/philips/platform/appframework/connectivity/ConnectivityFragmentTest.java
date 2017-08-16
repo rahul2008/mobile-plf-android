@@ -1,9 +1,20 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 package com.philips.platform.appframework.connectivity;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -15,18 +26,29 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowDialog;
 import org.robolectric.shadows.ShadowToast;
 
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
-
+import static com.philips.platform.appframework.connectivity.ConnectivityFragment.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION;
+import static com.philips.platform.appframework.connectivity.ConnectivityFragment.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.philips.platform.appframework.connectivity.ConnectivityFragment.REQUEST_ENABLE_BT;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.robolectric.Shadows.shadowOf;
 
 /**
- * Created by philips on 29/07/17.
+ * Test for ConnectivityFragment
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
@@ -42,11 +64,23 @@ public class ConnectivityFragmentTest {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
+    private ActivityController<TestActivity> activityController;
+
+    private TestActivity testActivity;
+
+    @Mock
+    private static ConnectivityPresenter connectivityPresenter;
+
+    @Mock
+    private static BluetoothAdapter bluetoothAdapter;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        connectivityFragment = new ConnectivityFragment();
-        startFragment(connectivityFragment);
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        testActivity = activityController.create().start().get();
+        connectivityFragment = new ConnectivityFragmentMock();
+        testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment, null).commit();
         connectionState = (TextView) connectivityFragment.getView().findViewById(R.id.connectionState);
         momentValueEditText = (EditText) connectivityFragment.getView().findViewById(R.id.moment_value_editbox);
         editText = (EditText) connectivityFragment.getView().findViewById(R.id.measurement_value_editbox);
@@ -89,8 +123,64 @@ public class ConnectivityFragmentTest {
     }
 
     @After
-    public void tearDown(){
-        connectivityFragment=null;
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        connectivityFragment = null;
+    }
+
+    @Test
+    public void testStartDiscoveryClick() {
+        connectivityFragment.getView().findViewById(R.id.start_connectivity_button).performClick();
+        Mockito.when(bluetoothAdapter.isEnabled()).thenReturn(false);
+        assertNotNull(shadowOf(testActivity).getNextStartedActivity());
+    }
+
+    @Test
+    public void testMomentValueClick() {
+        connectivityFragment.getView().findViewById(R.id.get_momentumvalue_button).performClick();
+        verify(connectivityPresenter).processMoment(any(String.class));
+    }
+
+    @Test
+    public void onProcessMomentProgressTest() {
+        connectivityFragment.onProcessMomentProgress("Progress dialog");
+        assertNotNull(ShadowDialog.getLatestDialog());
+        connectivityFragment.onProcessMomentProgress("Progress dialog");
+        assertNotNull(ShadowDialog.getLatestDialog());
+    }
+
+    @Test
+    public void onRequestPermissionsResultTest() {
+        int[] permission = {PackageManager.PERMISSION_DENIED};
+        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION, null, permission);
+        assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
+        connectivityFragment.onRequestPermissionsResult(MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION, null, permission);
+        assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
+    }
+
+    @Test
+    public void onProcessMomentErrorTest() {
+        connectivityFragment.onProcessMomentError("Error");
+        assertEquals("Error", ShadowToast.getTextOfLatestToast());
+    }
+
+    @Test
+    public void onActivityResultTest() {
+        connectivityFragment.onActivityResult(REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
+        assertEquals("Please enable bluetooth", ShadowToast.getTextOfLatestToast());
+    }
+
+    public static class ConnectivityFragmentMock extends ConnectivityFragment {
+
+        @Override
+        protected ConnectivityPresenter getConnectivityPresenter() {
+            return connectivityPresenter;
+        }
+
+        @Override
+        protected BluetoothAdapter getBluetoothAdapter() {
+            return bluetoothAdapter;
+        }
     }
 
 }
