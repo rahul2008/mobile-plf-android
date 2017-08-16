@@ -149,8 +149,13 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }
 
         if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
-            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
-            notifyNetworkNodeDiscovered(networkNode);
+            if (bleDeviceCache.contains(networkNode.getCppId())) {
+                bleDeviceCache.getCacheData(networkNode.getCppId()).resetTimer();
+                notifyNetworkNodeUpdated(networkNode);
+            } else {
+                bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
+                notifyNetworkNodeDiscovered(networkNode);
+            }
         }
     }
 
