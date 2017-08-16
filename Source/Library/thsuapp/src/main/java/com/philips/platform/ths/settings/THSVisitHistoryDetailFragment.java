@@ -14,13 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.entity.visit.VisitRx;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -40,6 +44,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     Label mLabelCreditCardCharge;
     Label mPrescriptionDetail;
     Label mLabelShippingDetail;
+    RelativeLayout mRelativeLayoutProviderLayout;
 
     @Nullable
     @Override
@@ -55,6 +60,15 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         mLabelCreditCardCharge = (Label) view.findViewById(R.id.ths_credit_card_charge);
         mPrescriptionDetail = (Label) view.findViewById(R.id.prescription_detail);
         mLabelShippingDetail = (Label) view.findViewById(R.id.medication_detail);
+        mRelativeLayoutProviderLayout = (RelativeLayout) view.findViewById(R.id.providerDetailLayout);
+        mRelativeLayoutProviderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_PROVIDER,mVisitReportDetail.getAssignedProviderInfo());
+                addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
+            }
+        });
         return view;
     }
 
@@ -64,31 +78,45 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         updateView();
     }
 
-    private void updateView(){
+    private void updateView() {
         mLabelVisit.setText(getString(R.string.ths_visit_summary));
-
-        try {
-            final Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.doctor_placeholder);
-            THSManager.getInstance().getAwsdk(mProviderImage.getContext()).
-                    getPracticeProvidersManager().
-                    newImageLoader(mVisitReportDetail.getAssignedProviderInfo(),
-                            mProviderImage, ProviderImageSize.LARGE).placeholder(drawable).build().load();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        if(mVisitReportDetail == null){
+            return;
         }
+        final ProviderInfo assignedProviderInfo = mVisitReportDetail.getAssignedProviderInfo();
+        if (assignedProviderInfo != null) {
+            try {
+                final Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.doctor_placeholder);
+                THSManager.getInstance().getAwsdk(mProviderImage.getContext()).
+                        getPracticeProvidersManager().
+                        newImageLoader(assignedProviderInfo,
+                                mProviderImage, ProviderImageSize.LARGE).placeholder(drawable).build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+            mLabelProviderName.setText(assignedProviderInfo.getFullName());
 
-        mLabelProviderName.setText(mVisitReportDetail.getAssignedProviderInfo().getFullName());
+        }
         mLabelPracticeName.setText(mVisitReportDetail.getPracticeName());
 
-        final Long scheduledStartTime = mVisitReportDetail.getSchedule().getActualStartTime();
-        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
+        final Long actualStartTime = mVisitReportDetail.getSchedule().getActualStartTime();
+        if (actualStartTime != null) {
+            final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(actualStartTime).toString();
+            mLabelAppointmentDate.setText(date);
+        }
 
-        mLabelAppointmentDate.setText(date);
-        final Set<VisitRx> prescriptions = mVisitReportDetail.getProviderEntries().getPrescriptions();
+        final String address1 = mVisitReportDetail.getPharmacy().getAddress().getAddress1();
 
-        mPrescriptionDetail.setText(prescriptions.toString());
-        mLabelShippingDetail.setText(mVisitReportDetail.getShippingAddress().getAddress2().toString());
+        if (address1 != null) {
+            mPrescriptionDetail.setText(address1.toString());
+        }
 
-        mLabelCreditCardCharge.setText(mVisitReportDetail.getPaymentAmount()+"");
+        final String address2 = mVisitReportDetail.getShippingAddress().getAddress1();
+        if (address2 != null) {
+            mLabelShippingDetail.setText(address2.toString());
+        }
+
+        mLabelCreditCardCharge.setText(mVisitReportDetail.getPaymentAmount() + "");
     }
+
 }
