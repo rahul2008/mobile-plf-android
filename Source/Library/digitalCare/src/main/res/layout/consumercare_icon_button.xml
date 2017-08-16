@@ -12,7 +12,7 @@
         android:gravity="center"
         android:id="@+id/icon_button_icon"
         android:textSize="18dp"
-        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
         fontPath="digitalcarefonts/CCIcon.ttf"/>
 
     <com.philips.platform.uid.view.widget.Label
@@ -21,5 +21,6 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:textColor="@color/black"
         android:gravity="start|center" />
 </LinearLayout>

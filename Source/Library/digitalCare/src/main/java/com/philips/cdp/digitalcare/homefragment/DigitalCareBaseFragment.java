@@ -339,7 +339,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                                 metaData);
                 appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+                DigiCareLogger.e(TAG, "NameNotFoundException" + e.getMessage());
             }
         }
         return appName;
@@ -374,7 +374,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             DigiCareLogger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
         }
     }
 

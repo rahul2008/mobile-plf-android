@@ -517,6 +517,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         }.start();
     }
 
+    private void disableChangeProductButton() {
+        DigiCareLogger.i(TAG, "Removing the PRX dependent Buttons from the SupportScreen");
+        ArrayList<Integer> disabledButtons = new ArrayList<>();
+        disabledButtons.add(R.string.Change_Selected_Product);
+
+        if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().
+                getHardCodedProductList().length < 2)) {
+            disabledButtons.remove(Integer.valueOf(R.string.Change_Selected_Product));
+        }
+        updateMenus(disabledButtons);
+    }
+
+
     private void disablePrxDependentButtons() {
         DigiCareLogger.i(TAG, "Removing the PRX dependent Buttons from the SupportScreen");
         ArrayList<Integer> disabledButtons = new ArrayList<>();
@@ -672,6 +685,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             }
         };
         recyclerView.setAdapter(mAdapter);
+        disableChangeProductButton();
     }
 
     @Override

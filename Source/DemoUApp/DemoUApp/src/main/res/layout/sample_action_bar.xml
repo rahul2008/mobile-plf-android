@@ -3,7 +3,7 @@
     android:id="@+id/action_bar_lyt"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
-    android:background="?attr/uidNavigationPrimaryBackgroundColor">
+    android:background="?attr/uidButtonPrimaryFocusBackgroundColor">
 
     <ImageView
         android:id="@+id/sample_home_icon"
