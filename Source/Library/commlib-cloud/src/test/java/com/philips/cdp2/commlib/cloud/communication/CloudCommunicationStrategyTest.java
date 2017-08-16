@@ -21,6 +21,7 @@ import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
@@ -29,9 +30,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -42,8 +42,6 @@ import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -93,6 +91,12 @@ public class CloudCommunicationStrategyTest {
 
     @Mock
     RemoteSubscriptionHandler remoteSubscriptionHandlerMock;
+
+    @Mock
+    Availability.AvailabilityListener<CommunicationStrategy> availabilityListenerMock;
+
+    @Captor
+    ArgumentCaptor<Availability.AvailabilityListener<ConnectivityMonitor>> availabilityListenerArgumentCaptor;
 
     private CloudCommunicationStrategy cloudCommunicationStrategy;
     private ResponseHandler capturedResponseHandler;
@@ -251,38 +255,43 @@ public class CloudCommunicationStrategyTest {
     }
 
     @Test
-    public void isAvailableWhenWifiConnected() {
-        final Availability.AvailabilityListener[] listener = new Availability.AvailabilityListener[1];
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                listener[0] = invocation.getArgumentAt(0, Availability.AvailabilityListener.class);
-                return null;
-            }
-        }).when(connectivityMonitorMock).addAvailabilityListener(isA(Availability.AvailabilityListener.class));
+    public void isAvailableWhenWifiConnectedAndApplianceIsPaired() {
+        verify(connectivityMonitorMock).addAvailabilityListener(availabilityListenerArgumentCaptor.capture());
+        when(networkNodeMock.getPairedState()).thenReturn(NetworkNode.PairingState.PAIRED);
 
         cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, cloudControllerMock, connectivityMonitorMock);
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
-        listener[0].onAvailabilityChanged(connectivityMonitorMock);
+        cloudCommunicationStrategy.addAvailabilityListener(availabilityListenerMock);
+        availabilityListenerArgumentCaptor.getValue().onAvailabilityChanged(connectivityMonitorMock);
 
         assertThat(cloudCommunicationStrategy.isAvailable()).isTrue();
+        verify(availabilityListenerMock).onAvailabilityChanged(cloudCommunicationStrategy);
+    }
+
+    @Test
+    public void isNotAvailableWhenWifiConnectedAndApplianceIsNotPaired() {
+        verify(connectivityMonitorMock).addAvailabilityListener(availabilityListenerArgumentCaptor.capture());
+        when(networkNodeMock.getPairedState()).thenReturn(NetworkNode.PairingState.NOT_PAIRED);
+
+        cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, cloudControllerMock, connectivityMonitorMock);
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        cloudCommunicationStrategy.addAvailabilityListener(availabilityListenerMock);
+        availabilityListenerArgumentCaptor.getValue().onAvailabilityChanged(connectivityMonitorMock);
+
+        assertThat(cloudCommunicationStrategy.isAvailable()).isFalse();
+        verify(availabilityListenerMock).onAvailabilityChanged(cloudCommunicationStrategy);
     }
 
     @Test
     public void isNotAvailableWhenWifiNotConnected() {
-        final Availability.AvailabilityListener[] listener = new Availability.AvailabilityListener[1];
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                listener[0] = invocation.getArgumentAt(0, Availability.AvailabilityListener.class);
-                return null;
-            }
-        }).when(connectivityMonitorMock).addAvailabilityListener(isA(Availability.AvailabilityListener.class));
+        verify(connectivityMonitorMock).addAvailabilityListener(availabilityListenerArgumentCaptor.capture());
 
         cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, cloudControllerMock, connectivityMonitorMock);
-        listener[0].onAvailabilityChanged(connectivityMonitorMock);
+        cloudCommunicationStrategy.addAvailabilityListener(availabilityListenerMock);
+        availabilityListenerArgumentCaptor.getValue().onAvailabilityChanged(connectivityMonitorMock);
 
         assertThat(cloudCommunicationStrategy.isAvailable()).isFalse();
+        verify(availabilityListenerMock).onAvailabilityChanged(cloudCommunicationStrategy);
     }
 
     class CloudCommunicationStrategyForTesting extends CloudCommunicationStrategy {

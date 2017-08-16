@@ -15,6 +15,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.RemoteRequest;
 import com.philips.cdp.dicommclient.request.RemoteRequestType;
@@ -23,9 +24,10 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Map;
 
 public class CloudCommunicationStrategy extends CommunicationStrategy {
@@ -38,13 +40,20 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
     private final RequestQueue requestQueue;
 
     private boolean isDSCRequestOnGoing;
-    private boolean isAvailable;
 
-    private final AvailabilityListener availabilityListener = new AvailabilityListener() {
+    private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
-        public void onAvailabilityChanged(@NonNull Availability object) {
-            isAvailable = object.isAvailable();
+        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
             notifyAvailabilityChanged();
+        }
+    };
+
+    private final PropertyChangeListener networkNodePropertyChangeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+            if (propertyChangeEvent.getPropertyName().equals(NetworkNodeDatabaseHelper.KEY_IS_PAIRED)) {
+                notifyAvailabilityChanged();
+            }
         }
     };
 
@@ -56,6 +65,8 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
 
         requestQueue = createRequestQueue();
         remoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);
+
+        networkNode.addPropertyChangeListener(networkNodePropertyChangeListener);
     }
 
     @Override
@@ -115,7 +126,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return isAvailable;
+        return networkNode.getPairedState() == NetworkNode.PairingState.PAIRED && connectivityMonitor.isAvailable();
     }
 
     @Override
@@ -131,7 +142,6 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
         cloudController.stopDCSService();
     }
 
-    @NonNull
     @VisibleForTesting
     RequestQueue createRequestQueue() {
         return new RequestQueue();
