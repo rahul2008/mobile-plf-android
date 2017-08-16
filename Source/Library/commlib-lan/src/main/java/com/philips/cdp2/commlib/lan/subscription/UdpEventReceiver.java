@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
- */
-
 package com.philips.cdp2.commlib.lan.subscription;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
