@@ -33,6 +33,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -114,13 +115,6 @@ class KeyBagHelper {
 
     void init(Context mContext) throws KeyBagJsonFileNotFoundException {
         initKeyBagProperties(mContext);
-    }
-
-    String getAppendedServiceId(String serviceId) {
-        if (!TextUtils.isEmpty(serviceId))
-            return serviceId.concat(".kindex");
-
-        return null;
     }
 
     private void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aikmServices) {
@@ -221,7 +215,7 @@ class KeyBagHelper {
         });
     }
 
-    private ArrayList<String> getAppendedServiceIds(ArrayList<String> serviceIds) {
+    ArrayList<String> getAppendedServiceIds(List<String> serviceIds) {
         ArrayList<String> appendedServiceIds = new ArrayList<>();
         for (String serviceId : serviceIds) {
             if (!TextUtils.isEmpty(serviceId))

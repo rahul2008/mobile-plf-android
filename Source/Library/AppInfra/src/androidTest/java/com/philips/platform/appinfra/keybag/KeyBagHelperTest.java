@@ -10,6 +10,8 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
 
@@ -70,15 +72,17 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     public void testObfuscate() {
         String obfuscate = keyBagHelper.obfuscate("Raja Ram Mohan Roy", 0XAEF7);
+        assertFalse(obfuscate.equals("Raja Ram Mohan Roy"));
         assertEquals(keyBagHelper.obfuscate(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
         assertFalse(keyBagHelper.obfuscate(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
     }
 
-    public void testGetAppendedServiceId() {
-        String testing = keyBagHelper.getAppendedServiceId("testing");
-        assertTrue(testing.contains(".kindex"));
-        assertNotNull(testing);
-        assertNull(keyBagHelper.getAppendedServiceId(""));
-        assertNull(keyBagHelper.getAppendedServiceId(null));
+    public void testGetAppendedServiceIds() {
+        String[] serviceIds = {"serviceId1", "serviceId2", "", null};
+        ArrayList<String> appendedServiceIds = keyBagHelper.getAppendedServiceIds(Arrays.asList(serviceIds));
+        for (int i = 0; i < appendedServiceIds.size(); i++) {
+            assertTrue(appendedServiceIds.get(i).contains(".kindex"));
+            assertNotNull(appendedServiceIds.get(i));
+        }
     }
 }
