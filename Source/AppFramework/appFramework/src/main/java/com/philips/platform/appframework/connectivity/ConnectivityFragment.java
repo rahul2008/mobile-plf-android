@@ -52,18 +52,17 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private ProgressDialog dialog = null;
-    private DICommApplianceFactory<BleReferenceAppliance> applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
     private Handler handler = new Handler();
-    private static final int REQUEST_ENABLE_BT = 1;
+    protected static final int REQUEST_ENABLE_BT = 1;
     private BLEScanDialogFragment bleScanDialogFragment;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
+    protected static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
+    protected static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
     private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
 
-    private CommCentral commCentral;
+    private CommCentral mCommCentral;
 
     /**
      * Presenter object for Connectivity
@@ -91,16 +90,19 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
         connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
+        mBluetoothAdapter = getBluetoothAdapter();
 
     }
 
+    protected BluetoothAdapter getBluetoothAdapter(){
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
+        return bluetoothManager.getAdapter();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connectivityPresenter = new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()), getActivity());
+        connectivityPresenter = getConnectivityPresenter();
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -116,26 +118,31 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
-        setUpCommCentral();
+        mCommCentral = getCommCentral();
         startAppTagging(TAG);
         return rootView;
     }
 
+    protected ConnectivityPresenter getConnectivityPresenter(){
+        return new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()), getActivity());
+    }
     /**
      * Setup comm central
      */
-    private void setUpCommCentral() {
+    protected CommCentral getCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
+        CommCentral commCentral=null;
         try {
             final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
-            this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+            DICommApplianceFactory<BleReferenceAppliance> applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
-            this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
-            this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+            commCentral = new CommCentral(applianceFactory, bleTransportContext);
+            commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
         } catch (TransportUnavailableException e) {
             RALog.d(TAG,"Blutooth hardware unavailable");
         }
+        return commCentral;
     }
 
     private final ApplianceManager.ApplianceListener<BleReferenceAppliance> applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
@@ -189,7 +196,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                 if (isFragmentLive()) {
                     try {
                         bleScanDialogFragment = new BLEScanDialogFragment();
-                        bleScanDialogFragment.setSavedApplianceList(commCentral.getApplianceManager().getAvailableAppliances());
+                        bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
@@ -204,7 +211,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                             }
                         });
 
-                        commCentral.startDiscovery();
+                        mCommCentral.startDiscovery();
                         handler.postDelayed(stopDiscoveryRunnable, 30000);
                         updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                     } catch (MissingPermissionException e) {
@@ -228,8 +235,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private Runnable stopDiscoveryRunnable = new Runnable() {
         @Override
         public void run() {
-            if (commCentral != null && isFragmentLive()) {
-                commCentral.stopDiscovery();
+            if (mCommCentral != null && isFragmentLive()) {
+                mCommCentral.stopDiscovery();
                 if (bleScanDialogFragment != null) {
                     bleScanDialogFragment.hideProgressBar();
                     if (bleScanDialogFragment.getDeviceCount() == 0) {
@@ -322,7 +329,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            checkForAccessCoarseLocation();
+            startDiscovery();
         } else {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -330,18 +337,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         }
     }
 
-    private void checkForAccessCoarseLocation() {
-
-        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            startDiscovery();
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -353,22 +348,11 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay!
-                    checkForAccessCoarseLocation();
+                    startDiscovery();
                 } else {
                     Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                }
-                break;
-            case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay!
-                    startDiscovery();
-                } else {
-                    // permission denied, boo!
-                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -388,6 +372,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
             handler.removeCallbacks(stopDiscoveryRunnable);
             handler.removeCallbacksAndMessages(null);
         }
+        mCommCentral=null;
         super.onDestroyView();
     }
 
@@ -397,6 +382,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
                 checkForAccessFineLocation();
+            }else{
+                Toast.makeText(mContext,"Please enable bluetooth",Toast.LENGTH_SHORT).show();
             }
         }
     }
