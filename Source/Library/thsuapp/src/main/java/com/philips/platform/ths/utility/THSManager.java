@@ -114,6 +114,7 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
+import com.philips.platform.ths.settings.THSVisitReportAttachmentCallback;
 import com.philips.platform.ths.settings.THSVisitReportDetailCallback;
 import com.philips.platform.ths.settings.THSVisitReportListCallback;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
@@ -1271,6 +1272,20 @@ public class THSManager {
             @Override
             public void onFailure(Throwable throwable) {
                 thsVisitReportDetailCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void getVisitReportAttachment(Context context, VisitReport visitReport, final THSVisitReportAttachmentCallback thsVisitReportAttachmentCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVisitReportAttachment(getPTHConsumer().getConsumer(), visitReport, new SDKCallback<FileAttachment, SDKError>() {
+            @Override
+            public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
+                thsVisitReportAttachmentCallback.onResponse(fileAttachment,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsVisitReportAttachmentCallback.onFailure(throwable);
             }
         });
     }

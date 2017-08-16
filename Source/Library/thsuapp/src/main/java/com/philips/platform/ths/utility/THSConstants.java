@@ -34,5 +34,6 @@ public class THSConstants {
     public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
     public static final String THS_VISIT_REPORT_DETAIL = "THS_VISIT_REPORT_DETAIL";
+    public static final String THS_VISIT_REPORT = "THS_VISIT_REPORT";
 
 }

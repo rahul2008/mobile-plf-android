@@ -14,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.entity.visit.VisitRx;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -45,6 +47,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     Label mPrescriptionDetail;
     Label mLabelShippingDetail;
     RelativeLayout mRelativeLayoutProviderLayout;
+    LinearLayout mLinearLayoutDownloadReport;
+    THSVisitHistoryDetailPresenter mThsVisitHistoryPresenter;
+    private VisitReport mVisitReport;
 
     @Nullable
     @Override
@@ -52,6 +57,8 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_visit_report_detail, container, false);
         final Bundle arguments = getArguments();
         mVisitReportDetail = arguments.getParcelable(THSConstants.THS_VISIT_REPORT_DETAIL);
+        mVisitReport = arguments.getParcelable(THSConstants.THS_VISIT_REPORT);
+        mThsVisitHistoryPresenter = new THSVisitHistoryDetailPresenter(this);
         mLabelVisit = (Label) view.findViewById(R.id.ths_waiting_room_title_label);
         mProviderImage = (CircularImageView) view.findViewById(R.id.ths_providerImage);
         mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
@@ -67,6 +74,13 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,mVisitReportDetail.getAssignedProviderInfo());
                 addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
+            }
+        });
+        mLinearLayoutDownloadReport = (LinearLayout) view.findViewById(R.id.ths_pdf_container);
+        mLinearLayoutDownloadReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mThsVisitHistoryPresenter.onEvent(R.id.ths_pdf_container);
             }
         });
         return view;
@@ -119,4 +133,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         mLabelCreditCardCharge.setText(mVisitReportDetail.getPaymentAmount() + "");
     }
 
+    public VisitReport getVisitReport() {
+        return mVisitReport;
+    }
 }

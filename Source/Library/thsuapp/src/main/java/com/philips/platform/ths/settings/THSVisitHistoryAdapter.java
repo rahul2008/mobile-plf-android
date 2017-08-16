@@ -52,7 +52,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
     }
 
     @Override
-    public void onBindViewHolder(final CustomViewHolder holder, int position) {
+    public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         final VisitReport visitReport = mVisitReports.get(position);
 
         final Long scheduledStartTime = visitReport.getSchedule().getActualStartTime();
@@ -97,6 +97,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_VISIT_REPORT_DETAIL,mVisitReportDetail);
+                bundle.putParcelable(THSConstants.THS_VISIT_REPORT,mVisitReports.get(position));
                 mThsVisitHistoryFragment.addFragment(new THSVisitHistoryDetailFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         };
