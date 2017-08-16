@@ -13,7 +13,6 @@
         android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
         android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
         android:text="@string/iap_selection_select_address"
-        android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_selection_address_select_address_text_size" />
 
     <View

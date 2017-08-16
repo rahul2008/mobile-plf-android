@@ -6,8 +6,9 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/iap_match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:background="?attr/uidContentPrimaryBackgroundColor"
         android:layout_weight="1"
         android:fillViewport="true"
@@ -116,8 +117,9 @@
 
     <LinearLayout
         android:id="@+id/iap_productDetailsScreen_btn_ll"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="@dimen/iap_match_parent"
+        android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/iap_productDetailsScreen_separator"
         android:layout_marginBottom="@dimen/border8_margin"
