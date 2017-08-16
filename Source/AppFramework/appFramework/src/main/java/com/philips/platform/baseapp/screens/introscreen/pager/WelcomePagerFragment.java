@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -26,7 +27,7 @@ import com.philips.platform.uid.view.widget.Label;
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
  * The default content can be resplaced by verticals by changing the xml file 'parent_introduction_fragment_layout'
  */
-public class WelcomePagerFragment extends Fragment {
+public class WelcomePagerFragment extends AbstractAppFrameworkBaseFragment {
     public static final String TAG =  WelcomePagerFragment.class.getSimpleName();
 
     private static final String ARG_PAGE_TITLE = "pageTitle";
@@ -48,6 +49,11 @@ public class WelcomePagerFragment extends Fragment {
         WelcomePagerFragment fragmentFirst = new WelcomePagerFragment();
         fragmentFirst.setArguments(args);
         return fragmentFirst;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return null;
     }
 
     @Override

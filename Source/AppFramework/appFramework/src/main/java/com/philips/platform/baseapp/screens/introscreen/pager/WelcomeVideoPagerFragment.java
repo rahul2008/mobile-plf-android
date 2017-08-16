@@ -83,7 +83,7 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
 
         if (!new Utility().isOnline(getActivity())) {
             loadInitialState();
-            Toast.makeText(getActivity(), "Internet connection is not available", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.RA_DLS_no_internet_connectivity), Toast.LENGTH_LONG).show();
             return;
         }
         presenter.fetchVideoDataSource();
@@ -192,7 +192,7 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
 
     @Override
     public void onFetchError() {
-        Toast.makeText(getActivity(), "Check Internet Connectivity", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
         loadInitialState();
     }
 }
