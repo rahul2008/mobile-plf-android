@@ -6,7 +6,7 @@ package com.philips.platform.appinfra;
 
 public class ConfigValues {
 
-	static String testJsonString = null;
+	private static String testJsonString = null;
 
 	public static String testJson() {
 		testJsonString = "{\n" +
@@ -44,12 +44,11 @@ public class ConfigValues {
 				"    \"LANGUAGEPACK.SERVICEID\":\"appinfra.languagepack\",\n" +
 				"    \"APPUPDATE.SERVICEID\":\"appinfra.testing.version\",\n" +
 				"    \"APPUPDATE.AUTOREFRESH\":false,\n" +
-				"  \"LOGGING.RELEASECONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\"]},\n" +
+                "   \"SERVICEDISCOVERY.COUNTRYMAPPING\":{\"LU\":\"BE\",\"MO\":\"HK\"},\n" +
+                "  \"LOGGING.RELEASECONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\"]},\n" +
 				"  \"LOGGING.DEBUGCONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\", \"component1\"]}" +
-
 				"  }\n" +
 				"}\n";
-
 		return testJsonString;
 	}
 
@@ -109,7 +108,6 @@ public class ConfigValues {
 	}
 
 	public static String getsdUrlPlatformjson() {
-
 		return "{\n" +
 				"\t\"success\": true,\n" +
 				"\t\"payload\": {\n" +
@@ -165,7 +163,6 @@ public class ConfigValues {
 				"\t},\n" +
 				"\t\"httpStatus\": \"OK\"\n" +
 				"}";
-
 	}
 
 	public static String testJsonforIntilization() {
@@ -208,6 +205,4 @@ public class ConfigValues {
 
 		return testJsonString;
 	}
-
-
 }
