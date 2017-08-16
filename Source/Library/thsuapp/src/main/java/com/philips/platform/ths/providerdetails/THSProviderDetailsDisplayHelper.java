@@ -48,7 +48,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
-            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
+            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel,reminderValue;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
     private RelativeLayout mTimeSlotContainer;
@@ -81,6 +81,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         visitCostValueLabel = (Label) view.findViewById(R.id.visitCostValueLabel);
         providerImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
+        reminderValue = (Label) view.findViewById(R.id.reminderValue);
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
@@ -107,8 +108,10 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         set_a_reminder_layout.setOnClickListener(mOnClickListener);
     }
 
-    public void launchSetRemainderDialogFragment(){
+    public void launchSetRemainderDialogFragment(THSBaseFragment thsBaseFragment){
+
         thsSetReminderDialogFragment = new THSSetReminderDialogFragment();
+        thsSetReminderDialogFragment.setDialogFragmentCallback((THSAvailableProviderDetailFragment)thsBaseFragment);
         thsSetReminderDialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(),THSSetReminderDialogFragment.TAG);
     }
     public void updateView(Provider provider,List<Date> dates){
@@ -286,8 +289,19 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderDetailsViewInterface.getTHSProviderInfo());
         bundle.putSerializable(THSConstants.THS_DATE, dates.get(position));
+        bundle.putString(THSConstants.THS_SET_REMINDER_EXTRA_KEY,""+thsProviderDetailsViewInterface.getReminderTime());
         final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
         thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG,bundle);
+    }
+
+    public void setReminderValue(String reminderTime) {
+        reminderValue.setText(mContext.getResources().
+                getString(R.string.ths_reminder_set)+" "+reminderTime
+                +" "+mContext.getResources().getString(R.string.ths_before_appointment));
+    }
+
+    public String getReminderValue() {
+        return reminderValue.getText().toString();
     }
 }

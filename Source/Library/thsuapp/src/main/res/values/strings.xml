@@ -103,4 +103,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_rb_eight_hours_before">8 hours before</string>
     <string name="ths_rb_one_day_before">1 day before</string>
     <string name="ths_rb_one_week_before">1 week before</string>
+    <string name="ths_reminder_set">Reminder set</string>
+    <string name="ths_before_appointment">before appointment</string>
+
 </resources>

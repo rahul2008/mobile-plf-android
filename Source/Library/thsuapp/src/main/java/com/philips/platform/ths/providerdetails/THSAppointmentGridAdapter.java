@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
-    private ArrayList<Date> cardList = new ArrayList();
+    private ArrayList<Date> gridItemTimeList = new ArrayList();
     private Context mContext;
     public final String TIME_FORMATTER = "HH:mm";
     private THSBaseFragment thsBaseFragment;
@@ -42,7 +42,7 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo,THSGridItemOnClickListener thsGridItemOnClickListener) {
         super(context, 0, cardList);
         this.mContext = context;
-        this.cardList = (ArrayList<Date>) cardList;
+        this.gridItemTimeList = (ArrayList<Date>) cardList;
         this.thsBaseFragment = thsBaseFragment;
         this.thsProviderInfo = thsProviderInfo;
         this.thsGridItemOnClickListener = thsGridItemOnClickListener;
@@ -65,15 +65,15 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     @Override
     public int getCount() {
-        if (cardList == null) {
+        if (gridItemTimeList == null) {
             return 0;
         }
-        return cardList.size();
+        return gridItemTimeList.size();
     }
 
     @Override
     public Date getItem(int position) {
-        return cardList.get(position);
+        return gridItemTimeList.get(position);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        final Date gridData = cardList.get(position);
+        final Date gridData = gridItemTimeList.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -103,9 +103,6 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderInfo);
                     bundle.putSerializable(THSConstants.THS_DATE, gridData);
-                    //final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
-                    /*fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
-                    thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG,bundle);*/
                     thsGridItemOnClickListener.onGridItemClicked(position);
                 }
             });
@@ -121,8 +118,8 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     }
 
     public void updateGrid(ArrayList<Date> newList) {
-        this.cardList.clear();
-        this.cardList = new ArrayList<>(newList);
+        this.gridItemTimeList.clear();
+        this.gridItemTimeList = new ArrayList<>(newList);
         this.notifyDataSetChanged();
     }
 

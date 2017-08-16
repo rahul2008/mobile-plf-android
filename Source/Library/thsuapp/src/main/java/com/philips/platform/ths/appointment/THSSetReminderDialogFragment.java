@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioGroup;
 
@@ -16,6 +17,11 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
     public static String TAG = THSSetReminderDialogFragment.class.getSimpleName();
     private RadioGroup radioGroup;
     private Button set_reminder_confirmation_button, cancel_reminder_dialog;
+    private THSDialogFragmentCallback thsDialogFragmentCallback;
+
+    public void setDialogFragmentCallback(THSDialogFragmentCallback thsDialogFragmentCallback){
+        this.thsDialogFragmentCallback = thsDialogFragmentCallback;
+    }
 
     @Nullable
     @Override
@@ -32,7 +38,8 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
 
     @Override
     public void onClick(View v) {
-        int checkedRBId, reminderValue;
+        int checkedRBId;
+        String reminderValue = THSConstants.THS_NO_REMINDER_STRING;
         if (v.getId() == R.id.cancel_reminder_dialog) {
             dismiss();
         }
@@ -40,27 +47,28 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
             checkedRBId = radioGroup.getCheckedRadioButtonId();
 
             if (checkedRBId == R.id.ths_rb_no_reminder) {
-                reminderValue = 0;
+                reminderValue = THSConstants.THS_NO_REMINDER_STRING;
             }
             if (checkedRBId == R.id.ths_rb_15_mins) {
-                reminderValue = 0
+                reminderValue = THSConstants.THS_15_MINS_REMINDER;
             }
             if (checkedRBId == R.id.ths_rb_one_hour) {
-                reminderValue = 0
+                reminderValue = THSConstants.THS_ONE_HOUR_REMINDER;
             }
             if (checkedRBId == R.id.ths_rb_four_hours) {
-                reminderValue = 0
+                reminderValue = THSConstants.THS_FOUR_HOURS_REMINDER;
             }
             if (checkedRBId == R.id.ths_rb_eight_hours) {
-                reminderValue = 0
+                reminderValue = THSConstants.THS_EIGHT_HOURS_REMINDER;
             }
             if (checkedRBId == R.id.ths_rb_one_day) {
-                reminderValue = 0
+                reminderValue = THSConstants.THS_ONE_DAY_REMINDER;
             }
             if (checkedRBId == R.id.ths_rb_one_week) {
-                reminderValue = 0
+                reminderValue = THSConstants.THS_ONE_WEEK_REMINDER;
             }
-
         }
+        thsDialogFragmentCallback.onPostData(reminderValue);
+        getDialog().dismiss();
     }
 }

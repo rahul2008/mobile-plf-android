@@ -34,5 +34,14 @@ public class THSConstants {
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
 
     public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
+    public static final String THS_SET_REMINDER_EXTRA_KEY = "THS_SET_REMINDER_EXTRA_KEY";
+
+    public static final String THS_NO_REMINDER_STRING = "No Reminder";
+    public static final String THS_15_MINS_REMINDER = "15 minutes";
+    public static final String THS_ONE_HOUR_REMINDER = "One Hour";
+    public static final String THS_FOUR_HOURS_REMINDER = "4 hours";
+    public static final String THS_EIGHT_HOURS_REMINDER = "8 hours";
+    public static final String THS_ONE_DAY_REMINDER = "One day";
+    public static final String THS_ONE_WEEK_REMINDER = "One week";
 
 }
