@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RequestQueue;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 
@@ -50,6 +51,7 @@ public class LanCommunicationStrategyTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        DICommLog.disableLogging();
 
         lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock, connectivityMonitor) {
             @Override
