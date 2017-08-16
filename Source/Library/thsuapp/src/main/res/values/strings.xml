@@ -36,6 +36,7 @@
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
     <string name="ths_set_remainder">Set a reminder</string>
+    <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok got it</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
     <string name="ths_confirm">Confirm</string>
@@ -59,7 +60,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="get_started">Get started</string>
     <string name="ths_continue">Continue</string>
     <string name="ths_select_time">Select a timeslot</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
 
     //Pharmacy strings
     <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
@@ -93,4 +94,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
+
+    <!-- Set Reminder Dialog text strings -->
+    <string name="ths_rb_no_reminder">No Reminder</string>
+    <string name="ths_rb_15_mins_reminder">15 mins before</string>
+    <string name="ths_rb_one_hour_before">1 hour before</string>
+    <string name="ths_rb_four_hours_before">4 hours before</string>
+    <string name="ths_rb_eight_hours_before">8 hours before</string>
+    <string name="ths_rb_one_day_before">1 day before</string>
+    <string name="ths_rb_one_week_before">1 week before</string>
 </resources>

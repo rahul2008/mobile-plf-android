@@ -33,4 +33,6 @@ public class THSConstants {
     public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
 
+    public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
+
 }

@@ -153,8 +153,6 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         if (resultCode == RESULT_OK) {
             if (requestCode == MEDICATION_ON_ACTIVITY_RESULT) {
                 mSelectedMedication = data.getExtras().getParcelable("selectedMedication");
-
-
             }
         }
     }

@@ -181,12 +181,14 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     }
 
     private void callProviderDetailsFragment(int position) {
+
         THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
         pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
         pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
         pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
         pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
+
     }
 
     public void callMedicationFragment(int position) {
