@@ -5,54 +5,59 @@ class AccentValidator {
 
     private final static String GROUP_BLUE_COLOR_RANGE = "GROUPBLUE";
 
-    private final static String[] GROUP_BLUE = {AccentRange.AQUA.name(), AccentRange.GREEN.name(),
-            AccentRange.ORANGE.name(), AccentRange.PINK.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] GROUP_BLUE = {AccentRange.AQUA, AccentRange.GREEN,
+            AccentRange.ORANGE, AccentRange.PINK, AccentRange.PURPLE};
 
-    private final static String[] BLUE = {AccentRange.AQUA.name(), AccentRange.GREEN.name(),
-            AccentRange.ORANGE.name(), AccentRange.PINK.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] BLUE = {AccentRange.AQUA, AccentRange.GREEN,
+            AccentRange.ORANGE, AccentRange.PINK, AccentRange.PURPLE};
 
-    private final static String[] AQUA = {AccentRange.BLUE.name(), AccentRange.ORANGE.name(),
-            AccentRange.PINK.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] AQUA = {AccentRange.BLUE, AccentRange.ORANGE,
+            AccentRange.PINK, AccentRange.PURPLE};
 
-    private final static String[] GREEN = {AccentRange.ORANGE.name(), AccentRange.PINK.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] GREEN = {AccentRange.ORANGE, AccentRange.PINK, AccentRange.PURPLE};
 
-    private final static String[] ORANGE = {AccentRange.BLUE.name(), AccentRange.AQUA.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] ORANGE = {AccentRange.BLUE, AccentRange.AQUA, AccentRange.PURPLE};
 
-    private final static String[] PINK = {AccentRange.ORANGE.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] PINK = {AccentRange.ORANGE, AccentRange.PURPLE};
 
-    private final static String[] PURPLE = {AccentRange.BLUE.name(), AccentRange.AQUA.name(),
-            AccentRange.GREEN.name(), AccentRange.ORANGE.name(), AccentRange.PINK.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] PURPLE = {AccentRange.BLUE, AccentRange.AQUA,
+            AccentRange.GREEN, AccentRange.ORANGE, AccentRange.PINK, AccentRange.PURPLE};
 
-    private final static String[] GRAY = {AccentRange.GROUP_BLUE.name(), AccentRange.BLUE.name(),
-            AccentRange.AQUA.name(), AccentRange.GREEN.name(), AccentRange.ORANGE.name(),
-            AccentRange.PINK.name(), AccentRange.PURPLE.name()};
+    private final static AccentRange[] GRAY = {AccentRange.GROUP_BLUE, AccentRange.BLUE,
+            AccentRange.AQUA, AccentRange.GREEN, AccentRange.ORANGE,
+            AccentRange.PINK, AccentRange.PURPLE};
 
-    static boolean isValidAccent(String colorRange, String accentRange) {
-        String[] validArray = null;
+    static AccentRange fixAccent(String colorRange, AccentRange accentRange) {
+        AccentRange[] validArray = null;
+        AccentRange resultAccent = accentRange;
         if (colorRange.equals(GROUP_BLUE_COLOR_RANGE)) {
             validArray = GROUP_BLUE;
-        } else if (colorRange.equals(ColorRange.BLUE.name())) {
+        } else if (colorRange.equals(ColorRange.BLUE)) {
             validArray = BLUE;
-        } else if (colorRange.equals(ColorRange.AQUA.name())) {
+        } else if (colorRange.equals(ColorRange.AQUA)) {
             validArray = AQUA;
-        } else if (colorRange.equals(ColorRange.GREEN.name())) {
+        } else if (colorRange.equals(ColorRange.GREEN)) {
             validArray = GREEN;
-        } else if (colorRange.equals(ColorRange.ORANGE.name())) {
+        } else if (colorRange.equals(ColorRange.ORANGE)) {
             validArray = ORANGE;
-        } else if (colorRange.equals(ColorRange.PINK.name())) {
+        } else if (colorRange.equals(ColorRange.PINK)) {
             validArray = PINK;
-        } else if (colorRange.equals(ColorRange.PURPLE.name())) {
+        } else if (colorRange.equals(ColorRange.PURPLE)) {
             validArray = PURPLE;
-        } else if (colorRange.equals(ColorRange.GRAY.name())) {
+        } else if (colorRange.equals(ColorRange.GRAY)) {
             validArray = GRAY;
         }
-        return arrayContainsElement(validArray, accentRange);
+        boolean validAccent = arrayContainsElement(validArray, resultAccent);
+        if(!validAccent) {
+            resultAccent = validArray[0];
+        }
+        return resultAccent;
     }
 
-    private static boolean arrayContainsElement(String[] array, String searchStr) {
+    private static <T, U> boolean arrayContainsElement(T[] origObject, U searchObject) {
         boolean found = false;
-        for (String str : array) {
-            if (str.equals(searchStr)) {
+        for (T object : origObject) {
+            if (object.equals(searchObject)) {
                 found = true;
                 break;
             }
