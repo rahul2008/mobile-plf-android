@@ -24,6 +24,11 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
 
     private Context mContext;
     private RecyclerView mDeliveryRecyclerView;
+    private DialogListener mListener;
+
+    public interface DialogListener {
+        void onItemClick(int position);
+    }
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
         DeliveryMethodFragment fragment = new DeliveryMethodFragment();
@@ -72,6 +77,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
 
         @Override
         public void onClick(View view) {
+            System.out.println("99999 back pressed");
             getFragmentManager().popBackStack();
         }
     };

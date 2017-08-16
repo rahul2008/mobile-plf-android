@@ -24,6 +24,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     private List<DeliveryModes> mModes;
     private int mSelectedIndex;
     private View.OnClickListener mConfirmBtnClick;
+    private DeliveryModes mSelectedDeliveryMode;
 
     public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes, View.OnClickListener confirmBtnClick) {
         mContext = context;
@@ -56,7 +57,6 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         }
         setToggleStatus(holder.deliveryRadioBtnToggle, position, holder.deliveryConfirmBtn);
         bindToggleButton(holder, holder.deliveryRadioBtnToggle);
-
     }
 
     private void bindToggleButton(final DeliverySelectionHolder holder, final RadioButton toggle) {
@@ -101,14 +101,14 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             deliveryConfirmBtn = (Button) view.findViewById(R.id.iap_delivery_confirm_btn);
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
             view.setOnClickListener(this);
-            deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
+            /*deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("mmmmm val :"+deliveryModePrice.getText().toString());
-                    deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
-                   // mConfirmBtnClick.onClick(view);
+                    System.out.println("9999999 val : "+deliveryModePrice.getText().toString());
+
                 }
-            });
+            });*/
         }
 
         @Override

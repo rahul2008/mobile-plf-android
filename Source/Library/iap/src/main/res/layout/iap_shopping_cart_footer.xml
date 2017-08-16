@@ -6,170 +6,162 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
-        <LinearLayout
+    <LinearLayout
+        android:id="@+id/extra_option_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/extra_option"
+            style="@style/ButtonsCategoryStyle"
+            android:layout_height="42dp"
+            android:background="@color/uid_gray_level_10"
+            android:text="@string/iap_extra_option"
+            android:textSize="@dimen/iap_text_size_16sp" />
+
+        <RelativeLayout
+            android:id="@+id/delivery_ups_parcel_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/extra_option"
-                style="@style/ButtonsCategoryStyle"
-                android:layout_height="42dp"
-                android:textSize="@dimen/iap_text_size_16sp"
-                android:background="@color/uid_gray_level_10"
-                android:text="@string/iap_extra_option" />
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/delivery_ups_title"
-                style="@style/UIDLabel"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:paddingRight="@dimen/border16_margin_left_right"
-                android:text="@string/iap_delivery_ups_parcel"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/delivery_ups_title"
+                    style="@style/UIDLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/iap_delivery_ups_parcel"
+                    android:textSize="@dimen/iap_text_size_16sp"
+                    android:textStyle="bold" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/delivery_price"
+                    style="@style/UIDLabel"
+                    android:layout_marginTop="10dip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="$0.00"
+                    android:textSize="@dimen/iap_text_size_16sp" />
+            </LinearLayout>
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:id="@+id/right_arrow"
+                style="@style/iap_right_arrow_product_catalog"
+                android:layout_width="15dip"
+                android:layout_height="15dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical"/>
+        </RelativeLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/cart_Summary"
+            style="@style/ButtonsCategoryStyle"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dip"
+            android:background="@color/uid_gray_level_10"
+            android:text="@string/iap_cart_summary"
+            android:textSize="@dimen/iap_text_size_16sp" />
+
+        <LinearLayout
+            android:id="@+id/price_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dip"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+        </LinearLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dip"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/delivery_via_ups"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_delivery_via_ups"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/delivery_ups_val"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="$0.00"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+        </GridLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dip"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/total_label"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_total"
                 android:textSize="@dimen/iap_text_size_16sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/delivery_ups_parcel_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:visibility="gone"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:paddingRight="@dimen/border16_margin_left_right">
-
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:id="@+id/delivery_free_description"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                    android:text="@string/iap_delivery_free_description" />
-
-                <com.shamanland.fonticon.FontIconTextView
-                    android:id="@+id/right_arrow"
-                    style="@style/iap_right_arrow_product_catalog"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/delivery_price"
+                android:id="@+id/total_cost_val"
                 style="@style/UIDLabel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
+                android:layout_gravity="right"
+                android:text="$330.00"
                 android:textSize="@dimen/iap_text_size_16sp"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:paddingRight="@dimen/border16_margin_left_right"
-                android:text="$0.00" />
+                android:textStyle="bold" />
+        </GridLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dip"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right"
+            android:visibility="gone">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
-                android:id="@+id/cart_Summary"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dip"
-                android:textSize="@dimen/iap_text_size_16sp"
-                android:background="@color/uid_gray_level_10"
-                android:text="@string/iap_cart_summary" />
-
-            <LinearLayout
-                android:id="@+id/price_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dip"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:paddingRight="@dimen/border16_margin_left_right">
-
-            </LinearLayout>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:paddingRight="@dimen/border16_margin_left_right">
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/delivery_via_ups"
-                    style="@style/UIDLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                    android:text="@string/iap_delivery_via_ups" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/delivery_ups_val"
-                    style="@style/UIDLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                    android:layout_gravity="right"
-                    android:text="$0.00" />
-            </GridLayout>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dip"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:paddingRight="@dimen/border16_margin_left_right">
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/total_label"
-                    style="@style/UIDLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iap_total"
-                    android:textSize="@dimen/iap_text_size_16sp"
-                    android:textStyle="bold" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/total_cost_val"
-                    style="@style/UIDLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="$330.00"
-                    android:textSize="@dimen/iap_text_size_16sp"
-                    android:textStyle="bold" />
-            </GridLayout>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:paddingLeft="@dimen/border16_margin_left_right"
-                android:visibility="gone"
-                android:paddingRight="@dimen/border16_margin_left_right">
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/vat_inclusive"
-                    style="@style/UIDLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                    android:text="@string/iap_including_tax" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/including_tax_val"
-                    style="@style/UIDLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                    android:layout_gravity="right"
-                    android:text="$20.00" />
-            </GridLayout>
-            <View
+                android:id="@+id/vat_inclusive"
+                style="@style/UIDLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_scroll_margin" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="@string/iap_including_tax"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/including_tax_val"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="$20.00"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+        </GridLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/reg_scroll_margin" />
+    </LinearLayout>
 </ScrollView>

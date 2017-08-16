@@ -195,6 +195,36 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         (mContext.getString(R.string.iap_including_vat));
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
+
+                /*if (null != data.getDeliveryMode()) {
+                    handleTax(data, shoppingCartFooter);
+
+                    String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String deliveryMethod = data.getDeliveryMode().getName();
+                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
+                        mIsFreeDelivery = true;
+                    }
+                    shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
+
+                    if (deliveryMethod != null) {
+                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                    } else {
+                        shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
+                    }
+
+                    shoppingCartFooter.mEditIconLayout.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
+                    shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
+                        }
+                    });
+                } else {
+                    mIsFreeDelivery = true;
+                    shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
+                    shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
+                }*/
                 if (null != data.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
 
@@ -211,22 +241,25 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
 
-                    shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
                     });
+
                 } else {
+                    shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
+                    shoppingCartFooter.mRightArrow.setVisibility(View.GONE);
+                    shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
                     mIsFreeDelivery = true;
                 }
 
                 //Need to remove this hardcoded 100 val
-                String freeDeliverySpendAmount = "100";
+               /* String freeDeliverySpendAmount = "100";
                 String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_free_description);
                 freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
-                shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);
+                shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);*/
 
                 for (int i = 0; i < mData.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
@@ -359,9 +392,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryVia;
         TextView mVatValueUK;
         ImageView mEditIcon;
-        TextView mDeliveryFreeSpend;
+        TextView mExtraOption;
         LinearLayout mPriceContainer;
-        LinearLayout mDeliveryUPSParcelContainer;
+        TextView mRightArrow;
+        RelativeLayout mDeliveryUPSParcelContainer;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -372,11 +406,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTotalCost = (TextView) itemView.findViewById(R.id.total_cost_val);
             mDeliveryVia = (TextView) itemView.findViewById(R.id.delivery_via_ups);
             mVatValueUK = (TextView) itemView.findViewById(R.id.delivery_ups_val);
-
+            mExtraOption = (TextView) itemView.findViewById(R.id.extra_option);
+            mRightArrow =  (TextView) itemView.findViewById(R.id.right_arrow);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
-            mDeliveryFreeSpend = (TextView) itemView.findViewById(R.id.delivery_free_description);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
-            mDeliveryUPSParcelContainer = (LinearLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
+            mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
         }
     }
 
