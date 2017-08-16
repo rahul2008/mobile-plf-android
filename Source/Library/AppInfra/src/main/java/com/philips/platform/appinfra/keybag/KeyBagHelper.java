@@ -18,7 +18,6 @@ import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,22 +36,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import static android.content.ContentValues.TAG;
-
 class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
     private JSONObject rootJsonObject;
     private AppInfra mAppInfra;
 
-    //TODO - variables below need to be removed
-    private ServiceDiscoveryManagerCSV sdmCSV;
-
     KeyBagHelper(AppInfra mAppInfra) {
         keyBagLib = new KeyBagLib();
         this.mAppInfra = mAppInfra;
-        //TODO - need to remove invoking below api
-        initServiceDiscovery();
     }
 
     String getMd5ValueInHex(String data) {
@@ -197,24 +189,6 @@ class KeyBagHelper {
         return null;
     }
 
-    //TODO - need to remove this once we get keybag url's from DS
-    private void initServiceDiscovery() {
-        sdmCSV = new ServiceDiscoveryManagerCSV();
-        AppInfra.Builder builder = new AppInfra.Builder();
-        builder.setServiceDiscovery(sdmCSV);
-        sdmCSV.init(mAppInfra);
-        sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
-                Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
-            }
-        });
-    }
-
     ArrayList<String> getAppendedServiceIds(List<String> serviceIds) {
         ArrayList<String> appendedServiceIds = new ArrayList<>();
         for (String serviceId : serviceIds) {
@@ -229,14 +203,14 @@ class KeyBagHelper {
                                    ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener) {
         if (replacement != null) {
             if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
-                sdmCSV.getServicesWithCountryPreference(serviceIds, serviceUrlMapListener, replacement);
+                mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIds, serviceUrlMapListener, replacement);
             else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-                sdmCSV.getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener, replacement);
+                mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener, replacement);
         } else {
             if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
-                sdmCSV.getServicesWithCountryPreference(serviceIds, serviceUrlMapListener);
+                mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIds, serviceUrlMapListener);
             else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-                sdmCSV.getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener);
+                mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener);
         }
     }
 
@@ -257,9 +231,9 @@ class KeyBagHelper {
         serviceIds = getAppendedServiceIds(serviceIds);
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
         if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference) {
-            sdmCSV.getServicesWithCountryPreference(serviceIds, keyBagIndexListener);
+            mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIds, keyBagIndexListener);
         } else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-            sdmCSV.getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
+            mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, keyBagIndexListener);
     }
 
     @NonNull
