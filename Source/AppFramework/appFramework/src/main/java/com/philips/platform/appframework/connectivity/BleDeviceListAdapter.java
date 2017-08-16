@@ -27,7 +27,7 @@ public class BleDeviceListAdapter extends BaseAdapter {
     private LayoutInflater mInflator;
     private Context context;
 
-    public BleDeviceListAdapter(@NonNull Context context, ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
+    public BleDeviceListAdapter(Context context, @NonNull ArrayList<BleReferenceAppliance> bleReferenceApplianceList) {
         super();
         this.context=context;
         mLeDevices = bleReferenceApplianceList;
