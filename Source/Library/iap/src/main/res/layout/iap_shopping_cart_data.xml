@@ -44,13 +44,12 @@
                 android:layout_marginRight="15dip"
                 android:layout_marginTop="@dimen/reg_layout_margin_10dp"
                 android:textSize="@dimen/iap_text_size_16sp"
-                android:textStyle="bold"
                 android:text="$1000"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/actual_price"
-                style="@style/UIDLabel"
+                style="@style/iapCentralesansBookFont"
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

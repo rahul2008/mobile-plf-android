@@ -97,7 +97,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dip"
-            android:visibility="gone"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right">
 
@@ -107,6 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:visibility="gone"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -115,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:visibility="gone"
                 android:text="$0.00"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </GridLayout>
@@ -131,6 +132,7 @@
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:text="@string/iap_total"
                 android:textSize="@dimen/iap_text_size_16sp"
                 android:textStyle="bold" />
@@ -141,6 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:text="$330.00"
                 android:textSize="@dimen/iap_text_size_16sp"
                 android:textStyle="bold" />
@@ -156,20 +159,22 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/vat_inclusive"
-                style="@style/UIDLabel"
+                android:textSize="@dimen/iap_text_size_12"
+                style="@style/iapCentralesansBookFont"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/iap_including_tax"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+                android:text="@string/iap_including_tax"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/including_tax_val"
-                style="@style/UIDLabel"
+                android:textSize="@dimen/iap_text_size_12"
+                style="@style/iapCentralesansBookFont"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="$20.00"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+                android:text="$20.00"/>
         </GridLayout>
 
         <View
