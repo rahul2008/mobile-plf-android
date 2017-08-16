@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +27,12 @@ import com.philips.cdp.di.iap.Constants.OrderStatus;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.controller.OrderController;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
@@ -45,8 +45,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.R.attr.data;
-import static com.philips.cdp.di.iap.Constants.OrderStatus.*;
+import static android.R.attr.phoneNumber;
 
 
 public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
@@ -88,6 +87,9 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView tvCardName;
     private TextView tvCardNo;
 
+    //Data and timr
+    private TextView tvOpeningTimings;
+
 
     @Override
     public void onResume() {
@@ -113,13 +115,14 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
-
-        tvCardName = (TextView) view.findViewById(R.id.tv_card_name);
-        tvCardNo = (TextView) view.findViewById(R.id.tv_card_no);
-
+        tvOpeningTimings=(TextView)view.findViewById(R.id.tv_opening_timings);
         btncall=(Button) view.findViewById(R.id.btn_call);
         btncall.setOnClickListener(this);
 
+
+
+        tvCardName = (TextView) view.findViewById(R.id.tv_card_name);
+        tvCardNo = (TextView) view.findViewById(R.id.tv_card_no);
         Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
 
@@ -154,6 +157,13 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
 
         return view;
+    }
+
+    private void setCallTimings() {
+
+        btncall.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(mPhoneContact,
+                HybrisDelegate.getInstance().getStore().getCountry()));
+        tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
     }
 
     @Override
@@ -270,6 +280,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
             mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
             mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
+
+            setCallTimings();
         }
     }
 

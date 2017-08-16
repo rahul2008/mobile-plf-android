@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fillViewport="true">
 
 
@@ -77,7 +77,7 @@
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:text="@string/iap_not_shipped_msg" />
 
-        <LinearLayout
+<!--        <LinearLayout
             android:id="@+id/ll_time_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                     android:gravity="left"
                     android:textSize="@dimen/iap_text_size_16sp"
                     android:textColor="?attr/uidTextTertiaryTextColor"
-                    android:text="Mon - Fri" />
+                    />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/tv_timing"
@@ -113,7 +113,7 @@
                     android:gravity="left"
                     android:textSize="@dimen/iap_text_size_16sp"
                     android:textColor="?attr/uidTextPrimaryTextColor"
-                    android:text="7:30AM to 8:00PM" />
+                     />
 
             </LinearLayout>
 
@@ -133,7 +133,7 @@
                     android:gravity="left"
                     android:textSize="@dimen/iap_text_size_16sp"
                     android:textColor="?attr/uidTextTertiaryTextColor"
-                    android:text="Sat" />
+                     />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/tv_sat_timing"
@@ -144,11 +144,24 @@
                     android:gravity="left"
                     android:textSize="@dimen/iap_text_size_16sp"
                     android:textColor="?attr/uidTextPrimaryTextColor"
-                    android:text="9:00AM to 6:00PM" />
+                    />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        -->
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_opening_timings"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/iap_text_size_16sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border24_margin"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor" />
 
         <LinearLayout
             android:id="@+id/ll_contact_btn_container"
@@ -163,8 +176,7 @@
                 android:id="@+id/btn_call"
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/iap_shipping_address_continue_button_height"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 app:uidComponentType="Primary"
                 android:text="@string/call_us" />
 
@@ -181,18 +193,23 @@
         </LinearLayout>
 
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:layout_height="@dimen/iap_divider_height"
+            android:background="@drawable/uid_shadow_level_two" />
+
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_quantity"
             style="@style/iapCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/uidTextPrimaryTextColor"
-            android:layout_marginTop="@dimen/border12_margin"
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
             android:textSize="@dimen/title"
-            android:background="@drawable/rectangle_background"
+            android:background="@color/uikit_enricher7"
             android:text="@string/no_of_products" />
 
 
@@ -219,129 +236,136 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginTop="@dimen/iap_shipping_address_continue_margin_top"
+            android:padding="@dimen/border16_margin_left_right"
             android:orientation="vertical">
 
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/tvHeaderTitle"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/iapCentralesansBookFont"
+                android:textSize="@dimen/iap_text_size_16sp"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:text="@string/iap_shipping_address" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_shipping_first_name"
-                style="@style/iapCentralesansBoldFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/iapCentralesansMediumFont"
                 android:layout_marginBottom="@dimen/iap_order_one_spacing"
                 android:layout_marginTop="@dimen/iap_order_margin_top"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="@dimen/title" />
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_shipping_address"
-                style="@style/tvTitle"
-                android:layout_marginTop="0dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/iapCentralesansBookFont"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+            android:padding="@dimen/border16_margin_left_right"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/tvHeaderTitle"
-                android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="@dimen/iap_shipping_address_continue_margin_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/iapCentralesansBookFont"
+                android:textSize="@dimen/iap_text_size_16sp"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:text="@string/iap_billing_address" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_billing_first_name"
-                style="@style/iapCentralesansBoldFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/iapCentralesansMediumFont"
                 android:layout_marginBottom="@dimen/iap_order_one_spacing"
                 android:layout_marginTop="@dimen/iap_order_margin_top"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="@dimen/title" />
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_billing_address"
-                style="@style/tvTitle"
-                android:layout_marginTop="0dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/iapCentralesansBookFont"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/uid_shadow_level_two"
+            />
         <LinearLayout
             android:id="@+id/ll_payment_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
-            android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
-            android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+            android:padding="@dimen/border16_margin_left_right"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/uikit_enricher7"
-                />
             <com.philips.platform.uid.view.widget.Label
-                style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/title"
-                android:textColor="?attr/uidTextPrimaryTextColor"
-                android:text="@string/iap_payment_by" />
+                style="@style/iapCentralesansBookFont"
+                android:textSize="@dimen/iap_text_size_16sp"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:text="@string/iap_payment_method" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_card_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                style="@style/iapCentralesansBookFont"
-                android:textColor="?attr/uidTextPrimaryTextColor"
+                style="@style/iapCentralesansMediumFont"
                 android:layout_marginTop="@dimen/iap_order_margin_top"
+                android:textSize="@dimen/iap_text_size_12"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                />
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_card_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+                android:textSize="@dimen/iap_text_size_12"
                 style="@style/iapCentralesansBookFont"
-                android:textColor="?attr/uidTextTertiaryTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
                  />
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_card_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                 style="@style/iapCentralesansBookFont"
-                android:textColor="?attr/uidTextTertiaryTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textSize="@dimen/iap_text_size_12"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
                  />
         </LinearLayout>
 
         <!--Order summary starts-->
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/uid_shadow_level_two"
+            />
+
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_order_summary_header"
             style="@style/iapCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidTextPrimaryTextColor"
-            android:paddingBottom="@dimen/border16_margin_left_right"
-            android:paddingLeft="@dimen/border16_margin_left_right"
-            android:paddingTop="@dimen/border16_margin_left_right"
-            android:textSize="@dimen/title"
-            android:background="@drawable/rectangle_background"
+            android:textColor="?attr/uidTextTertiaryTextColor"
+            android:padding="@dimen/border16_margin_left_right"
+            android:background="@color/uikit_enricher7"
+            android:textSize="@dimen/iap_text_size_16sp"
             android:text="@string/iap_order_summary" />
 
         <include
@@ -352,7 +376,7 @@
             />
 
         <!--Order summary ends-->
-        <RelativeLayout
+      <!--  <RelativeLayout
             android:id="@+id/invoice_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -373,7 +397,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/iap_order_margin_top"
                 android:layout_marginStart="@dimen/iap_order_icon_margin_left" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_paynow"
@@ -389,12 +413,11 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_cancel"
-            style="?attr/uikit_outlinedButtonStyle"
+            style="@style/iapCentralesansBookFont"
+            app:uidComponentType="Secondary"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
-            android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
-            android:layout_marginEnd="@dimen/iap_shipping_address_cancel_button_margin_left_right"
-            android:layout_marginStart="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/border16_margin_left_right"
             android:text="@string/iap_cancel_order"
             android:visibility="visible" />
 

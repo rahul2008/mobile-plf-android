@@ -7,16 +7,20 @@
         android:id="@+id/tv_product_quantity_name"
         android:layout_weight="1"
         android:gravity="left"
-        android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+        android:layout_marginBottom="@dimen/iap_margin_4dp"
+        android:textSize="@dimen/iap_text_size_12"
         style="@style/iapCentralesansBookFont"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
          />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/tv_price_product"
         android:layout_weight="1"
         android:gravity="right"
+        android:layout_marginBottom="@dimen/iap_margin_4dp"
         style="@style/iapCentralesansMediumFont"
-        android:textSize="@dimen/iap_retailers_store_name_size_12sp"
+        android:textSize="@dimen/iap_text_size_12"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         />
 
 </TableRow>
