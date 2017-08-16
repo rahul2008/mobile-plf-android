@@ -23,7 +23,7 @@ public class InternetCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.internet_check);
-        AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
+        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         mRestInterface = appInfra.getRestClient();
 
         final TextView output_textView = (TextView) findViewById(R.id.output_textView);

@@ -36,6 +36,7 @@
     "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
     "appUpdate.serviceId":"appinfra.testing.version",
     "appUpdate.autoRefresh":true,
+    "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
     "logging.releaseConfig":{
       "fileName":"AppInfraLog",
       "numberOfFiles":5,

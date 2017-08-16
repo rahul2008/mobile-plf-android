@@ -78,13 +78,13 @@ public class AIATDemoPage extends AppCompatActivity  {
 				switch (parent.getAdapter().getItem(position).toString()) {
 
 					case "facebook":
-						AILDemouAppInterface.mAppInfra.getTagging().trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackSocial_FacceBook");
+						AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Tagging_trackSocial_FacceBook");
 						break;
 					case "mail":
-						AILDemouAppInterface.mAppInfra.getTagging().trackSocialSharing(AppTaggingInterface.SocialMedium.Mail, "Tagging_trackSocial_Mail");
+						AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackSocialSharing(AppTaggingInterface.SocialMedium.Mail, "Tagging_trackSocial_Mail");
 						break;
 					case "twitter":
-						AILDemouAppInterface.mAppInfra.getTagging().trackSocialSharing(AppTaggingInterface.SocialMedium.Twitter, "Tagging_trackSocial_Twitter");
+						AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackSocialSharing(AppTaggingInterface.SocialMedium.Twitter, "Tagging_trackSocial_Twitter");
 						break;
 				}
 			}
@@ -97,14 +97,14 @@ public class AIATDemoPage extends AppCompatActivity  {
 		Setdata.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				AILDemouAppInterface.mAppInfra.getTagging().setPrivacyConsentForSensitiveData(true);
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().setPrivacyConsentForSensitiveData(true);
 			}
 		});
 
 		TaggLinkExternal.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				AILDemouAppInterface.mAppInfra.getTagging().trackLinkExternal("Tagging_trackLinkExternal");
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackLinkExternal("Tagging_trackLinkExternal");
 			}
 		});
 		TaggVideoStart.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +113,7 @@ public class AIATDemoPage extends AppCompatActivity  {
 				Intent intent = new Intent(AIATDemoPage.this, AndroidMediaPlayerExample.class);
 				intent.putExtra("VideoStart", true);
 				startActivity(intent);
-				AILDemouAppInterface.mAppInfra.getTagging().trackVideoStart("Tagging_trackVideoStart");
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackVideoStart("Tagging_trackVideoStart");
 			}
 		});
 		TaggVideoEnd.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class AIATDemoPage extends AppCompatActivity  {
 		TaggFileDownload.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				AILDemouAppInterface.mAppInfra.getTagging().trackFileDownload("Tagging_trackFileDownload");
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackFileDownload("Tagging_trackFileDownload");
 			}
 		});
 
@@ -147,7 +147,7 @@ public class AIATDemoPage extends AppCompatActivity  {
 		CheckForSslBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo("AppTaggingDemoPage", "SSlCheck Key", "SSlCheck Value");
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackPageWithInfo("AppTaggingDemoPage", "SSlCheck Key", "SSlCheck Value");
 			}
 		});
 
@@ -168,19 +168,19 @@ public class AIATDemoPage extends AppCompatActivity  {
 							for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
 								keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
 							}
-							/*AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo("AppTaggingDemoPage", keyValuePair);*/
+							/*AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackPageWithInfo("AppTaggingDemoPage", keyValuePair);*/
 							if(page_event_name.getText().toString().length()>0) {
-								AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo(page_event_name.getText().toString(), keyValuePair);
+								AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackPageWithInfo(page_event_name.getText().toString(), keyValuePair);
 							}else{
 								showAlertDialog("Warning", "Page Name shouldn't be Empty");
 
 							}
 						}
 					} else {
-						/*AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());*/
+						/*AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());*/
 
 						/*if(page_event_name.getText().toString().length()>0){*/
-							AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
+						AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackPageWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
 						/*}else
 						{
 							showAlertDialog("Warning", "Page Name shouldn't be Empty");
@@ -208,18 +208,18 @@ public class AIATDemoPage extends AppCompatActivity  {
 							for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
 								keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
 							}
-							/*AILDemouAppInterface.mAppInfra.getTagging().trackActionWithInfo("AppTaggingDemoPage", keyValuePair);*/
+							/*AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackActionWithInfo("AppTaggingDemoPage", keyValuePair);*/
 							if(page_event_name.getText().toString().length()>0){
-								AILDemouAppInterface.mAppInfra.getTagging().trackActionWithInfo(page_event_name.getText().toString(), keyValuePair);
+								AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackActionWithInfo(page_event_name.getText().toString(), keyValuePair);
 							}else
 							{
 								showAlertDialog("Warning", "Event Name shouldn't be Empty");
 							}
 						}
 					} else {
-						//AILDemouAppInterface.mAppInfra.getTagging().trackActionWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
+						//AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackActionWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());
 						if(page_event_name.getText().toString().length()>0){
-							AILDemouAppInterface.mAppInfra.getTagging().trackActionWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
+							AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackActionWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
 						}else
 						{
 							showAlertDialog("Warning", "Event Name shouldn't be Empty");
@@ -233,19 +233,19 @@ public class AIATDemoPage extends AppCompatActivity  {
 		TaggOptInBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AILDemouAppInterface.mAppInfra.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 			}
 		});
 		TaggOptOutBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AILDemouAppInterface.mAppInfra.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
 			}
 		});
 		TaggUnknownBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AILDemouAppInterface.mAppInfra.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
+				AILDemouAppInterface.getInstance().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
 			}
 		});
 	}

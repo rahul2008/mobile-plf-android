@@ -7,6 +7,7 @@ package com.philips.platform.aildemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
 public class LoggingActivity extends AppCompatActivity {
 
 
-
+    static Logger logger;
     String[] LogLevels= {"ERROR","WARNING","INFO","DEBUG","VERBOSE"};
     LoggingInterface.LogLevel currentLogLevel = LoggingInterface.LogLevel.VERBOSE; //default
     String currentEventID="";
@@ -33,7 +34,6 @@ public class LoggingActivity extends AppCompatActivity {
     int logCount=1;
     LoggingInterface AILoggingInterface;
 
-    static Logger logger;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,7 @@ public class LoggingActivity extends AppCompatActivity {
 
                 //  ai = new AppInfra.Builder().setLogging(myLogger).build(getApplicationContext());
 
-                AILoggingInterface = AILDemouAppInterface.mAppInfra.getLogging().createInstanceForComponent(componentNameText.getText().toString(), componentVersionCount.getText().toString()); //this.getClass().getPackage().toString()
+                AILoggingInterface = AILDemouAppInterface.getInstance().getAppInfra().getLogging().createInstanceForComponent(componentNameText.getText().toString(), componentVersionCount.getText().toString()); //this.getClass().getPackage().toString()
             }
         });
         //////////////////////////////////////
@@ -99,7 +99,7 @@ public class LoggingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (null == AILoggingInterface) {
 
-                    AILoggingInterface = AILDemouAppInterface.mAppInfra.getLogging();
+                    AILoggingInterface = AILDemouAppInterface.getInstance().getAppInfra().getLogging();
                     AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
                   /*  Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
                             Toast.LENGTH_SHORT).show();*/
@@ -114,7 +114,7 @@ public class LoggingActivity extends AppCompatActivity {
                         try {
                             totalLogCount = Integer.parseInt(logCount.getText().toString());
                         } catch (NumberFormatException nfe) {
-                            System.out.println("Could not parse log count" + nfe);
+                            Log.i("LoggingActivity","Could not parse log count"+ nfe);
                         }
 
                         for (int logcount = 1; logcount <= totalLogCount; logcount++) {

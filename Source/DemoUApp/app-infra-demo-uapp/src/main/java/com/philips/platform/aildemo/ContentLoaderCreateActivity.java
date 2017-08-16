@@ -24,24 +24,20 @@ import java.util.List;
  */
 public class ContentLoaderCreateActivity extends AppCompatActivity {
 
+    static List<ContentLoader> ContentLoaderList;
+    private final String[] modelList = {"ContentArticle", "BeardStyle", "Asset"};
     EditText EditTextServiceId;
     EditText EditTextMaxHour;
     EditText EditTextContentLoaderLimit;
-
   /*  EditText EditTextContentClass;
     EditText EditTextContentType;*/
     Class contentClass;
     String ContentType;
     Spinner spinnerModelType;
-    private final String[] modelList = {"ContentArticle","BeardStyle","Asset"};
-
     Button createCL;
     Button existingCLs;
-
-
     ContentLoader mContentLoader;
     List<String> ContentLoaderServiceIdList;
-    static List<ContentLoader> ContentLoaderList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +85,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                             break;
 
                     }
-                    ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AILDemouAppInterface.mAppInfra,contentLoaderLimitOptional);
+                    ContentLoader mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AILDemouAppInterface.getInstance().getAppInfra(), contentLoaderLimitOptional);
 
                     if(!ContentLoaderServiceIdList.isEmpty() && ContentLoaderServiceIdList.contains(EditTextServiceId.getText().toString().trim()))
                     {

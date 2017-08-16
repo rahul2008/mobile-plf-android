@@ -35,7 +35,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
 //        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        mAppInfra = (AppInfra)AILDemouAppInterface.mAppInfra;
+        mAppInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
         componentIDTextView.setText(mAppInfra.getComponentId());
         final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);

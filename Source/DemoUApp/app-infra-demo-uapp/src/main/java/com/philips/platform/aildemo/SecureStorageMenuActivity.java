@@ -23,7 +23,7 @@ public class SecureStorageMenuActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.secure_storage_menu);
-		AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
+		AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
 		SecureStorageInterface mSecureStorage = appInfra.getSecureStorage();
 
 		deviceCapable = (TextView) findViewById(R.id.devicecapableStatus);

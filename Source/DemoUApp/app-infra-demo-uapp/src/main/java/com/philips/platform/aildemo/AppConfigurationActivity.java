@@ -26,16 +26,16 @@ import java.util.Map;
 
 public class AppConfigurationActivity extends AppCompatActivity {
 
+    final String[] dataType = {"String", "Integer", "Map of <String,String>/<String,Integer>", "Delete"};
     AppConfigurationInterface mConfigInterface;
     private Spinner dataTypeSpinner;
-    final String[] dataType = {"String", "Integer", "Map of <String,String>/<String,Integer>", "Delete"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        mConfigInterface = AILDemouAppInterface.mAppInfra.getConfigInterface();
+        mConfigInterface = AILDemouAppInterface.getInstance().getAppInfra().getConfigInterface();
 
 
         // setting language spinner

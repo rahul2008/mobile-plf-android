@@ -38,9 +38,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     String[] requestDataOption = {"StringRequest", "jsonObjectRequest", "imageRequest"};
     // String url = "https://hashim.herokuapp.com/RCT/test.php?action=data&id=aa";
     //String baseURL= "https://www.oldchaphome.nl";
-
-    private Spinner requestTypeSpinner;
-    private Spinner requestDataSpinner;
     HashMap<String, String> params;
     HashMap<String, String> headers;
     EditText serviceIDInput;
@@ -48,8 +45,9 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
     RestInterface mRestInterface;
     TextView mResponse;
     ImageView mImageView;
-
     TextView urlFired;
+    private Spinner requestTypeSpinner;
+    private Spinner requestDataSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
         params = new HashMap<String, String>();
         headers = new HashMap<String, String>();
-        mRestInterface = AILDemouAppInterface.mAppInfra.getRestClient();
+        mRestInterface = AILDemouAppInterface.getInstance().getAppInfra().getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         serviceIDInput = (EditText) findViewById(R.id.editTextServiceID);
      //   serviceIDInput.setText("userreg.janrain.api");

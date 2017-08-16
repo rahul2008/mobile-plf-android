@@ -54,8 +54,8 @@ public class AndroidMediaPlayerExample extends Activity {
                                                    int arg2) {
                         // TODO Auto-generated method stub
                         Log.i("VedioonVideoSizeChanged", "onVideoSizeChanged" + arg1 + " " + arg2);
-//                        AILDemouAppInterface.mAppInfra.trackVideoStart("Tagging_trackVideoStart");
-                        AILDemouAppInterface.mAppInfra.getTagging().trackTimedActionStart("Tagging_trackTimedAction");
+//                        AILDemouAppInterface.getInstance().getAppInfra().trackVideoStart("Tagging_trackVideoStart");
+                        AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackTimedActionStart("Tagging_trackTimedAction");
                         progressBar.setVisibility(View.GONE);
                         mp.start();
                     }
@@ -66,9 +66,9 @@ public class AndroidMediaPlayerExample extends Activity {
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         Log.i("VedioonCompletion", "onVideoonCompletion");
                         if (getIntent().getBooleanExtra("VideoStart", false)) {
-                            AILDemouAppInterface.mAppInfra.getTagging().trackVideoEnd("Tagging_trackVideoEnd");
+                            AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackVideoEnd("Tagging_trackVideoEnd");
                         } else {
-                            AILDemouAppInterface.mAppInfra.getTagging().trackTimedActionEnd("Tagging_trackTimedAction");
+                            AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackTimedActionEnd("Tagging_trackTimedAction");
                         }
 
 

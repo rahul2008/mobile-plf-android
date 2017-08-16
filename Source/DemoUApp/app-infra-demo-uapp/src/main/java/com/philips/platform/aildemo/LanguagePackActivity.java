@@ -22,7 +22,7 @@ public class LanguagePackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_pack);
-        mLanguagePack = AILDemouAppInterface.mAppInfra.getLanguagePack();
+        mLanguagePack = AILDemouAppInterface.getInstance().getAppInfra().getLanguagePack();
         overviewfileStatus= (TextView) findViewById(R.id.overviewfileStatus);
         activatedUrl= (TextView) findViewById(R.id.activatedUrl);
 
