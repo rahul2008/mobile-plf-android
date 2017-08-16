@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 
@@ -20,11 +22,12 @@ import java.util.List;
  * Created by philips on 8/11/17.
  */
 
-public class DeliveryMethodFragment extends InAppBaseFragment {
+public class DeliveryMethodFragment extends InAppBaseFragment implements DeliveryModeDialog.DialogListener, AddressController.AddressListener {
 
     private Context mContext;
     private RecyclerView mDeliveryRecyclerView;
-    private DialogListener mListener;
+    private DeliveryModes mSelectedDeliveryMode;
+    private AddressController mAddressController;
 
     public interface DialogListener {
         void onItemClick(int position);
@@ -54,6 +57,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_delivery_method_fragment, container, false);
         mDeliveryRecyclerView = (RecyclerView) view.findViewById(R.id.iap_parcel_delivery_list);
+        mAddressController = new AddressController(mContext, this);
         return view;
     }
 
@@ -65,10 +69,10 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
         settingDataToAdapter();
     }
 
-    private void settingDataToAdapter(){
+    private void settingDataToAdapter() {
         List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
-        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes,mConfirmBtnClick);
+        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes, mConfirmBtnClick, this);
         mDeliveryRecyclerView.setAdapter(mDeliveryModeAdapter);
         mDeliveryModeAdapter.notifyDataSetChanged();
     }
@@ -78,7 +82,56 @@ public class DeliveryMethodFragment extends InAppBaseFragment {
         @Override
         public void onClick(View view) {
             System.out.println("99999 back pressed");
-            getFragmentManager().popBackStack();
+
         }
     };
+
+    @Override
+    public void onItemClick(int position) {
+
+        System.out.println("******** onItemClick : " + position);
+        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+        mSelectedDeliveryMode = deliveryModes.get(position);
+
+        if (!isProgressDialogShowing())
+            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+        dismissProgressDialog();
+        getFragmentManager().popBackStack();
+    }
 }
