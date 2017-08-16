@@ -26,7 +26,7 @@ public class IAPServiceDiscoveryWrapper {
         listOfServiceId.add("iap.baseurl");
     }
 
-    void getLocaleFromServiceDiscovery(final UiLauncher pUiLauncher, final IAPHandler pIAPHandler, final IAPLaunchInput pIapLaunchInput) {
+    void getLocaleFromServiceDiscovery(final UiLauncher pUiLauncher, final IAPHandler pIAPHandler, final IAPLaunchInput pIapLaunchInput, final IAPListener iapListener, final String entry) {
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
@@ -47,18 +47,35 @@ public class IAPServiceDiscoveryWrapper {
                     setLangAndCountry(locale);
                 }
 
-                if (!locale.equalsIgnoreCase("en_US") || configUrls == null) {
-                    mIAPSettings.setUseLocalData(true);
+                //Condition for launching IAP screens
+                if (iapListener == null && entry == null) {
+                    if (configUrls == null || configUrls.isEmpty()) {
+                        mIAPSettings.setUseLocalData(true);
+                    } else {
+                        // TODO Retailer view hence making the userLocalData to true
+                        mIAPSettings.setUseLocalData(false);
+                        //    String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
+                        mIAPSettings.setHostPort(configUrls + "/");
+                    }
+                    pIAPHandler.initControllerFactory();
                     launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
-                    return;
                 } else {
-                    // TODO Retailer view hence making the userLocalData to true
-                    mIAPSettings.setUseLocalData(false);
-                    String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
-                    mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
-                    launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
+                    //Condition for returning gatCartCount API and getCompleteProductlist API
+                    if (configUrls == null) {
+                        mIAPSettings.setUseLocalData(true);
+                    } else {
+                        // TODO Retailer view hence making the userLocalData to true
+                        mIAPSettings.setUseLocalData(false);
+                        //String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
+                        mIAPSettings.setHostPort(configUrls + "/");
+                        mIAPSettings.setProposition(loadConfigParams());
+                        pIAPHandler.initControllerFactory();
+                        if (entry.equalsIgnoreCase("completeProductList"))
+                            pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+                        else
+                            pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
+                    }
                 }
-
             }
 
             @Override
@@ -99,49 +116,49 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
-    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener, final String entry) {
-        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-            }
-
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
-                Collection<ServiceDiscoveryService> collection = map.values();
-
-                List<ServiceDiscoveryService> list = new ArrayList<>();
-                list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-
-                String locale = serviceDiscoveryService.getLocale();
-                String configUrls = serviceDiscoveryService.getConfigUrls();
-
-                if (locale != null) {
-                    // pIAPHandler.initIAPRequisite();
-                    setLangAndCountry(locale);
-                }
-                if (!locale.equalsIgnoreCase("en_US") || configUrls == null) {
-                    mIAPSettings.setUseLocalData(true);
-                    return;
-                } else {
-                    // TODO Retailer view hence making the userLocalData to true
-                    mIAPSettings.setUseLocalData(false);
-
-                    String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
-                    mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
-                    mIAPSettings.setProposition(loadConfigParams());
-                    if (entry.equalsIgnoreCase("completeProductList"))
-                        pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
-                    else
-                        pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
-                }
-            }
-        };
-        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
-    }
+//    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener, final String entry) {
+//        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
+//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+//        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+//
+//            @Override
+//            public void onError(ERRORVALUES errorvalues, String s) {
+//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+//            }
+//
+//            @Override
+//            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+//                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
+//                Collection<ServiceDiscoveryService> collection = map.values();
+//
+//                List<ServiceDiscoveryService> list = new ArrayList<>();
+//                list.addAll(collection);
+//                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+//
+//                String locale = serviceDiscoveryService.getLocale();
+//                String configUrls = serviceDiscoveryService.getConfigUrls();
+//
+//
+//                if (locale != null) {
+//                    setLangAndCountry(locale);
+//                }
+//                if (configUrls == null) {
+//                    mIAPSettings.setUseLocalData(true);
+//                    // pIAPHandler.initIAPRequisite();
+//                } else {
+//                    // TODO Retailer view hence making the userLocalData to true
+//                    mIAPSettings.setUseLocalData(false);
+//                    // pIAPHandler.initIAPRequisite();
+//                    //String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
+//                    mIAPSettings.setHostPort(configUrls + "/");
+//                    mIAPSettings.setProposition(loadConfigParams());
+//                    if (entry.equalsIgnoreCase("completeProductList"))
+//                        pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+//                    else
+//                        pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
+//                }
+//            }
+//        };
+//        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
+//    }
 }

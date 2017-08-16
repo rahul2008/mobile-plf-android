@@ -32,13 +32,11 @@ import com.philips.cdp.di.iap.products.ProductCatalogAPI;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -73,8 +71,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private boolean mIsProductsAvailable = true;
 
 
-    private String query;
-    boolean searchBoxCollpased = true;
     private ImageView mClearIconView;
     private AppCompatAutoCompleteTextView mSearchTextView;
 
@@ -94,9 +90,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
         mBundle = getArguments();
-        String currentCountryCode = HybrisDelegate.getInstance(mContext).getStore().getCountry();
-        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
-                (mContext, IAPConstant.IAP_COUNTRY_KEY);
+//        String currentCountryCode = HybrisDelegate.getInstance(mContext).getStore().getCountry();
+//        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
+//        (mContext, IAPConstant.IAP_COUNTRY_KEY);
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
@@ -104,7 +100,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             //returning because in Hybris, If CTN not present in Hybris, we need to return a from onCreate to onCreateView to show UI
             // displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         } else {
-            if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
+            if (!isLocalData &&
                     CartModelContainer.getInstance().getProductList() != null
                     && CartModelContainer.getInstance().getProductList().size() != 0) {
                 onLoadFinished(getCachedProductList(), null);
@@ -128,8 +124,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void displayCategorisedProductList(ArrayList<String> categorisedProductList) {
-        if (categorisedProductList.size() > 0)
+        if (categorisedProductList.size() > 0) {
+            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
             mPresenter.getCategorizedProductList(categorisedProductList);
+        }
     }
 
     @Override

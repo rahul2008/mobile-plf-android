@@ -12,7 +12,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
@@ -111,7 +110,7 @@ public class PRXSummaryExecutor {
     }
 
     private ProductSummaryRequest prepareSummaryRequest(final String code) {
-        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
+//        String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
 
         ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(code, null);
         productSummaryRequest.setSector(PrxConstants.Sector.B2C);

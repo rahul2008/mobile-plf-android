@@ -3,17 +3,13 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,6 +48,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
+
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener {
@@ -82,8 +80,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private IAPLaunchInput mIapLaunchInput;
     private IAPSettings mIAPSettings;
     private User mUser;
-
-    private ArrayList<String> listOfServiceId;
+    ImageView mCartIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,15 +119,24 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mAddCtn = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        mCategorizedProductList = new ArrayList<>();
+        mCartIcon = (ImageView) findViewById(R.id.cart_iv);
+        mCountText = (TextView) findViewById(R.id.item_count);
 
+        mCategorizedProductList = new ArrayList<>();
+        showScreenSizeInDp();
         // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
         mUser = new User(this);
         mUser.registerUserRegistrationListener(this);
         //Integration interface
 
-
         mIAPSettings = new IAPSettings(this);
+        if (mUser.isUserSignIn())
+            setLocalFromServiceDiscovery();
+        else {
+            mRegister.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+        }
+        // enableViews();
 
     }
 
@@ -144,9 +150,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void setLocalFromServiceDiscovery() {
 
-        showProgressDialog();
         ServiceDiscoveryInterface serviceDiscovery = IapDemoUAppInterface.mAppInfra.getServiceDiscovery();
-        listOfServiceId = new ArrayList<>();
+        ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add("iap.baseurl");
 
         serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -159,24 +164,48 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 list.addAll(collection);
                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
                 actionBar();
-                String locale = serviceDiscoveryService.getLocale();
-                if (locale.equalsIgnoreCase("en_US")) {
-                    mIAPSettings.setUseLocalData(false);
-                } else{
-                    mIAPSettings.setUseLocalData(true);
-                }
                 initIAP();
-                enableViews();
-                dismissProgressDialog();
+                // enableViews();
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+                if (configUrls == null || configUrls.isEmpty()) {
+                    displayFlowViews(false);
+                } else {
+                    displayFlowViews(true);
+                }
+
 
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 IAPLog.i(IAPLog.LOG, "DemoActivity ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-                dismissProgressDialog();
             }
         });
+    }
+
+    private void displayFlowViews(boolean b) {
+        mAddCTNLl.setVisibility(View.VISIBLE);
+        mShopNowCategorized.setVisibility(View.VISIBLE);
+        mLaunchProductDetail.setVisibility(View.VISIBLE);
+        mLaunchProductDetail.setEnabled(true);
+        if (b) {
+            mCartIcon.setVisibility(View.VISIBLE);
+            mCountText.setVisibility(View.VISIBLE);
+            mIapInterface.getCompleteProductList(this);
+            mShopNow.setVisibility(View.VISIBLE);
+            mShopNow.setEnabled(true);
+            mPurchaseHistory.setVisibility(View.VISIBLE);
+            mPurchaseHistory.setEnabled(true);
+            mShoppingCart.setVisibility(View.VISIBLE);
+            mIapInterface.getProductCartCount(this);
+        } else {
+            mCartIcon.setVisibility(View.GONE);
+            mCountText.setVisibility(View.GONE);
+            mShopNow.setVisibility(View.GONE);
+            mPurchaseHistory.setVisibility(View.GONE);
+            mShoppingCart.setVisibility(View.GONE);
+        }
+
     }
 
     private void initTheme() {
@@ -199,28 +228,25 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     HD8967/47
     HD8645/47
     * */
-    @Override
-    protected void onResume() {
-        if(mUser.isUserSignIn()){
-            setLocalFromServiceDiscovery();
-        }
-        super.onResume();
-    }
-
-    private void enableViews() {
-        if (!mUser.isUserSignIn()) {
-            hideViews();
-            return;
-        }
-        displayViews();
-        if (!mIAPSettings.isUseLocalData()) {
-            updateCartIcon();
-            mPurchaseHistory.setVisibility(View.VISIBLE);
-            mPurchaseHistory.setEnabled(true);
-            mIapInterface.getProductCartCount(this);
-        }
-        showScreenSizeInDp();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (mUser.isUserSignIn()) {
+//            setLocalFromServiceDiscovery();
+//        }
+//    }
+//
+//    private void enableViews() {
+//        if (!mUser.isUserSignIn()) {
+//            hideViews();
+//            return;
+//        }
+//        displayViews();
+//        // if (!mIAPSettings.isUseLocalData()) {
+//
+//        // }
+//        showScreenSizeInDp();
+//    }
 
     @Override
     protected void onStop() {
@@ -243,26 +269,26 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mTitleTextView = (TextView) findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.iap_app_name));
 
-        ImageView mCartIcon = (ImageView) findViewById(R.id.cart_iv);
-        mCountText = (TextView) findViewById(R.id.item_count);
-        if (!mIAPSettings.isUseLocalData()) {
-            mCartIcon.setVisibility(View.VISIBLE);
-            mCountText.setVisibility(View.VISIBLE);
-            Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-            mCartIcon.setBackground(mCartIconDrawable);
-            mShoppingCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // showFragment(ShoppingCartFragment.TAG);
-                    launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
-                }
-            });
+//         mCartIcon = (ImageView) findViewById(R.id.cart_iv);
+
+        //if (!mIAPSettings.isUseLocalData()) {
+//        mCartIcon.setVisibility(View.VISIBLE);
+//        mCountText.setVisibility(View.VISIBLE);
+        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        mCartIcon.setBackground(mCartIconDrawable);
+        mShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // showFragment(ShoppingCartFragment.TAG);
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
+            }
+        });
 
 
-        } else {
-            mCartIcon.setVisibility(View.GONE);
-            mCountText.setVisibility(View.GONE);
-        }
+//        } else {
+//            mCartIcon.setVisibility(View.GONE);
+//            mCountText.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -273,26 +299,20 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     protected void onDestroy() {
-        dismissProgressDialog();
+//        dismissProgressDialog();
         mUser.unRegisterUserRegistrationListener(this);
         super.onDestroy();
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput) {
-        if (isNetworkAvailable(this)) {
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
-            try {
-               // showProgressDialog();
-                mIapInterface.launch(new ActivityLauncher
-                                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
-                        mIapLaunchInput);
+        mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+        try {
+            mIapInterface.launch(new ActivityLauncher
+                            (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
+                    mIapLaunchInput);
 
-            } catch (RuntimeException exception) {
-                dismissProgressDialog();
-                Toast.makeText(DemoAppActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(DemoAppActivity.this, "Network unavailable", Toast.LENGTH_SHORT).show();
+        } catch (RuntimeException exception) {
+            Toast.makeText(DemoAppActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -347,13 +367,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
     }
 
-    private void updateCartIcon() {
-        if (mIAPSettings.isUseLocalData()) {
-            mShoppingCart.setVisibility(View.GONE);
-        } else {
-            mShoppingCart.setVisibility(View.VISIBLE);
-        }
-    }
+//    private void updateCartIcon() {
+////        if (mIAPSettings.isUseLocalData()) {
+////            mShoppingCart.setVisibility(View.GONE);
+////        } else {
+//        mShoppingCart.setVisibility(View.VISIBLE);
+////        }
+//    }
 
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
@@ -362,6 +382,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mShopNow.setEnabled(true);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
+//        mPurchaseHistory.setVisibility(View.VISIBLE);
+//        mPurchaseHistory.setEnabled(true);
 
 
     }
@@ -388,50 +410,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         versionView.setText(String.valueOf(code));
     }
 
-    public boolean isNetworkAvailable(Context pContext) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public void hideKeypad(Context pContext) {
-        InputMethodManager inputMethodManager = (InputMethodManager)
-                pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        if (null != ((Activity) pContext).getCurrentFocus()) {
-            inputMethodManager.hideSoftInputFromWindow(((Activity) pContext).getCurrentFocus().getWindowToken(),
-                    0);
-        }
-    }
-
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
-        }
-        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
-            mProgressDialog.show();
-        }
-//        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mProgressDialog.show();
-//                }
-//            });
-//
-//        }
-    }
-
-    public void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing() && !isFinishing()) {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        }
-    }
-
     private void showToast(int errorCode) {
         String errorText = "Server error";
         if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
@@ -452,7 +430,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onGetCartCount(int count) {
         if (count > 0) {
-            mCountText.setText(String.valueOf(count));
+            mCountText.setText(count + "");
             mCountText.setVisibility(View.VISIBLE);
         } else if (count == 0) {
             mCountText.setVisibility(View.GONE);
@@ -461,7 +439,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.GONE);
         }
 
-        //dismissProgressDialog();
         mIapInterface.getCompleteProductList(this);
     }
 
@@ -484,18 +461,20 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
         Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
-        //mEtCTN.setText(productList.get(1));
-        dismissProgressDialog();
+//        mEtCTN.setText(productList.get(1));
+//        ArrayList<String> arrayList = new ArrayList<>();
+//        arrayList.add(productList.get(1));
+//        IAPFlowInput input = new IAPFlowInput(arrayList);
+//        launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
     }
 
     @Override
     public void onSuccess() {
-        dismissProgressDialog();
+        Toast.makeText(this, "onSuccess", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onFailure(int errorCode) {
-        dismissProgressDialog();
         showToast(errorCode);
     }
 
@@ -503,7 +482,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
-        displayViews();
+        setLocalFromServiceDiscovery();
     }
 
     @Override
@@ -517,7 +496,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onUserLogoutSuccess() {
         hideViews();
-        mIapLaunchInput.setIapListener(null);
     }
 
     @Override
@@ -530,13 +508,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     }
 
-   void showScreenSizeInDp(){
+    void showScreenSizeInDp() {
 
-       DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-       float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-       float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-       Toast.makeText(this,"Screen width in dp is :"+dpWidth,Toast.LENGTH_LONG).show();
-   }
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        Toast.makeText(this, "Screen width in dp is :" + dpWidth, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -545,7 +523,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }

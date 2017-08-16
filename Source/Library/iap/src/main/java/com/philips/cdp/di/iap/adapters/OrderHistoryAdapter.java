@@ -57,38 +57,38 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
         orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
         String orderStatus = order.getStatusDisplay();
-        orderHistoryHolder.mOrderState.setText(orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1));
-        orderHistoryHolder.mOrderNumber.setText(order.getCode());
+        orderHistoryHolder.mOrderState.setText(String.format(mContext.getString(R.string.iap_order_state), orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1)));
+        orderHistoryHolder.mOrderNumber.setText(String.format(mContext.getResources().getString(R.string.iap_order_number_with_colon), order.getCode()));
 
-        int totalQuantity = 0;
         for (ProductData data : mProductDetails) {
             if (data.getOrderCode() != null && data.getOrderCode().equals(order.getCode())) {
                 //Inflate the Dynamic Layout Information View
                 View hiddenInfo = View.inflate(mContext, R.layout.iap_order_history_product_details, null);
                 orderHistoryHolder.mProductDetailsLayout.addView(hiddenInfo);
                 ((TextView) hiddenInfo.findViewById(R.id.tv_productName)).setText(data.getProductTitle());
-                ((TextView) hiddenInfo.findViewById(R.id.tv_product_number)).setText(data.getCtnNumber());
+                String quantity = String.format(mContext.getString(R.string.iap_quantity), String.valueOf(data.getQuantity()));
+                ((TextView) hiddenInfo.findViewById(R.id.tv_product_number)).setText(quantity);
                 getNetworkImage(((NetworkImageView) hiddenInfo.findViewById(R.id.iv_product_image)),
                         data.getImageURL());
-                totalQuantity += data.getQuantity();
+                // totalQuantity += data.getQuantity();
             }
         }
 
         //this is added because in acc, the data was not available in prx but hybris has the data.
-        if (totalQuantity == 0) {
-            for (OrderDetail detail : mOrderDetails) {
-                if (detail.getCode() != null && detail.getCode().equals(order.getCode())) {
-                    totalQuantity = detail.getDeliveryItemsQuantity();
-                    break;
-                }
-            }
-        }
+//        if (totalQuantity == 0) {
+//            for (OrderDetail detail : mOrderDetails) {
+//                if (detail.getCode() != null && detail.getCode().equals(order.getCode())) {
+//                    totalQuantity = detail.getDeliveryItemsQuantity();
+//                    break;
+//                }
+//            }
+//        }
 
-        if (totalQuantity > 1) {
-            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " items)");
-        } else {
-            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " item)");
-        }
+//        if (totalQuantity > 1) {
+//            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " items)");
+//        } else {
+//            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " item)");
+//        }
         orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
 
     }
@@ -113,7 +113,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        if(mOrders!=null) {
+        if (mOrders != null) {
             return mOrders.size();
         }
         return 0;
@@ -123,7 +123,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mSelectedIndex;
     }
 
-    public class OrderHistoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class OrderHistoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTvQuantity;
         private TextView mTvtotalPrice;
         private TextView mTime;
@@ -134,22 +134,21 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public OrderHistoryHolder(final View itemView) {
             super(itemView);
-            mTvQuantity = (TextView) itemView.findViewById(R.id.tv_total_item);
+            // mTvQuantity = (TextView) itemView.findViewById(R.id.tv_total_item);
             mTvtotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
             mTime = (TextView) itemView.findViewById(R.id.tv_time);
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
             mOrderSummaryLayout = (RelativeLayout) itemView.findViewById(R.id.order_summary);
-            mOrderSummaryLayout.setOnClickListener(this);
             mProductDetailsLayout = (LinearLayout) itemView.findViewById(R.id.product_detail);
+            mProductDetailsLayout.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
             mSelectedIndex = getAdapterPosition();
-            if(v.getId() == R.id.order_summary)
-            {
+            if (v.getId() == R.id.product_detail) {
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.PURCHASE_HISTORY_DETAIL);
             }
         }

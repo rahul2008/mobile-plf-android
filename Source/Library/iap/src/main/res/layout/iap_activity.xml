@@ -8,6 +8,8 @@
 
     <include
         android:id="@+id/action_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         layout="@layout/iap_action_bar" />
 
     <FrameLayout
@@ -15,6 +17,5 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/rl_header"
-        android:gravity="bottom"
         android:orientation="vertical" />
 </LinearLayout>

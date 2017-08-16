@@ -14,11 +14,6 @@ public class MockIAPSetting extends IAPSettings {
     }
 
     @Override
-    public void setUseLocalData(boolean mUseLocalData) {
-        super.setUseLocalData(mUseLocalData);
-    }
-
-    @Override
     public String getHostPort() {
         return "https://acc.occ.shop.philips.com/";
     }

@@ -210,7 +210,7 @@ public class HybrisStore extends AbstractStore {
         mGetCartsUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mCreateCartUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-        mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG)+ mStoreConfig.getLocale();
+        mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG) + mStoreConfig.getLocale();
         mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
 
         //Product
@@ -241,7 +241,7 @@ public class HybrisStore extends AbstractStore {
         //Orders
         mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-        mGetPhoneContactUrl = "http://www.philips.com/prx/cdls/B2C/" +
+        mGetPhoneContactUrl = "https://www.philips.com/prx/cdls/B2C/" +
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
     }
 

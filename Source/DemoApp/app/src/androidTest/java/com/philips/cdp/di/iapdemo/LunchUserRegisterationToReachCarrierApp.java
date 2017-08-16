@@ -103,7 +103,7 @@ public class LunchUserRegisterationToReachCarrierApp {
 
 
         //Check Terms & Cindition and Press Continue
-        //onView(withId(R.id.cb_reg_accept_terms)).perform(click());
+       // onView(withId(R.id.cb_reg_accept_terms)).perform(click());
 
 
         Espresso.unregisterIdlingResources(btnSignIdlingResource);

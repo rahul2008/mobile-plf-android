@@ -64,7 +64,7 @@ public class IAPServiceDiscoveryWrapperTest {
         discoveryService.init("en_US", "iap.baseurl");
         discoveryService.setConfigUrl("https://acc.occ.shop.philips.com/en_US");
         map.put("iap.baseurl", discoveryService);
-        iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class));
+        iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
 
@@ -74,7 +74,7 @@ public class IAPServiceDiscoveryWrapperTest {
         discoveryService.init("en_US", "iap.baseurl");
         discoveryService.setConfigUrl(null);
         map.put("iap.baseurl", discoveryService);
-        iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class));
+        iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
 
@@ -84,7 +84,7 @@ public class IAPServiceDiscoveryWrapperTest {
         discoveryService.init("en_US", "iap.baseurl");
         discoveryService.setConfigUrl(null);
         map.put("iap.baseurl", discoveryService);
-        iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class));
+        iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
     }
 }

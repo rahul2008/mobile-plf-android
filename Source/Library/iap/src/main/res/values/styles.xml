@@ -273,17 +273,7 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="iap_order_right_arrow" parent="FontIcon.Small">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentEnd">true</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:layout_marginRight">@dimen/iap_order_margin_top</item>
-        <item name="android:gravity">right</item>
-        <item name="android:text">@string/uikit_fonticon_arrow_right</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalDescriptorTextColor</item>
-        <item name="android:textSize">13sp</item>
-    </style>
+    <style name="iap_order_right_arrow" parent="FontIcon.Small"/>
 
     <style name="ButtonsCategoryStyle" parent="UIDLabel.RecyclerViewHeaderText">
         <item name="android:layout_width">match_parent</item>
@@ -308,5 +298,4 @@
         <item name="android:layout_marginStart">@dimen/border16_margin_left_right</item>
         <item name="android:layout_marginEnd">@dimen/border16_margin_left_right</item>
     </style>
-
 </resources>

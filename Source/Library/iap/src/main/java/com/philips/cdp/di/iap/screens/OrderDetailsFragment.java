@@ -5,21 +5,26 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.philips.cdp.di.iap.Constants.OrderStatus;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.adapters.OrderDetailAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.OrderController;
@@ -27,6 +32,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
@@ -38,6 +44,8 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.R.attr.phoneNumber;
 
 
 public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
@@ -51,6 +59,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView mTime;
     private TextView mOrderNumber;
     private TextView mOrderState;
+    private ImageView mIvOrderState;
     private TextView mDeliveryName;
     private TextView mDeliveryAddress;
     private TextView mBillingName;
@@ -58,16 +67,28 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private ScrollView mParentView;
     private TextView mPaymentCardType;
     private OrderDetail mOrderDetail;
-    private OrderDetailAdapter mAdapter;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
-    private View mPaymentDivider;
+    // private View mPaymentDivider;
     private TextView mShippingStatus;
     private LinearLayout mProductListView;
 
     private String mPhoneContact;
     private String mOpeningHoursWeekdays;
     private String mOpeningHoursSaturday;
+    private TextView tvDeliveryMode;
+    private TextView tvDeliveryModePrice;
+    private TextView tvTotal;
+    private TextView tvPriceTotal;
+    private TextView tvVat;
+    private TextView tvPriceVat;
+    private TableLayout tlProductDetailContainer;
+    private Button btncall;
+    private TextView tvCardName;
+    private TextView tvCardNo;
+
+    //Data and timr
+    private TextView tvOpeningTimings;
 
 
     @Override
@@ -87,32 +108,44 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         mTime = (TextView) view.findViewById(R.id.tv_time);
         mOrderNumber = (TextView) view.findViewById(R.id.tv_order_number);
         mOrderState = (TextView) view.findViewById(R.id.tv_order_state);
+        mIvOrderState = (ImageView) view.findViewById(R.id.iv_order_state);
         mDeliveryName = (TextView) view.findViewById(R.id.tv_shipping_first_name);
         mDeliveryAddress = (TextView) view.findViewById(R.id.tv_shipping_address);
         mBillingName = (TextView) view.findViewById(R.id.tv_billing_first_name);
         mBillingAddress = (TextView) view.findViewById(R.id.tv_billing_address);
         mPaymentModeLayout = (LinearLayout) view.findViewById(R.id.ll_payment_mode);
         mPaymentCardType = (TextView) view.findViewById(R.id.tv_card_type);
+        tvOpeningTimings=(TextView)view.findViewById(R.id.tv_opening_timings);
+        btncall=(Button) view.findViewById(R.id.btn_call);
+        btncall.setOnClickListener(this);
 
+
+
+        tvCardName = (TextView) view.findViewById(R.id.tv_card_name);
+        tvCardNo = (TextView) view.findViewById(R.id.tv_card_no);
         Button mBuyNow = (Button) view.findViewById(R.id.btn_paynow);
         mBuyNow.setOnClickListener(this);
 
         Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
 
-//        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
-//        mTrackOrderLayout.setOnClickListener(this);
+        tvDeliveryMode = (TextView) view.findViewById(R.id.tv_delivery_mode);
+        tvDeliveryModePrice = (TextView) view.findViewById(R.id.tv_price_deliverymode);
+
+        tvTotal = (TextView) view.findViewById(R.id.tv_total);
+        tvPriceTotal = (TextView) view.findViewById(R.id.tv_price_total);
+
+        tvVat = (TextView) view.findViewById(R.id.tv_vat);
+        tvPriceVat = (TextView) view.findViewById(R.id.tv_price_vat);
+
+        tlProductDetailContainer = (TableLayout) view.findViewById(R.id.tl_product_detail_container);
+
 
         mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
-        mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
-
-        mAdapter = new OrderDetailAdapter(mContext, mProducts);
-        mPaymentDivider = view.findViewById(R.id.payment_divider);
+        mShippingStatus = (TextView) view.findViewById(R.id.tv_shipping_status_message);
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-//            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(IAPConstant.ORDER_COMPLETED.equalsIgnoreCase(bundle.getString(IAPConstant.ORDER_STATUS))))
-//                mTrackOrderLayout.setVisibility(View.GONE);
             if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
                 mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
                 if (mOrderDetail != null) {
@@ -124,6 +157,13 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
 
         return view;
+    }
+
+    private void setCallTimings() {
+
+        btncall.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(mPhoneContact,
+                HybrisDelegate.getInstance().getStore().getCountry()));
+        tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
     }
 
     @Override
@@ -186,16 +226,49 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             ((TextView) productInfo.findViewById(R.id.tv_productName)).setText(product.getProductTitle());
             ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
             ((TextView) productInfo.findViewById(R.id.tv_total_price)).setText(product.getFormatedPrice());
-            ((TextView) productInfo.findViewById(R.id.ctn_no)).setText(product.getCtnNumber());
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
         }
         //     mProducts.add(product);
-        mAdapter.notifyDataSetChanged();
+
         int totalQuantity = 0;
         for (ProductData data : productList) {
             totalQuantity += data.getQuantity();
         }
-        mTvQuantity.setText(" (" + totalQuantity + " items)");
+        mTvQuantity.setText(String.format(mContext.getString(R.string.no_of_products), totalQuantity + ""));
+
+        setProductSummary(productList);
+    }
+
+    private void setProductSummary(ArrayList<ProductData> productList) {
+
+
+        if (!productList.isEmpty()) {
+            ProductData data = productList.get(0);
+
+            populateProductNameQuantityAndPrice(productList);
+
+            tvPriceTotal.setText(data.getFormatedPrice());
+
+        }
+
+    }
+
+    private void handleTax(ProductData data) {
+
+    }
+
+    private void populateProductNameQuantityAndPrice(ArrayList<ProductData> productList) {
+
+        for (ProductData productData : productList) {
+
+            View v = View.inflate(mContext, R.layout.iap_order_detail_summary_product, null);
+            TextView product_quantity_name = (TextView) v.findViewById(R.id.tv_product_quantity_name);
+            TextView price_product = (TextView) v.findViewById(R.id.tv_price_product);
+            product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
+            price_product.setText(productData.getFormatedPrice());
+            tlProductDetailContainer.addView(v);
+        }
+
     }
 
     @Override
@@ -207,6 +280,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
             mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
             mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
+
+            setCallTimings();
         }
     }
 
@@ -226,48 +301,40 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void onClick(View v) {
         if (v.getId() == R.id.btn_paynow)
             Toast.makeText(mContext, "Yet to implement", Toast.LENGTH_SHORT).show();
-        else
-//            if (v.getId() == R.id.track_order_layout) {
-//            Bundle bundle = new Bundle();
-//            if (mOrderDetail != null) {
-//                bundle.putString(IAPConstant.PURCHASE_ID, mOrderDetail.getCode());
-//                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0) != null) {
-//                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0));
-//                }
-//                if (mOrderDetail.getDeliveryAddress() != null) {
-//                    bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
-//                    bundle.putString(IAPConstant.DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
-//                }
-//
-//                if (mOrderDetail.getOrdertrackUrl() != null) {
-//                    bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
-//                }
-//                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
-//            }
-//        } else
-            if (v.getId() == R.id.btn_cancel) {
-                Bundle bundle = new Bundle();
-                if (mOrderDetail != null) {
-                    if (mPhoneContact == null) {
-                        NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-                    } else {
-                        bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
-                        bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
-                        bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
-                        bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                        addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
-                    }
+        else if (v.getId() == R.id.btn_cancel) {
+            Bundle bundle = new Bundle();
+            if (mOrderDetail != null) {
+                if (mPhoneContact == null) {
+                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                            mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+                } else {
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
+                    bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
+                    bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
+                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
                 }
             }
+        }
+
+        if(v.getId() == R.id.btn_call){
+            dialCallCenter("0844 - 338 - 0409");
+        }
 
     }
 
     public void updateUIwithDetails(OrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         String orderStatus = detail.getStatusDisplay();
-        mOrderState.setText(orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1));
-        mOrderNumber.setText(detail.getCode());
+        String statusString = orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1);
+
+        mOrderState.setText(String.format(mContext.getString(R.string.order_state_msg), statusString));
+
+        int stateImageID = getDrawableIDFromOrderState(statusString);
+        //Need to be done once all resources are there .
+        // mIvOrderState.setImageResource(stateImageID);
+        mOrderNumber.setText(String.format(mContext.getString(R.string.order_number_msg), detail.getCode()));
+
         mTvQuantity.setText(" (" + mOrderDetail.getDeliveryItemsQuantity() + " item)");
         if (detail.getDeliveryOrderGroups() != null) {
             if (mController == null)
@@ -278,7 +345,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mController.requestPrxData(detailList, this);
         }
         if (detail.getTotalPriceWithTax() != null) {
-            mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
+//           mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
         }
 
         if (detail.getDeliveryAddress() != null) {
@@ -291,10 +358,11 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
             }
             if (detail.getPaymentInfo().getCardType() != null) {
-                mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
+                mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode());
+                tvCardName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName());
+                tvCardNo.setText(detail.getPaymentInfo().getCardNumber());
             } else {
                 mPaymentModeLayout.setVisibility(View.GONE);
-                mPaymentDivider.setVisibility(View.GONE);
             }
 
 
@@ -302,15 +370,23 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
             mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
-//            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-//                String trackTraceId = detail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0);
-//                //  @SuppressLint("StringFormatMatches")
-//                String text = getResources().getString(R.string.iap_order_completed_text_default);
-//                mShippingStatus.setText(text);
-//            } else {
-//                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
-//            }
         }
+    }
+
+    private int getDrawableIDFromOrderState(String statusString) {
+        int drawableID = 0;
+
+        if (statusString.equalsIgnoreCase(OrderStatus.PENDING.getDescription())) {
+
+        }
+        if (statusString.equalsIgnoreCase(OrderStatus.PROCESSING.getDescription())) {
+
+        }
+
+        if (statusString.equalsIgnoreCase(OrderStatus.COMPLETED.getDescription())) {
+
+        }
+        return drawableID;
     }
 
 
@@ -342,5 +418,25 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             }
         }
         return false;
+    }
+
+    void updateCallUsButton(){
+        //Do something here pabitra
+
+    }
+
+    void disableCallButton(){
+        btncall.setText(mContext.getString(R.string.call_center_closed));
+        btncall.setEnabled(false);
+    }
+
+    void enableCallButton(){
+        btncall.setText(mContext.getString(R.string.call_us));
+        btncall.setEnabled(true);
+    }
+
+    void dialCallCenter(String phoneNumber){
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
+        startActivity(intent);
     }
 }
