@@ -1,9 +1,9 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.debugtest;
+package com.philips.platform.baseapp.screens.devicepairing;
 
 import android.support.v4.app.FragmentManager;
 
@@ -27,41 +27,41 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
-
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
-public class DebugTestFragmentStateTest extends TestCase {
+@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+
+public class DevicePairingStateTest extends TestCase {
+    private DevicePairingState devicePairingState;
     private FragmentLauncher fragmentLauncher;
     private HamburgerActivity hamburgerActivity;
-    private DebugTestFragmentState debugTestFragmentStateTest;
     private ActivityController<TestActivity> activityController;
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         activityController.pause().stop().destroy();
-        hamburgerActivity=null;
-        activityController=null;
-        debugTestFragmentStateTest=null;
+        devicePairingState = null;
+        hamburgerActivity = null;
     }
-    @Before
-    public void setUp() throws Exception{
-        super.setUp();
-        debugTestFragmentStateTest = new DebugTestFragmentState();
-        UIStateData debugFragmentStateData = new UIStateData();
-        debugFragmentStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-        debugTestFragmentStateTest.setUiStateData(debugFragmentStateData);
 
-        activityController=Robolectric.buildActivity(TestActivity.class);
-        hamburgerActivity=activityController.create().start().get();
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        devicePairingState = new DevicePairingState();
+
+        UIStateData devicePairingStateData = new UIStateData();
+        devicePairingStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+        devicePairingState.setUiStateData(devicePairingStateData);
+
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity = activityController.create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
     }
 
-    @Test
-    public void launchSettingsState(){
-        debugTestFragmentStateTest.navigate(fragmentLauncher);
+    @Test(expected = UnsatisfiedLinkError.class)
+    public void launchDevicePairingState() {
+        devicePairingState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(1,fragmentCount);
+        assertEquals(1, fragmentCount);
     }
-
 }
