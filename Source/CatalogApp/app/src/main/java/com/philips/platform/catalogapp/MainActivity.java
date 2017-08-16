@@ -105,6 +105,7 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
+        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
         /*sideBarLayout.addHeaderView(R.layout.sidebar_header_view);
         sideBarLayout.addMenuView(R.layout.sidebar_menu_view);
         sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
@@ -128,7 +129,7 @@ public class MainActivity extends UIDActivity {
                     onBackPressed();
                 } else {
                     //showSnackBar();
-                    sideBarLayout.openDrawer(GravityCompat.START);
+                    //sideBarLayout.openDrawer(GravityCompat.START);
                 }
             }
         });

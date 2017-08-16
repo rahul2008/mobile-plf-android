@@ -93,7 +93,8 @@ public class SideBarFragment extends BaseFragment {
     }
 
     public void showSideBar(){
-        sideBarLayout.openDrawer(GravityCompat.START);
+        ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.START);
+        //sideBarLayout.openDrawer(GravityCompat.START);
     }
 
     /*private ActionBarDrawerToggle setupDrawerToggle() {
