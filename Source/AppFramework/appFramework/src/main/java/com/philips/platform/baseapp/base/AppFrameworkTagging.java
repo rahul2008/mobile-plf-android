@@ -11,6 +11,7 @@ package com.philips.platform.baseapp.base;
 import android.app.Activity;
 
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /*
  * This class is wrapper which is implementing all the possible Analytics
@@ -27,6 +28,9 @@ public class AppFrameworkTagging {
     private AppFrameworkApplication context;
     private static String previousPage;
     private static Object mutex= new Object();
+    private ApteligentBroadcastReceiver broadcastReceiverApteligent;
+    private static final String TAG = AppFrameworkTagging.class.getSimpleName();
+
 
     private AppFrameworkTagging() {
     }
@@ -47,10 +51,34 @@ public class AppFrameworkTagging {
 
     /*
      * Initialize this method with context. Recommended from application level.
+     * Precondition: Tagging/Analytics initialization is mandatory.
      */
     public void initAppTaggingInterface(AppFrameworkApplication ctx) {
         context = ctx;
-//        appTaggingInterface = getTaggingInterface(context);
+        initApteligentReceiver();
+    }
+
+    /*
+    * Register the receiver to receive data from AppInfra(page and event tagging)
+    */
+    private void initApteligentReceiver() {
+        broadcastReceiverApteligent = new ApteligentBroadcastReceiver(context);
+        RALog.d(TAG, "initApteligentReceiver()");
+        getTagging().registerTaggingData(broadcastReceiverApteligent);
+    }
+
+    /*
+     * Release the receiver
+     */
+    public void releaseApteligentReceiver() {
+        if(broadcastReceiverApteligent != null) {
+            RALog.d(TAG, "releaseApteligentReceiver()");
+            getTagging().unregisterTaggingData(broadcastReceiverApteligent);
+        }
+    }
+
+    protected AppTaggingInterface getTagging() {
+        return context.getAppInfra().getTagging();
     }
 
     protected AppTaggingInterface getTaggingInterface(AppFrameworkApplication ctx) {

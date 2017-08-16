@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.cocoversion;
 
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +26,6 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
-/**
- * Created by philips on 4/20/17.
- */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class CocoVersionFragmentTest extends TestCase {

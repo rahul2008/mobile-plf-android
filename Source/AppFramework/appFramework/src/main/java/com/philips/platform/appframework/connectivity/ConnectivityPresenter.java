@@ -39,10 +39,10 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
     private User user;
     private String momentValue;
 
-    public ConnectivityPresenter(final ConnectivityContract.View connectivityViewListener, User user,Context context) {
+    public ConnectivityPresenter(final ConnectivityContract.View connectivityViewListener, User user, Context context) {
         this.connectivityViewListener = connectivityViewListener;
         this.context = context;
-        this.user=user;
+        this.user = user;
     }
 
     /**
@@ -52,8 +52,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      */
     @Override
     public void processMoment(String momentValue) {
-        RALog.d(TAG," process moment in data core ");
-
+        RALog.d(TAG, " process moment in data core ");
         this.momentValue = momentValue;
         if (canSync(user)) {
             if (TextUtils.isEmpty(momentValue)) {
@@ -77,11 +76,11 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      * @param user
      * @return
      */
-    private boolean canSync(User user) {
+    protected boolean canSync(User user) {
         if (user.getHsdpAccessToken() == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !BaseAppUtil.isNetworkAvailable(context)) {
             return false;
         }
-        RALog.d(TAG," can sync data from data core or not ");
+        RALog.d(TAG, " can sync data from data core or not ");
         return true;
     }
 
@@ -189,8 +188,8 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      * @param context
      */
     public void loadDataCoreURLFromServiceDiscovery(Context context) {
-        RALog.d(TAG," loads data core base url from service discovery");
-        AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
+        RALog.d(TAG, " loads data core base url from service discovery");
+        AppInfraInterface appInfra = getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         serviceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
@@ -210,5 +209,9 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
                         }
                     }
                 });
+    }
+
+    protected AppInfraInterface getAppInfra(){
+        return ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
     }
 }
