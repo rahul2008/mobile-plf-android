@@ -60,7 +60,7 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     }
 
     private void initCustomActionBar() {
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.uid_toolbar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
