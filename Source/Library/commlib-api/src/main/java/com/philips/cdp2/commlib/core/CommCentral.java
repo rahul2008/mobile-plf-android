@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.core;
 
 import android.support.annotation.NonNull;
@@ -13,24 +14,22 @@ import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.util.AppIdProvider;
 
 import java.util.Collections;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public final class CommCentral {
     private static final String TAG = "CommCentral";
 
-    private static String APP_ID;
+    private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
-    private ApplianceManager applianceManager;
     private final DICommApplianceFactory<?> applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
+    private final ApplianceManager applianceManager;
 
     public CommCentral(@NonNull DICommApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
-        generateTemporaryAppId();
-
         this.applianceFactory = applianceFactory;
 
         // Setup transport contexts
@@ -72,16 +71,7 @@ public final class CommCentral {
         return applianceManager;
     }
 
-    public static void setAppId(@NonNull final String appId) {
-        APP_ID = appId;
-    }
-
-    @NonNull
-    public static String getAppId() {
-        return APP_ID;
-    }
-
-    private void generateTemporaryAppId() {
-        APP_ID = String.format("deadbeef%08x", new Random().nextInt());
+    public static AppIdProvider getAppIdProvider() {
+        return APP_ID_PROVIDER;
     }
 }

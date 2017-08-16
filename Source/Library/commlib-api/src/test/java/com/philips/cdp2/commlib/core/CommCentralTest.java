@@ -70,7 +70,7 @@ public class CommCentralTest {
 
     @Test
     public void whenCommCentralConstructed_thenTemporaryAppIdMustBeSet() {
-        assertThat(CommCentral.getAppId()).isNotEmpty();
+        assertThat(CommCentral.getAppIdProvider().getAppId()).isNotEmpty();
     }
 
     @Test
@@ -114,7 +114,7 @@ public class CommCentralTest {
     public void whenAppIdIsSet_thenSameAppIdMustBeReturnedViaGet() {
         final String appId = "4pp1d3nt1f13r";
 
-        CommCentral.setAppId(appId);
-        assertEquals("AppId must be equal.", appId, CommCentral.getAppId());
+        CommCentral.getAppIdProvider().setAppId(appId);
+        assertEquals("AppId must be equal.", appId, CommCentral.getAppIdProvider().getAppId());
     }
 }

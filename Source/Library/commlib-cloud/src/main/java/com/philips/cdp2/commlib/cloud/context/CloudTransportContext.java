@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.cloud.context;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.listener.SignonListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
@@ -24,27 +26,53 @@ import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
 public class CloudTransportContext implements TransportContext<CloudTransportContext> {
+
     private static CloudController cloudController;
 
     private final ConnectivityMonitor connectivityMonitor;
 
+    private Set<AvailabilityListener<CloudTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
+
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            isAvailable = connectivityMonitor.isAvailable();
-            notifyAvailabilityListeners();
+            isConnected = connectivityMonitor.isAvailable();
+
+            handleAvailabilityChanged();
         }
     };
 
+    private final SignonListener signOnListener = new SignonListener() {
+        @Override
+        public void signonStatus(boolean signedOn) {
+            isSignedOn = signedOn;
+
+            updateAppId();
+            handleAvailabilityChanged();
+        }
+    };
+
+    private boolean isConnected;
+
+    private boolean isSignedOn;
+
     private boolean isAvailable;
-    private Set<AvailabilityListener<CloudTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     public CloudTransportContext(final @NonNull Context context, @NonNull final CloudController cloudController) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_MOBILE, TYPE_WIFI);
         this.connectivityMonitor.addAvailabilityListener(availabilityListener);
 
         CloudTransportContext.cloudController = cloudController;
-        updateAppId();
+        cloudController.addSignOnListener(signOnListener);
+        isSignedOn = cloudController.isSignOn();
+
+        if (isSignedOn) {
+            DICommLog.i(DICommLog.CPPCONTROLLER, "Cloud controller is signed on.");
+            updateAppId();
+        } else {
+            DICommLog.i(DICommLog.CPPCONTROLLER, "Cloud controller is not signed on.");
+            cloudController.signOnWithProvisioning();
+        }
     }
 
     @Override
@@ -74,8 +102,13 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
     }
 
     public static CloudController getCloudController() {
-        updateAppId();
         return cloudController;
+    }
+
+    private void handleAvailabilityChanged() {
+        isAvailable = isConnected && isSignedOn;
+
+        notifyAvailabilityListeners();
     }
 
     private void notifyAvailabilityListeners() {
@@ -84,13 +117,13 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
         }
     }
 
-    private static void updateAppId() {
+    private void updateAppId() {
         final String appCppId = cloudController.getAppCppId();
 
         if (TextUtils.isEmpty(appCppId)) {
             DICommLog.w(DICommLog.CPPCONTROLLER, "Could not obtain an appId from the provided CloudController.");
         } else {
-            CommCentral.setAppId(appCppId);
+            CommCentral.getAppIdProvider().setAppId(appCppId);
         }
     }
 }

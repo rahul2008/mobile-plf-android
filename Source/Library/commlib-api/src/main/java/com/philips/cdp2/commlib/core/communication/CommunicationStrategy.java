@@ -66,7 +66,7 @@ public abstract class CommunicationStrategy implements Availability<Communicatio
 
     protected Map<String, Object> getUnsubscriptionData() {
         return new HashMap<String, Object>() {{
-            put(SUBSCRIBER_KEY, CommCentral.getAppId());
+            put(SUBSCRIBER_KEY, CommCentral.getAppIdProvider().getAppId());
         }};
     }
 

@@ -26,6 +26,8 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.util.AppIdProvider;
+import com.philips.cdp2.commlib.core.util.AppIdProvider.AppIdListener;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
@@ -33,11 +35,15 @@ import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 import java.util.Set;
 
 import static android.content.ContentValues.TAG;
+import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
 
 public class DiscoveredAppliancesFragment extends Fragment {
 
     private CommCentral commCentral;
 
+    private final AppIdProvider appIdProvider = getAppIdProvider();
+
+    private View view;
     private ApplianceAdapter applianceAdapter;
 
     private void onAppliancesChanged() {
@@ -94,26 +100,38 @@ public class DiscoveredAppliancesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
+        view = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
 
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        final ListView listViewAppliances = (ListView) rootview.findViewById(R.id.cml_listViewAppliances);
+        final ListView listViewAppliances = (ListView) view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final Appliance appliance = applianceAdapter.getItem(position);
-                CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
 
-                CommlibUapp.get().nextFragment(new ApplianceFragment());
+                if (appliance != null) {
+                    CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
+                    CommlibUapp.get().nextFragment(new ApplianceFragment());
+                }
             }
         });
 
-        ((TextView) rootview.findViewById(R.id.cml_textViewAppId)).setText(CommCentral.getAppId());
+        appIdProvider.addAppIdListener(new AppIdListener() {
+            @Override
+            public void onAppIdChanged(String appId) {
+                updateAppId();
+            }
+        });
+        updateAppId();
 
-        return rootview;
+        return view;
+    }
+
+    private void updateAppId() {
+        ((TextView) view.findViewById(R.id.cml_textViewAppId)).setText(appIdProvider.getAppId());
     }
 
     @Override
