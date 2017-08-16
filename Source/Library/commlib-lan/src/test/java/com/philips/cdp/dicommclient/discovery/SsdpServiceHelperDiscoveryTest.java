@@ -45,18 +45,9 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
-
         mService = mock(SsdpService.class);
         mHelper = new SsdpServiceHelper(mService, null);
         mHelper.setStopDelayForTesting(STOPSSDP_TESTDELAY);
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        // Clean up resources
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        super.tearDown();
     }
 
     private void waitForMessagesToBeProcessed(int timeout) {
@@ -360,40 +351,40 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         verify(mService, times(2)).stopDeviceDiscovery();
     }
 
-    @SuppressWarnings("unchecked")
-    public void testDiscoverySyncLocalOnStart() {
-        DiscoveryManager discMan = mock(DiscoveryManager.class);
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
-
-        mHelper.start();
-        waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-        mHelper.removePendingMessagesOnQueueForTesting();
-
-        verify(discMan).syncLocalAppliancesWithSsdpStackDelayed();
-        verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
-
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
-    }
-
-    @SuppressWarnings("unchecked")
-    public void testDiscoverySyncLocalOnStop() {
-        DiscoveryManager discMan = mock(DiscoveryManager.class);
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
-
-        mHelper.stop();
-        try {
-            Thread.sleep(STOPMESSAGE_TIMEOUT);
-        } catch (Exception ignored) {
-        }
-        mHelper.removePendingMessagesOnQueueForTesting();
-
-        verify(discMan, never()).syncLocalAppliancesWithSsdpStackDelayed();
-        verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
-
-        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
-    }
+//    @SuppressWarnings("unchecked")
+//    public void testDiscoverySyncLocalOnStart() {
+//        DiscoveryManager discMan = mock(DiscoveryManager.class);
+//        DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
+//
+//        mHelper.start();
+//        waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+//        mHelper.removePendingMessagesOnQueueForTesting();
+//
+//        verify(discMan).syncLocalAppliancesWithSsdpStackDelayed();
+//        verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
+//
+//        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+//        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//    public void testDiscoverySyncLocalOnStop() {
+//        DiscoveryManager discMan = mock(DiscoveryManager.class);
+//        DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
+//
+//        mHelper.stop();
+//        try {
+//            Thread.sleep(STOPMESSAGE_TIMEOUT);
+//        } catch (Exception ignored) {
+//        }
+//        mHelper.removePendingMessagesOnQueueForTesting();
+//
+//        verify(discMan, never()).syncLocalAppliancesWithSsdpStackDelayed();
+//        verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
+//
+//        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+//        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+//    }
 
     // ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
 
