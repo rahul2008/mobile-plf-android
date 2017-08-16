@@ -34,6 +34,8 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
+import static com.philips.cdp.di.iap.R.id.delivery_via_ups;
+
 public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ITEM = 1;
@@ -189,10 +191,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (mData.get(0) != null) {
                 data = mData.get(0);
 
-                shoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
+                /*hoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
                         + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
                 shoppingCartFooter.mVatInclusiveValue.setText
-                        (mContext.getString(R.string.iap_including_vat));
+                        (mContext.getString(R.string.iap_including_vat));*/
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
 
@@ -205,12 +207,17 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         mIsFreeDelivery = true;
                     }
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
+                    shoppingCartFooter.mDeliveryTitle.setText(deliveryMethod);
+                    shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
                     if (deliveryMethod != null) {
-                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod.toString());
+                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
                     } else {
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
+
+                    shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
+                    shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -256,13 +263,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartFooter.mVatValue.setVisibility(View.GONE);
             if (data.getVatValue() != null) {
                 shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mVatValueUK.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mVatValueUK.setText(data.getVatValue());
+                shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
+                shoppingCartFooter.mDeliveryUpsVal.setText(data.getVatValue());
             }
         } else {
             shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
-            shoppingCartFooter.mVatValueUK.setVisibility(View.GONE);
-
             if (data.getVatValue() != null) {
                 shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
                 shoppingCartFooter.mVatValue.setText(data.getVatValue());
@@ -360,9 +365,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalItems;
         TextView mTotalCost;
         TextView mDeliveryVia;
-        TextView mVatValueUK;
+        TextView mDeliveryUpsVal;
         ImageView mEditIcon;
         TextView mExtraOption;
+        TextView mDeliveryTitle;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
 
@@ -373,10 +379,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatInclusiveValue = (TextView) itemView.findViewById(R.id.vat_inclusive);
             mTotalItems = (TextView) itemView.findViewById(R.id.total_label);
             mTotalCost = (TextView) itemView.findViewById(R.id.total_cost_val);
-            mDeliveryVia = (TextView) itemView.findViewById(R.id.delivery_via_ups);
-            mVatValueUK = (TextView) itemView.findViewById(R.id.delivery_ups_val);
+            mDeliveryVia = (TextView) itemView.findViewById(delivery_via_ups);
+            mDeliveryUpsVal = (TextView) itemView.findViewById(R.id.delivery_ups_val);
             mExtraOption = (TextView) itemView.findViewById(R.id.extra_option);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
+            mDeliveryTitle = (TextView) itemView.findViewById(R.id.delivery_ups_title);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
         }
