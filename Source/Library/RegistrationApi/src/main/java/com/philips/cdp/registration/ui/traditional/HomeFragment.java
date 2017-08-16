@@ -86,7 +86,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @BindView(R2.id.usr_startScreen_valueAdd_label)
     TextView mTvWelcomeDesc;
 
-
     TextView mTvWelcomeNeedAccount;
 
     @BindView(R2.id.usr_startScreen_Social_Container)
@@ -106,6 +105,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @BindView(R2.id.usr_StartScreen_country_label)
     TextView mCountryDisplay;
+
+    @BindView(R2.id.usr_StartScreen_privacyNotice_label)
+    TextView privacyPolicy;
 
     boolean isWeChatAppRegistered;
     String mWeChatAppId;
@@ -130,7 +132,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         View view;
-        if (true || RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
+        if (false || RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
         } else {
             view = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
@@ -252,7 +254,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
             System.out.println("provider id " + resourceId + "" + drawableId);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(16, 8, 16, 32);
+            params.setMarginStart(16);
+            params.setMarginEnd(16);
 
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId), params);
 
@@ -262,7 +265,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private Button getProviderBtn(final String providerName, int providerNameStringId,
-                                           int providerLogoDrawableId) {
+                                  int providerLogoDrawableId) {
 //        final XProviderButton providerBtn = new XProviderButton(mContext);
         final com.philips.platform.uid.view.widget.Button socialButton = new com.philips.platform.uid.view.widget.Button(mContext);
         socialButton.setText(providerNameStringId);
@@ -327,7 +330,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mPbJanrainInit.setEnabled(false);
 
         mUser = new User(mContext);
-        linkifyTermAndPolicy(mTvWelcomeDesc);
+        linkifyPrivacyPolicy(privacyPolicy);
+        linkifyPrivacyPolicy(mCountryDisplay);
+//        styliseCountrySelection();
         handleUiState();
         initServiceDiscovery();
         showCountrySelection();
@@ -689,7 +694,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
         if (!RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            linifyPrivercyPolicyOnly(pTvPrivacyPolicy);
+            linkifyPrivacyPolicy(pTvPrivacyPolicy);
         } else {
             linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
         }
@@ -754,20 +759,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     };
 
-    private void linifyPrivercyPolicyOnly(TextView pTvPrivacyPolicy) {
-        String privacyPolicyText = getString(R.string.LegalNoticeForPrivacy);
-        privacyPolicyText = String.format(privacyPolicyText,
-                getString(R.string.reg_PrivacyNoticeText));
-        mTvWelcomeDesc.setText(privacyPolicyText);
+    private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy) {
+        String privacy = pTvPrivacyPolicy.getText().toString();
 
-        String privacy = mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
-        SpannableString spanableString = new SpannableString(privacyPolicyText);
+//                mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
+//        privacyPolicy.setText(privacy);
 
-        int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
-                privacy.toLowerCase());
 
-        spanableString.setSpan(privacyClickListener, privacyStartIndex,
-                privacyStartIndex + privacy.length(),
+        SpannableString spanableString = new SpannableString(privacy);
+
+        spanableString.setSpan(privacyClickListener, 0, privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         removeUnderlineFromLink(spanableString);
@@ -778,6 +779,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 R.color.reg_hyperlink_highlight_color));
         pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
                 android.R.color.transparent));
+    }
+
+    private void styliseCountrySelection() {
+        SpannableString content = new SpannableString(mCountryDisplay.getText());
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        mCountryDisplay.setText(content);
+//        resetPasswordLabel.setOnClickListener(view -> launchResetPasswordFragment());
     }
 
     private void removeUnderlineFromLink(SpannableString spanableString) {
@@ -825,8 +833,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
 
-        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail( mUser.getEmail());
-        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber( mUser.getMobile());
+        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
+        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             launchAccountActivationFragment();
             return;
