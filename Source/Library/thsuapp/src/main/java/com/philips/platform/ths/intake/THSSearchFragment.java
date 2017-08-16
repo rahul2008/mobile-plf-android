@@ -10,6 +10,7 @@ package com.philips.platform.ths.intake;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.americanwell.sdk.entity.health.Medication;
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -34,11 +36,12 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener {
+public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener, TextWatcher {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
     private THSBasePresenter mPresenter;
     protected THSMedication searchedMedicines;
@@ -49,6 +52,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     protected SearchBox searchBox;
     int searchType = 0;
     private Practice practice;
+    protected List<Pharmacy> pharmacyList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,11 +74,11 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_search_layout, container, false);
         searchListView = (ListView) view.findViewById(R.id.pth_search_listview);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
-        setUpMedicationSearch();
+        setAdapter();
         return view;
     }
 
-    public void setUpMedicationSearch() {
+    public void setAdapter() {
         mTHSSearchListAdapter = new THSSearchListAdapter(getFragmentActivity(), null);
         searchListView.setAdapter(mTHSSearchListAdapter);
         searchListView.setOnItemClickListener(this);
@@ -105,29 +109,42 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
         searchBox.setQuerySubmitListener(this);
         searchBox.setQuery(searchBox.getQuery());
-        searchBox.setSearchBoxHint("Search for medication");
-        searchBox.setDecoySearchViewHint("Search for medication");
-        searchBox.getSearchTextView().addTextChangedListener(new TextWatcher() {
+        String searchBoxHint = "";
+        switch (searchType) {
+            case THSConstants.MEDICATION_SEARCH_CONSTANT:
+                searchBox.getSearchTextView().addTextChangedListener(this);
+                searchBoxHint = "Search for medication";
+                break;
+            case THSConstants.PROVIDER_SEARCH_CONSTANT:
+                searchBox.getSearchTextView().addTextChangedListener(this);
+                searchBoxHint = "Search for provider";
+                break;
+            case THSConstants.PHARMACY_SEARCH_CONSTANT:
+                searchBoxHint = "Search for pharmacy";
+                break;
+        }
+        searchBox.setSearchBoxHint(searchBoxHint);
+        searchBox.setDecoySearchViewHint(searchBoxHint);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 2) {
-                    searchFunction(s);
-                } else if (s.length() == 2) {
-                    mTHSSearchListAdapter.setData(null);
-                }
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+    }
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
+    }
 
-            }
-        });
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() > 2) {
+            searchFunction(s);
+        } else if (s.length() == 2) {
+            mTHSSearchListAdapter.setData(null);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
 
     }
 
@@ -139,8 +156,10 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
                 ((THSSearchPresenter) mPresenter).searchProviders(s.toString(), practice);
                 break;
+            case THSConstants.PHARMACY_SEARCH_CONSTANT:
+                ((THSSearchPresenter) mPresenter).searchPharmacy(s.toString());
+                break;
         }
-
     }
 
 
@@ -175,12 +194,24 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
                 callProviderDetailsFragment(position);
                 break;
+            case THSConstants.PHARMACY_SEARCH_CONSTANT:
+                callPharmacyListFragment(position);
+                break;
         }
 
 
     }
 
-    private void callProviderDetailsFragment(int position) {
+    protected void callPharmacyListFragment(int position) {
+
+        Intent intent = new Intent(getActivity(), THSSearchFragment.class);
+        intent.putParcelableArrayListExtra("selectedPharmacy", (ArrayList<? extends Parcelable>) pharmacyList);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
+        getFragmentActivity().getSupportFragmentManager().popBackStack();
+
+    }
+
+    protected void callProviderDetailsFragment(int position) {
 
         THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
         pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
@@ -200,4 +231,5 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         getFragmentActivity().getSupportFragmentManager().popBackStack();
 
     }
+
 }

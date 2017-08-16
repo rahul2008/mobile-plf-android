@@ -30,6 +30,7 @@ public class THSConstants {
     public static final int REQUEST_VIDEO_VISIT = 6060;
 
     public static final int PROVIDER_SEARCH_CONSTANT = 1001;
+    public static final int PHARMACY_SEARCH_CONSTANT = 1003;
     public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
 

@@ -296,9 +296,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     }
 
     public void setReminderValue(String reminderTime) {
-        reminderValue.setText(mContext.getResources().
-                getString(R.string.ths_reminder_set)+" "+reminderTime
-                +" "+mContext.getResources().getString(R.string.ths_before_appointment));
+        reminderValue.setText(reminderTime +" "+mContext.getResources().getString(R.string.ths_before_appointment));
     }
 
     public String getReminderValue() {

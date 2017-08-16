@@ -754,8 +754,8 @@ public class THSManager {
         });
     }
 
-    public void updateConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(thsConsumer.getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
+    public void updateConsumerPreferredPharmacy(Context context, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(getPTHConsumer().getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 thsUpdatePharmacyCallback.onUpdateSuccess(sdkError);
