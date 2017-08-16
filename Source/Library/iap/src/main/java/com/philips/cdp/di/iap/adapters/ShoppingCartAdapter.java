@@ -196,35 +196,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
 
-                /*if (null != data.getDeliveryMode()) {
-                    handleTax(data, shoppingCartFooter);
-
-                    String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
-                    String deliveryMethod = data.getDeliveryMode().getName();
-                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
-                        mIsFreeDelivery = true;
-                    }
-                    shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
-
-                    if (deliveryMethod != null) {
-                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
-                    } else {
-                        shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
-                    }
-
-                    shoppingCartFooter.mEditIconLayout.setVisibility(View.VISIBLE);
-                    shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
-                    shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
-                        }
-                    });
-                } else {
-                    mIsFreeDelivery = true;
-                    shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
-                    shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
-                }*/
                 if (null != data.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
 
@@ -236,7 +207,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
 
                     if (deliveryMethod != null) {
-                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod.toString());
                     } else {
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
@@ -250,7 +221,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 } else {
                     shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
-                    shoppingCartFooter.mRightArrow.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
                     mIsFreeDelivery = true;
                 }
@@ -394,7 +364,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView mEditIcon;
         TextView mExtraOption;
         LinearLayout mPriceContainer;
-        TextView mRightArrow;
         RelativeLayout mDeliveryUPSParcelContainer;
 
         FooterShoppingCartViewHolder(View itemView) {
@@ -407,7 +376,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryVia = (TextView) itemView.findViewById(R.id.delivery_via_ups);
             mVatValueUK = (TextView) itemView.findViewById(R.id.delivery_ups_val);
             mExtraOption = (TextView) itemView.findViewById(R.id.extra_option);
-            mRightArrow =  (TextView) itemView.findViewById(R.id.right_arrow);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);

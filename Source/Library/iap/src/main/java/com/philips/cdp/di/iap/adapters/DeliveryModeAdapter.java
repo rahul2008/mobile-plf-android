@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 
 import java.util.List;
 
@@ -25,12 +26,14 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     private int mSelectedIndex;
     private View.OnClickListener mConfirmBtnClick;
     private DeliveryModes mSelectedDeliveryMode;
+    private DeliveryModeDialog.DialogListener mListener;
 
-    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes, View.OnClickListener confirmBtnClick) {
+    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes, View.OnClickListener confirmBtnClick,DeliveryModeDialog.DialogListener listener) {
         mContext = context;
         mModes = modes;
         mSelectedIndex = 0;
         mConfirmBtnClick = confirmBtnClick;
+        mListener = listener;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     }
 
     @Override
-    public void onBindViewHolder(DeliverySelectionHolder holder, int position) {
+    public void onBindViewHolder(final DeliverySelectionHolder holder, int position) {
 
         DeliveryModes modes = mModes.get(position);
         if (modes.getName() != null && !modes.getName().equals(""))
@@ -57,6 +60,13 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         }
         setToggleStatus(holder.deliveryRadioBtnToggle, position, holder.deliveryConfirmBtn);
         bindToggleButton(holder, holder.deliveryRadioBtnToggle);
+
+        holder.deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onItemClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     private void bindToggleButton(final DeliverySelectionHolder holder, final RadioButton toggle) {
@@ -102,6 +112,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
             view.setOnClickListener(this);
             deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
+
             /*deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
