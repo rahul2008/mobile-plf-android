@@ -18,6 +18,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -37,6 +38,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
     private Provider mProvider;
+    private ProviderInfo mProviderInfo;
 
     @Nullable
     @Override
@@ -49,10 +51,15 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
 
         final Bundle arguments = getArguments();
-
-        if (arguments != null)
+        if(arguments!=null) {
             mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
-
+            mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
+            if(mProviderInfo!=null){
+                THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                thsProviderInfo.setTHSProviderInfo(mProviderInfo);
+                setTHSProviderEntity(thsProviderInfo);
+            }
+        }
         onRefresh();
         return view;
     }

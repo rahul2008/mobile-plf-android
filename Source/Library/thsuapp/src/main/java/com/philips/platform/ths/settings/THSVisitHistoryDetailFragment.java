@@ -60,12 +60,12 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         mLabelCreditCardCharge = (Label) view.findViewById(R.id.ths_credit_card_charge);
         mPrescriptionDetail = (Label) view.findViewById(R.id.prescription_detail);
         mLabelShippingDetail = (Label) view.findViewById(R.id.medication_detail);
-        mRelativeLayoutProviderLayout = (RelativeLayout) view.findViewById(R.id.providerDetailLayout);
+        mRelativeLayoutProviderLayout = (RelativeLayout) view.findViewById(R.id.provider_details_layout_container);
         mRelativeLayoutProviderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(THSConstants.THS_PROVIDER,mVisitReportDetail.getAssignedProviderInfo());
+                bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,mVisitReportDetail.getAssignedProviderInfo());
                 addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         });
