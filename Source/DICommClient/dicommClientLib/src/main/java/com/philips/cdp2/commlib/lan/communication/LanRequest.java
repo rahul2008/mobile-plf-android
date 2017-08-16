@@ -38,6 +38,12 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -49,6 +55,7 @@ import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public class LanRequest extends Request {
 
@@ -66,6 +73,8 @@ public class LanRequest extends Request {
     private final SSLContext sslContext;
     private final LanRequestType requestType;
     private final DISecurity diSecurity;
+    @NonNull
+    private final ExecutorService executor;
 
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
         @SuppressLint("BadHostnameVerifier")
@@ -74,6 +83,12 @@ public class LanRequest extends Request {
             return true; // Just accept everything
         }
     };
+
+    @VisibleForTesting
+    @NonNull
+    protected ExecutorService createExecutor() {
+        return newSingleThreadExecutor();
+    }
 
     public LanRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType,
                       Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
@@ -84,6 +99,8 @@ public class LanRequest extends Request {
         this.requestType = requestType;
         this.diSecurity = diSecurity;
         this.url = String.format(Locale.US, networkNode.isHttps() ? BASEURL_PORTS_HTTPS : BASEURL_PORTS, networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), productId, portName);
+
+        executor = createExecutor();
     }
 
     private String createDataToSend(Map<String, Object> dataMap) {
@@ -124,7 +141,28 @@ public class LanRequest extends Request {
             } else if (requestType == LanRequestType.DELETE) {
                 appendDataToRequestIfAvailable(conn);
             }
-            conn.connect();
+
+            final HttpURLConnection finalConn = conn;
+            final Future<Void> future = executor.submit(new Callable<Void>() {
+                public Void call() throws Exception {
+                    finalConn.connect();
+                    return null;
+                }
+            });
+
+            try {
+                future.get(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS);
+            } catch (ExecutionException e) {
+                if (e.getCause() instanceof SSLHandshakeException) {
+                    throw (SSLHandshakeException) e.getCause();
+                } else if (e.getCause() instanceof TransportUnavailableException) {
+                    throw (TransportUnavailableException) e.getCause();
+                } else if (e.getCause() instanceof IOException) {
+                    throw (IOException) e.getCause();
+                } else {
+                    throw e;
+                }
+            }
 
             try {
                 responseCode = conn.getResponseCode();
@@ -158,6 +196,9 @@ public class LanRequest extends Request {
         } catch (IOException e) {
             log(ERROR, LOCALREQUEST, e.getMessage() == null ? "IOException" : e.getMessage());
             return new Response(null, Error.IOEXCEPTION, mResponseHandler);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            log(ERROR, LOCALREQUEST, e.getMessage() == null ? "ExecutionException" : e.getMessage());
+            return new Response(null, Error.TIMED_OUT, mResponseHandler);
         } finally {
             closeAllConnections(inputStream, out, conn);
             log(DEBUG, LOCALREQUEST, "Stop request LOCAL - response code: " + responseCode);
@@ -241,6 +282,7 @@ public class LanRequest extends Request {
         conn.setRequestProperty("connection", "close");
         conn.setRequestMethod(requestMethod);
         conn.setConnectTimeout(CONNECTION_TIMEOUT);
+        conn.setReadTimeout(CONNECTION_TIMEOUT);
 
         return conn;
     }
