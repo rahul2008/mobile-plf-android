@@ -163,7 +163,7 @@ class KeyBagHelper {
         }
     }
 
-    private Map mapData(JSONObject jsonObject, int index, String serviceId) {
+    Map mapData(JSONObject jsonObject, int index, String serviceId) {
         try {
             Iterator<String> keys = jsonObject.keys();
             HashMap<String, String> hashMap = new HashMap<>();
@@ -251,7 +251,9 @@ class KeyBagHelper {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 mapServiceDiscoveryResponse(urlMap, aiKmServices);
-                getServiceDiscoveryUrlMap(getAppendedServiceIds(serviceIds), aiSdPreference, null, getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices));
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
+                ArrayList<String> appendedServiceIds = getAppendedServiceIds(serviceIds);
+                getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
             }
 
             @Override

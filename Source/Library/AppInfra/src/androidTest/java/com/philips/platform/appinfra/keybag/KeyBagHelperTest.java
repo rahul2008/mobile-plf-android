@@ -10,6 +10,8 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
+import org.json.JSONObject;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -106,6 +108,10 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(null, onGetServiceUrlMapListener, replacement);
         keyBagHelper.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDLanguagePreference, replacement, onGetServiceUrlMapListener);
         verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(null, onGetServiceUrlMapListener, replacement);
+    }
+
+    public void testMappingData() {
+        assertNotNull(keyBagHelper.mapData(new JSONObject(),0,"service_id"));
     }
 
 }
