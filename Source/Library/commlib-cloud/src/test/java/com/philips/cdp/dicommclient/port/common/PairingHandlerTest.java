@@ -1,33 +1,28 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
-package com.philips.cdp.dicommclient.port.common;
 
-import android.util.Log;
+package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_COMPLETED;
 import static com.philips.cdp.dicommclient.port.common.PairingHandler.RELATION_STATUS_FAILED;
@@ -42,12 +37,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class, DiscoveryManager.class})
 public class PairingHandlerTest {
 
     private static final String USER_PROVIDER_TYPE = "user";
@@ -67,9 +59,6 @@ public class PairingHandlerTest {
 
     @Mock
     private CloudController cloudControllerMock;
-
-    @Mock
-    private DiscoveryManager discoveryManagerMock;
 
     @Mock
     private PairingPort pairingPortMock;
@@ -94,7 +83,6 @@ public class PairingHandlerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        mockStatic(Log.class);
 
         DICommLog.disableLogging();
         PairingHandler.clear();
@@ -109,10 +97,6 @@ public class PairingHandlerTest {
         when(cloudControllerMock.getPairingController()).thenReturn(pairingControllerMock);
 
         when(networkNodeMock.getCppId()).thenReturn(DEVICE_CPP_ID);
-
-        when(discoveryManagerMock.getApplianceByCppId(anyString())).thenReturn(applianceMock);
-        mockStatic(DiscoveryManager.class);
-        when(DiscoveryManager.getInstance()).thenReturn(discoveryManagerMock);
 
         pairingHandler = new PairingHandlerForTest(applianceMock, pairingListenerMock);
     }
