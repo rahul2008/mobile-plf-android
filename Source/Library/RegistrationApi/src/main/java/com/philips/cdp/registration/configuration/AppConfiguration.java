@@ -8,7 +8,7 @@
 
 package com.philips.cdp.registration.configuration;
 
-import java.util.List;
+import java.util.*;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 
@@ -16,6 +16,7 @@ public class AppConfiguration extends BaseConfiguration {
 
     private static final String REGISTRATION_ENVIRONMENT = "appidentity.appState";
     private static final String MICROSITE_ID_KEY = "appidentity.micrositeId";
+    private static final String SD_COUNTRYMAPPING_ID_KEY = "servicediscovery.countryMapping";
     private static final String WE_CHAT_APP_ID_KEY = "weChatAppId";
     private static final String WE_CHAT_APP_SECRET_KEY = "weChatAppSecret";
     private static final String CLIENT_ID_KEY = "JanRainConfiguration.RegistrationClientID.";
@@ -33,6 +34,15 @@ public class AppConfiguration extends BaseConfiguration {
     public String getMicrositeId() {
         Object micrositeIdObject = appInfraWrapper.getAppInfraProperty(MICROSITE_ID_KEY);
         return getConfigPropertyValue(micrositeIdObject);
+    }
+
+    public HashMap<String,String> getServiceDiscoveryCountryMapping() {
+        Object serviceDiscoveryCountryMappingObject = appInfraWrapper.getAppInfraProperty(SD_COUNTRYMAPPING_ID_KEY);
+        if(serviceDiscoveryCountryMappingObject!=null){
+            return (HashMap<String,String>)serviceDiscoveryCountryMappingObject;
+
+        }
+        return null;
     }
 
     public String getRegistrationEnvironment() {

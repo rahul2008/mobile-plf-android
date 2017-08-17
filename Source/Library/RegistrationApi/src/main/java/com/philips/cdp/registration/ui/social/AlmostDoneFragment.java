@@ -14,7 +14,6 @@ import android.content.res.Configuration;
 import android.os.*;
 import android.text.style.*;
 import android.view.*;
-import android.widget.CheckBox;
 import android.widget.*;
 
 import com.philips.cdp.registration.R;
@@ -235,7 +234,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void hideMarketingOptCheck() {
         marketingOptCheck.setVisibility(View.GONE);
-        if(emailEditText.getVisibility() != View.VISIBLE){
+        if (emailEditText.getVisibility() != View.VISIBLE) {
             almostDoneDescriptionLabel.setVisibility(View.GONE);
         }
     }
@@ -317,7 +316,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
         loginIdEditText.clearFocus();
 
-        if( marketingOptCheck.getVisibility()== View.VISIBLE && isMarketingOptChecked()) {
+        if (marketingOptCheck.getVisibility() == View.VISIBLE && isMarketingOptChecked()) {
             almostDonePresenter.handleUpdateMarketingOpt();
         }
         if (mBundle == null) {
@@ -330,6 +329,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public String getMobileNumber() {
         return FieldsValidator.getMobileNumber(emailEditText.getText().toString());
+    }
+
+    @Override
+    public void showTryAgainError() {
+        errorMessage.setError(mContext.getString(R.string.reg_Generic_Network_Error));
+        scrollViewAutomatically(errorMessage, rootLayout);
+    }
+
+    @Override
+    public void showAnyOtherErrors(String errorDescription) {
+        errorMessage.setError(errorDescription);
+        scrollViewAutomatically(errorMessage, rootLayout);
     }
 
     @Override

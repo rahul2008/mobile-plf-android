@@ -153,7 +153,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onResume() {
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
-//        makeProviderButtonsClickable();
+        makeProviderButtonsClickable();
     }
 
     private void makeProviderButtonsClickable() {
@@ -331,26 +331,28 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                updateCountryText(new Locale("", s.toUpperCase()).getDisplayCountry());
-                handleSocialProviders(s.toUpperCase());
+                String selectedCountryCode;
+                if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
+                    selectedCountryCode = s.toUpperCase();
+                } else {
+                    selectedCountryCode = RegUtility.getFallbackCountryCode();
+                }
+                updateHomeCountryandLabel(selectedCountryCode);
+                handleSocialProviders(selectedCountryCode);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
-                String selectedCountryCode = null;
-                if (null != fallbackCountry) {
-                    serviceDiscoveryInterface.setHomeCountry(fallbackCountry.toUpperCase());
-                    selectedCountryCode = fallbackCountry;
-                } else {
-                    serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
-                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
-                }
-                updateCountryText(new Locale(Locale.getDefault().getLanguage(),
-                        selectedCountryCode).getDisplayCountry());
+                String selectedCountryCode = RegUtility.getFallbackCountryCode();
+                updateHomeCountryandLabel(selectedCountryCode);
             }
         });
+    }
+
+    private void updateHomeCountryandLabel(String selectedCountryCode) {
+        serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
+        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
     }
 
     private void updateCountryText(String text) {
@@ -382,9 +384,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
-        } /*else if (v.getId() == R.id.usr_StartScreen_country_label) {
-            handleCountrySelection();
-        }*/
+        }
     }
 
     final CountryPicker picker = new CountryPicker();
@@ -483,7 +483,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
         updateCountryText(countryName);
-        hideProgressDialog();
+        //hideProgressDialog();
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
@@ -632,6 +632,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         hideProviderProgress();
                     }
                 } else {
+                    makeProgressVisible();
                     mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
                 }
 
@@ -963,9 +964,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onContinueSocialProviderLoginSuccess() {
 
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        launchWelcomeFragment();
         hideProviderProgress();
         enableControls(true);
-        launchWelcomeFragment();
     }
 
     @Override

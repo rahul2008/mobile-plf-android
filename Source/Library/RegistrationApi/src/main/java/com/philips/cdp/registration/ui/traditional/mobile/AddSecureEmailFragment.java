@@ -3,18 +3,28 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static android.view.View.*;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 
 
@@ -50,7 +60,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     private void setUpRecoveryEmail() {
         recoveryEmail.setInputType(InputType.TYPE_CLASS_TEXT);
-        recoveryEmail.setHint(getString(R.string.reg_recover_email_enter_your_email));
+        recoveryEmail.setHint(getString(R.string.reg_EmailAddPlaceHolder_txtField));
     }
 
     @Override

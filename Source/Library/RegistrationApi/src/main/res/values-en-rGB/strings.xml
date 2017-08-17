@@ -63,11 +63,11 @@
 <string name="reg_Social_Merge_btntxt">Connect</string>
 <string name="reg_InitialSignedIn_Welcome_User_lbltxt">Welcome %s</string>
 <string name="reg_InitialSignedIn_SigninEmailText">You have logged in using: %s</string>
-<string name="reg_VerifyEmail_VerifyEmail_lbltxt">Please verify your email</string>
-<string name="reg_VerifyEmail_EmailSentto_lbltxt">We have sent an email to: %s</string>
+<string name="reg_VerifyEmail_VerifyEmail_lbltxt">Confirm your email</string>
+<string name="reg_VerifyEmail_EmailSentto_lbltxt">We\'ve just sent you an email to %s</string>
 <string name="reg_VerifyEmail_EmailTime_lbltxt">It may take some time for the email to arrive.</string>
-<string name="reg_VerifyEmail_ActivateInfo_lbltxt">Please check your email to activate your account.</string>
-<string name="reg_VerifyEmail_Activated_btntxt">I have activated my account</string>
+<string name="reg_VerifyEmail_ActivateInfo_lbltxt">Please check your email and activate your account.</string>
+<string name="reg_VerifyEmail_Activated_btntxt">I\'ve already verified</string>
 <string name="reg_VerifyEmail_ResendErrorMsg_lbltxt">Having problems?\n-  It may take some time for the verification email to arrive\n-  Look in your spam folder as well\n-  Press the \"Resend\" button below if you did not receive the verification email</string>
 <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe have sent an email. It may take some time for the email to arrive.\n\nPlease check your email to activate your account.\n\nYou can use the app in the meantime.</string>
 <string name="reg_myphilips">Philips account</string>

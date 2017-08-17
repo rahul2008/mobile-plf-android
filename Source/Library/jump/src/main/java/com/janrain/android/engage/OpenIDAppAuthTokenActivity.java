@@ -44,7 +44,6 @@ import android.support.annotation.Nullable;
 import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.utils.LogUtils;
 
-import net.openid.appauth.AppAuthConfiguration;
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -54,10 +53,6 @@ import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.ClientAuthentication;
 import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
-import net.openid.appauth.browser.BrowserBlacklist;
-import net.openid.appauth.browser.Browsers;
-import net.openid.appauth.browser.VersionRange;
-import net.openid.appauth.browser.VersionedBrowserMatcher;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,17 +87,8 @@ public class OpenIDAppAuthTokenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        BrowserBlacklist blacklist = new BrowserBlacklist(
-                new VersionedBrowserMatcher(
-                        Browsers.SBrowser.PACKAGE_NAME,
-                        Browsers.SBrowser.SIGNATURE_SET,
-                        true, // custom tab
-                        VersionRange.ANY_VERSION));
-
-        mAuthService = new AuthorizationService(this,new AppAuthConfiguration.Builder()
-                .setBrowserMatcher(blacklist)
-                .build());
         mSession = JRSession.getInstance();
+        mAuthService = mSession.getCurrentOpenIDAppAuthService();
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_AUTH_STATE)) {
@@ -157,8 +143,8 @@ public class OpenIDAppAuthTokenActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mAuthService.dispose();
+        super.onDestroy();
     }
 
     private void receivedTokenResponse(

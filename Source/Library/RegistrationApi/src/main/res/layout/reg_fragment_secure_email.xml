@@ -28,7 +28,7 @@
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:gravity="left"
-                android:text="@string/reg_Account_secure_data_Title_txt"
+                android:text="@string/reg_SecureData_Title"
                 android:textSize="@dimen/reg_error_alert_size"
                 android:textStyle="bold"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -39,7 +39,7 @@
                 lineSpacingExtra="xxdp"
                 android:layout_marginBottom="0dip"
                 android:gravity="center|left"
-                android:text="@string/reg_Account_secure_data_Title_lbltxt"
+                android:text="@string/reg_SecureData_Description_Text"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <com.philips.cdp.registration.ui.customviews.LoginIdEditText
@@ -54,7 +54,7 @@
                 style="@style/reg_style_btn"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:enabled="true"
-                android:text="@string/reg_Account_secure_data_Title_email_btntxt"
+                android:text="@string/reg_SecureData_Add_Recovery_Email"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
 
@@ -64,7 +64,7 @@
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:background="@drawable/reg_btn_forgot_selector"
                 android:enabled="true"
-                android:text="@string/reg_Account_secure_data_Title_skip_btntxt"
+                android:text="@string/reg_SecureData_Maybe_Later"
                 android:textColor="@drawable/reg_btn_secondary_text_selector"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 

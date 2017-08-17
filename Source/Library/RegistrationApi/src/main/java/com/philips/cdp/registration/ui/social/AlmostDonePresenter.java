@@ -22,6 +22,7 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_A
 
 public class AlmostDonePresenter implements NetworStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
 
+
     @Inject
     User mUser;
 
@@ -117,7 +118,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
 
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
-        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
             } else {
@@ -125,6 +126,14 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
             }
             almostDoneContract.showLoginFailedError();
         }
+
+        if(userRegistrationFailureInfo.getErrorCode() == RegConstants.HSDP_ADMINISTRATION_ERROR){
+            almostDoneContract.showTryAgainError();
+            return;
+        }
+
+        almostDoneContract.showAnyOtherErrors(userRegistrationFailureInfo.getErrorDescription());
+
     }
 
     @Override
@@ -149,11 +158,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
 
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
-        if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
-            almostDoneContract.displayNameErrorMessage(userRegistrationFailureInfo, mDisplayName);
-            return;
-        }
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+        if (null != userRegistrationFailureInfo.getErrorDescription()) {
             almostDoneContract.emailErrorMessage(userRegistrationFailureInfo);
         } else {
             emailAlreadyInUse(userRegistrationFailureInfo);

@@ -15,7 +15,7 @@ import com.philips.cdp.registration.ui.utils.*;
 
 import org.json.*;
 
-import java.util.List;
+import java.util.*;
 
 import javax.inject.Inject;
 
@@ -98,6 +98,21 @@ public class RegistrationConfiguration {
         }
         return micrositeId;
     }
+
+    /**
+     * This should not be supported for longer time
+     *
+     * @return String
+     */
+    public List<String> getServiceDiscoveryCountries() {
+        HashMap<String,String> sdCountryMapping = appConfiguration.getServiceDiscoveryCountryMapping();
+        if (null == sdCountryMapping) {
+            RLog.e("RegistrationConfiguration", "sdCountryMapping is null");
+            return null;
+        }
+        return  new ArrayList<>(sdCountryMapping.keySet());
+    }
+
 
 
     /**

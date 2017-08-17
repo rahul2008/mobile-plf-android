@@ -9,14 +9,13 @@
 
 package com.philips.cdp.registration.controller;
 
-import android.content.Context;
-import android.util.Log;
+import android.content.*;
+import android.util.*;
 
-import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureApiError;
+import com.janrain.android.*;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
@@ -57,64 +56,20 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFailure(SignInError error) {
-        try{
+        try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setError(error.captureApiError);
             if (error.captureApiError.code == -1) {
                 userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             }
-            handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
-        }catch (Exception e){
-            Log.e("Exception :","SignInError :"+e.getMessage());
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
+        } catch (Exception e) {
+            Log.e("Exception :", "SignInError :" + e.getMessage());
         }
 
     }
-
-    private void handleInvalidInputs(CaptureApiError error,
-                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        if (null != error && null != error.error
-                && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
-            try {
-                JSONObject object = error.raw_response;
-                JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-                if (jsonObject != null) {
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_FIRST_NAME)) {
-                        userRegistrationFailureInfo
-                                .setFirstNameErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_FIRST_NAME)));
-                    }
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)) {
-                        userRegistrationFailureInfo
-                                .setEmailErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)));
-                    }
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)) {
-                        userRegistrationFailureInfo
-                                .setPasswordErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)));
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    private String getErrorMessage(JSONArray jsonArray)
-            throws JSONException {
-        if (null == jsonArray) {
-            return null;
-        }
-        return (String) jsonArray.get(0);
-    }
-
 
     // moved app logic to set user info (traditional login) in diuserprofile to
     // framework.
@@ -167,6 +122,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());
+                new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
             }

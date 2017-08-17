@@ -13,18 +13,27 @@ import android.content.Context;
 import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.*;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
+import com.janrain.android.capture.CaptureRecord;
+import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
+import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.handlers.SocialLoginHandler;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInResultHandler,
         Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {
@@ -83,46 +92,10 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 	public void onFailure(SignInError error) {
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error.captureApiError);
-		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-		userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
 		AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
 		ThreadUtils.postInMainThread(mContext,()->
 		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
-	}
-
-	private void handleInvalidInputs(CaptureApiError error,
-	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		if (null != error && null != error.error
-		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
-			try {
-				JSONObject object = error.raw_response;
-				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-				if (jsonObject != null) {
-
-					if (!jsonObject.isNull(RegConstants.SOCIAL_REGISTRATION_EMAIL_ADDRESS)) {
-						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.SOCIAL_REGISTRATION_EMAIL_ADDRESS)));
-					}
-					if (!jsonObject.isNull(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)) {
-						userRegistrationFailureInfo
-						        .setDisplayNameErrorMessage(getErrorMessage(jsonObject
-						                .getJSONArray(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)));
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
-		}
-	}
-
-	private String getErrorMessage(JSONArray jsonArray)
-	        throws JSONException {
-		if (null == jsonArray) {
-			return null;
-		}
-		return (String) jsonArray.get(0);
 	}
 
 	private JSONObject mUser;

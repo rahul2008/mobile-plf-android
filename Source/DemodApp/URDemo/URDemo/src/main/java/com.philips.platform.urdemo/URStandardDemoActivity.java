@@ -323,23 +323,18 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
 
         } else if (viewId == R.id.usr_btn_update_gender) {
             User user1 = new User(mContext);
-            System.out.println("before login" + user1.getGender());
-
             if (!user1.isUserSignIn()) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("preset login" + user1.getGender());
                 handleGender();
             }
 
 
         } else if (viewId == R.id.usr_btn_update_date_of_birth) {
             User user = new User(mContext);
-            System.out.println("before login" + user.getDateOfBirth());
             if (!user.isUserSignIn()) {
                 Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("pre  login" + user.getDateOfBirth());
                 handleDoBUpdate(user.getDateOfBirth());
             }
 
@@ -363,19 +358,14 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
         user1.updateGender(new UpdateUserDetailsHandler() {
             @Override
             public void onUpdateSuccess() {
-                System.out.println("onUpdateSuccess");
                 mProgressDialog.hide();
                 showToast("onUpdateSuccess");
-                System.out.println("post login"+user1.getGender());
             }
 
             @Override
             public void onUpdateFailedWithError(int error) {
-                System.out.println("onUpdateFailedWithError");
                 mProgressDialog.hide();
                 showToast("onUpdateFailedWithError" + error);
-                System.out.println("post login"+user1.getGender());
-
             }
         }, gender);
 
@@ -404,26 +394,19 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
 
                         Calendar c = Calendar.getInstance();
                         c.set(year, monthOfYear, dayOfMonth, 0, 0);
-                        System.out.println("date" + c.getTime());
 
-                        System.out.println("onDateSet" + year + monthOfYear + dayOfMonth);
                         final User user1 = new User(mContext);
                         user1.updateDateOfBirth(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                System.out.println("onUpdateSuccess");
                                 mProgressDialog.hide();
                                 showToast("onUpdateSuccess");
-                                System.out.println("post  login"+user1.getDateOfBirth());
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int error) {
-                                System.out.println("onUpdateFailedWithError");
                                 mProgressDialog.hide();
                                 showToast("onUpdateFailedWithError" + error);
-                                System.out.println("post  login"+user1.getDateOfBirth());
-
                             }
                         }, c.getTime());
                     }
@@ -451,7 +434,6 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
-                    System.out.println("Message " + message);
                     showToast(message);
                 }
             });

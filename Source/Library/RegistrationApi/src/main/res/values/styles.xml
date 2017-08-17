@@ -195,4 +195,31 @@
         <item name="android:textColor">@drawable/reg_btn_text_selector</item>
         <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
+
+    <style name="NotificationBarTitle">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_title_text_size</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin</item>
+        <item name="android:layout_marginStart">@dimen/uid_notification_bar_margin</item>
+        <item name="android:layout_marginEnd">@dimen/uid_notification_bar_margin</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_notification_bar_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">
+            @integer/uid_notification_bar_line_space_multiplier
+        </item>
+    </style>
+
+    <style name="NotificationBarContent" >
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_content_text_size</item>
+        <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin_top_content</item>
+    </style>
+    <style name="NotificationBarCloseButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:padding">@dimen/uid_notification_bar_margin</item>
+        <item name="android:tint">@drawable/reg_btn_text_selector</item>
+        <item name="android:background">@null</item>
+    </style>
 </resources>

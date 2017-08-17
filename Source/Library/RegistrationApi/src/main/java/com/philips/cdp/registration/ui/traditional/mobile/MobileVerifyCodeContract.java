@@ -15,11 +15,12 @@ public interface MobileVerifyCodeContract {
 
     void enableVerifyButton();
 
-    void hideErrorMessage();
 
     void disableVerifyButton();
+    void netWorkStateOnlineUiHandle();
+    void netWorkStateOfflineUiHandle();
 
-    void showNoNetworkErrorMessage();
+
 
     void showSmsSendFailedError();
 
