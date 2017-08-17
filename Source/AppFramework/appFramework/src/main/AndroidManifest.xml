@@ -30,7 +30,7 @@
             android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
