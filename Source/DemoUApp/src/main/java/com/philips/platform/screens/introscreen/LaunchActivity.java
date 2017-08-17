@@ -31,6 +31,11 @@ import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 
 /**
@@ -44,6 +49,7 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initDLS();
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
@@ -145,6 +151,11 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
                 finish();
             }
         }
+    }
+
+    public void initDLS() {
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
     }
 
     @Override
