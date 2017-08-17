@@ -244,21 +244,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";
 
-            System.out.println("provider " + providerName + " " + providerDrawable);
-
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
 
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
 
-            System.out.println("provider id " + resourceId + "" + drawableId);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginStart(16);
             params.setMarginEnd(16);
 
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId), params);
-
         } catch (Exception e) {
             RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
         }
@@ -266,7 +262,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private Button getProviderBtn(final String providerName, int providerNameStringId,
                                   int providerLogoDrawableId) {
-        final com.philips.platform.uid.view.widget.Button socialButton = new com.philips.platform.uid.view.widget.Button(mContext);
+        final Button socialButton = new com.philips.platform.uid.view.widget.Button(mContext);
         socialButton.setText(providerNameStringId);
 
         socialButton.setEnabled(true);
@@ -318,15 +314,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mTvWelcome.setText(getString(R.string.reg_Welcome_Welcome_lbltxt));
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips.setOnClickListener(this);
-        mCountryDisplay.setText("Country: " + RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
+        updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
 
         mPbJanrainInit.setClickable(false);
         mPbJanrainInit.setEnabled(false);
 
         mUser = new User(mContext);
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
-        linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
-//        styliseCountrySelection();
         handleUiState();
         initServiceDiscovery();
         showCountrySelection();
@@ -337,7 +331,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                updateCountryText("Country: " + new Locale("", s.toUpperCase()).getDisplayCountry());
+                updateCountryText(new Locale("", s.toUpperCase()).getDisplayCountry());
                 handleSocialProviders(s.toUpperCase());
             }
 
@@ -353,14 +347,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
                     selectedCountryCode = RegConstants.COUNTRY_CODE_US;
                 }
-                updateCountryText("Country: " + new Locale(Locale.getDefault().getLanguage(),
+                updateCountryText(new Locale(Locale.getDefault().getLanguage(),
                         selectedCountryCode).getDisplayCountry());
             }
         });
     }
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(text);
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.usr_country_prefix), text));
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
     }
 
@@ -488,7 +482,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-        updateCountryText("Country: " + countryName);
+        updateCountryText(countryName);
         hideProgressDialog();
     }
 
@@ -768,19 +762,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy, ClickableSpan span) {
         String privacy = pTvPrivacyPolicy.getText().toString();
+        SpannableString spannableString = new SpannableString(privacy);
 
-//                mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
-//        privacyPolicy.setText(privacy);
-
-
-        SpannableString spanableString = new SpannableString(privacy);
-
-        spanableString.setSpan(span, 0, privacy.length(),
+        spannableString.setSpan(span, 0, privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        removeUnderlineFromLink(spanableString);
+        removeUnderlineFromLink(spannableString);
 
-        pTvPrivacyPolicy.setText(spanableString);
+        pTvPrivacyPolicy.setText(spannableString);
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
                 R.color.reg_hyperlink_highlight_color));

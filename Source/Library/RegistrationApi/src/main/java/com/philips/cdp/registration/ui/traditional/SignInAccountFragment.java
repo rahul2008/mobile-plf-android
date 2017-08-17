@@ -237,14 +237,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         mEtEmail.setOnClickListener(this);
         mEtEmail.setValidator(email -> FieldsValidator.isValidEmail(email.toString()));
-        mEtEmail.setErrorMessage("Please enter a valid email address.");
+        mEtEmail.setErrorMessage(getString(R.string.usr_email_invalid));
         mEtEmail.setFocusable(true);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
 
         mEtPassword.setOnClickListener(this);
         mEtPassword.setValidator(password -> password.length() >= 8);
-        mEtPassword.setErrorMessage("Please enter a valid password");
+        mEtPassword.setErrorMessage(getString(R.string.usr_password_invalid));
         underlineResetPassword();
         mRegError = (XRegError) view.findViewById(R.id.usr_loginScreen_error_view);
         handleUiState();
@@ -400,36 +400,25 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
         if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-//            mEtEmail.showErrPopUp();
             mEtEmail.setErrorMessage(userRegistrationFailureInfo.getSocialOnlyError());
-//            mEtEmail.showInvalidAlert();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         }
 
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
             mEtEmail.setErrorMessage(userRegistrationFailureInfo.getEmailErrorMessage());
-//            mEtEmail.showInvalidAlert();
-//            mEtEmail.showErrPopUp();
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
 
     private void showSignInSpinner() {
-//        mBtnSignInAccount.setEnabled(false);
         mEtEmail.setClickable(false);
         mEtPassword.setClickable(false);
-//        mEtPassword.showPasswordEtFocusDisable();
-//        mEtPassword.disableMaskPassoword();
     }
 
     private void hideSignInSpinner() {
-//        mPbSignInSpinner.setVisibility(View.INVISIBLE);
-//        mBtnSignInAccount.setEnabled(true);
         mEtEmail.setClickable(true);
         mEtPassword.setClickable(true);
-//        mEtPassword.showEtPasswordFocusEnable();
-//        mEtPassword.enableMaskPassword();
     }
 
     private void showForgotPasswordSpinner() {
@@ -474,10 +463,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void updateUiStatus() {
         if (networkUtility.isNetworkAvailable()) {
-//            mBtnSignInAccount.setEnabled(true);
             mRegError.hideError();
         } else {
-//            mBtnSignInAccount.setEnabled(false);
         }
     }
 
@@ -537,7 +524,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void updateResendUIState() {
-//        mBtnSignInAccount.setEnabled(true);
         hideResendSpinner();
     }
 

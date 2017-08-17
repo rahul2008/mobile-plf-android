@@ -298,4 +298,8 @@
     <string name="reg_almost_description1">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>
     <string name="reg_almost_description2">Subscribe to our newsletter to receive exclusive promotions and coupons and be the first to know about new products.</string>
 
+    <string name="usr_password_invalid">Please enter a valid password</string>
+    <string name="usr_email_invalid">Please enter a valid email address</string>
+    <string name="usr_country_prefix">Country:</string>
+
 </resources>
