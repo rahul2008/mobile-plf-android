@@ -286,6 +286,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.tagProducts();
 
+        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+        numberOfProducts = String.format(numberOfProducts, mData.size());
+        mNumberOfProducts.setText(numberOfProducts);
+        mNumberOfProducts.setVisibility(View.VISIBLE);
     }
 
     @Override

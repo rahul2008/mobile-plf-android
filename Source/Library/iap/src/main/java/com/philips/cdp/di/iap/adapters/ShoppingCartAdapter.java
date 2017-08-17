@@ -40,7 +40,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
-    private static final int TYPE_ITEM_HEADER = 0;
     private Context mContext;
     private Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
@@ -60,13 +59,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
                                OutOfStockListener isOutOfStock) {
-
-        mData.add(0,null);
         mContext = context;
         mResources = context.getResources();
-
-        mData.addAll(shoppingCartData);
-        //mData = shoppingCartData;
+        mData = shoppingCartData;
         setCountArrow(context, true);
         mOutOfStock = isOutOfStock;
     }
@@ -89,10 +84,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (isPositionFooter(position)) {
             return TYPE_FOOTER;
         }
-
-        if(position==0){
-            return TYPE_ITEM_HEADER;
-        }
         return TYPE_ITEM;
     }
 
@@ -102,29 +93,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        /*if (viewType == TYPE_FOOTER) {
+        if (viewType == TYPE_FOOTER) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_footer, parent, false);
             return new FooterShoppingCartViewHolder(v);
         } else if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_data, parent, false);
             return new ShoppingCartProductHolder(v);
-        }*/
-
-        switch (viewType){
-
-            case TYPE_ITEM_HEADER:
-
-                View itemHeaderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_item_header, parent, false);
-                return new ShoppingCartProductHeaderHolder(itemHeaderView);
-            case TYPE_ITEM:
-
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_data, parent, false);
-                return new ShoppingCartProductHolder(itemView);
-            case TYPE_FOOTER:
-
-                View footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_footer, parent, false);
-                return new FooterShoppingCartViewHolder(footerView);
-
         }
         return null;
     }
@@ -184,15 +158,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-       /* if (mData.size() == 0)
-            return;*/
-
-       if(holder instanceof ShoppingCartProductHeaderHolder){
-           ShoppingCartProductHeaderHolder shoppingCartProductHeaderHolder=(ShoppingCartProductHeaderHolder)holder;
-           String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
-           numberOfProducts = String.format(numberOfProducts, mData.size());
-           shoppingCartProductHeaderHolder.tvNoOfProducts.setText(numberOfProducts);
-       }
+        if (mData.size() == 0)
+            return;
 
         if (holder instanceof ShoppingCartProductHolder) {
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
@@ -216,16 +183,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
                 }
             });
-        }
-
-
-        if(holder instanceof  FooterShoppingCartViewHolder) {
+        } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
             ShoppingCartData data;
 
-            if (mData.get(1) != null) { //As oth position contains a null value ,just to inflate the header
-                data = mData.get(1);
+            if (mData.get(0) != null) {
+                data = mData.get(0);
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
 
@@ -267,7 +231,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mIsFreeDelivery = true;
                 }
 
-                for (int i = 1; i < mData.size(); i++) {
+                for (int i = 0; i < mData.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
@@ -358,7 +322,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (mData.size() == 0) {
             return 0;
         } else {
-            return mData.size() ;
+            return mData.size() + 1;
         }
     }
 
@@ -421,38 +385,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void tagProducts() {
         StringBuilder products = new StringBuilder();
         for (int i = 0; i < mData.size(); i++) {
-
-            if(mData.get(i)==null){
-
-            }else{
-
-                if (i > 0) {
-                    products = products.append(",");
-                }
-                products = products.append(mData.get(i).getCategory()).append(";")
-                        .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
-                        .append(";").append(mData.get(i).getValuePrice());
-
+            if (i > 0) {
+                products = products.append(",");
             }
-
+            products = products.append(mData.get(i).getCategory()).append(";")
+                    .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
+                    .append(";").append(mData.get(i).getValuePrice());
         }
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
-    }
-
-    private class ShoppingCartProductHeaderHolder extends RecyclerView.ViewHolder {
-        TextView tvNoOfProducts;
-        public ShoppingCartProductHeaderHolder(View itemHeaderView) {
-            super(itemHeaderView);
-            tvNoOfProducts= (TextView) itemHeaderView.findViewById(R.id.number_of_products);
-
-        }
-    }
-
-    public void setmData(ArrayList<ShoppingCartData> data) {
-        this.mData.clear();
-        mData.add(0,null);
-        mData.addAll(data);
-        notifyDataSetChanged();
     }
 }
