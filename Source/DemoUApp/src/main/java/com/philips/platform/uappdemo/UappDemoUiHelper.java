@@ -1,11 +1,18 @@
 package com.philips.platform.uappdemo;
 
 import android.content.Context;
+import android.support.annotation.AnyRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.RawRes;
 import android.support.v4.app.FragmentActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
+import com.philips.platform.appframework.flowmanager.models.AppFlowModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.flowmanager.UappFlowManager;
@@ -17,6 +24,10 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class UappDemoUiHelper {
 
@@ -72,7 +83,7 @@ public class UappDemoUiHelper {
     public void setTargetFlowManager(FlowManagerListener flowManagerListener, FragmentActivity activity) {
         try {
             this.flowManager = new UappFlowManager();
-            this.flowManager.initialize(context, R.raw.uappflow, flowManagerListener);
+            this.flowManager.initialize(context, getAppFlow(R.raw.uappflow), flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
                 this.flowManager = new UappFlowManager();
@@ -80,6 +91,35 @@ public class UappDemoUiHelper {
             }
         }
     }
+
+    private AppFlowModel getAppFlow(@RawRes int resId) throws JsonFileNotFoundException, JsonStructureException {
+        AppFlowModel appFlow = null;
+        if (resId == 0) {
+            throw new JsonFileNotFoundException();
+        } else {
+            try {
+                final InputStreamReader inputStreamReader = getInputStreamReader(resId);
+                appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+                inputStreamReader.close();
+            } catch (JsonSyntaxException | FileNotFoundException e) {
+                if (e instanceof JsonSyntaxException) {
+                    throw new JsonStructureException();
+                } else {
+                    throw new JsonFileNotFoundException();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return appFlow;
+    }
+
+    @NonNull
+    private InputStreamReader getInputStreamReader(@AnyRes final int resId) throws FileNotFoundException {
+        InputStream is = context.getResources().openRawResource(resId);
+        return new InputStreamReader(is);
+    }
+
 
     private void initFile() {
         isSdCardFileCreated = new UappBaseAppUtil().createDirIfNotExists();
