@@ -50,9 +50,11 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
     }
 
     public void updateVisitHistoryView(List<VisitReport> visitReports) {
-        String text = getString(R.string.ths_number_of_visits_scheduled,visitReports.size());
-        mNumberOfAppointmentsLabel.setText(text);
-        mThsVisitHistoryAdapter = new THSVisitHistoryAdapter(visitReports, this);
-        mRecyclerView.setAdapter(mThsVisitHistoryAdapter);
+        if(getContext()!=null) {
+            String text = getString(R.string.ths_number_of_visits_scheduled, visitReports.size());
+            mNumberOfAppointmentsLabel.setText(text);
+            mThsVisitHistoryAdapter = new THSVisitHistoryAdapter(visitReports, this);
+            mRecyclerView.setAdapter(mThsVisitHistoryAdapter);
+        }
     }
 }
