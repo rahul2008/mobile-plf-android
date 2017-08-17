@@ -15,7 +15,7 @@
         android:paddingBottom="@dimen/border16_margin_left_right"
         android:paddingLeft="@dimen/border16_margin_left_right"
         android:paddingTop="@dimen/border16_margin_left_right"
-        android:textColor="?attr/uidTextTertiaryTextColor"
+        android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
         android:textSize="@dimen/title"
         android:visibility="gone"
         android:text="@string/iap_number_of_products" />

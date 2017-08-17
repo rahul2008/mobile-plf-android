@@ -75,7 +75,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
-        mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts, mOrderDetails);
+        mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts);
         mOrderHistoryView.setAdapter(mAdapter);
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
         if (mOrders.isEmpty()) {

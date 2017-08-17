@@ -21,7 +21,7 @@
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
-            android:textColor="?attr/uidTextTertiaryTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
             android:textSize="@dimen/title"
             android:text="@string/iap_extra_option"/>
 
@@ -77,7 +77,7 @@
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
-            android:textColor="?attr/uidTextTertiaryTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
             android:textSize="@dimen/title"
             android:text="@string/iap_cart_summary"/>
 

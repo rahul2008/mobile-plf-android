@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -287,9 +286,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_paynow)
-            Toast.makeText(mContext, "Yet to implement", Toast.LENGTH_SHORT).show();
-        else if (v.getId() == R.id.btn_cancel) {
+        if (v.getId() == R.id.btn_cancel) {
             Bundle bundle = new Bundle();
             if (mOrderDetail != null) {
                 if (mPhoneContact == null) {

@@ -16,16 +16,12 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.Orders;
 import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -34,14 +30,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     final private Context mContext;
     final private List<Orders> mOrders;
     final private List<ProductData> mProductDetails;
-    final private List<OrderDetail> mOrderDetails;
     private int mSelectedIndex;
 
-    public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product, final List<OrderDetail> orderDetails) {
+    public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product) {
         mContext = context;
         mOrders = orders;
         mProductDetails = product;
-        mOrderDetails = orderDetails;
         mSelectedIndex = 0;
     }
 
@@ -55,7 +49,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Orders order = mOrders.get(position);
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
-        orderHistoryHolder.mTime.setText(getFormattedDate(order.getPlaced()));
+        orderHistoryHolder.mTime.setText(Utility.getFormattedDate(order.getPlaced()));
         String orderStatus = order.getStatusDisplay();
         orderHistoryHolder.mOrderState.setText(String.format(mContext.getString(R.string.iap_order_state), orderStatus.substring(0, 1).toUpperCase() + orderStatus.substring(1)));
         orderHistoryHolder.mOrderNumber.setText(String.format(mContext.getResources().getString(R.string.iap_order_number_with_colon), order.getCode()));
@@ -70,25 +64,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((TextView) hiddenInfo.findViewById(R.id.tv_product_number)).setText(quantity);
                 getNetworkImage(((NetworkImageView) hiddenInfo.findViewById(R.id.iv_product_image)),
                         data.getImageURL());
-                // totalQuantity += data.getQuantity();
             }
         }
-
-        //this is added because in acc, the data was not available in prx but hybris has the data.
-//        if (totalQuantity == 0) {
-//            for (OrderDetail detail : mOrderDetails) {
-//                if (detail.getCode() != null && detail.getCode().equals(order.getCode())) {
-//                    totalQuantity = detail.getDeliveryItemsQuantity();
-//                    break;
-//                }
-//            }
-//        }
-
-//        if (totalQuantity > 1) {
-//            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " items)");
-//        } else {
-//            orderHistoryHolder.mTvQuantity.setText(" (" + totalQuantity + " item)");
-//        }
         orderHistoryHolder.mTvtotalPrice.setText(order.getTotal().getFormattedValue());
 
     }
@@ -124,7 +101,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class OrderHistoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mTvQuantity;
         private TextView mTvtotalPrice;
         private TextView mTime;
         private TextView mOrderNumber;
@@ -134,7 +110,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public OrderHistoryHolder(final View itemView) {
             super(itemView);
-            // mTvQuantity = (TextView) itemView.findViewById(R.id.tv_total_item);
             mTvtotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
             mTime = (TextView) itemView.findViewById(R.id.tv_time);
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
@@ -152,18 +127,5 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.PURCHASE_HISTORY_DETAIL);
             }
         }
-    }
-
-    private String getFormattedDate(String date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        Date convertedDate = null;
-        try {
-            convertedDate = dateFormat.parse(date);
-        } catch (ParseException e) {
-            IAPLog.d(OrderHistoryAdapter.TAG, e.getMessage());
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy"); // Set your date format
-        return sdf.format(convertedDate);
     }
 }
