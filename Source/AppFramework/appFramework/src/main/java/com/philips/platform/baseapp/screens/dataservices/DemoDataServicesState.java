@@ -1,7 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.baseapp.screens.dataservices;
 
@@ -25,7 +25,6 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
 import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
@@ -49,20 +48,19 @@ import java.util.Random;
  * @author ...
  *         This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
-public class DemoDataServicesState extends BaseState implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
+public class DemoDataServicesState extends BaseState
+        implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
+
     public static final String TAG = DemoDataServicesState.class.getSimpleName();
-
-    Context mcontext;
-
+    private Context mContext;
     private DSDemoAppuAppInterface dsDemoAppuAppInterface;
-    private DSDemoAppuAppSettings dsDemoAppuAppSettings;
 
     public DemoDataServicesState() {
         super(AppStates.TESTDATASERVICE);
     }
 
     /**
-     * Navigating to AboutScreenFragment
+     * Navigating to DemoDataService Screen
      *
      * @param uiLauncher requires UiLauncher
      */
@@ -75,15 +73,14 @@ public class DemoDataServicesState extends BaseState implements HandleNotificati
 
     @Override
     public void init(Context context) {
-        mcontext = context;
-        dsDemoAppuAppSettings = new DSDemoAppuAppSettings(context.getApplicationContext());
+        mContext = context;
+        DSDemoAppuAppSettings dsDemoAppuAppSettings = new DSDemoAppuAppSettings(context.getApplicationContext());
         dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
         dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra()), dsDemoAppuAppSettings);
-        DSLog.enableLogging(true);
+
         if (BaseAppUtil.isDSPollingEnabled(context)) {
-            DSLog.i(DSLog.LOG, "Before Setting up Synchronization Loop");
             User user = new User(context);
-            if (user != null && user.isUserSignIn()) {
+            if (user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
             }
         } else {
@@ -96,7 +93,6 @@ public class DemoDataServicesState extends BaseState implements HandleNotificati
             }
         }
     }
-
 
     @Override
     public void updateDataModel() {
@@ -135,14 +131,14 @@ public class DemoDataServicesState extends BaseState implements HandleNotificati
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
-        Intent intent = new Intent(mcontext, LaunchActivity.class);
+        Intent intent = new Intent(mContext, LaunchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        Bitmap icon = BitmapFactory.decodeResource(mcontext.getResources(),
+        Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                 R.mipmap.app_icon);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(mcontext)
+        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(mContext)
                 .setSmallIcon(R.mipmap.app_icon)
                 .setLargeIcon(icon)
                 .setContentTitle("Reference App ")
@@ -152,7 +148,7 @@ public class DemoDataServicesState extends BaseState implements HandleNotificati
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
-                (NotificationManager) mcontext.getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         Random r = new Random();
         int i1 = r.nextInt(80 - 65) + 65;
         notificationManager.notify(i1 /* ID of notification */, notificationBuilder.build());
@@ -193,8 +189,6 @@ public class DemoDataServicesState extends BaseState implements HandleNotificati
     public boolean isUserSignedIn(Context appContext) {
         return new User(appContext).isUserSignIn();
     }
-
-
 }
 
 
