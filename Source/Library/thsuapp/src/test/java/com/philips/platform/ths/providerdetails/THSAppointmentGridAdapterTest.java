@@ -47,7 +47,7 @@ public class THSAppointmentGridAdapterTest {
         MockitoAnnotations.initMocks(this);
         List list = new ArrayList();
         list.add(date);
-        thsAppointmentGridAdapter = new THSAppointmentGridAdapter(context,list, thsBaseFragmentMock, thsProviderInfo);
+        thsAppointmentGridAdapter = new THSAppointmentGridAdapter(context,list, thsBaseFragmentMock, thsProviderInfo,null);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class THSAppointmentGridAdapterTest {
 
     @Test
     public void getCountWithNullArray() throws Exception {
-        thsAppointmentGridAdapter = new THSAppointmentGridAdapter(context,null, thsBaseFragmentMock, thsProviderInfo);
+        thsAppointmentGridAdapter = new THSAppointmentGridAdapter(context,null, thsBaseFragmentMock, thsProviderInfo,null);
         int count = thsAppointmentGridAdapter.getCount();
         assert count==0;
     }

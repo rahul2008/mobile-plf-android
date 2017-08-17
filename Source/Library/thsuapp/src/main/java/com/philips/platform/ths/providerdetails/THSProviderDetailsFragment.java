@@ -26,7 +26,7 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 /**
  * This class is used to display the provider details selected by the user.
  */
-public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSProviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
+public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSProviderDetailsViewInterface, SwipeRefreshLayout.OnRefreshListener {
     public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;
     protected THSProviderInfo mThsProviderInfo;
@@ -44,7 +44,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
         }
-        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,view);
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         onRefresh();
         return view;
@@ -52,28 +52,29 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     /**
      * This method is used to set the provider details in the provider details screen.
+     *
      * @param provider
      */
     @Override
     public void updateView(Provider provider) {
         setProvider(provider);
-        mThsProviderDetailsDisplayHelper.updateView(provider,null);
+        mThsProviderDetailsDisplayHelper.updateView(provider, null);
     }
 
-    public void setTHSProviderEntity(THSProviderEntity  thsProviderEntity){
-        if(thsProviderEntity instanceof THSProviderInfo) {
+    public void setTHSProviderEntity(THSProviderEntity thsProviderEntity) {
+        if (thsProviderEntity instanceof THSProviderInfo) {
             this.mThsProviderInfo = (THSProviderInfo) thsProviderEntity;
-        }else if(thsProviderEntity instanceof THSAvailableProvider){
-            this.mThsAvailableProvider = (THSAvailableProvider)thsProviderEntity;
+        } else if (thsProviderEntity instanceof THSAvailableProvider) {
+            this.mThsAvailableProvider = (THSAvailableProvider) thsProviderEntity;
         }
     }
 
-    public void setConsumerAndPractice(Consumer consumer, Practice practice){
+    public void setConsumerAndPractice(Consumer consumer, Practice practice) {
         this.consumer = consumer;
         this.mPractice = practice;
     }
 
-    public  THSProviderEntity getProviderEntitiy(){
+    public THSProviderEntity getProviderEntitiy() {
         if (mThsProviderInfo != null) {
             return mThsProviderInfo;
         } else if (mThsAvailableProvider != null) {
@@ -107,7 +108,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
     @Override
-    public void dismissRefreshLayout(){
+    public void dismissRefreshLayout() {
         mThsProviderDetailsDisplayHelper.dismissRefreshLayout();
     }
 
@@ -124,7 +125,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public void onRefresh() {
-        if(mThsProviderDetailsDisplayHelper == null)
+        if (mThsProviderDetailsDisplayHelper == null)
             return;
         mThsProviderDetailsDisplayHelper.setRefreshing();
         providerDetailsPresenter.fetchProviderDetails();
@@ -135,7 +136,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         int i = view.getId();
         if (i == R.id.detailsButtonOne) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
-        }else if(i == R.id.detailsButtonTwo){
+        } else if (i == R.id.detailsButtonTwo) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
         }
     }
@@ -148,6 +149,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost) {
         mThsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
+    }
+
+    @Override
+    public void onCalenderItemClick(int position) {
+
+    }
+
+    @Override
+    public String getReminderTime() {
+        return null;
     }
 
     public void setProvider(Provider mProvider) {

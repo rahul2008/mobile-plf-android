@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/vitals_skip"
-        android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="true"
         android:text="Continue" />
 
@@ -46,13 +46,13 @@
             android:id="@+id/help_visit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/pth_fab_margin"
-            android:layout_marginTop="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
+            android:layout_marginTop="@dimen/ths_fab_margin"
             android:layout_alignParentTop="true"
-            android:textSize="@dimen/pth_body_text"
+            android:textSize="@dimen/ths_body_text"
             android:text="@string/vitals_want"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             style="@style/ths_title_text"
             />
 
@@ -64,8 +64,8 @@
             android:layout_below="@id/help_visit"
             android:layout_marginBottom="16dp"
             android:text="@string/vitals_blood_pressure"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/visit_reason"
-            android:layout_marginBottom="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/intake_systolic_container"
-            android:layout_marginBottom="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -122,8 +122,8 @@
             android:layout_below="@id/intake_diastolic_container"
             android:text="@string/temperature"
             android:layout_marginBottom="16dp"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             />
 
 
@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/additional_comment"
-            android:layout_marginBottom="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_temperature_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -166,9 +166,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/intake_farenheit_container"
             android:text="@string/weight"
-            android:layout_marginBottom="@dimen/pth_fab_margin"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -179,7 +179,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/weight"
-            android:layout_marginBottom="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_weight_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText

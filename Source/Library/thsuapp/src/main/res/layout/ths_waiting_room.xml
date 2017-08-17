@@ -17,9 +17,9 @@
         android:lineSpacingExtra="8sp"
         android:text="you are waiting to see"
         android:textColor="?attr/uidLabelValueNormalTextColor"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
-        android:textSize="@dimen/pth_title_text"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_title_text"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -106,9 +106,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
 
         android:text="Cancel visit" />
 </RelativeLayout>

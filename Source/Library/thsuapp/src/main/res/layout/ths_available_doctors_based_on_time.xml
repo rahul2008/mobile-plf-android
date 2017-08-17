@@ -50,8 +50,8 @@
         android:id="@+id/calendar_view"
         style="@style/ths_calendar_left"
         android:layout_below="@id/details_container"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         />
 
 
@@ -109,8 +109,8 @@
         android:layout_below="@id/no_available_container"
         style="@style/ths_list_header"
         android:layout_width="match_parent"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_scedule_appointment"/>
 
 

@@ -1,54 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_time_slot_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <View
-        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:id="@+id/line_separator"
-        android:layout_width = "match_parent"
-        android:layout_height="1dp"
-        />
-    <com.philips.platform.uid.view.widget.Label
-        android:layout_below="@+id/line_separator"
-        android:id="@+id/select_time"
         android:layout_width="match_parent"
-        android:text="@string/ths_select_time"
+        android:layout_height="1dp"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/select_time"
         style="@style/ths_list_header"
-        android:paddingRight="@dimen/pth_fab_margin"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        />
+        android:layout_width="match_parent"
+        android:layout_below="@+id/line_separator"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:text="@string/ths_select_time" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_container"
         style="@style/ths_calendar_left"
         android:layout_below="@id/select_time"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
-        />
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin" />
 
     <View
-        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:id="@+id/line_separator_2"
-        android:layout_width = "match_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/calendar_container"
         android:layout_marginBottom="20dp"
-        />
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
         android:id="@+id/grid"
-        android:layout_below="@id/line_separator_2"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="100dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="8dp"
-        android:horizontalSpacing="8dp"
-        android:stretchMode="none"
-        android:gravity="center"
+        android:layout_below="@id/line_separator_2"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
-        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-        />
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:horizontalSpacing="8dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp" />
+
+    <View
+        android:id="@+id/line_separator_3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/grid"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <RelativeLayout
+        android:id="@+id/set_reminder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line_separator_3"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
+        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/reminderLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Reminder"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="16sp" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/reminderValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reminderLabel"
+            android:text="15 minutes before appointment"
+            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/right_arrow_icon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 </RelativeLayout>

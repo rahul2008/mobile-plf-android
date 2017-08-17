@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical"
+    android:padding="@dimen/ths_fab_margin">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/set_reminder_header_text"
+        style="@style/ths_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/ths_set_remainder" />
+
+    <com.philips.platform.uid.view.widget.RadioGroup
+        android:id="@+id/ths_reminder_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_no_reminder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_no_reminder" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_15_mins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_15_mins_reminder" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_one_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_one_hour_before" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_four_hours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_four_hours_before" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_eight_hours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_eight_hours_before" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_one_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_one_day_before" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/ths_rb_one_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_rb_one_week_before" />
+    </com.philips.platform.uid.view.widget.RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/cancel_reminder_dialog"
+            style="@style/UIDExtraWideIconQuietButton.Center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/ths_margin_bottom"
+            android:layout_toLeftOf="@+id/set_reminder_confirmation_button"
+            android:text="@string/cancel" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/set_reminder_confirmation_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/ths_set_button_text" />
+    </RelativeLayout>
+</LinearLayout>

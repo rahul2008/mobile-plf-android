@@ -42,7 +42,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;
@@ -93,18 +93,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     @Override
     public void onBackPressed() {
 
-        boolean backState = false;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (currentFrag instanceof BackEventListener) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-        }
-
-        if (!backState) {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
-        }
-        else {
-            finishAffinity();
         }
     }
 

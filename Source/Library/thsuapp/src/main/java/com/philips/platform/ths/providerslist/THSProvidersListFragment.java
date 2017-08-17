@@ -28,24 +28,17 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
-    private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
-    private List<THSProviderInfo> thsProviderInfos;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private UIDNavigationIconToggler navIconToggler;
-    private SearchBox searchBox;
     private Practice practice;
     private Consumer consumer;
     private THSProvidersListAdapter THSProvidersListAdapter;
@@ -125,6 +118,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
         }
+        mRelativeLayoutContainer.setVisibility(RelativeLayout.INVISIBLE);
         THSProviderListPresenter.fetchProviderList(consumer, practice);
     }
 
@@ -150,6 +144,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     @Override
     public void updateMainView(boolean isOnline) {
+        mRelativeLayoutContainer.setVisibility(RelativeLayout.VISIBLE);
         if(isOnline){
             btn_get_started.setVisibility(View.VISIBLE);
             btn_schedule_appointment.setVisibility(View.GONE);

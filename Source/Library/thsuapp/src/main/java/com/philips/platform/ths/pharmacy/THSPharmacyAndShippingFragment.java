@@ -102,13 +102,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
 
     @Override
     public void startSearchPharmacy() {
-        THSPharmacyListFragment thsPharmacyFragment = new THSPharmacyListFragment();
-        THSConsumer pthConsumer = new THSConsumer();
-        pthConsumer.setConsumer(thsConsumer.getConsumer());
-        thsPharmacyFragment.setConsumerAndAddress(pthConsumer, null);
-        thsPharmacyFragment.setActionBarListener(getActionBarListener());
-        thsPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsPharmacyFragment,THSPharmacyListFragment.TAG,null);
+        THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
+        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null);
     }
 
     @Override

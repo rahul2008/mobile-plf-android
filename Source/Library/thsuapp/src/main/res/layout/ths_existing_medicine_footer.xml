@@ -3,8 +3,8 @@
     android:id="@+id/ths_existing_medicine_footer_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:layout_marginLeft="@dimen/pth_fab_margin"
-    android:layout_marginRight="@dimen/pth_fab_margin"
+    android:layout_marginLeft="@dimen/ths_fab_margin"
+    android:layout_marginRight="@dimen/ths_fab_margin"
    >
 
     <com.philips.platform.uid.view.widget.Label xmlns:android="http://schemas.android.com/apk/res/android"

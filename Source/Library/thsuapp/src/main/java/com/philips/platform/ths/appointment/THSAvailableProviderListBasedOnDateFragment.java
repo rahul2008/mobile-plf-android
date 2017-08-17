@@ -48,8 +48,10 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_available_doctors_based_on_time, container, false);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_pick_a_provider), true);
         }
+        Label label = (Label) view.findViewById(R.id.schedule_appointment);
+        label.setVisibility(View.GONE);
         return view;
     }
 

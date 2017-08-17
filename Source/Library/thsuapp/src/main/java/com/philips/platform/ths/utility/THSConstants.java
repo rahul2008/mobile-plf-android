@@ -21,8 +21,8 @@ public class THSConstants {
     public static final int MEDICATION_ON_ACTIVITY_RESULT = 5555;
     public static final String THS_AVAILABLE_PROVIDER_LIST = "ths_available_provider_List";
     public static final String THS_IS_DETAILS = "ths_is_details";
-    public static final String DATE_FORMATTER = "EEE, MMM d, yyyy";
-    public static final String DATE_TIME_FORMATTER = "EEE, MMM d, yyyy h:mm a";
+    public static final String DATE_FORMATTER = "EEEE, MMM d, yyyy";
+    public static final String DATE_TIME_FORMATTER = "EEEE, MMM d, yyyy h:mm a";
 
     public static final String WEB_AVAILABLE = "WEB_AVAILABLE";
     public static final String PROVIDER_OFFLINE = "OFFLINE";
@@ -30,6 +30,7 @@ public class THSConstants {
     public static final int REQUEST_VIDEO_VISIT = 6060;
 
     public static final int PROVIDER_SEARCH_CONSTANT = 1001;
+    public static final int PHARMACY_SEARCH_CONSTANT = 1003;
     public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
 
@@ -38,6 +39,15 @@ public class THSConstants {
     public static final String IS_LAUNCHED_FROM_COST_SUMMARY = "IS_LAUNCHED_FROM_COST_SUMMARY";
     public static final String CVV_HELP_TEXT = "CVV_HELP_TEXT";
 
+    public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
+    public static final String THS_SET_REMINDER_EXTRA_KEY = "THS_SET_REMINDER_EXTRA_KEY";
 
+    public static final String THS_NO_REMINDER_STRING = "no reminder";
+    public static final String THS_15_MINS_REMINDER = "15 minutes";
+    public static final String THS_ONE_HOUR_REMINDER = "one Hour";
+    public static final String THS_FOUR_HOURS_REMINDER = "4 hours";
+    public static final String THS_EIGHT_HOURS_REMINDER = "8 hours";
+    public static final String THS_ONE_DAY_REMINDER = "one day";
+    public static final String THS_ONE_WEEK_REMINDER = "one week";
 
 }

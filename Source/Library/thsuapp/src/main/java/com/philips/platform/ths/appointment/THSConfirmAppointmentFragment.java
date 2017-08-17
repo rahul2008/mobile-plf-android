@@ -28,68 +28,61 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface{
+public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface {
 
     public static final String TAG = THSConfirmAppointmentFragment.class.getSimpleName();
     private THSProviderInfo mThsProviderInfo;
     private Date mAppointmentDate;
-    private Label mProviderFullName;
-    private Label mPracticeNameLabel;
-    private Label mEmailSentMessage;
-    private Label mLabelDate;
+    private Label mProviderFullName, mPracticeNameLabel, mEmailSentMessage, mLabelDate, reminderTime;
     private CircularImageView mImageProviderImage;
     private Label mLabelIsAvailable;
     private ImageView mImageIsAvailable;
+    private String reminderTimeString;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_confirm_appointment, container, false);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
+        }
         Bundle bundle = getArguments();
         mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
         mAppointmentDate = (Date) bundle.getSerializable(THSConstants.THS_DATE);
+        reminderTimeString = bundle.getString(THSConstants.THS_SET_REMINDER_EXTRA_KEY);
 
+        reminderTime = (Label) view.findViewById(R.id.reminderTime);
+        if(reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)){
+            reminderTime.setVisibility(View.GONE);
+        }
+        reminderTime.setText("Reminder set " + reminderTimeString + " before appointment");
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
         mLabelDate = (Label) view.findViewById(R.id.date);
-        mImageProviderImage = (CircularImageView)view.findViewById(R.id.details_providerImage);
+        mImageProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
 
-        mLabelIsAvailable = (Label)view.findViewById(R.id.details_isAvailableLabel);
+        mLabelIsAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
         mLabelIsAvailable.setVisibility(View.GONE);
-        mImageIsAvailable = (ImageView)view.findViewById(R.id.details_isAvailableImage);
+        mImageIsAvailable = (ImageView) view.findViewById(R.id.details_isAvailableImage);
         mImageIsAvailable.setVisibility(View.GONE);
-        
+
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
-        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " "+ THSManager.getInstance().getPTHConsumer().getConsumer().getEmail());
+        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " " + THSManager.getInstance().getPTHConsumer().getConsumer().getEmail());
         mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
 
-        if(mThsProviderInfo.getProviderInfo().hasImage()) {
+        if (mThsProviderInfo.getProviderInfo().hasImage()) {
             try {
                 THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
                         newImageLoader(mThsProviderInfo.getProviderInfo(), mImageProviderImage,
                                 ProviderImageSize.SMALL).placeholder(mImageProviderImage.getResources().
-                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+                        getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
         }
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        THSConfirmAppointmentPresenter thsConfirmAppointmentPresenter = new THSConfirmAppointmentPresenter(this,this);
-        if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
-        }
-        super.onActivityCreated(savedInstanceState);
-        try {
-            thsConfirmAppointmentPresenter.scheduleAppointment();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

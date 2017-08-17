@@ -7,6 +7,8 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +22,9 @@ import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
+import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
+import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
+import com.philips.platform.ths.appointment.THSSetReminderDialogFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
@@ -34,16 +39,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSProviderDetailsDisplayHelper {
+public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListener{
 
     private View.OnClickListener mOnClickListener;
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
     private Context mContext;
-    private THSProviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
+    private THSProviderDetailsViewInterface thsProviderDetailsViewInterface;
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
-            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
+            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel,reminderValue;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
     private RelativeLayout mTimeSlotContainer;
@@ -51,7 +56,10 @@ public class THSProviderDetailsDisplayHelper {
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
-    private RelativeLayout available_provider_details_container;
+    private RelativeLayout available_provider_details_container,set_a_reminder_layout;
+    private THSAppointmentGridAdapter itemsAdapter;
+    private List<Date> dates;
+    private THSSetReminderDialogFragment thsSetReminderDialogFragment;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -61,7 +69,7 @@ public class THSProviderDetailsDisplayHelper {
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
-        mThsPRoviderDetailsViewInterface = thsProviderDetailsViewInterface;
+        this.thsProviderDetailsViewInterface = thsProviderDetailsViewInterface;
         this.thsBaseFragment = thsBaseFragment;
         setViews(view);
     }
@@ -73,6 +81,7 @@ public class THSProviderDetailsDisplayHelper {
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         visitCostValueLabel = (Label) view.findViewById(R.id.visitCostValueLabel);
         providerImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
+        reminderValue = (Label) view.findViewById(R.id.reminderValue);
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
@@ -95,8 +104,16 @@ public class THSProviderDetailsDisplayHelper {
         mLabelDate = (Label) view.findViewById(R.id.calendar_container);
         mLabelDate.setOnClickListener(mOnClickListener);
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
+        set_a_reminder_layout = (RelativeLayout) view.findViewById(R.id.set_reminder_layout);
+        set_a_reminder_layout.setOnClickListener(mOnClickListener);
     }
 
+    public void launchSetRemainderDialogFragment(THSBaseFragment thsBaseFragment){
+
+        thsSetReminderDialogFragment = new THSSetReminderDialogFragment();
+        thsSetReminderDialogFragment.setDialogFragmentCallback((THSAvailableProviderDetailFragment)thsBaseFragment);
+        thsSetReminderDialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(),THSSetReminderDialogFragment.TAG);
+    }
     public void updateView(Provider provider,List<Date> dates){
         available_provider_details_container.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
@@ -109,10 +126,10 @@ public class THSProviderDetailsDisplayHelper {
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
 
-        if(mThsPRoviderDetailsViewInterface.getProvider().hasImage()) {
+        if(thsProviderDetailsViewInterface.getProvider().hasImage()) {
             try {
                 THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
-                        newImageLoader(mThsPRoviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
+                        newImageLoader(thsProviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
                                 ProviderImageSize.SMALL).placeholder(providerImage.getResources().
                         getDrawable(R.drawable.doctor_placeholder)).build().load();
             } catch (AWSDKInstantiationException e) {
@@ -125,6 +142,7 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     public void updateViewBasedOnType(Provider provider,List<Date> dates) {
+        this.dates = dates;
         String providerAvailabilityString = null;
         String providerVisibility =provider.getVisibility().toString();
         Context context = isAvailable.getContext();
@@ -182,7 +200,7 @@ public class THSProviderDetailsDisplayHelper {
         }
         else if(ProviderVisibility.isVideoAvailable(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.VISIBLE);
-            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
+            if(thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
@@ -193,7 +211,7 @@ public class THSProviderDetailsDisplayHelper {
             }
         }else if(ProviderVisibility.isOffline(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
-            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
+            if(thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
@@ -205,7 +223,7 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     private boolean isAvailableProviderData() {
-        return mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG);
+        return thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG);
     }
 
     private void setButtonVisibilityForAvailableProvider() {
@@ -215,9 +233,9 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     private void setAppointmentsToView(List<Date> dates) {
-        THSAppointmentGridAdapter itemsAdapter =
+        itemsAdapter =
                 new THSAppointmentGridAdapter(mContext, dates,
-                        thsBaseFragment,mThsPRoviderDetailsViewInterface.getTHSProviderInfo());
+                        thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo(),this);
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }
@@ -252,5 +270,36 @@ public class THSProviderDetailsDisplayHelper {
 
     public void updateEstimateCost(EstimatedVisitCost estimatedVisitCost) {
         visitCostValueLabel.setText("$"+estimatedVisitCost.getCost());
+    }
+
+    @Override
+    public void onGridItemClicked(int position) {
+        itemsAdapter.setSelectedPosition(position);
+        itemsAdapter.notifyDataSetChanged();
+        gridView.setAdapter(itemsAdapter);
+        thsProviderDetailsViewInterface.onCalenderItemClick(position);
+
+    }
+
+    public void updateContinueButtonState(boolean isEnabled) {
+        detailsButtonContinue.setEnabled(isEnabled);
+    }
+
+    public void launchConfirmAppointmentFragment(int position){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderDetailsViewInterface.getTHSProviderInfo());
+        bundle.putSerializable(THSConstants.THS_DATE, dates.get(position));
+        bundle.putString(THSConstants.THS_SET_REMINDER_EXTRA_KEY,""+thsProviderDetailsViewInterface.getReminderTime());
+        final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
+        fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
+        thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG,bundle);
+    }
+
+    public void setReminderValue(String reminderTime) {
+        reminderValue.setText(reminderTime +" "+mContext.getResources().getString(R.string.ths_before_appointment));
+    }
+
+    public String getReminderValue() {
+        return reminderValue.getText().toString();
     }
 }

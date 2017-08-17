@@ -754,8 +754,8 @@ public class THSManager {
         });
     }
 
-    public void updateConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(thsConsumer.getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
+    public void updateConsumerPreferredPharmacy(Context context, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(getPTHConsumer().getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 thsUpdatePharmacyCallback.onUpdateSuccess(sdkError);
@@ -1023,9 +1023,9 @@ public class THSManager {
         });
     }
 
-    public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate, final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate,final RemindOptions consumerRemindOptions, final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(),
-                appointmentDate, null, RemindOptions.ONE_DAY, RemindOptions.EIGHT_HOURS, new SDKValidatedCallback<Void, SDKError>() {
+                appointmentDate, null,consumerRemindOptions, RemindOptions.FIFTEEN_MIN, new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
                         thssdkValidatedCallback.onValidationFailure(map);
