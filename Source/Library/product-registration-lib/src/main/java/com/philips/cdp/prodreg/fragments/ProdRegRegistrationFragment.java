@@ -64,8 +64,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private LinearLayout dateParentLayout, serialNumberParentLayout, successLayout;
-    private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,productRegSucess;
-    private ImageView productImageView;
+    private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,productRegSucess,prg_product_title,team_member_name,prg_product_description;
+    private ImageView productImageView,success_background_image,team_member_icon;
     private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
@@ -143,6 +143,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         dateParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
+        success_background_image=(ImageView)view.findViewById(R.id.success_background_image);
+        prg_product_title=(Label) view.findViewById(R.id.prg_product_title);
         productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
         productCtnTextView = (Label) view.findViewById(R.id.prg_registerScreen_ctn_label);
         productRegSucess = (Label) view.findViewById(R.id.product_registered);
@@ -154,6 +156,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
         tickIcon = (Label) view.findViewById(R.id.tick_icon);
+        team_member_icon=(ImageView)view.findViewById(R.id.team_member_icon);
+        team_member_name = (Label) view.findViewById(R.id.team_member_name);
+        prg_product_description = (Label) view.findViewById(R.id.prg_product_description);
+
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
@@ -413,11 +419,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             if (!TextUtils.isEmpty(productTitle)) {
                 productTitleTextView.setVisibility(View.VISIBLE);
                 productTitleTextView.setText(productTitle);
+                prg_product_title.setText(productTitle);
             } else {
                 productTitleTextView.setVisibility(View.GONE);
+                prg_product_title.setVisibility(View.GONE);
             }
 
             imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(success_background_image, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
             field_serial.addTextChangedListener(getWatcher());
         }
     }
@@ -433,9 +442,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
             productCtnTextView.setVisibility(View.VISIBLE);
             productCtnTextView.setText(productCtn);
+            prg_product_description.setText(productCtn);
         }
         else {
             productCtnTextView.setVisibility(View.GONE);
+            prg_product_description.setVisibility(View.GONE);
         }
 
         handleDateEditTextOnError();
@@ -470,8 +481,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setVisibility(View.GONE);
         productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
-        tickIcon.setVisibility(View.VISIBLE);
-        productRegSucess.setVisibility(View.VISIBLE);
+        productImageView.setVisibility(View.GONE);
+        productTitleTextView.setVisibility(View.GONE);
+        tickIcon.setVisibility(View.GONE);
+        productRegSucess.setVisibility(View.GONE);
+
     }
 
     @Override

@@ -195,7 +195,6 @@
                     android:layout_height="@dimen/prg_success_image_height"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:src="@drawable/prodreg_placeholder"
-                    android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     />
                 <com.philips.platform.uid.view.widget.Label
@@ -203,10 +202,10 @@
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
                     android:layout_marginLeft="@dimen/pr_registration_margin_left"
                     android:layout_toRightOf="@id/success_background_image"
                     android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
-                    android:text="Viva Collection Bellender"
                     android:textSize="@dimen/pr_connect_title_textsize"/>
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/prg_product_description"
@@ -216,9 +215,8 @@
                     android:layout_below="@id/prg_product_title"
                     android:layout_toRightOf="@id/success_background_image"
                     android:layout_marginLeft="@dimen/pr_registration_margin_left"
-                    android:text="HR293/40"
                     android:layout_marginTop="@dimen/pr_a_value_sm"
-                    android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                    style="@style/ProductRegistrationCtnTheme"
                     android:textSize="@dimen/pr_connect_title_textsize"/>
 
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -235,16 +233,16 @@
                         android:id="@+id/team_member_icon"
                         android:layout_width="@dimen/prg_register_unregister_image_width"
                         android:layout_height="@dimen/prg_register_unregister_image_height"
-                        android:src="@drawable/jr_icon_bw_facebook"/>
+                        android:src="@drawable/prodreg_circle_tick"/>
                     <com.philips.platform.uid.view.widget.Label
+                        style="@style/ProductRegistrationCtnTheme"
                         android:id="@+id/team_member_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/team_member_icon"
                         android:paddingLeft="@dimen/pr_b_value_sm"
-                        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                         android:textSize="@dimen/pr_connect_title_textsize"
-                        android:text="Unregister"
+                        android:text="@string/PPR_registered"
                         />
 
                 </RelativeLayout>
@@ -258,7 +256,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fab_margin"
-                android:text="@string/PPR_Extended_Warranty_Lbltxt" />
+                android:text="@string/PPR_Extended_Warranty_Lbltxt"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textSize="@dimen/pr_connect_title_textsize"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/pr_success_configurable_textView"
