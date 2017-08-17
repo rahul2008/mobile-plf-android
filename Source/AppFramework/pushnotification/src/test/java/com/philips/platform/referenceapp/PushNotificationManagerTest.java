@@ -16,6 +16,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.referenceapp.BuildConfig;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
+import com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
 import com.philips.platform.referenceapp.utils.PushNotificationConstants;
@@ -25,6 +26,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -105,7 +107,7 @@ public class PushNotificationManagerTest {
         try {
             pushNotificationManager = Whitebox.invokeConstructor(PushNotificationManager.class);
         } catch (Exception e) {
-            PNLog.d(TAG, "Reg istering component for handling payload");
+            PNLog.d(TAG, "Registering component for handling payload");
         }
 
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(context)).thenReturn(sharedPreferences);
@@ -142,27 +144,36 @@ public class PushNotificationManagerTest {
     }
 
     @Test
-    public void testStartPushNotificationRegistrationWhenUserSignedIn() throws Exception {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn(PUSH_NOTIFICATION_TOKEN);
-        PowerMockito.when(textUtils.isEmpty(anyString())).thenReturn(false);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
-
-        PushNotificationUserRegistationWrapperInterface pnUserRegistrationInterface =
-                new PushNotificationUserRegistationWrapperInterface() {
-            @Override
-            public boolean isUserSignedIn(Context appContext) {
-                PNLog.d(TAG,"PushNotificationUserRegistationWrapperInterface - isUserSignedIn - false");
-                return true;
-            }
-        };
-
-        pushNotificationManager.init(appInfraInterface, pnUserRegistrationInterface);
-        PNLog.disablePNLogging();
-        pushNotificationManager.startPushNotificationRegistration(context);
-
-//        verify(pushNotificationManager, times(1)).registerTokenWithBackend(context);
+    public void testStartPushNotificationRegistrationPlatformInstanceIDListenerService() throws Exception {
+        ServiceController<TestPlatformInstanceIDListenerService> controller;
+        controller = Robolectric.buildService(TestPlatformInstanceIDListenerService.class);
+        TestPlatformInstanceIDListenerService service = controller.create().get();
+        Intent intent = new Intent(RuntimeEnvironment.application, TestPlatformInstanceIDListenerService.class);
+        service.onStartCommand(intent, 0, 0);
+        assertEquals(TestPlatformInstanceIDListenerService.class.getName(), intent.getComponent().getClassName());
     }
 
+//     TODO - Need to refine it.         
+//    @Test
+//    public void testStartPushNotificationRegistrationWhenUserSignedIn() throws Exception {
+//        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn(PUSH_NOTIFICATION_TOKEN);
+//        PowerMockito.when(textUtils.isEmpty(anyString())).thenReturn(false);
+//        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+//
+//        PushNotificationUserRegistationWrapperInterface pnUserRegistrationInterface =
+//                new PushNotificationUserRegistationWrapperInterface() {
+//            @Override
+//            public boolean isUserSignedIn(Context appContext) {
+//                PNLog.d(TAG,"PushNotificationUserRegistationWrapperInterface - isUserSignedIn - false");
+//                return true;
+//            }
+//        };
+//
+//        pushNotificationManager.init(appInfraInterface, pnUserRegistrationInterface);
+//        PNLog.disablePNLogging();
+//        pushNotificationManager.startPushNotificationRegistration(context);
+//
+//    }
 
     private static class TestService extends RegistrationIntentService {
         @Override
@@ -173,4 +184,22 @@ public class PushNotificationManagerTest {
             stopSelf(startId);
         }
     }
+
+    private static class TestPlatformInstanceIDListenerService extends PlatformInstanceIDListenerService {
+//        @Override
+//        public void onStart(Intent intent, int startId) {
+//            // same logic as in internal ServiceHandler.handleMessage()
+//            // but runs on same thread as Service
+////            onTokenRefresh
+//            stopSelf(startId);
+//        }
+
+        @Override
+        public int onStartCommand(Intent intent, int startId, int i) {
+            onTokenRefresh();
+            stopSelf(startId);
+            return super.onStartCommand(intent, startId, i);
+        }
+    }
+
 }
