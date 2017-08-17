@@ -20,7 +20,6 @@ import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class LoggingActivity extends AppCompatActivity {
@@ -101,8 +100,6 @@ public class LoggingActivity extends AppCompatActivity {
 
                     AILoggingInterface = AILDemouAppInterface.getInstance().getAppInfra().getLogging();
                     AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
-                  /*  Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
-                            Toast.LENGTH_SHORT).show();*/
                 } else {
                     if (eventText.getText().toString().isEmpty() ||  msgText.getText().toString().isEmpty()) {
                         Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
@@ -128,21 +125,7 @@ public class LoggingActivity extends AppCompatActivity {
 
                             AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map);
                             AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map2);
-                            // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
-                            // AILoggingInterface.log(currentLogLevel, "back", "back");
                         }
-                        Map<String, String> sd= new HashMap<>();
-                        sd.put("key1","val1");
-                        sd.put("key2","val2");
-                        //AILoggingInterface.log(currentLogLevel, eventText.getText().toString(),sd);
-                      //  AILoggingInterface.log(currentLogLevel,eventText.getText().toString(),"",sd);
-
-                        /*   /////////////
-                       AppInfra ai = (AppInfra)AppInfraApplication.gAppInfra;
-                        Component1 c1 = new Component1(ai);
-
-                                Component2 c2 = new Component2(ai);*/
-                        ////////////
                     }
 
 
