@@ -3,6 +3,7 @@
     <dimen name="actionbar_height">50dp</dimen>
     <dimen name="actionbar_icon_margin">30dp</dimen>
     <dimen name="pr_margintop">24dp</dimen>
+    <dimen name="pr_marginbottom">12dp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="prodreg_edittext_width">240dp</dimen>
@@ -37,7 +38,13 @@
     <dimen name="pr_bottom_padding_sm">33dp</dimen>
     <dimen name="pr_registration_margin_top">12dp</dimen>
     <dimen name="pr_registration_margin_bottom">12dp</dimen>
+    <dimen name="pr_registration_margin_left">12dp</dimen>
     <dimen name="pr_all_button_top_margin">33dp</dimen>
     <dimen name="pr_modal_alert_dialog_width">296dp</dimen>
     <dimen name="pr_success_image_height">220dp</dimen>
+    <dimen name="prg_success_image_height">88dp</dimen>
+    <dimen name="prg_success_image_width">88dp</dimen>
+    <dimen name="prg_register_unregister_image_width">24dp</dimen>
+    <dimen name="prg_register_unregister_image_height">24dp</dimen>
+
 </resources>

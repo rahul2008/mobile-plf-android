@@ -13,11 +13,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,9 +45,11 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
 
 import java.text.ParseException;
@@ -65,8 +66,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private LinearLayout dateParentLayout, serialNumberParentLayout, successLayout;
     private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,productRegSucess;
     private ImageView productImageView;
-    private EditText serial_number_editText;
-    private EditText date_EditText;
+    private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private Button registerButton;
@@ -74,7 +74,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private Label tickIcon;
     private Dialog dialog;
     private DatePickerDialog datePickerDialog;
-    private Label dateErrorTextView,serialNumberErrorTextView ,findSerialTextView;
+    private Label findSerialTextView;
+    private InputValidationLayout serial_input_field ,date_input_field;
+    private ValidationEditText field_serial;
+    private boolean isRegisterButtonClicked = false;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -137,30 +140,42 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
-        dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
-        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
+        dateParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
+        serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
-        productTitleTextView = (Label) view.findViewById(R.id.product_title);
-        productCtnTextView = (Label) view.findViewById(R.id.product_ctn);
-        productRegSucess = (Label) view.findViewById(R.id.product_registered) ;
-        dateErrorTextView = (Label) view.findViewById(R.id.dateErrorTextView);
-        serialNumberErrorTextView = (Label) view.findViewById(R.id.serialNumberErrorTextView);
-        serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
-        date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
+        productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
+        productCtnTextView = (Label) view.findViewById(R.id.prg_registerScreen_ctn_label);
+        productRegSucess = (Label) view.findViewById(R.id.product_registered);
+        date_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
+        date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         prSuccessConfigurableTextView = (Label) view.findViewById(R.id.pr_success_configurable_textView);
-        registerButton = (Button) view.findViewById(R.id.btn_register);
+        registerButton = (Button) view.findViewById(R.id.prg_registerScreen_register_button);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
-        productImageView = (ImageView) view.findViewById(R.id.product_image);
+        productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
         tickIcon = (Label) view.findViewById(R.id.tick_icon);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
         continueButton.setOnClickListener(onClickContinue());
         ProdRegTagging.getInstance().trackPage("RegistrationScreen", "trackPage", "RegistrationScreen");
-        findSerialTextView = (Label)view.findViewById(R.id.findSerialTextView);
+        findSerialTextView = (Label)view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
         makeTextViewHyperlink(findSerialTextView);
-        findSerialTextView.setOnClickListener(onClickFindSerialNumber());
+        serial_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_validationLayout);
+        field_serial = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_serialNumber_validationEditText);
+        serial_input_field.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence charSequence) {
+                return  prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString());
+            }
+        });
+        date_input_field.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence charSequence) {
+                return prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
+            }
+        });
+
         return view;
     }
 
@@ -172,15 +187,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 clearFragmentStack();
                 handleCallBack(false);
                 unRegisterProdRegListener();
-            }
-        };
-    }
-
-    private View.OnClickListener onClickFindSerialNumber() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                prodRegRegistrationController.onClickFindSerialNumber();
             }
         };
     }
@@ -231,34 +237,32 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void ValidateSerialNumber() {
-        if (textWatcherCalled)
-            prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
-        textWatcherCalled = true;
+        if (textWatcherCalled) {
+            prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString());
+            textWatcherCalled = true;
+        }
     }
 
     private void handleSerialNumberEditTextOnError() {
-
-        serial_number_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        field_serial.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
-                prodRegRegistrationController.isValidSerialNumber(serial_number_editText.getText().toString());
+                prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString());
             }
         });
     }
 
     private void showErrorMessageSerialNumber() {
-
         findSerialTextView.setVisibility(View.VISIBLE);
-        if (serial_number_editText.length() != 0) {
-            serialNumberErrorTextView.setVisibility(View.VISIBLE);
-            serialNumberErrorTextView.setText(getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
+        if (field_serial.length() != 0) {
+            serial_input_field.showError();
+            serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else {
-            serialNumberErrorTextView.setVisibility(View.GONE);
+            serial_input_field.hideError();
         }
     }
 
     private void handleDateEditTextOnError() {
-
         date_EditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
@@ -269,30 +273,40 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
-        dateErrorTextView.setVisibility(View.VISIBLE);
-        dateErrorTextView.setText(new ErrorHandler().getError(mActivity, ProdRegError.INVALID_DATE.getCode()).getDescription());
+        if(date_EditText.length() != 0 || (date_EditText.length()==0 &&isRegisterButtonClicked)) {
+            date_input_field.showError();
+            date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
+                    ProdRegError.INVALID_DATE.getCode()).getDescription());
+        }
+        else {
+            date_input_field.hideError();
+        }
+
         final ProdRegCache prodRegCache = new ProdRegCache();
         new ProdRegUtil().storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_DATE_COUNT, 1);
         ProdRegTagging.getInstance().trackAction("PurchaseDateRequiredEvent", "specialEvents", "purchaseDateRequired");
     }
 
     /**
-     02.
      * Sets a hyperlink style to the textview.
-     03.
      */
-
-
-    private void makeTextViewHyperlink(Label tv) {
-        SpannableStringBuilder ssb = new SpannableStringBuilder();
-        ssb.append(tv.getText());
-        ssb.setSpan(new URLSpan("#"), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv.setText(ssb, Label.BufferType.SPANNABLE);
+    private void makeTextViewHyperlink(Label findSerialTextView) {
+        UIDClickableSpan clickableSpan = new UIDClickableSpan(new Runnable() {
+            @Override
+            public void run() {
+                prodRegRegistrationController.onClickFindSerialNumber();
+            }
+        });
+        SpannableString string = SpannableString.valueOf(findSerialTextView.getText());
+        string.setSpan(clickableSpan, 0, string.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        clickableSpan.shouldDrawUnderline(false);
+        findSerialTextView.setText(string);
     }
 
     private View.OnTouchListener onClickPurchaseDate() {
         return new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
+                field_serial.setFocusable(false);
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     int mYear;
                     int mMonthInt;
@@ -313,6 +327,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
                     datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                     datePickerDialog.show();
+                    field_serial.setFocusableInTouchMode(true);
                     return true;
                 }
                 return false;
@@ -325,8 +340,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                registerButton.setEnabled(false);
-                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(), serial_number_editText.getText().toString());
+                // registerButton.setEnabled(false);
+                isRegisterButtonClicked = true;
+                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(), field_serial.getText().toString());
             }
         };
     }
@@ -354,14 +370,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void exitProductRegistration() {
-
         clearFragmentStack();
         unRegisterProdRegListener();
     }
 
     @Override
     public void showAlertOnError(int responseCode){
-    super.showAlertOnError(responseCode);
+        super.showAlertOnError(responseCode);
     }
 
     @Override
@@ -377,7 +392,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void isValidDate(boolean validDate) {
         if (validDate) {
-            dateErrorTextView.setVisibility(View.GONE);
+            date_input_field.hideError();
         } else
             showErrorMessageDate();
     }
@@ -386,9 +401,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void isValidSerialNumber(boolean validSerialNumber) {
         if (validSerialNumber) {
             findSerialTextView.setVisibility(View.GONE);
-            serialNumberErrorTextView.setVisibility(View.GONE);
         } else
             showErrorMessageSerialNumber();
+
     }
 
     @Override
@@ -403,14 +418,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             }
 
             imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
-            serial_number_editText.addTextChangedListener(getWatcher());
+            field_serial.addTextChangedListener(getWatcher());
         }
     }
 
     @Override
     public void setProductView(final RegisteredProduct registeredProduct) {
         date_EditText.setText(registeredProduct.getPurchaseDate());
-        serial_number_editText.setText(registeredProduct.getSerialNumber());
+        field_serial.setText(registeredProduct.getSerialNumber());
         if (!registeredProduct.getEmail()) {
             prSuccessConfigurableTextView.setVisibility(View.GONE);
         }
@@ -492,7 +507,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void dismissLoadingDialog() {
-         ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
+        ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
     }
 
     @Override
