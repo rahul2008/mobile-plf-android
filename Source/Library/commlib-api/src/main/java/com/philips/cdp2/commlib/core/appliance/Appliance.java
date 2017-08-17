@@ -68,17 +68,18 @@ public abstract class Appliance implements Availability<Appliance> {
      * <code>CommunicationStrategies</code> are provided, they are wrapped with a {@link CombinedCommunicationStrategy}.
      *
      * @param networkNode           The {@link NetworkNode} this <code>Appliance</code> is discovered with.
-     * @param communicationStrategy One or multiple <code>CommunicationStrategies</code> used to communicate with the Appliance.
+     * @param communicationStrategies One or multiple <code>CommunicationStrategies</code> used to communicate with the Appliance.
      * @see ApplianceFactory
      */
-    public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy... communicationStrategy) {
+    public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy... communicationStrategies) {
         this.networkNode = requireNonNull(networkNode);
-        if (communicationStrategy.length == 1) {
-            this.communicationStrategy = communicationStrategy[0];
-        } else if (communicationStrategy.length == 0) {
+
+        if (communicationStrategies.length == 1) {
+            this.communicationStrategy = communicationStrategies[0];
+        } else if (communicationStrategies.length == 0) {
             throw new IllegalArgumentException("Need at least one CommunicationStrategy");
         } else {
-            this.communicationStrategy = new CombinedCommunicationStrategy(communicationStrategy);
+            this.communicationStrategy = new CombinedCommunicationStrategy(communicationStrategies);
         }
         this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
 
