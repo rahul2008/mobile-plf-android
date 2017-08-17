@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,9 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     private int mSelectedIndex;
     private View.OnClickListener mConfirmBtnClick;
     private DeliveryModeDialog.DialogListener mListener;
+    private boolean isRadioBtnSelectedFirst;
 
-    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes,
+    public DeliveryModeAdapter(int txtViewResourceId, final List<DeliveryModes> modes,
                                View.OnClickListener confirmBtnClick,DeliveryModeDialog.DialogListener listener) {
         mModes = modes;
         mSelectedIndex = 0;
@@ -78,12 +78,16 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     }
 
     private void setToggleStatus(final RadioButton toggle, final int position, Button deliveryConfirmBtn) {
-        if (mSelectedIndex == position) {
-            toggle.setChecked(true);
-            deliveryConfirmBtn.setVisibility(View.VISIBLE);
-        } else {
-            toggle.setChecked(false);
-            deliveryConfirmBtn.setVisibility(View.GONE);
+        if(isRadioBtnSelectedFirst){
+            if (mSelectedIndex == position) {
+                toggle.setChecked(true);
+                deliveryConfirmBtn.setVisibility(View.VISIBLE);
+            } else {
+                toggle.setChecked(false);
+                deliveryConfirmBtn.setVisibility(View.GONE);
+            }
+        }else{
+            isRadioBtnSelectedFirst = false;
         }
     }
 
@@ -114,6 +118,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
 
         @Override
         public void onClick(View v) {
+            isRadioBtnSelectedFirst = true;
             mSelectedIndex = getAdapterPosition();
             setToggleStatus(deliveryRadioBtnToggle, getAdapterPosition(),deliveryConfirmBtn);
             notifyDataSetChanged();

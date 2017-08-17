@@ -63,7 +63,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
     private void settingDataToAdapter() {
         List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
-        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mContext, R.layout.iap_delivery_mode_spinner_item, mDeliveryModes, mConfirmBtnClick, this);
+        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(R.layout.iap_delivery_mode_spinner_item, mDeliveryModes, mConfirmBtnClick, this);
         mDeliveryRecyclerView.setAdapter(mDeliveryModeAdapter);
         mDeliveryModeAdapter.notifyDataSetChanged();
     }
