@@ -12,8 +12,8 @@
     <ImageView
 
         android:id="@+id/pth_practice_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/ths_image_size"
+        android:layout_height="@dimen/ths_image_size"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/ths_fab_margin" />
