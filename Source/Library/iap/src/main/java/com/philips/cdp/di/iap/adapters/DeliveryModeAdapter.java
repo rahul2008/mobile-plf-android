@@ -21,15 +21,13 @@ import java.util.List;
 
 public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapter.DeliverySelectionHolder>{
 
-    private Context mContext;
     private List<DeliveryModes> mModes;
     private int mSelectedIndex;
     private View.OnClickListener mConfirmBtnClick;
-    private DeliveryModes mSelectedDeliveryMode;
     private DeliveryModeDialog.DialogListener mListener;
 
-    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes, View.OnClickListener confirmBtnClick,DeliveryModeDialog.DialogListener listener) {
-        mContext = context;
+    public DeliveryModeAdapter(final Context context, int txtViewResourceId, final List<DeliveryModes> modes,
+                               View.OnClickListener confirmBtnClick,DeliveryModeDialog.DialogListener listener) {
         mModes = modes;
         mSelectedIndex = 0;
         mConfirmBtnClick = confirmBtnClick;

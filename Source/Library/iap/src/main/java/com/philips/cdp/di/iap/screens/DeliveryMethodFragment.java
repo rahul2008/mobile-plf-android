@@ -25,17 +25,12 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
     private DeliveryModes mSelectedDeliveryMode;
     private AddressController mAddressController;
 
-    public interface DialogListener {
-        void onItemClick(int position);
-    }
-
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
         DeliveryMethodFragment fragment = new DeliveryMethodFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onAttach(Context context) {
