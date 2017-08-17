@@ -35,7 +35,7 @@
     <string name="reg_EmailAddPlaceHolder_txtField">Enter email address</string>
     <string name="reg_TraditionalSignIn_PwdPlaceHolder_txtFiled">Enter password</string>
     <string name="reg_TraditionalSignIn_Resend_lbltxt">Press “Resend” button if you have not received an email.</string>
-    <string name="reg_TraditionalSignIn_ForgotPwd_btntxt">Forgot Password</string>
+    <string name="reg_TraditionalSignIn_ForgotPwd_btntxt">Forgot password?</string>
     <string name="reg_Resend_btntxt">Resend</string>
     <string name="reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt">No worries! You do not need a Philips password. You have logged in with a social provider previously.</string>
     <string name="reg_TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Sorry to make you click twice. You have previously logged in with a social provider. Please go back to the Log in-step’, and log in with your social provider.</string>
@@ -321,7 +321,6 @@
 
 
 
-    <string name="usr_password_invalid">Please enter a valid password</string>
     <string name="usr_email_invalid">Please enter a valid email address</string>
     <string name="usr_country_prefix">Country:</string>
 

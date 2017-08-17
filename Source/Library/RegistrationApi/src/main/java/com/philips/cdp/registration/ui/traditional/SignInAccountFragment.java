@@ -87,8 +87,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private User mUser;
 
-    private ProgressBar mPbResendSpinner;
-
     private XRegError mRegError;
 
     private Context mContext;
@@ -243,14 +241,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtEmail.requestFocus();
 
         mEtPassword.setOnClickListener(this);
-        mEtPassword.setValidator(password -> password.length() >= 8);
-        mEtPassword.setErrorMessage(getString(R.string.usr_password_invalid));
+        mEtPassword.setValidator(password -> password.length() > 0);
+        mEtPassword.setErrorMessage(getString(R.string.reg_EmptyField_ErrorMsg));
         underlineResetPassword();
         mRegError = (XRegError) view.findViewById(R.id.usr_loginScreen_error_view);
         handleUiState();
 
         mUser = new User(mContext);
-        mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
         registrationSettingsURL = new RegistrationSettingsURL();
     }
 
@@ -351,8 +348,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
                 } else {
-                    if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-                        mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+                    if (null != userRegistrationFailureInfo.getErrorDescription()) {
+                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
                     } else {
                         mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
                     }
@@ -399,14 +396,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         }
 
-        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getSocialOnlyError());
+        if (null != userRegistrationFailureInfo.getErrorDescription()) {
+            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         }
 
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getEmailErrorMessage());
+        if (null != userRegistrationFailureInfo.getErrorDescription()) {
+            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
@@ -498,7 +495,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         trackMultipleActionResendEmailStatus();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
                 mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
-        updateResendUIState();
     }
 
     private void trackMultipleActionResendEmailStatus() {
@@ -517,14 +513,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK,
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
-        updateResendUIState();
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
-                + userRegistrationFailureInfo.getEmailErrorMessage());
-    }
-
-    private void updateResendUIState() {
-        hideResendSpinner();
+                + userRegistrationFailureInfo.getErrorDescription());
     }
 
     private void handleLoginSuccess() {
@@ -576,14 +567,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         updateActivationUIState();
     };
 
-    private void hideResendSpinner() {
-        mPbResendSpinner.setVisibility(View.GONE);
-    }
-
-    private void showResendSpinner() {
-        mPbResendSpinner.setVisibility(View.VISIBLE);
-    }
-
     private void updateActivationUIState() {
         lauchAccountActivationFragment();
     }
@@ -594,7 +577,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleResend() {
-        showResendSpinner();
         mBtnSignInAccount.setEnabled(false);
         if (registrationSettingsURL.isChinaFlow()) {
             serviceDiscovery();
@@ -637,7 +619,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
                 verificationSmsCodeURL = null;
                 mEtEmail.setErrorMessage(getResources().getString(R.string.reg_Generic_Network_Error));
-                updateResendUIState();
             }
 
             @Override
@@ -675,7 +656,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final String tokenKey = "token";
         final String redirectUriKey = "redirectUri";
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
-        updateResendUIState();
 
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -753,7 +733,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideForgotPasswordSpinner();
         if (response == null) {
             mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
-            updateResendUIState();
         } else {
             handleResendSMSRespone(response);
         }

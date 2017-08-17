@@ -262,8 +262,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private Button getProviderBtn(final String providerName, int providerNameStringId,
                                   int providerLogoDrawableId) {
-        final Button socialButton = new com.philips.platform.uid.view.widget.Button(mContext);
-        socialButton.setText(providerNameStringId);
+        final Button socialButton = (com.philips.platform.uid.view.widget.Button) getActivity().getLayoutInflater().inflate(R.layout.social_button, null);
+        FontLoader.getInstance().setTypeface(socialButton, RegConstants.PUIICON_TTF);
+        socialButton.setText(providerLogoDrawableId);
 
         socialButton.setEnabled(true);
         if (networkUtility.isNetworkAvailable()
