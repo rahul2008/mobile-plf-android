@@ -24,6 +24,7 @@ import com.philips.platform.dscdemo.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
@@ -166,10 +167,13 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean backState = false;
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
-        if (currentFrag instanceof TemperatureTimeLineFragment) {
-            finishAffinity();
-        } else {
+        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+        }
+
+        if (!backState) {
             super.onBackPressed();
         }
     }
