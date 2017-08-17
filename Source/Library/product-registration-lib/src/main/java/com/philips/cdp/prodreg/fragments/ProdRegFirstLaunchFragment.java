@@ -37,7 +37,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 	private List<RegisteredProduct> registeredProducts;
 	private int resId = 0;
 	private Bundle dependencies;
-	private Button registerLater;
 	private ImageView productImage;
 
 	@Override
@@ -65,9 +64,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-		final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
-		registerLater = (Button) view.findViewById(R.id.no_thanks_button);
-		productImage = (ImageView) view.findViewById(R.id.prodimage);
+		final Button registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
+		Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
+		productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
 		registerButton.setOnClickListener(onClickRegister());
 		registerLater.setOnClickListener(onClickNoThanks());
 		ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage", "ProductRegistrationOfferScreen");
@@ -85,7 +84,11 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 			if (resId != 0) {
 				productImage.setVisibility(View.VISIBLE);
 				int width = getResources().getDisplayMetrics().widthPixels;
-				productImage.getLayoutParams().height = (width * 9) / 16;
+				if(width > 680) {
+					productImage.getLayoutParams().height = (width * 9) / 16;
+				} else {
+					productImage.getLayoutParams().height = (width * 5) / 12;
+				}
 				productImage.setBackground(getResources().getDrawable(resId, getActivity().getTheme()));
 				productImage.requestLayout();
 			}
