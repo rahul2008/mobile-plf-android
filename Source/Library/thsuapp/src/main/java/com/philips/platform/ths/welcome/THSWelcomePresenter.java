@@ -67,8 +67,8 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
         try {
-            checkIfUserExisits();
-           // THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
+           // checkIfUserExisits();
+            THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

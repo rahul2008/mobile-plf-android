@@ -13,16 +13,15 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
-import com.americanwell.sdk.entity.visit.VisitRx;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -30,11 +29,12 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Set;
 
 public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     VisitReportDetail mVisitReportDetail;
@@ -44,30 +44,54 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     Label mLabelPracticeName;
     Label mLabelAppointmentDate;
     Label mLabelCreditCardCharge;
-    Label mPrescriptionDetail;
-    Label mLabelShippingDetail;
+    private Button continueButton;
     RelativeLayout mRelativeLayoutProviderLayout;
-    LinearLayout mLinearLayoutDownloadReport;
+    RelativeLayout mRelativeLayoutDownloadReport;
     THSVisitHistoryDetailPresenter mThsVisitHistoryPresenter;
     private VisitReport mVisitReport;
+    private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
+            consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
+    ImageButton mImageButtonPharmacyEdit;
+    ImageButton mImageButtonShippingAddressEdit;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_visit_report_detail, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_visit_summary, container, false);
         final Bundle arguments = getArguments();
         mVisitReportDetail = arguments.getParcelable(THSConstants.THS_VISIT_REPORT_DETAIL);
         mVisitReport = arguments.getParcelable(THSConstants.THS_VISIT_REPORT);
         mThsVisitHistoryPresenter = new THSVisitHistoryDetailPresenter(this);
         mLabelVisit = (Label) view.findViewById(R.id.ths_waiting_room_title_label);
-        mProviderImage = (CircularImageView) view.findViewById(R.id.ths_providerImage);
-        mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
-        mLabelPracticeName = (Label) view.findViewById(R.id.practiceNameLabel);
+        mProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
+        mLabelProviderName = (Label) view.findViewById(R.id.details_providerNameLabel);
+        mLabelPracticeName = (Label) view.findViewById(R.id.details_practiceNameLabel);
+
         mLabelAppointmentDate = (Label) view.findViewById(R.id.ths_appointment_date);
-        mLabelCreditCardCharge = (Label) view.findViewById(R.id.ths_credit_card_charge);
-        mPrescriptionDetail = (Label) view.findViewById(R.id.prescription_detail);
-        mLabelShippingDetail = (Label) view.findViewById(R.id.medication_detail);
-        mRelativeLayoutProviderLayout = (RelativeLayout) view.findViewById(R.id.provider_details_layout_container);
+        mLabelAppointmentDate.setVisibility(View.VISIBLE);
+
+        mLabelCreditCardCharge = (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
+        mImageButtonPharmacyEdit = (ImageButton) view.findViewById(R.id.ps_edit_pharmacy);
+        mImageButtonPharmacyEdit.setVisibility(View.GONE);
+
+        mImageButtonShippingAddressEdit = (ImageButton) view.findViewById(R.id.ps_edit_consumer_shipping_address);
+        mImageButtonShippingAddressEdit.setVisibility(View.GONE);
+
+        Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
+        prescriptionLabel.setText("Your prescription was sent to");
+        consumerCity = (Label) view.findViewById(R.id.ps_consumer_city);
+        consumerName = (Label) view.findViewById(R.id.ps_consumer_name);
+        consumerShippingAddress = (Label) view.findViewById(R.id.ps_consumer_shipping_address);
+        consumerShippingZip = (Label) view.findViewById(R.id.ps_consumer_shipping_zip);
+        consumerState = (Label) view.findViewById(R.id.ps_consumer_state);
+        pharmacyAddressLineOne = (Label) view.findViewById(R.id.ps_pharmacy_address_line_one);
+        pharmacyAddressLIneTwo = (Label) view.findViewById(R.id.ps_pharmacy_address_line_two);
+        pharmacyName = (Label) view.findViewById(R.id.ps_pharmacy_name);
+        pharmacyState = (Label) view.findViewById(R.id.ps_pharmacy_state);
+        pharmacyZip = (Label) view.findViewById(R.id.ps_pharmacy_zip_code);
+        continueButton =(Button)view.findViewById(R.id.ths_visit_summary_continue_button);
+        continueButton.setVisibility(View.GONE);
+        mRelativeLayoutProviderLayout = (RelativeLayout) view.findViewById(R.id.ths_waiting_room_provider_detail_relativelayout);
         mRelativeLayoutProviderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,8 +100,8 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         });
-        mLinearLayoutDownloadReport = (LinearLayout) view.findViewById(R.id.ths_pdf_container);
-        mLinearLayoutDownloadReport.setOnClickListener(new View.OnClickListener() {
+        mRelativeLayoutDownloadReport = (RelativeLayout) view.findViewById(R.id.ths_wrap_up_visit_report_relativelayout);
+        mRelativeLayoutDownloadReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mThsVisitHistoryPresenter.onEvent(R.id.ths_pdf_container);
@@ -119,21 +143,40 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
             mLabelAppointmentDate.setText(date);
         }
 
-        final String address1 = mVisitReportDetail.getPharmacy().getAddress().getAddress1();
+        if(mVisitReportDetail.getVisitCost().isFree()){
+            mLabelCreditCardCharge.setText("$ 0");
+        }else{
+            double cost= mVisitReportDetail.getVisitCost().getExpectedConsumerCopayCost();
 
-        if (address1 != null) {
-            mPrescriptionDetail.setText(address1.toString());
+            mLabelCreditCardCharge.setText(Double.toString(cost));
         }
 
-        final String address2 = mVisitReportDetail.getShippingAddress().getAddress1();
-        if (address2 != null) {
-            mLabelShippingDetail.setText(address2.toString());
-        }
+        Address address = mVisitReportDetail.getShippingAddress();
+        String consumerFullName = mVisitReportDetail.getConsumerInfo().getFullName();
+        updateShippingAddressView(address, consumerFullName);
+        Pharmacy pharmacy = mVisitReportDetail.getPharmacy();
+        updatePharmacyDetailsView(pharmacy);
 
         mLabelCreditCardCharge.setText(mVisitReportDetail.getPaymentAmount() + "");
     }
 
     public VisitReport getVisitReport() {
         return mVisitReport;
+    }
+
+    public void updateShippingAddressView(Address address, String consumerName1) {
+        consumerName.setText(consumerName1);
+        consumerCity.setText(address.getCity());
+        consumerState.setText(address.getState().getCode());
+        consumerShippingAddress.setText(address.getAddress1());
+        consumerShippingZip.setText(address.getZipCode());
+    }
+
+    public void updatePharmacyDetailsView(Pharmacy pharmacy) {
+        pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
+        pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
+        pharmacyName.setText(pharmacy.getName());
+        pharmacyState.setText(pharmacy.getAddress().getState().getCode());
+        pharmacyZip.setText(pharmacy.getAddress().getZipCode());
     }
 }

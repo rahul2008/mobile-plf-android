@@ -25,13 +25,24 @@
             android:textColor="?attr/uidLabelValueNormalTextColor"
             android:textSize="@dimen/pth_body_text" />
 
-        <LinearLayout
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_appointment_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ths_list_item"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/ths_waiting_room_title_label"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
+            android:visibility="gone"
+            android:text="@string/ths_select_date_and_time" />
+
+        <View
             android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/ths_waiting_room_title_label"
-            android:background="@color/uid_gray_level_10"
-            android:orientation="horizontal"></LinearLayout>
+            android:layout_below="@+id/ths_appointment_date"
+            android:background="@color/uid_gray_level_10"></View>
 
         <RelativeLayout
             android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
