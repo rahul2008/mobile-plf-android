@@ -75,20 +75,20 @@ public class MobileVerifyCodePresenterTest {
         verify(mockContract).startService(any(Intent.class));
     }
 
-    @Test
-    public void testNetworkState_Enabled() {
-        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(true);
-        presenter.onNetWorkStateReceived(true);
-        verify(mockContract).enableVerifyButton();
-
-    }
-
-    @Test
-    public void testNetworkState_Disabled() {
-        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
-        presenter.onNetWorkStateReceived(false);
-        verify(mockContract).disableVerifyButton();
-    }
+//    @Test
+//    public void testNetworkState_Enabled() {
+//        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(true);
+//        presenter.onNetWorkStateReceived(true);
+//        verify(mockContract).enableVerifyButton();
+//
+//    }
+//
+//    @Test
+//    public void testNetworkState_Disabled() {
+//        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
+//        presenter.onNetWorkStateReceived(false);
+//        verify(mockContract).disableVerifyButton();
+//    }
 
     @Test
     public void testResultReceived_EmptyResult() {

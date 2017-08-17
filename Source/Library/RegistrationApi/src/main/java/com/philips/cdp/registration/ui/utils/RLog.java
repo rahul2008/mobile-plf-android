@@ -1,6 +1,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
+import android.support.annotation.*;
 import android.util.Log;
 
 import com.janrain.android.engage.JREngage;
@@ -101,9 +102,9 @@ public class RLog {
     public static void d(String tag, String message) {
         if (isLoggingEnabled) {
             Log.d(tag, message);
-            validateLoggerInitialization();
-            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
         }
+        validateLoggerInitialization();
+        mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
     }
     /**
      * Logs at error level
@@ -114,9 +115,9 @@ public class RLog {
     public static void e(String tag, String message) {
         if (isLoggingEnabled) {
             Log.e(tag, message);
-            validateLoggerInitialization();
-            mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
         }
+        validateLoggerInitialization();
+        mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
     }
 
     /**
@@ -128,9 +129,9 @@ public class RLog {
     public static void i(String tag, String message) {
         if (isLoggingEnabled) {
             Log.i(tag, message);
-            validateLoggerInitialization();
-            mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
         }
+        validateLoggerInitialization();
+        mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
     }
     /**
      * Logs at verbose level
@@ -141,8 +142,13 @@ public class RLog {
     public static void v(String tag, String message) {
         if (isLoggingEnabled) {
             Log.v(tag, message);
-            validateLoggerInitialization();
-            mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
         }
+        validateLoggerInitialization();
+        mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
+    }
+
+    @VisibleForTesting
+    public static void setMockLogger(LoggingInterface mockLoggingInterface) {
+        mLoggingInterface = mockLoggingInterface;
     }
 }

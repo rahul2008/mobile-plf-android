@@ -9,8 +9,6 @@
 package com.philips.cdp.registration.configuration;
 
 
-import com.philips.cdp.registration.ui.utils.RLog;
-
 public enum Configuration {
 
     STAGING("Staging"),
@@ -26,7 +24,6 @@ public enum Configuration {
     }
 
     public String getValue() {
-        RLog.i("Enum value :","Environment : "+value);
         return value;
     }
 }

@@ -4,9 +4,7 @@ package com.philips.platform.urdemo;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.cdp.registration.ui.utils.URDependancies;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URSettings;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
