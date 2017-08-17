@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:lineSpacingExtra="8sp"
-            android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="@dimen/uid_navigation_bar_text_size" />
 
         <com.philips.platform.uid.view.widget.Label

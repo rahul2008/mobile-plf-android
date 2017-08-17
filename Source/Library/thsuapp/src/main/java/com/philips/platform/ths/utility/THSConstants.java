@@ -42,12 +42,12 @@ public class THSConstants {
     public static final int SET_REMINDER_DIALOG_ON_ACTIVITY_RESULT = 7070;
     public static final String THS_SET_REMINDER_EXTRA_KEY = "THS_SET_REMINDER_EXTRA_KEY";
 
-    public static final String THS_NO_REMINDER_STRING = "No Reminder";
+    public static final String THS_NO_REMINDER_STRING = "no reminder";
     public static final String THS_15_MINS_REMINDER = "15 minutes";
-    public static final String THS_ONE_HOUR_REMINDER = "One Hour";
+    public static final String THS_ONE_HOUR_REMINDER = "one Hour";
     public static final String THS_FOUR_HOURS_REMINDER = "4 hours";
     public static final String THS_EIGHT_HOURS_REMINDER = "8 hours";
-    public static final String THS_ONE_DAY_REMINDER = "One day";
-    public static final String THS_ONE_WEEK_REMINDER = "One week";
+    public static final String THS_ONE_DAY_REMINDER = "one day";
+    public static final String THS_ONE_WEEK_REMINDER = "one week";
 
 }

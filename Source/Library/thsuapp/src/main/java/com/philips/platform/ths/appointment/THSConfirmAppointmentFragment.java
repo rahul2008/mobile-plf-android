@@ -52,6 +52,9 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         reminderTimeString = bundle.getString(THSConstants.THS_SET_REMINDER_EXTRA_KEY);
 
         reminderTime = (Label) view.findViewById(R.id.reminderTime);
+        if(reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)){
+            reminderTime.setVisibility(View.GONE);
+        }
         reminderTime.setText("Reminder set " + reminderTimeString + " before appointment");
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
