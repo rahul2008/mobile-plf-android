@@ -22,8 +22,8 @@ public class AppInfraLogging implements LoggingInterface {
 
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
-    String mComponentID;
-    String mComponentVersion;
+    private String mComponentID;
+    private String mComponentVersion;
 
     public AppInfraLogging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -35,7 +35,10 @@ public class AppInfraLogging implements LoggingInterface {
 
     @Override
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
-        return new LoggingWrapper(mAppInfra, componentId, componentVersion);
+        mComponentID = componentId;
+        mComponentVersion = componentVersion;
+        createLogger(mComponentID);
+        return this;
     }
 
 
@@ -43,7 +46,7 @@ public class AppInfraLogging implements LoggingInterface {
     public void log(LogLevel level, String eventId, String message) {
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger("");
+            createLogger(mComponentID);
         }
         if (null != mJavaLogger) {
             switch (level) {
@@ -130,7 +133,8 @@ public class AppInfraLogging implements LoggingInterface {
                     loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
                     getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                 }
-            } else {
+
+            } else { // Turning logging level off
                 mJavaLogger = loggingConfiguration.getLogger(pComponentId);
                 getJavaLogger().setLevel(Level.OFF);
                 loggingConfiguration.activateLogger();
