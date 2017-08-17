@@ -20,8 +20,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import org.json.JSONArray;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.ConsoleHandler;
@@ -36,7 +34,6 @@ import static java.util.logging.LogManager.getLogManager;
 class LoggingConfiguration {
 
     private static final String COMPONENT_IDS_KEY = "componentIds";
-    private static final String PROPERTIES_FILE_NAME = "logging.properties";
     private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
     final String LOG_LEVEL_KEY = "logLevel";
     final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
@@ -222,13 +219,13 @@ class LoggingConfiguration {
     private void enableFileLog(final boolean pFileLogEnabled, final String mComponentID, final String mComponentVersion) {
         if (pFileLogEnabled) {
             final FileHandler fileHandler = getCurrentLogFileHandler(getJavaLogger());
+
             if (null == fileHandler) {// add file log
                 mFileHandler = getFileHandler();
-                if (null != mJavaLogger && null != mJavaLogger.getLevel() && mFileHandler != null) {
-                    mFileHandler.setLevel(getJavaLogger().getLevel());
-                } else if (mFileHandler != null) {
-                    // for appinfra internal log mJavaLogger will be null
-                    mFileHandler.setLevel(Level.FINE);
+                Level level = mJavaLogger.getLevel() != null ? mJavaLogger.getLevel() : Level.FINE;
+
+                if (null != mJavaLogger && mFileHandler != null) {
+                    mFileHandler.setLevel(level);
                     mFileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                     getJavaLogger().addHandler(mFileHandler);
                 }
@@ -312,10 +309,6 @@ class LoggingConfiguration {
         }
 
         return fileHandler;
-    }
-
-    private InputStream getLoggerPropertiesInputStream() throws IOException {
-        return mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME);
     }
 
     FileHandler getCurrentLogFileHandler(Logger logger) {
