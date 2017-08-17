@@ -63,11 +63,11 @@
     <string name="reg_Social_Merge_btntxt">Connect</string>
     <string name="reg_InitialSignedIn_Welcome_User_lbltxt">Welcome %s</string>
     <string name="reg_InitialSignedIn_SigninEmailText">You have logged in using: %s</string>
-    <string name="reg_VerifyEmail_VerifyEmail_lbltxt">Please verify your email</string>
-    <string name="reg_VerifyEmail_EmailSentto_lbltxt">We have sent an email to: %s</string>
+    <string name="reg_VerifyEmail_VerifyEmail_lbltxt">Confirm your email</string>
+    <string name="reg_VerifyEmail_EmailSentto_lbltxt">We\'ve just sent you an email to %s</string>
     <string name="reg_VerifyEmail_EmailTime_lbltxt">It may take some time for the email to arrive.</string>
-    <string name="reg_VerifyEmail_ActivateInfo_lbltxt">Please check your email to activate your account.</string>
-    <string name="reg_VerifyEmail_Activated_btntxt">I have activated my account</string>
+    <string name="reg_VerifyEmail_ActivateInfo_lbltxt">Please check your email and activate your account.</string>
+    <string name="reg_VerifyEmail_Activated_btntxt">I\'ve already verified</string>
     <string name="reg_VerifyEmail_ResendErrorMsg_lbltxt">Having problems?\n-  It may take some time for the verification email to arrive\n-  Look in your spam folder as well\n-  Press the \"Resend\" button below if you did not receive the verification email</string>
     <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe have sent an email. It may take some time for the email to arrive.\n\nPlease check your email to activate your account.\n\nYou can use the app in the meantime.</string>
     <string name="reg_myphilips">Philips account</string>
@@ -273,7 +273,7 @@
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
-    <string name="Activation_explain_value_to_user"></string>
+    <string name="Activation_explain_value_to_user">We go through this process for your security.</string>
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
 
@@ -294,5 +294,31 @@
     <string name="reg_password_description">Password must have at least 8 characters with a mix of letters (A-Z, a-z), digits(0-9) and/or symbols (_.@$).</string>
     <string name="reg_almost_description1">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>
     <string name="reg_almost_description2">Subscribe to our newsletter to receive exclusive promotions and coupons and be the first to know about new products.</string>
+    <string name="reg_Resend_mail_btntxt">I haven\'t received an email</string>
+    <string name="reg_almost_verify_alert_title">Email needs to be verified</string>
+    <string name="reg_almost_verify_alert_content">Please click on the link in the email we\'ve sent you.</string>
+    <string name="reg_almost_verify_alert_content2">The email may not arrive immediately but it is on its way.</string>
+    <string name="reg_almost_verify_alert_button">I\'ll check again</string>
+
+    
+    <string name="reg_verify_resend_mail_title">Haven\'t received the verification email?</string>
+    <string name="reg_verify_resend_mail_desc">Sometimes it takes a little while for the verification email to arrive. It may be that it has landed in your spam folder.</string>
+    <string name="reg_verify_resend_mail_desc2">If it isn\'t there please check the address below is correct and click the resend button to receive the link again.</string>
+    <string name="reg_verify_resend_mail_edittext_label">Your email address</string>
+    <string name="reg_verify_resend_mail_button_resend">Resend the email</string>
+    <string name="reg_verify_resend_mail_button_return">Thanks\, I\'ve got it now </string>
+    <string name="reg_verify_resend_mail_nav_title">Resend email</string>
+
+    <string name="reg_verify_resend_mail_intime_title"> Please have a little patience</string>
+    <string name="reg_verify_resend_mail_intime_desc">We have sent your verification email less than a minute ago. It may take some time for the verification email to arrive in your mailbox.</string>
+    <string name="reg_verify_resend_mail_intime_desc2">Look in your spam folder as well.</string>
+    <string name="reg_verify_resend_mail_intime_button_ok">OK</string>
+
+    <string name="reg_verify_resend_mail_sent">A new verification email has been sent to </string>
+
+
+
+
+
 
 </resources>

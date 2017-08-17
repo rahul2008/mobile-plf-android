@@ -77,6 +77,12 @@ public interface RegistrationComponent {
 
     void inject(AccountActivationFragment accountActivationFragment);
 
+    void inject(AccountActivationPresenter accountActivationPresenter);
+
+    void inject(AccountActivationResendMailFragment accountActivationResendMailFragment);
+
+    void inject(AccountActivationResendMailPresenter accountActivationResendMailPresenter);
+
     void inject(CreateAccountFragment createAccountFragment);
 
     void inject(ForgotPasswordFragment forgotPasswordFragment);
