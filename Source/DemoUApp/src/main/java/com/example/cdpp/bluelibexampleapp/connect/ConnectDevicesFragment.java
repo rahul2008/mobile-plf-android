@@ -27,8 +27,6 @@ import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.os.Looper.getMainLooper;
-
 public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DeviceScanner.OnDeviceScanListener {
 
     private ConnectDeviceAdapter mConnectDeviceAdapter;
@@ -57,7 +55,7 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
         setupRecyclerView(recyclerView);
 
         // Listen for scan events
-        mDeviceScanner = new DeviceScanner(((BleDemoMicroAppDependencies)BleDemoMicroAppInterface.getInstance().getUappDependencies()).getShnCentral(), new Handler(getMainLooper()));;
+        mDeviceScanner = new DeviceScanner(((BleDemoMicroAppDependencies)BleDemoMicroAppInterface.getInstance().getUappDependencies()).getShnCentral(), new Handler());
         mDeviceScanner.addOnScanListener(this);
 
         return rootView;
