@@ -319,14 +319,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips.setOnClickListener(this);
         mCountryDisplay.setText("Country: " + RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
-        mCountryDisplay.setOnClickListener(this);
 
         mPbJanrainInit.setClickable(false);
         mPbJanrainInit.setEnabled(false);
 
         mUser = new User(mContext);
-        linkifyPrivacyPolicy(privacyPolicy);
-        linkifyPrivacyPolicy(mCountryDisplay);
+        linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
+        linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
 //        styliseCountrySelection();
         handleUiState();
         initServiceDiscovery();
@@ -338,7 +337,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                mCountryDisplay.setText("Country: " + new Locale("", s.toUpperCase()).getDisplayCountry());
+                updateCountryText("Country: " + new Locale("", s.toUpperCase()).getDisplayCountry());
                 handleSocialProviders(s.toUpperCase());
             }
 
@@ -354,10 +353,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
                     selectedCountryCode = RegConstants.COUNTRY_CODE_US;
                 }
-                mCountryDisplay.setText("Country: " + new Locale(Locale.getDefault().getLanguage(),
+                updateCountryText("Country: " + new Locale(Locale.getDefault().getLanguage(),
                         selectedCountryCode).getDisplayCountry());
             }
         });
+    }
+
+    private void updateCountryText(String text) {
+        mCountryDisplay.setText(text);
+        linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
     }
 
     private void showCountrySelection() {
@@ -384,9 +388,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
-        } else if (v.getId() == R.id.usr_StartScreen_country_label) {
+        } /*else if (v.getId() == R.id.usr_StartScreen_country_label) {
             handleCountrySelection();
-        }
+        }*/
     }
 
     final CountryPicker picker = new CountryPicker();
@@ -484,7 +488,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-        mCountryDisplay.setText("Country: " + countryName);
+        updateCountryText("Country: " + countryName);
         hideProgressDialog();
     }
 
@@ -689,7 +693,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
         if (!RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            linkifyPrivacyPolicy(pTvPrivacyPolicy);
+//            linkifyPrivacyPolicy(pTvPrivacyPolicy);
         } else {
             linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
         }
@@ -754,7 +758,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     };
 
-    private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy) {
+    private ClickableSpan countryClickListener = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            if (mRegError.isShown()) mRegError.hideError();
+            handleCountrySelection();
+        }
+    };
+
+    private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy, ClickableSpan span) {
         String privacy = pTvPrivacyPolicy.getText().toString();
 
 //                mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
@@ -763,7 +775,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         SpannableString spanableString = new SpannableString(privacy);
 
-        spanableString.setSpan(privacyClickListener, 0, privacy.length(),
+        spanableString.setSpan(span, 0, privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         removeUnderlineFromLink(spanableString);
@@ -774,13 +786,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 R.color.reg_hyperlink_highlight_color));
         pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
                 android.R.color.transparent));
-    }
-
-    private void styliseCountrySelection() {
-        SpannableString content = new SpannableString(mCountryDisplay.getText());
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        mCountryDisplay.setText(content);
-//        resetPasswordLabel.setOnClickListener(view -> launchResetPasswordFragment());
     }
 
     private void removeUnderlineFromLink(SpannableString spanableString) {
