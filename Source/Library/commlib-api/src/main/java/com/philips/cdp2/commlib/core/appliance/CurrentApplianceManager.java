@@ -3,16 +3,17 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.appliance;
+package com.philips.cdp2.commlib.core.appliance;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.appliance.CurrentApplianceChangedListener;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

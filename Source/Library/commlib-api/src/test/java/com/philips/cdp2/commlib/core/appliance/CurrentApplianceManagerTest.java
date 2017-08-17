@@ -3,13 +3,14 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.appliance;
+package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
 
+import com.philips.cdp.dicommclient.appliance.CurrentApplianceChangedListener;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 
 import org.junit.After;
