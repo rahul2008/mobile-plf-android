@@ -453,6 +453,8 @@ public static <fields>;
 -keep class android.support.v8.renderscript.** { *; }
 -keep interface android.support.v13.app.** { *; }
 -keep public class * extends android.support.v13.**
+-keep class com.philips.platform.appframework.flowmanager.** { *; }
+-keep interface com.philips.platform.appframework.flowmanager.** { *; }
 
 -keepclasseswithmembernames class * {
     native <methods>;
