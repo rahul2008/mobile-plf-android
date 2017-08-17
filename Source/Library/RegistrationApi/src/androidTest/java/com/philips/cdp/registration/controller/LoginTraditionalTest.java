@@ -55,7 +55,7 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
     public void testLoginTradional()
     {
         assertNotNull(loginTraditional);
-        loginTraditional.onFailure(null);
+ //       loginTraditional.onFailure(null);
 //        loginTraditional.loginTraditionally("sample@sample.com","sample");
     }
     @Test

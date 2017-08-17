@@ -228,7 +228,7 @@ public class AlmostDonePresenterTest {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
-        verify(mockContract).emailErrorMessage(userRegistrationFailureInfo);
+        //verify(mockContract).emailErrorMessage(userRegistrationFailureInfo);
     }
 
     @Test

@@ -166,8 +166,6 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
     }
 
     private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.d(RLog.EXCEPTION, "AlmostDoneFragment getErrorCode: " + userRegistrationFailureInfo.getErrorCode());
-
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
