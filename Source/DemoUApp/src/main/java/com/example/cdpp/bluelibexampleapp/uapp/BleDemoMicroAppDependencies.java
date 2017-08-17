@@ -13,15 +13,14 @@ public class BleDemoMicroAppDependencies extends UappDependencies {
 
     public BleDemoMicroAppDependencies(SHNCentral shnCentral) {
         super(null);
-        this.shnCentral=shnCentral;
+        this.shnCentral = shnCentral;
     }
 
     public BleDemoMicroAppDependencies() {
         super(null);
-
     }
 
-    public SHNCentral getShnCentral(){
-     return shnCentral;
+    public SHNCentral getShnCentral() {
+        return shnCentral;
     }
 }
