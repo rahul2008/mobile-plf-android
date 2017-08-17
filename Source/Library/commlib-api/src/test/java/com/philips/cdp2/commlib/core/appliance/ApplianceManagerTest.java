@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
@@ -41,7 +40,7 @@ public class ApplianceManagerTest {
 
     public static final String CPPID = "CPPID";
     @Mock
-    private DICommApplianceFactory<Appliance> applianceFactoryMock;
+    private ApplianceFactory<Appliance> applianceFactoryMock;
 
     @Mock
     private Handler handlerMock;

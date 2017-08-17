@@ -9,15 +9,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleCacheData;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
@@ -118,7 +118,7 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Given("^application has support for appliances?:$")
     public void applicationHasSupportFor(final List<String> applianceTypes) {
-        DICommApplianceFactory testApplianceFactory = new DICommApplianceFactory() {
+        ApplianceFactory testApplianceFactory = new ApplianceFactory() {
             @Override
             public boolean canCreateApplianceForNode(NetworkNode networkNode) {
                 return applianceTypes.contains(networkNode.getDeviceType());

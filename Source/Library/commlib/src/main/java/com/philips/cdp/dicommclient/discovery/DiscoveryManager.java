@@ -11,11 +11,11 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 
 import java.beans.PropertyChangeEvent;
@@ -47,7 +47,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     private final Context mContext;
     private List<NetworkNode> mAddedAppliances;
-    private DICommApplianceFactory<T> mApplianceFactory;
+    private ApplianceFactory<T> mApplianceFactory;
     private NetworkNodeDatabase mNetworkNodeDatabase;
 
     private DICommApplianceDatabase<T> mApplianceDatabase;
@@ -86,11 +86,11 @@ public class DiscoveryManager<T extends Appliance> {
 
     private static DiscoveryTimeoutHandler sDiscoveryTimeoutHandler = new DiscoveryTimeoutHandler<>(sInstance);
 
-    public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull DICommApplianceFactory<U> applianceFactory) {
+    public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory<U> applianceFactory) {
         return createSharedInstance(applicationContext, applianceFactory, new NullApplianceDatabase<U>());
     }
 
-    private static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+    private static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
         if (sInstance == null) {
             DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase);
             sInstance = discoveryManager;
@@ -105,7 +105,7 @@ public class DiscoveryManager<T extends Appliance> {
         return sInstance;
     }
 
-    private DiscoveryManager(@NonNull Context context, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase) {
+    private DiscoveryManager(@NonNull Context context, ApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase) {
         mContext = context;
         mApplianceFactory = applianceFactory;
         mApplianceDatabase = applianceDatabase;

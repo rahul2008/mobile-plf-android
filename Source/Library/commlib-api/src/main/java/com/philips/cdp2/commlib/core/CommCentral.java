@@ -7,8 +7,8 @@ package com.philips.cdp2.commlib.core;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
@@ -25,11 +25,11 @@ public final class CommCentral {
 
     private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
-    private final DICommApplianceFactory<?> applianceFactory;
+    private final ApplianceFactory<?> applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
     private final ApplianceManager applianceManager;
 
-    public CommCentral(@NonNull DICommApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
+    public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
         this.applianceFactory = applianceFactory;
 
         // Setup transport contexts

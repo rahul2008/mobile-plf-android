@@ -7,8 +7,8 @@ package com.philips.cdp2.commlib.core;
 
 import android.os.Handler;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -36,7 +36,7 @@ public class CommCentralTest {
     private Handler handlerMock;
 
     @Mock
-    private DICommApplianceFactory applianceFactoryMock;
+    private ApplianceFactory applianceFactoryMock;
 
     @Mock
     private TransportContext someTransportContextMock;

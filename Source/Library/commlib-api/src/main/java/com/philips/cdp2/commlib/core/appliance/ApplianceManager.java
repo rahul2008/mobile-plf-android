@@ -8,7 +8,6 @@ package com.philips.cdp2.commlib.core.appliance;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
@@ -42,7 +41,7 @@ public class ApplianceManager {
         void onApplianceLost(@NonNull A lostAppliance);
     }
 
-    private final DICommApplianceFactory applianceFactory;
+    private final ApplianceFactory applianceFactory;
 
     private final Set<ApplianceListener<Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
@@ -122,7 +121,7 @@ public class ApplianceManager {
      * @param discoveryStrategies the discovery strategies
      * @param applianceFactory    the appliance factory
      */
-    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull DICommApplianceFactory applianceFactory) {
+    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull ApplianceFactory applianceFactory) {
         if (discoveryStrategies.isEmpty()) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one discovery strategy.");
         }

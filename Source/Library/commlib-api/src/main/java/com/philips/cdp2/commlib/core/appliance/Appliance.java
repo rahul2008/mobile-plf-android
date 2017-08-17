@@ -28,7 +28,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Appliance represents a physical appliance/peripheral/product that implements the DiComm communication protocol.
+ * {@linkplain Appliance} represents a physical appliance/peripheral/product that implements the DiComm communication protocol.
  *
  * @publicApi
  */
@@ -61,6 +61,16 @@ public abstract class Appliance implements Availability<Appliance> {
         }
     };
 
+    /**
+     * Create an appliance.
+     * <p>
+     * Appliances are usually created inside the {@link ApplianceFactory}. If multiple
+     * <code>CommunicationStrategies</code> are provided, they are wrapped with a {@link CombinedCommunicationStrategy}.
+     *
+     * @param networkNode           The {@link NetworkNode} this <code>Appliance</code> is discovered with.
+     * @param communicationStrategy One or multiple <code>CommunicationStrategies</code> used to communicate with the Appliance.
+     * @see ApplianceFactory
+     */
     public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy... communicationStrategy) {
         this.networkNode = requireNonNull(networkNode);
         if (communicationStrategy.length == 1) {

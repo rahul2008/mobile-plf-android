@@ -8,9 +8,9 @@ package com.philips.cdp.dicommclient.discovery;
 import android.os.Handler.Callback;
 
 import com.philips.cdp.dicommclient.MockitoTestCase;
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -364,7 +364,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 //        verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
 //
 //        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-//        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+//        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(ApplianceFactory.class));
 //    }
 //
 //    @SuppressWarnings("unchecked")
@@ -383,7 +383,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 //        verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
 //
 //        DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-//        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+//        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(ApplianceFactory.class));
 //    }
 
     // ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
@@ -431,7 +431,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         Assert.assertEquals("cppId_2", onlineCppIds.get(1));
     }
 
-    private static class TestApplianceFactory implements DICommApplianceFactory<TestAppliance> {
+    private static class TestApplianceFactory implements ApplianceFactory<TestAppliance> {
 
         @Override
         public boolean canCreateApplianceForNode(NetworkNode networkNode) {
