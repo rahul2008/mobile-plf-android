@@ -127,4 +127,15 @@ public class THSLaunchActivity extends AppCompatActivity {
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        int q=12;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int q=12;
+    }
 }

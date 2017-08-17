@@ -93,6 +93,12 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
 
+
+    <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
+    <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>
+    <string name="ths_no_payment_method">"You currently don't have any payment methods saved. Please add a payment method."</string>
+
+
     <!-- Settings Strings -->
     <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
     <string name="ths_cancel_visit">Cancel visit</string>
@@ -108,4 +114,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_download_report">Download report</string>
     <string name="ths_download_report_size">(PDF, 21MB)</string>
     <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
+
 </resources>

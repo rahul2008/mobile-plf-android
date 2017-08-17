@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 
@@ -39,15 +40,23 @@ public class THSImageRecyclerViewAdapter extends RecyclerView.Adapter<THSImageRe
     @Override
     public void onBindViewHolder(THSImageRecyclerViewHolder holder, final int position) {
         THSSelectedImagePojo selectImage = imagesList.get(position);
+        if(!selectImage.isUploaded()){
+            holder.progressBar.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedImageCallback.onImageClicked(position);
+                }
+            });
+
+            holder.progressBar.setVisibility(View.GONE);
+        }
         holder.imageView.setImageBitmap(ThumbnailUtils
                 .extractThumbnail(BitmapFactory.decodeFile(selectImage.getPath()),
                         THUMBSIZE, THUMBSIZE));
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedImageCallback.onImageClicked(position);
-            }
-        });
+
     }
 
     @Override
@@ -58,10 +67,12 @@ public class THSImageRecyclerViewAdapter extends RecyclerView.Adapter<THSImageRe
     public class THSImageRecyclerViewHolder extends RecyclerView.ViewHolder {
 
         protected ImageView imageView;
+        protected ProgressBar progressBar;
 
         public THSImageRecyclerViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.symptom_image);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.imageUploadProgressBar);
         }
     }
 }

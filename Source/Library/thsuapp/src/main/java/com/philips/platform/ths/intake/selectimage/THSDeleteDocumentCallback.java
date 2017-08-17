@@ -11,7 +11,7 @@ import com.americanwell.sdk.entity.SDKError;
 
 public interface THSDeleteDocumentCallback {
 
-    void onDeleteSuccess(SDKError sdkError);
+    void onDeleteSuccess(Void voidResponse,SDKError sdkError);
 
     void onError(Throwable throwable);
 }

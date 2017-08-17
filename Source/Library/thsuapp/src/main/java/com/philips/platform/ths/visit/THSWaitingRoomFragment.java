@@ -6,13 +6,18 @@
 
 package com.philips.platform.ths.visit;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.visit.Visit;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
@@ -23,6 +28,12 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 
 /**
@@ -34,9 +45,9 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     public static final String CANCEL_VISIT_ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     private ActionBarListener actionBarListener;
-     ProgressBarWithLabel mProgressBarWithLabel;
+    ProgressBarWithLabel mProgressBarWithLabel;
     THSWaitingRoomPresenter mTHSWaitingRoomPresenter;
-     AlertDialogFragment alertDialogFragment;
+    AlertDialogFragment alertDialogFragment;
 
     Label mProviderNameLabel;
     Label mProviderPracticeLabel;
@@ -53,15 +64,18 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mProgressBarWithLabel = (ProgressBarWithLabel) view.findViewById(R.id.ths_waiting_room_ProgressBarWithLabel);
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
         mCancelVisitButton.setOnClickListener(this);
-        mProviderImageView = (CircularImageView)view.findViewById(R.id.details_providerImage);
-        return  view;
+        mProviderImageView = (CircularImageView) view.findViewById(R.id.details_providerImage);
+
+        return view;
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //setRetainInstance(true);
         actionBarListener = getActionBarListener();
+
         mTHSWaitingRoomPresenter.startVisit();
     }
 
@@ -86,6 +100,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
 
     }
 
+
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
@@ -96,9 +111,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED && requestCode == REQUEST_VIDEO_VISIT) {
             //  todo getPresenter().setResult(resultCode, data);
+            THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
+            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, null);
         }
     }
-
 
 
     @Override
@@ -107,7 +123,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     }
 
 
-     void showCancelDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+    void showCancelDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity())
                 .setMessage(showLargeContent ? "Your visit shall be cancelled" : "Your visit shall be cancelled").
                         setPositiveButton(" Yes ", this).
@@ -124,9 +140,6 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     }
 
 
-
-
-
     /**
      * Called when a view has been clicked.
      *
@@ -134,18 +147,21 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
      */
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.ths_waiting_room_cancel_button);{
-           // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
+        if (v.getId() == R.id.ths_waiting_room_cancel_button) ;
+        {
+            // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
             if (v.getId() == R.id.uid_alert_negative_button) {
                 alertDialogFragment.dismiss();
-            }else if (v.getId() == R.id.uid_alert_positive_button) {
+            } else if (v.getId() == R.id.uid_alert_positive_button) {
                 mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
 
-            }else {
+            } else {
                 showCancelDialog(true, true, true);
             }
         }
 
 
     }
+
+
 }

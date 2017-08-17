@@ -7,12 +7,14 @@
 package com.philips.platform.ths.visit;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.ChatReport;
+import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -22,6 +24,12 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 
 /**
@@ -72,11 +80,30 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
                 mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
             }
+
+
             THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), null,this);
+
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
 
+    }
+
+    void handleVisitFinish(Intent intent){
+        final Bundle visitExtras = intent.getBundleExtra(VISIT_FINISHED_EXTRAS);
+        if (visitExtras != null) {
+
+            int mResultcode = visitExtras.getInt(VISIT_RESULT_CODE);
+            Visit visit = (Visit) visitExtras.getParcelable(VISIT);
+            boolean isServerDisconnected = visitExtras.getBoolean(VISIT_STATUS_APP_SERVER_DISCONNECTED);
+            boolean isVideoDisconnected = visitExtras.getBoolean(VISIT_STATUS_VIDEO_DISCONNECTED);
+            boolean isProviderConnected = visitExtras.getBoolean(VISIT_STATUS_PROVIDER_CONNECTED);
+
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(  " Please wait, your visit is  wrapping up");
+            mTHSWaitingRoomFragment.addFragment(new THSVisitSummaryFragment(), THSVisitSummaryFragment.TAG,null);
+
+        }
     }
 
     void cancelVisit() {
@@ -119,7 +146,10 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
         builder.build();*/
         // notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
         // start activity
-        mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
+
+
+       mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
+
     }
 
     @Override

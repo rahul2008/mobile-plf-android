@@ -17,11 +17,9 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.intake.selectimage.THSDocumentRecordCallback;
 import com.philips.platform.ths.intake.selectimage.THSUploadDocumentCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -30,10 +28,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 
-public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSDocumentRecordCallback, THSUploadDocumentCallback {
+public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
     protected THSBaseFragment thsBaseView;
     protected THSProviderInfo THSProviderInfo;
     protected THSVisitContext THSVisitContext;
@@ -53,12 +50,11 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     }
 
 
-    public void uploadDocuments(THSConsumer thsConsumer, final Uri uri) {
-        try {
+    public void uploadDocuments(final Uri uri) {
 
+        try {
             uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(), THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
             THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (AWSDKInstantiationException e) {
@@ -69,12 +65,12 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     }
 
-    public void fetchHealthDocuments(THSConsumer thsConsumer) {
-        try {
-            THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), this);
+    public void fetchHealthDocuments() {
+        /*try {
+           THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -134,7 +130,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         });
     }
 
-    @Override
+   /* @Override
     public void onDocumentRecordFetchSuccess(List<DocumentRecord> documentRecordList, SDKError sdkError) {
         if (documentRecordList.size() > 0) {
             thsBaseView.showToast("list size" + documentRecordList.size());
@@ -143,7 +139,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         } else {
             thsBaseView.showToast("list is zero");
         }
-    }
+    }*/
 
     @Override
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
@@ -153,7 +149,8 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
         if (null != documentRecord && null == sdkError) {
-            thsBaseView.showToast("success with Document name");
+            thsBaseView.showToast("Success with Document name"+documentRecord.getName());
+            ((THSSymptomsFragment)thsBaseView).updateDocumentRecordList(documentRecord);
         } else {
             thsBaseView.showToast("upload failed with sdk error");
         }

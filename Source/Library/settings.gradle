@@ -1,0 +1,4 @@
+rootProject.setName 'telehealth'
+include ':thsuapp', ':awsdk'
+project(':thsuapp').projectDir =new File('./thsuapp')
+project(':awsdk').projectDir =new File('./sdk')
