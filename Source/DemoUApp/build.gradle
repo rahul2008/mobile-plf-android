@@ -175,17 +175,6 @@ dependencies {
 
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix())
 
-    /*
-    def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
-
-    if (findProject(commlib)) {
-        debugCompile project(path: commlib, configuration: 'debug')
-        releaseCompile project(path: commlib, configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
-    }
-    */
-
     debugCompile project(path: ':commlib', configuration: 'debug')
     releaseCompile project(path: ':commlib', configuration: 'release')
     testCompile project(path: ':commlib', configuration: 'debug')
