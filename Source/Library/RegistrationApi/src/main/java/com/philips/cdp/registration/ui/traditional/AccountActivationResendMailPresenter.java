@@ -13,7 +13,8 @@ import javax.inject.*;
  * Created by philips on 22/06/17.
  */
 
-public class AccountActivationResendMailPresenter implements NetworStateListener, ResendVerificationEmailHandler {
+public class AccountActivationResendMailPresenter implements NetworStateListener,
+        ResendVerificationEmailHandler {
 
     private final AccountActivationResendMailContract accountActivationContract;
 
@@ -24,7 +25,8 @@ public class AccountActivationResendMailPresenter implements NetworStateListener
     RegistrationHelper registrationHelper;
 
 
-    public AccountActivationResendMailPresenter(AccountActivationResendMailContract accountActivationContract) {
+    public AccountActivationResendMailPresenter(
+            AccountActivationResendMailContract accountActivationContract) {
         URInterface.getComponent().inject(this);
         this.accountActivationContract = accountActivationContract;
     }
@@ -52,7 +54,8 @@ public class AccountActivationResendMailPresenter implements NetworStateListener
     @Override
     public void onResendVerificationEmailFailedWithError(
             final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        accountActivationContract.handleResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+        accountActivationContract.handleResendVerificationEmailFailedWithError
+                (userRegistrationFailureInfo);
     }
 
     void resendMail(User user, String email) {

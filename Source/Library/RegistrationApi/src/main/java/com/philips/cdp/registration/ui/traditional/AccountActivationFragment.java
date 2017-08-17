@@ -168,19 +168,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mEmailId = mUser.getEmail();
         String email = getString(R.string.reg_VerifyEmail_EmailSentto_lbltxt);
         email = String.format(email, mEmailId);
+        setupSpannableText(mTvVerifyEmail, email, mEmailId);
         handleUiState(networkUtility.isNetworkAvailable());
-        email = String.format(email, mEmailId);
-        mTvVerifyEmail.setText(email);
-        setupLinkify(mTvVerifyEmail,  email, mEmailId);
     }
-    private static void setupLinkify(TextView accountSettingPhilipsNews,
+    private static void setupSpannableText(TextView mTvVerifyEmailText,
                                      String moreAccountSettings, String link) {
         SpannableString spanableString = new SpannableString(moreAccountSettings);
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
                 link.toLowerCase());
         spanableString.setSpan(new StyleSpan(Typeface.BOLD), termStartIndex,
                 termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        accountSettingPhilipsNews.setText(spanableString);
+        mTvVerifyEmailText.setText(spanableString);
     }
 
     private void showActivateSpinner() {

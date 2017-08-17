@@ -43,35 +43,20 @@ import io.reactivex.schedulers.*;
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
          RefreshUserHandler, AccountActivationResendMailContract,CounterListener {
 
-
     @Inject
     UpdateUserProfile updateUserProfile;
-
-    private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
     NetworkUtility networkUtility;
 
-   @BindView(R2.id.usr_activationresend_emailResend_button)
+    @BindView(R2.id.usr_activationresend_emailResend_button)
     ProgressBarButton mResendEmail;
 
     @BindView(R2.id.usr_activationresend_return_button)
     Button mReturnButton;
 
-    private User mUser;
-
-    private Context mContext;
-
-   @BindView(R2.id.usr_activationresend_activation_error)
+    @BindView(R2.id.usr_activationresend_activation_error)
     XRegError mRegError;
-
-    private ScrollView mSvRootLayout;
-
-    private boolean isSocialProvider;
-
-    private boolean isEmailVerifiedError;
-
-    private Bundle mBundle;
 
     @BindView(R2.id.usr_activationresend_emailormobile_textfield)
     ValidationEditText usr_activationresend_emailormobile_textfield;
@@ -79,10 +64,26 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @BindView(R2.id.usr_activationresend_emailormobile_inputValidationLayout)
     InputValidationLayout usr_activationresend_emailormobile_inputValidationLayout;
 
+    @BindView(R2.id.sv_root_layout)
+    private ScrollView mSvRootLayout;
+
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
+    private User mUser;
+
+    private Context mContext;
+
+    private boolean isSocialProvider;
+
+    private boolean isEmailVerifiedError;
+
+    private Bundle mBundle;
+
+    View view;
+
     String emailUser;
 
     AccountActivationResendMailPresenter accountActivationResendMailPresenter;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,14 +91,13 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         super.onCreate(savedInstanceState);
     }
 
-    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this);
+        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
         accountActivationResendMailPresenter.registerListener();
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -112,8 +112,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                 .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
         view = inflater.inflate(R.layout.reg_fragment_account_activation_resend, null);
         ButterKnife.bind(this, view);
-
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
         return view;
@@ -134,7 +132,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (mRegError.getVisibility() == View.VISIBLE) {
             isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
-            mBundle.putString("saveEmailVerifiedErrorText", mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
+            mBundle.putString("saveEmailVerifiedErrorText",
+                    mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
         }
     }
 
@@ -142,7 +141,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
-            if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null && savedInstanceState.getBoolean("isEmailVerifiedError")) {
+            if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null
+                    && savedInstanceState.getBoolean("isEmailVerifiedError")) {
                 mRegError.setError(savedInstanceState.getString("saveEmailVerifiedErrorText"));
             }
         }
@@ -277,23 +277,23 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
 
     @Override
-    public void handleResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void handleResendVerificationEmailFailedWithError(
+            UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,
+                AppTagingConstants.JANRAIN);
         try {
             mRegError.setError(userRegistrationFailureInfo.getError().raw_response.getString("message"));
         } catch (Exception e) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
         }
-
         mReturnButton.setEnabled(true);
         mRegError.setVisibility(View.GONE);
     }
 
     public void addEmailClicked(String emailId) {
         mResendEmail.showProgressIndicator();
-
         if (emailId.equals(usr_activationresend_emailormobile_textfield.getText().toString())) {
             if(proceedResend){
                 handleResend(emailId);
@@ -331,7 +331,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), emailOrMobileNumber, true);
+        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(),
+                emailOrMobileNumber, true);
     }
 
     private OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
@@ -355,7 +356,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFr mail" + emailUser + "  --  " + mUser.getEmail());
-
         handleResend(mUser.getEmail());
     }
 
