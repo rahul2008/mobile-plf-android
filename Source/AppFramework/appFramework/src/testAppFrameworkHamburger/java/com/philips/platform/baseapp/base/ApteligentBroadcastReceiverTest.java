@@ -72,7 +72,7 @@ public class ApteligentBroadcastReceiverTest {
 
     @Test
     public void testTrackCorrectPageWelcomeScreen() throws Exception {
-        Map contextData = addAnalyticsDataObjectForPage("Welcome");
+        Map<String, Object> contextData = addAnalyticsDataObjectForPage("Welcome");
         intent.putExtra(TAGGING_DATA, (Serializable)contextData);
 
         broadcastReceiver.onReceive(mockAppFrameworkApplication, intent);
@@ -84,7 +84,7 @@ public class ApteligentBroadcastReceiverTest {
 
     @Test
     public void testTrackSomeActionWhenPageNameIsNull() throws Exception {
-        Map contextData = addAnalyticsDataObjectForPage(null);
+        Map<String, Object> contextData = addAnalyticsDataObjectForPage(null);
         intent.putExtra(TAGGING_DATA, (Serializable)contextData);
 
         broadcastReceiver.onReceive(mockAppFrameworkApplication, intent);
@@ -94,7 +94,7 @@ public class ApteligentBroadcastReceiverTest {
         Crittercism.leaveBreadcrumb("{\"trackPage: \":\"Welcome\"}");
 
 
-        Map contextDataAction = addAnalyticsDataObjectForAction(null);
+        Map<String, Object> contextDataAction = addAnalyticsDataObjectForAction(null);
         intent.putExtra(TAGGING_DATA, (Serializable)contextDataAction);
 
         broadcastReceiver.onReceive(mockAppFrameworkApplication, intent);
@@ -106,7 +106,7 @@ public class ApteligentBroadcastReceiverTest {
 
     @Test
     public void testTrackSomeCorrectActionEvent() throws Exception {
-        Map contextData = addAnalyticsDataObjectForAction("SomeCorrectAction");
+        Map<String, Object> contextData = addAnalyticsDataObjectForAction("SomeCorrectAction");
         intent.putExtra(TAGGING_DATA, (Serializable)contextData);
 
         broadcastReceiver.onReceive(mockAppFrameworkApplication, intent);
