@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/tv_select_address"
-        android:background="?attr/uikit_listDividerColor" />
+        android:background="?attr/uidContentItemDefaultNormalDescriptorTextColor" />
 
     <Button
         android:id="@+id/btn_cancel"

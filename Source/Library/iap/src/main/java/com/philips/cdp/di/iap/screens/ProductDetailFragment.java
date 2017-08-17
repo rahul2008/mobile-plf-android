@@ -105,6 +105,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok),
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
+
                 }
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
@@ -295,7 +296,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             //  mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
-           // Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
+            // Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
             //mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
 
             setCartIconVisibility(true);
@@ -372,7 +373,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         contextData.put(IAPAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
             contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
-        if (mProductStockInfo.getVisibility() == View.VISIBLE)
+        if (mProductStockInfo.getVisibility() == View.VISIBLE && mProductDetail != null)
             contextData.put(IAPAnalyticsConstant.OUT_OF_STOCK, mProductDetail.getStock().getStockLevelStatus());
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
