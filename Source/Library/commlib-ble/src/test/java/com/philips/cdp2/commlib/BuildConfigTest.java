@@ -5,7 +5,7 @@
 
 package com.philips.cdp2.commlib;
 
-import com.philips.cdp2.commlib_all.BuildConfig;
+import com.philips.cdp2.commlib_ble.BuildConfig;
 
 import org.junit.Test;
 

@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient;
 
-import com.philips.cdp2.commlib.BuildConfig;
+import com.philips.cdp2.commlib_api.BuildConfig;
 
 import org.junit.Test;
 
