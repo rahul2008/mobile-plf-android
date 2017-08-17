@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 © Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -13,27 +13,27 @@ import android.support.annotation.Nullable;
  */
 public class PairingRelation {
 
-    @NonNull
+    @Nullable
     private final PairingEntity trustor;
 
-    @NonNull
+    @Nullable
     private final PairingEntity trustee;
 
     @NonNull
     private final String type;
 
-    public PairingRelation(@NonNull PairingEntity trustor, @NonNull PairingEntity trustee, @NonNull String relationType) {
+    public PairingRelation(@Nullable PairingEntity trustor, @Nullable PairingEntity trustee, @NonNull String relationType) {
         this.trustor = trustor;
         this.trustee = trustee;
         this.type = relationType;
     }
 
-    @NonNull
+    @Nullable
     public PairingEntity getTrustorEntity() {
         return trustor;
     }
 
-    @NonNull
+    @Nullable
     public PairingEntity getTrusteeEntity() {
         return trustee;
     }

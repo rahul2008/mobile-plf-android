@@ -22,6 +22,10 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.NOT_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.PAIRED;
 
 public class PairingHandler<T extends Appliance> {
 
@@ -169,7 +173,7 @@ public class PairingHandler<T extends Appliance> {
                 DICommLog.i(DICommLog.PAIRING, "Notification relationship added successfully - Pairing completed");
                 DICommLog.i(DICommLog.PAIRING, "Pairing status set to true");
 
-                mAppliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+                mAppliance.getNetworkNode().setPairedState(PAIRED);
                 mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
                 // TODO: Store the Appliance in the database
@@ -183,7 +187,7 @@ public class PairingHandler<T extends Appliance> {
     }
 
     private boolean isPerformingUserPairing() {
-        return pairingRelation.getTrustorEntity().type.equals(USER_ENTITY_TYPE);
+        return pairingRelation.getTrustorEntity() != null && pairingRelation.getTrustorEntity().type.equals(USER_ENTITY_TYPE);
     }
 
     private void handleRelationshipRemove() {
@@ -299,8 +303,8 @@ public class PairingHandler<T extends Appliance> {
     /**
      * Method startUserPairing- starts pairing procedure based on a user relation
      *
-     * @param userId
-     * @param accessToken
+     * @param userId      the user id
+     * @param accessToken the access token
      * @since UNRELEASED
      */
     public void startUserPairing(String userId, String accessToken) {
@@ -345,7 +349,11 @@ public class PairingHandler<T extends Appliance> {
                 port.removePortListener(this);
             }
         });
-        pairingPort.triggerPairing(pairingRelation.getTrustorEntity().type, pairingRelation.getTrustorEntity().id, secretKey);
+
+        final String clientType = pairingRelation.getTrustorEntity() == null ? null : pairingRelation.getTrustorEntity().type;
+        final String clientId = pairingRelation.getTrustorEntity() == null ? null : pairingRelation.getTrustorEntity().id;
+
+        pairingPort.triggerPairing(clientType, clientId, secretKey);
     }
 
     public void initializeRelationshipRemoval() {
@@ -419,7 +427,7 @@ public class PairingHandler<T extends Appliance> {
             setPairingAttempts(mAppliance.getNetworkNode().getCppId());
             startPairingPortTask(pairingRelation);
         } else {
-            mAppliance.getNetworkNode().setPairedState(NetworkNode.PairingState.NOT_PAIRED);
+            mAppliance.getNetworkNode().setPairedState(NOT_PAIRED);
             if (pairingListener != null) {
                 pairingListener.onPairingFailed(mAppliance);
             }
@@ -432,29 +440,21 @@ public class PairingHandler<T extends Appliance> {
 
         // Difference between current and previous timestamp
         long diff = currentTimeInMillis - pairedOn;
-        long diffInDays = diff / (1000 * 60 * 60 * 24);
 
-        return diffInDays;
+        return diff / TimeUnit.DAYS.toMillis(1);
     }
 
     public static boolean pairApplianceIfNecessary(final @NonNull NetworkNode networkNode) {
-        // TODO FIXME
-        //        if (networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
-        //            return false;
-        //        }
-        DICommLog.i(DICommLog.PAIRING, "In PairToPurifier: " + networkNode.getPairedState());
+        DICommLog.i(DICommLog.PAIRING, "pairApplianceIfNecessary: " + networkNode.getPairedState());
 
         // First time pairing or on EWS
-        if (networkNode.getPairedState() == NetworkNode.PairingState.NOT_PAIRED) {
+        if (networkNode.getPairedState() == NOT_PAIRED) {
             return true;
         }
-        //Everyday check for pairing
+        // Everyday check for pairing
         long lastPairingCheckTime = networkNode.getLastPairedTime();
         long diffInDays = PairingHandler.getDiffInDays(lastPairingCheckTime);
 
-        if (networkNode.getPairedState() == NetworkNode.PairingState.PAIRED && diffInDays != 0) {
-            return true;
-        }
-        return false;
+        return networkNode.getPairedState() == PAIRED && diffInDays != 0;
     }
 }

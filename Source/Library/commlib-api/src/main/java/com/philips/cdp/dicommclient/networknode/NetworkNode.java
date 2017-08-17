@@ -15,6 +15,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
@@ -223,29 +224,29 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_LAST_PAIRED, oldPairedTime, lastPairedTime);
     }
 
-    public void updateWithValuesFrom(NetworkNode mergedInNetworkNode) {
-        if (!mergedInNetworkNode.cppId.equals(cppId)) {
+    public void updateWithValuesFrom(final @NonNull NetworkNode networkNode) {
+        if (!Objects.equals(networkNode.getCppId(), this.cppId)) {
             return;
         }
 
-        if (mergedInNetworkNode.homeSsid != null && !mergedInNetworkNode.homeSsid.equals(homeSsid)) {
-            setHomeSsid(mergedInNetworkNode.homeSsid);
+        if (!Objects.equals(networkNode.getHomeSsid(), this.homeSsid)) {
+            setHomeSsid(networkNode.getHomeSsid());
         }
 
-        if (mergedInNetworkNode.ipAddress != null && !mergedInNetworkNode.ipAddress.equals(ipAddress)) {
-            setIpAddress(mergedInNetworkNode.ipAddress);
+        if (!Objects.equals(networkNode.getIpAddress(), this.ipAddress)) {
+            setIpAddress(networkNode.getIpAddress());
         }
 
-        if (mergedInNetworkNode.name != null && !mergedInNetworkNode.name.equals(name)) {
-            setName(mergedInNetworkNode.name);
+        if (!Objects.equals(networkNode.getName(), this.name)) {
+            setName(networkNode.getName());
         }
 
-        if (bootId != mergedInNetworkNode.bootId) {
+        if (networkNode.getBootId() != this.bootId) {
             setEncryptionKey(null);
-            setBootId(mergedInNetworkNode.bootId);
+            setBootId(networkNode.getBootId());
         }
 
-        if (mergedInNetworkNode.encryptionKey != null) {
+        if (networkNode.getEncryptionKey() != null) {
             setEncryptionKey(null);
         }
     }
