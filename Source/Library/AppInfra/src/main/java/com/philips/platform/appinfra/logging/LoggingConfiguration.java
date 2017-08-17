@@ -20,7 +20,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import org.json.JSONArray;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -313,21 +312,6 @@ class LoggingConfiguration {
         }
 
         return fileHandler;
-    }
-
-    private void readLogConfigFileFromAppAsset() {
-        try {
-            final InputStream mInputStream = getLoggerPropertiesInputStream();
-            if (mInputStream != null) {
-                getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
-            }
-        } catch (IOException e) {
-            if (e instanceof FileNotFoundException) {
-                mAppInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, "Logging Error", AppInfraLogEventID.AI_LOGGING + "logging.properties file missing under App assets folder");
-            } else {
-                mAppInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, "Logging Error", AppInfraLogEventID.AI_LOGGING);
-            }
-        }
     }
 
     private InputStream getLoggerPropertiesInputStream() throws IOException {
