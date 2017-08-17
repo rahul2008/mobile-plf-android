@@ -3,10 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved. 
- */
 package com.philips.cdp2.commlib.core.port.firmware.util;
 
 import android.support.annotation.NonNull;
@@ -15,6 +11,7 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
@@ -34,6 +31,11 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties.FirmwarePortState.fromString;
 import static java.lang.Math.min;
 
+/**
+ * This type can be used to upload a binary firmware image to the {@link FirmwarePort} of an {@link Appliance}.
+ * The uploading is performed in chunks, of which the size is determined by the 'maxchunksize' property that
+ * is set, see {@link FirmwarePortProperties#getMaxChunkSize()}.
+ */
 public class FirmwareUploader {
 
     private final FirmwarePort firmwarePort;
