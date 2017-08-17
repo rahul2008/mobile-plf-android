@@ -106,7 +106,9 @@ public class RegUtility {
         setupLinkify(accountSettingPhilipsNews, activity, accountSettingsPhilipsClickListener, moreAccountSettings, link);
     }
 
-    private static void setupLinkify(TextView accountSettingPhilipsNews, Activity activity, ClickableSpan accountSettingsPhilipsClickListener, String moreAccountSettings, String link) {
+    private static void setupLinkify(TextView accountSettingPhilipsNews, Activity activity,
+                                     ClickableSpan accountSettingsPhilipsClickListener,
+                                     String moreAccountSettings, String link) {
         SpannableString spanableString = new SpannableString(moreAccountSettings);
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
                 link.toLowerCase());

@@ -27,10 +27,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:text="@string/reg_VerifyEmail_VerifyEmail_lbltxt"
+                android:text="Email needs to be verified"
                 android:textColor="@color/uid_gray_level_90"
                 android:textSize="@dimen/text_size_20"
                 android:textStyle="bold"
+                reglib:fontAssetName="CentraleSans-Book.OTF"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/alertDescription1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:text="Please click on the link in the email we've sent you."
+                android:textColor="@color/uid_gray_level_90"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -38,50 +47,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:text="@string/reg_VerifyEmail_EmailSentto_lbltxt"
+                android:text="The email may not arrive immediately but it is on its way."
                 android:textColor="@color/uid_gray_level_90"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
-
-            <com.philips.platform.uid.view.widget.Label
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:text="@string/reg_VerifyEmail_ActivateInfo_lbltxt"
-                android:textColor="@color/uid_gray_level_90"
-                reglib:fontAssetName="CentraleSans-Book.OTF"/>
-
-            <com.philips.platform.uid.view.widget.Label
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:text="@string/Activation_explain_value_to_user"
-                android:textColor="@color/uid_gray_level_90"
-                reglib:fontAssetName="CentraleSans-Book.OTF"/>
-
-            <com.philips.platform.uid.view.widget.ProgressBarButton
-                android:id="@+id/usr_activation_emailVerified_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:uidIsIndeterminateProgressIndicator="true"
-                android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_VerifyEmail_Activated_btntxt"
-                app:uidProgressIndicatorButtonText="@string/reg_VerifyEmail_Activated_btntxt"/>
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/usr_activation_emailNotReceived_button"
+                style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
-                app:uidComponentType="Secondary"
-                android:text="@string/reg_Resend_mail_btntxt"/>
-
-            <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/usr_activation_activation_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_bottom"
-                android:visibility="gone"/>
-
+                android:text="I'll check again"/>
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/reg_scroll_margin"/>

@@ -76,6 +76,7 @@ public class AddSecureEmailPresenter implements NetworStateListener {
         }
     }
 
+
     public void cleanUp() {
         disposables.clear();
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
