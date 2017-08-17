@@ -9,8 +9,8 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleCacheData;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -81,6 +81,7 @@ public class BleDiscoveryStrategyTest {
     @Test
     public void whenADeviceIsFoundANetworkNodeShouldBeDiscovered() {
         strategyUnderTest.addDiscoveryListener(listener);
+
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(listener).onNetworkNodeDiscovered(networkNode);
@@ -95,5 +96,16 @@ public class BleDiscoveryStrategyTest {
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(listener, never()).onNetworkNodeDiscovered(networkNode);
+    }
+
+    @Test
+    public void whenDeviceDiscoveredTwice_ThenOnUpdateCalled() {
+        strategyUnderTest.addDiscoveryListener(listener);
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+        when(mockCache.contains("ADDR")).thenReturn(true);
+
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+
+        verify(listener).onNetworkNodeUpdated(networkNode);
     }
 }
