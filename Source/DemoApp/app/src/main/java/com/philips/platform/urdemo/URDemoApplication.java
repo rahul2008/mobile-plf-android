@@ -112,6 +112,7 @@ public class URDemoApplication extends Application {
         standardRegistrationInterface.init(new URDemouAppDependencies(mAppInfraInterface), new URDemouAppSettings(this));
 
 
+        RLog.enableLogging();
 
 
 
