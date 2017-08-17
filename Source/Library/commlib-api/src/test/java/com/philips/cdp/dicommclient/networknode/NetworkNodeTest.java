@@ -170,7 +170,7 @@ public class NetworkNodeTest extends RobolectricTest {
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithNullEncryptionKey_ThenEncryptionKeyShouldBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithNullEncryptionKey_ThenEncryptionKeyShouldNotBeChanged() throws Exception {
         NetworkNode originalNetworkNode = createNetworkNode();
         originalNetworkNode.setEncryptionKey("Some really secret key");
         NetworkNode networkNodeForUpdate = createNetworkNode();
@@ -179,11 +179,11 @@ public class NetworkNodeTest extends RobolectricTest {
 
         originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
 
-        verifyPropertyChangeCalled(KEY_ENCRYPTION_KEY, null);
+        verify(mockPropertyChangeListener, never()).propertyChange((PropertyChangeEvent) anyObject());
     }
 
     @Test
-    public void whenUpdatingNetworkNodeWithEncryptionKey_ThenEncryptionKeyShouldNotBeChanged() throws Exception {
+    public void whenUpdatingNetworkNodeWithEncryptionKey_ThenEncryptionKeyShouldBeReset() throws Exception {
         NetworkNode originalNetworkNode = createNetworkNode();
         originalNetworkNode.setEncryptionKey("Some really secret key");
         NetworkNode networkNodeForUpdate = createNetworkNode();
@@ -192,7 +192,7 @@ public class NetworkNodeTest extends RobolectricTest {
 
         originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
 
-        verify(mockPropertyChangeListener, never()).propertyChange((PropertyChangeEvent) anyObject());
+        verifyPropertyChangeCalled(KEY_ENCRYPTION_KEY, null);
     }
 
     private void verifyPropertyChangeCalled(String propertyName, Object value) {

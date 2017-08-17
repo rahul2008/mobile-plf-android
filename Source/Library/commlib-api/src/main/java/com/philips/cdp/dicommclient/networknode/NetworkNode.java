@@ -240,9 +240,13 @@ public class NetworkNode implements Parcelable {
             setName(mergedInNetworkNode.name);
         }
 
-        if (bootId != mergedInNetworkNode.bootId || mergedInNetworkNode.encryptionKey == null) {
+        if (bootId != mergedInNetworkNode.bootId) {
             setEncryptionKey(null);
             setBootId(mergedInNetworkNode.bootId);
+        }
+
+        if (mergedInNetworkNode.encryptionKey != null) {
+            setEncryptionKey(null);
         }
     }
 
