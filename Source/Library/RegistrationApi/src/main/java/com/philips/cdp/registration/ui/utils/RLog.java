@@ -1,6 +1,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
+import android.support.annotation.*;
 import android.util.Log;
 
 import com.janrain.android.engage.JREngage;
@@ -144,5 +145,10 @@ public class RLog {
         }
         validateLoggerInitialization();
         mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
+    }
+
+    @VisibleForTesting
+    public static void setMockLogger(LoggingInterface mockLoggingInterface) {
+        mLoggingInterface = mockLoggingInterface;
     }
 }

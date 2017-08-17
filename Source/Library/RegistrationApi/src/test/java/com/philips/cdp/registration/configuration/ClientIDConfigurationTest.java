@@ -1,14 +1,27 @@
 package com.philips.cdp.registration.configuration;
 
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.logging.*;
+
 import junit.framework.TestCase;
 
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
+import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientIDConfigurationTest extends TestCase{
+
+    @Mock
+    LoggingInterface mockLoggingInterface;
+
+    @Before
+    @Override
+    public void setUp() throws Exception {
+        RLog.setMockLogger(mockLoggingInterface);
+    }
 
     @Test
     public void testChinaDevelopResetPassword() throws Exception {
