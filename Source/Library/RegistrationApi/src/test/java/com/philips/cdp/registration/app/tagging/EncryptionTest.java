@@ -1,30 +1,25 @@
 package com.philips.cdp.registration.app.tagging;
 
-import android.util.Base64;
+import android.util.*;
 
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.logging.*;
 
-import junit.framework.TestCase;
+import junit.framework.*;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.*;
 import org.junit.Test;
+import org.mockito.*;
 
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
+import java.nio.charset.*;
+import java.security.*;
+import java.security.spec.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 
 public class EncryptionTest extends TestCase {
+    @Mock
+    LoggingInterface mockLoggingInterface;
 
     private Encryption encryption;
 
@@ -95,7 +90,10 @@ public class EncryptionTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        RLog.setMockLogger(mockLoggingInterface);
         encryption = new Encryption();
+
     }
 
     @After
