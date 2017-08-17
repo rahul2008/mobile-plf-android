@@ -67,8 +67,9 @@ public abstract class Appliance implements Availability<Appliance> {
      * Appliances are usually created inside the {@link ApplianceFactory}. If multiple
      * <code>CommunicationStrategies</code> are provided, they are wrapped with a {@link CombinedCommunicationStrategy}.
      *
-     * @param networkNode           The {@link NetworkNode} this <code>Appliance</code> is discovered with.
+     * @param networkNode             The {@link NetworkNode} this <code>Appliance</code> is discovered with.
      * @param communicationStrategies One or multiple <code>CommunicationStrategies</code> used to communicate with the Appliance.
+     *                                The order in which they are supplied determines the order in which communication is attemped.
      * @see ApplianceFactory
      */
     public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy... communicationStrategies) {
