@@ -99,6 +99,7 @@
             android:layout_marginLeft="@dimen/border16_margin_left_right"
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border24_margin"
+            android:enabled="false"
             android:text="@string/call_us"
             app:uidComponentType="Primary" />
 

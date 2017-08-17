@@ -239,8 +239,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
             populateProductNameQuantityAndPrice(productList);
 
-            tvPriceTotal.setText(data.getFormatedPrice());
-
+            // tvPriceTotal.setText(data.getFormatedPrice());
         }
     }
 
@@ -269,6 +268,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
 
             setCallTimings();
+            btncall.setEnabled(true);
         }
     }
 
@@ -330,13 +330,22 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mController.requestPrxData(detailList, this);
         }
         if (detail.getTotalPriceWithTax() != null) {
-//           mTvtotalPrice.setText(detail.getTotalPriceWithTax().getFormattedValue());
+            tvPriceTotal.setText(detail.getTotalPriceWithTax().getFormattedValue());
+        }
+        if (detail.getDeliveryMode() != null && detail.getDeliveryCost() != null) {
+            tvDeliveryMode.setText(String.format(getResources().getString(R.string.iap_delivery_via_what), detail.getDeliveryMode().getCode().toLowerCase()));
+            tvDeliveryModePrice.setText(detail.getDeliveryCost().getFormattedValue());
+        }
+
+        if (detail.getTotalTax() != null) {
+            tvPriceVat.setText(detail.getTotalTax().getFormattedValue());
         }
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
             mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
         }
+
         if (detail.getPaymentInfo() != null) {
             if (detail.getPaymentInfo().getBillingAddress() != null) {
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());

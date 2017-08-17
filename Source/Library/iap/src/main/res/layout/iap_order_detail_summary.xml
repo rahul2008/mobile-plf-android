@@ -82,7 +82,7 @@
                 android:textSize="@dimen/iap_text_size_16sp"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:layout_weight="1"
-                android:gravity="left"/>
+                android:gravity="start"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_price_total"
@@ -90,7 +90,7 @@
                 android:textSize="@dimen/header"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:layout_weight="1"
-                android:gravity="right"/>
+                android:gravity="end"/>
 
         </TableRow>
 
@@ -107,7 +107,7 @@
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                 android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                 android:layout_weight="1"
-                android:gravity="left"/>
+                android:gravity="start"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_price_vat"
@@ -115,7 +115,7 @@
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                 android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                 android:layout_weight="1"
-                android:gravity="right"/>
+                android:gravity="end"/>
 
         </TableRow>
 
