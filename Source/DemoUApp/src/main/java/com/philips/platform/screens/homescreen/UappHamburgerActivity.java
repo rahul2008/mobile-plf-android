@@ -38,6 +38,11 @@ import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +75,7 @@ public class UappHamburgerActivity extends UappBaseActivity implements FragmentM
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
+        initDLS();
         /*
          * Setting Philips UI KIT standard BLUE theme.
          */
@@ -84,6 +89,12 @@ public class UappHamburgerActivity extends UappBaseActivity implements FragmentM
         renderHamburgerMenu();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
+
+    public void initDLS() {
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
+    }
+
 
     /**
      * For updating the hamburger drawer
