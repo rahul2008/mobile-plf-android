@@ -6,6 +6,10 @@ jacoco {
     toolVersion = "0.7.1.201405082137"
 }
 
+def coverageSourceDirs = [
+                                "src/main/java"
+                        ]
+
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -110,14 +114,9 @@ android {
     }
     buildTypes {
         release {
+//            testCoverageEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        debug {
-            minifyEnabled false
-            debuggable true
-            testCoverageEnabled = true
         }
     }
 
@@ -163,68 +162,88 @@ dependencies {
     testCompile 'com.crittercism:crittercism-android-agent:5.8.1'
 }
 
-project.afterEvaluate {
-    // Grab all build types and product flavors
-    def buildTypes = android.buildTypes.collect { type ->
-        type.name
-    }
-    def productFlavors = android.productFlavors.collect { flavor ->
-        flavor.name
-    }
-    // When no product flavors defined, use empty
-    if (!productFlavors) productFlavors.add('')
+task jacocoTestReport(type: JacocoReport, dependsOn: "testReleaseUnitTest") {
+        group = "Reporting"
 
-    //iterate over the flavors
+        description = "Generate Jacoco coverage reports"
 
-    productFlavors.each {
+        classDirectories = fileTree(
+            dir: 'build/intermediates/classes/release',
+        )
 
-        productFlavorName ->
-//iterate over build types like debug,release,prod etc.
-            buildTypes.each {
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testReleaseUnitTest.exec')
 
-                buildTypeName ->
-                    //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
-                    def sourceName, sourcePath
-                    if (!productFlavorName) {
-                        sourceName = sourcePath = "${buildTypeName}"
-                    } else {
-                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
-                        sourcePath = "${productFlavorName}/${buildTypeName}"
-                    }
-                    // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
-                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
-                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
-                        group = "Reporting"
-                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
-                        classDirectories = fileTree(
-                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-                                excludes: [
-                                        '**/R.class',
-                                        '**/R$*.class',
-                                        '**/*$ViewInjector*.*',
-                                        '**/*$ViewBinder*.*',
-                                        '**/BuildConfig.*',
-                                        '**/Manifest*.*',
-                                ]
-                        )
-                        def coverageSourceDirs = [
-                                "src/main/java",
-                                "src/$productFlavorName/java",
-                                "src/$buildTypeName/java"
-                        ]
-                        additionalSourceDirs = files(coverageSourceDirs)
-                        sourceDirectories = files(coverageSourceDirs)
-                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
-                        reports {
-                            //enables and disable the type of file you need
-                            xml.enabled = false
-                            html.enabled = true
-                        }
-                    }
-
-            }
-    }
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        }
 }
+
+
+//project.afterEvaluate {
+//    // Grab all build types and product flavors
+//    def buildTypes = android.buildTypes.collect { type ->
+//        type.name
+//    }
+//    def productFlavors = android.productFlavors.collect { flavor ->
+//        flavor.name
+//    }
+//    // When no product flavors defined, use empty
+//    if (!productFlavors) productFlavors.add('')
+//
+//    //iterate over the flavors
+//
+//    productFlavors.each {
+//
+//        productFlavorName ->
+////iterate over build types like debug,release,prod etc.
+//            buildTypes.each {
+//
+//                buildTypeName ->
+//                    //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
+//                    def sourceName, sourcePath
+//                    if (!productFlavorName) {
+//                        sourceName = sourcePath = "${buildTypeName}"
+//                    } else {
+//                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+//                        sourcePath = "${productFlavorName}/${buildTypeName}"
+//                    }
+//                    // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
+//                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
+//                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+//                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+//                        group = "Reporting"
+//                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+//                        classDirectories = fileTree(
+//                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
+//                                excludes: [
+//                                        '**/R.class',
+//                                        '**/R$*.class',
+//                                        '**/*$ViewInjector*.*',
+//                                        '**/*$ViewBinder*.*',
+//                                        '**/BuildConfig.*',
+//                                        '**/Manifest*.*',
+//                                ]
+//                        )
+//                        def coverageSourceDirs = [
+//                                "src/main/java",
+//                                "src/$productFlavorName/java",
+//                                "src/$buildTypeName/java"
+//                        ]
+//                        additionalSourceDirs = files(coverageSourceDirs)
+//                        sourceDirectories = files(coverageSourceDirs)
+//                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+//                        reports {
+//                            //enables and disable the type of file you need
+//                            xml.enabled = false
+//                            html.enabled = true
+//                        }
+//                    }
+//
+//            }
+//    }
+//}
 
 apply plugin: 'com.google.gms.google-services'

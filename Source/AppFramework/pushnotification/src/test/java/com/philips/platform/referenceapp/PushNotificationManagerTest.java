@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
@@ -46,7 +47,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
-@Config(manifest=Config.NONE, constants = BuildConfig.class, /*application = TestAppFrameworkApplication.class,*/ sdk = 25)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, sdk = 25)
 @PrepareForTest({PushNotificationManager.class, PreferenceManager.class, TextUtils.class})
 public class PushNotificationManagerTest {
     private static final String TAG = "PushNotificationTest";
@@ -135,7 +136,7 @@ public class PushNotificationManagerTest {
     public void tearDown() throws Exception {
         pushNotificationManager = null;
     }
-    
+
     private static class TestService extends RegistrationIntentService {
         @Override
         public void onStart(Intent intent, int startId) {
