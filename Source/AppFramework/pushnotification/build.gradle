@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = "0.7.6.201602180812"
 }
 
 def coverageSourceDirs = [
@@ -182,7 +182,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "crea
 
     executionData = fileTree(dir: buildDir, includes: [
             "jacoco/testDebugUnitTest.exec",
-            "jacoco/testReleaseUnitTest.exec"
     ])
     reports {
         xml.enabled = true
