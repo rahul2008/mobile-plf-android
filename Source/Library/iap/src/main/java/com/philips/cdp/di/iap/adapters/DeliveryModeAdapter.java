@@ -112,14 +112,6 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
             view.setOnClickListener(this);
             deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
-
-            /*deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("9999999 val : "+deliveryModePrice.getText().toString());
-
-                }
-            });*/
         }
 
         @Override

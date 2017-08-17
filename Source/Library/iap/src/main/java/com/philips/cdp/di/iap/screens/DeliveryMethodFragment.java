@@ -18,10 +18,6 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 
 import java.util.List;
 
-/**
- * Created by philips on 8/11/17.
- */
-
 public class DeliveryMethodFragment extends InAppBaseFragment implements DeliveryModeDialog.DialogListener, AddressController.AddressListener {
 
     private Context mContext;
@@ -81,15 +77,12 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
 
         @Override
         public void onClick(View view) {
-            System.out.println("99999 back pressed");
 
         }
     };
 
     @Override
     public void onItemClick(int position) {
-
-        System.out.println("******** onItemClick : " + position);
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         mSelectedDeliveryMode = deliveryModes.get(position);
 

@@ -191,11 +191,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (mData.get(0) != null) {
                 data = mData.get(0);
 
-                /*hoppingCartFooter.mTotalItems.setText(mContext.getString(R.string.iap_total)
-                        + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-                shoppingCartFooter.mVatInclusiveValue.setText
-                        (mContext.getString(R.string.iap_including_vat));*/
-
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
 
                 if (null != data.getDeliveryMode()) {
@@ -207,13 +202,17 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         mIsFreeDelivery = true;
                     }
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
-                    shoppingCartFooter.mDeliveryTitle.setText(deliveryMethod);
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
                     if (deliveryMethod != null) {
                         shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                        String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
+                        freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
+                        shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
+                        shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
                     } else {
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
+                        shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
 
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
@@ -231,12 +230,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
                     mIsFreeDelivery = true;
                 }
-
-                //Need to remove this hardcoded 100 val
-               /* String freeDeliverySpendAmount = "100";
-                String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_free_description);
-                freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
-                shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);*/
 
                 for (int i = 0; i < mData.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
