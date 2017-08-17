@@ -31,8 +31,8 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/line_separator"
         android:layout_marginTop="20dp"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin" />
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/reminderTime"
@@ -40,8 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
         android:layout_marginBottom="20dp"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
         android:textSize="@dimen/uid_grid_descrption_size" />
 
@@ -58,8 +58,8 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/line_separator_1"
         android:paddingBottom="3dp"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:paddingTop="3dp"
         android:text="@string/ths_with" />
 
@@ -85,8 +85,8 @@
         android:layout_below="@id/horizontalLine"
         android:layout_marginBottom="24dp"
         android:layout_marginTop="16dp"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_email_sent" />
 
     <RelativeLayout

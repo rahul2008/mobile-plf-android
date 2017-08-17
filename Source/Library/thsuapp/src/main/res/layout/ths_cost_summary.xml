@@ -14,9 +14,9 @@
             android:id="@+id/ths_cost_summary_title_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="8sp"
             android:text="Your visit will cost"
@@ -28,9 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_cost_summary_title_label"
-            android:layout_marginBottom="@dimen/pth_margin_bottom"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin">
+            android:layout_marginBottom="@dimen/ths_margin_bottom"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_cost_summary_cost_big_label"
@@ -57,11 +57,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_cost_summary_relativelayout"
-            android:layout_marginBottom="@dimen/pth_margin_bottom"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_margin_bottom"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
             android:lineSpacingExtra="4sp"
-            android:textSize="@dimen/pth_small_body_text">
+            android:textSize="@dimen/ths_small_body_text">
 
         </com.philips.platform.uid.view.widget.Label>
 
@@ -80,12 +80,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_cost_summary_divider_linearLayout"
-            android:layout_marginBottom="@dimen/pth_margin_bottom"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/ths_margin_bottom"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_marginTop="8dp"
             android:text="Enter a promotion code here"
-            android:textSize="@dimen/pth_body_text"
+            android:textSize="@dimen/ths_body_text"
 
             ></com.philips.platform.uid.view.widget.Label>
 
@@ -96,8 +96,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_cost_summary_promotion_code_title_label"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin" />
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin" />
 
 
         <com.philips.platform.uid.view.widget.Button
@@ -106,8 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_cost_summary_promotion_code_edittext"
             android:layout_marginBottom="12dp"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
             android:text="Apply"
             app:uidComponentType="Secondary"
 
@@ -131,9 +131,9 @@
             android:layout_below="@+id/ths_cost_summary_insurance_seperator_top"
             android:gravity="center_vertical"
             android:lineSpacingExtra="6dp"
-            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
 
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             android:text="Insurance"
             android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
             android:textSize="16sp" />
@@ -148,8 +148,8 @@
                 android:id="@+id/ths_cost_summary_insurance_detail_relativelayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
                 android:visibility="gone">
@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="6sp"
                         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                        android:textSize="@dimen/pth_small_body_text">
+                        android:textSize="@dimen/ths_small_body_text">
 
                     </com.philips.platform.uid.view.widget.Label>
 
@@ -186,7 +186,7 @@
                         android:layout_below="@+id/ths_cost_summary_insurance_name"
                         android:lineSpacingExtra="6sp"
                         android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-                        android:textSize="@dimen/pth_small_body_text">
+                        android:textSize="@dimen/ths_small_body_text">
 
                     </com.philips.platform.uid.view.widget.Label>
 
@@ -197,7 +197,7 @@
                         android:layout_below="@+id/ths_cost_summary_insurance_member_id"
                         android:lineSpacingExtra="6sp"
                         android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-                        android:textSize="@dimen/pth_small_body_text"
+                        android:textSize="@dimen/ths_small_body_text"
 
                         >
 
@@ -214,8 +214,8 @@
                 android:id="@+id/ths_cost_summary_no_insurance_detail_relativelayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp">
 
@@ -301,8 +301,8 @@
             android:layout_below="@+id/ths_cost_summary_payment_seperator_top"
             android:gravity="center_vertical"
             android:lineSpacingExtra="6dp"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             android:text="Payment Method"
             android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
             android:textSize="16sp" />
@@ -318,8 +318,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
                 android:visibility="gone">
@@ -346,7 +346,7 @@
                         android:lineSpacingExtra="6sp"
                         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
 
-                        android:textSize="@dimen/pth_small_body_text">
+                        android:textSize="@dimen/ths_small_body_text">
 
                     </com.philips.platform.uid.view.widget.Label>
 
@@ -357,7 +357,7 @@
                         android:layout_below="@+id/ths_cost_summary_card_type"
                         android:lineSpacingExtra="6sp"
                         android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-                        android:textSize="@dimen/pth_small_body_text">
+                        android:textSize="@dimen/ths_small_body_text">
 
                     </com.philips.platform.uid.view.widget.Label>
 
@@ -368,7 +368,7 @@
                         android:layout_below="@+id/ths_cost_summary_masked_card_number"
                         android:lineSpacingExtra="6sp"
                         android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-                        android:textSize="@dimen/pth_small_body_text">
+                        android:textSize="@dimen/ths_small_body_text">
 
                     </com.philips.platform.uid.view.widget.Label>
 
@@ -384,8 +384,8 @@
                 android:id="@+id/ths_cost_summary_no_payment_detail_relativelayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp">
 
@@ -487,10 +487,10 @@
                     android:id="@+id/ths_cost_summary_continue_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-                    android:layout_marginLeft="@dimen/pth_fab_margin"
-                    android:layout_marginRight="@dimen/pth_fab_margin"
-                    android:layout_marginTop="@dimen/pth_margin_between_buttons"
+                    android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                    android:layout_marginLeft="@dimen/ths_fab_margin"
+                    android:layout_marginRight="@dimen/ths_fab_margin"
+                    android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
 
                     android:text="Ok, continue" />
@@ -509,10 +509,10 @@
                     android:id="@+id/ths_cost_summary_add_payment_method_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-                    android:layout_marginLeft="@dimen/pth_fab_margin"
-                    android:layout_marginRight="@dimen/pth_fab_margin"
-                    android:layout_marginTop="@dimen/pth_margin_between_buttons"
+                    android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+                    android:layout_marginLeft="@dimen/ths_fab_margin"
+                    android:layout_marginRight="@dimen/ths_fab_margin"
+                    android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
 
                     android:text="Add payment method" />

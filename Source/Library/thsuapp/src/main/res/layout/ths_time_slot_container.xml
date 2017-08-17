@@ -15,16 +15,16 @@
         style="@style/ths_list_header"
         android:layout_width="match_parent"
         android:layout_below="@+id/line_separator"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_select_time" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_container"
         style="@style/ths_calendar_left"
         android:layout_below="@id/select_time"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin" />
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin" />
 
     <View
         android:id="@+id/line_separator_2"

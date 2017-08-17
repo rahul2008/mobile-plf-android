@@ -113,14 +113,14 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         switch (searchType) {
             case THSConstants.MEDICATION_SEARCH_CONSTANT:
                 searchBox.getSearchTextView().addTextChangedListener(this);
-                searchBoxHint = "Search for medication";
+                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
                 break;
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
                 searchBox.getSearchTextView().addTextChangedListener(this);
-                searchBoxHint = "Search for provider";
+                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
                 break;
             case THSConstants.PHARMACY_SEARCH_CONSTANT:
-                searchBoxHint = "Search for pharmacy";
+                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
                 break;
         }
         searchBox.setSearchBoxHint(searchBoxHint);
@@ -194,15 +194,12 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
                 callProviderDetailsFragment(position);
                 break;
-            case THSConstants.PHARMACY_SEARCH_CONSTANT:
-                callPharmacyListFragment(position);
-                break;
         }
 
 
     }
 
-    protected void callPharmacyListFragment(int position) {
+    protected void callPharmacyListFragment() {
 
         Intent intent = new Intent(getActivity(), THSSearchFragment.class);
         intent.putParcelableArrayListExtra("selectedPharmacy", (ArrayList<? extends Parcelable>) pharmacyList);

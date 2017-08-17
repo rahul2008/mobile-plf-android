@@ -23,7 +23,7 @@
             android:text="This concludes your visit with"
 
             android:textColor="?attr/uidLabelValueNormalTextColor"
-            android:textSize="@dimen/pth_body_text" />
+            android:textSize="@dimen/ths_body_text" />
 
         <LinearLayout
             android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
 
                 android:textSize="30sp"></com.philips.platform.uid.view.widget.Label>
 
@@ -81,12 +81,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="100dp"
                 android:layout_toLeftOf="@+id/ths_wrap_up_payment_cost"
-                android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
+                android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
                 android:text="Your credit card was charged"
-                android:textSize="@dimen/pth_body_text"></com.philips.platform.uid.view.widget.Label>
+                android:textSize="@dimen/ths_body_text"></com.philips.platform.uid.view.widget.Label>
 
 
         </RelativeLayout>
@@ -106,9 +106,9 @@
             android:layout_below="@+id/ths_wrap_up_cost_detail_seperator_bottom"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:gravity="center_vertical"
-            android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
+            android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
             android:text="Your visit report"
-            android:textSize="@dimen/pth_body_text" />
+            android:textSize="@dimen/ths_body_text" />
 
 
         <RelativeLayout
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:gravity="center_vertical"
                 android:text="Download Report">
 
@@ -149,7 +149,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:gravity="center_vertical"
                 android:src="@mipmap/right_arrow_icon"></ImageView>
 
@@ -194,11 +194,11 @@
                 android:id="@+id/ths_visit_summary_continue_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/pth_margin_between_buttons"
+                android:layout_marginBottom="@dimen/ths_margin_between_buttons"
 
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
-                android:layout_marginTop="@dimen/pth_margin_between_buttons"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:layout_marginTop="@dimen/ths_margin_between_buttons"
                 android:background="?attr/uidContentPrimaryBackgroundColor"
 
                 android:text="Continue" />

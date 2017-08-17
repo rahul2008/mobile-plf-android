@@ -131,7 +131,7 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
             if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
                 ((THSSearchFragment) uiBaseView).pharmacyList = pharmacies;
                 ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).pharmacyList);
-                ((THSSearchFragment) uiBaseView).callPharmacyListFragment(0);
+                ((THSSearchFragment) uiBaseView).callPharmacyListFragment();
             }
         }
     }

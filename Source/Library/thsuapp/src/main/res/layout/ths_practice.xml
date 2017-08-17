@@ -12,10 +12,10 @@
         style="@style/ths_list_item_header"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
-        android:paddingRight="@dimen/pth_fab_margin"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:textSize="@dimen/pth_body_text" />
+        android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_body_text" />
 
 
     <android.support.v7.widget.RecyclerView

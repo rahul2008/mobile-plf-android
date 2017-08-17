@@ -5,7 +5,7 @@
     android:id="@+id/ths_medication_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/pth_margin_bottom">
+    android:layout_marginBottom="@dimen/ths_margin_bottom">
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/pth_intake_medication_skip_step_label"
-        android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="true"
         android:text="Continue" />
 
@@ -43,18 +43,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-            android:layout_marginTop="@dimen/pth_fab_margin"
-            android:textSize="@dimen/pth_body_text"
+            android:layout_marginTop="@dimen/ths_fab_margin"
+            android:textSize="@dimen/ths_body_text"
             android:layout_below="@+id/pth_intake_medication_label"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
             android:text="Do you currently use medication? If so, please add your medication to share with the provider" />
 
 
         <ListView
             android:id="@+id/pth_intake_medication_listview"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pth_intake_medication_question">

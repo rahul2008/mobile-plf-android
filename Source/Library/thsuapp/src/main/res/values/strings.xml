@@ -63,6 +63,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="cancel">Cancel</string>
 
     //Pharmacy strings
+    <string name="ths_choose_pharmacy_button_text">Choose pharmacy</string>
+    <string name="ths_retail_button_text">Retail</string>
+    <string name="ths_mail_order_pharmacy_button_text">Mail order</string>
     <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
     <string name="pharmacy_list_fragment_name">Pharmacy List</string>
     <string name="search_pharmacy_fragment_name">Your pharmacy</string>
@@ -109,5 +112,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_rb_one_week_before">1 week before</string>
     <string name="ths_reminder_set">Reminder set</string>
     <string name="ths_before_appointment">before appointment</string>
+
+    <!-- Search strings -->
+    <string name="ths_search_medication">Search for medication</string>
+    <string name="ths_search_provider">Search for provider</string>
+    <string name="ths_search_pharmacy">Search for pharmacy</string>
 
 </resources>
