@@ -16,6 +16,7 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.util.Availability;
@@ -23,6 +24,8 @@ import com.philips.cdp2.commlib.core.util.Availability;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * The type Appliance.
@@ -60,9 +63,15 @@ public abstract class Appliance implements Availability<Appliance> {
         }
     };
 
-    public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
-        this.networkNode = networkNode;
-        this.communicationStrategy = communicationStrategy;
+    public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy... communicationStrategy) {
+        this.networkNode = requireNonNull(networkNode);
+        if (communicationStrategy.length == 1) {
+            this.communicationStrategy = communicationStrategy[0];
+        } else if (communicationStrategy.length == 0) {
+            throw new IllegalArgumentException("Need at least one CommunicationStrategy");
+        } else {
+            this.communicationStrategy = new CombinedCommunicationStrategy(communicationStrategy);
+        }
         this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
 
         devicePort = new DevicePort(this.communicationStrategy);
