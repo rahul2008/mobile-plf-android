@@ -45,7 +45,7 @@ public class BleExampleLauncherActivity extends AppCompatActivity {
 
     private void launchBleMicroApp() {
         BleDemoMicroAppInterface uAppInterface = BleDemoMicroAppInterface.getInstance();
-        uAppInterface.init(new DefaultBleDemoMicroAppDependencies(this.getApplicationContext()), new BleDemoMicroAppSettings(getApplicationContext()));// pass App-infra instance instead of null
+        uAppInterface.init(new DefaultBleDemoMicroAppDependencies(this.getApplicationContext()), new BleDemoMicroAppSettings(getApplicationContext()));
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
     }
 }
