@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.demouapp.R;
@@ -64,7 +63,7 @@ public class PairingFragment extends Fragment {
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                // Store appliance into database
+                // TODO: Store appliance into database
 
                 showToast("Pairing successful");
             }
@@ -92,8 +91,7 @@ public class PairingFragment extends Fragment {
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
-                discoveryManager.insertApplianceToDatabase(appliance);
+                // TODO: Store appliance into database
 
                 showToast("Unpaired successfully");
             }
