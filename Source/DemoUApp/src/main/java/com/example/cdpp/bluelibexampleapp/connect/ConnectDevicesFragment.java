@@ -7,6 +7,7 @@ package com.example.cdpp.bluelibexampleapp.connect;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,15 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
 import com.example.cdpp.bluelibexampleapp.device.DeviceScanner;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppDependencies;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.os.Looper.getMainLooper;
 
 public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DeviceScanner.OnDeviceScanListener {
 
@@ -53,7 +57,7 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
         setupRecyclerView(recyclerView);
 
         // Listen for scan events
-        mDeviceScanner = BlueLibExampleApplication.get().getScanner();
+        mDeviceScanner = new DeviceScanner(((BleDemoMicroAppDependencies)BleDemoMicroAppInterface.getInstance().getUappDependencies()).getShnCentral(), new Handler(getMainLooper()));;
         mDeviceScanner.addOnScanListener(this);
 
         return rootView;
@@ -107,7 +111,7 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
             @Override
             public void onItemClick(int position, View itemView) {
                 final SHNDeviceFoundInfo info = mConnectDeviceAdapter.getItem(position);
-                BlueLibExampleApplication.get().setSelectedDevice(info.getShnDevice());
+                BleDemoMicroAppInterface.getInstance().setSelectedDevice(info.getShnDevice());
 
                 startActivity(new Intent(getActivity(), DeviceDetailActivity.class));
             }
