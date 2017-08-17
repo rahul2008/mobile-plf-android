@@ -22,6 +22,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
@@ -33,6 +34,10 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Application class is used for initialization
@@ -48,10 +53,11 @@ public class AppFrameworkApplication extends Application {
     private IAPState iapState;
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
-    private static String country = "US";
+    private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
     private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
+    private boolean isHybrisFlow = false;
 
     @Override
     public void onCreate() {
@@ -83,13 +89,13 @@ public class AppFrameworkApplication extends Application {
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");
         RALog.d(LOG, "China flow state begin::");
-        determineCountry();
+        determineChinaFlow();
         RALog.d(LOG, "China flow state end::");
         RALog.d(LOG, "PR state begin::");
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-
+        determineHybrisFlow();
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
@@ -119,6 +125,10 @@ public class AppFrameworkApplication extends Application {
     public void initUserRegistrationState() {
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
+    }
+
+    public UserRegistrationState getUserRegistrationState() {
+        return userRegistrationState;
     }
 
     public void initDataServiceState() {
@@ -152,38 +162,72 @@ public class AppFrameworkApplication extends Application {
     }
 
     public boolean isChinaFlow() {
-        return country.equals("CN");
+        return isChinaCountry;
     }
 
-    public void determineCountry() {
+    public void determineChinaFlow() {
         AppInfraInterface appInfraInterface = getAppInfra();
         ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
 
         serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                country = s;
-                initializeIAP();
+                if (s.equals("CN")) {
+                    isChinaCountry = true;
+                } else {
+                    isChinaCountry = false;
+                }
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                country = "US";
-                initializeIAP();
+                isChinaCountry = false;
             }
         });
     }
 
-    private void initializeIAP() {
+    public boolean isHybrisFlow() {
+        return isHybrisFlow;
+    }
+
+    public void initializeIAP() {
         RALog.d(LOG, "IAP state begin::");
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
         RALog.d(LOG, "IAP state end::");
     }
-    public String getCountry() {
-        return country;
-    }
 
+    public void determineHybrisFlow() {
+        ArrayList listOfServiceId = new ArrayList();
+        listOfServiceId.add("iap.baseurl");
+        appInfra.getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                RALog.d(LOG, " AppFrameworkApplication getServicesWithCountryPreference Map" + map.toString());
+                Collection collection = map.values();
+                ArrayList list = new ArrayList();
+                list.addAll(collection);
+                ServiceDiscoveryService serviceDiscoveryService = (ServiceDiscoveryService)list.get(0);
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+                if(configUrls != null && !configUrls.isEmpty()) {
+                    //set hybris flow
+                    isHybrisFlow = true;
+                    RALog.d(LOG, "IAP Hybris flow");
+                } else {
+                    //not hybris flow
+                    isHybrisFlow = false;
+                    RALog.d(LOG, "IAP not Hybris flow");
+                }
+
+                initializeIAP();
+            }
+
+            public void onError(ERRORVALUES errorvalues, String s) {
+                isHybrisFlow = false;
+                initializeIAP();
+                RALog.d(LOG, "AppFrameworkApplication ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+            }
+        });
+    }
     public DataServicesState getDataServiceState() {
         if (dataSyncScreenState == null) {
             initDataServiceState();

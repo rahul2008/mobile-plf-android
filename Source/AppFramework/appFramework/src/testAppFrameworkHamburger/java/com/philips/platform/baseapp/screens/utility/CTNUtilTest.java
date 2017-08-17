@@ -1,13 +1,15 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+
 package com.philips.platform.baseapp.screens.utility;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-/**
- * Created by admin on 07/08/17.
- */
 
 public class CTNUtilTest {
 
@@ -19,32 +21,36 @@ public class CTNUtilTest {
     }
 
     @Test
-    public void getCTNForHK() {
+    public void getCTNWhenCountryIsNullTest() {
+        Assert.assertEquals("HX6064/33", ctnUtil.getCtnForCountry(null));
+    }
+    @Test
+    public void getCTNForHKTest() {
         Assert.assertEquals("HX6322/04", ctnUtil.getCtnForCountry("HK"));
     }
 
     @Test
-    public void getCTNForMO() {
+    public void getCTNForMOTest() {
         Assert.assertEquals("HX6322/04", ctnUtil.getCtnForCountry("MO"));
     }
 
     @Test
-    public void getCTNForIN() {
+    public void getCTNForINTest() {
         Assert.assertEquals("HX6311/07", ctnUtil.getCtnForCountry("IN"));
     }
 
     @Test
-    public void getCTNForUS() {
-        Assert.assertEquals("HX6321/02", ctnUtil.getCtnForCountry("US"));
+    public void getCTNForUSTest() {
+        Assert.assertEquals("HD8645/47", ctnUtil.getCtnForCountry("US"));
     }
 
     @Test
-    public void getCTNForCN() {
+    public void getCTNForCNTest() {
         Assert.assertEquals("HX6721/33", ctnUtil.getCtnForCountry("CN"));
     }
 
     @Test
-    public void getCTNForOtherCountry() {
+    public void getCTNForOtherCountryTest() {
         Assert.assertEquals("HX6064/33", ctnUtil.getCtnForCountry("NL"));
     }
 

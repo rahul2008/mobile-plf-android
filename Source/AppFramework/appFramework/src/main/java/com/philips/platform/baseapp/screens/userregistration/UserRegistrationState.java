@@ -211,7 +211,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void onUserRegistrationComplete(Activity activity) {
         setUrCompleted();
         if (null != activity) {
-            getApplicationContext().determineCountry();
+            getApplicationContext().determineChinaFlow();
+            getApplicationContext().determineHybrisFlow();
 
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {

@@ -94,7 +94,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
     @Override
     public void updateDataModel() {
-        setCtnList(new ArrayList<>(Arrays.asList(CTNUtil.getCtnForCountry(getApplicationContext().getCountry()))));
+        setCtnList(new ArrayList<>(Arrays.asList(CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry()))));
     }
 
     /**

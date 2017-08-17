@@ -87,6 +87,8 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         presenter = new HamburgerActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
         initializeActivityContents();
     }
 
@@ -200,8 +202,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         int resID = com.philips.cdp.uikit.R.drawable.uikit_philips_logo;
         footerView.setImageDrawable(VectorDrawable.create(this, resID));
         setSupportActionBar(toolbar);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait...");
     }
 
     @Override
@@ -212,7 +212,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void hideProgressBar() {
         if (progressDialog.isShowing()) {
-            progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 

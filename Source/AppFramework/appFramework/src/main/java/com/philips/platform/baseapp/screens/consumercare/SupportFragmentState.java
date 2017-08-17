@@ -75,7 +75,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         * and user will go to ConsumerCare scree. So this case features should belongs to
         * China only.
         */
-        getApplicationContext().determineCountry();
+        getApplicationContext().determineChinaFlow();
 
         DigitalCareConfigManager.getInstance().registerCcListener(this);
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
@@ -99,7 +99,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     //product selection screen. Which is not considered in for testing by Madan's team.
     public void updateDataModel() {
         RALog.d(TAG," updateDataModel called ");
-        String[] ctnList = new String[]{CTNUtil.getCtnForCountry(getApplicationContext().getCountry())};
+        String[] ctnList = new String[]{CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry())};
         setCtnList(ctnList);
     }
 

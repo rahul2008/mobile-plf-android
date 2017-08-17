@@ -43,8 +43,6 @@ public abstract class IAPState extends BaseState implements IAPListener {
     private Context applicationContext;
     private IAPInterface iapInterface;
     private FragmentLauncher fragmentLauncher;
-    IAPSettings iapSettings ;
-    IAPDependencies iapDependencies;
 
     public IAPState() {
         super(AppStates.IAP);
@@ -60,30 +58,13 @@ public abstract class IAPState extends BaseState implements IAPListener {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
-        init(activityContext.getApplicationContext());
         updateDataModel();
-        if (isCountryUS(getApplicationContext())){
-            setProductListListener(activityContext);
-        } else {
+        if (getApplicationContext().isHybrisFlow()) {
+            ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
+            setListener();
+        }else {
             launchIAP();
         }
-
-    }
-
-    private boolean isCountryUS(Context context) {
-        return ((AppFrameworkApplication) context).getAppInfra().getServiceDiscovery().getHomeCountry().equals("US");
-    }
-
-    private void setProductListListener(Context activityContext) {
-
-        try {
-            iapInterface.getCompleteProductList(this);
-            ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
-        }catch (RuntimeException e) {
-            RALog.e(TAG,e.getMessage());
-            Toast.makeText(activityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     private int getIAPFlowType(int iapFlowType){
@@ -114,7 +95,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     private void launchIAP() {
         RALog.d(TAG," launchIAP ");
-
+        IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
@@ -142,13 +123,17 @@ public abstract class IAPState extends BaseState implements IAPListener {
         RALog.d(TAG," init IAP ");
         applicationContext = context;
         iapInterface = new IAPInterface();
-        iapSettings = new IAPSettings(applicationContext);
-        iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        iapSettings.setUseLocalData(false);
+        IAPSettings iapSettings = new IAPSettings(applicationContext);
+        IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
         iapInterface.init(iapDependencies, iapSettings);
     }
 
-
+    public void setListener() {
+        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).isUserSignIn()) {
+            RALog.d(TAG, "Setting Listener");
+            getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);
+        }
+    }
     @Override
     public void onGetCartCount(int i) {
 
@@ -167,6 +152,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     @Override
     public void onGetCompleteProductList(ArrayList<String> arrayList) {
         launchIAP();
+        RALog.d(TAG, "List fetched successfully");
     }
 
     @Override
@@ -176,6 +162,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onFailure(int i) {
-
+        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
+        Toast.makeText(getApplicationContext(), "Check internet connectivity", Toast.LENGTH_LONG).show();
     }
 }
