@@ -118,6 +118,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            debuggable true
+            shrinkResources false
+            testCoverageEnabled true
+        }
     }
 
 
@@ -162,23 +168,26 @@ dependencies {
     testCompile 'com.crittercism:crittercism-android-agent:5.8.1'
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testReleaseUnitTest") {
-        group = "Reporting"
+task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
+    group = "Reporting"
 
-        description = "Generate Jacoco coverage reports"
+    description = "Generate Jacoco coverage reports"
 
-        classDirectories = fileTree(
-            dir: 'build/intermediates/classes/release',
-        )
+    classDirectories = fileTree(
+        dir: "${buildDir}/intermediates/classes/debug"
+    )
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testReleaseUnitTest.exec')
 
+    executionData = fileTree(dir: buildDir, includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "jacoco/testReleaseUnitTest.exec"
+    ])
     reports {
         xml.enabled = true
         html.enabled = true
-        }
+    }
 }
 
 
