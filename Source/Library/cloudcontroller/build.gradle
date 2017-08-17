@@ -163,6 +163,8 @@ dependencies {
         }
     }
 
+    testCompile project(path: ':commlib-testutils', configuration: 'debug')
+
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.assertj
