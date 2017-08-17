@@ -13,8 +13,10 @@ import android.os.Environment;
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.io.File;
@@ -46,49 +48,18 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
 
     @Override
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
-        if (sdkError!=null){
+        if (sdkError != null) {
             mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
             return;
         }
-        copyInputStreamToFile(fileAttachment.getInputStream(),fileAttachment.getType());
+
+        THSFileUtils fileUtils = new THSFileUtils();
+
+        fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
         mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
     }
-
-    private void copyInputStreamToFile(InputStream inputStream, String extension) {
-        try {
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-
-            String fileName = "targetFile" + new Date() + "." + extension;
-            File targetFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-            OutputStream outStream = new FileOutputStream(targetFile);
-            outStream.write(buffer);
-            gotoFileLocation(targetFile);
-            mThsVisitHistoryDetailFragment.showToast("Stored the file successfully and file -> " + fileName);
-        } catch (IOException e) {
-            mThsVisitHistoryDetailFragment.showToast("File could not be stored");
-        }
-    }
-
-    void gotoFileLocation(File file){
-
-        Uri selectedUri= Uri.fromFile(file.getParentFile());
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(selectedUri, "resource/folder");
-
-        if (intent.resolveActivityInfo(mThsVisitHistoryDetailFragment.getActivity().getPackageManager(), 0) != null)
-        {
-            mThsVisitHistoryDetailFragment.getActivity().startActivity(intent);
-        }
-        else
-        {
-            // if you reach this place, it means there is no any file
-            // explorer app installed on your device
-        }
-    }
-
 }

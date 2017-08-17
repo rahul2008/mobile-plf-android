@@ -27,6 +27,7 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
@@ -118,8 +119,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         CircularImageView mImageViewCircularImageView;
         Label mLabelProviderName;
         Label mLabelPracticeName;
-        Label mCancelVisit;
-        Label mStartVisit;
+        Button mCancelVisit;
+        Button mStartVisit;
         RelativeLayout mProviderLayout;
 
         public CustomViewHolder(View view) {
@@ -128,8 +129,8 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             this.mImageViewCircularImageView = (CircularImageView) view.findViewById(R.id.ths_providerImage);
             this.mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
             this.mLabelPracticeName = (Label) view.findViewById(R.id.practiceNameLabel);
-            this.mStartVisit = (Label) view.findViewById(R.id.ths_start_visit);
-            this.mCancelVisit = (Label)view.findViewById(R.id.ths_cancel_visit);
+            this.mStartVisit = (Button) view.findViewById(R.id.ths_start_visit);
+            this.mCancelVisit = (Button) view.findViewById(R.id.ths_cancel_visit);
             this.mProviderLayout = (RelativeLayout) view.findViewById(R.id.provider_details_layout_container);
         }
     }
