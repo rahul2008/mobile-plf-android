@@ -11,7 +11,8 @@ package com.philips.cdp.registration.settings;
 
 import android.content.*;
 
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.ui.utils.*;
 
 public abstract class RegistrationSettings {
 
@@ -95,7 +96,7 @@ public abstract class RegistrationSettings {
         }
 
         if (RegistrationHelper.getInstance().getCountryCode().equals("CN")) {
-            String localeArr[] = localeCode.split("_");
+            String localeArr[] = localeCode.split("-");
             if (!localeArr[0].equals("zh")) {
                 localeCode = "en-US";
             }

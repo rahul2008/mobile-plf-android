@@ -43,7 +43,7 @@ public class HomeFragmentTest extends RegistrationApiInstrumentationBase {
 
                 try{
                     RLog.init();
-                }catch(Exception e){System.out.println(e);}
+                }catch(Exception ignored){}
             }
             method =HomeFragment.class.getDeclaredMethod("handleSocialProviders",String.class);;
             method.setAccessible(true);

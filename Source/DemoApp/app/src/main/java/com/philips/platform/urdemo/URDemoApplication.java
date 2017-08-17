@@ -6,8 +6,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -52,13 +53,47 @@ public class URDemoApplication extends Application {
         super.onCreate();
         mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
+        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+        String restoredText = prefs.getString("reg_environment", null);
+        if (restoredText != null) {
+            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
+            if (restoredHSDPText != null && restoredHSDPText.equalsIgnoreCase(restoredText)) {
+                initHSDP(RegUtility.getConfiguration(restoredText));
+            }else{
+                clearHSDP();
+            }
+            initRegistration(RegUtility.getConfiguration(restoredText));
+        } else {
+            initHSDP(Configuration.STAGING);
+            initRegistration(Configuration.STAGING);
+        }
 
-        initHSDP(Configuration.STAGING);
-        initRegistration(Configuration.STAGING);
-        RLog.enableLogging();
+        boolean abc = RegistrationConfiguration.getInstance().isHsdpFlow();
+        RLog.i("hsdp","hsdp"+abc);
     }
 
+    private void clearHSDP() {
 
+        AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
+        final AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                UR, null, configError);
+
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                UR, null, configError);
+
+
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                UR, null, configError);
+
+
+
+        anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                UR, null, configError);
+
+    }
 
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -78,6 +113,8 @@ public class URDemoApplication extends Application {
 
 
         RLog.enableLogging();
+
+
 
         //  mAppInfraInterface.getServiceDiscovery().setHomeCountry("ES");
     }
@@ -195,6 +232,11 @@ public class URDemoApplication extends Application {
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                         UR, hsdpSecrets, configError);
+
+
+
+                Map<String, String> hsdpSecrets1 =(Map<String, String>) anInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR,  configError);
 
                 Map<String, String> hsdpSharedIds = new HashMap<>();
                 hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");

@@ -113,10 +113,10 @@
 <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">大寫或小寫英文字母</string>
 <string name="reg_Create_Account_PasswordHint_SpecialCharacters_lbltxt">符號 (_.@$)</string>
 <string name="reg_Create_Account_PasswordHint_Numbers_lbltxt">號碼</string>
-<string name="reg_Philips_News_Description_Normal_lbltxt">如果選擇同意，Philips 集團的公司可能會根據您的偏好及行為，透過推廣訊息就 Philips 產品、服務、活動及推廣聯絡您。我們可能會透過電子郵件、SMS 短訊及其他數碼頻道，例如手機應用程式及社交媒體聯絡您。爲了根據您的偏好和行為訂制合乎您需求的通訊內容，並為您提供最佳的個人化體驗，我們可能會分析和合併您的個人資料。資料可能包括：</string>
-<string name="reg_Philips_News_Description_First_Bulleted_Title_lbltxt">您提供的資料:</string>
-<string name="reg_Philips_News_Description_First_Bulleted_Description_lbltxt">您主動樂意分享的個人資料如：您的姓名、生日、年齡、電郵地址、居住住址、國家、性別、電話號碼以及社交媒體資料。</string>
-<string name="reg_Philips_News_Description_Second_Bulleted_Title_lbltxt">我們從您與 Philips 互動中所取得的資訊：</string>
+<string name="reg_Philips_News_Description_Normal_lbltxt">如果選擇同意，Philips 集團的公司可能會根據您的偏好及行為，透過推廣訊息就 Philips 產品、服務、活動及推廣聯絡您。\n我們可能會透過電子郵件、SMS 短訊及其他數碼頻道，例如手機應用程式及社交媒體聯絡您。爲了根據您的偏好和行為訂制合乎您需求的通訊內容，並為您提供最佳的個人化體驗，我們可能會分析和合併您的個人資料。\n\n資料可能包括：\n</string>
+<string name="reg_Philips_News_Description_First_Bulleted_Title_lbltxt">您提供的資料:\n</string>
+<string name="reg_Philips_News_Description_First_Bulleted_Description_lbltxt">您主動樂意分享的個人資料如：您的姓名、生日、年齡、電郵地址、居住住址、國家、性別、電話號碼以及社交媒體資料。\n\n</string>
+<string name="reg_Philips_News_Description_Second_Bulleted_Title_lbltxt">我們從您與 Philips 互動中所取得的資訊：\n</string>
 <string name="reg_Philips_News_Description_Second_Bulleted_Description_lbltxt">有關您 Philips 數碼頻道互動和使用情況的資料，例如社交媒體、網站、電子郵件、應用程式和連接的產品。這些資料可能包括：IP 地址、Cookie、裝置資訊、您點擊的通訊、位置詳細資料和您瀏覽的網站</string>
 <string name="reg_Philips_News_Description_Withdrawal_Opportunity_lbltxt">Philips 讓您隨時取消同意以上內容。</string>
 <string name="reg_Signin_Success_Hello_lbltxt">您好，</string>

@@ -288,11 +288,8 @@
     <string name="no_selected_account">No Account was selected.</string>
     <string name="unknown">unknown</string>
 
-    <string name="reg_Account_secure_data_Title_lbltxt">Help us get in touch with you if there\'s unusual activity in your account or you accidentally get locked out. Don\'t  worry we\'ll only use this info if we need to reach you about your account.</string>
-    <string name="reg_Account_secure_data_Title_email_btntxt">Add recovery data email now</string>
-    <string name="reg_Account_secure_data_Title_skip_btntxt">Maybe later</string>
-    <string name="reg_Account_secure_data_Title_txt">Secure access to your data</string>
-    <string name="reg_recover_email_enter_your_email">Your email address</string>
+
+
 
     <string name="reg_password_description">Password must have at least 8 characters with a mix of letters (A-Z, a-z), digits(0-9) and/or symbols (_.@$).</string>
     <string name="reg_almost_description1">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>

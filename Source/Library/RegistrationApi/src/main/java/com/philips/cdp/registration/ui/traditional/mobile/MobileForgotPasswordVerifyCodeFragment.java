@@ -20,6 +20,7 @@ import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
@@ -138,6 +139,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onDestroy");
+        RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
         super.onDestroy();
     }
 
@@ -198,6 +200,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             mBtnVerify.setEnabled(false);
         }
     }
+
 
     public void resendMobileNumberService() {
         getActivity().startService(createResendSMSIntent());
@@ -274,9 +277,11 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             } else {
                 mRegError.hideError();
             }
-            mBtnVerify.setEnabled(true);
+            updateUiStatus();
+            mEtCodeNUmber.enableResend();
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+            mEtCodeNUmber.disableResend();
             mBtnVerify.setEnabled(false);
         }
     }
@@ -308,6 +313,9 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         public void onFinish() {
             RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : counter");
             mEtCodeNUmber.setCounterFinish();
+            if(!networkUtility.isNetworkAvailable()){
+                mEtCodeNUmber.disableResend();
+            }
         }
 
         @Override
@@ -391,12 +399,16 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         @Override
         public void onClick(View view) {
-            mEtCodeNUmber.showResendSpinnerAndDisableResendButton();
-            mEtCodeNUmber.showValidEmailAlert();
-            mBtnVerify.setEnabled(false);
-            isResendRequested = true;
-            mPbSpinner.setVisibility(View.GONE);
-            resendMobileNumberService();
+            if(networkUtility.isNetworkAvailable()) {
+                mEtCodeNUmber.showResendSpinnerAndDisableResendButton();
+                mEtCodeNUmber.showValidEmailAlert();
+                mBtnVerify.setEnabled(false);
+                isResendRequested = true;
+                mPbSpinner.setVisibility(View.GONE);
+                resendMobileNumberService();
+            }else{
+                    mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+            }
         }
     };
 

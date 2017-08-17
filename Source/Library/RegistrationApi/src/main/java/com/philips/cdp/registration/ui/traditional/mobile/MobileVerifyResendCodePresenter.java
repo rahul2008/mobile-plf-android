@@ -1,18 +1,29 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.squareup.okhttp.RequestBody;
 
-import org.json.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -22,7 +33,11 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.philips.cdp.registration.HttpClientService.*;
+import static com.philips.cdp.registration.HttpClientService.HTTP_BODY_CONTENT;
+import static com.philips.cdp.registration.HttpClientService.HTTP_RECEIVER;
+import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_REQUEST_CODE;
+import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_RESPONSE;
+import static com.philips.cdp.registration.HttpClientService.HTTP_URL_TO_BE_CALLED;
 
 public class MobileVerifyResendCodePresenter implements HttpClientServiceReceiver.Listener, NetworStateListener {
 
@@ -47,6 +62,7 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
     public MobileVerifyResendCodePresenter(MobileVerifyResendCodeFragment mobileVerifyCodeContract) {
         URInterface.getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
     public void resendOTPRequest(final String mobileNumber) {
@@ -130,8 +146,13 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
                 mobileVerifyCodeContract.refreshUser();
                 mobileVerifyCodeContract.enableResendButton();
             } else if (jsonObject.has(ERROR_DESC)) {
-                String errorCodeString = jsonObject.get(ERROR_DESC).toString();
-                mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
+                String message =  RegUtility.getErrorMessageFromInvalidField(jsonObject);
+                if(message!=null && !message.isEmpty()){
+                    mobileVerifyCodeContract.showNumberChangeTechincalError(message);
+                }else{
+                    String errorCodeString = jsonObject.get(ERROR_DESC).toString();
+                    mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
+                }
             } else {
                 String errorCodeString = jsonObject.get(ERROR_MSG).toString();
                 mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
@@ -168,11 +189,9 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
 
         if(isOnline) {
-            mobileVerifyCodeContract.enableResendButton();
-            mobileVerifyCodeContract.hideErrorMessage();
+            mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {
-            mobileVerifyCodeContract.disableResendButton();
-            mobileVerifyCodeContract.showNoNetworkErrorMessage();
+            mobileVerifyCodeContract.netWorkStateOfflineUiHandle();
         }
     }
 

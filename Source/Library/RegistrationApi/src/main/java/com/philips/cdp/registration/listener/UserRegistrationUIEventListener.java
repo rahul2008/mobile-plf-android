@@ -10,18 +10,18 @@ package com.philips.cdp.registration.listener;
 import android.app.Activity;
 
 /**
- * UI Registration Event Listener
+ * UI Registtaion Event Listener
  */
 public interface UserRegistrationUIEventListener {
     /**
-     * When user completes the registration process completed
+     * When user complete the registion process completed
      *
      * @param activity launching activity as callback
      */
     void onUserRegistrationComplete(Activity activity);
 
     /**
-     * Privacy policy link clicked callback
+     * Privecy policy link clicked callback
      *
      * @param activity launching activity as callback
      */

@@ -8,47 +8,47 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
+import android.os.*;
 import android.support.v4.content.*;
 import android.text.*;
-import android.text.method.LinkMovementMethod;
+import android.text.method.*;
 import android.text.style.*;
 import android.view.*;
-import android.view.View.OnClickListener;
+import android.view.View.*;
 import android.widget.*;
 
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.app.infra.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.customviews.countrypicker.*;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.wechat.*;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.philips.platform.appinfra.servicediscovery.*;
+import com.tencent.mm.sdk.modelbase.*;
+import com.tencent.mm.sdk.modelmsg.*;
 import com.tencent.mm.sdk.openapi.*;
 
 import org.json.*;
 
 import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.*;
+import io.reactivex.disposables.*;
+import io.reactivex.observers.*;
+import io.reactivex.schedulers.*;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -277,19 +277,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         try {
             String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";
-
-            System.out.println("provider " + providerName + " " + providerDrawable);
-
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
 
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
-
-            System.out.println("provider id " + resourceId + "" + drawableId);
-
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
-
         } catch (Exception e) {
             RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
         }
@@ -402,26 +395,29 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                mCountryDisplay.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
-                handleSocialProviders(s.toUpperCase());
+                String selectedCountryCode;
+                if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
+                    selectedCountryCode = s.toUpperCase();
+                } else {
+                    selectedCountryCode = RegUtility.getFallbackCountryCode();
+                }
+                updateHomeCountryandLabel(selectedCountryCode);
+                handleSocialProviders(selectedCountryCode);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
-                String selectedCountryCode = null;
-                if (null != fallbackCountry) {
-                    serviceDiscoveryInterface.setHomeCountry(fallbackCountry.toUpperCase());
-                    selectedCountryCode = fallbackCountry;
-                } else {
-                    serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
-                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
-                }
-                mCountryDisplay.setText(new Locale(Locale.getDefault().getLanguage(),
-                        selectedCountryCode).getDisplayCountry());
+                String selectedCountryCode = RegUtility.getFallbackCountryCode();
+                updateHomeCountryandLabel(selectedCountryCode);
             }
         });
+    }
+
+    private void updateHomeCountryandLabel(String selectedCountryCode) {
+        serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
+        mCountryDisplay.setText(new Locale("",
+                selectedCountryCode).getDisplayCountry());
     }
 
     private void showCountrySelection() {
@@ -551,7 +547,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
         mCountryDisplay.setText(countryName);
-        hideProgressDialog();
+       // hideProgressDialog();
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
@@ -703,6 +699,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         hideProviderProgress();
                     }
                 } else {
+                    makeProgressVisible();
                     mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
                 }
 
@@ -894,8 +891,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
 
-        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail( mUser.getEmail());
-        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber( mUser.getMobile());
+        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
+        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             launchAccountActivationFragment();
             return;
@@ -1035,9 +1032,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onContinueSocialProviderLoginSuccess() {
 
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        launchWelcomeFragment();
         hideProviderProgress();
         enableControls(true);
-        launchWelcomeFragment();
     }
 
     @Override

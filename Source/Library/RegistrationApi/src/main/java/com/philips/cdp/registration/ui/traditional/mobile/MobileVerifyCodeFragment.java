@@ -9,30 +9,67 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.*;
-import android.text.*;
-import android.view.*;
-import android.widget.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
-import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.HttpClientService;
+import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.XEditText;
+import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import butterknife.*;
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.ACTIVATION_NOT_VERIFIED;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_USER_REGISTRATION;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.USER_ERROR;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener{
+
+
+    @Inject
+    NetworkUtility networkUtility;
 
     @BindView(R2.id.ll_reg_create_account_fields)
     LinearLayout phoneNumberEditTextContainer;
@@ -108,6 +145,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onDestroy() {
         super.onDestroy();
+        RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
         mobileVerifyCodePresenter.cleanUp();
     }
 
@@ -209,8 +247,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void hideErrorMessage() {
+    public void netWorkStateOnlineUiHandle() {
+        if (verificationCodeEditText.getText().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
+            verifyButton.setEnabled(true);
+        }
         errorMessage.hideError();
+        smsNotReceived.setEnabled(true);
+        verificationCodeEditText.setEnabled(true);
     }
 
     @Override
@@ -219,8 +262,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void showNoNetworkErrorMessage() {
+    public void netWorkStateOfflineUiHandle() {
+        verifyButton.setEnabled(false);
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
+        smsNotReceived.setEnabled(false);
+        verificationCodeEditText.setEnabled(false);
     }
 
     @Override
