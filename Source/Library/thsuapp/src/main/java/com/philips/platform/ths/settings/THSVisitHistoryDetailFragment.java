@@ -95,6 +95,10 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         mRelativeLayoutProviderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mVisitReportDetail==null || mVisitReportDetail.getAssignedProviderInfo()==null){
+                    showToast("No Assigned Provider");
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,mVisitReportDetail.getAssignedProviderInfo());
                 addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);

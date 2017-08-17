@@ -21,6 +21,7 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
@@ -73,12 +74,16 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
                     if (visitReportDetail.getAssignedProviderInfo().hasImage()) {
                         try {
                             final Drawable drawable = ContextCompat.getDrawable(mThsVisitHistoryFragment.getContext(), R.drawable.doctor_placeholder);
+
                             THSManager.getInstance().getAwsdk(holder.mImageViewCircularImageView.getContext()).
                                     getPracticeProvidersManager().
                                     newImageLoader(visitReportDetail.getAssignedProviderInfo(),
                                             holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder(drawable).build().load();
+
                         } catch (AWSDKInstantiationException e) {
                             e.printStackTrace();
+                        } catch (NullPointerException npe) {
+                            npe.printStackTrace();
                         }
                     }
                 }
