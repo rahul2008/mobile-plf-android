@@ -13,21 +13,15 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.referenceapp.BuildConfig;
-import com.philips.platform.referenceapp.PushNotificationManager;
-import com.philips.platform.referenceapp.PushNotificationUserRegistationWrapperInterface;
 import com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
-import com.philips.platform.referenceapp.utils.PushNotificationConstants;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -36,29 +30,13 @@ import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.Shadows;
 import org.robolectric.android.controller.ServiceController;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowIntentService;
-import org.robolectric.shadows.ShadowService;
-
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.atMost;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.only;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.support.SuppressCode.suppressConstructor;
-import static org.robolectric.Shadows.shadowOf;
-
 
 /**
  * @author Ritesh.jha@philips.com
@@ -153,7 +131,12 @@ public class PushNotificationManagerTest {
         assertEquals(TestPlatformInstanceIDListenerService.class.getName(), intent.getComponent().getClassName());
     }
 
-//     TODO - Need to refine it.         
+    @After
+    public void tearDown() throws Exception {
+        pushNotificationManager = null;
+    }
+
+//     TODO - Need to refine it.
 //    @Test
 //    public void testStartPushNotificationRegistrationWhenUserSignedIn() throws Exception {
 //        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn(PUSH_NOTIFICATION_TOKEN);
@@ -186,14 +169,6 @@ public class PushNotificationManagerTest {
     }
 
     private static class TestPlatformInstanceIDListenerService extends PlatformInstanceIDListenerService {
-//        @Override
-//        public void onStart(Intent intent, int startId) {
-//            // same logic as in internal ServiceHandler.handleMessage()
-//            // but runs on same thread as Service
-////            onTokenRefresh
-//            stopSelf(startId);
-//        }
-
         @Override
         public int onStartCommand(Intent intent, int startId, int i) {
             onTokenRefresh();
@@ -201,5 +176,4 @@ public class PushNotificationManagerTest {
             return super.onStartCommand(intent, startId, i);
         }
     }
-
 }
