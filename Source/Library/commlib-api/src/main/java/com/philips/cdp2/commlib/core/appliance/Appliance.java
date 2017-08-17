@@ -190,17 +190,17 @@ public abstract class Appliance implements Availability<Appliance> {
     }
 
     /**
-     * Enable listening for subscription notifications.
+     * Currently only used to switch BLE fast/slow functionality.
      */
+    @Deprecated
     public void enableCommunication() {
         communicationStrategy.enableCommunication();
     }
 
     /**
-     * Disable communication.
-     * <p>
-     * Disable listening for subscription notifications.
+     * Currently only used to switch BLE fast/slow functionality.
      */
+    @Deprecated
     public void disableCommunication() {
         communicationStrategy.disableCommunication();
     }
