@@ -25,6 +25,7 @@ import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.*;
 
 import javax.inject.*;
@@ -494,17 +495,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         trackPage(AppTaggingPages.WELCOME);
     }
 
-    @Override
-    public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo, String displayName) {
-        loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getDisplayNameErrorMessage());
-        errorMessage.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
-                + displayName + "' "
-                + userRegistrationFailureInfo.getDisplayNameErrorMessage());
-    }
+
 
     @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getEmailErrorMessage());
+        loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
         loginIdEditText.showError();
     }
 

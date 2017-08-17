@@ -469,14 +469,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void genericError(String errorDesc) {
-        mRegError.setError(errorDesc);
-        scrollViewAutomatically(mRegError, mSvRootLayout);
+        usr_createscreen_error_view.setError(errorDesc);
+        scrollViewAutomatically(usr_createscreen_error_view, usr_createScreen_rootLayout_scrollView);
     }
 
     @Override
     public void genericError(int errorDescID) {
-        mRegError.setError(mContext.getString(errorDescID));
-        scrollViewAutomatically(mRegError, mSvRootLayout);
+        usr_createscreen_error_view.setError(context.getString(errorDescID));
+        scrollViewAutomatically(usr_createscreen_error_view, usr_createScreen_rootLayout_scrollView);
     }
 
     @Override

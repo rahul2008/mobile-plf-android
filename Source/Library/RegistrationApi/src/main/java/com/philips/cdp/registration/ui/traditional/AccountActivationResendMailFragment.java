@@ -64,8 +64,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @BindView(R2.id.usr_activationresend_emailormobile_inputValidationLayout)
     InputValidationLayout usr_activationresend_emailormobile_inputValidationLayout;
 
-    @BindView(R2.id.sv_root_layout)
-    private ScrollView mSvRootLayout;
+    @BindView(R2.id.usr_activationresend_rootLayout_scrollView)
+    ScrollView mSvRootLayout;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
