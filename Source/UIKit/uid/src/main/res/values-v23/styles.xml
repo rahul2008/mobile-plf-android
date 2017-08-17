@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="BaseDLSTheme" parent="Theme.AppCompat.NoActionBar">
-        <!--<item name="android:statusBarColor">?attr/uidNavigationPrimaryBackgroundColor</item>-->
-        <item name="android:statusBarColor">@color/uidTransparent</item>
+        <!--Hack for White on White issue with Sidebar and Statusbar, using grey level 65 color with 35% opacity-->
+        <item name="android:statusBarColor">#4D383838</item>
+        <!--<item name="android:statusBarColor">@color/uidTransparent</item>-->
     </style>
 </resources>
