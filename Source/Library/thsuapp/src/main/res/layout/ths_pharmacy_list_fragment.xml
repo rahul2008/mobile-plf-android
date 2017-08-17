@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/pharmacy_type_layout"
-        android:divider="@android:color/darker_gray"
+        android:divider="?attr/uidSeparatorContentNormalBackgroundColor"
         android:dividerHeight="0.5dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
