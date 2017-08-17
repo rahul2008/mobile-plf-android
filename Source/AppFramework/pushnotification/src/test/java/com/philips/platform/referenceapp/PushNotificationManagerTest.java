@@ -135,29 +135,7 @@ public class PushNotificationManagerTest {
     public void tearDown() throws Exception {
         pushNotificationManager = null;
     }
-
-//     TODO - Need to refine it.
-//    @Test
-//    public void testStartPushNotificationRegistrationWhenUserSignedIn() throws Exception {
-//        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn(PUSH_NOTIFICATION_TOKEN);
-//        PowerMockito.when(textUtils.isEmpty(anyString())).thenReturn(false);
-//        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
-//
-//        PushNotificationUserRegistationWrapperInterface pnUserRegistrationInterface =
-//                new PushNotificationUserRegistationWrapperInterface() {
-//            @Override
-//            public boolean isUserSignedIn(Context appContext) {
-//                PNLog.d(TAG,"PushNotificationUserRegistationWrapperInterface - isUserSignedIn - false");
-//                return true;
-//            }
-//        };
-//
-//        pushNotificationManager.init(appInfraInterface, pnUserRegistrationInterface);
-//        PNLog.disablePNLogging();
-//        pushNotificationManager.startPushNotificationRegistration(context);
-//
-//    }
-
+    
     private static class TestService extends RegistrationIntentService {
         @Override
         public void onStart(Intent intent, int startId) {
