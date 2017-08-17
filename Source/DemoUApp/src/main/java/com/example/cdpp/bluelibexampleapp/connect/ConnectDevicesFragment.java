@@ -20,7 +20,6 @@ import com.example.cdpp.bluelibexampleapp.R;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
 import com.example.cdpp.bluelibexampleapp.device.DeviceScanner;
-import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppDependencies;
 import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 
@@ -55,7 +54,7 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
         setupRecyclerView(recyclerView);
 
         // Listen for scan events
-        mDeviceScanner = new DeviceScanner(((BleDemoMicroAppDependencies)BleDemoMicroAppInterface.getInstance().getUappDependencies()).getShnCentral(), new Handler());
+        mDeviceScanner = new DeviceScanner(BleDemoMicroAppInterface.getInstance().getBleDemoMicroAppDependencies().getShnCentral(), new Handler());
         mDeviceScanner.addOnScanListener(this);
 
         return rootView;

@@ -17,7 +17,6 @@ import com.example.cdpp.bluelibexampleapp.R;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.example.cdpp.bluelibexampleapp.device.DeviceDefinitionAdapter;
 import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
-import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppDependencies;
 import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.example.cdpp.bluelibexampleapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNAssociationProcedure;
@@ -85,7 +84,7 @@ public class AssociatedDevicesFragment extends Fragment {
         mView = inflater.inflate(R.layout.bll_fragment_associate, container, false);
 
         // Obtain reference to BlueLib instance
-        SHNCentral shnCentral = ((BleDemoMicroAppDependencies) BleDemoMicroAppInterface.getInstance().getUappDependencies()).getShnCentral();
+        SHNCentral shnCentral = BleDemoMicroAppInterface.getInstance().getBleDemoMicroAppDependencies().getShnCentral();
 
         // Setup device association
         mShnDeviceAssociation = shnCentral.getShnDeviceAssociation();

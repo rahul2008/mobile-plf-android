@@ -23,19 +23,19 @@ public class BleDemoMicroAppInterface implements UappInterface {
 
     private Context context;
 
-    private UappDependencies uappDependencies;
+    private BleDemoMicroAppDependencies bleDemoMicroAppDependencies;
 
     private static BleDemoMicroAppInterface bleDemoMicroAppInterface;
 
     private SHNDevice mSelectedDevice;
 
-    private BleDemoMicroAppInterface(){
+    private BleDemoMicroAppInterface() {
 
     }
 
-    public static BleDemoMicroAppInterface getInstance(){
-        if(bleDemoMicroAppInterface==null){
-            bleDemoMicroAppInterface=new BleDemoMicroAppInterface();
+    public static BleDemoMicroAppInterface getInstance() {
+        if (bleDemoMicroAppInterface == null) {
+            bleDemoMicroAppInterface = new BleDemoMicroAppInterface();
         }
         return bleDemoMicroAppInterface;
     }
@@ -47,9 +47,13 @@ public class BleDemoMicroAppInterface implements UappInterface {
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        this.context = uappSettings.getContext();
-        this.uappDependencies=uappDependencies;
-        SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        if (!(uappDependencies instanceof BleDemoMicroAppDependencies)) {
+            throw new IllegalArgumentException("This Uapp only accepts BleDemoMicroAppDependencies");
+        } else {
+            this.context = uappSettings.getContext();
+            this.bleDemoMicroAppDependencies = (BleDemoMicroAppDependencies) uappDependencies;
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        }
     }
 
     /**
@@ -66,8 +70,8 @@ public class BleDemoMicroAppInterface implements UappInterface {
         }
     }
 
-    public UappDependencies getUappDependencies() {
-        return uappDependencies;
+    public BleDemoMicroAppDependencies getBleDemoMicroAppDependencies() {
+        return bleDemoMicroAppDependencies;
     }
 
     public void setSelectedDevice(SHNDevice device) {
