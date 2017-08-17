@@ -70,7 +70,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private String countryCode;
     private long holdbackTime = 0l;
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
-    private String mCountry;
+    String mCountry;
     private String mCountrySourceType;
     /**
      * Instantiates a new Service discovery manager.
@@ -160,32 +160,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
             if (platformService != null && platformService.isSuccess()) {
-               /* String country = fetchFromSecureStorage(COUNTRY);
-                String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-                if (country == null) {
-                    if (countrySource == null) {
-                        countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
-                    }
-                    saveToSecureStore(platformService.getCountry(), COUNTRY);
-                }*/
-                // fetchCountryAndCountrySource(platformService.getCountry());
                 response.setPlatformURLs(platformService);
             }
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from  both proposition microsite id and platform microsite id ");
             propositionService = downloadPropositionService();
             if (propositionService != null && propositionService.isSuccess()) {
-                /* String country = fetchFromSecureStorage(COUNTRY);
-                 String countrySource = fetchFromSecureStorage(COUNTRY_SOURCE);
-                if (country == null) {
-                    if (countrySource == null) {
-                        countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-                        saveToSecureStore(countryCodeSource.toString(), COUNTRY_SOURCE);
-                    }
-                    saveToSecureStore(propositionService.getCountry(), COUNTRY);
-                }*/
-                //   fetchCountryAndCountrySource(propositionService.getCountry());
                 platformService = downloadPlatformService();
             }
             if (platformService != null && propositionService != null) {
@@ -209,19 +189,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void fetchCountryAndCountrySource(String platformOrPropositionCountry,
                                               String url, ServiceDiscovery service, AISDURLType aisdurlType) {
         String country = fetchFromSecureStorage(COUNTRY);
-        boolean shouldRetry = false;
         if (country == null) {
             country = platformOrPropositionCountry;
             countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
             saveToSecureStore(platformOrPropositionCountry, countryCodeSource.toString());
             String countryMapped = getMappedCountry(country);
             if(countryMapped != null) {
-                shouldRetry = true;
                 url += "&country=" + countryMapped;
-            } else {
-                url += "&country=" + country;
-            }
-            if(shouldRetry) {
                 processRequest(url,service,aisdurlType);
             }
         }
@@ -269,7 +243,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return service;
     }
 
-    private String getSDURLForType(AISDURLType aisdurlType) {
+     String getSDURLForType(AISDURLType aisdurlType) {
         String sector = null, micrositeid = null, environment = null, url = null;
         final AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface
                 .AppConfigurationError();
@@ -792,12 +766,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 value = mCountry;
             } else {
                 value = mSecureStorageInterface.fetchValueForKey(COUNTRY, mSecureStorageError);
+                mCountry = value;
             }
         } else if (countrySource.equals(COUNTRY_SOURCE)) {
             if (mCountrySourceType != null) {
                 value = mCountrySourceType;
             } else {
                 value = mSecureStorageInterface.fetchValueForKey(COUNTRY_SOURCE, mSecureStorageError);
+                mCountrySourceType = value;
             }
         }
         return value;
@@ -881,7 +857,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @SuppressWarnings({"unchecked"})
-    private Map<String, String> getServiceDiscoveryCountryMapping() {
+    Map<String, String> getServiceDiscoveryCountryMapping() {
         final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                 .AppConfigurationError();
         if (mAppInfra.getConfigInterface() != null) {

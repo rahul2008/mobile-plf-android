@@ -230,7 +230,7 @@ public class RequestManager {
           							appConfigurationError);
            if(propositionEnabledObject!=null) {
 			   if(propositionEnabledObject instanceof Boolean) {
-				   final Boolean propositionEnabled = ((Boolean) propositionEnabledObject).booleanValue();
+				   final Boolean propositionEnabled = (Boolean) propositionEnabledObject;
 				   if (appConfigurationError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError && !propositionEnabled) {
 					   return true;
 				   }
