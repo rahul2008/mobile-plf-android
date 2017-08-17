@@ -28,9 +28,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static java.util.Objects.requireNonNull;
 
 /**
- * The type Appliance.
- * <p>
- * Represents a physical appliance/peripheral/product that implements the DiComm communication protocol.
+ * Appliance represents a physical appliance/peripheral/product that implements the DiComm communication protocol.
  *
  * @publicApi
  */
@@ -93,9 +91,10 @@ public abstract class Appliance implements Availability<Appliance> {
     public abstract String getDeviceType();
 
     /**
-     * Gets network node.
+     * Gets the {@link NetworkNode} node representing this {@linkplain Appliance}.
      *
      * @return the network node that is associated with this appliance
+     * @see NetworkNode
      */
     public NetworkNode getNetworkNode() {
         return networkNode;
@@ -106,10 +105,7 @@ public abstract class Appliance implements Availability<Appliance> {
     }
 
     /**
-     * Subscribe.
-     * <p>
-     * For this to work, {@link Appliance#enableCommunication()}  has to be called as well to
-     * ensure this Appliance also receives subscription notifications.
+     * Subscribe on all ports to get notified on changes to properties.
      */
     public void subscribe() {
         DICommLog.i(DICommLog.APPLIANCE, "Subscribe to all ports for appliance: " + toString());
@@ -122,7 +118,7 @@ public abstract class Appliance implements Availability<Appliance> {
     }
 
     /**
-     * Unsubscribe.
+     * Unsubscribe on all ports.
      */
     public void unsubscribe() {
         DICommLog.i(DICommLog.APPLIANCE, "Unsubscribe from all ports for appliance: " + toString());
