@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.cloudcontroller;
@@ -9,8 +9,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.listener.DcsEventListener;
-import com.philips.cdp.cloudcontroller.testutil.RobolectricTest;
+import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
+import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.Provision;

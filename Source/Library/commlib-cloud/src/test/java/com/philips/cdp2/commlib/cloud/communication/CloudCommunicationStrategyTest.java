@@ -11,7 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.RemoteRequest;

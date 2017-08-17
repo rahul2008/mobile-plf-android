@@ -9,8 +9,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.listener.SignonListener;
+import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.listener.SignonListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;

@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.cloudcontroller;
@@ -15,15 +15,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.listener.AppUpdateListener;
-import com.philips.cdp.cloudcontroller.listener.DcsEventListener;
-import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
-import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
-import com.philips.cdp.cloudcontroller.listener.SendNotificationRegistrationIdListener;
-import com.philips.cdp.cloudcontroller.listener.SignonListener;
-import com.philips.cdp.cloudcontroller.pairing.DefaultPairingController;
-import com.philips.cdp.cloudcontroller.pairing.PairingController;
-import com.philips.cdp.cloudcontroller.util.LogConstants;
+import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.ICPDownloadListener;
+import com.philips.cdp.cloudcontroller.api.listener.AppUpdateListener;
+import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
+import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
+import com.philips.cdp.cloudcontroller.api.listener.PublishEventListener;
+import com.philips.cdp.cloudcontroller.api.listener.SendNotificationRegistrationIdListener;
+import com.philips.cdp.cloudcontroller.api.listener.SignonListener;
+import com.philips.cdp.cloudcontroller.api.pairing.DefaultPairingController;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
+import com.philips.cdp.cloudcontroller.api.util.LogConstants;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;

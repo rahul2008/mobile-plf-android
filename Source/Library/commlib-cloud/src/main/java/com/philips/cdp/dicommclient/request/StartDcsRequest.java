@@ -1,11 +1,11 @@
-/**
- * (C) Koninklijke Philips N.V., 2016.
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
 
-import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 
 public class StartDcsRequest extends Request {
 

@@ -1,9 +1,9 @@
 /*
- * Copyright 2016 © Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-package com.philips.cdp.cloudcontroller.pairing;
+package com.philips.cdp.cloudcontroller.api.pairing;
 
 import android.support.annotation.NonNull;
 

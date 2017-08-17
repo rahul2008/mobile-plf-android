@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.cloudcontroller;
+package com.philips.cdp.cloudcontroller.api;
 
 import com.philips.cdp.cloudcontrollerapi.BuildConfig;
 

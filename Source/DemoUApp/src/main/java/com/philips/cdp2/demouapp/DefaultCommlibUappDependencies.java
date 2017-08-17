@@ -8,7 +8,7 @@ package com.philips.cdp2.demouapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;

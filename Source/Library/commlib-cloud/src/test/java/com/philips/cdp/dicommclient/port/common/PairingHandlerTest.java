@@ -5,10 +5,10 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.pairing.PairingController;
-import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
-import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
+import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingEntity;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingRelation;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;

@@ -1,20 +1,20 @@
 /*
- * Copyright 2016 © Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-package com.philips.cdp.cloudcontroller;
+package com.philips.cdp.cloudcontroller.api;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.cdp.cloudcontroller.listener.AppUpdateListener;
-import com.philips.cdp.cloudcontroller.listener.DcsEventListener;
-import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
-import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
-import com.philips.cdp.cloudcontroller.listener.SendNotificationRegistrationIdListener;
-import com.philips.cdp.cloudcontroller.listener.SignonListener;
-import com.philips.cdp.cloudcontroller.pairing.PairingController;
+import com.philips.cdp.cloudcontroller.api.listener.AppUpdateListener;
+import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
+import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
+import com.philips.cdp.cloudcontroller.api.listener.PublishEventListener;
+import com.philips.cdp.cloudcontroller.api.listener.SendNotificationRegistrationIdListener;
+import com.philips.cdp.cloudcontroller.api.listener.SignonListener;
+import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 
 /**
  * The central entry point for the CloudController. The CloudController gives access to the Device Cloud,

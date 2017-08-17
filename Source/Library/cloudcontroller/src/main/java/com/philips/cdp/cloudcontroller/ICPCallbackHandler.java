@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.cloudcontroller;
@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.util.LogConstants;
+import com.philips.cdp.cloudcontroller.api.util.LogConstants;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.cloudcontroller.pairing;
+package com.philips.cdp.cloudcontroller.api.pairing;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

@@ -1,17 +1,17 @@
 /*
- * Copyright 2016 © Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-package com.philips.cdp.cloudcontroller.pairing;
+package com.philips.cdp.cloudcontroller.api.pairing;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.ICPCallbackHandler;
 import com.philips.cdp.cloudcontroller.ICPEventListener;
-import com.philips.cdp.cloudcontroller.util.LogConstants;
+import com.philips.cdp.cloudcontroller.api.util.LogConstants;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;

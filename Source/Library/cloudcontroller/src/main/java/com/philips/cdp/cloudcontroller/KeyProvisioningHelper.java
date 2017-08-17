@@ -1,13 +1,13 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.cloudcontroller;
 
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.util.LogConstants;
+import com.philips.cdp.cloudcontroller.api.util.LogConstants;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 

@@ -3,19 +3,14 @@
  * All rights reserved.
  */
 
-/*
- * © Koninklijke Philips N.V., 2015-2017.
- *   All rights reserved.
- */
-
 package com.philips.cdp.dicommclient.request;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.listener.DcsResponseListener;
-import com.philips.cdp.cloudcontroller.listener.PublishEventListener;
+import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
+import com.philips.cdp.cloudcontroller.api.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.GsonProvider;
 

@@ -3,17 +3,12 @@
  * All rights reserved.
  */
 
-/*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
- */
-
 package com.philips.cdp2.commlib.cloud.communication;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper;
 import com.philips.cdp.dicommclient.request.Error;
