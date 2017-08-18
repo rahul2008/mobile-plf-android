@@ -52,5 +52,4 @@
     <item name="uid_search_decoy_view" type="id" />
     <item name="uid_search_decoy_hint_icon" type="id" />
     <item name="uid_search_decoy_hint_text" type="id" />
-
 </resources>

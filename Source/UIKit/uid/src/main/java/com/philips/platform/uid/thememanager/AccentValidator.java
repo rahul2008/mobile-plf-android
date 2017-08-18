@@ -32,19 +32,19 @@ class AccentValidator {
         AccentRange resultAccent = accentRange;
         if (colorRange.equals(GROUP_BLUE_COLOR_RANGE)) {
             validArray = GROUP_BLUE;
-        } else if (colorRange.equals(ColorRange.BLUE)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.BLUE.name())) {
             validArray = BLUE;
-        } else if (colorRange.equals(ColorRange.AQUA)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.AQUA.name())) {
             validArray = AQUA;
-        } else if (colorRange.equals(ColorRange.GREEN)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.GREEN.name())) {
             validArray = GREEN;
-        } else if (colorRange.equals(ColorRange.ORANGE)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.ORANGE.name())) {
             validArray = ORANGE;
-        } else if (colorRange.equals(ColorRange.PINK)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.PINK.name())) {
             validArray = PINK;
-        } else if (colorRange.equals(ColorRange.PURPLE)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.PURPLE.name())) {
             validArray = PURPLE;
-        } else if (colorRange.equals(ColorRange.GRAY)) {
+        } else if (colorRange.equalsIgnoreCase(ColorRange.GRAY.name())) {
             validArray = GRAY;
         }
         boolean validAccent = arrayContainsElement(validArray, resultAccent);

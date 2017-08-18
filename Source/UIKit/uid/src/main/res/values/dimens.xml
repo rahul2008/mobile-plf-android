@@ -236,7 +236,7 @@
     <dimen name="uid_searchbox_back_icon_margin">16dp</dimen>
     <dimen name="uid_searchbox_text_size">20sp</dimen>
     <dimen name="uid_searchbox_layout_margin">8dp</dimen>
-    <dimen name="uid_searchbox_view_height">40dp</dimen>
+    <dimen name="uid_searchbox_decoy_height">40dp</dimen>
     <dimen name="uid_searchbox_button_padding">12dp</dimen>
 
     <!-- Dot navigation icon size-->

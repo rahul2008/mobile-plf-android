@@ -74,7 +74,6 @@
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/label_textboxes" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

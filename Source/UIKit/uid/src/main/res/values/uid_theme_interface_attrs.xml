@@ -111,5 +111,6 @@
     <declare-styleable name="UIDSearchBox">
         <attr name="uidSearchInputHintText" format="string|reference" />
         <attr name="uidSearchDecoyHintText" format="string|reference" />
+        <attr name="uidSearchInContentArea" format="boolean|reference" />
     </declare-styleable>
 </resources>
