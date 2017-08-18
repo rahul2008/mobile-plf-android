@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/fab_margin"
+    android:layout_marginRight="@dimen/fab_margin"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pr_success_title_textview"
+        style="@style/ProductRegistrationHeaderTitleTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pr_margintop"
+        android:text="@string/PPR_RegSuccess_Lbltxt"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textSize="@dimen/pr_title_textsize" />
+
+
+    <RelativeLayout
+        style="@style/Prod_Reg_Generic_Style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/success_background_image"
+            android:layout_width="@dimen/prg_success_image_width"
+            android:layout_height="@dimen/prg_success_image_height"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:scaleType="fitCenter"
+            android:src="@drawable/prodreg_placeholder" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/prg_product_title"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pr_registration_margin_left"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_toRightOf="@id/success_background_image"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="@dimen/pr_connect_title_textsize" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/prg_product_description"
+            style="@style/ProductRegistrationCtnTheme"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prg_product_title"
+            android:layout_marginLeft="@dimen/pr_registration_margin_left"
+            android:layout_marginTop="@dimen/pr_a_value_sm"
+            android:layout_toRightOf="@id/success_background_image"
+            android:textSize="@dimen/pr_connect_title_textsize" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prg_product_description"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginLeft="@dimen/pr_registration_margin_left"
+            android:layout_marginTop="@dimen/pr_a_value_sm"
+            android:layout_toRightOf="@id/success_background_image">
+
+
+            <ImageView
+                android:id="@+id/team_member_icon"
+                android:layout_width="@dimen/prg_register_unregister_image_width"
+                android:layout_height="@dimen/prg_register_unregister_image_height"
+                android:src="@drawable/prodreg_circle_tick" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/team_member_name"
+                style="@style/ProductRegistrationCtnTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/team_member_icon"
+                android:paddingLeft="@dimen/pr_b_value_sm"
+                android:text="@string/PPR_registered"
+                android:textSize="@dimen/pr_connect_title_textsize" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pr_success_thanks_textView"
+        style="@style/ProductRegistrationSubTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:text="@string/PPR_Extended_Warranty_Lbltxt"
+        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+        android:textSize="@dimen/pr_connect_title_textsize" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pr_success_configurable_textView"
+        style="@style/ProductRegistrationSubTitleTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:text="@string/prod_reg_success_conf_text"
+        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+        android:textSize="@dimen/pr_connect_title_textsize" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:text="@string/PPR_Continue"
+        android:textAllCaps="false" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/register_next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pr_b_value_sm"
+        android:text="@string/PRG_Register_Another"
+        android:textAllCaps="false"
+        app:uidComponentType="Secondary" />
+</LinearLayout>
+
+
