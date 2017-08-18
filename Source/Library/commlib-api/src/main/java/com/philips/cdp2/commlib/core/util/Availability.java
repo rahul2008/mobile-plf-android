@@ -7,11 +7,13 @@ package com.philips.cdp2.commlib.core.util;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+
 /**
  * An interface for availability. Availability is typically used to indicate if an object can
  * currently be interacted with.
  * <p>
- * In the context of eg. an {@link com.philips.cdp2.commlib.core.appliance.Appliance} this can mean
+ * In the context of eg. an {@link Appliance} this can mean
  * that there currently is a connection available to read/write to it.
  *
  * @param <T> The type of object availability is given for.
