@@ -113,6 +113,12 @@ public class NetworkNode implements Parcelable {
         return deviceType;
     }
 
+    /**
+     * Set the device type.
+     *
+     * @param deviceType The device type
+     * @see #getDeviceType()
+     */
     public synchronized void setDeviceType(String deviceType) {
         final String oldDeviceType = this.deviceType;
         this.deviceType = deviceType;
@@ -130,6 +136,12 @@ public class NetworkNode implements Parcelable {
         return modelId;
     }
 
+    /**
+     * Set the model id.
+     *
+     * @param modelId The model id
+     * @see #getModelId()
+     */
     public synchronized void setModelId(String modelId) {
         final String oldModelId = this.modelId;
         this.modelId = modelId;
