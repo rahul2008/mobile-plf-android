@@ -99,9 +99,9 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     public void onClick(View v) {
         if (v.equals(createProfileButton)) {
             if (Utility.isOnline(mContext)) {
-                showProgressDialog(getString(R.string.creating_profile));
                 if (isValidInput()) {
                     SubjectProfile subjectProfile = getSubjectProfile();
+                    showProgressDialog(getString(R.string.creating_profile));
                     CreateSubjectProfileFragmentPresenter createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
                     createProfilePresenter.createProfile(subjectProfile);
                 } else {
