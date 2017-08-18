@@ -96,12 +96,13 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     public void showProgressDialog(Context context, String message) {
         mProgressDialog = new ProgressDialog(context);
-        mProgressDialog.getWindow().setGravity(Gravity.BOTTOM);
+        mProgressDialog.getWindow().setGravity(Gravity.CENTER);
         mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage(message + "...");
+        //mProgressDialog.setMessage(message + "...");
 
         if ((!mProgressDialog.isShowing()) && !((Activity) context).isFinishing()) {
             mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.progressbar_dls);
         }
     }
 

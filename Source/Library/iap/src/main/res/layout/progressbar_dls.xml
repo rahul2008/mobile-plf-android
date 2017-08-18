@@ -21,14 +21,15 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.philips.platform.uid.view.widget.ProgressBar
+           <!-- <com.philips.platform.uid.view.widget.ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/UIDProgressBarCircularIndeterminateMiddle"
-                android:visibility="visible" />
+                android:visibility="visible" />-->
 
             <com.philips.platform.uid.view.widget.ProgressBarWithLabel
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/UIDProgressBarCircularIndeterminateMiddle"
                 android:text="Loading please wait"
                 android:visibility="visible"
                 app:uidCircularProgressBarSize="middle"
