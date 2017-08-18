@@ -329,6 +329,9 @@
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
+# Added as Flowmanager does not provide rules for obfuscation
+-keep class com.philips.platform.appframework.flowmanager.** { *; }
+-keep interface com.philips.platform.appframework.flowmanager.** { *; }
 #-----------------------------app infra ends here-----------------------------------
 
 
@@ -349,8 +352,7 @@
 -keep class android.support.v8.renderscript.** { *; }
 -keep interface android.support.v13.app.** { *; }
 -keep public class * extends android.support.v13.**
--keep class com.philips.platform.appframework.flowmanager.** { *; }
--keep interface com.philips.platform.appframework.flowmanager.** { *; }
+
 
 
 -keepclasseswithmembers class * {
