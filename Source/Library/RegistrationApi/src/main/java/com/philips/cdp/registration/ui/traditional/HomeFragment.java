@@ -197,7 +197,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         hideProgressDialog();
                         mRegError.setError(mContext.
                                 getString(R.string.reg_JanRain_Server_Connection_Failed));
-                        scrollViewAutomatically(mRegError, mSvRootLayout);
+//                        scrollViewAutomatically(mRegError, mSvRootLayout);
                     }
                 });
     }
@@ -298,7 +298,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 }
 
             } else {
-                scrollViewAutomatically(mRegError, mSvRootLayout);
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
                 enableControls(false);
                 mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             }
@@ -315,7 +315,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void initUI(View view) {
         consumeTouch(view);
-        mTvWelcome.setText(getString(R.string.reg_Welcome_Welcome_lbltxt));
+        mTvWelcome.setText(getString(R.string.lets_get_started));
         mBtnCreateAccount.setOnClickListener(this);
         skipRegistration.setOnClickListener(this);
         mBtnMyPhilips.setOnClickListener(this);
@@ -478,7 +478,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
                         hideProgressDialog();
                         mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-                        scrollViewAutomatically(mRegError, mSvRootLayout);
+//                        scrollViewAutomatically(mRegError, mSvRootLayout);
 
                     }
                 });
@@ -611,7 +611,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.getting_started;
     }
 
     @Override
@@ -668,7 +668,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -913,10 +913,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         //Temp fix need to be changed
         if (userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED) {
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         } else {
             mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
