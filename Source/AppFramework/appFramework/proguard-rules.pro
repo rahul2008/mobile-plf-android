@@ -361,23 +361,7 @@
      public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
-# Remove Logging
--assumenosideeffects class android.util.Log {
-
-public static boolean isLoggable(java.lang.String, int);
-    public static int v(...);
-    public static int i(...);
-    public static int w(...);
-    public static int d(...);
-    public static int e(...);
-}
-
--assumenosideeffects class java.io.PrintStream {
-     public void println(%);
-     public void println(**);
- }
-
- -keepclasseswithmembers class * {
+-keepclasseswithmembers class * {
       public <init>(java.util.Map);
  }
 
