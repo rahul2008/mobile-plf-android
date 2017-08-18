@@ -63,7 +63,7 @@ node('Android') {
             This is done to keep disk space usage on build nodes to a minimum.
             Comment out the next line if you need to check the workspace after a build.
              */
-            sh 'rm -rf ./* &'
+            sh 'rm -rf ./* .gitmodules .gitignore .git'
         }
     }
 }
