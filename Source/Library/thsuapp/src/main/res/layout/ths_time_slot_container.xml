@@ -13,6 +13,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/select_time"
         style="@style/ths_list_header"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@+id/line_separator"
         android:paddingLeft="@dimen/ths_fab_margin"

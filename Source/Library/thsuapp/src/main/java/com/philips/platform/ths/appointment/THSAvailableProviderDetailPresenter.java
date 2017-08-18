@@ -147,7 +147,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
         try {
-            THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), THSManager.getInstance().getPTHConsumer(), provider, this);
+            THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), provider, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
