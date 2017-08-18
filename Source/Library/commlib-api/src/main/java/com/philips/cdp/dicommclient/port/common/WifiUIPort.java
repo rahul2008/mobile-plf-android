@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
@@ -14,6 +19,9 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @publicApi
+ */
 public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
     private final String WIFIUIPORT_NAME = "wifiui";

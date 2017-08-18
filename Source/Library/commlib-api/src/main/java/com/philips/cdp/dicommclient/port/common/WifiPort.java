@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
@@ -12,6 +17,9 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @publicApi
+ */
 public class WifiPort extends DICommPort<WifiPortProperties> {
 
     private static final String KEY_GATEWAY = "gateway";
