@@ -34,6 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 
+/**
+ * @publicApi
+ */
 public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
     /**

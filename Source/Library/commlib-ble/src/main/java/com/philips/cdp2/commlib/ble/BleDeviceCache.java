@@ -14,10 +14,9 @@ import com.philips.pins.shinelib.SHNDevice;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * The type BleDeviceCache.
+ * The BleDeviceCache stores {@link SHNDevice} references based on their unique identifier.
  * <p>
- * This stores {@link SHNDevice} references based on their unique identifier. This makes BLE devices
- * that were scanned (or associated) earlier available for CommLib without having an active
+ * This makes BLE devices that were scanned (or associated) earlier available for CommLib without having an active
  * connection to them.
  */
 public class BleDeviceCache extends DeviceCache<BleCacheData> {

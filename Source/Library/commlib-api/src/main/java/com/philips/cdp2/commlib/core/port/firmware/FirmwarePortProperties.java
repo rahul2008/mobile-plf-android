@@ -1,7 +1,8 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.core.port.firmware;
 
 import android.support.annotation.NonNull;
@@ -13,6 +14,9 @@ import static java.lang.Math.floor;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+/**
+ * @publicApi
+ */
 public class FirmwarePortProperties implements PortProperties {
 
     public static final int INVALID_INT_VALUE = Integer.MIN_VALUE;

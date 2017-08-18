@@ -34,6 +34,8 @@ import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_
 
 /**
  * The type BleCommunicationStrategy.
+ *
+ * @publicApi
  */
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
