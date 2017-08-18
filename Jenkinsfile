@@ -8,7 +8,6 @@ properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$cl
 
 node('Android') {
     stage('Checkout') {
-        //sh 'find . -path "**/build/test-results" -delete' DOES NOT WORK ON NON-EMPTY FOLDERS
         checkout scm
     }
 
@@ -57,6 +56,14 @@ node('Android') {
 
             sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
             archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
+        }
+
+        stage('Clean up workspace') {
+            /*
+            This is done to keep disk space usage on build nodes to a minimum.
+            Comment out the next line if you need to check the workspace after a build.
+             */
+            sh 'rm -rf ./* &'
         }
     }
 }
