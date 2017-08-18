@@ -26,6 +26,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/prg_registerScreen_ctn_label"
+            android:layout_below="@+id/prg_registerScreen_productTitle_label"
             style="@style/ProductRegistrationCtnTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
