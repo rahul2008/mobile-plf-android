@@ -64,14 +64,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private LinearLayout dateParentLayout, serialNumberParentLayout, successLayout;
-    private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,productRegSucess,prg_product_title,team_member_name,prg_product_description;
+    private Label productTitleTextView, productCtnTextView,prSuccessConfigurableTextView,prg_product_title,team_member_name,prg_product_description;
     private ImageView productImageView,success_background_image,team_member_icon;
     private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
     private Button registerButton;
     private FragmentActivity mActivity;
-    private Label tickIcon;
+    //private Label tickIcon;
     private Dialog dialog;
     private DatePickerDialog datePickerDialog;
     private Label findSerialTextView;
@@ -147,7 +147,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         prg_product_title=(Label) view.findViewById(R.id.prg_product_title);
         productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
         productCtnTextView = (Label) view.findViewById(R.id.prg_registerScreen_ctn_label);
-        productRegSucess = (Label) view.findViewById(R.id.product_registered);
         date_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
         date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
@@ -155,7 +154,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton = (Button) view.findViewById(R.id.prg_registerScreen_register_button);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
-        tickIcon = (Label) view.findViewById(R.id.tick_icon);
         team_member_icon=(ImageView)view.findViewById(R.id.team_member_icon);
         team_member_name = (Label) view.findViewById(R.id.team_member_name);
         prg_product_description = (Label) view.findViewById(R.id.prg_product_description);
@@ -483,9 +481,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         successLayout.setVisibility(View.VISIBLE);
         productImageView.setVisibility(View.GONE);
         productTitleTextView.setVisibility(View.GONE);
-        tickIcon.setVisibility(View.GONE);
-        productRegSucess.setVisibility(View.GONE);
-
     }
 
     @Override

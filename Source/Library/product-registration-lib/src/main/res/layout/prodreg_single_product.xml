@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/prg_registerScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,57 +22,25 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/pr_a_value_sm"
             android:layout_marginTop="@dimen/pr_margintop"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/prg_registerScreen_ctn_layout"
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/prg_registerScreen_ctn_label"
+            style="@style/ProductRegistrationCtnTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/prg_registerScreen_productTitle_label"
-            android:orientation="horizontal"
-            >
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/tick_icon"
-                fontPath="fonts/puicon.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/prodreg_circle_tick"
-                android:gravity="center"
-                android:text="@string/uikit_fonticon_tick_bold"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="7sp"
-                android:visibility="gone"/>
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/prg_registerScreen_ctn_label"
-                style="@style/ProductRegistrationCtnTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/product_registered"
-                style="@style/ProductRegistrationCtnTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/PPR_registered"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:visibility="gone"/>
-
-        </LinearLayout>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/prg_registerScreen_product_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/prg_registerScreen_ctn_layout"
+            android:layout_below="@+id/prg_registerScreen_ctn_label"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/pr_c_value_sm"
             android:layout_marginTop="@dimen/pr_margintop"
             android:scaleType="fitCenter"
-            android:src="@drawable/prodreg_placeholder"/>
+            android:src="@drawable/prodreg_placeholder" />
 
         <LinearLayout
             android:id="@+id/prg_registerScreen_serialNumber_layout"
@@ -89,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/PPR_SerialNum_Lbltxt"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -115,7 +83,7 @@
                 android:layout_marginBottom="@dimen/pr_b_value_sm"
                 android:layout_marginStart="5dp"
                 android:text="@string/PPR_Find_Serial_Number"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
+                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor" />
         </LinearLayout>
 
 
@@ -134,22 +102,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/prg_registerScreen_dateOfPurchase_validationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                >
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/prg_registerScreen_dateOfPurchase_validationEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/prodreg_calendar_inverted"
-                    android:hint="@string/purchase_date_format"
-                    />
+                    android:hint="@string/purchase_date_format" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
         </LinearLayout>
 
@@ -161,17 +127,17 @@
             android:layout_marginBottom="@dimen/pr_marginbottom"
             android:layout_marginTop="@dimen/pr_margintop"
             android:text="@string/PPR_Register_Btntxt"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:id="@+id/successLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/prg_registerScreen_register_button"
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
-            android:visibility="gone"
-            android:layout_below="@+id/prg_registerScreen_register_button"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/pr_success_title_textview"
@@ -187,63 +153,64 @@
             <RelativeLayout
                 style="@style/Prod_Reg_Generic_Style"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/success_background_image"
                     android:layout_width="@dimen/prg_success_image_width"
                     android:layout_height="@dimen/prg_success_image_height"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:src="@drawable/prodreg_placeholder"
                     android:scaleType="fitCenter"
-                    />
+                    android:src="@drawable/prodreg_placeholder" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/prg_product_title"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fab_margin"
                     android:layout_marginLeft="@dimen/pr_registration_margin_left"
+                    android:layout_marginTop="@dimen/fab_margin"
                     android:layout_toRightOf="@id/success_background_image"
                     android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
-                    android:textSize="@dimen/pr_connect_title_textsize"/>
+                    android:textSize="@dimen/pr_connect_title_textsize" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/prg_product_description"
+                    style="@style/ProductRegistrationCtnTheme"
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/prg_product_title"
-                    android:layout_toRightOf="@id/success_background_image"
                     android:layout_marginLeft="@dimen/pr_registration_margin_left"
                     android:layout_marginTop="@dimen/pr_a_value_sm"
-                    style="@style/ProductRegistrationCtnTheme"
-                    android:textSize="@dimen/pr_connect_title_textsize"/>
+                    android:layout_toRightOf="@id/success_background_image"
+                    android:textSize="@dimen/pr_connect_title_textsize" />
 
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/prg_product_description"
+                    android:layout_marginBottom="@dimen/fab_margin"
                     android:layout_marginLeft="@dimen/pr_registration_margin_left"
-                    android:layout_toRightOf="@id/success_background_image"
                     android:layout_marginTop="@dimen/pr_a_value_sm"
-                    android:layout_marginBottom="@dimen/fab_margin">
+                    android:layout_toRightOf="@id/success_background_image">
 
 
                     <ImageView
                         android:id="@+id/team_member_icon"
                         android:layout_width="@dimen/prg_register_unregister_image_width"
                         android:layout_height="@dimen/prg_register_unregister_image_height"
-                        android:src="@drawable/prodreg_circle_tick"/>
+                        android:src="@drawable/prodreg_circle_tick" />
+
                     <com.philips.platform.uid.view.widget.Label
-                        style="@style/ProductRegistrationCtnTheme"
                         android:id="@+id/team_member_name"
+                        style="@style/ProductRegistrationCtnTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/team_member_icon"
                         android:paddingLeft="@dimen/pr_b_value_sm"
-                        android:textSize="@dimen/pr_connect_title_textsize"
                         android:text="@string/PPR_registered"
-                        />
+                        android:textSize="@dimen/pr_connect_title_textsize" />
 
                 </RelativeLayout>
 
@@ -258,7 +225,7 @@
                 android:layout_marginTop="@dimen/fab_margin"
                 android:text="@string/PPR_Extended_Warranty_Lbltxt"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
-                android:textSize="@dimen/pr_connect_title_textsize"/>
+                android:textSize="@dimen/pr_connect_title_textsize" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/pr_success_configurable_textView"
@@ -276,18 +243,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fab_margin"
                 android:text="@string/PPR_Continue"
-                android:textAllCaps="false"
-                />
+                android:textAllCaps="false" />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/register_next_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/PRG_Register_Another"
                 android:layout_marginTop="@dimen/pr_b_value_sm"
+                android:text="@string/PRG_Register_Another"
                 android:textAllCaps="false"
-                app:uidComponentType="Secondary"
-                />
+                app:uidComponentType="Secondary" />
 
 
         </LinearLayout>
