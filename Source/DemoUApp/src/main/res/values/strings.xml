@@ -10,6 +10,7 @@
     <string name="no_appliances_found" translatable="false">No Appliances Found</string>
     <string name="get_paired_device" translatable="false">Fetching Paired Devices</string>
     <string name="pairing_device" translatable="false">Pairing Device</string>
+    <string name="pairing_failed" translatable="false">Pairing Failed</string>
     <string name="unpairing_device" translatable="false">UnPairing Device</string>
     <string name="pairing_success" translatable="false">Device Paired Successfully</string>
     <string name="un_pairing_success" translatable="false">Device UnPaired Successfully</string>

@@ -22,6 +22,11 @@ import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.PairingPort;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -57,6 +62,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DataServicesManager.getInstance().synchronize();
         initializeDiComm();
     }
 
@@ -113,13 +119,9 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (mAppliancesList != null && mAppliancesList.size() > 0) {
-                    PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
-                    if (pairDeviceDetails != null) {
-                        showProgressDialog(getString(R.string.pairing_device));
-                        mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
-                    }
+                    showProgressDialog(getString(R.string.pairing_device));
+                    pairToDevice(mAppliancesList.get(position), mAvailableDevicesList.get(position));
                 }
-//                pairToDevice(mAppliancesList.get(position));
             }
         });
 
@@ -156,7 +158,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
        /* List<String> test = new ArrayList<>();
         test.add("1c5a6bfffecc9127");
         updateDiscoveredDevices(test);*/
-
         if (!isProgressShowing()) {
             showProgressDialog(getString(R.string.get_paired_device));
             StateContext mStateContext = new StateContext();
@@ -259,14 +260,32 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         return devices;
     }
 
-   /* private void pairToDevice(Appliance appliance) {
+    private void pairToDevice(Appliance appliance, final String device) {
         PairingPort pairingPort = appliance.getPairingPort();
         String permission[] = new String[0];
         String secretKeyGen = "";
         pairingPort.triggerPairing("cphuser", "", new User(mContext).getHsdpUUID(),
                 secretKeyGen, "urn:cdp|datareceiver_stg", permission);
+
+        pairingPort.addPortListener(new DICommPortListener() {
+            @Override
+            public void onPortUpdate(DICommPort diCommPort) {
+                PairDevice pairDeviceDetails = getDeviceDetails(device);
+                if (pairDeviceDetails != null) {
+                    mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
+                } else {
+                    dismissProgressDialog();
+                }
+            }
+
+            @Override
+            public void onPortError(DICommPort diCommPort, Error error, @Nullable String s) {
+                dismissProgressDialog();
+                showAlertDialog(getString(R.string.pairing_failed));
+            }
+        });
     }
-*/
+
     public void updateDiscoveredDevices(List<String> discoveredDevices) {
         mDiscoveredDevices = discoveredDevices;
         updateAvailableDevices();
