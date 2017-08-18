@@ -23,7 +23,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/product_price"
             android:textSize="@dimen/iap_text_size_12"
-            style="@style/iapCentralesansBookFont"
+            style="@style/iapCentralesansMediumFont"
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:layout_width="0dip"
             android:layout_height="wrap_content"

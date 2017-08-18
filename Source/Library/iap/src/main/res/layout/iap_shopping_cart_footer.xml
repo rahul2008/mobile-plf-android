@@ -102,7 +102,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/delivery_via_ups"
-                style="@style/UIDLabel"
+                style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/iap_delivery_ups_parcel"
@@ -111,7 +111,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/delivery_ups_val"
-                style="@style/UIDLabel"
+                style="@style/iapCentralesansMediumFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -129,7 +129,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/total_label"
-                style="@style/iapCentralesansBoldFont"
+                style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
@@ -139,13 +139,13 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/total_cost_val"
-                style="@style/iapCentralesansBoldFont"
+                style="@style/iapCentralesansMediumFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:text="$330.00"
-                android:textSize="@dimen/iap_text_size_16sp"
+                android:textSize="@dimen/iap_text_size_20sp"
                 android:textStyle="bold" />
         </GridLayout>
 
