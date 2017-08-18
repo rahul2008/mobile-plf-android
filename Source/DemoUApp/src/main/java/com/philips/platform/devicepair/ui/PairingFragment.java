@@ -22,10 +22,7 @@ import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
-import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -119,8 +116,12 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (mAppliancesList != null && mAppliancesList.size() > 0) {
+                    PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
                     showProgressDialog(getString(R.string.pairing_device));
-                    pairToDevice(mAppliancesList.get(position), mAvailableDevicesList.get(position));
+                    pairToDevice(mAppliancesList.get(position));
+                    if (pairDeviceDetails != null) {
+                        mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
+                    }
                 }
             }
         });
@@ -227,8 +228,10 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     }
 
     public void addToPairedDevices(String deviceID) {
-        mPairedDevicesList.add(deviceID);
-        mPairedDevicesAdapter.add(deviceID);
+        if (!mPairedDevicesList.contains(deviceID)) {
+            mPairedDevicesList.add(deviceID);
+            mPairedDevicesAdapter.add(deviceID);
+        }
     }
 
     public void removeFromPairedDevices(String deviceID) {
@@ -237,8 +240,10 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     }
 
     public void addToAvailableDevices(String deviceID) {
-        mAvailableDevicesList.add(deviceID);
-        mAvailableDevicesAdapter.add(deviceID);
+        if (!mAvailableDevicesList.contains(deviceID)) {
+            mAvailableDevicesList.add(deviceID);
+            mAvailableDevicesAdapter.add(deviceID);
+        }
     }
 
     public void removeFromAvailableDevices(String deviceID) {
@@ -260,30 +265,12 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         return devices;
     }
 
-    private void pairToDevice(Appliance appliance, final String device) {
+    private void pairToDevice(Appliance appliance) {
         PairingPort pairingPort = appliance.getPairingPort();
         String permission[] = new String[0];
         String secretKeyGen = "";
         pairingPort.triggerPairing("cphuser", "", new User(mContext).getHsdpUUID(),
                 secretKeyGen, "urn:cdp|datareceiver_stg", permission);
-
-        pairingPort.addPortListener(new DICommPortListener() {
-            @Override
-            public void onPortUpdate(DICommPort diCommPort) {
-                PairDevice pairDeviceDetails = getDeviceDetails(device);
-                if (pairDeviceDetails != null) {
-                    mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
-                } else {
-                    dismissProgressDialog();
-                }
-            }
-
-            @Override
-            public void onPortError(DICommPort diCommPort, Error error, @Nullable String s) {
-                dismissProgressDialog();
-                showAlertDialog(getString(R.string.pairing_failed));
-            }
-        });
     }
 
     public void updateDiscoveredDevices(List<String> discoveredDevices) {
