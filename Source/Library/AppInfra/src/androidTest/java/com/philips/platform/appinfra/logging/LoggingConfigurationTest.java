@@ -55,7 +55,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         Context context = getInstrumentation().getContext();
         mAppInfra = new AppInfra.Builder().build(context);
         mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
-        loggingConfiguration = new LoggingConfiguration(mAppInfra) {
+        loggingConfiguration = new LoggingConfiguration(mAppInfra,"","") {
             @Override
             public Logger getJavaLogger() {
                 return logger;
@@ -141,7 +141,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         final ConsoleHandler consoleHandler = mock(ConsoleHandler.class);
         final LogFormatter logFormatter = mock(LogFormatter.class);
         try {
-            loggingConfiguration = new LoggingConfiguration(mAppInfra) {
+            loggingConfiguration = new LoggingConfiguration(mAppInfra,"","") {
                 @Override
                 public Logger getJavaLogger() {
                     return logger;
@@ -194,7 +194,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         final FileHandler fileHandler = mock(FileHandler.class);
         final LogFormatter logFormatter = mock(LogFormatter.class);
         try {
-            loggingConfiguration = new LoggingConfiguration(mAppInfra) {
+            loggingConfiguration = new LoggingConfiguration(mAppInfra,"","") {
                 @Override
                 public Logger getJavaLogger() {
                     return logger;

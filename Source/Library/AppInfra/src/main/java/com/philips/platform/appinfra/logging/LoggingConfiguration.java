@@ -50,8 +50,10 @@ class LoggingConfiguration {
     private String mComponentID;
     private String mComponentVersion;
 
-    LoggingConfiguration(AppInfra mAppInfra) {
+    LoggingConfiguration(AppInfra mAppInfra,String mComponentID,String mComponentVersion) {
         this.mAppInfra = mAppInfra;
+        this.mComponentID = mComponentID;
+        this.mComponentVersion = mComponentVersion;
     }
 
     boolean isComponentLevelLogEnabled(final HashMap<String, Object> loggingProperty) {
