@@ -31,4 +31,7 @@
     <dimen name="ths_margin_bottom_more_details">12dp</dimen>
     <dimen name="ths_icon_layout_size">56dp</dimen>
 
+    <!-- Settings -->
+    <dimen name="ths_list_space">8dp</dimen>
+    <dimen name="ths_list_space_normal">1dp</dimen>
 </resources>

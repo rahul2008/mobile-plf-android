@@ -76,7 +76,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:background="@drawable/reg_circle"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/ths_list_space"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/notification_badge"
                  />

@@ -11,6 +11,7 @@ import android.content.Context;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -19,7 +20,8 @@ public interface THSProviderDetailsViewInterface {
 
     Context getContext();
     THSProviderInfo getTHSProviderInfo();
-    Practice getPracticeInfo();
+    Practice getPractice();
+    PracticeInfo getPracticeInfo();
     Consumer getConsumerInfo();
     void updateView(Provider provider);
     void dismissRefreshLayout();

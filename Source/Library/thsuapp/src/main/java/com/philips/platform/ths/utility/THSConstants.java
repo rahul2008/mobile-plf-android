@@ -21,8 +21,12 @@ public class THSConstants {
     public static final int MEDICATION_ON_ACTIVITY_RESULT = 5555;
     public static final String THS_AVAILABLE_PROVIDER_LIST = "ths_available_provider_List";
     public static final String THS_IS_DETAILS = "ths_is_details";
+
     public static final String DATE_FORMATTER = "EEEE, MMM d, yyyy";
     public static final String DATE_TIME_FORMATTER = "EEEE, MMM d, yyyy h:mm a";
+
+    public static final String TIME_FORMATTER = "h:mm a";
+
 
     public static final String WEB_AVAILABLE = "WEB_AVAILABLE";
     public static final String PROVIDER_OFFLINE = "OFFLINE";
@@ -33,6 +37,8 @@ public class THSConstants {
     public static final int PHARMACY_SEARCH_CONSTANT = 1003;
     public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
     public static final int MEDICATION_SEARCH_CONSTANT = 1002;
+    public static final String THS_VISIT_REPORT_DETAIL = "THS_VISIT_REPORT_DETAIL";
+    public static final String THS_VISIT_REPORT = "THS_VISIT_REPORT";
 
     public static final String IS_INSURANCE_AVAILABLE_KEY = "IS_INSURANCE_AVAILABLE_KEY";
     public static final String IS_PAYMENT_METHOD_AVAILABLE_KEY = "IS_PAYMENT_METHOD_AVAILABLE_KEY";

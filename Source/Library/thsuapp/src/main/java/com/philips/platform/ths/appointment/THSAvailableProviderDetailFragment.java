@@ -66,15 +66,15 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     @Override
+    public Practice getPractice(){
+        return mPractice;
+    }
+
     public void onCalenderItemClick(int position) {
         this.position = position;
         thsAvailableDetailProviderPresenter.updateContinueButtonState(true);
     }
 
-    @Override
-    public Practice  getPracticeInfo(){
-        return mPractice;
-    }
 
     @Override
     public void onClick(View view) {

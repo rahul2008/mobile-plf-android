@@ -85,7 +85,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
         return (null != mTHSPractice && mTHSPractice.getPractices() != null ? mTHSPractice.getPractices().size() : 0);
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected ImageView logo;
         protected TextView label;
         protected RelativeLayout relativeLayout;

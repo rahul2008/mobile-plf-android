@@ -76,6 +76,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/below_providers"
         style="@style/ths_list_header"
+        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_below="@id/below_select_other"
         android:paddingLeft="@dimen/ths_fab_margin"

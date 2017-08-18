@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
     <string name="action_settings">Settings</string>
@@ -53,7 +53,7 @@ It would be a "grave mistake" for the North to think otherwise, they said.</p><p
 The launch, the latest in a series of tests, was in defiance of a ban by the UN Security Council.
 The US has asked for an urgent meeting of the UNSC to discuss the issue. A closed-door session of the 15-member body will take place later on Wednesday.
 Pyongyang claimed on Tuesday to have successfully tested an intercontinental ballistic missile (ICBM).
-However, most experts believe that the North does not yet have long-range nuclear weapon capabilities.
+However, most experts believe that the North does not yetof visits scheduled have long-range nuclear weapon capabilities.
 The two Koreas are technically still at war as the 1950-1953 Korean War ended in an armistice.
 How have the US and South Korea responded?</p>The allies conducted a ballistic missile fire exercise in the Sea of Japan.South Korean President Moon Jae-in said allies needed to demonstrate their missile defence posture with action, not just a statement, his office said.Is the new missile test a game-changer?Can the US defend itself against North Korea?Have North Korea missile tests paid off? What can the outside world do? Meanwhile in a joint statement Gen Vincent Brooks, commander of US forces Korea, and South Korean Joint Chiefs Chairman Gen Lee Sun-jin said the allies were maintaining patience and self-restraint, but this could change.</html></string>
     <string name="schedule_appointment">Schedule an appointment</string>
@@ -101,9 +101,28 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
 
+
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
     <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>
     <string name="ths_no_payment_method">"You currently don't have any payment methods saved. Please add a payment method."</string>
+
+
+
+    <!-- Settings Strings -->
+    <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
+    <string name="ths_cancel_visit">Cancel visit</string>
+    <string name="ths_start_visit">start visit</string>
+    <string name="ths_appointment_start_time">Your appointment at <xliff:g name="count">%s</xliff:g> is about to begin</string>
+    <string name="ths_appointment_visit_better">Make your visit better!</string>
+    <string name="visit_history">Visit History</string>
+    <string name="ths_visit_summary">Visit Summary</string>
+    <string name="ths_credit_card_charge">Your credit card was charged </string>
+    <string name="ths_visit_report">Your Visit Report</string>
+    <string name="ths_visit_prescription">Your prescription was sent to</string>
+    <string name="ths_visit_medication">Your medication will be shipped to</string>
+    <string name="ths_download_report">Download report</string>
+    <string name="ths_download_report_size">(PDF, 21MB)</string>
+    <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
 
     <!-- Set Reminder Dialog text strings -->
     <string name="ths_rb_no_reminder">No Reminder</string>

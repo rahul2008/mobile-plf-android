@@ -19,10 +19,13 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
+import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSPracticeFragment extends THSBaseFragment {
+public class THSPracticeFragment extends THSBaseFragment implements View.OnClickListener{
 
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
 
@@ -32,6 +35,8 @@ public class THSPracticeFragment extends THSBaseFragment {
     private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
     private ActionBarListener actionBarListener;
     private RelativeLayout mRealtiveLayoutPracticeContainer;
+    private Button mBtnAppointment;
+    private Button mVisitBtn;
 
 
     @Nullable
@@ -42,6 +47,10 @@ public class THSPracticeFragment extends THSBaseFragment {
         mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
         mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
+        mBtnAppointment = (Button) view.findViewById(R.id.ths_appointment_list);
+        mVisitBtn = (Button) view.findViewById(R.id.ths_visit_list);
+        mVisitBtn.setOnClickListener(this);
+        mBtnAppointment.setOnClickListener(this);
         return view;
     }
 
@@ -96,5 +105,16 @@ public class THSPracticeFragment extends THSBaseFragment {
         });
 
 
+    }
+
+    //TODO:Will be removed after welcome screen is completed
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.ths_appointment_list) {
+            addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
+        }else if (id == R.id.ths_visit_list) {
+            addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
+        }
     }
 }
