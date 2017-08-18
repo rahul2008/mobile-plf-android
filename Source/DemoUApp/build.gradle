@@ -172,25 +172,12 @@ task generateJavadocPublicApi(type: Javadoc) {
 }
 
 dependencies {
-    compile deps.support.supportv4
     compile deps.support.design
-    compile deps.support.appcompatv7
     compile "com.android.support:cardview-v7:${versions.support}"
 
     provided deps.support.annotations
 
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix())
-
-    /*
-    def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
-
-    if (findProject(commlib)) {
-        debugCompile project(path: commlib, configuration: 'debug')
-        releaseCompile project(path: commlib, configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
-    }
-    */
 
     debugCompile project(path: ':commlib', configuration: 'debug')
     releaseCompile project(path: ':commlib', configuration: 'release')

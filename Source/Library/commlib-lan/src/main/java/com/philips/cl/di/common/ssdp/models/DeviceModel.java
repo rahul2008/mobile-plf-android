@@ -16,6 +16,7 @@ import java.util.Locale;
 /**
  * Device class which keeps device information and services
  */
+@Deprecated
 public class DeviceModel {
 
     private static final String LOG_TAG = null;
@@ -28,25 +29,25 @@ public class DeviceModel {
 
     private String ipAddress;
 
-    private Drawable mIcon;
+    private Drawable icon;
 
-    private String mId;
+    private String id;
 
-    private boolean mIsLocal = false;
+    private boolean isLocal = false;
 
-    private String mLocation = null;
+    private String location = null;
 
-    private String mNts = null;
+    private String nts = null;
 
-    private int mPort;
+    private int port;
 
-    private SSDPdevice mSsdpDevice;
+    private SSDPdevice ssdpDevice;
 
-    private String mUsn = null;
+    private String usn = null;
 
-    private String mBootID = null;
+    private String bootId = null;
 
-    private String mCppId = null;
+    private String cppId = null;
 
     /**
      * constructor used by TwonkyService for discovered UPNPs
@@ -61,10 +62,10 @@ public class DeviceModel {
     /**
      * Creates dummy device from SSDP byebye to remove Webremote services
      *
-     * @param pUDN String
+     * @param udn String
      */
-    public DeviceModel(final String pUDN) {
-        mId = pUDN;
+    public DeviceModel(final String udn) {
+        id = udn;
     }
 
     /**
@@ -74,26 +75,26 @@ public class DeviceModel {
      * @param epgId        String
      */
     public DeviceModel(final String jointspaceId, final String epgId) {
-        mId = jointspaceId;
+        id = jointspaceId;
     }
 
     /**
      * Constructor for DeviceModel.
      *
-     * @param pNTS       String
-     * @param pUSN       String
-     * @param pLOCATION  String
-     * @param pIpAddress String
-     * @param pPort      int
+     * @param nts       String
+     * @param usn       String
+     * @param location  String
+     * @param ipAddress String
+     * @param port      int
      */
-    public DeviceModel(final String pNTS, final String pUSN, final String pLOCATION, final String pIpAddress,
-                       final int pPort, final String pBootID) {
-        mNts = pNTS;
-        mUsn = pUSN;
-        mLocation = pLOCATION;
-        ipAddress = pIpAddress;
-        mPort = pPort;
-        mBootID = pBootID;
+    public DeviceModel(final String nts, final String usn, final String location, final String ipAddress,
+                       final int port, final String bootId) {
+        this.nts = nts;
+        this.usn = usn;
+        this.location = location;
+        this.ipAddress = ipAddress;
+        this.port = port;
+        this.bootId = bootId;
     }
 
     /**
@@ -114,13 +115,13 @@ public class DeviceModel {
         final DeviceModel currentObject = (DeviceModel) other;
         boolean flag;
 
-        if ((mId != null) && mId.equals(currentObject.mId)) {
+        if ((id != null) && id.equals(currentObject.id)) {
             flag = true;
         } else if ((ipAddress != null) && ipAddress.equals(currentObject.ipAddress)) {
             flag = true;
-        } else if ((mSsdpDevice != null) && (currentObject.getSsdpDevice() != null)) {
-            if (mSsdpDevice.getModelName().equals(currentObject.getSsdpDevice().getModelName())
-                    || mSsdpDevice.getManufacturer().equals(currentObject.getSsdpDevice().getManufacturer())) {
+        } else if ((ssdpDevice != null) && (currentObject.getSsdpDevice() != null)) {
+            if (ssdpDevice.getModelName().equals(currentObject.getSsdpDevice().getModelName())
+                    || ssdpDevice.getManufacturer().equals(currentObject.getSsdpDevice().getManufacturer())) {
                 // if both devices are 2k9 and they have the same IP address
                 // we assume it's the same device
                 flag = true;
@@ -136,7 +137,7 @@ public class DeviceModel {
      * @return icon representing device
      */
     public Drawable getIcon() {
-        return mIcon;
+        return icon;
     }
 
     /**
@@ -178,7 +179,7 @@ public class DeviceModel {
      * @return String
      */
     public String getId() {
-        return mId;
+        return id;
     }
 
     /**
@@ -189,17 +190,17 @@ public class DeviceModel {
     }
 
     /**
-     * @return the mLocation
+     * @return the location
      */
     public String getLocation() {
-        return mLocation;
+        return location;
     }
 
     /**
-     * @return the mNts
+     * @return the nts
      */
     public String getNts() {
-        return mNts;
+        return nts;
     }
 
     /**
@@ -208,7 +209,7 @@ public class DeviceModel {
      * @return int
      */
     public int getPort() {
-        return mPort;
+        return port;
     }
 
     /**
@@ -217,28 +218,28 @@ public class DeviceModel {
      * @return SSDPdevice
      */
     public SSDPdevice getSsdpDevice() {
-        return mSsdpDevice;
+        return ssdpDevice;
     }
 
     /**
-     * @return the mUsn
+     * @return the usn
      */
     public String getUsn() {
-        return mUsn;
+        return usn;
     }
 
     /**
-     * @return the mBootID
+     * @return the bootId
      */
-    public String getBootID() {
-        return mBootID;
+    public String getBootId() {
+        return bootId;
     }
 
     /**
-     * @return the mCppId
+     * @return the cppId
      */
     public String getCppId() {
-        return mCppId;
+        return cppId;
     }
 
     /**
@@ -249,8 +250,8 @@ public class DeviceModel {
     @Override
     public int hashCode() {
         int hashcode;
-        if (mId != null) {
-            hashcode = mId.hashCode();
+        if (id != null) {
+            hashcode = id.hashCode();
         } else {
             hashcode = super.hashCode();
         }
@@ -263,7 +264,7 @@ public class DeviceModel {
      * @return boolean
      */
     public boolean isLocal() {
-        return mIsLocal;
+        return isLocal;
     }
 
     /**
@@ -273,7 +274,7 @@ public class DeviceModel {
      */
     public final boolean isPhilipsDevice() {
         Boolean isPhilipsDevice = false;
-        final String manufacturer = mSsdpDevice.getManufacturer();
+        final String manufacturer = ssdpDevice.getManufacturer();
         if (null != manufacturer) {
             isPhilipsDevice = manufacturer.toLowerCase(Locale.US).contains(MANUFACTURER_PHILIPS);
         }
@@ -283,25 +284,25 @@ public class DeviceModel {
     /**
      * Device constructor for SSDP discovery
      *
-     * @param pSSDPdevice delivered by SSDP discovery service
+     * @param ssdpDevice delivered by SSDP discovery service
      */
     @SuppressWarnings("deprecation")
-    public void setFromSSDP(final SSDPdevice pSSDPdevice) {
-        mSsdpDevice = pSSDPdevice;
-        if (null != pSSDPdevice) {
-            mId = pSSDPdevice.getUdn();
-            mIsLocal = false;
-            mIcon = new BitmapDrawable();
+    public void setFromSSDP(final SSDPdevice ssdpDevice) {
+        this.ssdpDevice = ssdpDevice;
+        if (null != ssdpDevice) {
+            id = ssdpDevice.getUdn();
+            isLocal = false;
+            icon = new BitmapDrawable();
 
             if (isPhilipsDevice()) {
-                pSSDPdevice.getPresentationURL();
-                if (pSSDPdevice.getPresentationURL() != null && !pSSDPdevice.getPresentationURL().contains("http://")) {
-                    final StringBuilder builder = new StringBuilder(mSsdpDevice.getBaseURL());
-                    builder.append(pSSDPdevice.getPresentationURL());
-                    builder.append(pSSDPdevice.getXScreen());
-                    mSsdpDevice.setBaseURL(builder.toString());
+                ssdpDevice.getPresentationURL();
+                if (ssdpDevice.getPresentationURL() != null && !ssdpDevice.getPresentationURL().contains("http://")) {
+                    final StringBuilder builder = new StringBuilder(this.ssdpDevice.getBaseURL());
+                    builder.append(ssdpDevice.getPresentationURL());
+                    builder.append(ssdpDevice.getXScreen());
+                    this.ssdpDevice.setBaseURL(builder.toString());
                 } else {
-                    pSSDPdevice.setPresentationURL(pSSDPdevice.getPresentationURL() + pSSDPdevice.getXScreen());
+                    ssdpDevice.setPresentationURL(ssdpDevice.getPresentationURL() + ssdpDevice.getXScreen());
                 }
             }
         }
@@ -313,79 +314,79 @@ public class DeviceModel {
      * @param drawable Drawable
      */
     void setIcon(final Drawable drawable) {
-        mIcon = drawable;
+        icon = drawable;
     }
 
     /**
-     * @param pId the mId to set
+     * @param id the id to set
      */
-    public void setId(final String pId) {
-        mId = pId;
+    public void setId(final String id) {
+        this.id = id;
     }
 
     /**
-     * @param pIpAddress the mIpAddress to set
+     * @param ipAddress the mIpAddress to set
      */
-    public void setIpAddress(final String pIpAddress) {
-        ipAddress = pIpAddress;
+    public void setIpAddress(final String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     /**
-     * @param pIsLocal the mIsLocal to set
+     * @param isLocal the isLocal to set
      */
-    public void setIsLocal(final boolean pIsLocal) {
-        mIsLocal = pIsLocal;
+    public void setIsLocal(final boolean isLocal) {
+        this.isLocal = isLocal;
     }
 
     /**
-     * @param pLocation the mLocation to set
+     * @param location the location to set
      */
-    public void setLocation(final String pLocation) {
-        mLocation = pLocation;
+    public void setLocation(final String location) {
+        this.location = location;
     }
 
     /**
-     * @param pNts the mNts to set
+     * @param nts the nts to set
      */
-    public void setNts(final String pNts) {
-        mNts = pNts;
+    public void setNts(final String nts) {
+        this.nts = nts;
     }
 
     /**
      * @param port the port to set
      */
     public void setPort(final int port) {
-        mPort = port;
+        this.port = port;
     }
 
     /**
      * Method setSsdpDevice.
      *
-     * @param pSsdpDevice SSDPdevice
+     * @param ssdpDevice SSDPdevice
      */
-    public void setSsdpDevice(final SSDPdevice pSsdpDevice) {
-        mSsdpDevice = pSsdpDevice;
+    public void setSsdpDevice(final SSDPdevice ssdpDevice) {
+        this.ssdpDevice = ssdpDevice;
     }
 
     /**
-     * @param pUsn the mUsn to set
+     * @param usn the usn to set
      */
-    public void setUsn(final String pUsn) {
-        mUsn = pUsn;
+    public void setUsn(final String usn) {
+        this.usn = usn;
     }
 
     /**
-     * @param bootID the mBootID to set
+     * @param bootId the bootId to set
      */
-    public void setBootID(final String bootID) {
-        mBootID = bootID;
+    public void setBootId(final String bootId) {
+        this.bootId = bootId;
     }
 
     /**
-     * @param cppId the mCppId to set
+     * @param cppId the cppId to set
      */
     public void setCppId(final String cppId) {
-        mCppId = cppId;
+        this.cppId = cppId;
     }
 
     /**
@@ -396,12 +397,12 @@ public class DeviceModel {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("SSDP discovered device detials [mUsn:").append(mUsn);
-        builder.append("][Nts:").append(mNts).append(']');
-        builder.append("[Location:").append(mLocation).append("][ IpAddress:");
-        builder.append(ipAddress).append("][ Port:").append(mPort);
-        builder.append("][BOOT ID ").append(mBootID);
-        builder.append("][SSDP ").append(mSsdpDevice).append(']'); //$NON-NLS-1$
+        builder.append("SSDP discovered device details [Usn:").append(usn);
+        builder.append("][Nts:").append(nts).append(']');
+        builder.append("[Location:").append(location).append("][ IpAddress:");
+        builder.append(ipAddress).append("][ Port:").append(port);
+        builder.append("][BOOT ID ").append(bootId);
+        builder.append("][SSDP ").append(ssdpDevice).append(']'); //$NON-NLS-1$
         return builder.toString();
     }
 

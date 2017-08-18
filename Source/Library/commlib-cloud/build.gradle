@@ -158,7 +158,7 @@ task generateJavadocPublicApi(type: Javadoc) {
         if (it.isDirectory) {
             return true
         }
-        return true //it.file.text.contains("* @publicApi")
+        return it.file.text.contains("* @publicApi")
     }
 
     options {
@@ -202,6 +202,7 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
+    testCompile deps.assertj
 }
 
 pitest {

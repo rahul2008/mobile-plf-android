@@ -7,9 +7,9 @@ package com.philips.cdp2.commlib.example;
 
 import android.app.Application;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 
 public final class App extends Application {
@@ -20,7 +20,7 @@ public final class App extends Application {
         super.onCreate();
 
         final BleTransportContext bleTransportContext = new BleTransportContext(this, false);
-        final DICommApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+        final ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
         this.commCentral = new CommCentral(applianceFactory, bleTransportContext);
     }

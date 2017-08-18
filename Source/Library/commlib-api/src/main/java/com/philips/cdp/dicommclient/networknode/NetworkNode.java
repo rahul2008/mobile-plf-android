@@ -8,14 +8,16 @@ package com.philips.cdp.dicommclient.networknode;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Patterns;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CONNECTION_STATE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
@@ -43,8 +45,6 @@ public class NetworkNode implements Parcelable {
     public enum PairingState {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
     private boolean isHttps = true;
-    @Deprecated
-    private volatile ConnectionState connectionState;
     private long bootId;
     private long lastPairedTime;
     private PairingState pairedState = PairingState.NOT_PAIRED;
@@ -92,18 +92,6 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_CPP_ID, oldCppId, cppId);
     }
 
-    @Deprecated
-    public synchronized ConnectionState getConnectionState() {
-        return connectionState;
-    }
-
-    @Deprecated
-    public void setConnectionState(ConnectionState connectionState) {
-        final ConnectionState oldConnectionState = this.connectionState;
-        this.connectionState = connectionState;
-        this.pcs.firePropertyChange(KEY_CONNECTION_STATE, oldConnectionState, connectionState);
-    }
-
     public synchronized String getName() {
         return name;
     }
@@ -125,6 +113,12 @@ public class NetworkNode implements Parcelable {
         return deviceType;
     }
 
+    /**
+     * Set the device type.
+     *
+     * @param deviceType The device type
+     * @see #getDeviceType()
+     */
     public synchronized void setDeviceType(String deviceType) {
         final String oldDeviceType = this.deviceType;
         this.deviceType = deviceType;
@@ -142,6 +136,12 @@ public class NetworkNode implements Parcelable {
         return modelId;
     }
 
+    /**
+     * Set the model id.
+     *
+     * @param modelId The model id
+     * @see #getModelId()
+     */
     public synchronized void setModelId(String modelId) {
         final String oldModelId = this.modelId;
         this.modelId = modelId;
@@ -236,6 +236,33 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_LAST_PAIRED, oldPairedTime, lastPairedTime);
     }
 
+    public void updateWithValuesFrom(final @NonNull NetworkNode networkNode) {
+        if (!Objects.equals(networkNode.getCppId(), this.cppId)) {
+            return;
+        }
+
+        if (!Objects.equals(networkNode.getHomeSsid(), this.homeSsid)) {
+            setHomeSsid(networkNode.getHomeSsid());
+        }
+
+        if (!Objects.equals(networkNode.getIpAddress(), this.ipAddress)) {
+            setIpAddress(networkNode.getIpAddress());
+        }
+
+        if (!Objects.equals(networkNode.getName(), this.name)) {
+            setName(networkNode.getName());
+        }
+
+        if (networkNode.getBootId() != this.bootId) {
+            setEncryptionKey(null);
+            setBootId(networkNode.getBootId());
+        }
+
+        if (networkNode.getEncryptionKey() != null) {
+            setEncryptionKey(null);
+        }
+    }
+
     public int getDICommProtocolVersion() {
         return DICOMM_PROTOCOL_VERSION;
     }
@@ -243,7 +270,6 @@ public class NetworkNode implements Parcelable {
     protected NetworkNode(Parcel in) {
         ipAddress = in.readString();
         cppId = in.readString();
-        connectionState = ConnectionState.values()[in.readInt()];
         name = in.readString();
         deviceType = in.readString();
         modelId = in.readString();
@@ -265,7 +291,6 @@ public class NetworkNode implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(ipAddress);
         dest.writeString(cppId);
-        dest.writeInt(connectionState.ordinal());
         dest.writeString(name);
         dest.writeString(deviceType);
         dest.writeString(modelId);
@@ -306,11 +331,22 @@ public class NetworkNode implements Parcelable {
                 .append("   deviceType: ").append(getDeviceType())
                 .append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
-                .append("   connectedState: ").append(getConnectionState())
-                .append("   HomeSsid: ").append(getHomeSsid())
+                .append("   homeSsid: ").append(getHomeSsid())
                 .append("   pin: ").append(pin)
                 .append("   mismatchedPin: ").append(mismatchedPin);
         return builder.toString();
+    }
+
+    /**
+     * Checks if this {@link NetworkNode} has the minimal set of its properties set to a valid value.
+     *
+     * @return true, if this {@link NetworkNode} is valid.
+     */
+    public boolean isValid() {
+        return !TextUtils.isEmpty(getCppId())
+                && !TextUtils.isEmpty(getName())
+                && !TextUtils.isEmpty(getDeviceType())
+                && Patterns.IP_ADDRESS.matcher(getIpAddress()).matches();
     }
 
     @Override

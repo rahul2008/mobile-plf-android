@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
@@ -12,6 +12,9 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @publicApi
+ */
 public class WifiPort extends DICommPort<WifiPortProperties> {
 
     private static final String KEY_GATEWAY = "gateway";
@@ -56,7 +59,6 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
 
     @Override
     public boolean supportsSubscription() {
-        // TODO DIComm Refactor check if subscription to deviceport is necessary
         return false;
     }
 

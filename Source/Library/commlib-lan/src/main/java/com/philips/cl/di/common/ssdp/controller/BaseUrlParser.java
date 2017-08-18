@@ -28,6 +28,7 @@ import javax.xml.parsers.SAXParserFactory;
 /**
  * Parser for the base URL currently parser only for icons
  */
+@Deprecated
 public class BaseUrlParser {
 
 	/**

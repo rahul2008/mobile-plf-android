@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.discovery;
@@ -11,6 +11,7 @@ import android.os.Message;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
+@Deprecated
 public class SsdpServiceHelperThread extends HandlerThread {
 
 	private Object mStartLock;

@@ -11,8 +11,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
@@ -20,6 +20,7 @@ import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
+import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
 import com.philips.pins.shinelib.SHNDevice;
 
@@ -29,10 +30,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
+import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
 
 /**
  * The type BleCommunicationStrategy.
+ *
+ * @publicApi
  */
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
@@ -44,13 +47,37 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     private final BleDeviceCache deviceCache;
     @NonNull
     private final ScheduledThreadPoolExecutor requestExecutor;
+
+    private final ModificationListener<String> deviceCacheListener = new ModificationListener<String>() {
+        @Override
+        public void onRemoved(String cppId) {
+            isAvailable = false;
+        }
+
+        @Override
+        public void onAdded(String cppId) {
+            final BleCacheData cacheData = deviceCache.getCacheData(BleCommunicationStrategy.this.cppId);
+            cacheData.addAvailabilityListener(new AvailabilityListener<BleCacheData>() {
+                @Override
+                public void onAvailabilityChanged(@NonNull BleCacheData object) {
+                    if (isAvailable != object.isAvailable()) {
+                        isAvailable = object.isAvailable();
+                        notifyAvailabilityChanged();
+                    }
+                }
+            });
+        }
+    };
+
     @NonNull
     private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
+
     @NonNull
     private Handler callbackHandler;
 
     private final long subscriptionPollingInterval;
     private Map<PortParameters, PollingSubscription> subscriptionsCache = new ConcurrentHashMap<>();
+    private boolean isAvailable;
 
     /**
      * Instantiates a new Ble communication strategy with a sensible default subscription polling interval value.
@@ -84,9 +111,13 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     public BleCommunicationStrategy(@NonNull String cppId, @NonNull BleDeviceCache deviceCache, @NonNull Handler callbackHandler, long subscriptionPollingInterval) {
         this.cppId = cppId;
         this.deviceCache = deviceCache;
+
         this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
         this.requestExecutor = new ScheduledThreadPoolExecutor(1);
+
+        this.isAvailable = deviceCache.contains(cppId);
+        this.deviceCache.addModificationListener(cppId, deviceCacheListener);
     }
 
     @Override
@@ -151,16 +182,14 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return deviceCache.contains(cppId);
+        return this.isAvailable;
     }
 
     /**
      * Enables continuous connection to the appliance, allowing for faster data transfer.
-     *
-     * @param subscriptionEventListener
      */
     @Override
-    public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
+    public void enableCommunication() {
         if (isAvailable()) {
             SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
             device.connect();

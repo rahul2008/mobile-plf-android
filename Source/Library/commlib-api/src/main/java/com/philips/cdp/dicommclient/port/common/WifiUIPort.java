@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
@@ -14,6 +14,9 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @publicApi
+ */
 public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
     private final String WIFIUIPORT_NAME = "wifiui";
@@ -23,58 +26,57 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
     private static final String KEY_CONNECTION = "connection";
 
     public WifiUIPort(CommunicationStrategy communicationStrategy) {
-		super(communicationStrategy);
-	}
+        super(communicationStrategy);
+    }
 
-	@Override
-	public boolean isResponseForThisPort(String jsonResponse) {
-		return (parseResponse(jsonResponse)!=null);
-	}
+    @Override
+    public boolean isResponseForThisPort(String jsonResponse) {
+        return (parseResponse(jsonResponse) != null);
+    }
 
-	@Override
-	public void processResponse(String jsonResponse) {
-	    WifiUIPortProperties properties = parseResponse(jsonResponse);
-        if(properties!=null){
-        	setPortProperties(properties);
-        	return;
+    @Override
+    public void processResponse(String jsonResponse) {
+        WifiUIPortProperties properties = parseResponse(jsonResponse);
+        if (properties != null) {
+            setPortProperties(properties);
+            return;
         }
-        DICommLog.e(DICommLog.WIFIUIPORT,"WifiUI port properties should never be NULL");
+        DICommLog.e(DICommLog.WIFIUIPORT, "WifiUI port properties should never be NULL");
 
-	}
+    }
 
-	@Override
-	public String getDICommPortName() {
-		return WIFIUIPORT_NAME;
-	}
+    @Override
+    public String getDICommPortName() {
+        return WIFIUIPORT_NAME;
+    }
 
-	@Override
-	public int getDICommProductId() {
-		return WIFIUIPORT_PRODUCTID;
-	}
+    @Override
+    public int getDICommProductId() {
+        return WIFIUIPORT_PRODUCTID;
+    }
 
-	@Override
-	public boolean supportsSubscription() {
-	    // TODO DIComm Refactor check if subscription to deviceport is necessary
-		return false;
-	}
+    @Override
+    public boolean supportsSubscription() {
+        return false;
+    }
 
-	private WifiUIPortProperties parseResponse(String response) {
+    private WifiUIPortProperties parseResponse(String response) {
         if (response == null || response.isEmpty()) {
-			return null;
-		}
+            return null;
+        }
 
-		WifiUIPortProperties properties = null;
-		try {
-		    properties = gson.fromJson(response, WifiUIPortProperties.class) ;
-		} catch (JsonSyntaxException e) {
-			DICommLog.e(DICommLog.WIFIUIPORT, "JsonSyntaxException");
-		} catch (JsonIOException e) {
-			DICommLog.e(DICommLog.WIFIUIPORT, "JsonIOException");
-		} catch (Exception e2) {
-			DICommLog.e(DICommLog.WIFIUIPORT, "Exception");
-		}
-		return properties;
-	}
+        WifiUIPortProperties properties = null;
+        try {
+            properties = gson.fromJson(response, WifiUIPortProperties.class);
+        } catch (JsonSyntaxException e) {
+            DICommLog.e(DICommLog.WIFIUIPORT, "JsonSyntaxException");
+        } catch (JsonIOException e) {
+            DICommLog.e(DICommLog.WIFIUIPORT, "JsonIOException");
+        } catch (Exception e2) {
+            DICommLog.e(DICommLog.WIFIUIPORT, "Exception");
+        }
+        return properties;
+    }
 
     public void disableDemoMode() {
         Map<String, Object> dataMap = new HashMap<String, Object>();

@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.core.port.firmware;
@@ -20,6 +20,9 @@ import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * @publicApi
+ */
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
     private static final String FIRMWAREPORT_NAME = "firmware";

@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp2.commlib.core.communication;
@@ -10,18 +10,26 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public abstract class CommunicationStrategy {
+/**
+ * The CommunicationStrategy is responsible for communicating to an actual appliance.
+ *
+ * @publicApi
+ */
+public abstract class CommunicationStrategy implements Availability<CommunicationStrategy> {
 
-    public static final String SUBSCRIBER_KEY = "subscriber";
-    public static final String TTL_KEY = "ttl";
+    private static final String SUBSCRIBER_KEY = "subscriber";
+    private static final String TTL_KEY = "ttl";
 
-    private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
+    protected Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
+
+    protected final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 
     public abstract void getProperties(String portName, int productId, ResponseHandler responseHandler);
 
@@ -37,7 +45,7 @@ public abstract class CommunicationStrategy {
 
     public abstract boolean isAvailable();
 
-    public abstract void enableCommunication(SubscriptionEventListener subscriptionEventListener);
+    public abstract void enableCommunication();
 
     public abstract void disableCommunication();
 
@@ -63,7 +71,24 @@ public abstract class CommunicationStrategy {
 
     protected Map<String, Object> getUnsubscriptionData() {
         return new HashMap<String, Object>() {{
-            put(SUBSCRIBER_KEY, CommCentral.getAppId());
+            put(SUBSCRIBER_KEY, CommCentral.getAppIdProvider().getAppId());
         }};
+    }
+
+    protected void notifyAvailabilityChanged() {
+        for (AvailabilityListener<CommunicationStrategy> listener : availabilityListeners) {
+            listener.onAvailabilityChanged(this);
+        }
+    }
+
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
+        availabilityListeners.add(listener);
+        listener.onAvailabilityChanged(this);
+    }
+
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
+        availabilityListeners.remove(listener);
     }
 }

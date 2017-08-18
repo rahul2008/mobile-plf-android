@@ -12,6 +12,7 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -197,7 +198,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        final BleDeviceCache.CacheData cacheData = deviceCache.getCacheData(cppId);
+        final BleCacheData cacheData = deviceCache.getCacheData(cppId);
 
         if (cacheData == null) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");

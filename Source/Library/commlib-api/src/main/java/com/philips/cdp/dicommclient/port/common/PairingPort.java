@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
@@ -13,6 +13,10 @@ import com.philips.cdp2.commlib.core.port.PortProperties;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @param <P>
+ * @publicApi
+ */
 public class PairingPort<P extends PortProperties> extends DICommPort<P> {
 
     private final String PAIRINGPORT_NAME = "pairing";

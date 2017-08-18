@@ -6,6 +6,7 @@
 package com.philips.cdp2.demouapp.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,44 +17,51 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.util.AppIdProvider;
+import com.philips.cdp2.commlib.core.util.AppIdProvider.AppIdListener;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 
+import java.util.Set;
+
 import static android.content.ContentValues.TAG;
+import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
 
 public class DiscoveredAppliancesFragment extends Fragment {
 
-    private DiscoveryManager<?> discoveryManager = DiscoveryManager.getInstance();
+    private CommCentral commCentral;
+
+    private final AppIdProvider appIdProvider = getAppIdProvider();
+
+    private View view;
     private ApplianceAdapter applianceAdapter;
 
-    private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
+    private void onAppliancesChanged() {
+        getActivity().runOnUiThread(new Runnable() {
 
-        @Override
-        public void onDiscoveredAppliancesListChanged() {
-            getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                applianceAdapter.clear();
 
-                @Override
-                public void run() {
-                    applianceAdapter.clear();
-                    applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+                final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+                for (Appliance appliance : appliances) {
+                    appliance.getWifiPort().addPortListener(wifiPortListener);
                 }
-            });
-
-            for (Appliance appliance : discoveryManager.getAllDiscoveredAppliances()) {
-                appliance.getWifiPort().addPortListener(wifiPortListener);
+                applianceAdapter.addAll(appliances);
             }
-        }
-    };
+        });
+
+    }
 
     private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
@@ -72,47 +80,82 @@ public class DiscoveredAppliancesFragment extends Fragment {
         }
     };
 
+    private ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+        @Override
+        public void onApplianceFound(@NonNull Appliance foundAppliance) {
+            onAppliancesChanged();
+        }
+
+        @Override
+        public void onApplianceUpdated(@NonNull Appliance updatedAppliance) {
+            onAppliancesChanged();
+        }
+
+        @Override
+        public void onApplianceLost(@NonNull Appliance lostAppliance) {
+            onAppliancesChanged();
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
+        view = inflater.inflate(R.layout.cml_fragment_discovered_appliances, container, false);
 
+        commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        final ListView listViewAppliances = (ListView) rootview.findViewById(R.id.cml_listViewAppliances);
+        final ListView listViewAppliances = (ListView) view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final Appliance appliance = applianceAdapter.getItem(position);
-                CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
 
-                CommlibUapp.get().nextFragment(new ApplianceFragment());
+                if (appliance != null) {
+                    CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
+                    CommlibUapp.get().nextFragment(new ApplianceFragment());
+                }
             }
         });
 
-        ((TextView) rootview.findViewById(R.id.cml_textViewAppId)).setText(CommCentral.getAppId());
+        appIdProvider.addAppIdListener(new AppIdListener() {
+            @Override
+            public void onAppIdChanged(String appId) {
+                updateAppId();
+            }
+        });
+        updateAppId();
 
-        return rootview;
+        return view;
+    }
+
+    private void updateAppId() {
+        ((TextView) view.findViewById(R.id.cml_textViewAppId)).setText(appIdProvider.getAppId());
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        discoveryManager.addDiscoveryEventListener(discoveryEventListener);
-        discoveryManager.start();
+        try {
+            commCentral.startDiscovery();
+        } catch (MissingPermissionException e) {
+            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+        }
+
+        commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
-        applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+        applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        discoveryManager.removeDiscoverEventListener(discoveryEventListener);
-        discoveryManager.stop();
+        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
+        commCentral.stopDiscovery();
     }
 
     public static DiscoveredAppliancesFragment newInstance() {

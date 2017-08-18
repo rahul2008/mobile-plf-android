@@ -12,11 +12,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
@@ -35,6 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.philips.pins.shinelib.SHNDevice.State.Disconnected;
 
+/**
+ * @publicApi
+ */
 public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements SHNDeviceScanner.SHNDeviceScannerListener {
 
     /**
@@ -59,12 +61,13 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
-            final CacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
+            final BleCacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
             if (cacheData == null) {
                 return;
             }
 
             if (cacheData.getDevice().getState() == Disconnected) {
+                cacheData.setAvailable(false);
                 notifyNetworkNodeLost(networkNode);
             } else {
                 cacheData.resetTimer();
@@ -131,7 +134,6 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         networkNode.setCppId(device.getAddress()); // TODO cloud identifier; hijacked MAC address for now
         networkNode.setName(device.getName()); // TODO Friendly name, e.g. 'Vacuum cleaner'
         networkNode.setDeviceType(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
-        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         // Model id, e.g. 'FC8932'
         byte[] manufacturerData = shnDeviceFoundInfo.getBleScanRecord().getManufacturerSpecificData();
@@ -150,8 +152,13 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         }
 
         if (modelIds.isEmpty() || modelIds.contains(networkNode.getModelId())) {
-            bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
-            notifyNetworkNodeDiscovered(networkNode);
+            if (bleDeviceCache.contains(networkNode.getCppId())) {
+                bleDeviceCache.getCacheData(networkNode.getCppId()).resetTimer();
+                notifyNetworkNodeUpdated(networkNode);
+            } else {
+                bleDeviceCache.addDevice(shnDeviceFoundInfo.getShnDevice(), networkNode, expirationCallback, SCAN_WINDOW_MILLIS);
+                notifyNetworkNodeDiscovered(networkNode);
+            }
         }
     }
 

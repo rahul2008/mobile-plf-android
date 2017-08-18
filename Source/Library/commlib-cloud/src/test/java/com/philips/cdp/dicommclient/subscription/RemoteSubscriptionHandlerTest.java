@@ -1,11 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.subscription;
 
-import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
+import static java.util.Collections.singleton;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.startsWith;
 import static org.mockito.Mockito.mock;
@@ -55,7 +56,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
         mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
 
-        mRemoteSubscriptionHandler.enableSubscription(mMockNetworkNode, mSubscriptionEventListener);
+        mRemoteSubscriptionHandler.enableSubscription(mMockNetworkNode, singleton(mSubscriptionEventListener));
     }
 
     @Test

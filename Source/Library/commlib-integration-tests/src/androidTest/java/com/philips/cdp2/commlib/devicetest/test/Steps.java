@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.devicetest.TestApplication;
 import com.philips.cdp2.commlib.devicetest.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.devicetest.time.TimePort;
@@ -79,12 +80,12 @@ public class Steps {
         app.onCreate();
         commCentral = app.getCommCentral();
 
-        ApplianceWaiter.Waiter<ReferenceAppliance> waiter = ApplianceWaiter.forCppId("AA:AA:AA:AA:AA:AA");
+        ApplianceWaiter.Waiter<Appliance> waiter = ApplianceWaiter.forCppId("AA:AA:AA:AA:AA:AA");
 
         commCentral.getApplianceManager().addApplianceListener(waiter);
         commCentral.startDiscovery();
 
-        current = waiter.waitForAppliance(2, MINUTES).getAppliance();
+        current = (ReferenceAppliance) waiter.waitForAppliance(2, MINUTES).getAppliance();
         Log.i(LOGTAG, "Found our referenceAppliance!");
     }
 

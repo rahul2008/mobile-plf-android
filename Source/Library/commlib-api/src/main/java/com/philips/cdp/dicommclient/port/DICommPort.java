@@ -1,21 +1,20 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.util.GsonProvider;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +23,16 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * A DiComm Port on an {@link Appliance}.
+ * <p>
+ * Ports hold a set of {@link PortProperties} and can have methods to perform complex actions
+ * on a port. It is possible to subscribe to changes on a port to get informed when the port's
+ * properties have changed.
+ *
+ * @param <T> The {@link PortProperties} associated with this port.
+ * @publicApi
+ */
 public abstract class DICommPort<T extends PortProperties> {
 
     private final String LOG_TAG = getClass().getSimpleName();
@@ -115,7 +124,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     protected WrappedHandler getResubscriptionHandler() {
         if (mResubscriptionHandler == null) {
-            mResubscriptionHandler = new WrappedHandler(new Handler(Looper.getMainLooper()));
+            mResubscriptionHandler = new WrappedHandler(HandlerProvider.createHandler());
         }
         return mResubscriptionHandler;
     }

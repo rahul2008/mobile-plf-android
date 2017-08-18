@@ -5,15 +5,17 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DevicePortTest extends RobolectricTest {
+public class DevicePortTest {
 
     @Mock
     private CommunicationStrategy communicationStrategyMock;
@@ -36,9 +38,10 @@ public class DevicePortTest extends RobolectricTest {
             "   \"type\":\"testType\"\n" +
             "}";
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() {
+        initMocks(this);
+        DICommLog.disableLogging();
 
         devicePort = new DevicePort(communicationStrategyMock);
     }

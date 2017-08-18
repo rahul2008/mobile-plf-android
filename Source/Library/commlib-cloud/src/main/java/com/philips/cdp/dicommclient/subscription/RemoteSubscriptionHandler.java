@@ -1,21 +1,23 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.subscription;
 
-import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.listener.DcsEventListener;
+import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Set;
+
 public class RemoteSubscriptionHandler extends SubscriptionHandler implements DcsEventListener {
 
-    private SubscriptionEventListener mSubscriptionEventListener;
+    private Set<SubscriptionEventListener> mSubscriptionEventListeners;
     private NetworkNode mNetworkNode;
     private CloudController cloudController;
 
@@ -24,10 +26,10 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
     }
 
     @Override
-    public void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
+    public void enableSubscription(NetworkNode networkNode, Set<SubscriptionEventListener> subscriptionEventListener) {
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
         mNetworkNode = networkNode;
-        mSubscriptionEventListener = subscriptionEventListener;
+        mSubscriptionEventListeners = subscriptionEventListener;
         //DI-Comm change. Moved from Constructor
         cloudController.addDCSEventListener(networkNode.getCppId(), this);
     }
@@ -35,7 +37,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
     @Override
     public void disableSubscription() {
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
-        mSubscriptionEventListener = null;
+        mSubscriptionEventListeners = null;
         //DI-Comm change. Removing the listener on Disabling remote subscription
         if (mNetworkNode != null) {
             cloudController.removeDCSEventListener(mNetworkNode.getCppId());
@@ -59,8 +61,8 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 
-        if (mSubscriptionEventListener != null) {
-            postSubscriptionEventOnUIThread(extractData(data), mSubscriptionEventListener);
+        if (mSubscriptionEventListeners != null) {
+            postSubscriptionEventOnUIThread(extractData(data), mSubscriptionEventListeners);
         }
     }
 

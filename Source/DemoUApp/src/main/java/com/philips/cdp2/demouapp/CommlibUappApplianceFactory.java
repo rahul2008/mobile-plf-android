@@ -7,10 +7,10 @@ package com.philips.cdp2.demouapp;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-class CommlibUappApplianceFactory implements DICommApplianceFactory<Appliance> {
+class CommlibUappApplianceFactory implements ApplianceFactory<Appliance> {
 
     @NonNull
     private final LanTransportContext lanTransportContext;
@@ -38,7 +38,7 @@ class CommlibUappApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
+        return networkNode.isValid();
     }
 
     @Override
@@ -59,6 +59,13 @@ class CommlibUappApplianceFactory implements DICommApplianceFactory<Appliance> {
                     }
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
+                default:
+                    return new Appliance(networkNode, communicationStrategy) {
+                        @Override
+                        public String getDeviceType() {
+                            return null;
+                        }
+                    };
             }
         }
         return null;

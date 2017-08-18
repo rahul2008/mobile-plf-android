@@ -5,22 +5,29 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class WifiPortTest extends RobolectricTest {
+public class WifiPortTest {
 
-    public final static String TEST_DATA = "{\"ssid\":\"TEST_SSID\",\"password\":\"TEST_PASSWORD\",\"ipaddress\":\"TEST_IP\",\"dhcp\":true,\"netmask\":\"TEST_SUBNET\",\"gateway\":\"TEST_GATEWAY\"}";
+    private final static String TEST_DATA = "{\"ssid\":\"TEST_SSID\",\"password\":\"TEST_PASSWORD\",\"ipaddress\":\"TEST_IP\",\"dhcp\":true,\"netmask\":\"TEST_SUBNET\",\"gateway\":\"TEST_GATEWAY\"}";
+
+    @Before
+    public void setUp() {
+        initMocks(this);
+        DICommLog.disableLogging();
+    }
 
     @Test
     public void testWifiInvalidData() {
@@ -30,8 +37,7 @@ public class WifiPortTest extends RobolectricTest {
 
     @Test
     public void testWifiNullData() {
-        String parseData = null;
-        assertNull(parseWifiPortData(parseData));
+        assertNull(parseWifiPortData(null));
     }
 
     @Test
@@ -74,9 +80,8 @@ public class WifiPortTest extends RobolectricTest {
         } catch (JSONException e) {
             DICommLog.e(DICommLog.WIFIPORT, "Error: " + e.getMessage());
         }
-        String js = holder.toString();
 
-        return js;
+        return holder.toString();
     }
 
     public static String getWifiPortWithAdvConfigJson(String ssid, String password, String ipAdd, String subnetMask, String gateWay, NetworkNode networkNode) {
@@ -91,8 +96,7 @@ public class WifiPortTest extends RobolectricTest {
         } catch (JSONException e) {
             DICommLog.e(DICommLog.WIFIPORT, "Error: " + e.getMessage());
         }
-        String js = holder.toString();
 
-        return js;
+        return holder.toString();
     }
 }

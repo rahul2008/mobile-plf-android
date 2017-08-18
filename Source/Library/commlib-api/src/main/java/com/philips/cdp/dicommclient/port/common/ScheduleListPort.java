@@ -5,18 +5,19 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+
+import com.google.gson.reflect.TypeToken;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,15 +47,12 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
     @Override
     public boolean isResponseForThisPort(String jsonResponse) {
-        if (parseResponseAsSingleSchedule(jsonResponse) != null) return true;
-        if (parseResponseAsScheduleList(jsonResponse) != null) return true;
-        return false;
+        return parseResponseAsSingleSchedule(jsonResponse) != null || parseResponseAsScheduleList(jsonResponse) != null;
     }
 
     @Override
     public void processResponse(String jsonResponse) {
-        //TODO: DIComm Refactor, implement
-        DICommLog.e(DICommLog.SCHEDULELISTPORT, "Method Not Implemented, SchedulerActivity should be refactored");
+        DICommLog.e(DICommLog.SCHEDULELISTPORT, "Not implemented.");
     }
 
     @Override
@@ -228,6 +226,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         }
     }
 
+    @VisibleForTesting
     ScheduleListPortInfo parseResponseAsSingleSchedule(String response) {
         if (response == null || response.isEmpty()) {
             return null;
@@ -263,38 +262,29 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         return isValid;
     }
 
+    @Nullable
+    @VisibleForTesting
     List<ScheduleListPortInfo> parseResponseAsScheduleList(String response) {
         if (response == null || response.isEmpty()) {
             return null;
         }
         DICommLog.i(DICommLog.SCHEDULELISTPORT, response);
 
-        List<ScheduleListPortInfo> schedulesList = new ArrayList<>();
-        JSONObject jsonObject;
+        final Type scheduleMapType = new TypeToken<Map<Integer, ScheduleListPortInfo>>() {
+        }.getType();
         try {
-            jsonObject = new JSONObject(response);
-            Iterator<String> iterator = jsonObject.keys();
-            String key;
-            while (iterator.hasNext()) {
-                key = iterator.next();
-                Object opt = jsonObject.optJSONObject(key);
-                if (opt == null) {
-                    schedulesList = null;
-                    break;
-                }
+            Map<Integer, ScheduleListPortInfo> map = gson.fromJson(response, scheduleMapType);
+            List<ScheduleListPortInfo> scheduleList = new ArrayList<>();
 
-                String string = jsonObject.getJSONObject(key).toString();
-                ScheduleListPortInfo portInfo = parseResponseAsSingleSchedule(string);
-                portInfo.setScheduleNumber(Integer.parseInt(key));
-                schedulesList.add(portInfo);
+            for (Map.Entry<Integer, ScheduleListPortInfo> entry : map.entrySet()) {
+                ScheduleListPortInfo scheduleListPortInfo = entry.getValue();
+                scheduleListPortInfo.setScheduleNumber(entry.getKey());
+
+                scheduleList.add(scheduleListPortInfo);
             }
-        } catch (JSONException e) {
-            schedulesList = null;
-            DICommLog.w(DICommLog.SCHEDULELISTPORT, "JSONException: " + "Error: " + e.getMessage());
-        } catch (Exception e) {
-            schedulesList = null;
-            DICommLog.w(DICommLog.SCHEDULELISTPORT, "Exception : " + "Error: " + e.getMessage());
+            return scheduleList;
+        } catch (Throwable ignored) {
         }
-        return schedulesList;
+        return null;
     }
 }

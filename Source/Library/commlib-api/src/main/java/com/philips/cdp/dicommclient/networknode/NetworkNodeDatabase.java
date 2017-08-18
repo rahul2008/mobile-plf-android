@@ -66,7 +66,6 @@ public class NetworkNodeDatabase {
                     String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
 
                     NetworkNode networkNode = new NetworkNode();
-                    networkNode.setConnectionState(ConnectionState.DISCONNECTED);
                     networkNode.setCppId(cppId);
                     networkNode.setBootId(bootId);
                     networkNode.setEncryptionKey(encryptionKey);

@@ -5,40 +5,43 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
+
+import java.util.Set;
 
 public abstract class SubscriptionHandler {
 
-    private SubscriptionEventListener mSubscriptionEventListener;
+    private Set<SubscriptionEventListener> mSubscriptionEventListeners;
     private WrappedHandler mSubscriptionEventResponseHandler;
 
-    public abstract void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener);
-	public abstract void disableSubscription();
+    public abstract void enableSubscription(NetworkNode networkNode, Set<SubscriptionEventListener> subscriptionEventListeners);
 
-	protected void postSubscriptionEventOnUIThread(final String decryptedData, SubscriptionEventListener subscriptionEventListener) {
+    public abstract void disableSubscription();
 
-		mSubscriptionEventListener = subscriptionEventListener;
-		mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
+    protected void postSubscriptionEventOnUIThread(final String decryptedData, Set<SubscriptionEventListener> subscriptionEventListeners) {
 
-		Runnable responseRunnable = new Runnable() {
-	        @Override
-	        public void run() {
-	        	DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
-	        	mSubscriptionEventListener.onSubscriptionEventReceived(decryptedData);
-	    }};
+        mSubscriptionEventListeners = subscriptionEventListeners;
+        mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
+
+        Runnable responseRunnable = new Runnable() {
+            @Override
+            public void run() {
+                DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
+                for (SubscriptionEventListener subscriptionEventListener : mSubscriptionEventListeners) {
+                    subscriptionEventListener.onSubscriptionEventReceived(decryptedData);
+                }
+            }
+        };
 
         mSubscriptionEventResponseHandler.post(responseRunnable);
     }
 
-
-	protected WrappedHandler getSubscriptionEventResponseHandler() {
-        if(mSubscriptionEventResponseHandler==null){
-        	mSubscriptionEventResponseHandler = new WrappedHandler(new Handler(Looper.getMainLooper()));
+    protected WrappedHandler getSubscriptionEventResponseHandler() {
+        if (mSubscriptionEventResponseHandler == null) {
+            mSubscriptionEventResponseHandler = new WrappedHandler(HandlerProvider.createHandler());
         }
         return mSubscriptionEventResponseHandler;
     }
