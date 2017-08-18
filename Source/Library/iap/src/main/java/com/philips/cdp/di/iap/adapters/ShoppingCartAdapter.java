@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,7 +198,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 data = mData.get(0);
 
                 shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
-
+                shoppingCartFooter.mVatValue.setText(data.getVatValue());
                 if (null != data.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
 
@@ -208,6 +207,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
+
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
@@ -267,7 +267,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 shoppingCartFooter.mDeliveryUpsVal.setText(data.getVatValue());
             }
         } else {
-            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
             if (data.getVatValue() != null) {
                 shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
                 shoppingCartFooter.mVatValue.setText(data.getVatValue());
