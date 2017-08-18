@@ -163,7 +163,11 @@ dependencies {
         }
     }
 
-    testCompile project(path: ':commlib-testutils', configuration: 'debug')
+    if (findProject(":commlib-testutils")) {
+        testCompile project(path: ':commlib-testutils', configuration: 'debug')
+    } else {
+        testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
+    }
 
     testCompile deps.junit
     testCompile deps.mockito
