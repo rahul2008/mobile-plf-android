@@ -21,7 +21,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/sidebar_header_layout"
+                android:id="@+id/sidebar_left_header_layout"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 layout="@layout/uid_horizontal_separator" />
 
             <LinearLayout
-                android:id="@+id/sidebar_footer_layout"
+                android:id="@+id/sidebar_left_footer_layout"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

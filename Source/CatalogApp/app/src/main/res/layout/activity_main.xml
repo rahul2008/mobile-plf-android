@@ -42,6 +42,7 @@
     </com.philips.platform.uid.view.widget.NavigationContainer>
 
         <RelativeLayout
+            android:id="@+id/sidebar_left_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -49,39 +50,82 @@
             android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <LinearLayout
-                android:id="@+id/sidebar_header_container"
+                android:id="@+id/sidebar_left_header_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true">
 
                 <include
-                    android:id="@+id/sidebar_header_layout"
-                    layout="@layout/sidebar_header_view"/>
+                    android:id="@+id/sidebar_left_header_layout"
+                    layout="@layout/sidebar_left_header_view"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/sidebar_footer_container"
+                android:id="@+id/sidebar_left_footer_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
 
                 <include
-                    android:id="@+id/sidebar_footer_layout"
+                    android:id="@+id/sidebar_left_footer_layout"
                     layout="@layout/sidebar_footer_view"/>
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/sidebar_recyclerview"
+                android:id="@+id/sidebar_left_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/sidebar_header_container"
-                android:layout_above="@id/sidebar_footer_container"/>
+                android:layout_below="@id/sidebar_left_header_container"
+                android:layout_above="@id/sidebar_left_footer_container"/>
 
         </RelativeLayout>
 
 
+
+        <RelativeLayout
+            android:id="@+id/sidebar_right_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:fitsSystemWindows="true"
+            android:background="?attr/uidContentPrimaryBackgroundColor">
+
+            <LinearLayout
+                android:id="@+id/sidebar_right_header_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+
+                <include
+                    android:id="@+id/sidebar_right_header_layout"
+                    layout="@layout/sidebar_right_header_view"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sidebar_right_footer_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <include
+                    android:id="@+id/sidebar_right_footer_layout"
+                    layout="@layout/sidebar_footer_view"/>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/sidebar_right_listview"
+                android:overScrollMode="never"
+                android:dividerHeight="@dimen/uid_divider_Height"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/sidebar_right_header_container"
+                android:layout_above="@id/sidebar_right_footer_container"/>
+
+        </RelativeLayout>
 
 
         <!--<com.philips.platform.uid.view.widget.Label

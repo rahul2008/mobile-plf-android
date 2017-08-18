@@ -78,7 +78,7 @@
 
                     <com.philips.platform.uid.view.widget.Label
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/sidebar_close_hint_text_height"
+                        android:layout_height="@dimen/sidebar_text_height"
                         android:layout_marginStart="@dimen/sidebar_item_margin_left_right"
                         android:layout_marginEnd="@dimen/sidebar_item_margin_left_right"
                         android:gravity="start|bottom"
@@ -117,35 +117,35 @@
             android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <LinearLayout
-                android:id="@+id/sidebar_header_container"
+                android:id="@+id/sidebar_left_header_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true">
 
                 <include
-                    android:id="@+id/sidebar_header_layout"
-                    layout="@layout/sidebar_header_view"/>
+                    android:id="@+id/sidebar_left_header_layout"
+                    layout="@layout/sidebar_left_header_view"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/sidebar_footer_container"
+                android:id="@+id/sidebar_left_footer_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
 
                 <include
-                    android:id="@+id/sidebar_footer_layout"
+                    android:id="@+id/sidebar_left_footer_layout"
                     layout="@layout/sidebar_footer_view"/>
 
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/sidebar_recyclerview"
+                android:id="@+id/sidebar_left_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/sidebar_header_container"
-                android:layout_above="@id/sidebar_footer_container"/>
+                android:layout_below="@id/sidebar_left_header_container"
+                android:layout_above="@id/sidebar_left_footer_container"/>
 
         </RelativeLayout>
 

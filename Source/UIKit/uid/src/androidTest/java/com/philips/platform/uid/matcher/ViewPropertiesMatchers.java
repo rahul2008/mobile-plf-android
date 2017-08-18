@@ -4,9 +4,11 @@
  */
 package com.philips.platform.uid.matcher;
 
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -258,4 +260,32 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<? super View> isSameDrawerElevation(final float elevation) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof DrawerLayout) {
+                    DrawerLayout drawerLayout = (DrawerLayout) view;
+                    setValues(drawerLayout.getDrawerElevation(), elevation);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    /*public static Matcher<? super View> isSameDrawerScrimColor(final int color) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof DrawerLayout) {
+                    DrawerLayout drawerLayout = (DrawerLayout) view;
+                    setValues(drawerLayout.getRootView().getDrawingCacheBackgroundColor(), color);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }*/
 }

@@ -8,6 +8,7 @@
         layout="@layout/uid_horizontal_separator" />
 
     <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SidebarRecyclerViewItemText"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/sidebar_footer_height"
         android:gravity="start|center_vertical"

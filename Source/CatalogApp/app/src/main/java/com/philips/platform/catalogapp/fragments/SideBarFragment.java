@@ -1,23 +1,17 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +19,6 @@ import android.view.ViewGroup;
 import com.philips.platform.catalogapp.DataHolder;
 import com.philips.platform.catalogapp.DataHolderView;
 import com.philips.platform.catalogapp.MainActivity;
-import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSideBarBinding;
 //import com.philips.platform.catalogapp.databinding.SidebarViewBinding;
@@ -61,14 +54,14 @@ public class SideBarFragment extends BaseFragment {
         fragmentSideBarBinding.setFrag(this);
 
         sideBarLayout = (SideBar) fragmentSideBarBinding.getRoot().findViewById(R.id.sidebar_layout);
-        /*sideBarLayout.addHeaderView(R.layout.sidebar_header_view);
-        sideBarLayout.addMenuView(R.layout.sidebar_menu_view);
+        /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
+        sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
         sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
 
         //drawerToggle = setupDrawerToggle();
 
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(context);
-        recyclerView = ((RecyclerView) fragmentSideBarBinding.getRoot().findViewById(R.id.sidebar_recyclerview));
+        recyclerView = ((RecyclerView) fragmentSideBarBinding.getRoot().findViewById(R.id.sidebar_left_recyclerview));
         recyclerView.addItemDecoration(separatorItemDecoration);
         initializeRecyclerView(context);
 

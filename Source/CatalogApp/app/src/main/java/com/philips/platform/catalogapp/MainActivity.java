@@ -26,8 +26,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,15 +35,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.philips.platform.catalogapp.events.*;
-import com.philips.platform.catalogapp.fragments.SideBarFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
@@ -71,8 +71,17 @@ public class MainActivity extends UIDActivity {
 
     private SideBar sideBarLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private RecyclerView recyclerView;
+    private RecyclerView leftRecyclerView;
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
+
+    private ListView rightListView;
+
+    private static final String[] RIGHT_MENU_ITEMS = new String[]{
+            "Profile item 1",
+            "Profile item 2",
+            "Profile item 3",
+            "Profile item 4"
+    };
 
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
@@ -105,19 +114,22 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
-        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        /*sideBarLayout.addHeaderView(R.layout.sidebar_header_view);
-        sideBarLayout.addMenuView(R.layout.sidebar_menu_view);
+        //sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
+        sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
         sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
 
         drawerToggle = setupDrawerToggle();
 
         separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
-        recyclerView = ((RecyclerView) findViewById(R.id.sidebar_recyclerview));
-        recyclerView.addItemDecoration(separatorItemDecoration);
+        leftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_left_recyclerview);
+        leftRecyclerView.addItemDecoration(separatorItemDecoration);
         initializeRecyclerView(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        leftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
+        setRightListItems();
 
         drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
         drawerToggle.setDrawerIndicatorEnabled(false);
@@ -129,7 +141,7 @@ public class MainActivity extends UIDActivity {
                     onBackPressed();
                 } else {
                     //showSnackBar();
-                    //sideBarLayout.openDrawer(GravityCompat.START);
+                    sideBarLayout.openDrawer(GravityCompat.START);
                 }
             }
         });
@@ -172,7 +184,7 @@ public class MainActivity extends UIDActivity {
 
     private void initializeRecyclerView(Context context) {
         DataHolderView dataHolderView = getIconDataHolderView(context);
-        recyclerView.setAdapter(new MainActivity.RecyclerViewAdapter(dataHolderView.dataHolders));
+        leftRecyclerView.setAdapter(new MainActivity.RecyclerViewAdapter(dataHolderView.dataHolders));
         //findViewById(R.id.uid_recyclerview_header).setVisibility(View.GONE);
     }
 
@@ -197,7 +209,7 @@ public class MainActivity extends UIDActivity {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_one_line_icon, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
             MainActivity.RecyclerViewAdapter.BindingHolder holder = new MainActivity.RecyclerViewAdapter.BindingHolder(v);
             return holder;
         }
@@ -218,9 +230,9 @@ public class MainActivity extends UIDActivity {
                 public void onClick(final View v) {
 
                     sideBarLayout.closeDrawer(GravityCompat.START);
-                    /*boolean isSelected = holder.itemView.isSelected();
+                    boolean isSelected = holder.itemView.isSelected();
                     holder.itemView.setSelected(!isSelected);
-                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);*/
+                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
                 }
             });
         }
@@ -244,6 +256,21 @@ public class MainActivity extends UIDActivity {
         }
     }
 
+
+    private void setRightListItems() {
+
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(this);
+        rightListView.setDivider(separatorDrawable);
+        rightListView.setDividerHeight(separatorDrawable.getHeight());
+        rightListView.setAdapter(new ArrayAdapter<>(this, R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS));
+        rightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
+                sideBarLayout.closeDrawer(GravityCompat.END);
+            }
+        });
+    }
 
     private void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();

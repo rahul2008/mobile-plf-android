@@ -158,4 +158,15 @@
         <item name="android:paddingEnd">@dimen/uid_searchbox_button_padding</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+    <style name="UIDLabel.SidebarRecyclerViewItemText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+        <item name="android:textColor">@color/uid_sidebar_list_text_selector</item>
+    </style>
+
+    <style name="UIDLabel.SidebarHeaderText">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+    </style>
 </resources>
