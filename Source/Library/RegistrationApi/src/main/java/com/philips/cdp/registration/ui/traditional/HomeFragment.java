@@ -109,6 +109,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @BindView(R2.id.usr_StartScreen_privacyNotice_label)
     TextView privacyPolicy;
 
+    @BindView(R2.id.usr_StartScreen_Skip_Button)
+    Button skipRegistration;
+
     boolean isWeChatAppRegistered;
     String mWeChatAppId;
     String mWeChatAppSecret;
@@ -314,6 +317,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         consumeTouch(view);
         mTvWelcome.setText(getString(R.string.reg_Welcome_Welcome_lbltxt));
         mBtnCreateAccount.setOnClickListener(this);
+        skipRegistration.setOnClickListener(this);
         mBtnMyPhilips.setOnClickListener(this);
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
 
@@ -385,6 +389,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
+        } else if(v.getId() == R.id.usr_StartScreen_Skip_Button) {
+            if (getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
+                getRegistrationFragment().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+            }
         }
     }
 
