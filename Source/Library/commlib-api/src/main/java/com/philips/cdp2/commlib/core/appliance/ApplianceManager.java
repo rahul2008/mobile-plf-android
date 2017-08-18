@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
@@ -187,6 +188,7 @@ public class ApplianceManager {
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
+        DICommLog.v(DICommLog.DISCOVERY, "Appliance found " + appliance.toString());
         for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
@@ -209,6 +211,7 @@ public class ApplianceManager {
     }
 
     private void notifyApplianceLost(final @NonNull Appliance appliance) {
+        DICommLog.v(DICommLog.DISCOVERY, "Appliance lost " + appliance.toString());
         for (final ApplianceListener<Appliance> listener : applianceListeners) {
             handler.post(new Runnable() {
                 @Override
