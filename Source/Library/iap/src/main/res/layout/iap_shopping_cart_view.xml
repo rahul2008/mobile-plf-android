@@ -51,8 +51,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:enabled="true"
-        android:layout_marginLeft="@dimen/border16_margin_left_right"
-        android:layout_marginRight="@dimen/border16_margin_left_right"
+        android:paddingLeft="@dimen/border16_margin_left_right"
+        android:paddingRight="@dimen/border16_margin_left_right"
         android:text="@string/iap_continue_shopping"
         app:uidComponentType="Secondary" />
 
@@ -65,8 +65,6 @@
         android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
         android:layout_marginTop="@dimen/iap_margin_10dp"
         android:enabled="true"
-        android:layout_marginLeft="@dimen/border16_margin_left_right"
-        android:layout_marginRight="@dimen/border16_margin_left_right"
         android:text="@string/iap_checkout"
         app:uidComponentType="Primary" />
 

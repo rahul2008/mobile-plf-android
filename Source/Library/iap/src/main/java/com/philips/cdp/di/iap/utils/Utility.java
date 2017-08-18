@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -18,11 +20,14 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 
 public class Utility {
     public static final String TAG = Utility.class.getName();
@@ -155,6 +160,39 @@ public class Utility {
             CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
         }
         return fields;
+    }
+
+    private static AlertDialogFragment alertDialogFragment;
+    public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
+                                        String pErrorString, String descriptionText, final FragmentManager pFragmentManager,final AlertListener alertListener) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
+        builder.setMessage(descriptionText);
+        builder.setPositiveButton(positiveBtnText, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertListener.onPositiveBtnClick();
+                        dismissAlertFragmentDialog(pFragmentManager);
+                    }
+              }
+        );
+        builder.setNegativeButton(negativeBtnText, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertListener.onNegativeBtnClick();
+                dismissAlertFragmentDialog(pFragmentManager);
+            }
+        });
+        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+    }
+
+    private static void dismissAlertFragmentDialog(FragmentManager fragmentManager) {
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+        } else {
+            final AlertDialogFragment alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
+            alertDialogFragment.dismiss();
+        }
     }
 
 }

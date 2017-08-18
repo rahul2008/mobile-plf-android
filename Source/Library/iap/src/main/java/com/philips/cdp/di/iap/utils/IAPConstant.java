@@ -22,6 +22,7 @@ public class IAPConstant {
     public static final String IAP_DELETE_PRODUCT = "IAP_DELETE_PRODUCT";
     public static final String IAP_UPDATE_PRODUCT_COUNT = "IAP_UPDATE_PRODUCT_COUNT";
     public static final String IAP_EDIT_DELIVERY_MODE = "IAP_EDIT_DELIVERY_MODE";
+    public static final String IAP_DELETE_PRODUCT_CONFIRM = "IAP_DELETE_PRODUCT_CONFIRM";
 
     //Product
     public static final String PRODUCT_TITLE = "PRODUCT_TITLE";

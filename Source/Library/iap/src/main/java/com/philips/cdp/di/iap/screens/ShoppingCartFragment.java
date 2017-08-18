@@ -38,6 +38,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ import java.util.List;
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        DeliveryModeDialog.DialogListener {
+        DeliveryModeDialog.DialogListener,com.philips.cdp.di.iap.utils.AlertListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Context mContext;
@@ -86,6 +87,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
@@ -147,6 +149,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
     }
 
     @Override
@@ -213,8 +216,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
                     AddressSelectionFragment.TAG);
+        }else if(event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
+            Utility.showActionDialog(mContext,getString(R.string.iap_remove_product),getString(R.string.iap_cancel)
+                    ,null,getString(R.string.iap_product_remove_description),getFragmentManager(),this);
+          }
         }
-    }
 
     private void startProductDetailFragment() {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
@@ -350,5 +356,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (!isProgressDialogShowing())
             showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
         mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+    }
+
+    @Override
+    public void onPositiveBtnClick() {
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+    }
+
+    @Override
+    public void onNegativeBtnClick() {
+
     }
 }

@@ -186,7 +186,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(final View view) {
                     mSelectedItemPosition = holder.getAdapterPosition();
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM);
                 }
             });
         } else {
@@ -404,6 +404,4 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
-
-
 }

@@ -8,19 +8,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.screens.ErrorDialogFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.screens.ErrorDialogFragment;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
@@ -158,8 +156,8 @@ public class NetworkUtility {
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
-            final AlertDialogFragment wtf = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
-            wtf.dismiss();
+            final AlertDialogFragment alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
+            alertDialogFragment.dismiss();
         }
     }
 }

@@ -160,7 +160,7 @@
                 android:id="@+id/vat_inclusive"
                 android:textSize="@dimen/iap_text_size_12"
                 style="@style/iapCentralesansBookFont"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/iap_including_vat"/>
@@ -169,7 +169,7 @@
                 android:id="@+id/including_tax_val"
                 android:textSize="@dimen/iap_text_size_12"
                 style="@style/iapCentralesansMediumFont"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"

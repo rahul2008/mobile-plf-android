@@ -305,4 +305,7 @@
     <string name="iap_confirm">Confirm</string>
     <string name="iap_empty_purchase_history_dls">If you placed your order using this app, please check that you have received an order confirmation email.</string>
     <string name="iap_other_channel_dls">If you placed your ordered using another retailer than your order may not show up here.</string>
+    <string name="iap_confirm_delete">Confirm</string>
+    <string name="iap_remove_product">Remove product</string>
+    <string name="iap_product_remove_description">Your product will be removed from your shopping cart. Are you sure?</string>
 </resources>
