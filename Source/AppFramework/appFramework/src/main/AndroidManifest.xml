@@ -4,6 +4,7 @@
     package="com.philips.platform.appframework">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -23,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
 
-        tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name">
+        tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name,android:supportsRtl">
 
         <activity
             android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
@@ -35,10 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".tabbedscreen.TabbedActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
         <activity
             android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"

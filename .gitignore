@@ -42,3 +42,4 @@ Source/AppFramework/appframeworklib/build/intermediates/exploded-aar/com.android
 Source/AppFramework/appframeworklib/build/intermediates/incremental/compileDebugAndroidTestAidl/dependency.store
 Source/AppFramework/appframeworklib/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
 Source/AppFramework/appframeworklibrary/build/
+**/apkname.txt
