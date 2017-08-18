@@ -1,12 +1,21 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
 
+/**
+ * @publicApi
+ */
 public interface ResponseHandler {
 
-	void onSuccess(String data);
-	void onError(Error error, String errorData);
+    void onSuccess(String data);
+
+    void onError(Error error, String errorData);
 }

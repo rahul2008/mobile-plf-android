@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.core;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
@@ -20,6 +21,13 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static java.util.Objects.requireNonNull;
+
+/**
+ * CommCentral is the object that holds the CommLib library together and allows you to set CommLib up.
+ *
+ * @publicApi
+ */
 public final class CommCentral {
     private static final String TAG = "CommCentral";
 
@@ -29,8 +37,15 @@ public final class CommCentral {
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
     private final ApplianceManager applianceManager;
 
+    /**
+     * Create a CommCentral. You should only ever create one CommCentral!
+     *
+     * @param applianceFactory  The ApplianceFactory used to create {@link Appliance}s
+     * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
+     *                          provide {@link DiscoveryStrategy}s. You will need at least one!
+     */
     public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
-        this.applianceFactory = applianceFactory;
+        this.applianceFactory = requireNonNull(applianceFactory);
 
         // Setup transport contexts
         if (transportContexts.length == 0) {
