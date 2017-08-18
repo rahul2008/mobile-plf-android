@@ -133,7 +133,7 @@ public class PushNotificationManager {
     /**
      * Registration of token with datacore or backend
      */
-    protected void registerTokenWithBackend(final Context applicationContext) {
+    void registerTokenWithBackend(final Context applicationContext) {
         PNLog.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             PNLog.d(TAG, "Token is empty. Trying to register device with GCM server.....");
