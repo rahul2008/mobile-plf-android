@@ -4,6 +4,8 @@
     android:layout_width="@dimen/iap_match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:paddingLeft="@dimen/border16_margin_left_right"
+    android:paddingRight="@dimen/border16_margin_left_right"
     android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <ScrollView
@@ -50,8 +52,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/iap_continue_shopping_btn_margin"
-        android:layout_marginRight="@dimen/iap_continue_shopping_btn_margin"
         android:enabled="true"
         android:text="@string/iap_continue_shopping"
         app:uidComponentType="Secondary" />
@@ -63,8 +63,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/continues_btn"
         android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
-        android:layout_marginLeft="@dimen/iap_continue_shopping_btn_margin"
-        android:layout_marginRight="@dimen/iap_continue_shopping_btn_margin"
         android:layout_marginTop="@dimen/iap_margin_10dp"
         android:enabled="true"
         android:text="@string/iap_checkout"
