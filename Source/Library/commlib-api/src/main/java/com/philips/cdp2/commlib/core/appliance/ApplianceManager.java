@@ -21,9 +21,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
 
 /**
- * The type ApplianceManager.
+ * The ApplianceManager acts as a facade between an application and multiple {@link DiscoveryStrategy}s.
  * <p>
- * Acts as a facade between an application and multiple {@link DiscoveryStrategy}s.
  * Any observer subscribed to an instance of this type is notified of events such as
  * when an appliance is found or updated, or whenever an error occurs while performing discovery.
  * <p>
