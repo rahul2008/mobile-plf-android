@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -10,11 +10,13 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
@@ -30,10 +32,12 @@ public class WelcomeAdapterTest {
 
     private WelcomePagerAdapter welcomePagerAdapter;
     private SplashFragmentTest.LaunchActivityMockAbstract launchActivity;
+    private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
 
     @Before
     public void setUp(){
-        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().resume().visible().get();
+        activityController = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
+        launchActivity = activityController.create().start().resume().visible().get();
         welcomePagerAdapter =  new WelcomePagerAdapter(launchActivity.getSupportFragmentManager());
     }
 
@@ -62,4 +66,11 @@ public class WelcomeAdapterTest {
         assertNull(welcomePagerAdapter.getItem(11));
     }
 
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        welcomePagerAdapter = null;
+        launchActivity = null;
+        activityController = null;
+    }
 }

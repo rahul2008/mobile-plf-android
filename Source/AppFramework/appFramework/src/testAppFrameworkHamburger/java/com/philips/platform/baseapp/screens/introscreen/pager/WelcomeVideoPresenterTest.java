@@ -7,6 +7,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +49,7 @@ public class WelcomeVideoPresenterTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
-    ServiceDiscoveryInterface.OnGetServiceUrlListener value;
+    ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener;
 
     @Before
     public void setUp() {
@@ -58,20 +59,33 @@ public class WelcomeVideoPresenterTest {
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         welcomeVideoPresenter.fetchVideoDataSource();
         verify(serviceDiscoveryInterfaceMock).getServiceUrlWithLanguagePreference(eq(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO), captor.capture());
-        value= captor.getValue();
+        onGetServiceUrlListener = captor.getValue();
 
 
     }
 
     @Test
     public void fetchVideoUrlSuccess() throws Exception {
-        value.onSuccess(new URL("https://www.philips.com/wrx/b2c/c/us/en/apps/77000/TermsOfUse.html"));
-        verify(view).setVideoDataSource(any(String.class));
+        String urlString = "https://images.philips.com/skins/PhilipsConsumer/CDP2_reference_app_vid_short";
+        onGetServiceUrlListener.onSuccess(new URL(urlString));
+        verify(view).setVideoDataSource(urlString+WelcomeVideoPresenter.COMPRESSED_VIDEO_EXTENSION);
     }
 
     @Test
     public void fetchVideoUrlError() throws Exception {
-        value.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR,"");
+        onGetServiceUrlListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR,"");
         verify(view).onFetchError();
+    }
+
+    @After
+    public void tearDown() {
+        context = null;
+        view = null;
+        appInfraInterfaceMock = null;
+        appFrameworkApplicationMock = null;
+        welcomeVideoPresenter = null;
+        captor = null;
+        serviceDiscoveryInterfaceMock = null;
+        onGetServiceUrlListener = null;
     }
 }

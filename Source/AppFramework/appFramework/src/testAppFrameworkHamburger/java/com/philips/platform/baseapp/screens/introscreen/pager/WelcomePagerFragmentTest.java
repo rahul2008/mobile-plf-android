@@ -17,11 +17,13 @@ import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 import com.philips.platform.uid.view.widget.Label;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
@@ -36,26 +38,46 @@ public class WelcomePagerFragmentTest {
 
     private WelcomePagerFragment welcomePagerFragment;
     private SplashFragmentTest.LaunchActivityMockAbstract launchActivity;
-    private Label title;
+    private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
+    private Label title, subText;
     @Before
     public void setUp(){
-        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().resume().visible().get();
+        activityController = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
+        launchActivity = activityController.create().start().resume().visible().get();
         welcomePagerFragment =  WelcomePagerFragment.newInstance(R.string.RA_DLS_onboarding_screen2_title, R.string.RA_DLS_onboarding_screen2_sub_text, R.drawable.onboarding_screen_2);
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomePagerFragment,null).commit();
         title = (Label) welcomePagerFragment.getView().findViewById(R.id.welcome_slide_large_text);
-
+        subText = (Label) welcomePagerFragment.getView().findViewById(R.id.welcome_slide_small_text);
     }
 
     @Test
-    public void testWelcomeFragmentLaunch(){
+    public void testWelcomeFragmentTitleText(){
         //assertNotNull(welcomePagerFragment);
         assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_title), title.getText().toString());
+    }
+
+    @Test
+    public void testWelcomeFragmentSubText(){
+        assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_sub_text), subText.getText().toString());
+    }
+
+    @Test
+    public void testWelcomeBackground() {
+        assertNotNull(welcomePagerFragment.getView().findViewById(R.id.welcome_slide_fragment_layout).getBackground());
     }
 
     @Test
     @Config(sdk = 23)
-    public void testWelcomeFragmentLaunchWithLowerSdk(){
-        //assertNotNull(welcomePagerFragment);
-        assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_title), title.getText().toString());
+    public void testWelcomeFragmentSubTextWithLowerSdk(){
+        assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_sub_text), subText.getText().toString());
     }
+
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        welcomePagerFragment = null;
+        launchActivity = null;
+        activityController = null;
+    }
+
 }

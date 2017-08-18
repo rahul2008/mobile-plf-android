@@ -6,21 +6,28 @@ import android.widget.ImageView;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,16 +39,13 @@ public class WelcomeVideoPagerFragmentTest {
     private SplashFragmentTest.LaunchActivityMockAbstract launchActivity;
     private ImageView thumbNail, play;
     private TextureVideoView textureVideoView;
-
-    @Mock
-    WelcomeVideoPresenter presenter;
-
-    @Mock
-    Utility utility;
+    private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
 
     @Before
     public void setUp(){
-        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().resume().visible().get();
+        MockitoAnnotations.initMocks(this);
+        activityController = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
+        launchActivity = activityController.create().start().resume().visible().get();
         welcomeVideoPagerFragment =  new WelcomeVideoPagerFragment();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeVideoPagerFragment,null).commit();
         thumbNail = (ImageView) welcomeVideoPagerFragment.getView().findViewById(R.id.thumb_nail);
@@ -83,6 +87,42 @@ public class WelcomeVideoPagerFragmentTest {
     public void onVideoEndTest() {
         welcomeVideoPagerFragment.onVideoEnd();
         assertFalse(welcomeVideoPagerFragment.isVideoPlaying());
+    }
+
+    @Test
+    public void onVideoPlayTest() {
+        welcomeVideoPagerFragment.onVideoPlay();
+        assertEquals(View.GONE, thumbNail.getVisibility());
+    }
+
+    @Test
+    public void thumbNailClickTest() {
+        thumbNail.performClick();
+        assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
+    }
+
+    @Test
+    public void setUserVisibleHintForTrueConditionTest() {
+        welcomeVideoPagerFragment.onVideoPlay();
+        welcomeVideoPagerFragment.setUserVisibleHint(true);
+        assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
+    }
+
+    @Test
+    public void setUserVisibleHintForFalseConditionTest() {
+        welcomeVideoPagerFragment.setUserVisibleHint(false);
+        assertFalse(welcomeVideoPagerFragment.isVideoPlaying());
+    }
+
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        welcomeVideoPagerFragment = null;
+        launchActivity = null;
+        thumbNail = null;
+        play = null;
+        textureVideoView = null;
+        activityController = null;
     }
 }
 

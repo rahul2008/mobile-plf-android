@@ -29,7 +29,9 @@ import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowLooper;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
@@ -82,7 +84,7 @@ public class WelcomeFragmentTest {
         setAdapterForPager();
         pager.setCurrentItem(1);
         rightArrow = (ImageView) welcomeFragment.getView().findViewById(R.id.welcome_rightarrow);
-        welcomeFragment.onClick(rightArrow);
+        rightArrow.performClick();
         assertEquals(FontIconView.VISIBLE,rightArrow.getVisibility());
 
     }
@@ -94,6 +96,22 @@ public class WelcomeFragmentTest {
         boolean handleBack = welcomeFragment.handleBackEvent();
         assertEquals(true,handleBack);
     }
+
+    @Test
+    public void testDoneVisible() {
+        setAdapterForPager();
+        pager.setCurrentItem(8);
+        rightArrow = (ImageView) welcomeFragment.getView().findViewById(R.id.welcome_rightarrow);
+        assertFalse(View.VISIBLE == rightArrow.getVisibility());
+    }
+
+    @Test
+    public void testClearAdapter() {
+        setAdapterForPager();
+        welcomeFragment.clearAdapter();
+        assertNull(pager.getAdapter());
+    }
+
     public static class WelcomeFragmentMockAbstract extends WelcomeFragment {
         View view;
         @Override

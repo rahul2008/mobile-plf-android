@@ -17,7 +17,7 @@ import java.net.URL;
 
 public class WelcomeVideoPresenter implements WelcomeVideoFragmentContract.Presenter {
 
-    private final String COMPRESSED_VIDEO_EXTENSION = "_iPad_640x480_1000K";
+    public static final String COMPRESSED_VIDEO_EXTENSION = "_iPad_640x480_1000K";
     private WelcomeVideoFragmentContract.View view;
 
     private Context context;
