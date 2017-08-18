@@ -26,6 +26,9 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
 
+/**
+ * @publicApi
+ */
 public class BleTransportContext implements TransportContext<BleTransportContext> {
 
     private final BleDeviceCache deviceCache;
