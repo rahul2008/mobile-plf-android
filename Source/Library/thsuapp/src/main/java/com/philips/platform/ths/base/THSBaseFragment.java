@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
 import com.philips.platform.ths.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -80,6 +79,11 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         fragment.setFragmentLauncher(getFragmentLauncher());
         fragment.setActionBarListener(getActionBarListener());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void popFragmentByTag(String fragmentTag,int flag) {
+        getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag,0);
     }
 
     public void createCustomProgressBar(ViewGroup group, int size) {

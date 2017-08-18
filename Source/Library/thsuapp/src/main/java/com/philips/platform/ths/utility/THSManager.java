@@ -782,8 +782,8 @@ public class THSManager {
         });
     }
 
-    public void updatePreferredShippingAddress(Context context,final THSConsumer thsConsumer,final Address address,final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateShippingAddress(thsConsumer.getConsumer(), address, new SDKValidatedCallback<Address, SDKError>() {
+    public void updatePreferredShippingAddress(Context context,final Address address,final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateShippingAddress(getPTHConsumer().getConsumer(), address, new SDKValidatedCallback<Address, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 thsUpdateShippingAddressCallback.onAddressValidationFailure(map);

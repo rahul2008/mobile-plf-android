@@ -19,7 +19,6 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.pojo.ShippingAddressPojo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -78,7 +77,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
 
     @Override
     public void onClick(View v) {
-        ShippingAddressPojo shippingAddressPojo = new ShippingAddressPojo();
         if (v.getId() == R.id.update_shipping_address) {
             try {
                 Address address1 = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getNewAddress();
@@ -87,7 +85,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
                 address1.setCity(town.getText().toString());
                 address1.setZipCode(postalCode.getText().toString());
                 address1.setState(stateList.get(spinner.getSelectedItemPosition()));
-                thsShippingAddressPresenter.updateShippingAddress(thsConsumer, address1);
+                thsShippingAddressPresenter.updateShippingAddress(address1);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
