@@ -9,6 +9,7 @@
     <ScrollView
         android:id="@+id/sv_header_parent"
         android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/iap_productDetailsScreen_separator"
         android:layout_height="wrap_content">
 
@@ -28,11 +29,12 @@
                 android:paddingLeft="@dimen/border16_margin_left_right"
                 android:paddingTop="@dimen/border16_margin_left_right"
                 android:text="@string/iap_number_of_products"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
-                android:textSize="@dimen/title"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:textSize="@dimen/iap_text_size_16sp"
                 android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
+                android:background="@color/uikit_enricher7"
                 android:id="@+id/shopping_cart_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

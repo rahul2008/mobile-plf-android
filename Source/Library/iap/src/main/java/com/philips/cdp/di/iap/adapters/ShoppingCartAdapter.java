@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,8 +163,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
 
         if (holder instanceof ShoppingCartProductHolder) {
+
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
+
+            if(mData.size()==1 || position==mData.size()-1){
+                shoppingCartProductHolder.viewBottomSpace.setVisibility(View.GONE);
+            }
+
             String imageURL = cartData.getImageURL();
             // shoppingCartProductHolder.mTvActualPrice.setText(cartData.getFormattedTotalPrice());
             // shoppingCartProductHolder.mTvActualPrice.setPaintFlags(shoppingCartProductHolder.mTvActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -335,10 +342,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTvQuantity;
         TextView mIvOptions;
         Button deleteBtn;
+        View itemView;
+        View viewBottomSpace;
 
         ShoppingCartProductHolder(final View itemView) {
             super(itemView);
-
+            this.itemView=itemView;
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mTvPrice = (TextView) itemView.findViewById(R.id.price_label);
             mTvActualPrice = (TextView) itemView.findViewById(R.id.actual_price);
@@ -347,6 +356,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvQuantity = (TextView) itemView.findViewById(R.id.quantity_val);
             mIvOptions = (TextView) itemView.findViewById(R.id.right_arrow);
             deleteBtn = (Button) itemView.findViewById(R.id.delete_btn);
+            viewBottomSpace=(View)itemView.findViewById(R.id.bottom_space);
 
         }
     }
@@ -395,4 +405,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PRODUCTS, products.toString());
     }
+
+
 }
