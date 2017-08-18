@@ -39,6 +39,13 @@ repositories {
         }
     }
     maven {
+        url repos.stage
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
         url repos.snapshot
         credentials {
             username = "readonly"
