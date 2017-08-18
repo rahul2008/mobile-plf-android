@@ -222,7 +222,7 @@ class LoggingConfiguration {
 
             if (null == fileHandler) {// add file log
                 mFileHandler = getFileHandler();
-                Level level = mJavaLogger.getLevel() != null ? mJavaLogger.getLevel() : Level.FINE;
+                Level level = getJavaLogger().getLevel() != null ? getJavaLogger().getLevel() : Level.FINE;
 
                 if (null != mJavaLogger && mFileHandler != null) {
                     mFileHandler.setLevel(level);
