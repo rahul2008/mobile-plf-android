@@ -162,12 +162,12 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.1' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 
     //Android Support libraries
     compile 'com.android.support:support-fragment:25.3.1'
