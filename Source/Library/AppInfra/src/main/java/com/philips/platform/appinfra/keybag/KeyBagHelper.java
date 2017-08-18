@@ -106,7 +106,23 @@ class KeyBagHelper {
     }
 
     void init(Context mContext) throws KeyBagJsonFileNotFoundException {
-        initKeyBagProperties(mContext);
+        Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
+        StringBuilder total;
+        try {
+            final InputStream mInputStream = mContext.getAssets().open("AIKeyBag.json");
+            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line).append('\n');
+            }
+            rootJsonObject = new JSONObject(total.toString());
+        } catch (JSONException | IOException e) {
+            if (e instanceof IOException)
+                throw new KeyBagJsonFileNotFoundException();
+            else
+                e.printStackTrace();
+        }
     }
 
     private void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aikmServices) {
@@ -140,26 +156,6 @@ class KeyBagHelper {
             }
         } else {
             aikmService.setmError(value.getmError());
-        }
-    }
-
-    private void initKeyBagProperties(Context mContext) throws KeyBagJsonFileNotFoundException {
-        Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
-        StringBuilder total;
-        try {
-            final InputStream mInputStream = mContext.getAssets().open("AIKeyBag.json");
-            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
-            total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line).append('\n');
-            }
-            rootJsonObject = new JSONObject(total.toString());
-        } catch (JSONException | IOException e) {
-            if (e instanceof IOException)
-                throw new KeyBagJsonFileNotFoundException();
-            else
-                e.printStackTrace();
         }
     }
 

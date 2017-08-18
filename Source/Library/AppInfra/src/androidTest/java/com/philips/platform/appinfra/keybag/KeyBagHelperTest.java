@@ -5,12 +5,15 @@
  */
 package com.philips.platform.appinfra.keybag;
 
+import android.content.Context;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import org.json.JSONObject;
+import org.junit.rules.ExpectedException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,10 +30,12 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     private KeyBagHelper keyBagHelper;
     private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
+    private Context mContext;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mContext = getInstrumentation().getContext();
         AppInfra mAppInfra = mock(AppInfra.class);
         serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(mAppInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
@@ -71,6 +76,18 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
     public void testGettingMd5ValueInHex() {
         assertNull(keyBagHelper.getMd5ValueInHex(null));
         assertNotNull(keyBagHelper.getMd5ValueInHex("testing"));
+    }
+
+    public void testInit() {
+        ExpectedException thrown= ExpectedException.none();
+        thrown.expect(KeyBagJsonFileNotFoundException.class);
+        thrown.expectMessage("AIKeyBag.json file not found in assets folder");
+        try {
+            keyBagHelper.init(mContext);
+        } catch (KeyBagJsonFileNotFoundException e) {
+            e.printStackTrace();
+            assertEquals(e.getMessage(),"AIKeyBag.json file not found in assets folder");
+        }
     }
 
     public void testConvertingToHex() {
