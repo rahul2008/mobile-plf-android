@@ -254,8 +254,6 @@
                 android:text="@string/PRG_Register_Another"
                 android:textAllCaps="false"
                 app:uidComponentType="Secondary" />
-
-
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
