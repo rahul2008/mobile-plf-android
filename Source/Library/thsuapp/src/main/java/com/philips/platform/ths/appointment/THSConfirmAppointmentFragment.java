@@ -9,7 +9,6 @@ package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +103,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.ok_got_it){
-            popFragmentByTag(THSPracticeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            popFragmentByTag(THSPracticeFragment.TAG, 0);
         }
     }
 }

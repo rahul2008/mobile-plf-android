@@ -83,7 +83,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
 
     @Override
     public void popFragmentByTag(String fragmentTag,int flag) {
-        getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag,0);
+        getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag,flag);
     }
 
     public void createCustomProgressBar(ViewGroup group, int size) {
