@@ -4,7 +4,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
-import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -64,6 +63,7 @@ public class UserCharacteristicsSenderTest {
 
     @Mock
     SynchronisationManager synchronisationManagerMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -148,7 +148,8 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreUserCharacteristics.class), eq(9))).thenReturn(response);
+        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreUserCharacteristics.class),
+                eq(UCoreAdapter.API_VERSION))).thenReturn(response);
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));
 
@@ -165,7 +166,8 @@ public class UserCharacteristicsSenderTest {
         when(accessProviderMock.getAccessToken()).thenReturn(ACCESS_TOKEN);
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
-        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID), (UCoreUserCharacteristics) any(Characteristics.class), eq(9))).thenThrow(retrofitErrorMock);
+        when(uCoreClientMock.createOrUpdateUserCharacteristics(eq(TEST_USER_ID), eq(TEST_USER_ID),
+                (UCoreUserCharacteristics) any(Characteristics.class), eq(UCoreAdapter.API_VERSION))).thenThrow(retrofitErrorMock);
 
 
         userCharacteristicsSender.sendDataToBackend(Collections.singletonList(characteristicsMock));

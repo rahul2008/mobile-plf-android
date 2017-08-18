@@ -63,8 +63,8 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     @NonNull
-    public Moment createMoment(final String creatorId, final String subjectId, String type) {
-        return database.createMoment(creatorId, subjectId, type);
+    public Moment createMoment(final String creatorId, final String subjectId, String type, DateTime expirationDate) {
+        return database.createMoment(creatorId, subjectId, type, expirationDate);
     }
 
 

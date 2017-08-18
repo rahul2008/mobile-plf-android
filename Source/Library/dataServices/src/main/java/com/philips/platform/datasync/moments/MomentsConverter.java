@@ -61,8 +61,9 @@ public class MomentsConverter {
 
     @NonNull
     private Moment createMoment(@NonNull final UCoreMoment uCoreMoment) {
+        String expirationDate = uCoreMoment.getExpirationDate();
         Moment moment = baseAppDataCreater.createMoment(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
-                uCoreMoment.getType());
+                uCoreMoment.getType(), expirationDate == null ? null : DateTime.parse(expirationDate));
 
         if(moment==null){
             return null;
@@ -185,8 +186,8 @@ public class MomentsConverter {
         try {
             uCoreMoment.setTimestamp(moment.getDateTime().toString());
             String momentTypeString = moment.getType();
-            uCoreMoment.setType(momentTypeString);
 
+            uCoreMoment.setType(momentTypeString);
             List<UCoreDetail> uCoreMomentList = new ArrayList<>();
 
             addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);

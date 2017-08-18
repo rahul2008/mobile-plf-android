@@ -397,7 +397,7 @@ public class DataServicesManager {
      */
     @NonNull
     public Moment createMoment(@NonNull final String type) {
-        return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
+        return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
     }
 
     /**
@@ -789,9 +789,9 @@ public class DataServicesManager {
      * @return returns the Base Url
      */
     public String fetchBaseUrlFromServiceDiscovery() {
-
-        if (mDataServicesBaseUrl != null)
+       if (mDataServicesBaseUrl != null) {
             return mDataServicesBaseUrl;
+        }
 
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {

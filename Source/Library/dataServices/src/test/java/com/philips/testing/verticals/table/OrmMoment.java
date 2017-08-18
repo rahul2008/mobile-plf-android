@@ -46,10 +46,12 @@ public class OrmMoment implements Moment, Serializable {
     List<OrmMeasurementGroup> ormMeasurementGroups = new ArrayList<>();
 
     private OrmSynchronisationData synchronisationData;
+    private DateTime expirationDate;
 
-    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final OrmMomentType type) {
+    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final OrmMomentType type, DateTime expirationDate) {
         this.creatorId = creatorId;
         this.subjectId = subjectId;
+        this.expirationDate = expirationDate;
         this.type = type;
         this.id = -1;
     }
@@ -78,6 +80,11 @@ public class OrmMoment implements Moment, Serializable {
     @Override
     public String getSubjectId() {
         return subjectId;
+    }
+
+    @Override
+    public DateTime getExpirationDate() {
+        return expirationDate;
     }
 
     @Override
@@ -148,5 +155,9 @@ public class OrmMoment implements Moment, Serializable {
 
     public void setSynced(boolean synced) {
         this.synced = synced;
+    }
+
+    public void setExpirationDate(DateTime expirationDate){
+        this.expirationDate = expirationDate;
     }
 }

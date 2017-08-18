@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.consent;
 
 import android.support.annotation.NonNull;
@@ -15,7 +16,6 @@ import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedConsentssResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -58,7 +58,6 @@ public class ConsentsDataFetcher extends DataFetcher {
     @NonNull
     private final ConsentsConverter consentsConverter;
 
-
     @Inject
     public ConsentsDataFetcher(@NonNull UCoreAdapter uCoreAdapter, @NonNull GsonConverter gsonConverter, @NonNull ConsentsConverter consentsConverter) {
         super(uCoreAdapter);
@@ -66,8 +65,6 @@ public class ConsentsDataFetcher extends DataFetcher {
         this.gsonConverter = gsonConverter;
         this.consentsConverter = consentsConverter;
         DataServicesManager.getInstance().getAppComponant().injectConsentsDataFetcher(this);
-
-
     }
 
     @Nullable
@@ -75,9 +72,6 @@ public class ConsentsDataFetcher extends DataFetcher {
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         registerEvent();
         eventing.post(new GetNonSynchronizedConsentsRequest(null));
-        /*if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
-            eventing.post(new ConsentBackendGetRequest(1, consentDetails));
-        }*/
         return null;
     }
 
@@ -91,14 +85,13 @@ public class ConsentsDataFetcher extends DataFetcher {
 
     @Override
     public RetrofitError fetchAllData() {
-
         return super.fetchAllData();
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedConsentssResponse response) {
         List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
-        if(nonSynchronizedConsent== null || nonSynchronizedConsent.size()==0) return;
+        if (nonSynchronizedConsent == null || nonSynchronizedConsent.size() == 0) return;
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             getConsent(new ArrayList<>(nonSynchronizedConsent));
         }
@@ -115,7 +108,7 @@ public class ConsentsDataFetcher extends DataFetcher {
         }
 
         ConsentsClient client = uCoreAdapter.getAppFrameworkClient(ConsentsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-        if(client==null) return;
+        if (client == null) return;
         try {
 
             ArrayList<String> consentTypes = new ArrayList<>();
@@ -124,7 +117,7 @@ public class ConsentsDataFetcher extends DataFetcher {
 
             for (ConsentDetail consentDetail : consentDetails) {
 
-                if(consentDetail==null)return;
+                if (consentDetail == null) return;
 
                 consentTypes.add(consentDetail.getType());
                 deviceIdentificationList.add(consentDetail.getDeviceIdentificationNumber());
@@ -136,7 +129,7 @@ public class ConsentsDataFetcher extends DataFetcher {
             if (consentDetailList != null && !consentDetailList.isEmpty()) {
                 List<ConsentDetail> appConsentDetails = consentsConverter.convertToAppConsentDetails(consentDetailList);
 
-                if(appConsentDetails == null) return;
+                if (appConsentDetails == null) return;
 
                 eventing.post(new ConsentBackendSaveResponse(appConsentDetails, HttpURLConnection.HTTP_OK, null));
             }
@@ -156,7 +149,6 @@ public class ConsentsDataFetcher extends DataFetcher {
     }
 
     void postError(int referenceId, final RetrofitError error) {
-        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         eventing.post(new BackendResponse(referenceId, error));
     }
 
@@ -169,8 +161,5 @@ public class ConsentsDataFetcher extends DataFetcher {
             eventing.register(this);
         }
     }
-
-
-
 }
 

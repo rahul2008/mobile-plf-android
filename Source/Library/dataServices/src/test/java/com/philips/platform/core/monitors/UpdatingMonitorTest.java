@@ -178,7 +178,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE),null);
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
     }
@@ -191,7 +191,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestFailedWithException() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE),null);
         doThrow(SQLException.class).when(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
@@ -200,7 +200,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE),null);
         updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
          verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
     }

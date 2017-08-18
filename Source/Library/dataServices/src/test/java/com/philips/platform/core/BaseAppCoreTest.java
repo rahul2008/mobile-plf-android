@@ -119,7 +119,7 @@ public class BaseAppCoreTest {
 
     @Test
     public void ShouldCreateMoment_WhenCreateMomentIsCalled() {
-        Moment moment = baseAppCoreCreatorMock.createMoment("TEST_CREATOR_ID", "TEST_SUBJECT_ID", "BREAST_FEED");
+        Moment moment = baseAppCoreCreatorMock.createMoment("TEST_CREATOR_ID", "TEST_SUBJECT_ID", "BREAST_FEED", null);
 
         assertThat(moment.getCreatorId()).isEqualTo("TEST_CREATOR_ID");
         assertThat(moment.getSubjectId()).isEqualTo("TEST_SUBJECT_ID");
@@ -128,7 +128,7 @@ public class BaseAppCoreTest {
 
     @Test
     public void ShouldAddGuidToMoment_WhenCreateMomentIsCalled() throws Exception {
-        Moment moment = baseAppCoreCreatorMock.createMoment("TEST_CREATOR_ID", "TEST_SUBJECT_ID", "BREAST_FEED");
+        Moment moment = baseAppCoreCreatorMock.createMoment("TEST_CREATOR_ID", "TEST_SUBJECT_ID", "BREAST_FEED", null);
 
         Collection<? extends MomentDetail> details = moment.getMomentDetails();
         assertThat(details).hasSize(0);

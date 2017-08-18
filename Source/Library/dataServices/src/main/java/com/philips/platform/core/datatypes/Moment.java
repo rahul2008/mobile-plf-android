@@ -24,6 +24,7 @@ public interface Moment extends BaseAppData, DateData, Serializable {
 
     String getSubjectId();
 
+    DateTime getExpirationDate();
 
     String getType();
 
