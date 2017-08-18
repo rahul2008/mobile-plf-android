@@ -29,6 +29,9 @@ import java.util.concurrent.Executors;
 
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
+/**
+ * @publicApi
+ */
 public class LanTransportContext implements TransportContext<LanTransportContext> {
 
     private static final String TAG = "LanTransportContext";

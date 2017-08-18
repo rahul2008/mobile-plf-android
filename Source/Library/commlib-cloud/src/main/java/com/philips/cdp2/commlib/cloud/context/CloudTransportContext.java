@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.cloud.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
@@ -78,16 +79,24 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
         }
     }
 
+    /**
+     * @return null, there is no DiscoveryStrategy here.
+     */
     @Override
+    @Nullable
     public DiscoveryStrategy getDiscoveryStrategy() {
         return null;
     }
 
     @Override
+    @NonNull
     public CloudCommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new CloudCommunicationStrategy(networkNode, cloudController, connectivityMonitor);
     }
 
+    /**
+     * @return <code>true</code> if there is an internet connection.
+     */
     @Override
     public boolean isAvailable() {
         return isAvailable;
