@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
- */
-
 package com.philips.cdp.dicommclient.appliance;
 
 import com.philips.cdp.dicommclient.port.DICommPort;

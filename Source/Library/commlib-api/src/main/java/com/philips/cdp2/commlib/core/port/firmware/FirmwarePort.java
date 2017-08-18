@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
- */
-
 package com.philips.cdp2.commlib.core.port.firmware;
 
 import android.os.Handler;

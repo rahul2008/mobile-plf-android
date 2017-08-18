@@ -21,9 +21,9 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * The type Current appliance manager.
- * <p>
- * Performs automatic subscription handling for the appliance that this type manages.
+ * The CurrentApplianceManager performs automatic subscription handling for the appliance that is currently used.
+ *
+ * @publicApi
  */
 public class CurrentApplianceManager implements PropertyChangeListener {
 

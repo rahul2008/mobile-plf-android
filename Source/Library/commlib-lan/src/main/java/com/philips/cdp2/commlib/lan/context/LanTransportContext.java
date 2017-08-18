@@ -81,6 +81,9 @@ public class LanTransportContext implements TransportContext<LanTransportContext
         return new LanCommunicationStrategy(networkNode, deviceCache, connectivityMonitor);
     }
 
+    /**
+     * @return <code>true</code> when connected to a WiFi network.
+     */
     @Override
     public boolean isAvailable() {
         return isAvailable;

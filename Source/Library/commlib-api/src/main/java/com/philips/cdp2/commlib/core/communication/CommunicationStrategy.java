@@ -17,6 +17,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * The CommunicationStrategy is responsible for communicating to an actual appliance.
+ *
+ * @publicApi
+ */
 public abstract class CommunicationStrategy implements Availability<CommunicationStrategy> {
 
     private static final String SUBSCRIBER_KEY = "subscriber";

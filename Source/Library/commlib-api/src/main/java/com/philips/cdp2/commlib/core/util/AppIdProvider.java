@@ -11,6 +11,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * Holds the AppId.
+ *
+ * The AppId is a unique identifier for the app within the DiComm protocol.
+ */
 public class AppIdProvider {
 
     public interface AppIdListener {
