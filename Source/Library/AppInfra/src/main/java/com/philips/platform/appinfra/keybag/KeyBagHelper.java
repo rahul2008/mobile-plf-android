@@ -9,12 +9,12 @@ package com.philips.platform.appinfra.keybag;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-class KeyBagHelper {
+public class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
     private JSONObject rootJsonObject;
@@ -106,7 +106,7 @@ class KeyBagHelper {
     }
 
     void init(Context mContext) throws KeyBagJsonFileNotFoundException {
-        Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
+        mAppInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
         StringBuilder total;
         try {
             final InputStream mInputStream = mContext.getAssets().open("AIKeyBag.json");
@@ -125,7 +125,7 @@ class KeyBagHelper {
         }
     }
 
-    private void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aikmServices) {
+    private void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aikmServices) {
         int i = 0;
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
@@ -148,7 +148,7 @@ class KeyBagHelper {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(index);
                     aikmService.setKeyBag(mapData(jsonObject, index, serviceId));
                 } catch (JSONException e) {
-                    aikmService.setmError("Key bag index not matched");
+                    aikmService.setIndexMappingError("Key bag index not matched");
                     e.printStackTrace();
                 }
             } else {
@@ -211,7 +211,7 @@ class KeyBagHelper {
     }
 
 
-    private void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aiKmServices) {
+    private void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aiKmServices) {
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
             ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
@@ -224,7 +224,7 @@ class KeyBagHelper {
     }
 
     @NonNull
-    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final ArrayList<AIKMService> aikmServices) {
+    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final List<AIKMService> aikmServices) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
@@ -240,7 +240,7 @@ class KeyBagHelper {
     }
 
     @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final ArrayList<String> serviceIds, final ArrayList<AIKMService> aiKmServices,
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
                                                                                           final AISDResponse.AISDPreference aiSdPreference,
                                                                                           final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {

@@ -15,6 +15,7 @@ public class AIKMService extends ServiceDiscoveryService {
 
     private String serviceId;
     private Map keyBag;
+    private String indexMappingError;
 
     public Map getKeyBag() {
         return keyBag;
@@ -30,5 +31,13 @@ public class AIKMService extends ServiceDiscoveryService {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getIndexMappingError() {
+        return indexMappingError;
+    }
+
+    public void setIndexMappingError(String indexMappingError) {
+        this.indexMappingError = indexMappingError;
     }
 }

@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,7 +65,7 @@ public interface ServiceDiscoveryInterface {
 
     //TODO - to add java document
     interface OnGetKeyBagMapListener extends OnErrorListener {
-        void onSuccess(ArrayList<AIKMService> aikmServices);
+        void onSuccess(List<AIKMService> aiKmServices);
     }
 
     /**
