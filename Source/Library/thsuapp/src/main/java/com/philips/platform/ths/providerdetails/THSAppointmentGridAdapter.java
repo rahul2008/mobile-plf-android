@@ -7,6 +7,7 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
+import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.text.SimpleDateFormat;
@@ -28,19 +30,27 @@ import java.util.Locale;
 
 public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
-    private ArrayList<Date> cardList = new ArrayList();
+    private ArrayList<Date> gridItemTimeList = new ArrayList();
     private Context mContext;
     private THSBaseFragment thsBaseFragment;
     private THSProviderInfo thsProviderInfo;
+    private int selectedPosition = -1;
+    private THSGridItemOnClickListener thsGridItemOnClickListener;
+    private final ColorStateList colorStateList;
 
-    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
+    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo,THSGridItemOnClickListener thsGridItemOnClickListener) {
         super(context, 0, cardList);
         this.mContext = context;
-        this.cardList = (ArrayList<Date>) cardList;
+        this.gridItemTimeList = (ArrayList<Date>) cardList;
         this.thsBaseFragment = thsBaseFragment;
         this.thsProviderInfo = thsProviderInfo;
+        this.thsGridItemOnClickListener = thsGridItemOnClickListener;
+        colorStateList = ThemeUtils.buildColorStateList(getContext(), R.color.segment_text_color);
     }
 
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
+    }
 
     @Override
     public boolean areAllItemsEnabled() {
@@ -54,15 +64,15 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     @Override
     public int getCount() {
-        if (cardList == null) {
+        if (gridItemTimeList == null) {
             return 0;
         }
-        return cardList.size();
+        return gridItemTimeList.size();
     }
 
     @Override
     public Date getItem(int position) {
-        return cardList.get(position);
+        return gridItemTimeList.get(position);
     }
 
     @Override
@@ -71,9 +81,9 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        final Date gridData = cardList.get(position);
+        final Date gridData = gridItemTimeList.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -81,16 +91,18 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
             convertView = layoutInflater.inflate(R.layout.ths_cell, null);
 
             Button timeslot = (Button) convertView.findViewById(R.id.date);
+            timeslot.setTextColor(colorStateList);
 
+            if(position == selectedPosition){
+                timeslot.setPressed(true);
+            }
             timeslot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
-                    bundle.putSerializable(THSConstants.THS_DATE,gridData);
-                    final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
-                    fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
-                    thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG,bundle);
+                    bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderInfo);
+                    bundle.putSerializable(THSConstants.THS_DATE, gridData);
+                    thsGridItemOnClickListener.onGridItemClicked(position);
                 }
             });
 
@@ -105,13 +117,13 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     }
 
     public void updateGrid(ArrayList<Date> newList) {
-        this.cardList.clear();
-        this.cardList = new ArrayList<>(newList);
+        this.gridItemTimeList.clear();
+        this.gridItemTimeList = new ArrayList<>(newList);
         this.notifyDataSetChanged();
     }
 
     static class ViewHolder {
-       Button buttonDate;
+        Button buttonDate;
 
         public ViewHolder(Button dateButton) {
             this.buttonDate = dateButton;

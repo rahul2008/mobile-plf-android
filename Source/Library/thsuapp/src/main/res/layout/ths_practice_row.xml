@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pth_practice_row_layout"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
-    >
-
-
-    <ImageView
-
-        android:id="@+id/pth_practice_logo"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/ths_practice_icon_layout"
+        android:layout_width="@dimen/ths_icon_layout_size"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/pth_fab_margin" />
+        android:layout_marginStart="@dimen/ths_fab_margin">
+
+        <ImageView
+            android:id="@+id/pth_practice_logo"
+            android:layout_width="@dimen/ths_image_size"
+            android:layout_height="@dimen/ths_image_size" />
+    </RelativeLayout>
+
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_practice_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/ths_practice_arrow_image"
-        android:layout_toRightOf="@+id/pth_practice_logo"
-        android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
+        android:layout_toEndOf="@+id/ths_practice_icon_layout"
+        android:layout_toStartOf="@+id/ths_practice_arrow_image"
+        android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
         android:maxLines="3"
-        android:paddingLeft="15dp"
         android:textColor="?attr/uidLabelValueNormalTextColor"
-        android:textSize="@dimen/pth_body_text"
+        android:textSize="@dimen/ths_body_text"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/ths_practice_arrow_image"
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
         android:gravity="center_vertical"
-        android:src="@mipmap/right_arrow_icon"></ImageView>
+        android:src="@mipmap/right_arrow_icon" />
 
     <View
         android:layout_width="match_parent"

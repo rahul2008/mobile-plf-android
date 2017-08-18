@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
+    android:layout_height="match_parent">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_id_practice_label"
@@ -13,11 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
-        android:paddingRight="@dimen/pth_fab_margin"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:textSize="@dimen/pth_body_text" />
-
+        android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_body_text" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pth_recycler_view_practice"
@@ -26,6 +22,7 @@
         android:layout_below="@+id/pth_id_practice_label"
         android:layout_centerInParent="true" />
 
+    <!-- Will be removed after Welcome screen -->
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_appointment_list"
         android:layout_width="match_parent"

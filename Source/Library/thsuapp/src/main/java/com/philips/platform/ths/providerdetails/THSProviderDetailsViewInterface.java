@@ -28,4 +28,6 @@ public interface THSProviderDetailsViewInterface {
     String getFragmentTag();
     Provider getProvider();
     void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost);
+    void onCalenderItemClick(int position);
+    String getReminderTime();
 }

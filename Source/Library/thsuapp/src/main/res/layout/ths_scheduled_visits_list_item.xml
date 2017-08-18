@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         style="@style/ths_list_item"
         android:layout_alignParentTop="true"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_select_date_and_time" />
 
     <View
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_marginTop="@dimen/pth_margin_bottom"
+            android:layout_marginTop="@dimen/ths_margin_bottom"
             android:textColor="@color/uid_signal_red_level_60"
             android:gravity="center"
             android:text="@string/ths_cancel_visit"/>
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_marginTop="@dimen/pth_margin_bottom"
+            android:layout_marginTop="@dimen/ths_margin_bottom"
             android:textColor="?attr/uidColorLevel45"
             android:gravity="center"
             android:text="@string/ths_start_visit"/>

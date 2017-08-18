@@ -43,7 +43,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_available_doctors_based_on_time, container, false);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_select_date_and_time), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_pick_a_provider), true);
         }
 
         mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);

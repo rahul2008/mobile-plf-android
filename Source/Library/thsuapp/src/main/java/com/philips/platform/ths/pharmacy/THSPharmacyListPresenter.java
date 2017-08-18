@@ -77,10 +77,10 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
 
     }
 
-    public void updateConsumerPreferredPharmacy(THSConsumer thsConsumer, Pharmacy pharmacy) {
+    public void updateConsumerPreferredPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
         try {
-            THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(), thsConsumer, pharmacy, this);
+            THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(), pharmacy, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

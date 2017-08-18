@@ -2,18 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/pth_fab_margin"
-    android:layout_marginLeft="@dimen/pth_fab_margin"
-    android:layout_marginRight="@dimen/pth_fab_margin">
+    android:layout_marginBottom="@dimen/ths_fab_margin"
+    android:layout_marginLeft="@dimen/ths_fab_margin"
+    android:layout_marginRight="@dimen/ths_fab_margin">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_insurance_confirmation_situation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pth_margin_top"
+        android:layout_marginTop="@dimen/ths_margin_top"
         android:text="To give an accurate cost estimation, we need to know your insurance situation"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
-        android:textSize="@dimen/pth_body_text"/>
+        android:textSize="@dimen/ths_body_text"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_insurance_confirmation_chosse_situation"
@@ -24,7 +24,7 @@
         android:layout_marginTop="25dp"
         android:text="Choose one of these optios:"
         android:textColor="@color/awsdk_color_black"
-        android:textSize="@dimen/pth_body_text"
+        android:textSize="@dimen/ths_body_text"
         android:textStyle="bold" />
 
     <com.philips.platform.uid.view.widget.RadioGroup

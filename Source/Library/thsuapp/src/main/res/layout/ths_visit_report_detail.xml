@@ -21,8 +21,8 @@
         style="@style/ths_list_item"
         android:layout_centerVertical="true"
         android:layout_below="@id/ths_waiting_room_title_label"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="@string/ths_select_date_and_time" />
 
     <View
@@ -53,8 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_below="@id/ths_scheduled_appintment_below_provider_layout"
         >
 
@@ -92,8 +92,8 @@
         android:layout_width="match_parent"
         android:layout_below="@id/ths_visit_report"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_height="wrap_content">
 
    <com.philips.platform.uid.view.widget.Label
@@ -133,8 +133,8 @@
         android:text="something"
         style="@style/ths_list_item"
         android:layout_centerVertical="true"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:layout_height="wrap_content" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -152,8 +152,8 @@
         android:layout_below="@id/ths_medication"
         android:layout_width="match_parent"
         android:text="something"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         style="@style/ths_list_item"
         android:layout_centerVertical="true"
         android:layout_height="wrap_content" />

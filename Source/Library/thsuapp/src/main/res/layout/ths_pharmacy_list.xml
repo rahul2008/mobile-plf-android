@@ -9,60 +9,59 @@
         android:id="@+id/pharmacy_list_layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/ths_fab_margin"
         android:orientation="vertical"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:paddingStart="@dimen/ths_fab_margin">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/pharmacy_name"
-            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="Miller Drug mail order" />
+            android:layout_marginBottom="4dp"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/pharmacy_address_line_one"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pharmacy_name"
-            android:layout_marginBottom="12dp"
-            android:text="Miller Drug mail order" />
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/pharmacy_address_line_two"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/pharmacy_address_line_one"
             android:layout_alignBottom="@+id/pharmacy_address_line_one"
             android:layout_toEndOf="@+id/pharmacy_address_line_one"
-            android:text="Miller Drug mail order" />
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/pharmacy_state"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pharmacy_address_line_one"
-            android:text="Miller Drug mail order" />
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/pharmacy_zip_code"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/pharmacy_state"
             android:layout_alignBottom="@+id/pharmacy_state"
             android:layout_toEndOf="@+id/pharmacy_state"
-            android:text="Miller Drug mail order" />
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textSize="@dimen/ths_small_body_text" />
 
         <ImageView
             android:id="@+id/right_arrow_pharmacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/ths_fab_margin"
+            android:layout_height="@dimen/ths_fab_margin"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/right_arrow_icon" />
@@ -72,6 +71,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/pharmacy_list_layout_item"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/ths_fab_margin"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 </RelativeLayout>

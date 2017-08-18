@@ -12,8 +12,8 @@
             android:id="@+id/ths_intake_nopp_agreement_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/pth_fab_margin"
-            android:paddingRight="@dimen/pth_fab_margin"/>
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"/>
     </ScrollView>
 
 </RelativeLayout>

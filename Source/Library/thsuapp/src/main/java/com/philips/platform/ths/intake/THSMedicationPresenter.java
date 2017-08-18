@@ -38,11 +38,11 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             updateMedication(((THSMedicationFragment) mTHSBaseFragment).mExistingMedication);
         } else if (componentID == ths_existing_medicine_footer_relative_layout) {
             THSSearchFragment tHSSearchFragment = new THSSearchFragment();
-            tHSSearchFragment.setTargetFragment(((THSMedicationFragment) mTHSBaseFragment), MEDICATION_ON_ACTIVITY_RESULT);
+            tHSSearchFragment.setTargetFragment(mTHSBaseFragment, MEDICATION_ON_ACTIVITY_RESULT);
             tHSSearchFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.MEDICATION_SEARCH_CONSTANT);
-            ((THSMedicationFragment) mTHSBaseFragment).addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle);
+            mTHSBaseFragment.addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle);
         } else if (componentID == pth_intake_medication_skip_step_label) {
             final THSConditionsFragment fragment = new THSConditionsFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());

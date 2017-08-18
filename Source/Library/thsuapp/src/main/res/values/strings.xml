@@ -35,12 +35,14 @@
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
-    <string name="ths_set_remainder">Set a remainder</string>
+    <string name="ths_set_remainder">Set a reminder</string>
+    <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok got it</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
     <string name="ths_confirm">Confirm</string>
     <string name="ths_no_available_appointments">No available appointments</string>h
     <string name="ths_select_date_and_time">Select date and time</string>
+    <string name="ths_pick_a_provider">Pick a provider</string>
     <string name="ths_provider_details">Your provider</string>
     <string name="ths_with">With:</string>
     <string name="ths_select_other_provider">Your selected provider has no appointments on this date. Please pick another date or choose from the available provider</string>
@@ -58,15 +60,21 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="get_started">Get started</string>
     <string name="ths_continue">Continue</string>
     <string name="ths_select_time">Select a timeslot</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
 
     //Pharmacy strings
+    <string name="ths_choose_pharmacy_button_text">Choose pharmacy</string>
+    <string name="ths_retail_button_text">Retail</string>
+    <string name="ths_mail_order_pharmacy_button_text">Mail order</string>
     <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
     <string name="pharmacy_list_fragment_name">Pharmacy List</string>
     <string name="search_pharmacy_fragment_name">Your pharmacy</string>
     <string name="shipping_address_fragment_name">Ship prescriptions to</string>
     <string name="pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
     <string name="pharmacy_search_edittext_hint">Type location or zip code</string>
+    <string name="ths_pharmacy_medications_sent_to_text">Medications will be sent to</string>
+    <string name="ths_pharmacy_prescriptions_sent_to">Prescriptions will be sent to</string>
+    <string name="ths_continue_button_text">Continue</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>
@@ -75,7 +83,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="provider_busy">Patient waiting</string>
     <string name="provider_list_title">See a provider</string>
     <string name="ths_provider_list_header_text_one">See the first available provider</string>
-    <string name="ths_provider_list_header_text_two">See a provider for an online visit,at your convenience</string>
+    <string name="ths_provider_list_header_text_two">See a provider for an online visit, at your convenience</string>
     <string name="ths_provider_pick_provider_text">Or pick one of these providers</string>
 
     <!-- Practice screen strings -->
@@ -99,6 +107,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_no_payment_method">"You currently don't have any payment methods saved. Please add a payment method."</string>
 
 
+
     <!-- Settings Strings -->
     <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
     <string name="ths_cancel_visit">Cancel visit</string>
@@ -114,5 +123,21 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_download_report">Download report</string>
     <string name="ths_download_report_size">(PDF, 21MB)</string>
     <string name="ths_appointment_fill_details">Before you see the provider, you will need to fill in some details. The Provider uses these details to make a diagnosis quicker and help you more efficiently.</string>
+
+    <!-- Set Reminder Dialog text strings -->
+    <string name="ths_rb_no_reminder">No Reminder</string>
+    <string name="ths_rb_15_mins_reminder">15 mins before</string>
+    <string name="ths_rb_one_hour_before">1 hour before</string>
+    <string name="ths_rb_four_hours_before">4 hours before</string>
+    <string name="ths_rb_eight_hours_before">8 hours before</string>
+    <string name="ths_rb_one_day_before">1 day before</string>
+    <string name="ths_rb_one_week_before">1 week before</string>
+    <string name="ths_reminder_set">Reminder set</string>
+    <string name="ths_before_appointment">before appointment</string>
+
+    <!-- Search strings -->
+    <string name="ths_search_medication">Search for medication</string>
+    <string name="ths_search_provider">Search for provider</string>
+    <string name="ths_search_pharmacy">Search for pharmacy</string>
 
 </resources>

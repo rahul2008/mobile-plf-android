@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="false"
         android:text="Continue" />
 
@@ -39,9 +39,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_conditions_margin_top"
-                android:layout_marginTop="@dimen/pth_fab_margin"
-                android:paddingLeft="@dimen/pth_fab_margin"
-                android:paddingRight="@dimen/pth_fab_margin"
+                android:layout_marginTop="@dimen/ths_fab_margin"
+                android:paddingLeft="@dimen/ths_fab_margin"
+                android:paddingRight="@dimen/ths_fab_margin"
                 android:text="@string/help_visit" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -51,18 +51,18 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/help_visit"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:text="@string/visit_reason"
-                android:textSize="@dimen/pth_body_text" />
+                android:textSize="@dimen/ths_body_text" />
 
             <LinearLayout
                 android:id="@+id/checkbox_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/visit_reason"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:orientation="vertical">
 
             </LinearLayout>
@@ -74,8 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_below="@id/checkbox_container"
                 android:layout_marginBottom="16dp"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:text="@string/additional_reason" />
 
             <!-- TODO: Spoorti - Need to check what is text box filled style and change it-->
@@ -90,8 +90,8 @@
                 android:gravity="top"
                 android:isScrollContainer="true"
                 android:layout_below="@id/additional_comment"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:enabled="true"
                 android:hint="@string/write_here" />
 
@@ -102,8 +102,8 @@
                 android:layout_alignBottom="@+id/additional_comments_edittext"
                 android:layout_alignStart="@+id/additional_comments_edittext"
                 android:layout_marginBottom="12dp"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
                 android:layout_marginStart="12dp"
                 android:background="@drawable/reg_circle"
                 app:uidImageButtonDrawableSrc="@mipmap/camera_icon"/>
@@ -113,8 +113,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/additional_comments_edittext"
-                android:layout_marginLeft="@dimen/pth_fab_margin"
-                android:layout_marginRight="@dimen/pth_fab_margin" />
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin" />
 
         </RelativeLayout>
 

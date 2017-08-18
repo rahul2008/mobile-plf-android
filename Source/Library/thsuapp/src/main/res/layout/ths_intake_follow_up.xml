@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="@dimen/pth_fab_margin">
+    android:layout_marginBottom="@dimen/ths_fab_margin">
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -17,11 +17,11 @@
         style="@style/ths_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pth_fab_margin"
-        android:textSize="@dimen/pth_body_text"
+        android:layout_marginTop="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_body_text"
         android:layout_below="@+id/pth_intake_follow_up_label"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="When can the provider call you, for a follow up, if needed ?" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -30,16 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_question"
-        android:layout_marginTop="@dimen/pth_margin_top"
-        android:layout_marginBottom="@dimen/pth_margin_top"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        android:paddingRight="@dimen/pth_fab_margin"
+        android:layout_marginTop="@dimen/ths_margin_top"
+        android:layout_marginBottom="@dimen/ths_margin_top"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
         android:text="Phone number" />
 
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/pth_intake_follow_up_phone_number"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_phone_number_label"
@@ -50,15 +50,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/pth_intake_follow_up_phone_number"
-        android:layout_marginBottom="@dimen/pth_margin_top"
-        android:layout_marginTop="@dimen/pth_margin_top"
+        android:layout_marginBottom="@dimen/ths_margin_top"
+        android:layout_marginTop="@dimen/ths_margin_top"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
 
     <com.philips.platform.uid.view.widget.CheckBox
         android:id="@+id/pth_intake_follow_up_nopp_agree_check_box"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/end_layer"
@@ -67,8 +67,8 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_i_agree_link_text"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_nopp_agree_check_box"
@@ -79,13 +79,13 @@
 
     <com.philips.platform.uid.view.widget.ProgressBarButton
         android:id="@+id/pth_intake_follow_up_continue_button"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_marginLeft="@dimen/ths_fab_margin"
+        android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:enabled="false"
-        android:layout_marginTop="@dimen/pth_margin_top"
+        android:layout_marginTop="@dimen/ths_margin_top"
         app:uidIsIndeterminateProgressIndicator="true"
         app:uidProgressIndicatorButtonProgressText="Loading.."
         app:uidProgressIndicatorButtonText="Continue" />

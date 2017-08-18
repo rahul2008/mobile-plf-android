@@ -46,8 +46,8 @@
         <item name="android:minHeight">@dimen/ths_list_item_height</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
-        <item name="android:spacing">@dimen/pth_body_text_line_spacing_extra</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
+        <item name="android:spacing">@dimen/ths_body_text_line_spacing_extra</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
     </style>
 
@@ -57,10 +57,10 @@
         <item name="android:minHeight">@dimen/ths_list_height_height</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_title_padding</item>
         <item name="android:paddingTop">@dimen/ths_title_padding</item>
-        <item name="android:spacing">@dimen/pth_body_text_line_spacing_extra</item>
+        <item name="android:spacing">@dimen/ths_body_text_line_spacing_extra</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
     </style>
 
@@ -70,7 +70,7 @@
         <item name="android:layout_height">@dimen/ths_list_height_height</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
@@ -87,7 +87,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
         <item name="android:layout_alignParentBottom">true</item>
@@ -100,7 +100,7 @@
         <item name="android:layout_height">@dimen/ths_list_height_height</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_title_text</item>
+        <item name="android:textSize">@dimen/ths_title_text</item>
         <item name="android:paddingBottom">@dimen/ths_title_padding</item>
         <item name="android:paddingTop">@dimen/ths_title_padding</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
@@ -114,10 +114,11 @@
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
-        <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
+        <item name="android:drawablePadding">@dimen/ths_fab_margin</item>
         <item name="android:drawableLeft">@drawable/ic_calender</item>
+        <item name="android:drawableRight">@mipmap/right_arrow_blue_icon</item>
     </style>
 
     <style name="ths_calendar_right">
@@ -126,7 +127,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
         <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
         <item name="android:drawableRight">@drawable/ic_calender</item>
@@ -134,7 +135,8 @@
 
     <style name="ths_list_item_header">
         <item name="android:minHeight">@dimen/ths_list_item_height</item>
-        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
     </style>
