@@ -8,7 +8,7 @@
     <string name="conditions">Step 4 of 5: Conditions</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
-    <string name="additional_reason">Additional Reason</string>
+    <string name="additional_comment">Additional comment</string>
     <string name="write_here">write here</string>
     <string name="ths_prepare_your_visit">Prepare for your visit</string>
     <string name="button_greaterthan"> &gt;</string>
@@ -120,5 +120,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_search_medication">Search for medication</string>
     <string name="ths_search_provider">Search for provider</string>
     <string name="ths_search_pharmacy">Search for pharmacy</string>
+
+    <!--Provider details strings -->
+    <string name="ths_see_this_doctor_now_button_text">See this provider now</string>
+    <string name="ths_schedule_an_appointment_button_text">Schedule an appointment</string>
+    <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
+
+    <!-- Available provider strings-->
+    <string name="ths_available_location_specialists_string">available location specialists</string>
+    <string name="ths_available_time_slots_text">Available time slots</string>
 
 </resources>

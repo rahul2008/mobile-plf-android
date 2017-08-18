@@ -173,7 +173,7 @@
                 android:id="@+id/pharmacy_include"
                 layout="@layout/ths_pharmacy_shipping_fragment_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></include>
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
 
         <View

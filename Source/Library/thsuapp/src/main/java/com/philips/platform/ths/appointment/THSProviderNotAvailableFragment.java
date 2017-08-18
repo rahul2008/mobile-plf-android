@@ -37,6 +37,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private THSProviderEntity mThsProviderEntity;
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
     private Label mChangeAppointDateView;
+    private RelativeLayout providerListItemLayoutBasedOnDate;
 
     @Nullable
     @Override
@@ -48,7 +49,8 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
         mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
-
+        providerListItemLayoutBasedOnDate = (RelativeLayout) view.findViewById(R.id.providerListItemLayoutBasedOnDate);
+        providerListItemLayoutBasedOnDate.setVisibility(View.INVISIBLE);
         Bundle bundle = getArguments();
         mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
         mThsProviderEntity = bundle.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
@@ -66,6 +68,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     }
 
     public void updateProviderDetails(THSAvailableProviderList availableProviders) {
+        providerListItemLayoutBasedOnDate.setVisibility(View.VISIBLE);
         View view = getView();
         if(view == null)
             return;
@@ -84,7 +87,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)labelAvailableDocs.getLayoutParams();
         layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.notification_badge);
 
-        labelAvailableDocs.setText("Available time slots");
+        labelAvailableDocs.setText(getString(R.string.ths_available_time_slots_text));
 
         ImageView greenTick = (ImageView)view.findViewById(R.id.isAvailableImage);
         greenTick.setVisibility(View.GONE);

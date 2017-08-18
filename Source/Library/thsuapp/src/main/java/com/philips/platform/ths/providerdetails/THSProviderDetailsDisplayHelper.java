@@ -193,9 +193,9 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText("I'll wait in line");
+                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
                 detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText("Schedule an appointment");
+                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
             }
         }
         else if(ProviderVisibility.isVideoAvailable(provider.getVisibility())){
@@ -205,9 +205,9 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
             }else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText("See this doctor now");
+                detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
                 detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText("Schedule an appointment");
+                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
             }
         }else if(ProviderVisibility.isOffline(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
@@ -217,7 +217,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.GONE);
                 detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText("Schedule an appointment");
+                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
             }
         }
     }

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -62,7 +63,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
-    private RelativeLayout mRelativeLayout;
+    private RelativeLayout mRelativeLayout,ths_symptoms_relative_layout;
     protected THSVisitContext mThsVisitContext;
     private String userChoosenTask;
     private RecyclerView imageListView;
@@ -92,6 +93,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         }
         thsFileUtils = new THSFileUtils();
         documentRecordList = new ArrayList<>();
+        ths_symptoms_relative_layout = (RelativeLayout) view.findViewById(R.id.ths_symptoms_relative_layout);
+        ths_symptoms_relative_layout.setVisibility(View.INVISIBLE);
         additional_comments_edittext = (EditText) view.findViewById(R.id.additional_comments_edittext);
         additional_comments_edittext.setOnTouchListener(this);
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
@@ -152,6 +155,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     //TODO: SPOORTI - crashing when back is pressed
     public void addTopicsToView(THSVisitContext visitContext) {
+        ths_symptoms_relative_layout.setVisibility(View.VISIBLE);
         mThsVisitContext = visitContext;
         if (getContext() != null) {
             List<Topic> topics = visitContext.getTopics();
@@ -161,6 +165,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
                 checkBox.setText(topic.getTitle());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    checkBox.setTextAppearance(R.style.ths_checkbox_style);
+                }else {
+                    checkBox.setTextAppearance(getContext(),R.style.ths_checkbox_style);
+                }
                 if (topic.isSelected()) {
                     checkBox.setChecked(true);
                 }

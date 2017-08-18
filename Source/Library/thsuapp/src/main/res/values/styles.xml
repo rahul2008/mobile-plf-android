@@ -71,7 +71,7 @@
         <item name="android:textSize">@dimen/ths_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtleBodyTextColor</item>
     </style>
 
     <style name="ths_skip_text">
@@ -136,11 +136,18 @@
 
     <style name="ths_mobile_wizard">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">@dimen/ths_fab_margin</item>
+        <item name="android:paddingEnd">@dimen/ths_fab_margin</item>
         <item name="android:layout_height">@dimen/ths_list_item_height</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:background">?attr/uidButtonPrimaryFocusBackgroundColor</item>
         <item name="android:textColor">?attr/uidContentPrimaryBackgroundColor</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="ths_checkbox_style">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
+
+    </style>
 </resources>
