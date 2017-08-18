@@ -48,11 +48,11 @@
     </string-array>
 
     <!-- Facebook product support page -->
-    <string name="facebook_product_page">PhilipsHomeLiving</string>
-    <string name="facebook_product_pageID">177538492375159</string>
+    <!--<string name="facebook_product_page">PhilipsHomeLiving</string>-->
+    <string name="facebook_product_pageID"></string>
 
     <!-- Twitter product support page -->
-    <string name="twitter_page">PhilipsCare</string>
+    <string name="twitter_page"></string>
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>

@@ -31,6 +31,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
 import java.util.HashMap;
@@ -91,11 +92,22 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
     private String getChatUrl() {
         String chatLink = null;
-        if(DigitalCareConfigManager.getInstance().getLiveChatUrl() == null){
+/*        if(DigitalCareConfigManager.getInstance().getLiveChatUrl() == null){
             chatLink = getResources().getString(R.string.live_chat_url);
         }else {
             chatLink = DigitalCareConfigManager.getInstance().getLiveChatUrl();
+        }*/
+
+        if( DigitalCareConfigManager.getInstance().getLiveChatUrl() != null){
+            chatLink = DigitalCareConfigManager.getInstance().getLiveChatUrl();
         }
+        else if(DigitalCareConfigManager.getInstance().getSdLiveChatUrl() != null ){
+            chatLink = DigitalCareConfigManager.getInstance().getSdLiveChatUrl();
+        }
+        else if (getResources().getBoolean(R.bool.live_chat_required) && getResources().getString(R.string.live_chat_url) != null ) {
+            chatLink = getResources().getString(R.string.live_chat_url);
+        }
+
         return chatLink;
     }
 

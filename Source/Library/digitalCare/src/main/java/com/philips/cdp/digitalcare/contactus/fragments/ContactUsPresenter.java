@@ -131,6 +131,9 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
         ArrayList<String> var1 = new ArrayList<>();
         var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
         var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_TWITTER);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_FB);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_LIVECHAT);
 
         HashMap<String,String> productInfoMap = new HashMap<String,String>();
 
@@ -154,6 +157,21 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
                     if (serviceDiscoveryService != null) {
                         DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
                     }
+                }
+
+                serviceDiscoveryService = map.get("cc.twitterurl");
+                if (serviceDiscoveryService != null) {
+                    DigitalCareConfigManager.getInstance().setTwitterUrl(serviceDiscoveryService.getConfigUrls());
+                }
+
+                serviceDiscoveryService = map.get("cc.facebookurl");
+                if (serviceDiscoveryService != null) {
+                    DigitalCareConfigManager.getInstance().setFbUrl(serviceDiscoveryService.getConfigUrls());
+                }
+
+               serviceDiscoveryService = map.get("cc.livechaturl");
+                if (serviceDiscoveryService != null) {
+                    DigitalCareConfigManager.getInstance().setSdLiveChatUrl(serviceDiscoveryService.getConfigUrls());
                 }
 
             }

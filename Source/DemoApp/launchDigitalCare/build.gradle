@@ -237,6 +237,9 @@ dependencies {
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
+
+    compile(group: 'com.philips.cdp', name: 'appInfraDev', version: '1.1.0', ext: 'aar', changing: true)
+
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

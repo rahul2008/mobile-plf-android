@@ -21,7 +21,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressBar mProgressBar = null;
-    private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=";
+    private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=@";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,8 +56,17 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     private String getTwitterUrl() {
-        return TWITTTERURL
-                + getProductInformation();
+        String twitterPage = null;
+
+        if(DigitalCareConfigManager.getInstance().getTwitterUrl() != null){
+            String twitterPageURL = DigitalCareConfigManager.getInstance().getTwitterUrl();
+            twitterPage = twitterPageURL.substring(twitterPageURL.lastIndexOf("@") + 1);
+        }
+        else {
+            twitterPage = getActivity().getString(R.string.twitter_page);
+        }
+
+        return TWITTTERURL +twitterPage + getProductInformation();
     }
 
     protected String getProductInformation() {
@@ -70,7 +79,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         ctnName = (ctnName == null) ? "" : ctnName;
 
 
-        return "@" + getActivity().getString(R.string.twitter_page) + " " + getActivity().getResources().getString(
+        return " " + getActivity().getResources().getString(
                 R.string.support_productinformation)
                 + " "
                 + productname

@@ -69,6 +69,11 @@ public class DigitalCareConfigManager {
     private String emailUrl = null;
     private String productReviewUrl = null;
 
+    private String fbUrl = null;
+    private String twitterUrl = null;
+
+    private String sdLiveChatUrl = null;
+
     private String country = null;
     private static int DLS_THEME;
     private static ThemeConfiguration themeConfiguration;
@@ -458,6 +463,32 @@ public class DigitalCareConfigManager {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+
+    public String getTwitterUrl() {
+        return twitterUrl;
+    }
+
+    public String getFbUrl() {
+        return fbUrl;
+    }
+
+    public void setFbUrl(String fbUrl) {
+        this.fbUrl = fbUrl;
+    }
+
+    public void setTwitterUrl(String twitterUrl) {
+        this.twitterUrl = twitterUrl;
+    }
+
+
+    public String getSdLiveChatUrl() {
+        return sdLiveChatUrl;
+    }
+
+    public void setSdLiveChatUrl(String sdLiveChatUrl) {
+        this.sdLiveChatUrl = sdLiveChatUrl;
     }
 
     public ThemeConfiguration getThemeConfiguration() {
