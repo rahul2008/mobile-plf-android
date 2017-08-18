@@ -133,7 +133,7 @@
     </style>
 
     <style name="ths_list_item_header">
-        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:minHeight">@dimen/ths_list_item_height</item>
         <item name="android:textSize">@dimen/pth_body_text</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>

@@ -60,7 +60,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     @Override
-    public Practice getPracticeInfo(){
+    public Practice getPractice(){
         return mPractice;
     }
 

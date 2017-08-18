@@ -3,7 +3,6 @@ package com.philips.platform.ths.providerdetails;
 
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -174,7 +173,7 @@ public class THSProviderDetailsFragmentTest {
     @Test
     public void getPracticeInfoNotNull(){
         providerDetailsFragment.setConsumerAndPractice(consumerMock,practiceMock);
-        Practice practiceInfo = providerDetailsFragment.getPracticeInfo();
+        Practice practiceInfo = providerDetailsFragment.getPractice();
         assertNotNull(practiceInfo);
     }
 

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -35,6 +36,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected THSAvailableProvider mThsAvailableProvider;
     protected THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
+    private PracticeInfo mPracticeInfo;
     protected THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
     private Provider mProvider;
@@ -54,6 +56,9 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         if(arguments!=null) {
             mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
             mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
+            if(arguments.getParcelable(THSConstants.THS_PRACTICE_INFO)!=null){
+                mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+            }
             if(mProviderInfo!=null){
                 THSProviderInfo thsProviderInfo = new THSProviderInfo();
                 thsProviderInfo.setTHSProviderInfo(mProviderInfo);
@@ -111,8 +116,13 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
     @Override
-    public Practice getPracticeInfo() {
+    public Practice getPractice() {
         return mPractice;
+    }
+
+    @Override
+    public PracticeInfo getPracticeInfo() {
+        return mPracticeInfo;
     }
 
     @Override
