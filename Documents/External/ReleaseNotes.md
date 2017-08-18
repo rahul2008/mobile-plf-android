@@ -5,25 +5,27 @@ Version {next}
 -------------
 
 ### Functionality Delivered
-* \#37438: component now exposes its version and tla via BuildConfig
-* \#35191: Pin mismatch api added
-	* `onPortError` will give `Error.INSECURE_CONNECTION` when there is a pin mismatch.
-	* `LanTransportContext` received utility methods to handle pin mismatches:
-		* `LanTransportContext#rejectNewPinFor`
-		* `LanTransportContext#acceptNewPinFor`
-		* `LanTransportContext#findAppliancesWithMismatchedPinIn`
+* \#65109 Removed connection state machine from DiscoveryManager.
+	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
 
 ### Backwards Compatibility
-* N/A
+* `Appliance.enableCommunication` is no longer needed before a subscription. 
 
 ### Features not covered
 * To be filled in at release
 
 ### Breaking Changes
-`DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
+* `NetworkNode` and `Applaince` no longer has a `(get/set)ConnectionState`. In return `Appliances`, `CommunicationStrategies` and `TransportContexts` now got an `isAvailable()` method to tell about the availablity of a connection.
+* `enableCommunication` for any `CommunicationStrategy` doesn't have any parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
+* The following classes are moved to a new package:
+	* `CurrentApplianceManager` -> `com.philips.cdp2.commlib.core.appliance`
+	* `ApplianceFactory` -> `com.philips.cdp2.commlib.core.appliance`
+	
+* The following classes are renamed:
+	* DICommApplianceFactory -> ApplianceFactory 
 
 ### Defects solved
-* N/A
+* \#72227 Timeout callback not called
 
 ### Residual anomalies
 * To be filled in at release
@@ -36,6 +38,13 @@ Version 7.0.0
 
 ### Functionality Delivered
 * \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
+* \#37438 Component now exposes its version and tla via BuildConfig
+* \#35191 Pin mismatch api added
+	* `onPortError` will give `Error.INSECURE_CONNECTION` when there is a pin mismatch.
+	* `LanTransportContext` received utility methods to handle pin mismatches:
+		* `LanTransportContext#rejectNewPinFor`
+		* `LanTransportContext#acceptNewPinFor`
+		* `LanTransportContext#findAppliancesWithMismatchedPinIn`
 
 ### Backwards Compatibility
 * Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their `DICommApplianceFactory.createApplianceForNode(..)` implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
@@ -46,6 +55,7 @@ Version 7.0.0
 ### Breaking Changes
 * `NetworkNode.PAIRED_STATUS` has been renamed to `NetworkNode.PairingState`
 * `NetworkNode` no longer extends `Observable`, but adds `PropertyChangeSupport` instead.
+* `DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
 
 ### Defects solved
 * NA
