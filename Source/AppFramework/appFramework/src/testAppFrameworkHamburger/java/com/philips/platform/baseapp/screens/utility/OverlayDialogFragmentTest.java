@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.utility;
 
 import android.app.Dialog;
@@ -25,10 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-/**
- * Created by philips on 8/10/17.
- */
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
@@ -67,6 +68,7 @@ public class OverlayDialogFragmentTest {
     public void tearDown(){
         activityController.pause().stop().destroy();
         overlayDialogFragment=null;
+        testActivity = null;
         activityController=null;
     }
 

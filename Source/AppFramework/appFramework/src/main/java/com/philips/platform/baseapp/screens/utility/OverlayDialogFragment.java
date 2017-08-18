@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.utility;
 
 import android.app.Dialog;
@@ -9,13 +14,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
-
-/**
- * Created by philips on 8/10/17.
- */
+import com.philips.platform.uid.view.widget.Label;
 
 public class OverlayDialogFragment extends DialogFragment {
 
@@ -61,7 +62,7 @@ public class OverlayDialogFragment extends DialogFragment {
         } catch (Exception e) {
             RALog.d(TAG, "Invalid drawable res id.");
         }
-        ((TextView) dialog.findViewById(R.id.textView_overlay_subText)).setText(stringId);
+        ((Label) dialog.findViewById(R.id.textView_overlay_subText)).setText(stringId);
 
         dialog.findViewById(R.id.dialogBackground).setOnClickListener(new View.OnClickListener() {
             @Override
