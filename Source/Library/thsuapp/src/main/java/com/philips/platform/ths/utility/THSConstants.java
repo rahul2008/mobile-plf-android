@@ -22,8 +22,9 @@ public class THSConstants {
     public static final String THS_AVAILABLE_PROVIDER_LIST = "ths_available_provider_List";
     public static final String THS_IS_DETAILS = "ths_is_details";
 
-    public static final String DATE_FORMATTER = "EEE, MMM d, yyyy";
-    public static final String DATE_TIME_FORMATTER = "EEE, MMM d, yyyy h:mm a";
+    public static final String DATE_FORMATTER = "EEEE, MMM d, yyyy";
+    public static final String DATE_TIME_FORMATTER = "EEEE, MMM d, yyyy h:mm a";
+
     public static final String TIME_FORMATTER = "h:mm a";
 
 
