@@ -25,6 +25,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 
+/**
+ * @publicApi
+ */
 public class CloudCommunicationStrategy extends CommunicationStrategy {
 
     private final RemoteSubscriptionHandler remoteSubscriptionHandler;

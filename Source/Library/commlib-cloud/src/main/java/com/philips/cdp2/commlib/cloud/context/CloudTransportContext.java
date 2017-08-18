@@ -25,6 +25,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
+/**
+ * @publicApi
+ */
 public class CloudTransportContext implements TransportContext<CloudTransportContext> {
 
     private static CloudController cloudController;
