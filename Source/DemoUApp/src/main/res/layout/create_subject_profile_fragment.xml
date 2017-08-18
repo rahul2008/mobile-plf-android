@@ -59,7 +59,7 @@
                 android:ems="10"
                 android:hint="@string/date_of_birth"
                 android:inputType="date"
-                android:text="@string/date_of_birth_value" />
+                android:text="2013-05-05" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,7 +134,7 @@
                 android:ems="10"
                 android:hint="@string/creation_date"
                 android:inputType="datetime"
-                android:text="@string/creation_date_value" />
+                android:text="2015-10-01T12:11:10.123+0100" />
         </LinearLayout>
 
         <Button

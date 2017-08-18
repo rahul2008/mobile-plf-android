@@ -31,10 +31,8 @@
     <string name="create_profile">Create Profile</string>
 
     <string name="first_name_value">Test User</string>
-    <string name="date_of_birth_value">2013&#8211;05&#8211;05</string>
     <string name="gender_value">Male</string>
     <string name="weight_value">78.88</string>
-    <string name="creation_date_value">2015&#8211;10&#8211;01T12:11:10.123+0100</string>
 
     <!-- Dialog -->
     <string name="consent_detail_type">ConsentsDetailType</string>
