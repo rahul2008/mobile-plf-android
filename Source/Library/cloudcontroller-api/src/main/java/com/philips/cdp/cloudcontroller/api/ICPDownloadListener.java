@@ -5,6 +5,9 @@
 
 package com.philips.cdp.cloudcontroller.api;
 
+/**
+ * @publicApi
+ */
 public interface ICPDownloadListener {
-	void onDataDownload(int status, String downloadedData) ;
+    void onDataDownload(int status, String downloadedData);
 }

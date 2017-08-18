@@ -19,6 +19,8 @@ import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 /**
  * The central entry point for the CloudController. The CloudController gives access to the Device Cloud,
  * allowing remote control of a device.
+ *
+ * @publicApi
  */
 public interface CloudController {
 

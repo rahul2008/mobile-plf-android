@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
  * The interface DcsEventListener.
  * <p>
  * Provides notifications on DCS events.
+ *
+ * @publicApi
  */
 public interface DcsEventListener {
     /**

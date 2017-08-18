@@ -55,6 +55,12 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * The default implementation of {@link CloudController}.
+ *
+ * @publicApi
+ * @see CloudController
+ */
 public class DefaultCloudController implements CloudController, ICPClientToAppInterface, ICPEventListener {
 
     private static final String TAG = "DefaultCloudController";

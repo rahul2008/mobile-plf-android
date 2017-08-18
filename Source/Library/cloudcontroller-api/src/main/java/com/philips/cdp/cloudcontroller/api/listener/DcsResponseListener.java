@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
  * The interface DcsResponseListener.
  * <p>
  * Provides notifications on DCS responses.
+ *
+ * @publicApi
  */
 public interface DcsResponseListener {
     /**

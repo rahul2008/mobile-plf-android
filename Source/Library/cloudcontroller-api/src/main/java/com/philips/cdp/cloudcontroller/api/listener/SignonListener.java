@@ -9,6 +9,8 @@ package com.philips.cdp.cloudcontroller.api.listener;
  * The interface Signon listener.
  * <p>
  * Provides notifications on the sign on status.
+ *
+ * @publicApi
  */
 public interface SignonListener {
     /**

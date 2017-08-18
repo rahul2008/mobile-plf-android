@@ -11,6 +11,8 @@ import java.io.File;
  * The interface AppUpdateListener.
  * <p>
  * Provides notifications on app updates.
+ *
+ * @publicApi
  */
 public interface AppUpdateListener {
     /**

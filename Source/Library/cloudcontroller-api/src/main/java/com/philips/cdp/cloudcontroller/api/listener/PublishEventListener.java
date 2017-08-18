@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
  * The interface PublishEventListener.
  * <p>
  * Provides notifications on publish events.
+ *
+ * @publicApi
  */
 public interface PublishEventListener {
     /**

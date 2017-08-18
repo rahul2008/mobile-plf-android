@@ -9,6 +9,8 @@ package com.philips.cdp.cloudcontroller.api.listener;
  * The interface SendNotificationRegistrationIdListener.
  * <p>
  * Provides notifications on the sending of registration ids.
+ *
+ * @publicApi
  */
 public interface SendNotificationRegistrationIdListener {
     /**
