@@ -154,7 +154,7 @@ task generateJavadocPublicApi(type: Javadoc) {
         if (it.isDirectory) {
             return true
         }
-        return true //it.file.text.contains("* @publicApi")
+        return it.file.text.contains("* @publicApi")
     }
 
     options {
