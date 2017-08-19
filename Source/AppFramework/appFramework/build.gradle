@@ -540,7 +540,6 @@ project.afterEvaluate {
                         def coverageSourceDirs = [
                                 "src/main/java",
                                 "src/$productFlavorName/java",
-                                "../pushnotification/src/main/java",
                                 "src/$buildTypeName/java"
                         ]
                         additionalSourceDirs = files(coverageSourceDirs)

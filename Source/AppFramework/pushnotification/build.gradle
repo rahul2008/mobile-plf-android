@@ -6,9 +6,9 @@ jacoco {
     toolVersion = "0.7.6.201602180812"
 }
 
-def coverageSourceDirs = [
-                                "src/main/java"
-                        ]
+//def coverageSourceDirs = [
+//                                "src/main/java"
+//                        ]
 
 buildscript {
     repositories {
@@ -118,27 +118,27 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-            minifyEnabled false
-            debuggable true
-            shrinkResources false
-            testCoverageEnabled true
-        }
+//        debug {
+//            minifyEnabled false
+//            debuggable true
+//            shrinkResources false
+//            testCoverageEnabled true
+//        }
     }
 
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-
-        unitTests.all {
-            // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
-            testLogging {
-                events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
-            }
-        }
-    }
+//    testOptions {
+//        unitTests.returnDefaultValues = true
+//
+//        unitTests.all {
+//            // set JVM arguments for the test JVM(s)
+//            jvmArgs '-noverify'
+//            testLogging {
+//                events "started", "passed", "skipped", "failed"
+//                outputs.upToDateWhen {false}
+//            }
+//        }
+//    }
 }
 
 dependencies {
@@ -168,26 +168,26 @@ dependencies {
     testCompile 'com.crittercism:crittercism-android-agent:5.8.1'
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-        dir: "${buildDir}/intermediates/classes/debug"
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-
-    executionData = fileTree(dir: buildDir, includes: [
-            "jacoco/testDebugUnitTest.exec",
-    ])
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
+//task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
+//    group = "Reporting"
+//
+//    description = "Generate Jacoco coverage reports"
+//
+//    classDirectories = fileTree(
+//        dir: "${buildDir}/intermediates/classes/debug"
+//    )
+//
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    sourceDirectories = files(coverageSourceDirs)
+//
+//    executionData = fileTree(dir: buildDir, includes: [
+//            "jacoco/testDebugUnitTest.exec",
+//    ])
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//}
 
 
 //project.afterEvaluate {
