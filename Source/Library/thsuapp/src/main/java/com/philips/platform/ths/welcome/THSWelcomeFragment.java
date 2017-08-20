@@ -12,18 +12,22 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
     protected THSBasePresenter presenter;
-    protected Button mInitButton;
+    private RelativeLayout mRelativeLayoutAppointments;
+    private RelativeLayout mRelativeLayoutVisitHostory;
+    private RelativeLayout mRelativeLayoutHowItWorks;
     private RelativeLayout mRelativeLayoutInitContainer;
 
     public FragmentLauncher getFragmentLauncher() {
@@ -41,13 +45,25 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_fragment, container, false);
-        createCustomProgressBar(view, BIG);
-        ((THSWelcomePresenter) presenter).initializeAwsdk();
-        if (getActionBarListener() != null)
-            getActionBarListener().updateActionBar("", false);
-        mInitButton = (Button) view.findViewById(R.id.init_amwell);
+
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
-        mInitButton.setOnClickListener(this);
+        mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
+        mRelativeLayoutAppointments.setOnClickListener(this);
+
+        mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
+        mRelativeLayoutVisitHostory.setOnClickListener(this);
+
+        mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
+        mRelativeLayoutHowItWorks.setOnClickListener(this);
+
+        createCustomProgressBar(view, BIG);
+
+        ((THSWelcomePresenter) presenter).initializeAwsdk();
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
+        }
+
         return view;
     }
 
@@ -74,12 +90,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         if (i == R.id.init_amwell) {
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.init_amwell);
-        }
-    }
-
-    void enableInitButton(boolean isEnabled) {
-        if (mInitButton != null) {
-            mInitButton.setEnabled(isEnabled);
         }
     }
 }

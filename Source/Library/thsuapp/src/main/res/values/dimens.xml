@@ -34,4 +34,7 @@
     <!-- Settings -->
     <dimen name="ths_list_space">8dp</dimen>
     <dimen name="ths_list_space_normal">1dp</dimen>
+
+    <!-- Welcome Screen-->
+    <dimen name="ths_see_provider">28dp</dimen>
 </resources>

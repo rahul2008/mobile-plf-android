@@ -21,6 +21,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -48,6 +49,10 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_appointments),true);
+        }
         getAppointments();
     }
 

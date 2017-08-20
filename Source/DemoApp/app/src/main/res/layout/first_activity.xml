@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.philips.platform.thsdemolaunch.FirstActivity">
+    <include
+        android:id="@+id/action_bar_pth"
+        layout="@layout/ths_action_bar" />
+   <com.philips.platform.uid.view.widget.Button
+       android:id="@+id/launch_amwell"
+       android:text="launch_amwell"
+       android:layout_below="@id/action_bar_pth"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentStart="true"
+       android:layout_marginLeft="16dp"
+       android:layout_marginRight="16dp"
+       android:layout_marginTop="32dp" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/logout"
+        android:text="logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="135dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/action_bar_pth"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
