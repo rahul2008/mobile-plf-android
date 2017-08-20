@@ -131,7 +131,6 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             loggingProperty.put("componentIds", releaseConfig.getJSONArray("componentIds"));
             String logLevel = releaseConfig.getString("logLevel");
             loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, releaseConfig.getBoolean("consoleLogEnabled"), releaseConfig.getBoolean("fileLogEnabled"));
-            verify(logger).setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
             verify(logManager).addLogger(logger);
             verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
         } catch (JSONException e) {

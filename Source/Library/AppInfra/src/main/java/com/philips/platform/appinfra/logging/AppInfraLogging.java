@@ -84,7 +84,7 @@ public class AppInfraLogging implements LoggingInterface {
 
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger("");
+            createLogger(mComponentID);
         }
         if (null != mJavaLogger) {
             params[0]=message;
@@ -124,26 +124,24 @@ public class AppInfraLogging implements LoggingInterface {
 
             if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
                 mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
+                getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
                 final Boolean isComponentLevelLogEnabled = loggingConfiguration.isComponentLevelLogEnabled(loggingProperty);
                 if (isComponentLevelLogEnabled) { // if component level filter enabled
                     loggingConfiguration.configureComponentLevelLogging(pComponentId, loggingProperty, logLevel, isConsoleLogEnabled, isFileLogEnabled);
                 } else { // no component level filter
-                    getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
                     loggingConfiguration.activateLogger();
-                    loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
+                    loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
                     getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                 }
 
             } else { // Turning logging level off
                 mJavaLogger = loggingConfiguration.getLogger(pComponentId);
                 getJavaLogger().setLevel(Level.OFF);
-                loggingConfiguration.activateLogger();
             }
 
         } else {
                  /* added just to make unit test cases pass */
             mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
-            loggingConfiguration.activateLogger();
             mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         }
     }
