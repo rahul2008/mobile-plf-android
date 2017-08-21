@@ -12,16 +12,20 @@ import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundExce
 import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class KeyBagManager implements KeyBagInterface {
 
     private final AppInfra appInfra;
+    private final KeyBagHelper keyBagHelper;
 
     public KeyBagManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
+        keyBagHelper = new KeyBagHelper(appInfra);
     }
 
     @Override
@@ -29,10 +33,46 @@ public class KeyBagManager implements KeyBagInterface {
                                          Map<String, String> replacement,
                                          @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) throws KeyBagJsonFileNotFoundException {
 
-        KeyBagHelper keyBagHelper = new KeyBagHelper(appInfra);
         keyBagHelper.init(appInfra.getAppInfraContext());
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = keyBagHelper.getServiceUrlMapListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
         keyBagHelper.getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
+    }
+
+
+    @NonNull
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingKeyBagUrlsListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final List<AIKMService> aikmServices) {
+        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                keyBagHelper.mapDeObfuscatedValue(urlMap, aikmServices);
+                onGetKeyBagMapListener.onSuccess(aikmServices);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                onGetKeyBagMapListener.onError(error, message);
+            }
+        };
+    }
+
+    @NonNull
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
+                                                                                                  final AISDResponse.AISDPreference aiSdPreference,
+                                                                                                  final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                keyBagHelper.mapServiceDiscoveryResponse(urlMap, aiKmServices);
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = fetchGettingKeyBagUrlsListener(onGetKeyBagMapListener, aiKmServices);
+                ArrayList<String> appendedServiceIds = keyBagHelper.getAppendedServiceIds(serviceIds);
+                keyBagHelper.getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                onGetKeyBagMapListener.onError(error, message);
+            }
+        };
     }
 }

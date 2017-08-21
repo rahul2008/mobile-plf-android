@@ -15,7 +15,11 @@ public class AIKMService extends ServiceDiscoveryService {
 
     private String serviceId;
     private Map keyBag;
-    private String indexMappingError;
+    private KEY_BAG_ERROR key_bag_error;
+
+    public enum KEY_BAG_ERROR {
+        INDEX_NOT_MAPPED, INVALID_INDEX_URL, INVALID_JSON_STRUCTURE
+    }
 
     public Map getKeyBag() {
         return keyBag;
@@ -33,11 +37,11 @@ public class AIKMService extends ServiceDiscoveryService {
         this.serviceId = serviceId;
     }
 
-    public String getIndexMappingError() {
-        return indexMappingError;
+    public KEY_BAG_ERROR getKeyBagError() {
+        return key_bag_error;
     }
 
-    public void setIndexMappingError(String indexMappingError) {
-        this.indexMappingError = indexMappingError;
+    public void setKeyBagError(KEY_BAG_ERROR key_bag_error) {
+        this.key_bag_error = key_bag_error;
     }
 }

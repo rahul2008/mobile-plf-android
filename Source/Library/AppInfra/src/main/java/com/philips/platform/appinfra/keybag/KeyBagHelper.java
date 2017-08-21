@@ -7,7 +7,6 @@ package com.philips.platform.appinfra.keybag;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -36,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class KeyBagHelper {
+class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
     private JSONObject rootJsonObject;
@@ -125,7 +124,7 @@ public class KeyBagHelper {
         }
     }
 
-    private void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aikmServices) {
+    void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aikmServices) {
         int i = 0;
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
@@ -138,9 +137,16 @@ public class KeyBagHelper {
         }
     }
 
-    private void mapAndValidateKey(ServiceDiscoveryService value, AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
+    void mapAndValidateKey(ServiceDiscoveryService value, AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
         if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
-            int index = Integer.parseInt(keyBagHelperIndex);
+            int index;
+            try {
+                index = Integer.parseInt(keyBagHelperIndex);
+            } catch (NumberFormatException e) {
+                aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INVALID_INDEX_URL);
+                e.printStackTrace();
+                return;
+            }
             Object propertiesForKey = getPropertiesForKey(serviceId);
             if (propertiesForKey instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) propertiesForKey;
@@ -148,11 +154,11 @@ public class KeyBagHelper {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(index);
                     aikmService.setKeyBag(mapData(jsonObject, index, serviceId));
                 } catch (JSONException e) {
-                    aikmService.setIndexMappingError("Key bag index not matched");
+                    aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INDEX_NOT_MAPPED);
                     e.printStackTrace();
                 }
             } else {
-                aikmService.setmError("Error in Json Syntax");
+                aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INVALID_JSON_STRUCTURE);
             }
         } else {
             aikmService.setmError(value.getmError());
@@ -211,7 +217,7 @@ public class KeyBagHelper {
     }
 
 
-    private void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aiKmServices) {
+    void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aiKmServices) {
         for (Object object : urlMap.entrySet()) {
             Map.Entry pair = (Map.Entry) object;
             ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
@@ -221,41 +227,5 @@ public class KeyBagHelper {
             aikmService.setmError(value.getmError());
             aiKmServices.add(aikmService);
         }
-    }
-
-    @NonNull
-    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKeyBagIndexListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final List<AIKMService> aikmServices) {
-        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                mapDeObfuscatedValue(urlMap, aikmServices);
-                onGetKeyBagMapListener.onSuccess(aikmServices);
-            }
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-                onGetKeyBagMapListener.onError(error, message);
-            }
-        };
-    }
-
-    @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
-                                                                                          final AISDResponse.AISDPreference aiSdPreference,
-                                                                                          final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
-        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                mapServiceDiscoveryResponse(urlMap, aiKmServices);
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = getKeyBagIndexListener(onGetKeyBagMapListener, aiKmServices);
-                ArrayList<String> appendedServiceIds = getAppendedServiceIds(serviceIds);
-                getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
-            }
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-                onGetKeyBagMapListener.onError(error, message);
-            }
-        };
     }
 }

@@ -23,7 +23,7 @@
             android:layout_toStartOf="@+id/submit_button"
             android:gravity="center"
             android:hint="Enter service id"
-            android:text="appinfra.localtesting" />
+            android:text="appinfra.localtesting,userreg.janrain.cdn" />
 
             <Button
                 android:id="@+id/submit_button"

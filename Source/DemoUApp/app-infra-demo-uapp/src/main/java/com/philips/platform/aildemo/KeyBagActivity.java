@@ -24,6 +24,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class KeyBagActivity extends AppCompatActivity {
@@ -54,13 +56,11 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	public void onClick(View view) {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
-		ArrayList<String> strings = new ArrayList<>();
-		strings.add(serviceIdEditText.getText().toString());
-		strings.add("userreg.janrain.cdn");
+		String[] serviceIds = serviceIdEditText.getText().toString().split(",");
 		try {
-			keyBagInterface.getServicesForServiceIds(strings, aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
+			keyBagInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
                 @Override
-                public void onSuccess(ArrayList<AIKMService> aikmServices) {
+                public void onSuccess(List<AIKMService> aikmServices) {
                     updateView(aikmServices);
                 }
 
@@ -75,7 +75,7 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	}
 
-	private void updateView(ArrayList<AIKMService> aikmServices) {
+	private void updateView(List<AIKMService> aikmServices) {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (aikmServices != null && aikmServices.size() != 0) {
 			for (int i = 0; i < aikmServices.size(); i++) {
@@ -92,6 +92,11 @@ public class KeyBagActivity extends AppCompatActivity {
 						stringBuilder.append(value);
 						stringBuilder.append("  ");
 					}
+				}
+				AIKMService.KEY_BAG_ERROR keyBagError = aikmServices.get(i).getKeyBagError();
+				if (null != keyBagError) {
+					stringBuilder.append("error -- ");
+					stringBuilder.append(keyBagError.name());
 				}
 			}
 		}

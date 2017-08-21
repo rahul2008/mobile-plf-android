@@ -6,14 +6,13 @@
 package com.philips.platform.appinfra.keybag;
 
 import android.content.Context;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
-import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 import org.junit.rules.ExpectedException;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -135,34 +133,6 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     public void testMappingData() {
         assertNotNull(keyBagHelper.mapData(new JSONObject(),0,"service_id"));
-    }
-
-    public void testGettingServiceDiscoveryUrl() {
-        final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
-        ArrayList<String> serviceIds = new ArrayList<>();
-        ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
-
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = keyBagHelper.getServiceUrlMapListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetKeyBagMapListenerMock);
-        serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"error in security");
-        verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"error in security");
-
-        TreeMap<String, ServiceDiscoveryService> urlMap = new TreeMap<>();
-        ServiceDiscoveryService value = new ServiceDiscoveryService();
-        value.setConfigUrl("url");
-        value.setmError("error");
-        ServiceDiscoveryService value1 = new ServiceDiscoveryService();
-        value1.setConfigUrl("url1");
-        value1.setmError("error1");
-        ServiceDiscoveryService value2 = new ServiceDiscoveryService();
-        value2.setConfigUrl("url2");
-        value2.setmError("error2");
-        urlMap.put("service_id", value);
-        urlMap.put("service_id1", value1);
-        urlMap.put("service_id2", value2);
-        serviceUrlMapListener.onSuccess(urlMap);
-        assertEquals(aiKmServices.size(),3);
-        assertEquals(aiKmServices.get(0).getConfigUrls(),"url");
-        assertEquals(aiKmServices.get(1).getmError(),"error1");
     }
 
 }
