@@ -1,14 +1,19 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.discovery;
 
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 
-class NullApplianceDatabase<T extends Appliance> implements DICommApplianceDatabase<T> {
+public class NullApplianceDatabase<T extends Appliance> implements DICommApplianceDatabase<T> {
 
 	@Override
 	public long save(T appliance) {

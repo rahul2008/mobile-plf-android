@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.core;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -50,6 +51,9 @@ public class CommCentralTest {
     @Mock
     private DiscoveryStrategy anotherDiscoveryStrategyMock;
 
+    @Mock
+    private Context context;
+
     private CommCentral commCentral;
     private Set<String> emptyDeviceTypes = Collections.emptySet();
     private Set<String> emptyModelIds = Collections.emptySet();
@@ -65,7 +69,7 @@ public class CommCentralTest {
         when(someTransportContextMock.getDiscoveryStrategy()).thenReturn(someDiscoveryStrategyMock);
         when(anotherTransportContextMock.getDiscoveryStrategy()).thenReturn(anotherDiscoveryStrategyMock);
 
-        commCentral = new CommCentral(applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
+        commCentral = new CommCentral(applianceFactoryMock, context, someTransportContextMock, anotherTransportContextMock);
     }
 
     @Test

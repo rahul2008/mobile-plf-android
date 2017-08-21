@@ -7,8 +7,12 @@ package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
+import com.philips.cdp.dicommclient.discovery.NullApplianceDatabase;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
@@ -48,6 +52,11 @@ public class ApplianceManager {
     private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
 
     private final Handler handler = createHandler();
+
+    @NonNull
+    private final NetworkNodeDatabase networkNodeDatabase;
+    @NonNull
+    private final DICommApplianceDatabase applianceDatabase;
 
     private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
         @Override
@@ -121,7 +130,18 @@ public class ApplianceManager {
      * @param discoveryStrategies the discovery strategies
      * @param applianceFactory    the appliance factory
      */
-    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull ApplianceFactory applianceFactory) {
+    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies,
+                            @NonNull ApplianceFactory applianceFactory,
+                            @NonNull NetworkNodeDatabase networkNodeDatabase,
+                            @Nullable DICommApplianceDatabase applianceDatabase) {
+        this.networkNodeDatabase = networkNodeDatabase;
+
+        if (applianceDatabase == null) {
+            this.applianceDatabase = new NullApplianceDatabase();
+        } else {
+            this.applianceDatabase = applianceDatabase;
+        }
+
         if (discoveryStrategies.isEmpty()) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one discovery strategy.");
         }

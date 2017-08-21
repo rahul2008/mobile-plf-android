@@ -5,8 +5,10 @@
 
 package com.philips.cdp2.commlib.core;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
@@ -33,8 +35,10 @@ public final class CommCentral {
 
     private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
+    @NonNull
     private final ApplianceFactory<?> applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
+    @NonNull
     private final ApplianceManager applianceManager;
 
     /**
@@ -44,7 +48,7 @@ public final class CommCentral {
      * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
      *                          provide {@link DiscoveryStrategy}s. You will need at least one!
      */
-    public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
+    public CommCentral(@NonNull ApplianceFactory applianceFactory, Context context, @NonNull final TransportContext... transportContexts) {
         this.applianceFactory = requireNonNull(applianceFactory);
 
         // Setup transport contexts
@@ -61,7 +65,7 @@ public final class CommCentral {
         }
 
         // Setup ApplianceManager
-        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory);
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(context), null);
     }
 
     public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {

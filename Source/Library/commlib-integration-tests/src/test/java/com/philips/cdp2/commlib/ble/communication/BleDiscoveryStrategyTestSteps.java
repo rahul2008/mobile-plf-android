@@ -78,6 +78,9 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     private BleScanRecord bleScanRecordMock;
 
+    @Mock
+    private Context contextMock;
+
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
@@ -142,7 +145,7 @@ public class BleDiscoveryStrategyTestSteps {
                 return new HashSet<>(applianceTypes);
             }
         };
-        commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
+        commCentral = new CommCentral(testApplianceFactory, contextMock, bleTransportContext);
     }
 
     private static String createCppId() {
