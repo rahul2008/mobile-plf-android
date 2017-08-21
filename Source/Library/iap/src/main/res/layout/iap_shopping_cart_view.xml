@@ -63,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/continues_btn"
         android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
         android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
         android:enabled="true"

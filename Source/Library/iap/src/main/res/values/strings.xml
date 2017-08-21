@@ -299,7 +299,6 @@
     <string name="iap_1x_daily_collection">1x daily collection Miniblender</string>
     <string name="iap_1x_advance_collection">1x Advance collection Blender</string>
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
-    <string name="iap_including_tax">Including 21% tax</string>
     <string name="daily_selling_product">Daily Collection Miniblender</string>
     <string name="nothing_in_cart">Nothing in your cart</string>
     <string name="iap_confirm">Confirm</string>
@@ -308,4 +307,5 @@
     <string name="iap_confirm_delete">Confirm</string>
     <string name="iap_remove_product">Remove product</string>
     <string name="iap_product_remove_description">Your product will be removed from your shopping cart. Are you sure?</string>
+    <string name="iap_including_tax">Including tax</string>
 </resources>

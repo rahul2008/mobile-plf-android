@@ -175,7 +175,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // shoppingCartProductHolder.mTvActualPrice.setPaintFlags(shoppingCartProductHolder.mTvActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedTotalPrice());
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
             getNetworkImage(shoppingCartProductHolder, imageURL);
