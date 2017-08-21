@@ -29,6 +29,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
-    private Button mContinueButton;
+    private ProgressBarButton mContinueButton;
     private  EditText mEditTextFirstName;
     private EditText mEditTextLastName;
     private Label mDateOfBirth;
@@ -66,7 +67,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     private void setView(ViewGroup view) {
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.registration_form_container);
-        mContinueButton = (Button) view.findViewById(R.id.ths_continue);
+        mContinueButton = (ProgressBarButton) view.findViewById(R.id.ths_continue);
         mContinueButton.setOnClickListener(this);
         mEditTextFirstName = (EditText) view.findViewById(R.id.ths_edit_first_name);
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
@@ -110,7 +111,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             return;
 
         if(gender == com.philips.cdp.registration.ui.utils.Gender.FEMALE){
-            mCheckBoxFemale.setSelected(true);
+            mCheckBoxFemale.setChecked(true);
         }else {
             mCheckBoxMale.setSelected(true);
         }

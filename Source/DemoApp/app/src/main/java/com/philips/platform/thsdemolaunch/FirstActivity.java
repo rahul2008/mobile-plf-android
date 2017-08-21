@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -18,6 +22,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 
 /* Copyright (c) Koninklijke Philips N.V., 2016
@@ -33,12 +38,14 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
     Button logout;
     User user;
     private Toolbar toolbar;
+    ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_activity);
+
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
         setSupportActionBar(toolbar);
@@ -46,7 +53,13 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
         user = new User(this);
         launchAmwell = (Button) findViewById(R.id.launch_amwell);
         launchAmwell.setOnClickListener(this);
+        mProgress = (ProgressBar) findViewById(R.id.progress);
         logout = (Button) findViewById(R.id.logout);
+
+        if(!user.isUserSignIn()){
+            logout.setVisibility(View.GONE);
+        }
+
         logout.setOnClickListener(this);
 
         if(user.isUserSignIn()){
@@ -63,15 +76,20 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }if(id == R.id.logout){
+            mProgress.setVisibility(View.VISIBLE);
             user.logout(new LogoutHandler() {
                 @Override
                 public void onLogoutSuccess() {
                     logout.setText("Login");
+                    mProgress.setVisibility(View.GONE);
+                    Toast.makeText(FirstActivity.this,"Logout Success!!!",Toast.LENGTH_SHORT).show();
+                    logout.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onLogoutFailure(int i, String s) {
-
+                    Toast.makeText(FirstActivity.this,"Logout failed!!!",Toast.LENGTH_SHORT).show();
+                    mProgress.setVisibility(View.GONE);
                 }
             });
         }
@@ -106,4 +124,16 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
+            super.onBackPressed();
+        }
+    }
+
 }

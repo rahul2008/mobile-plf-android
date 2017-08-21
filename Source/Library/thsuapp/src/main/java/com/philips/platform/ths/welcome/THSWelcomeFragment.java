@@ -21,13 +21,15 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Button;
 
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
-    protected THSBasePresenter presenter;
+    protected THSWelcomePresenter presenter;
     private RelativeLayout mRelativeLayoutAppointments;
     private RelativeLayout mRelativeLayoutVisitHostory;
     private RelativeLayout mRelativeLayoutHowItWorks;
+    private Button mButton;
     private RelativeLayout mRelativeLayoutInitContainer;
 
     public FragmentLauncher getFragmentLauncher() {
@@ -48,17 +50,25 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
 
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
+        mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
+        mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
+        mButton = (Button) view.findViewById(R.id.ths_start);
+
+        mRelativeLayoutAppointments.setEnabled(false);
         mRelativeLayoutAppointments.setOnClickListener(this);
 
-        mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
+        mRelativeLayoutVisitHostory.setEnabled(false);
         mRelativeLayoutVisitHostory.setOnClickListener(this);
 
-        mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
+        mRelativeLayoutHowItWorks.setEnabled(false);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
 
-        createCustomProgressBar(view, BIG);
+        mButton.setEnabled(false);
+        mButton.setOnClickListener(this);
 
-        ((THSWelcomePresenter) presenter).initializeAwsdk();
+        createCustomProgressBar(view, BIG);
+        presenter.initializeAwsdk();
+
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
@@ -87,9 +97,24 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.init_amwell) {
+        if (i == R.id.appointments) {
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
-            presenter.onEvent(R.id.init_amwell);
+            presenter.onEvent(R.id.appointments);
+        }else if(i == R.id.visit_history){
+            createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
+            presenter.onEvent(R.id.visit_history);
+        }else if(i == R.id.how_it_works){
+            presenter.onEvent(R.id.how_it_works);
+        }else if(i == R.id.ths_start){
+            createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
+            presenter.onEvent(R.id.ths_start);
         }
+    }
+
+    void updateView(){
+        mRelativeLayoutHowItWorks.setEnabled(true);
+        mRelativeLayoutVisitHostory.setEnabled(true);
+        mRelativeLayoutAppointments.setEnabled(true);
+        mButton.setEnabled(true);
     }
 }

@@ -58,6 +58,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
 
     private void getAppointments() {
         try {
+            createCustomProgressBar(mRelativeLayout,BIG);
             mThsSchedulesVisitsPresenter.getAppointmentsSince(null);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();

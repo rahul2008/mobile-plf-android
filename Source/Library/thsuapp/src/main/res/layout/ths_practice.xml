@@ -22,20 +22,5 @@
         android:layout_below="@+id/pth_id_practice_label"
         android:layout_centerInParent="true" />
 
-    <!-- Will be removed after Welcome screen -->
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/ths_appointment_list"
-        android:layout_width="match_parent"
-        android:text="Appointments"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content" />
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/ths_visit_list"
-        android:text="@string/visit_history"
-        android:layout_above="@id/ths_appointment_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
 </RelativeLayout>
 

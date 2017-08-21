@@ -51,6 +51,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_visit_history),true);
         }
+        createCustomProgressBar(mRelativeLayout,BIG);
         mThsVisitHistoryPresenter.getVisitHistory();
     }
 
