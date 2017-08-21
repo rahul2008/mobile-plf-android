@@ -75,6 +75,10 @@ public class MainActivity extends UIDActivity {
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
     private ListView rightListView;
+    public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
+    public static final String RIGHT_SELECTED_POSITION = "RIGHT_SELECTED_POSITION";
+    private int leftRecyclerViewSelectedPosition = 0;
+    private int rightListViewSelectedPosition = 0;
 
     private static final String[] RIGHT_MENU_ITEMS = new String[]{
             "Profile item 1",
@@ -228,7 +232,7 @@ public class MainActivity extends UIDActivity {
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-
+                    leftRecyclerViewSelectedPosition = position;
                     sideBarLayout.closeDrawer(GravityCompat.START);
                     boolean isSelected = holder.itemView.isSelected();
                     holder.itemView.setSelected(!isSelected);
@@ -266,6 +270,7 @@ public class MainActivity extends UIDActivity {
         rightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                rightListViewSelectedPosition = position;
                 view.setSelected(true);
                 sideBarLayout.closeDrawer(GravityCompat.END);
             }
@@ -326,6 +331,10 @@ public class MainActivity extends UIDActivity {
     protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
+        leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
+        rightListViewSelectedPosition = savedInstanceState.getInt(RIGHT_SELECTED_POSITION);
+
+        rightListView.setSelection(rightListViewSelectedPosition);
     }
 
     @Override
@@ -372,6 +381,8 @@ public class MainActivity extends UIDActivity {
     protected void onSaveInstanceState(final Bundle outState) {
         navigationController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
+        outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
+        outState.putInt(RIGHT_SELECTED_POSITION, rightListViewSelectedPosition);
     }
 
     public ThemeConfiguration getThemeConfig() {

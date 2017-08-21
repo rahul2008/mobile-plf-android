@@ -104,18 +104,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/sidebar_right_footer_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
-
-                <include
-                    android:id="@+id/sidebar_right_footer_layout"
-                    layout="@layout/sidebar_footer_view"/>
-
-            </LinearLayout>
-
             <ListView
                 android:id="@+id/sidebar_right_listview"
                 android:overScrollMode="never"
@@ -123,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/sidebar_right_header_container"
-                android:layout_above="@id/sidebar_right_footer_container"/>
+                android:listSelector="@drawable/uid_ui_picker_item_background_selector"/>
 
         </RelativeLayout>
 
