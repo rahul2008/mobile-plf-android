@@ -26,9 +26,9 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         this.thsBaseView = thsBaseView;
     }
 
-    public void updateShippingAddress(THSConsumer thsConsumer, Address address){
+    public void updateShippingAddress(Address address){
         try {
-            THSManager.getInstance().updatePreferredShippingAddress(thsBaseView.getFragmentActivity(),thsConsumer,address,this);
+            THSManager.getInstance().updatePreferredShippingAddress(thsBaseView.getFragmentActivity(),address,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

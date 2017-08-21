@@ -17,8 +17,8 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
-import static com.philips.platform.ths.R.id.pth_intake_medication_continue_button;
-import static com.philips.platform.ths.R.id.pth_intake_medication_skip_step_label;
+import static com.philips.platform.ths.R.id.ths_intake_medication_continue_button;
+import static com.philips.platform.ths.R.id.ths_intake_medication_skip_step_label;
 
 import static com.philips.platform.ths.R.id.ths_existing_medicine_footer_relative_layout;
 import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
@@ -34,7 +34,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     @Override
     public void onEvent(int componentID) {
-        if (componentID == pth_intake_medication_continue_button) {
+        if (componentID == ths_intake_medication_continue_button) {
             updateMedication(((THSMedicationFragment) mTHSBaseFragment).mExistingMedication);
         } else if (componentID == ths_existing_medicine_footer_relative_layout) {
             THSSearchFragment tHSSearchFragment = new THSSearchFragment();
@@ -43,7 +43,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.MEDICATION_SEARCH_CONSTANT);
             mTHSBaseFragment.addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle);
-        } else if (componentID == pth_intake_medication_skip_step_label) {
+        } else if (componentID == ths_intake_medication_skip_step_label) {
             final THSConditionsFragment fragment = new THSConditionsFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
             mTHSBaseFragment.addFragment(fragment, THSConditionsFragment.TAG, null);

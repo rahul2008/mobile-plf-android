@@ -124,6 +124,11 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     }
 
     @Override
+    public void popFragmentByTag(String fragmentTag, int flag) {
+
+    }
+
+    @Override
     public void updateProgreeDialog(boolean show) {
         if(show){
             progressDialog.setMessage("Deleting photo");

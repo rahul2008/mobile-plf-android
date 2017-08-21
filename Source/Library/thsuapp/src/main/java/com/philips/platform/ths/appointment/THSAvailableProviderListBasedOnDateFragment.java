@@ -89,7 +89,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         }
         THSProvidersListAdapter adapter= new THSProvidersListAdapter(listOfProviderInfos);
 
-        mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() + " available location specialists");
+        mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() +" "+ getString(R.string.ths_available_location_specialists_string));
 
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
