@@ -9,13 +9,13 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_intake_medication_skip_step_label"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/ths_fab_margin"
-        android:layout_marginEnd="@dimen/ths_fab_margin"
         style="@style/UIDExtraWideQuietButton"
-        android:text="@string/vitals_skip"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:text="@string/vitals_skip" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_intake_medication_continue_button"
@@ -46,19 +46,20 @@
             style="@style/ths_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_intake_medication_label"
             android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
             android:layout_marginTop="@dimen/ths_fab_margin"
-            android:textSize="@dimen/ths_body_text"
-            android:layout_below="@+id/ths_intake_medication_label"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="@string/vitals_medication_description_text" />
+            android:text="@string/vitals_medication_description_text"
+            android:textSize="@dimen/ths_body_text" />
+
         <View
-            android:layout_width="match_parent"
             android:id="@+id/divider_bp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/ths_intake_medication_question"
-            android:background="?attr/uidSeparatorContentNormalBackgroundColor"/>
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
 
         <ListView
