@@ -95,6 +95,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             }
 
             holder.isAvailble.setText(providerAvailabilityString);
+
         } else {
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
             thsProviderInfo = new THSProviderInfo();
