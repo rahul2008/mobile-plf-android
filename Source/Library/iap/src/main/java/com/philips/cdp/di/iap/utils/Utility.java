@@ -166,7 +166,15 @@ public class Utility {
     public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
                                         String pErrorString, String descriptionText, final FragmentManager pFragmentManager,final AlertListener alertListener) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
-        builder.setMessage(descriptionText);
+        if(!TextUtils.isEmpty(descriptionText)){
+            builder.setMessage(descriptionText);
+        }
+
+        if(!TextUtils.isEmpty(pErrorString)){
+            builder.setTitle(pErrorString);
+        }
+
+
         builder.setPositiveButton(positiveBtnText, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
