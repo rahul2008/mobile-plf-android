@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_layout_padding">30dp</dimen>
+    <dimen name="edge_left_spacing">10dp</dimen>
+    <dimen name="component_bottom_spacing">10dp</dimen>
+    <dimen name="category_divider_width">40dp</dimen>
+
+    <dimen name="label_margin_top">24dp</dimen>
+    <dimen name="label_margin_bottom">8dp</dimen>
+
+    <!--Textbox dimensions-->
+    <dimen name="texteditbox_width">200dp</dimen>
+
+    <!--Base layout margins-->
+    <dimen name="layout_margin_left_right">16dp</dimen>
+    <dimen name="layout_margin_top">24dp</dimen>
+    <dimen name="layout_margin_top_bottom">12dp</dimen>
+    <!--<dimen name="layout_margin_top">20dp</dimen>-->
+    <dimen name="layout_height">48dp</dimen>
+
+    <!--Button test page-->
+    <dimen name="button_toggle_text_size">16sp</dimen>
+    <dimen name="button_layout_divider">1dp</dimen>
+    <dimen name="button_category_divider_height">32dp</dimen>
+    <dimen name="button_category_text_size">12sp</dimen>
+    <dimen name="button_gap">12dp</dimen>
+    <dimen name="button_first_last_element_gap">24dp</dimen>
+    <dimen name="theme_settings_pagemargin">48dp</dimen>
+    <dimen name="done_button_width">12dp</dimen>
+    <dimen name="button_label_margin_bottom">8dp</dimen>
+
+    <!--ProgressBar test page-->
+    <dimen name="progress_bar_margin_top">24dp</dimen>
+    <dimen name="progress_bar_margin_top_big">24dp</dimen>
+    <dimen name="progress_bar_margin_left_right">24dp</dimen>
+    <dimen name="progress_bar_circular_area_margin_top">24dp</dimen>
+    <dimen name="progress_bar_circular_area_margin_bottom">20dp</dimen>
+    <dimen name="progress_bar_seekbar_area_height">48dp</dimen>
+    <integer name="progress_bar_scale_bar_max">2</integer>
+
+    <!--label test page-->
+    <dimen name="label_textbox_margin">16dp</dimen>
+
+    <!--Checkbox test page-->
+    <dimen name="checkbox_list_margin_top_bottom">14dp</dimen>
+
+    <dimen name="separator_item_height">48dp</dimen>
+    <dimen name="separator_drawable_padding">32dp</dimen>
+
+    <dimen name="recycler_view_drawable_padding">32dp</dimen>
+
+    <dimen name="listview_row_height">48dp</dimen>
+    <dimen name="uid_date_margin_start">32dp</dimen>
+    <dimen name="uid_date_picker_margin_left_right">16dp</dimen>
+    <dimen name="date_picker_date_width">200dp</dimen>
+    <!-- GridView page-->
+    <dimen name="grid_spacing_normal">2dp</dimen>
+    <dimen name="grid_spacing_enlarged">4dp</dimen>
+    <dimen name="grid_column_width">160dp</dimen>
+    <string name="gridview_item_opacity">0.35</string>
+
+    <!-- Radio Button-->
+    <dimen name="radiobutton_list_margin_top_bottom">14dp</dimen>
+    <dimen name="radiobutton_margin_left">4dp</dimen>
+    <dimen name="radio_button_height">48dp</dimen>
+    <dimen name="radio_button_text_padding_left_right">12dp</dimen>
+
+    <dimen name="show_more_icon_size">12dp</dimen>
+
+    <!--Notifaction Badge test page-->
+    <dimen name="notifaction_badge_margin_top_bottom">14dp</dimen>
+    <dimen name="notifaction_badge_lable_height">25dp</dimen>
+    <dimen name="notifaction_badge_edit_text_margin_left_right">16dp</dimen>
+    <dimen name="notifaction_badge_edit_text_margin_top_bottom">12dp</dimen>
+    <dimen name="notification_default_margin">50dp</dimen>
+    <dimen name="notification_small_margin">40dp</dimen>
+    <dimen name="dot_navigation_item_icon_size">48dp</dimen>
+    <dimen name="dot_navigation_item_text_height">24dp</dimen>
+    <dimen name="dot_navigation_item_text_size">16sp</dimen>
+    <dimen name="rating_bar_reset_button_width">224dp</dimen>
+
+    <dimen name="search_list_margin_top">8dp</dimen>
+
+    <!-- Radio Group-->
+    <dimen name="radio_group_top_margin">12dp</dimen>
+
+    <!-- UI Picker-->
+    <dimen name="uid_ui_picker_margin_left_right">16dp</dimen>
+    <dimen name="uid_add_location_margin_start">32dp</dimen>
+
+</resources>

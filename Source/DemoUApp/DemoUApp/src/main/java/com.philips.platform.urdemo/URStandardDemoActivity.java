@@ -9,59 +9,39 @@
 
 package com.philips.platform.urdemo;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.*;
+import android.content.*;
+import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.Switch;
-import android.widget.Toast;
+import android.os.*;
+import android.preference.PreferenceManager;
+import android.support.annotation.StyleRes;
+import android.util.Log;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.Gender;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.*;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.urdemo.themesettings.*;
 import com.philips.platform.urdemolibrary.R;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.io.*;
+import java.util.*;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
+import static android.view.View.*;
 
 public class URStandardDemoActivity extends Activity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
@@ -79,6 +59,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
+//        initTheme();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
@@ -306,6 +289,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setUserRegistrationUIEventListener(this);
             activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+
+//            activityLauncher = new ActivityLauncher(ActivityLauncher.
+//                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, getThemeConfig(), themeResourceId, null);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
             final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
@@ -390,6 +376,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             }
 
         } else if (i == R.id.btn_update_gender) {
+//            Intent intent = new Intent(this, ThemeSettingsActivity.class);
+//            startActivity(intent);
+//
             User user1 = new User(mContext);
             if (!user1.isUserSignIn()) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
@@ -615,5 +604,75 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
         return registrationContentConfiguration;
 
+    }
+
+
+    private SharedPreferences defaultSharedPreferences;
+    ContentColor contentColor;
+    ColorRange colorRange;
+    NavigationColor navigationColor;
+    private AccentRange accentColorRange;
+    private int themeResourceId = 0;
+
+    private void initTheme() {
+        final ThemeConfiguration themeConfig = getThemeConfig();
+        themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
+        themeConfig.add(navigationColor);
+        themeConfig.add(accentColorRange);
+        setTheme(themeResourceId);
+        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
+
+        UIDHelper.init(themeConfig);
+    }
+
+    public ThemeConfiguration getThemeConfig() {
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences);
+        colorRange = themeHelper.initColorRange();
+        navigationColor = themeHelper.initNavigationRange();
+        contentColor = themeHelper.initContentTonalRange();
+        accentColorRange = themeHelper.initAccentRange();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
+    }
+
+    @StyleRes
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+        final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange.name()), toCamelCase(contentColor.name()));
+
+        return resources.getIdentifier(themeName, "style", packageName);
+    }
+
+    static String toCamelCase(String s) {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts) {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s) {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
+
+    public String getCatalogAppJSONAssetPath() {
+        try {
+            File f = new File(getCacheDir() + "/catalogapp.json");
+            InputStream is = getAssets().open("catalogapp.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(buffer);
+            fos.close();
+            return f.getPath();
+        } catch (FileNotFoundException e) {
+            Log.e(ThemeSettingsActivity.class.getName(), e.getMessage());
+        } catch (IOException e) {
+            Log.e(ThemeSettingsActivity.class.getName(), e.getMessage());
+        }
+        return null;
     }
 }
