@@ -69,27 +69,37 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 		assertNotNull(configError);
 	}
 
-	public void testHappyPath() throws Exception {
-		try {
-			assertNotNull(mAppIdentityManager.getLocalizedAppName());
-			assertNotNull(mAppIdentityManager.getAppName());
-			assertNotNull(mAppIdentityManager.getAppVersion());
-			assertNotNull(mAppIdentityManager.getMicrositeId());
-			assertNotNull(mAppIdentityManager.getSector());
-			assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
-			assertNotNull(mAppIdentityManager.getAppState());
 
-		} catch (IllegalArgumentException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
-
-		}
+	public void testGetLocalizedAppName(){
+		assertNotNull(mAppIdentityManager.getLocalizedAppName());
 	}
 
+	public void testGetAppName(){
+		assertNotNull(mAppIdentityManager.getAppName());
+	}
 
-	public void testgetAppVersion() {
+	public void testGetAppVersion(){
+		assertNotNull(mAppIdentityManager.getAppVersion());
+	}
+
+	public void testGetMicrositeId(){
+		assertNotNull(mAppIdentityManager.getMicrositeId());
+	}
+
+	public void testGetSector(){
+		assertNotNull(mAppIdentityManager.getSector());
+	}
+
+	public void testGetServiceDiscoveryEnvironment(){
+		assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
+	}
+
+	public void testGetAppState(){
+		assertNotNull(mAppIdentityManager.getAppState());
+	}
+
+	public void testGetAppVersionRegularExpression() {
 		try {
-			assertNotNull(mAppIdentityManager.getAppVersion());
-			//assertEquals("Appversion is in proper format", mAppIdentityManager.getAppVersion(), "1.1.0");
 			assertNotSame("Appversion is not in proper format", mAppIdentityManager.getAppVersion(), "!!2.0");
 		} catch (IllegalArgumentException e) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
@@ -106,7 +116,15 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 				("appidentity.appState", "appinfra", configError);
 		assertNotNull(defAppState);
 		assertEquals("Appstate is staging", defAppState, "Staging");
+	}
 
+	public void testValidateAppStateThrowException(){
+		String appState;
+
+		mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
+				"Staging", configError);
+		String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+				("appidentity.appState", "appinfra", configError);
 		if (defAppState.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
 			appState = defAppState;
 		else {
