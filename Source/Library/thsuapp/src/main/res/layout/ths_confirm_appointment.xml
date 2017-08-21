@@ -8,12 +8,10 @@
         style="@style/amwellCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="24dp"
-        android:paddingBottom="@dimen/ths_body_text_padding"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="@dimen/ths_body_text_padding"
+        android:paddingBottom="@dimen/ths_conditions_margin_top"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:paddingTop="@dimen/ths_margin_top_registration_detail_title"
         android:text="@string/ths_schedule_appointment_for"
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="20sp" />
@@ -31,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line_separator"
-        android:layout_marginTop="20dp"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin" />
 
