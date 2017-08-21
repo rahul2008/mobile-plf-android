@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="match_parent" android:layout_height="?android:attr/listPreferredItemHeight">
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:paddingStart="@dimen/ths_fab_margin"
+    android:paddingEnd="@dimen/ths_fab_margin">
 
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,7 +13,6 @@
         style="?android:attr/dropDownItemStyle"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
         android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
         android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
         android:ellipsize="marquee"

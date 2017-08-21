@@ -12,8 +12,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -157,6 +157,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void addTopicsToView(THSVisitContext visitContext) {
         ths_symptoms_relative_layout.setVisibility(View.VISIBLE);
         mThsVisitContext = visitContext;
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbook.ttf");
         if (getContext() != null) {
             List<Topic> topics = visitContext.getTopics();
             for (final Topic topic : topics) {
@@ -164,12 +165,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
+                checkBox.setTypeface(typeface);
                 checkBox.setText(topic.getTitle());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    checkBox.setTextAppearance(R.style.ths_checkbox_style);
-                }else {
-                    checkBox.setTextAppearance(getContext(),R.style.ths_checkbox_style);
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    checkBox.setTextAppearance(R.style.ths_checkbox_style);
+//                }else {
+//                    checkBox.setTextAppearance(getContext(),R.style.ths_checkbox_style);
+//                }
                 if (topic.isSelected()) {
                     checkBox.setChecked(true);
                 }

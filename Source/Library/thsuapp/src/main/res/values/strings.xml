@@ -2,9 +2,10 @@
 
     <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
     <string name="action_settings">Settings</string>
+    <string name="ths_vitals_prepare_visit_title">Prepare your visit</string>
     <string name="app_name">AmwellUapp</string>
     <string name="symptoms">Step 1 of 5: Symptoms</string>
-    <string name="vitals">Step 2 of 5: vitals</string>
+    <string name="vitals">Step 2 of 5: Vitals</string>
     <string name="conditions">Step 4 of 5: Conditions</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
@@ -12,10 +13,15 @@
     <string name="write_here">write here</string>
     <string name="ths_prepare_your_visit">Prepare for your visit</string>
     <string name="button_greaterthan"> &gt;</string>
-    <string name="vitals_want">What do you want from vitals?</string>
-    <string name="vitals_blood_pressure">Blood Pressure</string>
+    <string name="vitals_want">Do you want to share your vitals?</string>
+    <string name="vitals_add_medication_text">Add medication</string>
+    <string name="vitals_blood_pressure">Blood pressure </string>
+    <string name="vitals_medication_description_text">Are you currently taking any medication(s)? If so, please add your medications to share with the provider</string>
+    <string name="vitals_weight_text">(in mm HG)</string>
+    <string name="vitals_temp_text">(in \u2109)</string>
+    <string name="vitals_medications">Step 3 of 5: Medications</string>
     <string name="vitals_systolic">Systolic</string>
-    <string name="vitals_diastolic">Diastolic</string>
+    <string name="vitals_diastolic">Diasystolic</string>
     <string name="temperature">Temperature</string>
     <string name="vitals_faranheit">Farenheit</string>
     <string name="vitals_f">oF</string>
