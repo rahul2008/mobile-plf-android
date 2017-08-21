@@ -90,6 +90,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     date_EditText.setText(text);
                     prodRegRegistrationController.isValidDate(text);
                 }
+                registerButton.setEnabled(true);
             } catch (ParseException e) {
                 ProdRegLogger.e(TAG, e.getMessage());
             }
