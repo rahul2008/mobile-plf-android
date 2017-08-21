@@ -11,11 +11,8 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.AppInfraLogEventID;
-import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
-import org.json.JSONObject;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -28,9 +25,13 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.philips.platform.appinfra.ConfigValues.getMockResponse;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class LoggingTest extends AppInfraInstrumentation {
     private LoggingInterface loggingInterface ;
@@ -44,34 +45,21 @@ public class LoggingTest extends AppInfraInstrumentation {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
-        mAppInfra = new AppInfra.Builder().build(context);
-        AppConfigurationInterface mConfigInterface = new AppConfigurationManager(mAppInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                JSONObject result = null;
-                try {
-                    String testJson = ConfigValues.testJson();
-                    result = new JSONObject(testJson);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return result;
-            }
-
-        };
-        assertNotNull(mConfigInterface);
-        mAppInfra= new AppInfra.Builder().setConfig(mConfigInterface).build(context);
-        loggingInterface = mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
-        assertNotNull(mAppInfra);
-        assertNotNull(loggingInterface);
+        mAppInfra = mock(AppInfra.class);
+        when(mAppInfra.getAppInfraContext()).thenReturn(context);
+        AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
+        when(appConfigurationInterface.getPropertyForKey(anyString(),anyString(),any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(getMockResponse());
+        when(mAppInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
+        loggingInterface = new AppInfraLogging(mAppInfra);
+        loggingInterface.createInstanceForComponent("ail","1.5");
+        when(mAppInfra.getLogging()).thenReturn(loggingInterface);
         loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
         loggingInterfaceMock = mock(AppInfraLogging.class);
     }
 
     public void testCreateInstanceForComponent() {
         context = getInstrumentation().getContext();
-        AppInfra appInfra = new AppInfra.Builder().build(context);
-        AppInfraLogging appInfraLogging = new AppInfraLogging(appInfra);
+        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
         assertNotNull(appInfraLogging.createInstanceForComponent("test","1"));
     }
 
@@ -425,69 +413,5 @@ public class LoggingTest extends AppInfraInstrumentation {
             e.printStackTrace();
         }
     }
-
-    public void testComponentLevelLogEnabled() {
-        AppInfra appInfra = new AppInfra.Builder().build(context);
-        AppConfigurationInterface configInterface = new AppConfigurationManager(appInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                JSONObject result = null;
-                try {
-                    String testJson = ConfigValues.testJson();
-                    result = new JSONObject(testJson);
-                    JSONObject appInfraConfig = result.optJSONObject("APPINFRA");
-                    JSONObject loggingConfig = appInfraConfig.optJSONObject("LOGGING.DEBUGCONFIG");
-                    loggingConfig.put("componentLevelLogEnabled", true);
-                    appInfraConfig.put("LOGGING.DEBUGCONFIG", loggingConfig);
-                    result.put("APPINFRA", appInfraConfig);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return result;
-            }
-        };
-        appInfra = new AppInfra.Builder().setConfig(configInterface).build(context);
-        LoggingInterface loggingInterface = appInfra.getLogging().createInstanceForComponent("DemoAppInfra", "1.5");
-        for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterface.log(logLevel, null, "message");
-            loggingInterface.log(logLevel, "Event", "Message");
-        }
-
-    }
-
-    /*Testing fallback if logging key values are not present in 'appconfig.json' file
-    * then properties from 'logging.properties' file should be picked
-    * this test case will should be removed when  'logging.properties' file is removed under asset
-     */
-    @Deprecated
-    public void testLogWithoutLoggingPropertiesInAppConfig() {
-
-        AppInfra appInfra = new AppInfra.Builder().build(context);
-        AppConfigurationInterface configInterface = new AppConfigurationManager(appInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                JSONObject result = null;
-                try {
-                    String testJson = ConfigValues.testJson();
-                    result = new JSONObject(testJson);
-                    JSONObject appInfraConfig = result.optJSONObject("APPINFRA");
-                    appInfraConfig.put("LOGGING.DEBUGCONFIG", null); // removing logging key values
-                    appInfraConfig.put("LOGGING.RELEASECONFIG", null); // removing logging key values
-                    result.put("APPINFRA", appInfraConfig);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return result;
-            }
-        };
-        appInfra = new AppInfra.Builder().setConfig(configInterface).build(context);
-        LoggingInterface loggingInterface = appInfra.getLogging().createInstanceForComponent("DemoAppInfra", "1.5");
-        for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterface.log(logLevel, null, "message");
-            loggingInterface.log(logLevel, "Event", "Message");
-        }
-    }
-
-
 
 }
