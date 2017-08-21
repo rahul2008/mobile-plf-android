@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
-import com.philips.cdp.uikit.customviews.UIKitRadioButton;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
     private EditDeletePopUP mPopUP;
     private int mSelectedIndex;
-    private Drawable mOptionsDrawable;
+    //private Drawable mOptionsDrawable;
 
     private int mOptionsClickPosition = -1;
 
@@ -43,7 +43,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     }
 
     private void initOptionsDrawable() {
-        mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
+       // mOptionsDrawable = Drawable.create(mContext, R.drawable.iap_options_icon_5x17);
     }
 
     @Override
@@ -60,9 +60,9 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     @Override
     public void onBindViewHolder(final AddressSelectionHolder holder, final int position) {
         Addresses address = mAddresses.get(position);
-        holder.name.setText(address.getFirstName() + " " + address.getLastName());
+        holder.toggle.setText(address.getFirstName() + " " + address.getLastName());
         holder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
-        holder.options.setImageDrawable(mOptionsDrawable);
+       // holder.options.setImageDrawable(mOptionsDrawable);
 
         //Update payment options buttons
         updatePaymentButtonsVisibility(holder.paymentOptions, position);
@@ -113,7 +113,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         }
     }
 
-    private void setToggleStatus(final UIKitRadioButton toggle, final int position) {
+    private void setToggleStatus(final RadioButton toggle, final int position) {
         if (mSelectedIndex == position) {
             toggle.setChecked(true);
         } else {
@@ -121,7 +121,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         }
     }
 
-    private void bindToggleButton(final AddressSelectionHolder holder, final UIKitRadioButton toggle) {
+    private void bindToggleButton(final AddressSelectionHolder holder, final RadioButton toggle) {
         toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -164,10 +164,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         Button deliverToThisAddress;
         Button addNewAddress;
 
-        TextView name;
+        //TextView name;
         TextView address;
 
-        UIKitRadioButton toggle;
+        RadioButton toggle;
         ImageView options;
 
         ViewGroup paymentOptions;
@@ -175,9 +175,9 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
         public AddressSelectionHolder(final View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.tv_name);
+            //name = (TextView) view.findViewById(R.id.tv_name);
             address = (TextView) view.findViewById(R.id.tv_address);
-            toggle = (UIKitRadioButton) view.findViewById(R.id.rbtn_toggle);
+            toggle = (RadioButton) view.findViewById(R.id.rbtn_toggle);
             options = (ImageView) view.findViewById(R.id.img_options);
             paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
             deliverToThisAddress = (Button) view.findViewById(R.id.btn_deliver_to_this_address);
