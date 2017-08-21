@@ -32,7 +32,7 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
     private THSPracticePresenter mPresenter;
     private Label mTitle;
     private RecyclerView mPracticeRecyclerView;
-    private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
+    private THSPracticeRecyclerViewAdapter thsPracticeRecyclerViewAdapter;
     private ActionBarListener actionBarListener;
     private RelativeLayout mRealtiveLayoutPracticeContainer;
     private Button mBtnAppointment;
@@ -44,8 +44,8 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.ths_practice, container, false);
-        mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
-        mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
+        mTitle = (Label) view.findViewById(R.id.ths_id_practice_label);
+        mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_practice);
         mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
         mBtnAppointment = (Button) view.findViewById(R.id.ths_appointment_list);
         mVisitBtn = (Button) view.findViewById(R.id.ths_visit_list);
@@ -95,9 +95,9 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
 
     public void showPracticeList(THSPracticeList practices){
         hideProgressBar();
-        mPracticeRecyclerViewAdapter = new PracticeRecyclerViewAdapter(getActivity(), practices);
-        mPracticeRecyclerView.setAdapter(mPracticeRecyclerViewAdapter);
-        mPracticeRecyclerViewAdapter.setOnPracticeItemClickListener(new OnPracticeItemClickListener() {
+        thsPracticeRecyclerViewAdapter = new THSPracticeRecyclerViewAdapter(getActivity(), practices);
+        mPracticeRecyclerView.setAdapter(thsPracticeRecyclerViewAdapter);
+        thsPracticeRecyclerViewAdapter.setOnPracticeItemClickListener(new OnPracticeItemClickListener() {
             @Override
             public void onItemClick(Practice practice) {
                mPresenter.showProviderList(practice);

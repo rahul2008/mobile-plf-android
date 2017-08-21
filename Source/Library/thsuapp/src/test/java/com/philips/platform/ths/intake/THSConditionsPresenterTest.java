@@ -34,7 +34,7 @@ public class THSConditionsPresenterTest {
     THSConditionsPresenter thsConditionsPresenter;
 
     @Mock
-    THSConditionsFragment pTHBaseViewMock;
+    THSMedicalConditionsFragment pTHBaseViewMock;
 
     @Mock
     AWSDK awsdkMock;

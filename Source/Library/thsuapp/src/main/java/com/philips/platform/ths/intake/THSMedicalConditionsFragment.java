@@ -7,6 +7,7 @@
 package com.philips.platform.ths.intake;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -22,28 +23,27 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
-import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class THSConditionsFragment extends THSBaseFragment implements View.OnClickListener {
+public class THSMedicalConditionsFragment extends THSBaseFragment implements View.OnClickListener {
     protected THSConditionsPresenter mThsConditionsPresenter;
-    public static final String TAG = THSConditionsFragment.class.getSimpleName();
+    public static final String TAG = THSMedicalConditionsFragment.class.getSimpleName();
     protected LinearLayout mLinerLayout;
     private Button mContinueButton;
-    private Label mSkipLabel;
+    private Button mSkipLabel;
     protected List<THSConditions> mTHSConditions = null;
     private RelativeLayout mRelativeLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_conditions, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_medical_conditions, container, false);
         mLinerLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         mContinueButton = (Button) view.findViewById(R.id.continue_btn);
         mContinueButton.setOnClickListener(this);
-        mSkipLabel = (Label) view.findViewById(R.id.conditions_skip);
+        mSkipLabel = (Button) view.findViewById(R.id.conditions_skip);
         mSkipLabel.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
         AmwellLog.i(AmwellLog.LOG, "onCreateView called");
@@ -101,7 +101,7 @@ public class THSConditionsFragment extends THSBaseFragment implements View.OnCli
         for (int i = 0; i < thsConditionses.size(); i++) {
             conditionList.add(thsConditionses.get(i).getCondition());
         }
-
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbook.ttf");
         if (getContext() != null) {
             for (final Condition condition : conditionList
                     ) {
@@ -109,6 +109,7 @@ public class THSConditionsFragment extends THSBaseFragment implements View.OnCli
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
+                checkBox.setTypeface(typeface);
                 checkBox.setText(condition.getName());
                 if (condition.isCurrent()) {
                     checkBox.setChecked(true);

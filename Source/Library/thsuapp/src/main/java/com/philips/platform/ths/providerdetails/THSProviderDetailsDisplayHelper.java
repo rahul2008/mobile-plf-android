@@ -159,7 +159,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
 
         if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
-            isAvailable.setText("Available time slots");
+            isAvailable.setText(context.getString(R.string.ths_available_time_slots_text));
             mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
                     format(((THSAvailableProviderDetailFragment)thsBaseFragment).getDate()));
             setAppointmentsToView(dates);
