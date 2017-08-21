@@ -37,15 +37,12 @@ import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static junit.runner.Version.id;
 
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -115,7 +112,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
+        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
         if (isNetworkConnected()) {
             updateCartOnResume();
         }

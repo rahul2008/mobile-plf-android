@@ -290,7 +290,7 @@
     <string name="iap_cancel_order_dls_for_your_ref_sg">For your reference, your order number is %s.</string>
 
 
-   <!-- Shopping cart-->
+   <!-- Shopping cart DLS need to update in excel sheet-->
     <string name="iap_extra_option">Extra options</string>
     <string name="iap_delivery_ups_parcel">Delivery via %s</string>
     <string name="iap_delivery_free_description">Delivery is free when you spend %s or more </string>
@@ -308,4 +308,5 @@
     <string name="iap_remove_product">Remove product</string>
     <string name="iap_product_remove_description">Your product will be removed from your shopping cart. Are you sure?</string>
     <string name="iap_including_tax">Including tax</string>
+    <string name="iap_shopping_cart_dls">Shopping cart</string>
 </resources>
