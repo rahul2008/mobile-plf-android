@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -45,6 +44,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -60,12 +60,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.di.iap.R.id.delete_btn;
 import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
         PRXAssetExecutor.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, ShoppingCartListener<ShoppingCartData> {
+        ProductDetailController.ProductSearchListener, ShoppingCartListener<ShoppingCartData>, AlertListener {
 
 
     public static final String TAG = ProductDetailFragment.class.getName();
@@ -149,7 +150,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
-        EventHelper.getInstance().registerEventNotification(IAP_UPDATE_PRODUCT_COUNT, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_UPDATE_PRODUCT_COUNT, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_DELETE_PRODUCT, this);
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
         mProductDescription = (TextView) rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
@@ -162,7 +165,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mQuantityAndDelete = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mProductStockInfo = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
-        mDeleteProduct = (Button) rootView.findViewById(R.id.delete_btn);
+        mDeleteProduct = (Button) rootView.findViewById(delete_btn);
+        mDeleteProduct.setOnClickListener(this);
         mQuantity = (TextView) rootView.findViewById(R.id.quantity_val);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
@@ -379,6 +383,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
         EventHelper.getInstance().unregisterEventNotification(IAP_UPDATE_PRODUCT_COUNT, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.IAP_DELETE_PRODUCT, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
         if (mErrorDialogFragment != null)
             mErrorDialogFragment.onDestroyView();
     }
@@ -498,7 +504,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void deleteProduct() {
-        Toast.makeText(mContext, "delete clicked", Toast.LENGTH_SHORT).show();
+        Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
+                , null, getString(R.string.iap_product_remove_description), getFragmentManager(), this);
     }
 
     @SuppressWarnings("unchecked")
@@ -652,31 +659,33 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onLoadFinished(ArrayList<? extends Object> data) {
         dismissProgressDialog();
 
-        if (!data.isEmpty() && data.get(0) instanceof ShoppingCartData) {
-            int i = getIndexForCTNFromList(data);
-            ShoppingCartData shoppingCartData = (ShoppingCartData) data.get(i);
-            mQuantity.setText(shoppingCartData.getQuantity() + "");
+
+        if (data!=null && data.get(0) instanceof ShoppingCartData) {
+
+            final ShoppingCartData shoppingCartData = getShoppingCartDataFromCTN(data);
+            if(shoppingCartData!=null){
+                mQuantity.setText(shoppingCartData.getQuantity() + "");
+            }else{
+                getFragmentManager().popBackStack();
+            }
+
         }
-        if (data.isEmpty() || data.get(0) instanceof StoreEntity) {
+        if (!data.isEmpty() && data.get(0) instanceof StoreEntity) {
             mBuyFromRetailers.hideProgressIndicator();
             buyFromRetailers((ArrayList<StoreEntity>) data);
         }
     }
 
-    private int getIndexForCTNFromList(ArrayList<?> data) {
-        int index = 0;
-        if (data != null && data instanceof ArrayList) {
-            for (int i = 0; i < data.size(); i++) {
-                final ShoppingCartData shoppingData = (ShoppingCartData) data.get(i);
-                final String string = mBundle.getString(IAPConstant.PRODUCT_CTN);
-                if (string.equalsIgnoreCase(shoppingData.getCtnNumber())) {
-                    return index;
-                } else {
-                    index++;
-                }
-            }
+    private ShoppingCartData getShoppingCartDataFromCTN(ArrayList<?> data) {
+
+        final String lCtn = mBundle.getString(IAPConstant.PRODUCT_CTN);
+
+        for(ShoppingCartData shoppingCartData:(ArrayList<ShoppingCartData>)data){
+
+            if(shoppingCartData.getCtnNumber().equalsIgnoreCase(lCtn))return shoppingCartData;
         }
-        return index;
+
+        return null;
     }
 
 
@@ -718,6 +727,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
                 mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
             }
+        }else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+            if (!isProgressDialogShowing()) {
+                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+                ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
+                mShoppingCartAPI.deleteProduct(shoppingCartData);
+            }
+        } else if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
+            dismissProgressDialog();
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         }
     }
 
@@ -780,5 +798,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         return super.handleBackEvent();
+    }
+
+    @Override
+    public void onPositiveBtnClick() {
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+    }
+
+    @Override
+    public void onNegativeBtnClick() {
+
     }
 }

@@ -155,6 +155,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     private void setCallTimings() {
 
+        mShippingStatus.setText(String.format(mContext.getString(R.string.iap_order_status_msg), mPhoneContact));
         btncall.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(mPhoneContact,
                 HybrisDelegate.getInstance().getStore().getCountry()));
         tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
@@ -228,7 +229,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.PRODUCT_TITLE, product.getProductTitle());
                     bundle.putString(IAPConstant.PRODUCT_CTN, product.getCtnNumber());
                     bundle.putString(IAPConstant.PRODUCT_PRICE, product.getFormatedPrice());
-                   // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
+                    // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
                     bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
 //                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
 //                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());

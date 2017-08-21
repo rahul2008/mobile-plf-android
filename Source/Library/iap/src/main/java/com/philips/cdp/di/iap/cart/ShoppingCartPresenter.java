@@ -72,7 +72,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void deleteProduct(final ShoppingCartData summary) {
         Map<String, String> query = new HashMap<>();
         query.put(ModelConstants.ENTRY_CODE, String.valueOf(summary.getEntryNumber()));
-
+        query.put(ModelConstants.PRODUCT_CODE, String.valueOf(summary.getCtnNumber()));
         CartDeleteProductRequest model = new CartDeleteProductRequest(getStore(), query,
                 new AbstractModel.DataLoadListener() {
                     @Override
