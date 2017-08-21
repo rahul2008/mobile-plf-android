@@ -754,7 +754,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         mSecureStorageInterface.storeValueForKey(COUNTRY, country, mSecureStorageError);
 
         mSecureStorageInterface.storeValueForKey(COUNTRY_SOURCE, countrySource, mSecureStorageError);
-
+        this.mCountry = country;
+        this.mCountrySourceType = countrySource;
     }
 
     private String fetchFromSecureStorage(final String countrySource) {
