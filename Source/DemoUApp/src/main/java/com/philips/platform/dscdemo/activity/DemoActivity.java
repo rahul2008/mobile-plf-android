@@ -24,15 +24,27 @@ import com.philips.platform.dscdemo.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 
 public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
 
+    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private ActionBarListener actionBarListener;
     private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        initTheme();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
         DSLog.enableLogging(true);
@@ -51,6 +63,15 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
             onRestoreInstanceState(savedInstanceState);
         }
 
+    }
+
+    private void initTheme() {
+        int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
 
     void startRegistrationFragment() {
@@ -166,10 +187,13 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean backState = false;
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
-        if (currentFrag instanceof TemperatureTimeLineFragment) {
-            finishAffinity();
-        } else {
+        if (currentFrag != null && currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+        }
+
+        if (!backState) {
             super.onBackPressed();
         }
     }
