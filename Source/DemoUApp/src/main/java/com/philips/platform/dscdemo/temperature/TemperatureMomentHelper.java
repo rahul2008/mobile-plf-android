@@ -76,4 +76,13 @@ public class TemperatureMomentHelper {
         //return null;
     }
 
+    String getExpirationDate(Moment moment) {
+        DateTime expirationDate = ((OrmMoment)moment).getExpirationDate();
+        if(expirationDate != null){
+            return expirationDate.toString();
+        }else{
+            return "never expires";
+        }
+    }
+
 }
