@@ -51,18 +51,9 @@ public class WelcomePagerFragmentTest {
     }
 
     @Test
-    public void testWelcomeFragmentTitleText(){
-        //assertNotNull(welcomePagerFragment);
+    public void testFragmentContent() {
         assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_title), title.getText().toString());
-    }
-
-    @Test
-    public void testWelcomeFragmentSubText(){
         assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_sub_text), subText.getText().toString());
-    }
-
-    @Test
-    public void testWelcomeBackground() {
         assertNotNull(welcomePagerFragment.getView().findViewById(R.id.welcome_slide_fragment_layout).getBackground());
     }
 

@@ -54,11 +54,6 @@ public class WelcomeVideoPagerFragmentTest {
     }
 
     @Test
-    public void testWelcomeFragmentLaunch(){
-        assertEquals(View.VISIBLE, thumbNail.getVisibility());
-    }
-
-    @Test
     public void onFetchErrorTest(){
         welcomeVideoPagerFragment.onFetchError();
         assertTrue(thumbNail.getVisibility() == View.VISIBLE);
@@ -97,6 +92,7 @@ public class WelcomeVideoPagerFragmentTest {
 
     @Test
     public void thumbNailClickTest() {
+        thumbNail.setVisibility(View.VISIBLE);
         thumbNail.performClick();
         assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
     }
