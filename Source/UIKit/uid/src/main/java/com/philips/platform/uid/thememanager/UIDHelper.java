@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.UIDLog;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UIDHelper {
@@ -53,8 +52,10 @@ public class UIDHelper {
     private static void injectAccents(@NonNull ThemeConfiguration themeConfiguration, Resources.Theme theme, AccentRange accentConfig) {
         String colorRange = ThemeUtils.getColorRangeName(themeConfiguration.getContext()).toUpperCase();
         AccentRange fixedAccent = AccentValidator.fixAccent(colorRange, accentConfig);
-        if(accentConfig != fixedAccent) {
-            UIDLog.e(TAG, "Invalid AccentRange, injecting default AccentRange " + fixedAccent.name());
+        if (fixedAccent != null) {
+            return;
+        }
+        if (accentConfig != fixedAccent) {
             fixedAccent.injectStyle(theme);
         }
         fixedAccent.injectAllAccentAttributes(themeConfiguration.getContext(), theme);

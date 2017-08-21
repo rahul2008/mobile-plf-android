@@ -48,13 +48,16 @@ class AccentValidator {
             validArray = GRAY;
         }
         boolean validAccent = arrayContainsElement(validArray, resultAccent);
-        if(!validAccent) {
+        if(!validAccent && validArray != null) {
             resultAccent = validArray[0];
         }
         return resultAccent;
     }
 
     private static <T, U> boolean arrayContainsElement(T[] origObject, U searchObject) {
+        if (origObject != null) {
+            return false;
+        }
         boolean found = false;
         for (T object : origObject) {
             if (object.equals(searchObject)) {

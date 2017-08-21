@@ -22,6 +22,7 @@ import com.philips.platform.uid.utils.UIDContextWrapper;
 public final class ThemeUtils {
 
     //    private static final String TAG = "ThemeUtils";
+    private static final String NO_COLOR_RANGE = "";
     static final String ACCENT = "Accent";
     private static final String TR_VD = "VeryDark";
     private static final String TR_B = "Bright";
@@ -88,7 +89,7 @@ public final class ThemeUtils {
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
         String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
         themeArray.recycle();
-        return colorRange;
+        return colorRange == null ? NO_COLOR_RANGE : colorRange;
     }
 
     static String getTonalRangeName(@NonNull Context context) {
