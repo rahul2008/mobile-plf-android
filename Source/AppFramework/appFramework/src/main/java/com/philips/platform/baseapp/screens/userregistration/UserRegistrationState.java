@@ -293,26 +293,15 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-        BaseState baseState = null;
-        try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONDITIONS_CLICK);
-        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
-                e) {
-            RALog.d(TAG, e.getMessage());
-            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
-        }
-        if (null != baseState) {
-            TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
-            termsAndPrivacyStateData.setTermsAndPrivacyEnum(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
-            baseState.setUiStateData(termsAndPrivacyStateData);
-            baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
-        }
-
+        launchWebView(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
+        launchWebView(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+    }
+
+    public void launchWebView(TermsAndPrivacyStateData.TermsAndPrivacyEnum termsAndPrivacyEnum){
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
@@ -324,7 +313,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         }
         if (null != baseState) {
             TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
-            termsAndPrivacyStateData.setTermsAndPrivacyEnum(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+            termsAndPrivacyStateData.setTermsAndPrivacyEnum(termsAndPrivacyEnum);
             baseState.setUiStateData(termsAndPrivacyStateData);
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }

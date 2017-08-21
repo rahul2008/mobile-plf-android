@@ -64,6 +64,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         when(uiFlowManagerMock.getNextState("welcome_skip")).thenReturn(userRegStateMock);
         welcomeFragmentPresenter.onEvent(R.id.welcome_skip_button);
         verify(welcomeFragmentViewMock).showActionBar();
+        verify(welcomeFragmentViewMock).clearAdapter();
         verify(userRegStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
