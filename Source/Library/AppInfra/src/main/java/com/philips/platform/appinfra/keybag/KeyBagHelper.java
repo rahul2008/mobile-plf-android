@@ -10,10 +10,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -35,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-class KeyBagHelper {
+public class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
     private JSONObject rootJsonObject;
@@ -104,11 +102,10 @@ class KeyBagHelper {
         return null;
     }
 
-    void init(Context mContext) throws KeyBagJsonFileNotFoundException {
-        mAppInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
+    boolean init(Context mContext,String fileName) throws KeyBagJsonFileNotFoundException {
         StringBuilder total;
         try {
-            final InputStream mInputStream = mContext.getAssets().open("AIKeyBag.json");
+            final InputStream mInputStream = mContext.getAssets().open(fileName);
             final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
             total = new StringBuilder();
             String line;
@@ -116,12 +113,14 @@ class KeyBagHelper {
                 total.append(line).append('\n');
             }
             rootJsonObject = new JSONObject(total.toString());
+            return true;
         } catch (JSONException | IOException e) {
             if (e instanceof IOException)
                 throw new KeyBagJsonFileNotFoundException();
             else
                 e.printStackTrace();
         }
+        return false;
     }
 
     void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aikmServices) {
@@ -152,7 +151,8 @@ class KeyBagHelper {
                 JSONArray jsonArray = (JSONArray) propertiesForKey;
                 try {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-                    aikmService.setKeyBag(mapData(jsonObject, index, serviceId));
+                    Map keyBag = mapData(jsonObject, index, serviceId);
+                    aikmService.setKeyBag(keyBag);
                 } catch (JSONException e) {
                     aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INDEX_NOT_MAPPED);
                     e.printStackTrace();
@@ -182,7 +182,7 @@ class KeyBagHelper {
         return null;
     }
 
-    private Object getPropertiesForKey(String serviceId) {
+    Object getPropertiesForKey(String serviceId) {
         try {
             return rootJsonObject.get(serviceId);
         } catch (JSONException e) {

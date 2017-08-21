@@ -25,7 +25,7 @@ public class KeyBagManager implements KeyBagInterface {
 
     public KeyBagManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
-        keyBagHelper = new KeyBagHelper(appInfra);
+        keyBagHelper = new KeyBagHelper(mAppInfra);
     }
 
     @Override
@@ -33,10 +33,20 @@ public class KeyBagManager implements KeyBagInterface {
                                          Map<String, String> replacement,
                                          @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) throws KeyBagJsonFileNotFoundException {
 
-        keyBagHelper.init(appInfra.getAppInfraContext());
-        final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
+        getKeyBagHelper().init(appInfra.getAppInfraContext(), "AIKeyBag.json");
+        final ArrayList<AIKMService> aiKmServices = getAiKmServices();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
-        keyBagHelper.getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
+        getKeyBagHelper().getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
+    }
+
+    @NonNull
+    KeyBagHelper getKeyBagHelper() {
+        return keyBagHelper;
+    }
+
+    @NonNull
+    ArrayList<AIKMService> getAiKmServices() {
+        return new ArrayList<>();
     }
 
 

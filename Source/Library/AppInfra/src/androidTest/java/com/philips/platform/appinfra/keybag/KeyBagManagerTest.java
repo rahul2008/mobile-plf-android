@@ -17,24 +17,7 @@ import static org.mockito.Mockito.when;
 public class KeyBagManagerTest extends AppInfraInstrumentation {
 
 
-    private KeyBagManager keyBagInterface;
-
-    private String rawData = "{\n" +
-            "  \"appinfra.localtesting\" : [\n" +
-            "    {\"clientId\":\"4c73b365\"},\n" +
-            "    {\"clientId\":\"2d35b548bb\"},\n" +
-            "    {\"clientId\":\"ecbb6a284f\"},\n" +
-            "    {\"new\":\"49967f42cf\",\"clientId\":\"d68cc08550\"},\n" +
-            "    {\"new\":\"e88cf71dab\",\"clientId\":\"89c821b20a\"}\n" +
-            "  ],\n" +
-            "  \"userreg.janrain.cdn\" : [\n" +
-            "    {\"clientId\":\"c9e153c5\"},\n" +
-            "    {\"clientId\":\"0ce51950ec\"},\n" +
-            "    {\"clientId\":\"d0f1cfb3aa\"},\n" +
-            "    {\"new\":\"b1f9f948ec\",\"clientId\":\"02cc3dd7da\"},\n" +
-            "    {\"new\":\"e6e173c5da\",\"clientId\":\"b83d533301\"}\n" +
-            "  ]\n" +
-            "}";
+    private KeyBagManager keyBagManager;
 
     @Override
     protected void setUp() throws Exception {
@@ -42,8 +25,43 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         AppInfra appInfraMock = mock(AppInfra.class);
         ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
-        keyBagInterface = new KeyBagManager(appInfraMock);
+        keyBagManager = new KeyBagManager(appInfraMock);
     }
+
+  /*  public void testInvokingServices() throws KeyBagJsonFileNotFoundException {
+        Context context = getInstrumentation().getContext();
+        AppInfra appInfraMock = mock(AppInfra.class);
+        when(appInfraMock.getAppInfraContext()).thenReturn(context);
+        ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
+        LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
+        when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
+        when(appInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
+        ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
+        final ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListenerMock = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
+//        final KeyBagHelper keyBagHelperMock = mock(KeyBagHelper.class);
+//        when(keyBagHelperMock.init(context,"somefile")).thenReturn(false);
+
+        final KeyBagHelper test = spy(new KeyBagHelper(appInfraMock));
+        when(test.init(context,"AIKeyBag.json")).thenReturn(false);
+
+        ArrayList<String> serviceIds = new ArrayList<>();
+        keyBagManager = new KeyBagManager(appInfraMock) {
+            @NonNull
+            @Override
+            KeyBagHelper getKeyBagHelper() {
+                return test;
+            }
+
+            @NonNull
+            @Override
+            ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(List<String> serviceIds, List<AIKMService> aiKmServices, AISDResponse.AISDPreference aiSdPreference, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+                return serviceUrlMapListenerMock;
+            }
+        };
+
+        keyBagManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetKeyBagMapListenerMock);
+        verify(test).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
+    }*/
 
 
     public void testGettingServiceDiscoveryUrl() {
@@ -51,7 +69,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         ArrayList<String> serviceIds = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
 
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = keyBagInterface.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetKeyBagMapListenerMock);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = keyBagManager.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetKeyBagMapListenerMock);
         serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"error in security");
         verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"error in security");
 
@@ -72,5 +90,31 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         assertEquals(aiKmServices.size(),3);
         assertEquals(aiKmServices.get(0).getConfigUrls(),"url");
         assertEquals(aiKmServices.get(1).getmError(),"error1");
+    }
+
+    public void testFetchGettingKeyBagUrlsListener() {
+        ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
+        final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
+        aiKmServices.add(new AIKMService());
+        aiKmServices.add(new AIKMService());
+        aiKmServices.add(new AIKMService());
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = keyBagManager.fetchGettingKeyBagUrlsListener(onGetKeyBagMapListenerMock, aiKmServices);
+        onGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"security error");
+        verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"security error");
+        TreeMap<String, ServiceDiscoveryService> urlMap = new TreeMap<>();
+        ServiceDiscoveryService value = new ServiceDiscoveryService();
+        value.setConfigUrl("url");
+        value.setmError("error");
+        ServiceDiscoveryService value1 = new ServiceDiscoveryService();
+        value1.setConfigUrl("url1");
+        value1.setmError("error1");
+        ServiceDiscoveryService value2 = new ServiceDiscoveryService();
+        value2.setConfigUrl("url2");
+        value2.setmError("error2");
+        urlMap.put("service_id", value);
+        urlMap.put("service_id1", value1);
+        urlMap.put("service_id2", value2);
+        onGetServiceUrlMapListener.onSuccess(urlMap);
+        verify(onGetKeyBagMapListenerMock).onSuccess(aiKmServices);
     }
 }

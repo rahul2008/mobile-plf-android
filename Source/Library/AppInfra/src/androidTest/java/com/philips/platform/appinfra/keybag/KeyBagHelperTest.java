@@ -10,10 +10,14 @@ import android.content.Context;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
+import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.rules.ExpectedException;
 
@@ -33,17 +37,18 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
     private KeyBagHelper keyBagHelper;
     private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
     private Context mContext;
+    private AppInfra mAppInfraMock;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getInstrumentation().getContext();
-        AppInfra mAppInfra = mock(AppInfra.class);
+        mAppInfraMock = mock(AppInfra.class);
         LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
         serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
-        when(mAppInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
-        when(mAppInfra.getLogging()).thenReturn(loggingInterfaceMock);
-        keyBagHelper = new KeyBagHelper(mAppInfra);
+        when(mAppInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
+        when(mAppInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
+        keyBagHelper = new KeyBagHelper(mAppInfraMock);
     }
 
     public void testGettingSeed() {
@@ -87,7 +92,7 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         thrown.expect(KeyBagJsonFileNotFoundException.class);
         thrown.expectMessage("AIKeyBag.json file not found in assets folder");
         try {
-            keyBagHelper.init(mContext);
+            keyBagHelper.init(mContext,"somefile");
         } catch (KeyBagJsonFileNotFoundException e) {
             e.printStackTrace();
             assertEquals(e.getMessage(),"AIKeyBag.json file not found in assets folder");
@@ -133,6 +138,51 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     public void testMappingData() {
         assertNotNull(keyBagHelper.mapData(new JSONObject(),0,"service_id"));
+    }
+
+    public void testMapAndValidateKey() {
+        keyBagHelper = new KeyBagHelper(mAppInfraMock) {
+            @Override
+            Object getPropertiesForKey(String serviceId) {
+                return new JSONArray();
+            }
+        };
+        ServiceDiscoveryService serviceDiscovery = new ServiceDiscoveryService();
+        serviceDiscovery.setmError("something went wrong");
+        AIKMService aikmService = new AIKMService();
+        keyBagHelper.mapAndValidateKey(serviceDiscovery,aikmService,null,"0");
+        assertEquals(aikmService.getmError(),"something went wrong");
+
+        keyBagHelper.mapAndValidateKey(serviceDiscovery,aikmService,"service_id","string");
+        assertEquals(AIKMService.KEY_BAG_ERROR.INVALID_INDEX_URL,aikmService.getKeyBagError());
+
+        keyBagHelper = new KeyBagHelper(mAppInfraMock) {
+            @Override
+            Object getPropertiesForKey(String serviceId) {
+                return new JSONObject();
+            }
+        };
+        keyBagHelper.mapAndValidateKey(serviceDiscovery,aikmService,"service_id","1");
+        assertEquals(AIKMService.KEY_BAG_ERROR.INVALID_JSON_STRUCTURE, aikmService.getKeyBagError());
+
+        JSONObject someJsonObject = new JSONObject();
+        try {
+            someJsonObject.put("clientId","4c73b365");
+            final JSONArray someJsonArray = new JSONArray(someJsonObject);
+            keyBagHelper = new KeyBagHelper(mAppInfraMock) {
+                @Override
+                Object getPropertiesForKey(String serviceId) {
+                    return someJsonArray;
+                }
+            };
+            keyBagHelper.mapAndValidateKey(serviceDiscovery,aikmService,"service_id","1");
+            assertTrue(aikmService.getKeyBag() != null);
+            assertEquals(aikmService.getKeyBag().get("clientId"),"test");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }
