@@ -14,4 +14,5 @@ public interface THSBaseView {
     FragmentActivity getFragmentActivity();
     int getContainerID();
     void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle);
+    void popFragmentByTag(String fragmentTag,int flag);
 }

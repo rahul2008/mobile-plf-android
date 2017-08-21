@@ -93,7 +93,6 @@ public class THSWelcomePresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        pTHBaseViewMock.mInitButton = buttonMock;
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdk);
         THSManager.getInstance().setUser(userMock);

@@ -1,37 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.philips.platform.uid.view.widget.NavigationContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.philips.platform.thsdemolaunch.FirstActivity">
-    <include
-        android:id="@+id/action_bar_pth"
-        layout="@layout/ths_action_bar" />
-   <com.philips.platform.uid.view.widget.Button
-       android:id="@+id/launch_amwell"
-       android:text="launch_amwell"
-       android:layout_below="@id/action_bar_pth"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignParentStart="true"
-       android:layout_marginLeft="16dp"
-       android:layout_marginRight="16dp"
-       android:layout_marginTop="32dp" />
+    tools:context="com.philips.platform.thsdemolaunch.MainActivity">
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/logout"
-        android:text="logout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="135dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_below="@+id/action_bar_pth"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent">
 
-    <com.philips.platform.uid.view.widget.ProgressBar
-        android:id="@+id/progress"
-        android:layout_centerInParent="true"
-        style="@style/UIDProgressBarCircularIndeterminateBig"
-        android:visibility="gone"/>
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/ths_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="vertical">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:elevation="0dp">
+
+                <include layout="@layout/uid_toolbar_layout" />
+
+            </android.support.design.widget.AppBarLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/uappFragmentLayout_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ths_toolbar_layout" >
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/launch_amwell"
+            android:text="Launch Telehealth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/logout"
+            android:text="Logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_below="@+id/launch_amwell" />
+
+        <com.philips.platform.uid.view.widget.ProgressBar
+            android:id="@+id/progress"
+            android:layout_centerInParent="true"
+            style="@style/UIDProgressBarCircularIndeterminateBig"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+    </RelativeLayout>
+
+</com.philips.platform.uid.view.widget.NavigationContainer>

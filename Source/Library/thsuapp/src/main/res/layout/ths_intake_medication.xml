@@ -7,57 +7,65 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/ths_margin_bottom">
 
-
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/pth_intake_medication_skip_step_label"
-        style="@style/ths_skip_text" />
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_intake_medication_skip_step_label"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        style="@style/UIDExtraWideQuietButton"
+        android:text="@string/vitals_skip"
+        android:layout_height="wrap_content" />
 
     <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/pth_intake_medication_continue_button"
-        style="@style/UIDImageTextButton.Center"
+        android:id="@+id/ths_intake_medication_continue_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pth_intake_medication_skip_step_label"
+        android:layout_above="@+id/ths_intake_medication_skip_step_label"
         android:layout_marginBottom="@dimen/ths_margin_between_buttons"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:enabled="true"
-        android:text="Continue" />
+        android:text="@string/ths_continue_button_text" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/pth_intake_medication_continue_button">
+        android:layout_above="@+id/ths_intake_medication_continue_button">
 
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/pth_intake_medication_label"
+            android:id="@+id/ths_intake_medication_label"
             style="@style/ths_mobile_wizard"
-            android:text="Step 3 of 5: Medicines" />
+            android:text="@string/vitals_medications" />
 
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/pth_intake_medication_question"
+            android:id="@+id/ths_intake_medication_question"
             style="@style/ths_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
             android:layout_marginTop="@dimen/ths_fab_margin"
             android:textSize="@dimen/ths_body_text"
-            android:layout_below="@+id/pth_intake_medication_label"
+            android:layout_below="@+id/ths_intake_medication_label"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:text="Do you currently use medication? If so, please add your medication to share with the provider" />
+            android:text="@string/vitals_medication_description_text" />
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/divider_bp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ths_intake_medication_question"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor"/>
 
 
         <ListView
-            android:id="@+id/pth_intake_medication_listview"
-            android:layout_marginLeft="@dimen/ths_fab_margin"
-            android:layout_marginRight="@dimen/ths_fab_margin"
+            android:id="@+id/ths_intake_medication_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pth_intake_medication_question">
+            android:layout_below="@+id/ths_intake_medication_question">
 
         </ListView>
 

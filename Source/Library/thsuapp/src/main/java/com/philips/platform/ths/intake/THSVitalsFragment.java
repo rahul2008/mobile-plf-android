@@ -18,7 +18,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
-import com.philips.platform.uid.view.widget.Label;
 
 public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener {
 
@@ -30,7 +29,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected EditText mWeight;
     protected Button mContinue;
     private THSVitals mTHSVitals;
-    private Label mSkipLabel;
+    private Button mSkipLabel;
     private InputValidationLayout mSystolicInputValidationLayout;
     private InputValidationLayout mDiastolicInputValidationLayout;
     private InputValidationLayout mFarenheitInputLayoutContainer;
@@ -46,18 +45,18 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mWeight = (EditText) view.findViewById(R.id.ponds);
         mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
-        mSkipLabel = (Label) view.findViewById(R.id.vitals_skip);
+        mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);
         mSkipLabel.setOnClickListener(this);
         mSystolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_systolic_container);
         mSystolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
-        mDiastolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_diastolic_container);
+        mDiastolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_diasystolic_container);
         mDiastolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
         mFarenheitInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.intake_farenheit_container);
         mFarenheitInputLayoutContainer.setValidator(new THSVitalsTemperatureValidator());
 
-        mWeightInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.ponds_container);
+        mWeightInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.pounds_container);
         mWeightInputLayoutContainer.setValidator(new THSVitalsWeightValidator());
         return view;
     }

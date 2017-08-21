@@ -117,11 +117,4 @@ public class THSWelcomeFragmentTest {
         viewById.performClick();
         verify(presenterMock).onEvent(R.id.init_amwell);
     }
-
-    @Test
-    public void enableInitButton(){
-        mWelcomeFragment.mInitButton = buttonInitMock;
-        mWelcomeFragment.enableInitButton(true);
-        verify(buttonInitMock).setEnabled(true);
-    }
 }
