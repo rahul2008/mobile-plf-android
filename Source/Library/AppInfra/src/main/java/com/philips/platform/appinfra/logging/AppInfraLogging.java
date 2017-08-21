@@ -22,8 +22,8 @@ public class AppInfraLogging implements LoggingInterface {
 
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
-    private String mComponentID;
-    private String mComponentVersion;
+    String mComponentID;
+    String mComponentVersion;
 
     public AppInfraLogging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -37,8 +37,7 @@ public class AppInfraLogging implements LoggingInterface {
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
         mComponentID = componentId;
         mComponentVersion = componentVersion;
-        createLogger(mComponentID);
-        return this;
+        return new LoggingWrapper(mAppInfra, mComponentID, mComponentVersion);
     }
 
 
