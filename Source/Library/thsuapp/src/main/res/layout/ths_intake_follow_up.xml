@@ -9,7 +9,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_label"
         style="@style/ths_mobile_wizard"
-        android:text="Step 5 of 5: Medicines" />
+        android:text="@string/ths_vitals_follow_up_step_5" />
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -22,7 +22,7 @@
         android:layout_below="@+id/pth_intake_follow_up_label"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="When can the provider call you, for a follow up, if needed ?" />
+        android:text="@string/ths_vitals_follow_up_step_5_description_text" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_phone_number_label"
@@ -34,7 +34,7 @@
         android:layout_marginBottom="@dimen/ths_margin_top"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
-        android:text="Phone number" />
+        android:text="@string/ths_vitals_phone_number_text" />
 
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/pth_intake_follow_up_phone_number"
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_phone_number_label"
-        android:hint="Phone Number"></com.philips.platform.uid.view.widget.EditText>
+        android:hint="Phone Number"/>
 
     <View
         android:id="@+id/end_layer"
@@ -63,18 +63,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/end_layer"
         android:checked="false"
-        android:text="I have read and agree to the" />
+        android:text="@string/ths_vitals_notice_privacy_policy_check_box_text" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_i_agree_link_text"
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pth_intake_follow_up_nopp_agree_check_box"
         android:autoLink="web"
         android:text="@string/ths_nopp"
-        android:textColor="@color/uid_group_blue_level_25" />
+        android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/pth_intake_follow_up_nopp_agree_check_box"
+        android:layout_marginStart="33dp" />
 
 
     <com.philips.platform.uid.view.widget.ProgressBarButton

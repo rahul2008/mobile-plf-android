@@ -4,7 +4,7 @@
     android:id="@+id/providerListItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
+    android:background="@drawable/uid_list_item_selector"
     android:paddingTop="16dp"
     android:orientation="vertical">
 

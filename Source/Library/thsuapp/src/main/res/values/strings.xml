@@ -1,12 +1,17 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
+    <string name="ths_nopp"><u>Notice of Privacy Practices.</u></string>
     <string name="action_settings">Settings</string>
     <string name="ths_vitals_prepare_visit_title">Prepare your visit</string>
     <string name="app_name">AmwellUapp</string>
     <string name="symptoms">Step 1 of 5: Symptoms</string>
     <string name="vitals">Step 2 of 5: Vitals</string>
     <string name="conditions">Step 4 of 5: Medical conditions</string>
+    <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
+    <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
+        call you, for a follow up, if needed?</string>
+    <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
+    <string name="ths_vitals_phone_number_text"> Phone number</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
     <string name="additional_comment">Additional comment</string>
@@ -36,14 +41,14 @@
     <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
     <string name="ths_available_provider">Pick a time</string>
     <string name="ths_scedule_appointment">Schedule an appointment for</string>
-    <string name="ths_practice_pick_subject">"To start a consult, pick a subject"</string>
+    <string name="ths_practice_pick_subject">"To start a visit pick a subject"</string>
 
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
     <string name="ths_set_remainder">Set a reminder</string>
     <string name="ths_set_button_text">Set</string>
-    <string name="ths_got_it">Ok got it</string>
+    <string name="ths_got_it">Ok, got it!</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
     <string name="ths_confirm">Confirm</string>
     <string name="ths_no_available_appointments">No available appointments</string>h
@@ -113,7 +118,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_no_payment_method">"You currently don't have any payment methods saved. Please add a payment method."</string>
 
 
-
     <!-- Settings Strings -->
     <string name="ths_number_of_visits_scheduled">You have <xliff:g name="count">%d</xliff:g> scheduled visits</string>
     <string name="ths_cancel_visit">Cancel visit</string>
@@ -140,6 +144,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_rb_one_week_before">1 week before</string>
     <string name="ths_reminder_set">Reminder set</string>
     <string name="ths_before_appointment">before appointment</string>
+    <string name="ths_at_text">at</string>
 
     <!-- Search strings -->
     <string name="ths_search_medication">Search for medication</string>
@@ -152,7 +157,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
 
     <!-- Available provider strings-->
-    <string name="ths_available_location_specialists_string">available location specialists</string>
+    <string name="ths_available_location_specialists_string">available location specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
 
 </resources>

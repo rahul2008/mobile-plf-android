@@ -57,10 +57,10 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         ok_got_it = (Button) view.findViewById(R.id.ok_got_it);
         ok_got_it.setOnClickListener(this);
         reminderTime = (Label) view.findViewById(R.id.reminderTime);
-        if(reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)){
+        if (reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)) {
             reminderTime.setVisibility(View.GONE);
         }
-        reminderTime.setText("Reminder set " + reminderTimeString + " before appointment");
+        reminderTime.setText(getString(R.string.ths_set_remainder) + " " + reminderTimeString);
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
@@ -75,7 +75,10 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
         mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " " + THSManager.getInstance().getPTHConsumer().getConsumer().getEmail());
-        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
+        String appointmentDateTiem = null;
+        appointmentDateTiem = new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate);
+        appointmentDateTiem = appointmentDateTiem + " " + getString(R.string.ths_at_text) + " " + new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate);
+        mLabelDate.setText(appointmentDateTiem);
 
         if (mThsProviderInfo.getProviderInfo().hasImage()) {
             try {
@@ -102,7 +105,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.ok_got_it){
+        if (v.getId() == R.id.ok_got_it) {
             popFragmentByTag(THSPracticeFragment.TAG, 0);
         }
     }
