@@ -15,6 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#demouapp
+-dontwarn com.philips.cdp2.demouapp.fragment.MismatchedPinAppliancesFragment
+-dontwarn com.philips.cdp2.demouapp.fragment.port.DevicePortFragment$2
+
 #Android support library
 -keep class android.support.v4.** { *; }
 -keep interface android.support.v4.** { *; }
