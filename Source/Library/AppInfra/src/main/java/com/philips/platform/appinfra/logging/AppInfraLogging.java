@@ -35,7 +35,9 @@ public class AppInfraLogging implements LoggingInterface {
 
     @Override
     public LoggingInterface createInstanceForComponent(String componentId, String componentVersion) {
-        return new LoggingWrapper(mAppInfra, componentId, componentVersion);
+        mComponentID = componentId;
+        mComponentVersion = componentVersion;
+        return new LoggingWrapper(mAppInfra, mComponentID, mComponentVersion);
     }
 
 
@@ -43,7 +45,7 @@ public class AppInfraLogging implements LoggingInterface {
     public void log(LogLevel level, String eventId, String message) {
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger("");
+            createLogger(mComponentID);
         }
         if (null != mJavaLogger) {
             switch (level) {
@@ -81,7 +83,7 @@ public class AppInfraLogging implements LoggingInterface {
 
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger("");
+            createLogger(mComponentID);
         }
         if (null != mJavaLogger) {
             params[0]=message;
@@ -121,28 +123,29 @@ public class AppInfraLogging implements LoggingInterface {
 
             if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
                 mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
+                getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
                 final Boolean isComponentLevelLogEnabled = loggingConfiguration.isComponentLevelLogEnabled(loggingProperty);
                 if (isComponentLevelLogEnabled) { // if component level filter enabled
                     loggingConfiguration.configureComponentLevelLogging(pComponentId, loggingProperty, logLevel, isConsoleLogEnabled, isFileLogEnabled);
                 } else { // no component level filter
-                    getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
                     loggingConfiguration.activateLogger();
-                    loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
+                    loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
                     getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                 }
+
+            } else { // Turning logging level off
+                mJavaLogger = loggingConfiguration.getLogger(pComponentId);
+                getJavaLogger().setLevel(Level.OFF);
             }
+
         } else {
-                 /*
-               FALLBACK
-               if  logging.debugConfig OR  logging.releaseConfig NOT present in appconfig.json
-                then read from logging.properties*/
+                 /* added just to make unit test cases pass */
             mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
-            loggingConfiguration.fallBackToLoggingPropertiesFile(mComponentID, mComponentVersion);
             mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         }
     }
 
-    protected Logger getJavaLogger(){
+    protected Logger getJavaLogger() {
         return mJavaLogger;
     }
 

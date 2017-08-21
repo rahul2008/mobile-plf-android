@@ -1,12 +1,24 @@
 package com.philips.platform.appinfra;
 
+import android.support.annotation.Nullable;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Config Values for Test.
  */
 
 public class ConfigValues {
 
-	private static String testJsonString = null;
+	static String testJsonString = null;
 
 	public static String testJson() {
 		testJsonString = "{\n" +
@@ -43,12 +55,14 @@ public class ConfigValues {
 				"  \"TIMESYNC.NTP.HOSTS\":[\"0.pool.ntp.org\",\"1.pool.ntp.org\",\"2.pool.ntp.org\",\"3.pool.ntp.org\",\"0.cn.pool.ntp.org\"],\n" +
 				"    \"LANGUAGEPACK.SERVICEID\":\"appinfra.languagepack\",\n" +
 				"    \"APPUPDATE.SERVICEID\":\"appinfra.testing.version\",\n" +
+				"   \"SERVICEDISCOVERY.COUNTRYMAPPING\":{\"LU\":\"BE\",\"MO\":\"HK\"},\n" +
 				"    \"APPUPDATE.AUTOREFRESH\":false,\n" +
-                "   \"SERVICEDISCOVERY.COUNTRYMAPPING\":{\"LU\":\"BE\",\"MO\":\"HK\"},\n" +
-                "  \"LOGGING.RELEASECONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\"]},\n" +
+				"  \"LOGGING.RELEASECONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\"]},\n" +
 				"  \"LOGGING.DEBUGCONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\", \"component1\"]}" +
+
 				"  }\n" +
 				"}\n";
+
 		return testJsonString;
 	}
 
@@ -108,6 +122,7 @@ public class ConfigValues {
 	}
 
 	public static String getsdUrlPlatformjson() {
+
 		return "{\n" +
 				"\t\"success\": true,\n" +
 				"\t\"payload\": {\n" +
@@ -163,9 +178,29 @@ public class ConfigValues {
 				"\t},\n" +
 				"\t\"httpStatus\": \"OK\"\n" +
 				"}";
+
 	}
 
-	public static String testJsonforIntilization() {
+
+	@Nullable
+	public static HashMap getMockResponse() {
+		JSONObject result = null;
+		try {
+			String testJson = ConfigValues.testJson();
+			result = new JSONObject(testJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			return (HashMap) ConfigValues.jsonToMap(result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	static String testJsonforIntilization() {
 		testJsonString = "{\n" +
 				"  \"UR\": {\n" +
 				"\n" +
@@ -205,4 +240,51 @@ public class ConfigValues {
 
 		return testJsonString;
 	}
+
+	public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+		Map<String, Object> retMap = new HashMap<>();
+
+		if(json != JSONObject.NULL) {
+			retMap = toMap(json);
+		}
+		return retMap;
+	}
+
+	private static Map<String, Object> toMap(JSONObject object) throws JSONException {
+		Map<String, Object> map = new HashMap<>();
+
+		Iterator<String> keysItr = object.keys();
+		while(keysItr.hasNext()) {
+			String key = keysItr.next();
+			Object value = object.get(key);
+
+			if(value instanceof JSONArray) {
+				value = toList((JSONArray) value);
+			}
+
+			else if(value instanceof JSONObject) {
+				value = toMap((JSONObject) value);
+			}
+			map.put(key, value);
+		}
+		return map;
+	}
+
+	private static List<Object> toList(JSONArray array) throws JSONException {
+		List<Object> list = new ArrayList<>();
+		for(int i = 0; i < array.length(); i++) {
+			Object value = array.get(i);
+			if(value instanceof JSONArray) {
+				value = toList((JSONArray) value);
+			}
+
+			else if(value instanceof JSONObject) {
+				value = toMap((JSONObject) value);
+			}
+			list.add(value);
+		}
+		return list;
+	}
+
+
 }
