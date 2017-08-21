@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_title"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/iap_shipping_address"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textSize="@dimen/iap_shipping_address_title_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+</ScrollView>

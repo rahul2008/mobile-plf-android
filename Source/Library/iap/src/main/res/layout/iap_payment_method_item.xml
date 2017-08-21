@@ -20,7 +20,7 @@
         android:layout_marginTop="@dimen/iap_selection_address_name_margin_top"
         android:includeFontPadding="false"
         android:text="@string/mastercard"
-        android:textColor="?attr/uikit_baseColor"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
     <TextView
@@ -82,7 +82,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/ll_payment_options"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:background="?attr/uikit_listDividerColor" />
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin" />
 
 </RelativeLayout>
