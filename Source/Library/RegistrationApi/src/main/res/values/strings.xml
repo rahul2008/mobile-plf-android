@@ -108,7 +108,7 @@
     <string name="reg_Verification_email_Title">Verification email sent</string>
     <string name="reg_Verification_email_Message">We have sent you an email to verify your email address. It may take some time for the email to arrive.</string>
     <string name="reg_Forgot_Password_Title">Forgot password?</string>
-    <string name="reg_Forgot_Password_description">We will send you an email to reset your password.</string>
+    <string name="reg_Forgot_Password_description">No worries. We\'ll send you an email or SMS to reset your password now.</string>
     <string name="reg_Merge_Account_Title">Merge your accounts</string>
     <string name="reg_Create_Account_PasswordHint_Length_lbltxt">8-32 characters</string>
     <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">Upper or lower case letters</string>
@@ -125,7 +125,7 @@
     <string name="reg_Philips_URL_txt">www.philips.com</string>
     <string name="reg_Receive_Philips_News_lbltxt">Receive promotional communications of Philips based on my preferences and online behavior.\n%s</string>
     <string name="reg_Receive_Philips_News_Meaning_lbltxt">What does this mean?</string>
-    <string name="reg_Philips_News_Title">Philips announcements</string>
+    <string name="reg_Philips_News_Title">Philips communication</string>
     <string name="reg_Philips_News_Back_btntxt">Back</string>
     <string name="reg_Account_Setting_Titletxt">Account settings</string>
     <string name="reg_Create_With_lbltxt">Or create an account</string>
@@ -313,10 +313,23 @@
     <string name="reg_verify_resend_mail_intime_desc">We have sent your verification email less than a minute ago. It may take some time for the verification email to arrive in your mailbox.</string>
     <string name="reg_verify_resend_mail_intime_desc2">Look in your spam folder as well.</string>
     <string name="reg_verify_resend_mail_intime_button_ok">OK</string>
-
     <string name="reg_verify_resend_mail_sent">A new verification email has been sent to </string>
 
+    <string name='reg_forgotpassword_send'>Send</string>
+    <string name="reg_forgotpassword_input">Email or phone number</string>
+    <string name="reg_forgotpassword_dialog_title">Reset Password</string>
+    <string name="reg_forgotpassword_dialog_desc1">We\'ve just sent you an email to reset your password.</string>
+    <string name="reg_forgotpassword_dialog_desc2">This email may not arrive immediately but it is on its way.</string>
+    <string name="reg_forgotpassword_dialog_button">Back to log in</string>
 
+
+
+
+
+    <string name="reg_philips_communication_content1">As a result of your consent, Philips group companies may contact you with promotional communication via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. This data may include:</string>
+    <string name="reg_philips_communication_content2">Data you gave us\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.</string>
+    <string name="reg_philips_communication_content4">Data we get from your interactions with Philips\nData about your interactions and usage of the Philips digital channels, such as social media, websites, email, apps and connected products. This data may include: IP address. cookies, device information, communications you click on, location details, and websites you visit</string>
+    <string name="reg_philips_communication_content6">Philips will give you the opportunity to withdraw your consent at any time. For more information, please read the Philips Privacy notice and the Philips Cookie notice</string>
 
 
 
