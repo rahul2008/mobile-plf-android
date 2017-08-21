@@ -28,7 +28,7 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(), this);
+                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSMedicalConditionsFragment) mTHSBaseFragment).getTHSConditions(), this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -60,7 +60,7 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
         }
 
 
-        ((THSConditionsFragment) mTHSBaseFragment).setConditions(THSConditionsList);
+        ((THSMedicalConditionsFragment) mTHSBaseFragment).setConditions(THSConditionsList);
     }
 
     @Override

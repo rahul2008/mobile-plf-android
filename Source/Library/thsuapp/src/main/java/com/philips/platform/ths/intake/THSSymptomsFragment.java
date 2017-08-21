@@ -65,10 +65,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private Button mContinue;
     private RelativeLayout mRelativeLayout,ths_symptoms_relative_layout;
     protected THSVisitContext mThsVisitContext;
-    private String userChoosenTask;
+    private String userChosenTask;
     private RecyclerView imageListView;
     private THSImageRecyclerViewAdapter thsImageRecyclerViewAdapter;
-    private List<THSSelectedImagePojo> selectedImagePojosList;
+    private List<THSSelectedImagePojo> selectedImagePojoList;
     public static final int REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA = 123;
     public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 124;
     private Dialog dialog;
@@ -85,7 +85,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_symptoms, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
         Bundle bundle = getArguments();
         if (bundle != null) {
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
@@ -99,8 +99,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         additional_comments_edittext.setOnTouchListener(this);
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        selectedImagePojosList = new ArrayList<>();
-        thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojosList, this);
+        selectedImagePojoList = new ArrayList<>();
+        thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojoList, this);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         camera_button = (ImageButton) view.findViewById(R.id.camera_click_button);
         camera_button.setOnClickListener(this);
@@ -167,11 +167,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 checkBox.setEnabled(true);
                 checkBox.setTypeface(typeface);
                 checkBox.setText(topic.getTitle());
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                    checkBox.setTextAppearance(R.style.ths_checkbox_style);
-//                }else {
-//                    checkBox.setTextAppearance(getContext(),R.style.ths_checkbox_style);
-//                }
                 if (topic.isSelected()) {
                     checkBox.setChecked(true);
                 }
@@ -200,12 +195,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             dialog.dismiss();
         }
         if (i == R.id.select_from_gallery) {
-            userChoosenTask = "Choose from Library";
+            userChosenTask = "Choose from Library";
             dialog.dismiss();
             requestPermission();
         }
         if (i == R.id.camera_image) {
-            userChoosenTask = "Take Photo";
+            userChosenTask = "Take Photo";
             dialog.dismiss();
             requestPermission();
         }
@@ -242,9 +237,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                             Manifest.permission.CAMERA},
                     REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA);
         } else {
-            if (userChoosenTask.equals("Take Photo")) {
+            if (userChosenTask.equals("Take Photo")) {
                 cameraIntent();
-            } else if (userChoosenTask.equals("Choose from Library")) {
+            } else if (userChosenTask.equals("Choose from Library")) {
                 galleryIntent();
             }
         }
@@ -334,7 +329,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         image.setDatetime(System.currentTimeMillis());
         image.setPath(picturePath);
         image.setIsUploaded(false);
-        selectedImagePojosList.add(image);
+        selectedImagePojoList.add(image);
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);
     }
@@ -344,9 +339,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         switch (requestCode) {
             case REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (userChoosenTask.equals("Take Photo"))
+                    if (userChosenTask.equals("Take Photo"))
                         cameraIntent();
-                    else if (userChoosenTask.equals("Choose from Library"))
+                    else if (userChosenTask.equals("Choose from Library"))
                         galleryIntent();
                 } else {
                     showToast("Permission to select image denied");
@@ -367,10 +362,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             documentRecordList.add(documentRecord);
         }
         int position = 0;
-        for (THSSelectedImagePojo thsSelectedImagePojo : selectedImagePojosList) {
+        for (THSSelectedImagePojo thsSelectedImagePojo : selectedImagePojoList) {
             if (documentRecord.getName().contains(thsSelectedImagePojo.getTitle().substring(0, thsSelectedImagePojo.getTitle().indexOf(".")))) {
                 thsSelectedImagePojo.setIsUploaded(true);
-                selectedImagePojosList.set(position, thsSelectedImagePojo);
+                selectedImagePojoList.set(position, thsSelectedImagePojo);
             }
             position++;
         }
@@ -382,14 +377,14 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onImageClicked(int position) {
         thsSelectedImageFragment = new THSSelectedImageFragment();
-        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojosList, documentRecordList);
+        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojoList, documentRecordList);
         thsSelectedImageFragment.setSelectedImageFragmentCallback(this);
         thsSelectedImageFragment.show(getActivity().getSupportFragmentManager(), "");
     }
 
     @Override
     public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList) {
-        this.selectedImagePojosList = selectedImagePojoList;
+        this.selectedImagePojoList = selectedImagePojoList;
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);
         thsSelectedImageFragment.dismiss();

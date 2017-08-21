@@ -2,19 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_existing_medicine_footer_relative_layout"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:paddingStart="@dimen/ths_fab_margin"
-    android:paddingEnd="@dimen/ths_fab_margin"
-   >
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
-    <com.philips.platform.uid.view.widget.Label xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_existing_medicine_list_footer_alabel"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_toLeftOf="@+id/ths_existing_medicine_list_footer_arrow_image"
+        android:layout_toStartOf="@+id/ths_existing_medicine_list_footer_arrow_image"
         android:ellipsize="marquee"
-        android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
         android:gravity="center_vertical"
+        android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
+        android:paddingStart="@dimen/ths_fab_margin"
         android:text="@string/vitals_add_medication_text">
 
     </com.philips.platform.uid.view.widget.Label>
@@ -23,15 +21,17 @@
         android:id="@+id/ths_existing_medicine_list_footer_arrow_image"
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:gravity="center_vertical"
         android:layout_alignBottom="@+id/ths_existing_medicine_list_footer_alabel"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/right_arrow_icon"/>
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/ths_fab_margin"
+        android:src="@mipmap/right_arrow_icon" />
+
     <View
-        android:layout_width="match_parent"
         android:id="@+id/divider_bp"
-        android:layout_below="@id/ths_existing_medicine_list_footer_arrow_image"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/uidSeparatorContentNormalBackgroundColor"/>
+        android:layout_below="@id/ths_existing_medicine_list_footer_arrow_image"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
 </RelativeLayout>

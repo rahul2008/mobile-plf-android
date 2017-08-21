@@ -23,7 +23,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSManager;
 
 
-public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRecyclerViewAdapter.CustomViewHolder> {
+public class THSPracticeRecyclerViewAdapter extends RecyclerView.Adapter<THSPracticeRecyclerViewAdapter.CustomViewHolder> {
 
     private THSPracticeList mTHSPractice;
     private Context mContext;
@@ -40,7 +40,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
         this.mOnPracticeItemClickListener = mOnPracticeItemClickListener;
     }
 
-    public PracticeRecyclerViewAdapter(Context context, THSPracticeList THSPractice) {
+    public THSPracticeRecyclerViewAdapter(Context context, THSPracticeList THSPractice) {
         this.mTHSPractice = THSPractice;
         this.mContext = context;
     }

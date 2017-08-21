@@ -44,9 +44,9 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.MEDICATION_SEARCH_CONSTANT);
             mTHSBaseFragment.addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle);
         } else if (componentID == ths_intake_medication_skip_step_label) {
-            final THSConditionsFragment fragment = new THSConditionsFragment();
+            final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSConditionsFragment.TAG, null);
+            mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null);
         }
 
     }
@@ -100,9 +100,9 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
         AmwellLog.i("onUpdateMedication", "success");
         // addF
-        final THSConditionsFragment fragment = new THSConditionsFragment();
+        final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
         fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSConditionsFragment.TAG, null);
+        ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null);
 
     }
     //////////////// end of call backs for update medicines//////////////
