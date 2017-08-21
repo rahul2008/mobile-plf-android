@@ -37,12 +37,15 @@ import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static junit.runner.Version.id;
 
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -230,6 +233,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
+        bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
+        bundle.putSerializable(IAPConstant.SHOPPING_CART_CODE, shoppingCartData);
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
     }
 
@@ -279,15 +285,42 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
     }
 
+//    @Override
+//    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+//        dismissProgressDialog();
+//        if (getActivity() == null) return;
+//        mData = data;
+//        onOutOfStock(false);
+//        mAdapter = new ShoppingCartAdapter(mContext, mData, this);
+//        if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
+//            updateCount(data.get(0).getDeliveryItemsQuantity());
+//        }
+//        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.tagProducts();
+//
+//        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+//        numberOfProducts = String.format(numberOfProducts, mData.size());
+//        mNumberOfProducts.setText(numberOfProducts);
+//        mNumberOfProducts.setVisibility(View.VISIBLE);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(ShoppingCartData data) {
+//        dismissProgressDialog();
+//        IAPLog.d(IAPLog.LOG, data.getCtnNumber());
+//
+//    }
+
     @Override
-    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+    public void onLoadFinished(ArrayList<?> data) {
+        if (data!=null && data instanceof ArrayList)
         dismissProgressDialog();
         if (getActivity() == null) return;
-        mData = data;
+        mData = (ArrayList<ShoppingCartData>) data;
         onOutOfStock(false);
         mAdapter = new ShoppingCartAdapter(mContext, mData, this);
-        if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
-            updateCount(data.get(0).getDeliveryItemsQuantity());
+        if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
+            updateCount(mData.get(0).getDeliveryItemsQuantity());
         }
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.tagProducts();

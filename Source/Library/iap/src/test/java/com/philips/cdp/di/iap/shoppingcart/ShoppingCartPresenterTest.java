@@ -556,8 +556,22 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.getHybrisDelegate();
     }
 
+//    @Override
+//    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+//        if (data.size() > 0 && data.get(0) != null) {
+//            assertEquals(mCTNS.size(), data.size());
+//        } else {
+//            assertFalse(false);
+//        }
+//    }
+//
+//    @Override
+//    public void onLoadFinished(ShoppingCartData data) {
+//
+//    }
+
     @Override
-    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+    public void onLoadFinished(ArrayList<?> data) {
         if (data.size() > 0 && data.get(0) != null) {
             assertEquals(mCTNS.size(), data.size());
         } else {

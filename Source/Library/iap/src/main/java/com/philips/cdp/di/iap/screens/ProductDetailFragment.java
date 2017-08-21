@@ -6,6 +6,9 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -14,17 +17,21 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ImageAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.AbstractShoppingCartPresenter.ShoppingCartListener;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.controller.ProductDetailController;
@@ -42,7 +49,10 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
@@ -50,10 +60,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
+
 public class ProductDetailFragment extends InAppBaseFragment implements
         PRXAssetExecutor.AssetListener, View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, ShoppingCartPresenter.ShoppingCartListener<StoreEntity> {
+        ProductDetailController.ProductSearchListener, ShoppingCartListener<ShoppingCartData> {
 
 
     public static final String TAG = ProductDetailFragment.class.getName();
@@ -76,6 +88,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private ProgressBarButton mBuyFromRetailers;
     private TextView mProductStockInfo;
     private ScrollView mDetailLayout;
+    private LinearLayout mCheckutAndCountinue;
+    private LinearLayout mQuantityAndDelete;
+    private TextView mQuantity;
+    private Button mDeleteProduct;
 
     private ArrayList<String> mAsset;
     private boolean mLaunchedFromProductCatalog = false;
@@ -126,14 +142,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         super.onAttach(context);
         mContext = context;
         mShoppingCartAPI = ControllerFactory.
-                getInstance().getShoppingCartPresenter(mContext, null);
+                getInstance().getShoppingCartPresenter(mContext, this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
-
+        EventHelper.getInstance().registerEventNotification(IAP_UPDATE_PRODUCT_COUNT, this);
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
         mProductDescription = (TextView) rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
@@ -142,8 +158,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductOverview = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
         mAddToCart = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
         mBuyFromRetailers = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
+        mCheckutAndCountinue = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_btn_ll);
+        mQuantityAndDelete = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mProductStockInfo = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
+        mDeleteProduct = (Button) rootView.findViewById(R.id.delete_btn);
+        mQuantity = (TextView) rootView.findViewById(R.id.quantity_val);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
@@ -259,10 +279,27 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     handleViews();
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
                     mProductStockInfo.setVisibility(View.VISIBLE);
+                    mCheckutAndCountinue.setVisibility(View.VISIBLE);
+                    mQuantityAndDelete.setVisibility(View.GONE);
                 } else {
+                    mQuantityAndDelete.setVisibility(View.VISIBLE);
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(false);
                     setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_item, true);
+                    int quantity = getArguments().getInt(IAPConstant.PRODUCT_QUANTITY);
+                    if (quantity != 0) {
+                        setCountArrow(mContext, true);
+                        mCheckutAndCountinue.setVisibility(View.GONE);
+                        mQuantityAndDelete.setVisibility(View.VISIBLE);
+                        //checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity());
+                        mQuantity.setCompoundDrawables(null, null, countArrow, null);
+
+                        mQuantity.setText(quantity + "");
+                        int stock = getArguments().getInt(IAPConstant.PRODUCT_STOCK);
+                        bindCountView(mQuantity, stock, quantity);
+                    } else {
+                        mQuantityAndDelete.setVisibility(View.GONE);
+                    }
                 }
             } else {
                 handleViews();
@@ -271,10 +308,77 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         makeAssetRequest();
     }
 
+    private Drawable countArrow;
+    private int mQuantityStatus;
+    private int mNewCount;
+    private UIKitListPopupWindow mPopupWindow;
+
+    private void checkForOutOfStock(int pStockLevel, int pQuantity) {
+        if (pStockLevel == 0) {
+
+        } else if (pStockLevel < pQuantity) {
+
+        } else {
+
+        }
+    }
+
+    private void setCountArrow(final Context context, final boolean isEnable) {
+        if (isEnable) {
+            countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
+            countArrow.setColorFilter(new
+                    PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
+        } else {
+            countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
+        }
+        int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
+        countArrow.setBounds(0, 0, width, height);
+    }
+
+    private void bindCountView(final View view, final int stockLevel, final int quantity) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                // final ShoppingCartData data = mData.get(position);
+
+                CountDropDown countPopUp = new CountDropDown(v, stockLevel, quantity, new CountDropDown.CountUpdateListener() {
+                    @Override
+                    public void countUpdate(final int oldCount, final int newCount) {
+                        // mSelectedItemPosition = position;
+                        mQuantityStatus = getQuantityStatus(newCount, oldCount);
+                        mNewCount = newCount;
+                        EventHelper.getInstance().notifyEventOccurred(IAP_UPDATE_PRODUCT_COUNT);
+                    }
+                });
+                mPopupWindow = countPopUp.getPopUpWindow();
+                countPopUp.show();
+            }
+        });
+    }
+
+    public int getNewCount() {
+        return mNewCount;
+    }
+
+    private int getQuantityStatus(int newCount, int oldCount) {
+        if (newCount > oldCount)
+            return 1;
+        else if (newCount < oldCount)
+            return 0;
+        else
+            return -1;
+    }
+
+    public int getQuantityStatusInfo() {
+        return mQuantityStatus;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
+        EventHelper.getInstance().unregisterEventNotification(IAP_UPDATE_PRODUCT_COUNT, this);
         if (mErrorDialogFragment != null)
             mErrorDialogFragment.onDestroyView();
     }
@@ -388,6 +492,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (v == mBuyFromRetailers) {
             getRetailersInformation();
         }
+        if (v == mDeleteProduct) {
+            deleteProduct();
+        }
+    }
+
+    private void deleteProduct() {
+        Toast.makeText(mContext, "delete clicked", Toast.LENGTH_SHORT).show();
     }
 
     @SuppressWarnings("unchecked")
@@ -530,12 +641,50 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
+//    @Override
+//    public void onLoadFinished(ArrayList<StoreEntity> data) {
+////        dismissProgressDialog();
+//        mBuyFromRetailers.hideProgressIndicator();
+//        buyFromRetailers(data);
+//    }
+
     @Override
-    public void onLoadFinished(ArrayList<StoreEntity> data) {
-//        dismissProgressDialog();
-        mBuyFromRetailers.hideProgressIndicator();
-        buyFromRetailers(data);
+    public void onLoadFinished(ArrayList<? extends Object> data) {
+        dismissProgressDialog();
+
+        if (!data.isEmpty() && data.get(0) instanceof ShoppingCartData) {
+            int i = getIndexForCTNFromList(data);
+            ShoppingCartData shoppingCartData = (ShoppingCartData) data.get(i);
+            mQuantity.setText(shoppingCartData.getQuantity() + "");
+        }
+        if (data.isEmpty() || data.get(0) instanceof StoreEntity) {
+            mBuyFromRetailers.hideProgressIndicator();
+            buyFromRetailers((ArrayList<StoreEntity>) data);
+        }
     }
+
+    private int getIndexForCTNFromList(ArrayList<?> data) {
+        int index = 0;
+        if (data != null && data instanceof ArrayList) {
+            for (int i = 0; i < data.size(); i++) {
+                final ShoppingCartData shoppingData = (ShoppingCartData) data.get(i);
+                final String string = mBundle.getString(IAPConstant.PRODUCT_CTN);
+                if (string.equalsIgnoreCase(shoppingData.getCtnNumber())) {
+                    return index;
+                } else {
+                    index++;
+                }
+            }
+        }
+        return index;
+    }
+
+
+//    @Override
+//    public void onLoadFinished(ShoppingCartData data) {
+//        dismissProgressDialog();
+//        IAPLog.d(IAPLog.LOG, data.getCtnNumber());
+//    }
 
     @Override
     public void onLoadError(Message msg) {
@@ -563,6 +712,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onEventReceived(String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_SHOPPING_CART))) {
             startShoppingCartFragment();
+        } else if (event.equalsIgnoreCase(IAP_UPDATE_PRODUCT_COUNT)) {
+            if (!isProgressDialogShowing()) {
+                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
+                ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
+                mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
+            }
         }
     }
 

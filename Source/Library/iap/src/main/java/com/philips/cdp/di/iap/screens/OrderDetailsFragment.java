@@ -214,13 +214,27 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mController.getPhoneContact(productList.get(0).getSubCategory());
         }
 
-        for (ProductData product : productList) {
+        for (final ProductData product : productList) {
             View productInfo = View.inflate(mContext, R.layout.iap_order_details_item, null);
             mProductListView.addView(productInfo);
             ((TextView) productInfo.findViewById(R.id.tv_productName)).setText(product.getProductTitle());
             ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
             ((TextView) productInfo.findViewById(R.id.tv_total_price)).setText(product.getFormatedPrice());
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
+            productInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(IAPConstant.PRODUCT_TITLE, product.getProductTitle());
+                    bundle.putString(IAPConstant.PRODUCT_CTN, product.getCtnNumber());
+                    bundle.putString(IAPConstant.PRODUCT_PRICE, product.getFormatedPrice());
+                   // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
+                    bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
+//                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
+//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
+                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
+                }
+            });
         }
         //     mProducts.add(product);
 

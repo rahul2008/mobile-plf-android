@@ -142,6 +142,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
         productItem.setCtnNumber(entry.getProduct().getCode());
         productItem.setOrderCode(detail.getCode());
         productItem.setSubCategory(data.getSubcategory());
+        productItem.setMarketingTextHeader(data.getMarketingTextHeader());
         products.add(productItem);
     }
 

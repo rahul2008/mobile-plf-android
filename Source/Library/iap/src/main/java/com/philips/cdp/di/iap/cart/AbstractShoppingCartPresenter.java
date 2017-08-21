@@ -21,7 +21,6 @@ import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,7 +36,11 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected ShoppingCartListener mLoadListener;
 
     public interface ShoppingCartListener<T> {
-        void onLoadFinished(ArrayList<T> data);
+        //void onLoadFinished(ArrayList<T> data);
+
+        void onLoadFinished(ArrayList<? extends Object> data);
+
+        //void onLoadFinished(ShoppingCartData data);
 
         void onLoadError(Message msg);
 
@@ -132,7 +135,11 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         if (mLoadListener == null) {
             return;
         }
-        mLoadListener.onLoadFinished(data);
+        if (!data.isEmpty())
+            mLoadListener.onLoadFinished(data);
+        else
+            mLoadListener.onRetailerError(NetworkUtility.getInstance().
+                    createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
     }
 
     public HybrisDelegate getHybrisDelegate() {

@@ -11,6 +11,8 @@ public class ProductData {
     private String mFormatedPrice;
     private String mSubCategory;
 
+    private String mMarketingTextHeader;
+
     public String getSubCategory() {
         return mSubCategory;
     }
@@ -62,6 +64,7 @@ public class ProductData {
         return mFormatedPrice;
     }
 
+
     public void setFormatedPrice(String mFormatedPrice) {
         this.mFormatedPrice = mFormatedPrice;
     }
@@ -75,4 +78,10 @@ public class ProductData {
     }
 
 
+    public String getMarketingTextHeader() {
+        return mMarketingTextHeader;
+    }
+    public void setMarketingTextHeader(String marketingTextHeader) {
+        this.mMarketingTextHeader = marketingTextHeader;
+    }
 }

@@ -112,4 +112,7 @@ public class IAPConstant {
     public static final String IAP_IS_STORE_AVAILABLE = "iap.get.isStoreAvailable";
     public static final String IAP_BASE_URL = "iap.baseUrl";
     public static final String STOCK_STATUS = "STOCK_STATUS";
+    public static final String PRODUCT_QUANTITY = "PRODUCT_QUANTITY";
+    public static final String PRODUCT_STOCK = "PRODUCT_STOCK";
+    public static final String SHOPPING_CART_CODE = "SHOPPING_CART_CODE";
 }

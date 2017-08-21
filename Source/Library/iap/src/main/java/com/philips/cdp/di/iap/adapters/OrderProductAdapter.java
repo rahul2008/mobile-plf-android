@@ -199,11 +199,25 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mShoppingCartDataList.size() + 1;
     }
 
+//    @Override
+//    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+//        mShoppingCartDataList = data;
+//        notifyDataSetChanged();
+//        orderSummaryUpdateListner.onGetCartUpdate();
+//    }
+//
+//    @Override
+//    public void onLoadFinished(ShoppingCartData data) {
+//        //
+//    }
+
     @Override
-    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
-        mShoppingCartDataList = data;
-        notifyDataSetChanged();
-        orderSummaryUpdateListner.onGetCartUpdate();
+    public void onLoadFinished(ArrayList<?> data) {
+        if (data != null && data instanceof ArrayList) {
+            mShoppingCartDataList = (List<ShoppingCartData>) data;
+            notifyDataSetChanged();
+            orderSummaryUpdateListner.onGetCartUpdate();
+        }
     }
 
     @Override
