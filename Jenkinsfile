@@ -70,8 +70,8 @@ node ('android&&docker') {
                 ''' 
             }
             stage('Trigger E2E Test'){
-                APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
                 if (BranchName =~ /master|develop|release.*/) {
+		    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
                     if (BranchName =~ /develop.*/) {
                         BranchName = "develop"
                         echo "BranchName changed to ${BranchName}"
