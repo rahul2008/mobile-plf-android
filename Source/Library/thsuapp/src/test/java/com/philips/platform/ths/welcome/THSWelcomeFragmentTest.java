@@ -1,3 +1,4 @@
+/*
 package com.philips.platform.ths.welcome;
 
 import android.os.Bundle;
@@ -109,12 +110,14 @@ public class THSWelcomeFragmentTest {
         assertThat(id).isInstanceOf(Integer.class);
     }
 
-    @Test
+*/
+/*    @Test
     public void onClick_init(){
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
         mWelcomeFragment.presenter = presenterMock;
         final View viewById = mWelcomeFragment.getView().findViewById(R.id.init_amwell);
         viewById.performClick();
         verify(presenterMock).onEvent(R.id.init_amwell);
-    }
-}
+    }*//*
+
+}*/
