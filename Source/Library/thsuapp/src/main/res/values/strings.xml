@@ -6,7 +6,7 @@
     <string name="app_name">AmwellUapp</string>
     <string name="symptoms">Step 1 of 5: Symptoms</string>
     <string name="vitals">Step 2 of 5: Vitals</string>
-    <string name="conditions">Step 4 of 5: Conditions</string>
+    <string name="conditions">Step 4 of 5: Medical conditions</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
     <string name="additional_comment">Additional comment</string>
@@ -28,7 +28,7 @@
     <string name="weight">Weight</string>
     <string name="vitals_ponds">Pounds</string>
     <string name="vitals_skip">Skip this step</string>
-    <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
+    <string name="ths_medical_conditions">Have you been diagnosed with any of these medical conditions?</string>
     <string name="google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
     <string name="ths_select_a_date_and_time">Select a Date and Time</string>
     <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>

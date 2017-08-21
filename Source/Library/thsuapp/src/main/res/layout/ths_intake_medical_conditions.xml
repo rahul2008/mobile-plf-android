@@ -8,9 +8,15 @@
         style="@style/ths_mobile_wizard"
         android:text="@string/conditions" />
 
-    <com.philips.platform.uid.view.widget.Label
+    <com.philips.platform.uid.view.widget.Button
         android:id="@+id/conditions_skip"
-        style="@style/ths_skip_text" />
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        style="@style/UIDExtraWideQuietButton"
+        android:text="@string/vitals_skip"
+        android:layout_height="wrap_content" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continue_btn"
