@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -40,8 +41,10 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         super.setUp();
         mContext = getInstrumentation().getContext();
         AppInfra mAppInfra = mock(AppInfra.class);
+        LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
         serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(mAppInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
+        when(mAppInfra.getLogging()).thenReturn(loggingInterfaceMock);
         keyBagHelper = new KeyBagHelper(mAppInfra);
     }
 
