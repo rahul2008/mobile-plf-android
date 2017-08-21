@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="?attr/uidTextTertiaryTextColor"/>
+        android:color="?attr/uidTypographyTertiaryTextColor"/>
 
     <size
         android:width="@dimen/sidebar_left_avatar_height_width"

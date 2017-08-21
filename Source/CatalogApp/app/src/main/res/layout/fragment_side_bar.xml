@@ -82,7 +82,7 @@
                         android:layout_marginStart="@dimen/sidebar_item_margin_left_right"
                         android:layout_marginEnd="@dimen/sidebar_item_margin_left_right"
                         android:gravity="start|bottom"
-                        android:textColor="?attr/uidTextTertiaryTextColor"
+                        android:textColor="?attr/uidTypographyTertiaryTextColor"
                         android:textSize="@dimen/sidebar_close_hint_text_size"
                         android:text="@string/sidebar_close_hint"/>
 
