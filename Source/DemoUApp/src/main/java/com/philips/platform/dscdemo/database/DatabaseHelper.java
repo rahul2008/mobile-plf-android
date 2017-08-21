@@ -46,6 +46,8 @@ import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.philips.platform.core.utils.DataServicesErrorConstants.SQLITE_EXCEPTION;
+
 
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
@@ -211,7 +213,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             this.createTables(connectionSource);
             insertDictionaries();
         } catch (SQLException e){
-            RALog.e( SQLITE_EXCEPTION,e.getMessage());
+            DSLog.e(SQLITE_EXCEPTION, "onCreate DatabaseHelper");
         }
     }
 
