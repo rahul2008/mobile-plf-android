@@ -6,6 +6,83 @@
     "property": {
       "item": "background",
       "type": "color",
+      "value": "about-screen"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "close-icon",
+      "type": "color",
+      "value": "about-screen-title"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "about-screen-icon"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "shield",
+      "type": "color",
+      "value": "philips-shield"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "subtitle",
+      "type": "color",
+      "value": "about-screen-sub-title"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "about-screen-text"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "title",
+      "type": "color",
+      "value": "about-screen-title"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
       "value": "content-primary"
     },
     "component": "bottom-sheet"
@@ -280,6 +357,19 @@
       "item": "icon",
       "type": "color",
       "value": "control-primary-text"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-primary-separator"
     },
     "component": "button"
   },
@@ -709,6 +799,19 @@
       "item": "icon",
       "type": "color",
       "value": "control-secondary-text"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
     },
     "component": "button"
   },
@@ -3912,6 +4015,28 @@
     "component": "status-bar"
   },
   {
+    "state": [],
+    "parent": [],
+    "context": "content",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "sticky-panel"
+    },
+    "component": "sticky-panel"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "themed",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "sticky-panel"
+  },
+  {
     "state": [
       "normal",
       "on"
@@ -4036,94 +4161,6 @@
       "value": "text-primary"
     },
     "component": "tabs"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "disabled",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "emphasis",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-emphasis"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "emphasis-disabled",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-emphasis-disabled"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "primary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "secondary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "tertiary",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "validation",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "validated-message-text"
-    },
-    "component": "text"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "validation",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "validated-message-text"
-    },
-    "component": "text"
   },
   {
     "state": [
@@ -5875,6 +5912,94 @@
       "value": "signal-warning"
     },
     "component": "track"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "disabled",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "emphasis",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-emphasis"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "emphasis-disabled",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-emphasis-disabled"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validation",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "validated-message-text"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "validation",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "validated-message-text"
+    },
+    "component": "typography"
   },
   {
     "state": [

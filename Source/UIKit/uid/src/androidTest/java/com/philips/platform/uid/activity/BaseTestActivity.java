@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.WindowManager;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
@@ -59,6 +60,7 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         int navigationColor = NavigationColor.BRIGHT.ordinal();
         int contentColor = 0;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (getIntent() != null && getIntent().getExtras() != null) {
             final Bundle extras = getIntent().getExtras();
             navigationColor = extras.getInt(NAVIGATION_COLOR_KEY, 1);

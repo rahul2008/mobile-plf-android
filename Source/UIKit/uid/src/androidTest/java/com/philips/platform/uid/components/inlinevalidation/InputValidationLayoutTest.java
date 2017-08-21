@@ -39,7 +39,7 @@ public class InputValidationLayoutTest extends BaseTest {
 
     @Test
     public void verifyErrorTextColor() {
-        int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextValidationIconColor);
+        int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidTypographyValidationIconColor);
         getValidationLayout().check(matches(InputValidationMatcher.isSameErrorColor(color)));
     }
 

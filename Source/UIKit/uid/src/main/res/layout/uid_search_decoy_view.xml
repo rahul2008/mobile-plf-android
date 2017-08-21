@@ -9,7 +9,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/uid_search_decoy_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/uid_searchbox_view_height"
+    android:layout_height="@dimen/uid_searchbox_decoy_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="@dimen/uid_searchbox_layout_margin"
     android:layout_marginStart="@dimen/uid_searchbox_layout_margin"

@@ -2,12 +2,10 @@ package com.philips.platform.uid.components.alert;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-
 import com.philips.platform.uid.DialogTestFragment;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

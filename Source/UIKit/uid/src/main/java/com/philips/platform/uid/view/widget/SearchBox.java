@@ -15,15 +15,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -33,9 +32,9 @@ import com.philips.platform.uid.utils.UIDInputTextUtils;
 
 
 /**
- * UID SearchBox.
+ * UID SearchBox. Use app:uidSearchInContentArea="true" in xml if the searchbox is to be used in content area.
  * <p>
- * <P>UID SearchBox is custom search view as per DLS design. Searchbox has two modes.
+ * <P>UID SearchBox is custom search view as per DLS design. Searchbox has two modes.<br
  * <BR>Trigger mode
  * <BR>Input mode
  * <p>
@@ -43,6 +42,7 @@ import com.philips.platform.uid.utils.UIDInputTextUtils;
  * <BR>Iconified
  * <BR>Expanded Decoy
  * <p>
+ *
  * <P> For usage of Search box please refer to the DLS Catalog app or the confluence page below
  * <p>
  *
@@ -62,6 +62,7 @@ public class SearchBox extends LinearLayout {
     private ImageView decoySearchIcon;
     private Label decoyHintView;
 
+    private boolean isSearchInContentArea;
     private boolean isSearchIconified;
     private boolean isSearchCollapsed = true;
     private int maxWidth;
@@ -85,6 +86,17 @@ public class SearchBox extends LinearLayout {
         void onQuerySubmit(CharSequence query);
     }
 
+    ViewTreeObserver.OnGlobalFocusChangeListener globalFocusChangeListener = new ViewTreeObserver.OnGlobalFocusChangeListener() {
+        @Override
+        public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+            //Should we really check for the empty text? May be need to change from app feedback
+            if (oldFocus == searchTextView && TextUtils.isEmpty(searchTextView.getText())) {
+                searchExpandedLayout.setVisibility(View.GONE);
+                decoySearchView.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
     public SearchBox(Context context) {
         this(context, null);
     }
@@ -97,7 +109,18 @@ public class SearchBox extends LinearLayout {
         super(context, attrs, defStyleAttr);
         setOrientation(LinearLayout.HORIZONTAL);
 
+        checkIfSearchInContentArea(context, attrs);
         initializeSearch(context, attrs, defStyleAttr);
+    }
+
+    private void checkIfSearchInContentArea(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray array = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidSearchInContentArea});
+            if (array.hasValue(0)) {
+                isSearchInContentArea = array.getBoolean(0, false);
+            }
+            array.recycle();
+        }
     }
 
     private void initializeSearch(final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -107,14 +130,16 @@ public class SearchBox extends LinearLayout {
 
         initViews(context, attrs, defStyleAttr);
         initHintTexts(context, attrs);
+
     }
 
     private void initViews(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        initSearchTextView();
         initDecoySearchView(context, attrs, defStyleAttr);
+        initSearchInContentArea(context);
         initCollapseIcon();
         initSearchIconHolder();
         initClearIcon();
-        initSearchTextView();
         updateViews();
         setSaveEnabled(true);
     }
@@ -124,13 +149,16 @@ public class SearchBox extends LinearLayout {
         decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
         decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
-        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(context, typedArray);
-        if (backgroundDrawable != null) {
-            decoySearchView.setBackground(backgroundDrawable);
+        if (!isSearchInContentArea) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
+            final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+            Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(context, typedArray);
+
+            if (backgroundDrawable != null) {
+                decoySearchView.setBackground(backgroundDrawable);
+            }
+            typedArray.recycle();
         }
-        typedArray.recycle();
 
         decoySearchView.setOnClickListener(new OnClickListener() {
             @Override
@@ -139,6 +167,17 @@ public class SearchBox extends LinearLayout {
                 searchTextView.requestFocus();
             }
         });
+    }
+
+    private void initSearchInContentArea(Context context) {
+        if (isSearchInContentArea) {
+            Drawable background = ContextCompat.getDrawable(context, R.drawable.uid_searchbox_contentarea_background);
+            decoySearchView.setBackground(background);
+            searchExpandedLayout.setBackground(background);
+            int leftRightMargin = context.getResources().getDimensionPixelSize(R.dimen.uid_searchbox_layout_margin);
+            MarginLayoutParamsCompat.setMarginEnd((MarginLayoutParams) searchExpandedLayout.getLayoutParams(), leftRightMargin);
+            MarginLayoutParamsCompat.setMarginStart((MarginLayoutParams) searchExpandedLayout.getLayoutParams(), leftRightMargin);
+        }
     }
 
 
@@ -171,6 +210,7 @@ public class SearchBox extends LinearLayout {
 
     private void initSearchIconHolder() {
         searchIconHolder = (ImageView) findViewById(R.id.uid_search_icon_holder);
+        setDecoySearchIcon(ContextCompat.getDrawable(getContext(), R.drawable.uid_search_icon));
         searchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,6 +255,22 @@ public class SearchBox extends LinearLayout {
         typedArray.recycle();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (isSearchInContentArea) {
+            getViewTreeObserver().addOnGlobalFocusChangeListener(globalFocusChangeListener);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (isSearchInContentArea) {
+            getViewTreeObserver().removeOnGlobalFocusChangeListener(globalFocusChangeListener);
+        }
+    }
+
     @SuppressLint("SwitchIntDef")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -224,7 +280,7 @@ public class SearchBox extends LinearLayout {
         switch (heightMode) {
             case MeasureSpec.AT_MOST:
             case MeasureSpec.UNSPECIFIED:
-                height = Math.min(getPreferredHeight(), height);
+                height = height == 0 ? getPreferredHeight() : Math.min(getPreferredHeight(), height);
                 break;
         }
         heightMode = MeasureSpec.EXACTLY;
@@ -247,7 +303,7 @@ public class SearchBox extends LinearLayout {
         widthMode = MeasureSpec.EXACTLY;
 
         //Match the height in case iconified, avoid screen flickering in toggling iconified
-        if (isSearchCollapsed && isSearchIconified) {
+        if (isSearchCollapsed && isSearchIconified && !isSearchInContentArea) {
             super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, heightMode));
             return;
         }
@@ -368,13 +424,13 @@ public class SearchBox extends LinearLayout {
             decoySearchView.setVisibility(View.GONE);
         } else {
             decoySearchView.setVisibility(collapsedVisibility);
-            searchIconHolder.setVisibility(View.GONE);
+            hideSearchIcon();
         }
 
         int visibility = isSearchCollapsed ? View.GONE : View.VISIBLE;
         searchExpandedLayout.setVisibility(visibility);
         searchClearLayout.setVisibility(visibility);
-        collapseIcon.setVisibility(visibility);
+        setCollapseIconVisibility(visibility);
         updateCloseButton();
         searchTextView.setVisibility(visibility);
         if (visibility == View.VISIBLE) {
@@ -383,6 +439,11 @@ public class SearchBox extends LinearLayout {
         searchTextView.requestFocus();
         searchTextView.setText("");
         requestLayout();
+    }
+
+    private void setCollapseIconVisibility(int visibility) {
+        int newVisibility = isSearchInContentArea ? View.GONE : visibility;
+        collapseIcon.setVisibility(newVisibility);
     }
 
     /**
@@ -472,8 +533,26 @@ public class SearchBox extends LinearLayout {
         updateViews();
     }
 
+    /**
+     * Hides the search icon in decoy view
+     */
+    public void hideSearchIcon() {
+        searchIconHolder.setVisibility(View.GONE);
+    }
+
+    /**
+     * Sets the search icon in decoy search view.
+     *
+     * @param drawable for search.
+     */
+    @SuppressWarnings("unused")
+    public void setDecoySearchIcon(Drawable drawable) {
+        searchIconHolder.setImageDrawable(drawable);
+    }
+
     private int getPreferredHeight() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.uid_searchbox_height);
+        int dimenID = isSearchInContentArea ? R.dimen.uid_searchbox_decoy_height : R.dimen.uid_searchbox_height;
+        return getContext().getResources().getDimensionPixelSize(dimenID);
     }
 
     @Override

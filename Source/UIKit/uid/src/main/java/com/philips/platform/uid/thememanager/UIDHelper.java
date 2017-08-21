@@ -19,6 +19,7 @@ import com.philips.platform.uid.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UIDHelper {
+    private static final String TAG = UIDHelper.class.getSimpleName();
 
     public static final String CONTENT_TONAL_RANGE = "CONTENT_TONAL_RANGE";
     public static final String COLOR_RANGE = "COLOR_RANGE";
@@ -45,14 +46,19 @@ public class UIDHelper {
             }
         }
 
-        if (accentConfig == null) {
-            throw new RuntimeException("Accent Range must be provided");
-        }
+        injectAccents(themeConfiguration, theme, accentConfig);
+    }
 
-        accentConfig.injectAllAccentAttributes(themeConfiguration.getContext(), theme);
-        if (!AccentValidator.isValidAccent(ThemeUtils.getColorRangeName(themeConfiguration.getContext()).toUpperCase(), accentConfig.name())) {
-            throw new RuntimeException("Invalid accent range.");
+    private static void injectAccents(@NonNull ThemeConfiguration themeConfiguration, Resources.Theme theme, AccentRange accentConfig) {
+        String colorRange = ThemeUtils.getColorRangeName(themeConfiguration.getContext()).toUpperCase();
+        AccentRange fixedAccent = AccentValidator.fixAccent(colorRange, accentConfig);
+        if (fixedAccent != null) {
+            return;
         }
+        if (accentConfig != fixedAccent) {
+            fixedAccent.injectStyle(theme);
+        }
+        fixedAccent.injectAllAccentAttributes(themeConfiguration.getContext(), theme);
     }
 
     /**
@@ -108,6 +114,6 @@ public class UIDHelper {
      * @return Context which provides UI background comptability across different content color ranges.
      */
     public static Context getPopupThemedContext(Context context) {
-      return ThemeUtils.getPopupThemedContext(context);
+        return ThemeUtils.getPopupThemedContext(context);
     }
 }
