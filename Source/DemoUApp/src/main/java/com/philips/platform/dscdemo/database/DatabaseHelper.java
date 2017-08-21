@@ -46,6 +46,8 @@ import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.philips.platform.core.utils.DataServicesErrorConstants.SQLITE_EXCEPTION;
+
 
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
@@ -55,7 +57,7 @@ import java.util.List;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "DataService.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private final UuidGenerator uuidGenerator;
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
@@ -206,8 +208,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         DSLog.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
-        if (newVer > oldVer) {
-            //Alter your table here...
+        try {
+            this.dropTables(connectionSource);
+            this.createTables(connectionSource);
+            insertDictionaries();
+        } catch (SQLException e){
+            DSLog.e(SQLITE_EXCEPTION, "onCreate DatabaseHelper");
         }
     }
 

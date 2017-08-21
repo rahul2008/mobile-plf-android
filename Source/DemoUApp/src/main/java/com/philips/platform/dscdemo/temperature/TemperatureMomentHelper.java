@@ -6,6 +6,9 @@ import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
+import com.philips.platform.dscdemo.database.table.OrmMoment;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 
@@ -74,6 +77,15 @@ public class TemperatureMomentHelper {
             return "default";
         }
         //return null;
+    }
+
+    String getExpirationDate(Moment moment) {
+        DateTime expirationDate = ((OrmMoment)moment).getExpirationDate();
+        if(expirationDate != null){
+            return expirationDate.toString();
+        }else{
+            return "never expires";
+        }
     }
 
 }
