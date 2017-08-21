@@ -63,7 +63,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static DatabaseHelper databaseHelper;
     private static final String DATABASE_NAME = "DataService.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
    // private final UuidGenerator uuidGenerator;
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
@@ -265,8 +265,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         DSLog.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
-        if (newVer > oldVer) {
-            //Alter your table here...
+        try {
+             this.dropTables(connectionSource);
+             this.createTables(connectionSource);
+             insertDictionaries();
+        } catch (SQLException e){
+             RALog.e( SQLITE_EXCEPTION,e.getMessage());
         }
     }
 
@@ -318,6 +322,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.dropTable(connectionSource, OrmMeasurementDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmMeasurementDetailType.class, true);
         TableUtils.dropTable(connectionSource, OrmSynchronisationData.class, true);
+        TableUtils.dropTable(connectionSource, OrmMeasurementGroup.class, true);
+        TableUtils.dropTable(connectionSource, OrmMeasurementGroupDetail.class, true);
+        TableUtils.dropTable(connectionSource, OrmMeasurementGroupDetailType.class, true);
         TableUtils.dropTable(connectionSource, OrmConsentDetail.class, true);
         TableUtils.dropTable(connectionSource, OrmSettings.class, true);
         TableUtils.dropTable(connectionSource, OrmCharacteristics.class, true);
