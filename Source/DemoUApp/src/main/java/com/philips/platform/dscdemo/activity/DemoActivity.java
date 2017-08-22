@@ -24,7 +24,6 @@ import com.philips.platform.dscdemo.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -32,18 +31,15 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-public class DemoActivity extends AppCompatActivity implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
+public class DemoActivity extends AppCompatActivity
+        implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
-    private ActionBarListener actionBarListener;
-    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         initTheme();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
         DSLog.enableLogging(true);
@@ -53,7 +49,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
             if (user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
                 showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
-                databaseHelper = DatabaseHelper.getInstance(getApplicationContext(), new UuidGenerator());
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext(), new UuidGenerator());
                 databaseHelper.getWritableDatabase();
             } else {
                 startRegistrationFragment();
@@ -93,15 +89,11 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-
     private void runUserRegistration() {
-        launchRegistrationFragment(false);
+        launchRegistrationFragment();
     }
 
-    /**
-     * Launch registration fragment
-     */
-    private void launchRegistrationFragment(boolean isAccountSettings) {
+    private void launchRegistrationFragment() {
         int containerID = R.id.frame_container_user_reg;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -110,7 +102,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (DemoActivity.this, containerID, actionBarListener);
+                (DemoActivity.this, containerID, this);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
@@ -186,13 +178,10 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        boolean backState = false;
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
-        if (currentFrag != null && currentFrag instanceof BackEventListener) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-        }
-
-        if (!backState) {
+        if (currentFrag instanceof TemperatureTimeLineFragment) {
+            finish();
+        } else {
             super.onBackPressed();
         }
     }
