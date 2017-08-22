@@ -30,6 +30,7 @@ import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,9 +44,9 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private ProgressBarButton mContinueButton;
     private  EditText mEditTextFirstName;
     private EditText mEditTextLastName;
-    private Label mDateOfBirth;
-    private CheckBox mCheckBoxMale;
-    private CheckBox mCheckBoxFemale;
+    private EditText mDateOfBirth;
+    private RadioButton mCheckBoxMale;
+    private RadioButton mCheckBoxFemale;
     private AppCompatSpinner mEditTextState;
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> mValidStates = null;
@@ -71,10 +72,12 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mContinueButton.setOnClickListener(this);
         mEditTextFirstName = (EditText) view.findViewById(R.id.ths_edit_first_name);
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
-        mDateOfBirth = (Label) view.findViewById(R.id.ths_edit_dob);
+        mDateOfBirth = (EditText) view.findViewById(R.id.ths_edit_dob);
+        mDateOfBirth.setFocusable(false);
+        mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
-        mCheckBoxMale = (CheckBox) view.findViewById(R.id.ths_checkbox_male);
-        mCheckBoxFemale = (CheckBox) view.findViewById(R.id.ths_checkbox_female);
+        mCheckBoxMale = (RadioButton) view.findViewById(R.id.ths_checkbox_male);
+        mCheckBoxFemale = (RadioButton) view.findViewById(R.id.ths_checkbox_female);
         mEditTextState = (AppCompatSpinner) view.findViewById(R.id.ths_edit_location);
 
         try {
