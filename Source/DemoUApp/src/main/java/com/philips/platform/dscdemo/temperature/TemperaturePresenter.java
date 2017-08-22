@@ -35,7 +35,6 @@ import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
-import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 
@@ -118,7 +117,7 @@ public class TemperaturePresenter {
     }
 
     void fetchData(DBFetchRequestListner dbFetchRequestListner) {
-        mDataServices.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
+        mDataServices.fetchAllMoment(dbFetchRequestListner);
     }
 
     private void saveRequest(Moment moment) {
@@ -171,7 +170,13 @@ public class TemperaturePresenter {
                         popupWindow.dismiss();
                         break;
                     case UPDATE:
-                        addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                        final TemperatureMomentHelper helper = new TemperatureMomentHelper();
+                        if(String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")){
+                            Toast.makeText(mContext,
+                                    "Invalid", Toast.LENGTH_SHORT).show();
+                        }else {
+                            addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                        }
                         popupWindow.dismiss();
                         break;
                     default:
@@ -272,6 +277,8 @@ public class TemperaturePresenter {
                         createAndSaveMoment();
                         break;
                     case UPDATE:
+
+
                         dialog.dismiss();
 
                         try {

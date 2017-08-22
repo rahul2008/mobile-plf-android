@@ -52,7 +52,6 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
         if (holder instanceof DataSyncViewHolder) {
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
@@ -62,6 +61,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
                 mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
             else
                 mSyncViewHolder.mMomentID.setText("Fetching...");
+
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
@@ -73,7 +73,6 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
                 }
             });
         }
-
     }
 
     @Override

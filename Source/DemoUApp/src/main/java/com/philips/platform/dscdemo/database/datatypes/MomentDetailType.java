@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Philips Electronics India Ltd
+ * Copyright (c) 2017. Philips Electronics India Ltd
  * All rights reserved. Reproduction in whole or in part is prohibited without
  * the written consent of the copyright holder.
  */
@@ -9,10 +9,6 @@ package com.philips.platform.dscdemo.database.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class MomentDetailType {
 
     public static final String UNKNOWN = "UNKNOWN";
@@ -25,20 +21,31 @@ public class MomentDetailType {
 
 
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
-
-        if(description.equalsIgnoreCase(PHASE)){
-            return 55;
-        }else {
-            return -1;
+        switch (description.toUpperCase()) {
+            case UNKNOWN:
+                return -1;
+            case NOTE:
+                return 50;
+            case PHOTO:
+                return 51;
+            case STICKER:
+                return 52;
+            case VIDEO:
+                return 53;
+            case TAGGING_ID:
+                return 54;
+            case PHASE:
+                return 55;
+            default:
+                return 0;
         }
     }
 
     public static String getDescriptionFromID(int ID) {
         switch (ID) {
-
             case -1:
                 return UNKNOWN;
             case 50:
@@ -53,7 +60,6 @@ public class MomentDetailType {
                 return TAGGING_ID;
             case 55:
                 return PHASE;
-
             default:
                 return UNKNOWN;
         }

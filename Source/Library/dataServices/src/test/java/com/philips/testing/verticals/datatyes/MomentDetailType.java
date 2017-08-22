@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016. Philips Electronics India Ltd
+ * Copyright (c) 2017. Philips Electronics India Ltd
  * All rights reserved. Reproduction in whole or in part is prohibited without
  * the written consent of the copyright holder.
  */
@@ -25,11 +25,10 @@ public class MomentDetailType {
 
 
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
         switch (description.toUpperCase()) {
-
             case UNKNOWN:
                 return -1;
             case NOTE:
@@ -44,7 +43,6 @@ public class MomentDetailType {
                 return 54;
             case PHASE:
                 return 55;
-
             default:
                 return 0;
         }
