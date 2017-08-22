@@ -182,8 +182,8 @@ dependencies {
 		transitive true 
     }
 	
-	def cccModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile(dp ? project(':ccc') : cccModule) 
+	def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':cloudcontroller') : cloudcontrollerModule) 
 	
     //Android Support libraries
     compile 'com.android.support:support-fragment:25.3.1'
