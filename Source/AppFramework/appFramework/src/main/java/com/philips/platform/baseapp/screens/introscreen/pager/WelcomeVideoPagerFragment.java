@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
+import com.philips.platform.dscdemo.utility.Utility;
 
 
 /**
