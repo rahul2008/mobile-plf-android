@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -24,7 +23,6 @@ import com.philips.platform.dscdemo.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -184,7 +182,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
 
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         boolean backState = false;
@@ -197,7 +195,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
             super.onBackPressed();
         }
     }
-
+*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
