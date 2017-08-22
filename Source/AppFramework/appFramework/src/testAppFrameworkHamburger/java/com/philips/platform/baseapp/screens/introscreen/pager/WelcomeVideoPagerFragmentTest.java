@@ -10,9 +10,13 @@ import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
@@ -21,9 +25,12 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class WelcomeVideoPagerFragmentTest {
 
     private WelcomeVideoPagerFragment welcomeVideoPagerFragment;
@@ -32,32 +39,40 @@ public class WelcomeVideoPagerFragmentTest {
     private TextureVideoView textureVideoView;
     private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
 
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    private static WelcomeVideoFragmentContract.Presenter presenter;
+
+
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
+        presenter = mock(WelcomeVideoPresenter.class);
         activityController = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
         launchActivity = activityController.create().start().resume().visible().get();
-        welcomeVideoPagerFragment =  new WelcomeVideoPagerFragment();
-        launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeVideoPagerFragment,null).commit();
+        welcomeVideoPagerFragment = new WelcomeVideoPagerFragmentMock();
+        launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeVideoPagerFragment, null).commit();
         thumbNail = (ImageView) welcomeVideoPagerFragment.getView().findViewById(R.id.thumb_nail);
         textureVideoView = (TextureVideoView) welcomeVideoPagerFragment.getView().findViewById(R.id.onboarding_video);
         play = (ImageView) welcomeVideoPagerFragment.getView().findViewById(R.id.onboarding_play_button);
     }
 
     @Test
-    public void onFetchErrorTest(){
+    public void onFetchErrorTest() {
         welcomeVideoPagerFragment.onFetchError();
         assertTrue(thumbNail.getVisibility() == View.VISIBLE);
     }
 
     @Test
-    public void testVideoViewClickWithPlayVisible(){
+    public void testVideoViewClickWithPlayVisible() {
         textureVideoView.performClick();
         assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
     }
 
     @Test
-    public void testVideoViewClickWithPlayInVisible(){
+    public void testVideoViewClickWithPlayInVisible() {
         play.setVisibility(View.INVISIBLE);
         textureVideoView.performClick();
         assertFalse(welcomeVideoPagerFragment.isVideoPlaying());
@@ -85,7 +100,7 @@ public class WelcomeVideoPagerFragmentTest {
     public void thumbNailClickTest() {
         thumbNail.setVisibility(View.VISIBLE);
         thumbNail.performClick();
-        assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
+        verify(presenter, times(1)).fetchVideoDataSource();
     }
 
     @Test
@@ -108,8 +123,16 @@ public class WelcomeVideoPagerFragmentTest {
         launchActivity = null;
         thumbNail = null;
         play = null;
+        presenter = null;
         textureVideoView = null;
         activityController = null;
+    }
+
+    public static class WelcomeVideoPagerFragmentMock extends WelcomeVideoPagerFragment {
+        @Override
+        protected WelcomeVideoFragmentContract.Presenter getWelcomeVideoPagerPresenter() {
+            return presenter;
+        }
     }
 }
 

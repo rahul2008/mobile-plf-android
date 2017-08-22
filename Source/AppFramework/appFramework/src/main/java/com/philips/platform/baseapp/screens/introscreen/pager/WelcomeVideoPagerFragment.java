@@ -61,8 +61,12 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
         videoView.setOnClickListener(this);
         progressBar = (ProgressBar) rootView.findViewById(R.id.onboarding_video_progress_bar);
 
-        presenter = new WelcomeVideoPresenter(this, getActivity());
+        presenter = getWelcomeVideoPagerPresenter();
         return rootView;
+    }
+
+    protected WelcomeVideoFragmentContract.Presenter getWelcomeVideoPagerPresenter() {
+        return new WelcomeVideoPresenter(this, getActivity());
     }
 
     private void setVideoViewHeight() {
