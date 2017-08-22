@@ -57,7 +57,6 @@ public class AppIdentityTest extends AppInfraInstrumentation {
                 }
                 return result;
             }
-
         };
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
 
@@ -82,8 +81,10 @@ public class AppIdentityTest extends AppInfraInstrumentation {
         assertNotNull(mAppIdentityManager.getAppVersion());
     }
 
-    public void testgetMicrositeId() {
+    public void testGetMicrositeId() {
         assertNotNull(mAppIdentityManager.getMicrositeId());
+        assertEquals("77000",mAppIdentityManager.getMicrositeId());
+        assertNotSame("3200",mAppIdentityManager.getMicrositeId());
     }
 
     public void testGetSector() {
