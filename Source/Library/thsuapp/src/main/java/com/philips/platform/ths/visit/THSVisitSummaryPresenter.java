@@ -5,7 +5,10 @@ import android.view.View;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
@@ -79,16 +82,28 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     }
 
     private void updateView(THSVisitSummary tHSVisitSummary){
-        mTHSVisitSummaryFragment.providerName.setText(tHSVisitSummary.getVisitSummary().getAssignedProviderInfo().getFullName());
-        mTHSVisitSummaryFragment.providerPractice.setText(tHSVisitSummary.getVisitSummary().getAssignedProviderInfo().getPracticeInfo().getName());
+        ProviderInfo providerInfo= tHSVisitSummary.getVisitSummary().getAssignedProviderInfo();
+        mTHSVisitSummaryFragment.providerName.setText(providerInfo.getFullName());
+        mTHSVisitSummaryFragment.providerPractice.setText(providerInfo.getPracticeInfo().getName());
         if(tHSVisitSummary.getVisitSummary().getVisitCost().isFree()){
             mTHSVisitSummaryFragment.visitCost.setText("$ 0");
         }else{
             //mTHSVisitSummaryFragment.visitCost.setText(tHSVisitSummary.getVisitSummary().getVisitCost().getDeferredBillingWrapUpText());
             double cost= tHSVisitSummary.getVisitSummary().getVisitCost().getExpectedConsumerCopayCost();
 
-            mTHSVisitSummaryFragment.visitCost.setText(Double.toString(cost));
+            mTHSVisitSummaryFragment.visitCost.setText("$"+Double.toString(cost));
         }
+        if (providerInfo.hasImage()) {
+            try {
+                THSManager.getInstance().getAwsdk(mTHSVisitSummaryFragment.getFragmentActivity()).getPracticeProvidersManager().
+                        newImageLoader(providerInfo, mTHSVisitSummaryFragment.mImageProviderImage,
+                                ProviderImageSize.SMALL).placeholder(mTHSVisitSummaryFragment.mImageProviderImage.getResources().
+                        getDrawable(R.drawable.doctor_placeholder, mTHSVisitSummaryFragment.getFragmentActivity().getTheme())).build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         Address address = tHSVisitSummary.getVisitSummary().getShippingAddress();
         String consumerFullName = tHSVisitSummary.getVisitSummary().getConsumerInfo().getFullName();

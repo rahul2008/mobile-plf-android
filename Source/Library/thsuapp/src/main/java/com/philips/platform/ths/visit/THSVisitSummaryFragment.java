@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.CircularImageView;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -26,6 +30,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     THSVisitSummaryPresenter mTHSVisitSummaryPresenter;
     THSRatingDialogFragment thsRatingDialogFragment;
     private Button continueButton;
+     CircularImageView mImageProviderImage;
+
      Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
 
@@ -50,6 +56,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
 
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         providerPractice = (Label) view.findViewById(R.id.details_practiceNameLabel);
+
+
         visitCost= (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
 
         Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
@@ -73,7 +81,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         thsRatingDialogFragment = new THSRatingDialogFragment();
         thsRatingDialogFragment.setThsVisitSummaryPresenter(mTHSVisitSummaryPresenter);
         thsRatingDialogFragment.show(getFragmentManager(),"TAG");
-
+        mImageProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
 
         return  view;
     }
