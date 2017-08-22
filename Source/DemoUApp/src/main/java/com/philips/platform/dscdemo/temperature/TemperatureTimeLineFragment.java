@@ -1,5 +1,6 @@
 package com.philips.platform.dscdemo.temperature;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,11 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -48,12 +45,8 @@ import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>,DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener{
+public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
     public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
@@ -70,8 +63,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     User mUser;
     Utility mUtility;
 
-    TextView mTvConsents, mTvCharacteristics , mTvSettings ,mTvLogout ,mTvInsights;
-
+    TextView mTvConsents, mTvCharacteristics, mTvSettings, mTvLogout, mTvInsights;
 
 
     @Override
@@ -100,8 +92,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-
-        Log.d("pabitra","onStart");
         mDataServicesManager.registerDBChangeListener(this);
         mDataServicesManager.registerSynchronisationCompleteListener(this);
 
@@ -118,12 +108,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         deleteUserDataIfNewUserLoggedIn();
 
         mTemperaturePresenter.fetchData(this);
-
-        //Reseting the sync Flags
-        /*mDataServicesManager.setPullComplete(true);
-        mDataServicesManager.setPushComplete(true);*/
-
-        //setUpBackendSynchronizationLoop();
 
         if (!mUtility.isOnline(getContext())) {
             showToastOnUiThread("Please check your connection");
@@ -147,12 +131,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         storeLastHsdpId();
     }
 
-   /* private boolean isSameEmail() {
-        if (getLastStoredEmail().equalsIgnoreCase(mUser.getEmail()))
-            return true;
-        return false;
-    }*/
-
     private boolean isSameHsdpId() {
         if (getLastStoredHsdpId().equalsIgnoreCase(mUser.getHsdpUUID()))
             return true;
@@ -164,11 +142,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         super.onStop();
         DataServicesManager.getInstance().unRegisterDBChangeListener();
         mDataServicesManager.unRegisterSynchronisationCosmpleteListener();
-        //cancelPendingIntent();
-        //mDataServicesManager.stopCore();
         dismissProgressDialog();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -182,10 +157,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mAddButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings= (TextView) view.findViewById(R.id.tv_settings);
-        mTvLogout= (TextView) view.findViewById(R.id.tv_logout);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
-        mTvInsights = (TextView)view.findViewById(R.id.tv_insights);
+        mTvLogout = (TextView) view.findViewById(R.id.tv_logout);
+        mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
+        mTvInsights = (TextView) view.findViewById(R.id.tv_insights);
 
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
@@ -198,8 +173,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // EventHelper.getInstance().unregisterEventNotification(EventHelper.MOMENT, this);
-        //mDataServicesManager.releaseDataServicesInstances();
     }
 
     @Override
@@ -207,29 +180,19 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         int i = v.getId();
         if (i == R.id.add) {
             mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
-
         } else if (i == R.id.tv_set_consents) {
             ConsentDialogFragment dFragment = new ConsentDialogFragment();
             replaceFragment(dFragment, "consents");
-
-
         } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             replaceFragment(settingsFragment, "settings");
-
-
         } else if (i == R.id.tv_set_characteristics) {
             CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
             replaceFragment(characteristicsDialogFragment, "Character");
-
         } else if (i == R.id.tv_logout) {
-            boolean isLogout = isLogout();
-            if (isLogout) getActivity().finish();
-
-
+            logOut();
         } else if (i == R.id.tv_insights) {
             InsightFragment insightFragment = new InsightFragment();
-
             replaceFragment(insightFragment, "insights");
         }
     }
@@ -262,7 +225,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
-               // dismissProgressDialog();
             }
         });
     }
@@ -280,14 +242,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         }
     }
 
-   /* String getLastStoredEmail() {
-        AppInfraInterface mAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).mAppInfra;
-        SecureStorageInterface ssInterface = mAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
-        return decryptedData;
-    }*/
-
     String getLastStoredHsdpId() {
         AppInfraInterface gAppInfra = DemoAppManager.getInstance().getAppInfra();
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
@@ -295,13 +249,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         String decryptedData = ssInterface.fetchValueForKey("hsdp_id", ssError);
         return decryptedData;
     }
-
-    /*void storeLastEmail() {
-        AppInfraInterface mAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).mAppInfra;
-        SecureStorageInterface ssInterface = mAppInfra.getSecureStorage();
-        SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
-    }*/
 
     void storeLastHsdpId() {
         AppInfraInterface gAppInfra = DemoAppManager.getInstance().getAppInfra();
@@ -313,7 +260,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void dBChangeSuccess(SyncType type) {
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
-        if(type!=SyncType.MOMENT)return;
+        if (type != SyncType.MOMENT) return;
 
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
         mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
@@ -350,15 +297,12 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 if (mSharedPreferences.getBoolean("isSynced", false)) {
                     dismissProgressDialog();
                 }
-                //dismissProgressDialog();
-               // Toast.makeText(getActivity(), "Exception :" + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void showToastOnUiThread(final String msg){
-
-        if(getActivity() == null) return;
+    private void showToastOnUiThread(final String msg) {
+        if (getActivity() == null) return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -369,7 +313,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        DSLog.i(DSLog.LOG,"On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
 
         getActivity().runOnUiThread(new Runnable() {
@@ -380,9 +323,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
 
-                if (mDataServicesManager.getSyncTypes()!=null && mDataServicesManager.getSyncTypes().size()<=0) {
+                if (mDataServicesManager.getSyncTypes() != null && mDataServicesManager.getSyncTypes().size() <= 0) {
                     dismissProgressDialog();
-                    Toast.makeText(getContext(),"No Sync Types Configured",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No Sync Types Configured", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -398,32 +341,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         onFailureRefresh(exception);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-      //  menu.clear();
-        //inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            /*case R.id.menu_consent:
-                Toast.makeText(getApplicationContext(), "speaking....", Toast.LENGTH_LONG).show();
-                return false;*/
-
-            default:
-
-
-                break;
-        }
-
-        return false;
-    }
-
-
-    private void replaceFragment(Fragment fragment,String tag){
+    private void replaceFragment(Fragment fragment, String tag) {
 
         int containerId = R.id.frame_container_user_reg;
         try {
@@ -437,26 +355,32 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     }
 
-    boolean isLogoutSuccess=false;
-    public boolean isLogout(){
-
+    public void logOut() {
         User user = new User(getContext());
+        if (!user.isUserSignIn()) return;
 
-        if(user!=null) {
-            user.logout(new LogoutHandler() {
-                @Override
-                public void onLogoutSuccess() {
-                    isLogoutSuccess = true;
-                }
+        user.logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
 
-                @Override
-                public void onLogoutFailure(int i, String s) {
-                    isLogoutSuccess = false;
-                }
-            });
-        }else {
-            isLogoutSuccess = false;
-        }
-        return isLogoutSuccess;
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onLogoutFailure(int i, String s) {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, "Logout Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }
