@@ -167,7 +167,7 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:5.0'  
 	
 	//Module
-	compile(dp ? project(':dsc') : ':dataServices') 
+	compile(dp ? project(':dsc') : project(':dataServices')) 
 
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
