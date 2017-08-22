@@ -171,7 +171,7 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) {
         transitive = true
     }
