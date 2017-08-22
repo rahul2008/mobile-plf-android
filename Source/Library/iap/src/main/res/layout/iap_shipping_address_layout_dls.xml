@@ -262,20 +262,20 @@
                 style="@style/AddressItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/iap_town" />
+                android:text="@string/iap_postal_code" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/input_validation_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/iap_town_error">
+                app:uidTextBoxValidationErrorText="@string/iap_postal_code_error">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/et_postal_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/iap_town_hint"
+                    android:hint="@string/iap_postal_code_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
@@ -286,20 +286,20 @@
                 style="@style/AddressItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/iap_town" />
+                android:text="@string/iap_state" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/input_validation_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/iap_town_error">
+                app:uidTextBoxValidationErrorText="@string/iap_state_hint">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/et_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/iap_town_hint"
+                    android:hint="@string/iap_state_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
@@ -310,20 +310,20 @@
                 style="@style/AddressItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/iap_town" />
+                android:text="@string/iap_country" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/input_validation_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/iap_town_error">
+                app:uidTextBoxValidationErrorText="@string/iap_country_error">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:id="@+id/et_country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/iap_town_hint"
+                    android:hint="@string/iap_country_hint"
                     android:inputType="text"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />

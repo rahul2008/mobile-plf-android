@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
-import com.philips.cdp.uikit.utils.RowItem;
+import com.philips.cdp.di.iap.adapters.UIPickerAdapter;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.offset;
 
 public class SalutationDropDown {
 
@@ -21,7 +24,7 @@ public class SalutationDropDown {
         void onSalutationSelect(String salutation);
     }
 
-    private UIKitListPopupWindow mPopUp;
+    private UIPicker mPopUp;
     private SalutationListener mSalutationListener;
 
     public SalutationDropDown(Context context, View anchor, SalutationListener salutationListener) {
@@ -30,27 +33,31 @@ public class SalutationDropDown {
     }
 
     private void createPopUp(final View anchor, final Context context) {
-        List<RowItem> rowItems = createRowItems(context);
-        mPopUp = new UIKitListPopupWindow(context, anchor,
-                UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        List<String> rowItems = createRowItems(context);
+        Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
+        mPopUp = new UIPicker(popupThemedContext);
+        mPopUp.setAnchorView(anchor);
+        mPopUp.setHorizontalOffset(-18);
+        mPopUp.setWidth((int) context.getResources().getDimension(R.dimen
+                .iap_count_drop_down_popup_width));
         mPopUp.setModal(true);
+        mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, rowItems));
         mPopUp.setOnItemClickListener(mListener);
     }
 
-    private List<RowItem> createRowItems(Context context) {
-        List<RowItem> rowItems = new ArrayList<>();
+    private List<String> createRowItems(Context context) {
+        List<String> rowItems = new ArrayList<>();
         String mr = context.getResources().getString(R.string.iap_mr);
         String ms = context.getResources().getString(R.string.iap_mrs);
-        // String[] desc = context.getResources().getStringArray(R.array.iap_salutation);
-        rowItems.add(new RowItem(mr + "."));
-        rowItems.add(new RowItem(ms + "."));
+        rowItems.add(mr + ".");
+        rowItems.add(ms + ".");
         return rowItems;
     }
 
-    AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
+    private AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-            String salutation = ((RowItem) parent.getItemAtPosition(position)).getDesc();
+            String salutation = (String) parent.getItemAtPosition(position);
             mSalutationListener.onSalutationSelect(salutation);
             dismiss();
         }

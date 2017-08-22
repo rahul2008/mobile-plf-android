@@ -281,7 +281,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             setCountArrow(mContext, false);
-            setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else if (pStockLevel < pQuantity) {
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);

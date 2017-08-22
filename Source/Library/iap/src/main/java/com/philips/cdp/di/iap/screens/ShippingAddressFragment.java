@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +53,7 @@ import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import java.io.Serializable;
@@ -106,6 +110,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
     protected EditText mEtEmail;
     protected EditText mEtPhone1;
     protected EditText mEtPhone2;
+    protected CheckBox mUseThisAddressCheckBox;
+    LinearLayout mSameAsShippingAddress;
 
     protected Button mBtnContinue;
     protected Button mBtnCancel;
@@ -143,6 +149,18 @@ public class ShippingAddressFragment extends InAppBaseFragment
         phoneNumberUtil = PhoneNumberUtil.getInstance();
         InputValidationLayout mFirstName = (InputValidationLayout) rootView.findViewById(R.id.input_validation_first_name);
         mFirstName.setValidator(new EmailValidator());
+        mUseThisAddressCheckBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
+        mSameAsShippingAddress = (LinearLayout) rootView.findViewById(R.id.iap_same_as_shipping_address);
+
+        mUseThisAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    mSameAsShippingAddress.setVisibility(View.VISIBLE);
+                else
+                    mSameAsShippingAddress.setVisibility(View.GONE);
+            }
+        });
 //        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
 //
 //        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
@@ -171,82 +189,82 @@ public class ShippingAddressFragment extends InAppBaseFragment
 //        mTvEmail = (TextView) mInlineFormsParent.findViewById(R.id.tv_email);
 //        mTvPhone1 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone1);
 //
-//        mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
-//        mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);
-//        mEtSalutation = (EditText) mInlineFormsParent.findViewById(R.id.et_salutation);
-//        mEtAddressLineOne = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_one);
-//        mEtAddressLineTwo = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_two);
-//        mEtTown = (EditText) mInlineFormsParent.findViewById(R.id.et_town);
-//        mEtPostalCode = (EditText) mInlineFormsParent.findViewById(R.id.et_postal_code);
-//        mEtCountry = (EditText) mInlineFormsParent.findViewById(R.id.et_country);
-//        mEtState = (EditText) mInlineFormsParent.findViewById(R.id.et_state);
-//        mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
-//        mEtPhone1 = (EditText) mInlineFormsParent.findViewById(R.id.et_phone1);
+        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
+        mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
+        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
+        mEtAddressLineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
+        mEtAddressLineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
+        mEtTown = (EditText) rootView.findViewById(R.id.et_town);
+        mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
+        mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
+        mEtState = (EditText) rootView.findViewById(R.id.et_state);
+        mEtEmail = (EditText) rootView.findViewById(R.id.et_email);
+        mEtPhone1 = (EditText) rootView.findViewById(R.id.et_phone1);
+
+        mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        mEtSalutation.setKeyListener(null);
+        mEtState.setKeyListener(null);
 //
-//        mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-//        mEtSalutation.setKeyListener(null);
-//        mEtState.setKeyListener(null);
+        mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
+        mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
 //
-//        mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
-//        mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
+        mBtnContinue.setOnClickListener(this);
+        mBtnCancel.setOnClickListener(this);
 //
-//        mBtnContinue.setOnClickListener(this);
-//        mBtnCancel.setOnClickListener(this);
-//
-//        mValidator = new Validator();
+        mValidator = new Validator();
 //        mInlineFormsParent.setValidator(this);
 //
-//        mAddressController = new AddressController(mContext, this);
-//        mPaymentController = new PaymentController(mContext, this);
+        mAddressController = new AddressController(mContext, this);
+        mPaymentController = new PaymentController(mContext, this);
         mShippingAddressFields = new AddressFields();
 //
-//        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
-//        mEtEmail.setEnabled(false);
+        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+        mEtEmail.setEnabled(false);
 //
-//        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
         showUSRegions();
-//        mEtCountry.setEnabled(false);
+        mEtCountry.setEnabled(false);
 //
-//        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
-//        mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
-//        mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
-//        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwo));
-//        mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
-//        mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
-//        mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
-//        mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
-//        mEtPhone1.addTextChangedListener(new IAPTextWatcher(mEtPhone1));
-//
-//        mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
-//        mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
+        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
+        mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
+        mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
+        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwo));
+        mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
+        mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
+        mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
+        mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
+        mEtPhone1.addTextChangedListener(new IAPTextWatcher(mEtPhone1));
+
+        mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
+        mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 //
 //        Bundle bundle = getArguments();
 //        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
 //            updateFields();
 //        }
 //
-//        setImageArrow();
-//        mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
-//        mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
-//        mEtState.setCompoundDrawables(null, null, imageArrow, null);
-//        mStateDropDown = new StateDropDown(mContext, mEtState, this);
-//
-//        mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                mSalutationDropDown.show();
-//                return false;
-//            }
-//        });
-//
-//        mEtState.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                Utility.hideKeypad(mContext);
-//                mStateDropDown.show();
-//                return false;
-//            }
-//        });
+        setImageArrow();
+        mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
+        mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
+        mEtState.setCompoundDrawables(null, null, imageArrow, null);
+        mStateDropDown = new StateDropDown(mContext, mEtState, this);
+
+        mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mSalutationDropDown.show();
+                return false;
+            }
+        });
+
+        mEtState.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Utility.hideKeypad(mContext);
+                mStateDropDown.show();
+                return false;
+            }
+        });
 
         return rootView;
     }
