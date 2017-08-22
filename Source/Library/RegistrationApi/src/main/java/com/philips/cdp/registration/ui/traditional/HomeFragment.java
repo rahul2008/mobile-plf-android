@@ -116,6 +116,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @BindView(R2.id.usr_startScreen_baseLayout_ConstraintLayout)
     ConstraintLayout usr_startScreen_baseLayout_ConstraintLayout;
 
+    @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
+    LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
+
 
     boolean isWeChatAppRegistered;
     String mWeChatAppId;
@@ -604,6 +607,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, usr_startScreen_baseLayout_ConstraintLayout, width);
+        applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
     }
 
     @Override
