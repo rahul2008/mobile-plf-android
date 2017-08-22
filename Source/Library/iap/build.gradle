@@ -34,7 +34,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
     }
 }
 
@@ -77,7 +77,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -156,7 +156,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -225,22 +225,36 @@ apply from: "build.workaround-missing-resource.gradle"
 dependencies {
     //3rd party
     compile 'com.google.code.gson:gson:2.2.4'
+	
     //Coco
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-    }
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+	def dp = project.ext.has('useprojectdependencies')
+	
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	compile(dp ? project(':uit') : uitModule) 
+	{
+		transitive = true
+	}
 
-        transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-    }
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	compile(dp ? project(':uidUApp') : uidModule) 
+	{
+		transitive = true
+	}
+	
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'	
+
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':usr') : usrModule) 
+	{
+		transitive = true
+	}
+
+	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':prx') : prxModule) 	
+	{
+		transitive = true
+	}
+
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
