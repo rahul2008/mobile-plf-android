@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.catalogapp.events.*;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
@@ -80,6 +81,9 @@ public class MainActivity extends UIDActivity {
     private int leftRecyclerViewSelectedPosition = 0;
     private int rightListViewSelectedPosition = 0;
 
+    private RelativeLayout leftSidebarRoot;
+    private RelativeLayout rightSidebarRoot;
+
     private static final String[] RIGHT_MENU_ITEMS = new String[]{
             "Profile item 1",
             "Profile item 2",
@@ -118,6 +122,8 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
+        leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
+        rightSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_right_root);
         //sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
         /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
         sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
@@ -172,6 +178,14 @@ public class MainActivity extends UIDActivity {
 
     public SideBar getSideBar(){
         return sideBarLayout;
+    }
+
+    public void setLeftSidebarBGColor(int color){
+        leftSidebarRoot.setBackgroundColor(color);
+    }
+
+    public void setRightSidebarBGColor(int color){
+        rightSidebarRoot.setBackgroundColor(color);
     }
 
     @Override
