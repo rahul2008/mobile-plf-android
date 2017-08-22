@@ -8,18 +8,6 @@
             "eventId": "onSplashTimeOut",
             "nextStates": [
               {
-                "condition": [
-                  "conditionAppLaunch"
-                ],
-                "nextState": "onBoarding_registration"
-              },
-              {
-                "condition": [
-                  "isLoggedIn"
-                ],
-                "nextState": "home"
-              },
-              {
                 "condition": [],
                 "nextState": "welcome"
               }
@@ -80,6 +68,12 @@
             "eventId": "welcome_skip",
             "nextStates": [
               {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
                 "condition": [],
                 "nextState": "onBoarding_registration"
               }
@@ -88,6 +82,12 @@
           {
             "eventId": "welcome_done",
             "nextStates": [
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
               {
                 "condition": [],
                 "nextState": "onBoarding_registration"

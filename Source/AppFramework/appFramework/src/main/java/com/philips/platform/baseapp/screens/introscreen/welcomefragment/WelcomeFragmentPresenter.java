@@ -6,7 +6,6 @@
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
-
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -55,6 +54,7 @@ public class WelcomeFragmentPresenter extends AbstractUIBasePresenter {
             if (baseState != null) {
                 welcomeFragmentView.showActionBar();
                 baseState.navigate(getFragmentLauncher());
+                welcomeFragmentView.clearAdapter();
                 welcomeFragmentView = null;
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException

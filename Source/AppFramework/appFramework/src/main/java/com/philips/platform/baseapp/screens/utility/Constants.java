@@ -51,6 +51,8 @@ public class Constants {
     public static final String ILLEGAL_STATE_EXCEPTION="illegal_fragment_state";
     public static final String UNSUPPORTED_ENCODING_EXCEPTION="unsupported_encoding_exception";
 
+    public static final String SERVICE_DISCOVERY_SPLASH_VIDEO = "app.splashvideo";
+
 
     public static final String UR_LOGIN_COMPLETED = "UR_LOGIN_COMPLETED";
     public static final String SHARED_PREF = "SHARED_PREF";
