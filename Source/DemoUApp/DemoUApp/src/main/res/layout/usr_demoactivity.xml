@@ -116,7 +116,7 @@
                     android:layout_marginBottom="10dp"
                     android:text="Change theme"/>
 
-                <Switch
+                <com.philips.platform.uid.view.widget.Switch
                     android:id="@+id/county_selection_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

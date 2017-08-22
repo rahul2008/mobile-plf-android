@@ -20,6 +20,10 @@ import android.util.Log;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
@@ -35,6 +39,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.view.widget.*;
 import com.philips.platform.urdemo.themesettings.*;
 import com.philips.platform.urdemolibrary.R;
 
@@ -89,7 +94,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
-        Switch mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+        com.philips.platform.uid.view.widget.Switch mCountrySelectionSwitch = (com.philips.platform.uid.view.widget.Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         Button mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
@@ -102,7 +107,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
 
-        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+//        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
