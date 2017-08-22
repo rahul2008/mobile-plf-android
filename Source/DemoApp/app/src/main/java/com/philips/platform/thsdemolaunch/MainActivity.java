@@ -53,7 +53,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ths_launch_activity);
+        setContentView(R.layout.ths_activity_launch);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
         setSupportActionBar(toolbar);
@@ -65,7 +65,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         }else {
             launchAmwell();
         }
-        //launchAmwell();
+       // launchAmwell();
     }
 
 

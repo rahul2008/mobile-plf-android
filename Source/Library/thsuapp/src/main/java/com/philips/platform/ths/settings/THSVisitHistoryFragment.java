@@ -19,6 +19,7 @@ import com.americanwell.sdk.entity.visit.VisitReport;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
@@ -46,6 +47,11 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_visit_history),true);
+        }
+        createCustomProgressBar(mRelativeLayout,BIG);
         mThsVisitHistoryPresenter.getVisitHistory();
     }
 

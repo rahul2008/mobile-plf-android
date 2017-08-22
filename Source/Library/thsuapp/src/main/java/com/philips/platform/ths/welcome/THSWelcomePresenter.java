@@ -22,6 +22,8 @@ import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
+import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -34,6 +36,11 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
     private THSBaseFragment uiBaseView;
     private Consumer consumer;
+    private final int APPOINTMENTS = 1;
+    private final int VISIT_HISTORY = 2;
+    private final int HOW_IT_WORKS = 3;
+    private final int PRACTICES = 4;
+    private int launchInput = -1;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
         this.uiBaseView = uiBaseView;
@@ -41,13 +48,32 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
 
     @Override
     public void onEvent(int componentID) {
-        if (componentID == R.id.init_amwell) {
-            initializeAwsdk();
+        if (componentID == R.id.appointments) {
+            launchInput = 1;
+            checkForUserExisitance();
+        } else if (componentID == R.id.visit_history) {
+            launchInput = 2;
+            checkForUserExisitance();
+        } else if (componentID == R.id.how_it_works) {
+            launchInput = 3;
+            uiBaseView.showToast("Coming Soon!!!");
+        }else if(componentID == R.id.ths_start){
+            launchInput = 4;
+            checkForUserExisitance();
+        }
+    }
+
+    private void checkForUserExisitance() {
+        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
+        try {
+            checkIfUserExisits();
+            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
         }
     }
 
     protected void initializeAwsdk() {
-        ((THSWelcomeFragment) uiBaseView).enableInitButton(false);
         try {
             AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
@@ -65,13 +91,8 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
-        try {
-            checkIfUserExisits();
-            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
+        uiBaseView.hideProgressBar();
+        ((THSWelcomeFragment)uiBaseView).updateView();
     }
 
     @Override
@@ -79,7 +100,6 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         uiBaseView.hideProgressBar();
         if (uiBaseView.getContext() != null) {
             (uiBaseView).showToast("Init Failed!!!!!");
-            ((THSWelcomeFragment) uiBaseView).enableInitButton(true);
         }
     }
 
@@ -134,7 +154,23 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
-        launchPractice(consumer);
+        switch (launchInput){
+            case APPOINTMENTS:
+                uiBaseView.hideProgressBar();
+                uiBaseView.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
+                break;
+            case VISIT_HISTORY:
+                uiBaseView.hideProgressBar();
+                uiBaseView.addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
+                break;
+            case HOW_IT_WORKS:
+                uiBaseView.hideProgressBar();
+                break;
+            case PRACTICES:
+                uiBaseView.hideProgressBar();
+                launchPractice(consumer);
+                break;
+        }
     }
 
     private void launchPractice(Consumer consumer) {
@@ -143,7 +179,6 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         THSConsumer THSConsumer = new THSConsumer();
         THSConsumer.setConsumer(consumer);
         THSManager.getInstance().setPTHConsumer(THSConsumer);
-        uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Consumer object received");
         final THSPracticeFragment fragment = new THSPracticeFragment();
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());

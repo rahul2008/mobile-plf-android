@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_appointment_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:layout_width="@dimen/ths_image_size"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/ths_fab_margin"
+        android:id="@+id/pth_practice_logo"
+        android:src="@drawable/ic_calender"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:layout_height="@dimen/ths_image_size" />
+
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_practice_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/pth_practice_logo"
+        android:layout_toStartOf="@+id/ths_practice_arrow_image"
+        android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
+        android:maxLines="3"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="@dimen/ths_body_text"
+        android:text="@string/ths_appointments"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ths_practice_arrow_image"
+        android:layout_width="wrap_content"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:gravity="center_vertical"
+        android:src="@mipmap/right_arrow_icon" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+</RelativeLayout>

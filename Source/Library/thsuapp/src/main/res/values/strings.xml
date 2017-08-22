@@ -1,29 +1,41 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <string name="ths_nopp"><u>Notice of Privacy Practices.</u></string>
 
     <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
     <string name="action_settings">Settings</string>
+    <string name="ths_vitals_prepare_visit_title">Prepare your visit</string>
     <string name="app_name">AmwellUapp</string>
     <string name="symptoms">Step 1 of 5: Symptoms</string>
-    <string name="vitals">Step 2 of 5: vitals</string>
-    <string name="conditions">Step 4 of 5: Conditions</string>
+    <string name="vitals">Step 2 of 5: Vitals</string>
+    <string name="conditions">Step 4 of 5: Medical conditions</string>
+    <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
+    <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
+        call you, for a follow up, if needed?</string>
+    <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
+    <string name="ths_vitals_phone_number_text"> Phone number</string>
     <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
-    <string name="additional_reason">Additional Reason</string>
+    <string name="additional_comment">Additional comment</string>
     <string name="write_here">write here</string>
     <string name="ths_prepare_your_visit">Prepare for your visit</string>
     <string name="button_greaterthan"> &gt;</string>
-    <string name="vitals_want">What do you want from vitals?</string>
-    <string name="vitals_blood_pressure">Blood Pressure</string>
+    <string name="vitals_want">Do you want to share your vitals?</string>
+    <string name="vitals_add_medication_text">Add medication</string>
+    <string name="vitals_blood_pressure">Blood pressure </string>
+    <string name="vitals_medication_description_text">Are you currently taking any medication(s)? If so, please add your medications to share with the provider</string>
+    <string name="vitals_weight_text">(in mm HG)</string>
+    <string name="vitals_temp_text">(in \u2109)</string>
+    <string name="vitals_medications">Step 3 of 5: Medications</string>
     <string name="vitals_systolic">Systolic</string>
-    <string name="vitals_diastolic">Diastolic</string>
+    <string name="vitals_diastolic">Diasystolic</string>
     <string name="temperature">Temperature</string>
     <string name="vitals_faranheit">Farenheit</string>
     <string name="vitals_f">oF</string>
     <string name="weight">Weight</string>
     <string name="vitals_ponds">Pounds</string>
     <string name="vitals_skip">Skip this step</string>
-    <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
+    <string name="ths_medical_conditions">Have you been diagnosed with any of these medical conditions?</string>
     <string name="google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
     <string name="ths_select_a_date_and_time">Select a Date and Time</string>
     <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
@@ -31,14 +43,14 @@
     <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
     <string name="ths_available_provider">Pick a time</string>
     <string name="ths_scedule_appointment">Schedule an appointment for</string>
-    <string name="ths_practice_pick_subject">"To start a consult, pick a subject"</string>
+    <string name="ths_practice_pick_subject">"To start a visit pick a subject"</string>
 
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
     <string name="ths_set_remainder">Set a reminder</string>
     <string name="ths_set_button_text">Set</string>
-    <string name="ths_got_it">Ok got it</string>
+    <string name="ths_got_it">Ok, got it!</string>
     <string name="ths_email_sent">We have sent a confirmation email to</string>
     <string name="ths_confirm">Confirm</string>
     <string name="ths_no_available_appointments">No available appointments</string>h
@@ -101,6 +113,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
+    <string name="ths_your_details">"Your Details"</string>
 
 
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
@@ -118,6 +131,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_visit_summary">Visit Summary</string>
     <string name="ths_credit_card_charge">Your credit card was charged </string>
     <string name="ths_visit_report">Your Visit Report</string>
+    <string name="ths_visit">Your Visit</string>
     <string name="ths_visit_prescription">Your prescription was sent to</string>
     <string name="ths_visit_medication">Your medication will be shipped to</string>
     <string name="ths_download_report">Download report</string>
@@ -134,11 +148,31 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_rb_one_week_before">1 week before</string>
     <string name="ths_reminder_set">Reminder set</string>
     <string name="ths_before_appointment">before appointment</string>
+    <string name="ths_at_text">at</string>
 
     <!-- Search strings -->
     <string name="ths_search_medication">Search for medication</string>
     <string name="ths_search_provider">Search for provider</string>
     <string name="ths_search_pharmacy">Search for pharmacy</string>
+
+    <!-- Welcome Screen-->
+    <string name="ths_see_provider">See a provider online, anytime</string>
+    <string name="ths_quick_visit">The easiest way to get a quick visit with a licensed provider.</string>
+    <string name="ths_see_doctor">Go to see a provider</string>
+    <string name="ths_appointments">Appointments</string>
+    <string name="ths_visit_history">Visit history</string>
+    <string name="ths_how_it_works">How it works</string>
+    <string name="ths_welcome">Welcome</string>
+
+    <!--Provider details strings -->
+    <string name="ths_see_this_doctor_now_button_text">See this provider now</string>
+    <string name="ths_schedule_an_appointment_button_text">Schedule an appointment</string>
+    <string name="ths_ill_wait_in_line_button_text">I\'ll wait in line</string>
+
+    <!-- Available provider strings-->
+    <string name="ths_available_location_specialists_string">available location specialist(s)</string>
+    <string name="ths_available_time_slots_text">Available time slots</string>
+
     <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
     <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>
     <string name="hippa_notice">HIPPA notice</string>

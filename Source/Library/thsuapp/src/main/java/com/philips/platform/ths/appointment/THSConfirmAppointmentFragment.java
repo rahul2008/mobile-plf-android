@@ -18,17 +18,19 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface {
+public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface, View.OnClickListener {
 
     public static final String TAG = THSConfirmAppointmentFragment.class.getSimpleName();
     private THSProviderInfo mThsProviderInfo;
@@ -38,6 +40,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     private Label mLabelIsAvailable;
     private ImageView mImageIsAvailable;
     private String reminderTimeString;
+    private Button ok_got_it;
 
     @Nullable
     @Override
@@ -51,11 +54,13 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mAppointmentDate = (Date) bundle.getSerializable(THSConstants.THS_DATE);
         reminderTimeString = bundle.getString(THSConstants.THS_SET_REMINDER_EXTRA_KEY);
 
+        ok_got_it = (Button) view.findViewById(R.id.ok_got_it);
+        ok_got_it.setOnClickListener(this);
         reminderTime = (Label) view.findViewById(R.id.reminderTime);
-        if(reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)){
+        if (reminderTimeString.contains(THSConstants.THS_NO_REMINDER_STRING)) {
             reminderTime.setVisibility(View.GONE);
         }
-        reminderTime.setText("Reminder set " + reminderTimeString + " before appointment");
+        reminderTime.setText(getString(R.string.ths_set_remainder) + " " + reminderTimeString);
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
@@ -70,7 +75,10 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
         mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " " + THSManager.getInstance().getPTHConsumer().getConsumer().getEmail());
-        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
+        String appointmentDateTiem = null;
+        appointmentDateTiem = new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate);
+        appointmentDateTiem = appointmentDateTiem + " " + getString(R.string.ths_at_text) + " " + new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate);
+        mLabelDate.setText(appointmentDateTiem);
 
         if (mThsProviderInfo.getProviderInfo().hasImage()) {
             try {
@@ -93,5 +101,12 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public Date getAppointmentDate() {
         return mAppointmentDate;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ok_got_it) {
+            popFragmentByTag(THSPracticeFragment.TAG, 0);
+        }
     }
 }

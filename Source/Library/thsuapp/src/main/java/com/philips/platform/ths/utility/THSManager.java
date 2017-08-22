@@ -314,7 +314,12 @@ public class THSManager {
         newConsumerEnrollment.setConsumerAuthKey(user.getHsdpUUID());
 
         newConsumerEnrollment.setEmail(user.getEmail());
-        newConsumerEnrollment.setPassword("sujata123*");
+
+        if(user.getPassword()!=null) {
+            newConsumerEnrollment.setPassword(user.getPassword());
+        }else {
+            newConsumerEnrollment.setPassword("Password123*");
+        }
 
         newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
 
@@ -329,7 +334,7 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-     /*  initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
@@ -494,6 +499,9 @@ public class THSManager {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
                 THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
+                THSConsumer thsConsumer = new THSConsumer();
+                thsConsumer.setConsumer(consumer);
+                setPTHConsumer(thsConsumer);
             }
 
             @Override
@@ -810,8 +818,8 @@ public class THSManager {
         });
     }
 
-    public void updatePreferredShippingAddress(Context context,final THSConsumer thsConsumer,final Address address,final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().updateShippingAddress(thsConsumer.getConsumer(), address, new SDKValidatedCallback<Address, SDKError>() {
+    public void updatePreferredShippingAddress(Context context,final Address address,final THSUpdateShippingAddressCallback thsUpdateShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateShippingAddress(getPTHConsumer().getConsumer(), address, new SDKValidatedCallback<Address, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 thsUpdateShippingAddressCallback.onAddressValidationFailure(map);

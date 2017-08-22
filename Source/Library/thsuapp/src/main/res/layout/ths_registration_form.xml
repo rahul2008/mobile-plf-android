@@ -204,7 +204,7 @@
                 android:src="@mipmap/gps_icon" />
         </RelativeLayout>
 
-        <com.philips.platform.uid.view.widget.Button
+        <com.philips.platform.uid.view.widget.ProgressBarButton
             android:id="@+id/ths_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

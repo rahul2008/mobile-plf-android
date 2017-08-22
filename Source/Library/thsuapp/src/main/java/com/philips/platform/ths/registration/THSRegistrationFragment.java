@@ -19,6 +19,7 @@ import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
@@ -28,6 +29,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +40,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
-    private Button mContinueButton;
+    private ProgressBarButton mContinueButton;
     private  EditText mEditTextFirstName;
     private EditText mEditTextLastName;
     private Label mDateOfBirth;
@@ -53,15 +55,19 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_registration_form, container, false);
+
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
+        }
+
         setView(view);
-        getActionBarListener().updateActionBar("Registration form", false);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
         return view;
     }
 
     private void setView(ViewGroup view) {
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.registration_form_container);
-        mContinueButton = (Button) view.findViewById(R.id.ths_continue);
+        mContinueButton = (ProgressBarButton) view.findViewById(R.id.ths_continue);
         mContinueButton.setOnClickListener(this);
         mEditTextFirstName = (EditText) view.findViewById(R.id.ths_edit_first_name);
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
@@ -82,6 +88,33 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
         mEditTextState.setAdapter(spinnerAdapter);
         mEditTextState.setSelection(0);
+
+        prepopilateData();
+    }
+
+    private void prepopilateData() {
+        final User user = THSManager.getInstance().getUser(getContext());
+        if(user == null)
+            return;
+        if(user.getGivenName()!=null) {
+            mEditTextFirstName.setText(user.getGivenName());
+        }
+        if(user.getFamilyName()!=null) {
+            mEditTextLastName.setText(user.getFamilyName());
+        }
+        if(user.getDateOfBirth()!=null) {
+            setDate(user.getDateOfBirth());
+        }
+
+        final com.philips.cdp.registration.ui.utils.Gender gender = user.getGender();
+        if(gender == null)
+            return;
+
+        if(gender == com.philips.cdp.registration.ui.utils.Gender.FEMALE){
+            mCheckBoxFemale.setChecked(true);
+        }else {
+            mCheckBoxMale.setSelected(true);
+        }
     }
 
     @Override
@@ -113,6 +146,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     public void updateDobView(Date date) {
         mDob = date;
+        setDate(date);
+    }
+
+    private void setDate(Date date) {
         mDateOfBirth.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
                 format(date));
     }

@@ -112,11 +112,11 @@ public class THSVitalsPresenterTest {
         thsVitalsPresenter.onEvent(R.id.vitals_skip);
         verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
     }
-    @Test
+ /*   @Test
     public void onEventInvalidBtn() throws Exception {
         thsVitalsPresenter.onEvent(R.id.view_having_problem);
         verifyNoMoreInteractions(pTHBaseViewMock);
-    }
+    }*/
 
     @Test
     public void onEventContinueBtnWhenInputIsValidUpdateConditionsThrowsException() throws Exception {
