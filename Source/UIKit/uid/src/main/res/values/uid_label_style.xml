@@ -50,7 +50,8 @@
     <style name="UIDLabel.RecyclerViewItemOneLineTitleText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="uidDrawableTint">@color/uid_list_item_icon_selector</item>
+        <item name="android:textColor">@color/uid_list_item_text_selector</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemMultipleLinesTitleText">

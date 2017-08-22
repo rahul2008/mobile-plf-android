@@ -37,7 +37,9 @@
         <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDLabel"/>
+    <declare-styleable name="UIDLabel">
+        <attr name="uidDrawableTint" format="reference|color"/>
+    </declare-styleable>
 
     <declare-styleable name="UIDIndeterminateLinearProgressBar">
         <attr name="uidIndeterminateLinearProgressBGColor" format="reference|color"/>
