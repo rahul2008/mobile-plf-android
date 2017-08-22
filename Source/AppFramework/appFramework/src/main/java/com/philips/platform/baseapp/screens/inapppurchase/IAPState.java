@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -132,21 +133,20 @@ public abstract class IAPState extends BaseState implements IAPListener {
         if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).isUserSignIn()) {
             RALog.d(TAG, "Setting Listener");
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);
+        } else {
+            RALog.d(TAG, "User not signed in");
         }
     }
     @Override
     public void onGetCartCount(int i) {
-
     }
 
     @Override
     public void onUpdateCartCount() {
-
     }
 
     @Override
     public void updateCartIconVisibility(boolean b) {
-
     }
 
     @Override
@@ -157,12 +157,12 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onSuccess() {
-
     }
 
     @Override
     public void onFailure(int i) {
         ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
-        Toast.makeText(getApplicationContext(), "Check internet connectivity", Toast.LENGTH_LONG).show();
+        RALog.d(TAG, "IAPState list fetching failed");
+        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
     }
 }
