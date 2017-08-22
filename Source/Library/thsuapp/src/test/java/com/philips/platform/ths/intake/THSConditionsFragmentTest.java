@@ -54,7 +54,7 @@ public class THSConditionsFragmentTest {
     ActionBarListener actionBarListenerMock;
 
     @Mock
-    THSConditionsPresenter presenterMock;
+    THSMedicalConditionsPresenter presenterMock;
 
     @Mock
     FragmentLauncher fragmentLauncherMock;
@@ -94,7 +94,7 @@ public class THSConditionsFragmentTest {
     public void onActivityCreatedWhenThsConsitionsIsFetchedFromServerWithZeroConditions() throws Exception {
         thsConditionsFragment.setTHSConditions(pthConditionses);
         SupportFragmentTestUtil.startFragment(thsConditionsFragment);
-        assertNotNull(thsConditionsFragment.mTHSConditions);
+        assertNotNull(thsConditionsFragment.thsConditionsList);
     }
 
     @Test
@@ -105,13 +105,13 @@ public class THSConditionsFragmentTest {
         when(conditionMock.isCurrent()).thenReturn(true);
         thsConditionsFragment.setTHSConditions(pthConditionses);
         SupportFragmentTestUtil.startFragment(thsConditionsFragment);
-        assertNotNull(thsConditionsFragment.mTHSConditions);
+        assertNotNull(thsConditionsFragment.thsConditionsList);
     }
 
     @Test
     public void onClickContinueBtn() throws Exception {
         SupportFragmentTestUtil.startFragment(thsConditionsFragment);
-        thsConditionsFragment.mThsConditionsPresenter = presenterMock;
+        thsConditionsFragment.thsMedicalConditionsPresenter = presenterMock;
         thsConditionsFragment.setFragmentLauncher(fragmentLauncherMock);
         final View viewById = thsConditionsFragment.getView().findViewById(R.id.continue_btn);
         viewById.performClick();
@@ -121,7 +121,7 @@ public class THSConditionsFragmentTest {
     @Test
     public void onClickSkipBtn() throws Exception {
         SupportFragmentTestUtil.startFragment(thsConditionsFragment);
-        thsConditionsFragment.mThsConditionsPresenter = presenterMock;
+        thsConditionsFragment.thsMedicalConditionsPresenter = presenterMock;
         thsConditionsFragment.setFragmentLauncher(fragmentLauncherMock);
         final View viewById = thsConditionsFragment.getView().findViewById(R.id.conditions_skip);
         viewById.performClick();
@@ -144,7 +144,7 @@ public class THSConditionsFragmentTest {
         when(conditionMock.isCurrent()).thenReturn(true);
 
         thsConditionsFragment.setConditions(pthConditionses);
-        final View childAt = thsConditionsFragment.mLinerLayout.getChildAt(0);
+        final View childAt = thsConditionsFragment.checkBoxLinearLayout.getChildAt(0);
         childAt.performClick();
 
         verify(conditionMock).setCurrent(true);

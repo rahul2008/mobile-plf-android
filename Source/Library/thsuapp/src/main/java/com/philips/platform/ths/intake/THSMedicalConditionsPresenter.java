@@ -8,31 +8,32 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList, THSSDKError>, THSUpdateConditionsCallback<Void, THSSDKError> {
-    private THSBaseFragment mTHSBaseFragment;
+public class THSMedicalConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList, THSSDKError>, THSUpdateConditionsCallback<Void, THSSDKError> {
+    private THSBaseFragment thsBaseFragment;
 
-    public THSConditionsPresenter(THSBaseFragment THSBaseFragment) {
-        this.mTHSBaseFragment = THSBaseFragment;
+    public THSMedicalConditionsPresenter(THSBaseFragment THSBaseFragment) {
+        this.thsBaseFragment = THSBaseFragment;
     }
 
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSMedicalConditionsFragment) mTHSBaseFragment).getTHSConditions(), this);
+                THSManager.getInstance().updateConditions(thsBaseFragment.getContext(), ((THSMedicalConditionsFragment) thsBaseFragment).getTHSConditions(), this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
             launchFollowUpFragment();
+
         } else if (componentID == R.id.conditions_skip) {
             launchFollowUpFragment();
         }
@@ -40,12 +41,12 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
 
     private void launchFollowUpFragment() {
         final THSFollowUpFragment fragment = new THSFollowUpFragment();
-        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        mTHSBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, null);
+        fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
+        thsBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, null);
     }
 
     public void getConditions() throws AWSDKInstantiationException {
-        THSManager.getInstance().getConditions(mTHSBaseFragment.getFragmentActivity(), this);
+        THSManager.getInstance().getConditions(thsBaseFragment.getFragmentActivity(), this);
     }
 
     @Override
@@ -60,12 +61,12 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
         }
 
 
-        ((THSMedicalConditionsFragment) mTHSBaseFragment).setConditions(THSConditionsList);
+        ((THSMedicalConditionsFragment) thsBaseFragment).setConditions(THSConditionsList);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        mTHSBaseFragment.showToast("Conditions Failed");
+        thsBaseFragment.showToast("Conditions Failed");
     }
 
 
