@@ -25,7 +25,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
     }
 }
 
@@ -51,25 +51,33 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.google.code.gson:gson:2.2.4'
-	compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
 
-	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
+	def dp = project.ext.has('useprojectdependencies')
 
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-        transitive = true
-    }
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	compile(dp ? project(':uit') : uitModule) 
+	{
+		transitive = true
+	}
 
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
+	compile(dp ? project(':ufw') : ufwModule) 
+	{
+		transitive = true
+	}
+	
+	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':prx') : prxModule) 	
+	{
+		transitive = true
+	}
+
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	compile(dp ? project(':uidUApp') : uidModule) 
+	{
+		transitive = true
+	}
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -99,7 +107,7 @@ allprojects {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -175,7 +183,7 @@ android {
         targetSdkVersion 25
         versionCode 3
         generatedDensities = []
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
