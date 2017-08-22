@@ -98,22 +98,25 @@
                 android:id="@+id/camera_click_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/additional_comments_edittext"
-                android:layout_alignStart="@+id/additional_comments_edittext"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="@dimen/ths_fab_margin"
-                android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginStart="12dp"
+                android:layout_marginTop="@dimen/ths_margin_bottom"
+                android:layout_marginBottom="@dimen/ths_margin_bottom"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:layout_marginStart="@dimen/ths_fab_margin"
+                android:layout_below="@+id/additional_comments_edittext"
                 android:background="@drawable/reg_circle"
-                app:uidImageButtonDrawableSrc="@mipmap/camera_icon"/>
+                app:uidImageButtonDrawableSrc="@mipmap/dls_capture_camera_icon"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/imagelist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/camera_click_button"
+                android:layout_alignBaseline="@+id/camera_click_button"
                 android:layout_below="@+id/additional_comments_edittext"
-                android:layout_marginLeft="@dimen/ths_fab_margin"
-                android:layout_marginRight="@dimen/ths_fab_margin" />
+                android:layout_marginTop="@dimen/ths_margin_bottom"
+                android:layout_marginBottom="@dimen/ths_margin_bottom"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
+                android:layout_marginStart="@dimen/ths_fab_margin" />
 
         </RelativeLayout>
 
