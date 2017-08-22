@@ -15,15 +15,16 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.PopupOverAdapter;
 import com.philips.cdp.uikit.utils.RowItem;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CountDropDown implements AdapterView.OnItemClickListener {
-    private UIKitListPopupWindow mPopUp;
+    private UIPicker mPopUp;
     private int mStart;
     private int mEnd;
     private int mCurrent;
@@ -55,7 +56,7 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
         mPopUp.setSelection(mCurrentViewIndex);
     }
 
-    public UIKitListPopupWindow getPopUpWindow() {
+    public UIPicker getPopUpWindow() {
         return mPopUp;
     }
 
@@ -76,8 +77,11 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
 
     private void createPopUp(final View anchor, final Context context) {
         List<RowItem> rowItems = getRowItems();
-        mPopUp = new UIKitListPopupWindow(context, anchor,
-                UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPLEFT, rowItems);
+        Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
+        mPopUp = new UIPicker(popupThemedContext);
+        mPopUp.setAnchorView(anchor);
+        /*mPopUp = new UIKitListPopupWindow(context, anchor,
+                UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPLEFT, rowItems);*/
         int offset = (int) context.getResources().getDimension(R.dimen.iap_count_drop_down_horizontal_offset);
         mPopUp.setHorizontalOffset(offset);
         mPopUp.setWidth((int) context.getResources().getDimension(R.dimen
@@ -85,7 +89,7 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
         mPopUp.setHeight((int) context.getResources().getDimension(R.dimen
                 .iap_count_drop_down_popup_height));
         mPopUp.setModal(true);
-        mPopUp.setAdapter(new CountAdapter(context, R.layout.uikit_simple_list_image_text, rowItems));
+        mPopUp.setAdapter(new CountAdapter(popupThemedContext, R.layout.uikit_simple_list_image_text, rowItems));
         mPopUp.setOnItemClickListener(this);
     }
 

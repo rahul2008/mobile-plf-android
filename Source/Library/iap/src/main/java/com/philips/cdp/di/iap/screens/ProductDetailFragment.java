@@ -51,10 +51,10 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -315,7 +315,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private Drawable countArrow;
     private int mQuantityStatus;
     private int mNewCount;
-    private UIKitListPopupWindow mPopupWindow;
+    private UIPicker mPopupWindow;
 
     private void checkForOutOfStock(int pStockLevel, int pQuantity) {
         if (pStockLevel == 0) {
