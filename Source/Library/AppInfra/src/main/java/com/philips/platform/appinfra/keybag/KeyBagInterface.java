@@ -12,5 +12,5 @@ public interface KeyBagInterface {
 
     void getServicesForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
                                   Map<String, String> replacement,
-                                  ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) throws KeyBagJsonFileNotFoundException;
+                                  ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws KeyBagJsonFileNotFoundException;
 }

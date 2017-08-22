@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class KeyBagActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
+
 		serviceIdEditText = (EditText) findViewById(R.id.service_id_edt);
 		responseTextView = (TextView) findViewById(R.id.response_view);
 
@@ -58,7 +60,7 @@ public class KeyBagActivity extends AppCompatActivity {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
 		String[] serviceIds = serviceIdEditText.getText().toString().split(",");
 		try {
-			keyBagInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
+			keyBagInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
                 @Override
                 public void onSuccess(List<AIKMService> aikmServices) {
                     updateView(aikmServices);
@@ -75,18 +77,25 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	}
 
-	private void updateView(List<AIKMService> aikmServices) {
+	private void updateView(List<AIKMService> aikmServiceList) {
 		StringBuilder stringBuilder = new StringBuilder();
-		if (aikmServices != null && aikmServices.size() != 0) {
-			for (int i = 0; i < aikmServices.size(); i++) {
+		if (aikmServiceList != null && aikmServiceList.size() != 0) {
+			for (int i = 0; i < aikmServiceList.size(); i++) {
 				stringBuilder.append("ServiceId: ");
-				stringBuilder.append(aikmServices.get(i).getServiceId());
+				AIKMService aikmService = aikmServiceList.get(i);
+				stringBuilder.append(aikmService.getServiceId());
 				stringBuilder.append(", ");
-				stringBuilder.append("Url:");
-				stringBuilder.append("  ");
-				stringBuilder.append(aikmServices.get(i).getConfigUrls());
+				if(!TextUtils.isEmpty(aikmService.getmError())) {
+					stringBuilder.append("Url:");
+					stringBuilder.append("  ");
+					stringBuilder.append(aikmService.getConfigUrls());
+				} else {
+					stringBuilder.append("Error:");
+					stringBuilder.append("  ");
+					stringBuilder.append(aikmService.getmError());
+				}
 				stringBuilder.append(", ");
-				Map keyBag = aikmServices.get(i).getKeyBag();
+				Map keyBag = aikmService.getKeyBag();
 				if (keyBag != null) {
 					for (Object object : keyBag.entrySet()) {
 						Map.Entry pair = (Map.Entry) object;
@@ -100,7 +109,7 @@ public class KeyBagActivity extends AppCompatActivity {
 						stringBuilder.append("  ");
 					}
 				}
-				AIKMService.KEY_BAG_ERROR keyBagError = aikmServices.get(i).getKeyBagError();
+				AIKMService.KEY_BAG_ERROR keyBagError = aikmService.getKeyBagError();
 				if (null != keyBagError) {
 					stringBuilder.append("error -- ");
 					stringBuilder.append(keyBagError.name());
@@ -108,9 +117,7 @@ public class KeyBagActivity extends AppCompatActivity {
 				stringBuilder.append("\n");
 				stringBuilder.append("\n");
 			}
-
 		}
-
 		responseTextView.setText(stringBuilder.toString());
 	}
 }

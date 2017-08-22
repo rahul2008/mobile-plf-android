@@ -63,8 +63,12 @@ public interface ServiceDiscoveryInterface {
         void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
     }
 
-    //TODO - to add java document
-    interface OnGetKeyBagMapListener extends OnErrorListener {
+    /**
+     * This is the callback method from getServicesForServiceIds() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     */
+    interface OnGetServicesListener extends OnErrorListener {
         void onSuccess(List<AIKMService> aiKmServices);
     }
 

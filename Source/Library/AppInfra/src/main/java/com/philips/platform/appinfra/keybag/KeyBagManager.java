@@ -34,12 +34,12 @@ public class KeyBagManager implements KeyBagInterface {
     @Override
     public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
                                          Map<String, String> replacement,
-                                         @NonNull final ServiceDiscoveryInterface.OnGetKeyBagMapListener keyBagMapListener) throws KeyBagJsonFileNotFoundException {
+                                         @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws KeyBagJsonFileNotFoundException {
 
         InputStream inputStream = getInputStream(appInfra.getAppInfraContext(), "AIKeyBag.json");
         getKeyBagHelper().init(appInfra, inputStream);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, keyBagMapListener);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
         getKeyBagHelper().getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
     }
 
@@ -58,17 +58,17 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingKeyBagUrlsListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingKeyBagUrlsListener(final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 keyBagHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
-                onGetKeyBagMapListener.onSuccess(aikmServices);
+                onGetServicesListener.onSuccess(aikmServices);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                onGetKeyBagMapListener.onError(error, message);
+                onGetServicesListener.onError(error, message);
             }
         };
     }
@@ -76,18 +76,18 @@ public class KeyBagManager implements KeyBagInterface {
     @NonNull
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
                                                                                                   final AISDResponse.AISDPreference aiSdPreference,
-                                                                                                  final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+                                                                                                  final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = fetchGettingKeyBagUrlsListener(onGetKeyBagMapListener, aiKmServices, urlMap);
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = fetchGettingKeyBagUrlsListener(onGetServicesListener, aiKmServices, urlMap);
                 ArrayList<String> appendedServiceIds = keyBagHelper.getAppendedServiceIds(serviceIds);
                 keyBagHelper.getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                onGetKeyBagMapListener.onError(error, message);
+                onGetServicesListener.onError(error, message);
             }
         };
     }
