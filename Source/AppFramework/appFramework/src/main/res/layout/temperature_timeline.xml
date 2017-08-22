@@ -151,6 +151,39 @@
     />
 </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/expiration_date_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location_container"
+        android:orientation="horizontal"
+        android:layout_toLeftOf="@id/frame"
+    >
+
+    <TextView
+        android:id="@+id/expiration_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="?attr/uikit_baseColor"
+        android:textSize="16sp"
+        android:text="Expiration Date"
+        style="@style/centralesansBoldFont"
+    />
+
+    <TextView
+        android:id="@+id/expiration_date_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/expiration_date"
+        android:text="never expires"
+        android:textSize="14sp"
+        android:textColor="?attr/uikit_baseColor"
+        android:layout_weight="1"
+        style="@style/centralesansBookFont"
+    />
+</LinearLayout>
+
     <TextView
         android:id="@+id/is_synced"
         android:layout_width="wrap_content"

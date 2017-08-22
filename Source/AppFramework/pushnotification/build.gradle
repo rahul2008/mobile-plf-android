@@ -1,5 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+//def coverageSourceDirs = [
+//                                "src/main/java"
+//                        ]
+
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -104,10 +114,31 @@ android {
     }
     buildTypes {
         release {
+//            testCoverageEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        debug {
+//            minifyEnabled false
+//            debuggable true
+//            shrinkResources false
+//            testCoverageEnabled true
+//        }
     }
+
+
+//    testOptions {
+//        unitTests.returnDefaultValues = true
+//
+//        unitTests.all {
+//            // set JVM arguments for the test JVM(s)
+//            jvmArgs '-noverify'
+//            testLogging {
+//                events "started", "passed", "skipped", "failed"
+//                outputs.upToDateWhen {false}
+//            }
+//        }
+//    }
 }
 
 dependencies {
@@ -118,5 +149,109 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+    testCompile 'org.robolectric:robolectric:3.3.1'
+    testCompile 'org.robolectric:shadows-multidex:3.3.1'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+
+    testCompile 'org.powermock:powermock-core:1.6.6'
+    testCompile "org.powermock:powermock-module-junit4:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule-agent:1.6.6"
+    testCompile "org.powermock:powermock-api-mockito:1.6.6"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
+    testCompile 'org.robolectric:robolectric:3.3.1'
+    testCompile 'org.robolectric:robolectric-annotations:3.3.1'
+    testCompile 'com.crittercism:crittercism-android-agent:5.8.1'
 }
+
+//task jacocoTestReport(type: JacocoReport, dependsOn: ["testDebugUnitTest", "createDebugCoverageReport"]) {
+//    group = "Reporting"
+//
+//    description = "Generate Jacoco coverage reports"
+//
+//    classDirectories = fileTree(
+//        dir: "${buildDir}/intermediates/classes/debug"
+//    )
+//
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    sourceDirectories = files(coverageSourceDirs)
+//
+//    executionData = fileTree(dir: buildDir, includes: [
+//            "jacoco/testDebugUnitTest.exec",
+//    ])
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//}
+
+
+//project.afterEvaluate {
+//    // Grab all build types and product flavors
+//    def buildTypes = android.buildTypes.collect { type ->
+//        type.name
+//    }
+//    def productFlavors = android.productFlavors.collect { flavor ->
+//        flavor.name
+//    }
+//    // When no product flavors defined, use empty
+//    if (!productFlavors) productFlavors.add('')
+//
+//    //iterate over the flavors
+//
+//    productFlavors.each {
+//
+//        productFlavorName ->
+////iterate over build types like debug,release,prod etc.
+//            buildTypes.each {
+//
+//                buildTypeName ->
+//                    //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
+//                    def sourceName, sourcePath
+//                    if (!productFlavorName) {
+//                        sourceName = sourcePath = "${buildTypeName}"
+//                    } else {
+//                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+//                        sourcePath = "${productFlavorName}/${buildTypeName}"
+//                    }
+//                    // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
+//                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
+//                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+//                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+//                        group = "Reporting"
+//                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+//                        classDirectories = fileTree(
+//                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
+//                                excludes: [
+//                                        '**/R.class',
+//                                        '**/R$*.class',
+//                                        '**/*$ViewInjector*.*',
+//                                        '**/*$ViewBinder*.*',
+//                                        '**/BuildConfig.*',
+//                                        '**/Manifest*.*',
+//                                ]
+//                        )
+//                        def coverageSourceDirs = [
+//                                "src/main/java",
+//                                "src/$productFlavorName/java",
+//                                "src/$buildTypeName/java"
+//                        ]
+//                        additionalSourceDirs = files(coverageSourceDirs)
+//                        sourceDirectories = files(coverageSourceDirs)
+//                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+//                        reports {
+//                            //enables and disable the type of file you need
+//                            xml.enabled = false
+//                            html.enabled = true
+//                        }
+//                    }
+//
+//            }
+//    }
+//}
+
 apply plugin: 'com.google.gms.google-services'
