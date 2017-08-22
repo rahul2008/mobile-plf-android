@@ -40,6 +40,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.EmailValidator;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -49,6 +50,7 @@ import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -139,7 +141,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_shipping_billing_address_layout, container, false);
         phoneNumberUtil = PhoneNumberUtil.getInstance();
-
+        InputValidationLayout mFirstName = (InputValidationLayout) rootView.findViewById(R.id.input_validation_first_name);
+        mFirstName.setValidator(new EmailValidator());
 //        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
 //
 //        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
@@ -195,13 +198,13 @@ public class ShippingAddressFragment extends InAppBaseFragment
 //
 //        mAddressController = new AddressController(mContext, this);
 //        mPaymentController = new PaymentController(mContext, this);
-//        mShippingAddressFields = new AddressFields();
+        mShippingAddressFields = new AddressFields();
 //
 //        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
 //        mEtEmail.setEnabled(false);
 //
 //        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-//        showUSRegions();
+        showUSRegions();
 //        mEtCountry.setEnabled(false);
 //
 //        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -488,11 +491,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
     }
 
     private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
-            mlLState.setVisibility(View.VISIBLE);
-        } else {
-            mlLState.setVisibility(View.GONE);
-        }
+//        if (mEtCountry.getText().toString().equals("US")) {
+//            mlLState.setVisibility(View.VISIBLE);
+//        } else {
+//            mlLState.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -601,7 +604,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         private boolean isInAfterTextChanged;
 
         public synchronized void afterTextChanged(Editable text) {
-            if (mEditText == mEtPhone1  && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
+            if (mEditText == mEtPhone1 && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
                 validate(mEditText, false);
                 isInAfterTextChanged = false;
@@ -668,7 +671,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
                 mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
             String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
-            String stateCode = code.substring(code.length()-2);
+            String stateCode = code.substring(code.length() - 2);
             mEtState.setText(stateCode);
             mlLState.setVisibility(View.VISIBLE);
         } else {

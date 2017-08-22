@@ -9,6 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/border16_margin_left_right"
+        android:layout_marginStart="@dimen/border16_margin_left_right"
+        android:layout_marginTop="@dimen/border24_margin"
         android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
@@ -21,5 +24,7 @@
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="@dimen/iap_shipping_address_title_size"
             android:textStyle="bold" />
+
+        <include layout="@layout/iap_shipping_address_layout_dls" />
     </LinearLayout>
 </ScrollView>
