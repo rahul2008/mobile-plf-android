@@ -1,11 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/uidContentPrimaryBackgroundColor"
+                android:gravity="center"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -26,26 +27,26 @@
                 android:layout_marginBottom="56dp"
                 android:orientation="vertical">
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_registration_with_account"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Account Setting" />
+                    android:text="Account Setting"/>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_marketing_opt_in"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Marketing OptIn" />
+                    android:text="Marketing OptIn"/>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_registration_without_account"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Registration" />
+                    android:text="Registration"/>
 
                 <Button
                     android:id="@+id/btn_refresh_token"
@@ -53,21 +54,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="HSDP Refresh access token Test"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_refresh_user"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="Refresh user"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_update_date_of_birth"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="Update DOB"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
 
                 <RadioGroup
@@ -80,29 +83,38 @@
                         android:id="@+id/Male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Male" />
+                        android:text="Male"/>
 
                     <RadioButton
                         android:id="@+id/Female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Female" />
+                        android:text="Female"/>
 
                 </RadioGroup>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_update_gender"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="Update Gender"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_change_configuration"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="Change Configuartion"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/change_theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Change theme"/>
 
                 <Switch
                     android:id="@+id/county_selection_switch"
@@ -110,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dip"
                     android:layout_marginTop="15dip"
-                    android:text="Show country selection" />
+                    android:text="Show country selection"/>
 
             </LinearLayout>
 
@@ -130,31 +142,31 @@
                         android:id="@+id/Evalution"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Evaluation" />
+                        android:text="Evaluation"/>
 
                     <RadioButton
                         android:id="@+id/Stagging"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Staging" />
+                        android:text="Staging"/>
 
                     <RadioButton
                         android:id="@+id/Testing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Testing" />
+                        android:text="Testing"/>
 
                     <RadioButton
                         android:id="@+id/Production"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Production" />
+                        android:text="Production"/>
 
                     <RadioButton
                         android:id="@+id/Development"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Development" />
+                        android:text="Development"/>
 
                 </RadioGroup>
 
@@ -162,7 +174,7 @@
                     android:id="@+id/cd_hsdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HSDP" />
+                    android:text="HSDP"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,13 +185,13 @@
                         android:id="@+id/Apply"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Apply" />
+                        android:text="Apply"/>
 
                     <Button
                         android:id="@+id/Cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cancel" />
+                        android:text="Cancel"/>
                 </LinearLayout>
 
             </LinearLayout>
