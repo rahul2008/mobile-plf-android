@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
+    ImageButton mDeleteExpiredMomentsButton;
     TemperaturePresenter mTemperaturePresenter;
     TemperatureMomentHelper mTemperatureMomentHelper;
     private Context mContext;
@@ -153,8 +155,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAddButton = (ImageButton) view.findViewById(R.id.add);
+        mDeleteExpiredMomentsButton = (ImageButton) view.findViewById(R.id.delete_moments);
         mRecyclerView.setAdapter(mAdapter);
         mAddButton.setOnClickListener(this);
+        mDeleteExpiredMomentsButton.setOnClickListener(this);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
@@ -180,6 +184,8 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         int i = v.getId();
         if (i == R.id.add) {
             mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
+        } else if (i == R.id.delete_moments) {
+            Log.i("delete moment", "pressed");
         } else if (i == R.id.tv_set_consents) {
             ConsentDialogFragment dFragment = new ConsentDialogFragment();
             replaceFragment(dFragment, "consents");
