@@ -177,6 +177,7 @@
     <dimen name="reg_layout_margin_8dp">8dp</dimen>
     <dimen name="reg_margin_24">24dp</dimen>
     <dimen name="reg_margin_16dp">16dp</dimen>
+    <dimen name="reg_margin_12dp">12dp</dimen>
 
     <dimen name="reg_layout_margin_bottom_16">16dp</dimen>
     <dimen name="reg_layout_margin_start_16">16dp</dimen>
