@@ -42,6 +42,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
             return;
         }
         mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
+        mThsVisitHistoryFragment.hideProgressBar();
     }
 
     @Override

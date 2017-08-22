@@ -111,6 +111,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
+    <string name="ths_your_details">"Your Details"</string>
 
 
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
@@ -128,6 +129,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_visit_summary">Visit Summary</string>
     <string name="ths_credit_card_charge">Your credit card was charged </string>
     <string name="ths_visit_report">Your Visit Report</string>
+    <string name="ths_visit">Your Visit</string>
     <string name="ths_visit_prescription">Your prescription was sent to</string>
     <string name="ths_visit_medication">Your medication will be shipped to</string>
     <string name="ths_download_report">Download report</string>
@@ -150,6 +152,15 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_search_medication">Search for medication</string>
     <string name="ths_search_provider">Search for provider</string>
     <string name="ths_search_pharmacy">Search for pharmacy</string>
+
+    <!-- Welcome Screen-->
+    <string name="ths_see_provider">See a provider online, anytime</string>
+    <string name="ths_quick_visit">The easiest way to get a quick visit with a licensed provider.</string>
+    <string name="ths_see_doctor">Go to see a provider</string>
+    <string name="ths_appointments">Appointments</string>
+    <string name="ths_visit_history">Visit history</string>
+    <string name="ths_how_it_works">How it works</string>
+    <string name="ths_welcome">Welcome</string>
 
     <!--Provider details strings -->
     <string name="ths_see_this_doctor_now_button_text">See this provider now</string>

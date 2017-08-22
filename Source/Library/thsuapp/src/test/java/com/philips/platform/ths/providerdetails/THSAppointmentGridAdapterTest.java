@@ -1,3 +1,4 @@
+/*
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
@@ -102,4 +103,4 @@ public class THSAppointmentGridAdapterTest {
         thsAppointmentGridAdapter.getFormatedTime(date);
     }
 
-}
+}*/

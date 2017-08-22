@@ -25,7 +25,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSPracticeFragment extends THSBaseFragment implements View.OnClickListener{
+public class THSPracticeFragment extends THSBaseFragment{
 
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
 
@@ -47,10 +47,6 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
         mTitle = (Label) view.findViewById(R.id.ths_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_practice);
         mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
-        mBtnAppointment = (Button) view.findViewById(R.id.ths_appointment_list);
-        mVisitBtn = (Button) view.findViewById(R.id.ths_visit_list);
-        mVisitBtn.setOnClickListener(this);
-        mBtnAppointment.setOnClickListener(this);
         return view;
     }
 
@@ -82,7 +78,7 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
 
     @Override
     public boolean handleBackEvent() {
-        return true;
+        return false;
     }
 
 
@@ -105,16 +101,5 @@ public class THSPracticeFragment extends THSBaseFragment implements View.OnClick
         });
 
 
-    }
-
-    //TODO:Will be removed after welcome screen is completed
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        if (id == R.id.ths_appointment_list) {
-            addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
-        }else if (id == R.id.ths_visit_list) {
-            addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
-        }
     }
 }

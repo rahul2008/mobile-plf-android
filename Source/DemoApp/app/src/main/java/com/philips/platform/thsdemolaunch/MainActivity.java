@@ -65,7 +65,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         }else {
             launchAmwell();
         }
-        //launchAmwell();
+       // launchAmwell();
     }
 
 
