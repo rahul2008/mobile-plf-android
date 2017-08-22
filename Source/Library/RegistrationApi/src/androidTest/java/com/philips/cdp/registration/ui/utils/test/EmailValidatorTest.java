@@ -32,7 +32,7 @@ public class EmailValidatorTest extends ActivityInstrumentationTestCase2<Registr
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
-		//mEmailValidator = mock(EmailValidator.class);
+		//mEmailValidator = mock(LoginIdValidator.class);
 	}
 	
 	

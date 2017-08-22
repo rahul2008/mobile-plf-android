@@ -317,7 +317,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchResetPasswordFragment() {
-//        if (registrationSettingsURL.isChinaFlow()) {
+//        if (registrationSettingsURL.isMobileFlow()) {
 //            getRegistrationFragment().addFragment(new ResetPasswordWebView());
 //        } else {
         getRegistrationFragment().addResetPasswordFragment();
@@ -732,7 +732,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(false);
         mBtnSignInAccount.setEnabled(false);
         mBtnForgot.setEnabled(false);
-        if (registrationSettingsURL.isChinaFlow()) {
+        if (registrationSettingsURL.isMobileFlow()) {
             serviceDiscovery();
         } else {
             mUser.resendVerificationMail(mEtEmail.getEmailId(), this);

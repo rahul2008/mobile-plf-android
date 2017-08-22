@@ -119,7 +119,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()) {
+            if (RegistrationHelper.getInstance().isMobileFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
             } else {
                 almostDoneContract.emailAlreadyInuseError();
@@ -167,7 +167,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
 
     private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()) {
+            if (RegistrationHelper.getInstance().isMobileFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
             } else {
                 almostDoneContract.emailAlreadyInuseError();

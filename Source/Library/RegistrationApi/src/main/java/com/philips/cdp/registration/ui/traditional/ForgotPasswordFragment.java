@@ -14,6 +14,7 @@ import android.os.*;
 import android.view.*;
 import android.view.inputmethod.*;
 import android.widget.*;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
@@ -21,8 +22,11 @@ import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
+
 import javax.inject.*;
+
 import butterknife.*;
+
 import static com.philips.cdp.registration.ui.utils.RegAlertDialog.*;
 
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
@@ -58,6 +62,37 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     ForgotPasswordPresenter forgotPasswordPresenter;
 
+    public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
+        @Override
+        public int isValid(boolean valid) {
+            if(valid)
+                enableSendButton();
+            else
+                disableSendButton();
+            return 0;
+        }
+
+        @Override
+        public int isEmpty(boolean emptyField) {
+            if (emptyField) {
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+            } else {
+                usr_forgotpassword_inputId_inputValidation.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+            }
+            disableSendButton();
+            return 0;
+        }
+    });
+
+
+    void enableSendButton(){
+        sendButton.setEnabled(true);
+    }
+
+    void disableSendButton(){
+        sendButton.setEnabled(false);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onCreate");
@@ -76,6 +111,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
         ButterKnife.bind(this, view);
         user = new User(context);
+
+        usr_forgotpassword_inputId_inputValidation.setValidator(loginIdValidator);
+
         initUI(view);
         handleUiState();
         handleOrientation(view);
@@ -83,10 +121,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     }
 
     private void initUI(View view) {
-        consumeTouch(view);
+//        consumeTouch(view);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();
         userIdEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        sendButton.setEnabled(false);
     }
 
     @Override
@@ -204,7 +243,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         hideForgotPasswordSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
             mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-            usr_forgotpassword_inputId_inputValidation.setErrorMessage(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
+            usr_forgotpassword_inputId_inputValidation.showError();
             return;
         }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {

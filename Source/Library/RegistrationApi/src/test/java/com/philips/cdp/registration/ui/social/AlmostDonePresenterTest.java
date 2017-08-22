@@ -183,7 +183,7 @@ public class AlmostDonePresenterTest {
     @Test
     public void testLoginFailedWithError_is_china_flow() {
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setChinaFlow(true);
+        registrationSettingsURL.setMobileFlow(true);
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).phoneNumberAlreadyInuseError();
@@ -193,7 +193,7 @@ public class AlmostDonePresenterTest {
     @Test
     public void testLoginFailedWithError_email_flow() {
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setChinaFlow(false);
+        registrationSettingsURL.setMobileFlow(false);
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).emailAlreadyInuseError();
@@ -235,7 +235,7 @@ public class AlmostDonePresenterTest {
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_mobile() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setChinaFlow(true);
+        registrationSettingsURL.setMobileFlow(true);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).phoneNumberAlreadyInuseError();
     }
@@ -244,7 +244,7 @@ public class AlmostDonePresenterTest {
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_email() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
-        registrationSettingsURL.setChinaFlow(false);
+        registrationSettingsURL.setMobileFlow(false);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).emailAlreadyInuseError();
     }

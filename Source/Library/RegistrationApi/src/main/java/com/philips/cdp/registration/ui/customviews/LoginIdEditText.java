@@ -64,7 +64,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
     }
 
     public final void initUi(int resourceId) {
-        RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isChinaFlow());
+        RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isMobileFlow());
         LayoutInflater li = LayoutInflater.from(mContext);
         View view = li.inflate(resourceId, this, true);
         ButterKnife.bind(this);
@@ -75,7 +75,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
     }
 
     private void checkingEmailorMobile() {
-        if (RegistrationHelper.getInstance().isChinaFlow()) {
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
             mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_PhoneNumber));
             mEtEmail.setInputType(InputType.TYPE_CLASS_NUMBER);
         }else {
@@ -84,7 +84,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
     }
 
     public void checkingEmailorMobileSignIn() {
-        if (RegistrationHelper.getInstance().isChinaFlow()) {
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
             mEtEmail.setHint(getResources().getString(R.string.reg_CreateAccount_Email_PhoneNumber));
             mEtEmail.setInputType(InputType.TYPE_CLASS_TEXT);
         }else {
@@ -107,7 +107,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
     private boolean validateEmail() {
         if (mEtEmail != null) {
             //need to change by service discover
-            if (RegistrationHelper.getInstance().isChinaFlow()) {
+            if (RegistrationHelper.getInstance().isMobileFlow()) {
                 if (isEmailandMobile()) return true;
             } else {
                 if (isEmail()) return true;
@@ -233,7 +233,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
             if (mEtEmail.getText().toString().trim().length() == 0) {
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                if (RegistrationHelper.getInstance().isChinaFlow()) {
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
                     setErrDescription(getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
                 }else {
                     setErrDescription(getResources().getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
@@ -254,7 +254,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
                         AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
                 setErrDescription(getResources().getString(R.string.reg_EmptyField_ErrorMsg));
             } else {
-                if (RegistrationHelper.getInstance().isChinaFlow()){
+                if (RegistrationHelper.getInstance().isMobileFlow()){
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                             AppTagingConstants.USER_ALERT, AppTagingConstants.INVALID_MOBILE);
                     setErrDescription(getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
