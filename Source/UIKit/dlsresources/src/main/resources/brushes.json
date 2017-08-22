@@ -172,6 +172,62 @@
         "reference": "arrow-icon-disabled"
       }
     },
+    "branding-screen": {
+      "ultra-light": {
+        "color-code": 45
+      },
+      "very-light": {
+        "color-code": 45
+      },
+      "bright": {
+        "color-code": 45
+      },
+      "very-dark": {
+        "color-code": 45
+      },
+      "very-dark-gray": {
+        "color-code": 45
+      }
+    },
+    "branding-screen-light": {
+      "ultra-light": {
+        "color": "white",
+        "opacity": 0.3
+      },
+      "very-light": {
+        "color": "white",
+        "opacity": 0.3
+      },
+      "bright": {
+        "color": "white",
+        "opacity": 0.3
+      },
+      "very-dark": {
+        "color": "white",
+        "opacity": 0.3
+      },
+      "very-dark-gray": {
+        "color": "white",
+        "opacity": 0.3
+      }
+    },
+    "branding-screen-text": {
+      "ultra-light": {
+        "color": "white"
+      },
+      "very-light": {
+        "color": "white"
+      },
+      "bright": {
+        "color": "white"
+      },
+      "very-dark": {
+        "color": "white"
+      },
+      "very-dark-gray": {
+        "color": "white"
+      }
+    },
     "button-separator": {
       "ultra-light": {
         "color-code": 35,
@@ -3977,62 +4033,6 @@
         "color-range": "signal-orange"
       }
     },
-    "splash-screen": {
-      "ultra-light": {
-        "color-code": 45
-      },
-      "very-light": {
-        "color-code": 45
-      },
-      "bright": {
-        "color-code": 45
-      },
-      "very-dark": {
-        "color-code": 45
-      },
-      "very-dark-gray": {
-        "color-code": 45
-      }
-    },
-    "splash-screen-light": {
-      "ultra-light": {
-        "color": "white",
-        "opacity": 0.3
-      },
-      "very-light": {
-        "color": "white",
-        "opacity": 0.3
-      },
-      "bright": {
-        "color": "white",
-        "opacity": 0.3
-      },
-      "very-dark": {
-        "color": "white",
-        "opacity": 0.3
-      },
-      "very-dark-gray": {
-        "color": "white",
-        "opacity": 0.3
-      }
-    },
-    "splash-screen-text": {
-      "ultra-light": {
-        "color": "white"
-      },
-      "very-light": {
-        "color": "white"
-      },
-      "bright": {
-        "color": "white"
-      },
-      "very-dark": {
-        "color": "white"
-      },
-      "very-dark-gray": {
-        "color": "white"
-      }
-    },
     "springboard-focus": {
       "ultra-light": {
         "reference": "control-primary",
@@ -4138,6 +4138,28 @@
       },
       "very-dark": {
         "color": "white"
+      }
+    },
+    "status-bar-android6-top": {
+      "ultra-light": {
+        "reference": "navigation-primary",
+        "opacity": 0.15
+      },
+      "very-light": {
+        "reference": "navigation-primary",
+        "opacity": 0.15
+      },
+      "bright": {
+        "reference": "navigation-primary",
+        "opacity": 0.2
+      },
+      "very-dark": {
+        "reference": "navigation-primary",
+        "opacity": 0.15
+      },
+      "very-dark-gray": {
+        "reference": "navigation-primary",
+        "opacity": 0.15
       }
     },
     "status-bar-ios": {
@@ -4846,6 +4868,23 @@
       },
       "very-dark-gray": {
         "color-code": 65
+      }
+    },
+    "view-port": {
+      "ultra-light": {
+        "color": "black"
+      },
+      "very-light": {
+        "color": "black"
+      },
+      "bright": {
+        "color": "black"
+      },
+      "very-dark": {
+        "color": "black"
+      },
+      "very-dark-gray": {
+        "color": "black"
       }
     },
     "wizard-on": {

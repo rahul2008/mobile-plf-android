@@ -1451,6 +1451,34 @@
   },
   {
     "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "header-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "data-grid"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "header-text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "data-grid"
+  },
+  {
+    "state": [
       "disabled"
     ],
     "parent": [],
@@ -2531,192 +2559,70 @@
     "component": "list-item"
   },
   {
-    "state": [
-      "normal",
-      "on"
-    ],
+    "state": [],
     "parent": [],
     "context": "default",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "separator"
+      "value": "branding-screen"
     },
-    "component": "menu-item"
+    "component": "login-screen"
   },
   {
-    "state": [
-      "normal",
-      "on"
-    ],
+    "state": [],
     "parent": [],
     "context": "default",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "text-primary"
+      "value": "branding-screen-text"
     },
-    "component": "menu-item"
+    "component": "login-screen"
   },
   {
-    "state": [
-      "normal",
-      "on"
-    ],
+    "state": [],
     "parent": [],
     "context": "default",
     "property": {
-      "item": "text",
+      "item": "light-center",
       "type": "color",
-      "value": "text-primary"
+      "value": "branding-screen-light"
     },
-    "component": "menu-item"
+    "component": "login-screen"
   },
   {
-    "state": [
-      "normal",
-      "off"
-    ],
+    "state": [],
     "parent": [],
     "context": "default",
     "property": {
-      "item": "background",
+      "item": "light-edge",
       "type": "color",
       "value": "no-color"
     },
-    "component": "menu-item"
+    "component": "login-screen"
   },
   {
-    "state": [
-      "normal",
-      "off"
-    ],
+    "state": [],
     "parent": [],
     "context": "default",
     "property": {
-      "item": "icon",
+      "item": "shield",
       "type": "color",
-      "value": "text-secondary"
+      "value": "branding-screen-text"
     },
-    "component": "menu-item"
+    "component": "login-screen"
   },
   {
-    "state": [
-      "normal",
-      "off"
-    ],
+    "state": [],
     "parent": [],
     "context": "default",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "text-secondary"
+      "value": "branding-screen-text"
     },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "menu-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "menu-item"
+    "component": "login-screen"
   },
   {
     "state": [],
@@ -2794,6 +2700,194 @@
       "value": "navigation-text"
     },
     "component": "navigation"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "separator"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "navigation-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "navigation-item"
   },
   {
     "state": [],
@@ -3556,7 +3650,7 @@
     "property": {
       "item": "background",
       "type": "color",
-      "value": "splash-screen"
+      "value": "branding-screen"
     },
     "component": "splash-screen"
   },
@@ -3567,7 +3661,7 @@
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "splash-screen-text"
+      "value": "branding-screen-text"
     },
     "component": "splash-screen"
   },
@@ -3578,7 +3672,7 @@
     "property": {
       "item": "light-center",
       "type": "color",
-      "value": "splash-screen-light"
+      "value": "branding-screen-light"
     },
     "component": "splash-screen"
   },
@@ -3600,7 +3694,7 @@
     "property": {
       "item": "shield",
       "type": "color",
-      "value": "splash-screen-text"
+      "value": "branding-screen-text"
     },
     "component": "splash-screen"
   },
@@ -3611,7 +3705,7 @@
     "property": {
       "item": "text",
       "type": "color",
-      "value": "splash-screen-text"
+      "value": "branding-screen-text"
     },
     "component": "splash-screen"
   },
@@ -3956,6 +4050,17 @@
       "item": "background",
       "type": "color",
       "value": "status-bar-android6"
+    },
+    "component": "status-bar"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "android6",
+    "property": {
+      "item": "background-top",
+      "type": "color",
+      "value": "status-bar-android6-top"
     },
     "component": "status-bar"
   },
@@ -6010,7 +6115,7 @@
     "property": {
       "item": "viewport-background",
       "type": "color",
-      "value": "content-tertiary"
+      "value": "view-port"
     },
     "component": "view-container"
   },
