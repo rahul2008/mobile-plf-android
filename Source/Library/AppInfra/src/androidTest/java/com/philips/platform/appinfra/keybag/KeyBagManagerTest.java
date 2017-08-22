@@ -1,13 +1,21 @@
 package com.philips.platform.appinfra.keybag;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
 import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import static org.mockito.Mockito.mock;
@@ -28,7 +36,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         keyBagManager = new KeyBagManager(appInfraMock);
     }
 
-  /*  public void testInvokingServices() throws KeyBagJsonFileNotFoundException {
+    public void testInvokingServices() throws KeyBagJsonFileNotFoundException {
         Context context = getInstrumentation().getContext();
         AppInfra appInfraMock = mock(AppInfra.class);
         when(appInfraMock.getAppInfraContext()).thenReturn(context);
@@ -38,18 +46,26 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         when(appInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
         ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
         final ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListenerMock = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
-//        final KeyBagHelper keyBagHelperMock = mock(KeyBagHelper.class);
-//        when(keyBagHelperMock.init(context,"somefile")).thenReturn(false);
 
-        final KeyBagHelper test = spy(new KeyBagHelper(appInfraMock));
-        when(test.init(context,"AIKeyBag.json")).thenReturn(false);
-
+        InputStream inputStream = null;
+        try {
+            inputStream = context.getResources().getAssets().open("AIKeyBag.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final KeyBagHelper keyBagHelperMock = mock(KeyBagHelper.class);
         ArrayList<String> serviceIds = new ArrayList<>();
+        final InputStream finalInputStream = inputStream;
         keyBagManager = new KeyBagManager(appInfraMock) {
             @NonNull
             @Override
             KeyBagHelper getKeyBagHelper() {
-                return test;
+                return keyBagHelperMock;
+            }
+
+            @Override
+            InputStream getInputStream(Context mContext, String fileName) throws KeyBagJsonFileNotFoundException {
+                return finalInputStream;
             }
 
             @NonNull
@@ -60,8 +76,8 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         };
 
         keyBagManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetKeyBagMapListenerMock);
-        verify(test).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
-    }*/
+        verify(keyBagHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
+    }
 
 
     public void testGettingServiceDiscoveryUrl() {

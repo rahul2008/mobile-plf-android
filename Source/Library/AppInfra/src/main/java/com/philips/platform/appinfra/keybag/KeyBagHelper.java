@@ -6,7 +6,6 @@
 package com.philips.platform.appinfra.keybag;
 
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -39,9 +38,9 @@ public class KeyBagHelper {
     private JSONObject rootJsonObject;
     private AppInfra mAppInfra;
 
-    KeyBagHelper(AppInfra mAppInfra) {
+    KeyBagHelper(AppInfra appInfra) {
         keyBagLib = new KeyBagLib();
-        this.mAppInfra = mAppInfra;
+        this.mAppInfra = appInfra;
     }
 
     String getMd5ValueInHex(String data) {
@@ -102,10 +101,10 @@ public class KeyBagHelper {
         return null;
     }
 
-    boolean init(Context mContext,String fileName) throws KeyBagJsonFileNotFoundException {
+    boolean init(AppInfra mAppInfra,InputStream mInputStream) throws KeyBagJsonFileNotFoundException {
+        this.mAppInfra = mAppInfra;
         StringBuilder total;
         try {
-            final InputStream mInputStream = mContext.getAssets().open(fileName);
             final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
             total = new StringBuilder();
             String line;
