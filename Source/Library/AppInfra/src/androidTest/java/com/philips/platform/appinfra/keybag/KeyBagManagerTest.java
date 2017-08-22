@@ -86,37 +86,26 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
 
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = keyBagManager.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetKeyBagMapListenerMock);
-        serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"error in security");
-        verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"error in security");
-
-        TreeMap<String, ServiceDiscoveryService> urlMap = new TreeMap<>();
-        ServiceDiscoveryService value = new ServiceDiscoveryService();
-        value.setConfigUrl("url");
-        value.setmError("error");
-        ServiceDiscoveryService value1 = new ServiceDiscoveryService();
-        value1.setConfigUrl("url1");
-        value1.setmError("error1");
-        ServiceDiscoveryService value2 = new ServiceDiscoveryService();
-        value2.setConfigUrl("url2");
-        value2.setmError("error2");
-        urlMap.put("service_id", value);
-        urlMap.put("service_id1", value1);
-        urlMap.put("service_id2", value2);
-        serviceUrlMapListener.onSuccess(urlMap);
-        assertEquals(aiKmServices.size(),3);
-        assertEquals(aiKmServices.get(0).getConfigUrls(),"url");
-        assertEquals(aiKmServices.get(1).getmError(),"error1");
+        serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
+        verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
     }
 
     public void testFetchGettingKeyBagUrlsListener() {
         ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListenerMock = mock(ServiceDiscoveryInterface.OnGetKeyBagMapListener.class);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
-        aiKmServices.add(new AIKMService());
-        aiKmServices.add(new AIKMService());
-        aiKmServices.add(new AIKMService());
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = keyBagManager.fetchGettingKeyBagUrlsListener(onGetKeyBagMapListenerMock, aiKmServices);
-        onGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"security error");
-        verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR,"security error");
+        TreeMap<String, ServiceDiscoveryService> urlMap = getStringServiceDiscoveryServiceTreeMap();
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = keyBagManager.fetchGettingKeyBagUrlsListener(onGetKeyBagMapListenerMock, aiKmServices, urlMap);
+        onGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
+        verify(onGetKeyBagMapListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
+        onGetServiceUrlMapListener.onSuccess(urlMap);
+        verify(onGetKeyBagMapListenerMock).onSuccess(aiKmServices);
+        assertEquals(aiKmServices.size(), 3);
+        assertEquals(aiKmServices.get(0).getConfigUrls(), "url");
+        assertEquals(aiKmServices.get(1).getmError(), "error1");
+    }
+
+    @NonNull
+    private TreeMap<String, ServiceDiscoveryService> getStringServiceDiscoveryServiceTreeMap() {
         TreeMap<String, ServiceDiscoveryService> urlMap = new TreeMap<>();
         ServiceDiscoveryService value = new ServiceDiscoveryService();
         value.setConfigUrl("url");
@@ -130,7 +119,6 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         urlMap.put("service_id", value);
         urlMap.put("service_id1", value1);
         urlMap.put("service_id2", value2);
-        onGetServiceUrlMapListener.onSuccess(urlMap);
-        verify(onGetKeyBagMapListenerMock).onSuccess(aiKmServices);
+        return urlMap;
     }
 }

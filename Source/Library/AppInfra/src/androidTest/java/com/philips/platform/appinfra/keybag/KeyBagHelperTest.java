@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.appinfra.keybag.model.AIKMService.KEY_BAG_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -158,10 +159,10 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         ServiceDiscoveryService serviceDiscovery = new ServiceDiscoveryService();
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
-        keyBagHelper.mapAndValidateKey(serviceDiscovery, aikmService, null, "0");
-        assertEquals(aikmService.getmError(), "something went wrong");
+        keyBagHelper.mapAndValidateKey(aikmService, null, "0");
+        assertEquals(aikmService.getKeyBagError(), SERVICE_DISCOVERY_RESPONSE_ERROR);
 
-        keyBagHelper.mapAndValidateKey(serviceDiscovery, aikmService, "service_id", "string");
+        keyBagHelper.mapAndValidateKey(aikmService, "service_id", "string");
         assertEquals(AIKMService.KEY_BAG_ERROR.INVALID_INDEX_URL, aikmService.getKeyBagError());
 
         keyBagHelper = new KeyBagHelper(mAppInfraMock) {
@@ -170,7 +171,7 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
                 return new JSONObject();
             }
         };
-        keyBagHelper.mapAndValidateKey(serviceDiscovery, aikmService, "service_id", "1");
+        keyBagHelper.mapAndValidateKey(aikmService, "service_id", "1");
         assertEquals(AIKMService.KEY_BAG_ERROR.INVALID_JSON_STRUCTURE, aikmService.getKeyBagError());
 
         JSONObject someJsonObject = new JSONObject();
@@ -183,7 +184,7 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
                     return someJsonArray;
                 }
             };
-            keyBagHelper.mapAndValidateKey(serviceDiscovery, aikmService, "service_id", "1");
+            keyBagHelper.mapAndValidateKey(aikmService, "service_id", "1");
             assertTrue(aikmService.getKeyBag() != null);
             assertEquals(aikmService.getKeyBag().get("clientId"), "test");
         } catch (JSONException e) {

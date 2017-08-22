@@ -18,7 +18,7 @@ public class AIKMService extends ServiceDiscoveryService {
     private KEY_BAG_ERROR key_bag_error;
 
     public enum KEY_BAG_ERROR {
-        INDEX_NOT_MAPPED, INVALID_INDEX_URL, INVALID_JSON_STRUCTURE
+        INDEX_NOT_MAPPED, INVALID_INDEX_URL, INVALID_JSON_STRUCTURE, SERVICE_DISCOVERY_RESPONSE_ERROR
     }
 
     public Map getKeyBag() {
@@ -44,4 +44,5 @@ public class AIKMService extends ServiceDiscoveryService {
     public void setKeyBagError(KEY_BAG_ERROR key_bag_error) {
         this.key_bag_error = key_bag_error;
     }
+
 }

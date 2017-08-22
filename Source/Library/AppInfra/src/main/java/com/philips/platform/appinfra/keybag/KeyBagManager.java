@@ -50,7 +50,6 @@ public class KeyBagManager implements KeyBagInterface {
         } catch (IOException e) {
             throw new KeyBagJsonFileNotFoundException();
         }
-
     }
 
     @NonNull
@@ -59,11 +58,11 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingKeyBagUrlsListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final List<AIKMService> aikmServices) {
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingKeyBagUrlsListener(final ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                keyBagHelper.mapDeObfuscatedValue(urlMap, aikmServices);
+                keyBagHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
                 onGetKeyBagMapListener.onSuccess(aikmServices);
             }
 
@@ -81,8 +80,7 @@ public class KeyBagManager implements KeyBagInterface {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                keyBagHelper.mapServiceDiscoveryResponse(urlMap, aiKmServices);
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = fetchGettingKeyBagUrlsListener(onGetKeyBagMapListener, aiKmServices);
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = fetchGettingKeyBagUrlsListener(onGetKeyBagMapListener, aiKmServices, urlMap);
                 ArrayList<String> appendedServiceIds = keyBagHelper.getAppendedServiceIds(serviceIds);
                 keyBagHelper.getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
             }

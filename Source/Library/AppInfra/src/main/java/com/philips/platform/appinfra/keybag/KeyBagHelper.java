@@ -122,20 +122,25 @@ public class KeyBagHelper {
         return false;
     }
 
-    void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aikmServices) {
-        int i = 0;
-        for (Object object : urlMap.entrySet()) {
-            Map.Entry pair = (Map.Entry) object;
-            ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
-            AIKMService aikmService = aikmServices.get(i);
-            String serviceId = aikmService.getServiceId();
-            String keyBagHelperIndex = getKeyBagIndex(value.getConfigUrls());
-            mapAndValidateKey(value, aikmService, serviceId, keyBagHelperIndex);
-            i = i + 1;
+    void mapResponse(Map<String, ServiceDiscoveryService> keyBagUrlMap, List<AIKMService> aiKmServices, Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
+        for (Map.Entry<String, ServiceDiscoveryService> entry : serviceDiscoveryUrlMap.entrySet()) {
+            String key = entry.getKey();
+            ServiceDiscoveryService value = entry.getValue();
+            AIKMService aikmService = new AIKMService();
+            aikmService.setServiceId(entry.getKey());
+            aikmService.init(value.getLocale(), value.getConfigUrls());
+            aikmService.setmError(value.getmError());
+
+            ServiceDiscoveryService keyBagValue = keyBagUrlMap.get(key.concat(".kindex"));
+            if (keyBagValue != null) {
+                String keyBagHelperIndex = getKeyBagIndex(keyBagValue.getConfigUrls());
+                mapAndValidateKey(aikmService, entry.getKey(), keyBagHelperIndex);
+            }
+            aiKmServices.add(aikmService);
         }
     }
 
-    void mapAndValidateKey(ServiceDiscoveryService value, AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
+    void mapAndValidateKey(AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
         if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
             int index;
             try {
@@ -160,7 +165,7 @@ public class KeyBagHelper {
                 aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INVALID_JSON_STRUCTURE);
             }
         } else {
-            aikmService.setmError(value.getmError());
+            aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR);
         }
     }
 
@@ -215,16 +220,4 @@ public class KeyBagHelper {
         }
     }
 
-
-    void mapServiceDiscoveryResponse(Map<String, ServiceDiscoveryService> urlMap, List<AIKMService> aiKmServices) {
-        for (Object object : urlMap.entrySet()) {
-            Map.Entry pair = (Map.Entry) object;
-            ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
-            AIKMService aikmService = new AIKMService();
-            aikmService.setServiceId((String) pair.getKey());
-            aikmService.init(value.getLocale(), value.getConfigUrls());
-            aikmService.setmError(value.getmError());
-            aiKmServices.add(aikmService);
-        }
-    }
 }
