@@ -4,8 +4,8 @@
  */
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
+    apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
 
     repositories {
         maven {
@@ -35,7 +35,7 @@ apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply from: projectDir.absolutePath + '/../../common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -50,7 +50,7 @@ objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "dicommClientLib"
 
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 repositories {
     maven {
@@ -170,7 +170,7 @@ android {
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
+    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
 
     include {
         if (it.isDirectory) {
@@ -246,6 +246,6 @@ pitest {
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
     threads = 1 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    reportDir = "${projectDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
 }
