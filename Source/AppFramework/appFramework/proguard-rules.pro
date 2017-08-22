@@ -77,9 +77,6 @@
 -dontwarn com.philips.cdp.registration.**
 -dontwarn com.philips.cdp.platform.**
 -dontwarn org.apache.**
-
-
-
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
@@ -387,6 +384,9 @@ public void set*(...);
 *** get*();
 }
 
+# Model classes for test microapp should not be obfuscated
+-keep class com.philips.platform.appframework.testmicroappfw.models.** {*;}
+
 
 #Enumeration
 -keepclassmembers enum * {
@@ -403,4 +403,3 @@ public static <fields>;
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
-
