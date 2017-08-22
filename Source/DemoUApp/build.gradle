@@ -169,5 +169,5 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	compile(dp ? project(':prg') : project(':product-registration-lib') 
+	compile(dp ? project(':prg') : project(':product-registration-lib'))
 }
