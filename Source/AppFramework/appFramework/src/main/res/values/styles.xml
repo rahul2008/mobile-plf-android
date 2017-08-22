@@ -1,4 +1,6 @@
 <resources>
+
+    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -28,6 +30,23 @@
 	<style name="alertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
         <item name="colorAccent">?attr/uikit_baseColor</item>
+    </style>
+
+    <style name="OnBoarding" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="OnBoarding.Title">
+        <item name="android:textSize">@dimen/on_boarding_title_text_size</item>
+        <item name="android:lineSpacingExtra">4dip</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
+    <style name="OnBoarding.Description">
+        <item name="android:textSize">@dimen/on_boarding_description_text_size</item>
+        <item name="android:lineSpacingExtra">6dip</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
     <style name="Overlay">
         <item name="android:layout_width">match_parent</item>
