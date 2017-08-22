@@ -345,15 +345,16 @@
 
 #------------------------------Application specific rules start here------------------------------------
 
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
--keep class android.support.v8.renderscript.** { *; }
--keep interface android.support.v13.app.** { *; }
--keep public class * extends android.support.v13.**
 
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
 
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
 
 -keepclasseswithmembers class * {
      public <init>(android.content.Context, android.util.AttributeSet);
@@ -366,33 +367,6 @@
 -keepclasseswithmembers class * {
       public <init>(java.util.Map);
  }
-
- ##----- Model classes should not be offusticated
- -keepclassmembers class * implements java.io.Serializable {
-     static final long serialVersionUID;
-     private static final java.io.ObjectStreamField[] serialPersistentFields;
-     !static !transient <fields>;
-     !private <fields>;
-     !private <methods>;
-     private void writeObject(java.io.ObjectOutputStream);
-     private void readObject(java.io.ObjectInputStream);
-     java.lang.Object writeReplace();
-     java.lang.Object readResolve();
- }
-
--keepclassmembers class * implements android.os.Parcelable {
-    static android.os.Parcelable$Creator CREATOR;
-}
-
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
-
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
-}
 
 # Keep fragments
 -keep public class * extends android.support.v4.app.FragmentStackActivity
@@ -413,13 +387,6 @@ public void set*(...);
 *** get*();
 }
 
--keepclasseswithmembers class * {
-public <init>(android.content.Context, android.util.AttributeSet);
-}
-
--keepclasseswithmembers class * {
-public <init>(android.content.Context, android.util.AttributeSet, int);
-}
 
 #Enumeration
 -keepclassmembers enum * {
