@@ -13,7 +13,9 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
@@ -25,10 +27,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
-import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RadioButton;
 
@@ -37,7 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener {
+public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
@@ -45,9 +44,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private  EditText mEditTextFirstName;
     private EditText mEditTextLastName;
     private EditText mDateOfBirth;
+    private EditText mEditTextStateSpinner;
     private RadioButton mCheckBoxMale;
     private RadioButton mCheckBoxFemale;
-    private AppCompatSpinner mEditTextState;
+    private CustomSpinner mStateSpinner;
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> mValidStates = null;
     private Date mDob;
@@ -76,9 +76,13 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mDateOfBirth.setFocusable(false);
         mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
+        mEditTextStateSpinner = (EditText) view.findViewById(R.id.ths_edit_location_container);
+        mEditTextStateSpinner.setFocusable(false);
+        mEditTextStateSpinner.setClickable(true);
+        mEditTextStateSpinner.setOnClickListener(this);
         mCheckBoxMale = (RadioButton) view.findViewById(R.id.ths_checkbox_male);
         mCheckBoxFemale = (RadioButton) view.findViewById(R.id.ths_checkbox_female);
-        mEditTextState = (AppCompatSpinner) view.findViewById(R.id.ths_edit_location);
+        mStateSpinner = new CustomSpinner(getContext(),null);
 
         try {
             final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
@@ -89,8 +93,9 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
 
         spinnerAdapter = new THSSpinnerAdapter(getActivity(), R.layout.ths_pharmacy_spinner_layout, mValidStates);
-        mEditTextState.setAdapter(spinnerAdapter);
-        mEditTextState.setSelection(0);
+        mStateSpinner.setAdapter(spinnerAdapter);
+        mStateSpinner.setSelection(0);
+        mStateSpinner.setOnItemSelectedEvenIfUnchangedListener(this);
 
         prepopilateData();
     }
@@ -141,9 +146,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         int id = view.getId();
         if(id == R.id.ths_continue){
             mThsRegistrationPresenter.enrollUser(mDob,mEditTextFirstName.getText().toString(),
-                    mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mEditTextState.getSelectedItemPosition()));
+                    mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mStateSpinner.getSelectedItemPosition()));
         }if(id == R.id.ths_edit_dob){
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
+        }if(id == R.id.ths_edit_location_container){
+            mStateSpinner.performClick();
         }
     }
 
@@ -155,5 +162,15 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private void setDate(Date date) {
         mDateOfBirth.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
                 format(date));
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        mEditTextStateSpinner.setText(mValidStates.get(i).getName());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
