@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
@@ -10,9 +11,12 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,15 +29,18 @@ public class AppIdentityTest extends AppInfraInstrumentation {
     private AppIdentityInterface mAppIdentityManager = null;
     // Context context = Mockito.mock(Context.class);
 
-   private AppInfra mAppInfra;
+    private AppInfra mAppInfra;
 
-    private List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
+    private List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING",
+            "ACCEPTANCE", "PRODUCTION");
     private List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
 
     private AppIdentityManager appIdentity;
     private AppConfigurationInterface.AppConfigurationError configError;
     private AppConfigurationManager mConfigInterface;
-
+    private HashMap<String, String> map;
+    private AppIdentityInterface appIdentityInterface;
+    JSONObject result = null;
 
     @Override
     protected void setUp() throws Exception {
@@ -47,14 +54,13 @@ public class AppIdentityTest extends AppInfraInstrumentation {
         mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
-                JSONObject result = null;
                 try {
                     String testJson = ConfigValues.testJson();
-
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 return result;
             }
         };
@@ -66,6 +72,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
                 .AppConfigurationError();
 
         assertNotNull(configError);
+        appIdentityInterface = mAppInfra.getAppIdentity();
     }
 
 
@@ -74,29 +81,59 @@ public class AppIdentityTest extends AppInfraInstrumentation {
     }
 
     public void testGetAppName() {
-        assertNotNull(mAppIdentityManager.getAppName());
+        try {
+            assertNotNull(mAppIdentityManager.getAppName());
+        } catch (IllegalArgumentException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+        }
     }
 
     public void testGetAppVersion() {
-        assertNotNull(mAppIdentityManager.getAppVersion());
+        assertNotNull(appIdentityInterface.getAppVersion());
     }
 
     public void testGetMicrositeId() {
         assertNotNull(mAppIdentityManager.getMicrositeId());
-        assertEquals("77000",mAppIdentityManager.getMicrositeId());
-        assertNotSame("3200",mAppIdentityManager.getMicrositeId());
+        assertEquals("77000", mAppIdentityManager.getMicrositeId());
+        assertNotSame("3200", mAppIdentityManager.getMicrositeId());
     }
 
     public void testGetSector() {
         assertNotNull(mAppIdentityManager.getSector());
+        assertEquals("B2C", mAppIdentityManager.getSector());
+        assertNotSame("test", mAppIdentityManager.getSector());
     }
 
     public void testGetServiceDiscoveryEnvironment() {
         assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
+        assertEquals("STAGING", mAppIdentityManager.getServiceDiscoveryEnvironment());
+        assertNotSame("development", mAppIdentityManager.getServiceDiscoveryEnvironment());
     }
 
     public void testGetAppState() {
         assertNotNull(mAppIdentityManager.getAppState());
+        assertEquals("STAGING", mAppIdentityManager.getAppState().toString());
+        assertNotSame("NewState", mAppIdentityManager.getAppState().toString());
+    }
+
+    public void testAppState() {
+        map = new HashMap<>();
+        map.put("appidentity.appState", "TESTING");
+        AppIdentityInterface.AppState appState = appIdentityInterface.getAppState();
+        try {
+            JSONObject appinfra = result.getJSONObject("APPINFRA");
+            appinfra.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
+            assertNotSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
+
+            appinfra.put("APPIDENTITY.APPSTATE","TEST");
+            assertNotSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void testGetAppVersionRegularExpression() {
@@ -220,7 +257,6 @@ public class AppIdentityTest extends AppInfraInstrumentation {
     public void testValidateServiceDiscoveryInvalidList() {
         Set<String> set;
         List<String> mServiceDiscoveryEnv = Arrays.asList("STAGING", "XYS", "TEST");
-
         try {
             set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
             if (mAppIdentityManager.getServiceDiscoveryEnvironment() != null &&
