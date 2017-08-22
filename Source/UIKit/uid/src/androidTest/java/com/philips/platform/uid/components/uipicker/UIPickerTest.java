@@ -88,7 +88,7 @@ public class UIPickerTest extends BaseTest {
 
     @Test
     public void verifyItemTextColor(){
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidListItemDefaultNormalOffTextColor);
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidListItemDefaultNormalOnTextColor);
         getUIPickerItemTextView().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
