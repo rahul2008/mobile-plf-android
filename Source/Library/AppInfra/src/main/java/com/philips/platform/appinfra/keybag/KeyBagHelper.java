@@ -43,6 +43,27 @@ public class KeyBagHelper {
         this.mAppInfra = appInfra;
     }
 
+    boolean init(AppInfra mAppInfra,InputStream mInputStream) throws KeyBagJsonFileNotFoundException {
+        this.mAppInfra = mAppInfra;
+        StringBuilder total;
+        try {
+            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line).append('\n');
+            }
+            rootJsonObject = new JSONObject(total.toString());
+            return true;
+        } catch (JSONException | IOException e) {
+            if (e instanceof IOException)
+                throw new KeyBagJsonFileNotFoundException();
+            else
+                e.printStackTrace();
+        }
+        return false;
+    }
+
     String getMd5ValueInHex(String data) {
         if (!TextUtils.isEmpty(data)) {
             try {
@@ -99,27 +120,6 @@ public class KeyBagHelper {
             return new String(chars);
         }
         return null;
-    }
-
-    boolean init(AppInfra mAppInfra,InputStream mInputStream) throws KeyBagJsonFileNotFoundException {
-        this.mAppInfra = mAppInfra;
-        StringBuilder total;
-        try {
-            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
-            total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line).append('\n');
-            }
-            rootJsonObject = new JSONObject(total.toString());
-            return true;
-        } catch (JSONException | IOException e) {
-            if (e instanceof IOException)
-                throw new KeyBagJsonFileNotFoundException();
-            else
-                e.printStackTrace();
-        }
-        return false;
     }
 
     void mapResponse(Map<String, ServiceDiscoveryService> keyBagUrlMap, List<AIKMService> aiKmServices, Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {

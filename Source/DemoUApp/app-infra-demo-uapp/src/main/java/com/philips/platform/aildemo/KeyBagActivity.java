@@ -79,14 +79,21 @@ public class KeyBagActivity extends AppCompatActivity {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (aikmServices != null && aikmServices.size() != 0) {
 			for (int i = 0; i < aikmServices.size(); i++) {
-				stringBuilder.append(aikmServices.get(i).getConfigUrls());
+				stringBuilder.append("ServiceId: ");
+				stringBuilder.append(aikmServices.get(i).getServiceId());
+				stringBuilder.append(", ");
+				stringBuilder.append("Url:");
 				stringBuilder.append("  ");
+				stringBuilder.append(aikmServices.get(i).getConfigUrls());
+				stringBuilder.append(", ");
 				Map keyBag = aikmServices.get(i).getKeyBag();
 				if (keyBag != null) {
 					for (Object object : keyBag.entrySet()) {
 						Map.Entry pair = (Map.Entry) object;
 						String key = (String) pair.getKey();
 						String value = (String) pair.getValue();
+
+						stringBuilder.append("KeyBag Data --- ");
 						stringBuilder.append(key);
 						stringBuilder.append(":");
 						stringBuilder.append(value);
@@ -98,9 +105,12 @@ public class KeyBagActivity extends AppCompatActivity {
 					stringBuilder.append("error -- ");
 					stringBuilder.append(keyBagError.name());
 				}
+				stringBuilder.append("\n");
+				stringBuilder.append("\n");
 			}
+
 		}
-		stringBuilder.append("\n");
+
 		responseTextView.setText(stringBuilder.toString());
 	}
 }
