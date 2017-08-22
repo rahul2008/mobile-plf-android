@@ -6,22 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-
+import com.philips.platform.uid.utils.UIDTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.Gray75;
 
 public class RecyclerViewItemOneLineTest {
     Resources testResources;
@@ -57,7 +53,7 @@ public class RecyclerViewItemOneLineTest {
 
     @Test
     public void verifyTitleTextColor() {
-        final int expectedTextColor = ContextCompat.getColor(getInstrumentation().getContext(), Gray75);
+        final int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidListItemDefaultNormalOffTextColor);
         getOneLineItem().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedTextColor)));
     }
 

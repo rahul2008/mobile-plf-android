@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
@@ -47,8 +46,6 @@ import java.util.ArrayList;
  * </p>
  */
 public class Label extends AppCompatTextView {
-
-    public static final boolean IS_M_OR_HIGHER = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 
     ColorStateList drawableTintList;
 
@@ -107,10 +104,6 @@ public class Label extends AppCompatTextView {
                 }
             }
         }
-
-        if (IS_M_OR_HIGHER && drawableTintList != null) {
-            setBackgroundTintList(drawableTintList);
-        }
     }
 
     @Override
@@ -126,7 +119,7 @@ public class Label extends AppCompatTextView {
     }
 
     private Drawable wrapCompoundDrawableTint(Drawable drawable) {
-        if (!IS_M_OR_HIGHER && drawable != null && drawableTintList != null) {
+        if (drawable != null && drawableTintList != null) {
             drawable.setTintList(drawableTintList);
         }
         return drawable;
