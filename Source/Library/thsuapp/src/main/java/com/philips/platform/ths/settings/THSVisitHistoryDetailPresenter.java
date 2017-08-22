@@ -36,13 +36,15 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
 
     @Override
     public void onEvent(int componentID) {
-        if(componentID == R.id.ths_pdf_container){
-            try {
-                THSManager.getInstance().getVisitReportAttachment(mThsVisitHistoryDetailFragment.getContext(),
-                        mThsVisitHistoryDetailFragment.getVisitReport(),this);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
+
+    }
+
+    public void downloadReport() {
+        try {
+            THSManager.getInstance().getVisitReportAttachment(mThsVisitHistoryDetailFragment.getContext(),
+                    mThsVisitHistoryDetailFragment.getVisitReport(),this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
         }
     }
 
