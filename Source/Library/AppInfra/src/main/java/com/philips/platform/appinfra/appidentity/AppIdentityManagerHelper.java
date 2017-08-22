@@ -24,7 +24,7 @@ import java.util.TreeSet;
 /**
  * The type App identity manager helper.
  */
-public class AppIdentityManagerHelper {
+class AppIdentityManagerHelper {
 
     private final List<String> mSectorValuesList = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
     private final List<String> mServiceDiscoveryEnvList = Arrays.asList("STAGING", "PRODUCTION");
@@ -34,7 +34,7 @@ public class AppIdentityManagerHelper {
     private AppConfigurationInterface.AppConfigurationError configError;
 
 
-    public AppIdentityManagerHelper(AppInfra aAppInfra, Context context, AppConfigurationInterface.AppConfigurationError configError) {
+    AppIdentityManagerHelper(AppInfra aAppInfra, Context context, AppConfigurationInterface.AppConfigurationError configError) {
         mAppInfra = aAppInfra;
         this.context = context;
         this.configError = configError;
@@ -63,7 +63,7 @@ public class AppIdentityManagerHelper {
     }
 
 
-    String validateAppState() {
+    private String validateAppState() {
         String appState = null;
         final String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.appState", "appinfra", configError);
@@ -81,7 +81,7 @@ public class AppIdentityManagerHelper {
                     "validate AppState " + appState);
         }
 
-        final Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        final Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         set.addAll(mAppStateValuesList);
         if (appState != null && !appState.isEmpty()) {
             if (!set.contains(appState)) {
@@ -93,12 +93,11 @@ public class AppIdentityManagerHelper {
         return appState;
     }
 
-    void serviceDiscoveryValidate(String serviceDiscoveryEnvironment) {
+    void serviceDiscoveryEnvValidate(String serviceDiscoveryEnvironment) {
         final Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         set.addAll(mServiceDiscoveryEnvList);
         if (serviceDiscoveryEnvironment != null && !serviceDiscoveryEnvironment.isEmpty()) {
             if (!set.contains(serviceDiscoveryEnvironment)) {
-
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
                         , "validate Service Discovery Environment " + serviceDiscoveryEnvironment);
                 throw new IllegalArgumentException("\"ServiceDiscovery Environment in AppConfig.json " +
@@ -114,11 +113,11 @@ public class AppIdentityManagerHelper {
     String validateSector() {
         String sector = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.sector", "appinfra", configError);
-        final Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        final Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         set.addAll(mSectorValuesList);
         if (sector != null && !sector.isEmpty()) {
             if (!set.contains(sector)) {
-                sector = null;
+               // sector = null;
                 throw new IllegalArgumentException("\"Sector in AppConfig.json  file" +
                         " must match one of the following values\" +\n" +
                         " \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
@@ -199,7 +198,7 @@ public class AppIdentityManagerHelper {
             }
         }
 
-        serviceDiscoveryValidate(serviceDiscoveryEnvironment);
+        serviceDiscoveryEnvValidate(serviceDiscoveryEnvironment);
         if (serviceDiscoveryEnvironment != null) {
             if (serviceDiscoveryEnvironment.equalsIgnoreCase("STAGING")) {
                 serviceDiscoveryEnvironment = "STAGING";
@@ -225,7 +224,7 @@ public class AppIdentityManagerHelper {
     }
 
 
-    String reteriveMicrositeId() {
+    String retrieveMicrositeId() {
         final String micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.micrositeId", "appinfra", configError);
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,

@@ -5,8 +5,6 @@
  */
 package com.philips.platform.appinfra.appidentity;
 
-import android.content.Context;
-
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
@@ -16,73 +14,68 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
  */
 public class AppIdentityManager implements AppIdentityInterface {
 
-	private AppInfra mAppInfra;
-	private Context context;
+    private AppIdentityManagerHelper mAppIdentityManagerHelper;
 
-	private AppConfigurationInterface.AppConfigurationError configError;
-	AppIdentityManagerHelper mAppIdentityManagerHelper;
-
-	public AppIdentityManager(AppInfra aAppInfra) {
-		mAppInfra = aAppInfra;
-		context = mAppInfra.getAppInfraContext();
-		configError = new AppConfigurationInterface
-				.AppConfigurationError();
-		mAppIdentityManagerHelper=new AppIdentityManagerHelper(mAppInfra,context,configError);
-		// Class shall not presume appInfra to be completely initialized at this point.
-		// At any call after the constructor, appInfra can be presumed to be complete.
-	}
+    public AppIdentityManager(AppInfra aAppInfra) {
+        AppConfigurationInterface.AppConfigurationError configError =
+                new AppConfigurationInterface
+                .AppConfigurationError();
+        mAppIdentityManagerHelper = new AppIdentityManagerHelper(aAppInfra,
+                aAppInfra.getAppInfraContext(), configError);
+        // Class shall not presume appInfra to be completely initialized at this point.
+        // At any call after the constructor, appInfra can be presumed to be complete.
+    }
 
 
-
-	public void validateServiceDiscoveryEnv(String serviceDiscoveryEnvironment) {
-		mAppIdentityManagerHelper.serviceDiscoveryValidate(serviceDiscoveryEnvironment);
-	}
-
-
-	public void validateMicrositeId(String micrositeId) {
-       mAppIdentityManagerHelper.micrositeIdValidation(micrositeId);
-	}
-
-	@Override
-	public String getAppName() {
-		return mAppIdentityManagerHelper.getApplicationName();
-	}
+    public void validateServiceDiscoveryEnv(String serviceDiscoveryEnvironment) {
+        mAppIdentityManagerHelper.serviceDiscoveryEnvValidate(serviceDiscoveryEnvironment);
+    }
 
 
-	@Override
-	public String getAppVersion() {
-		return mAppIdentityManagerHelper.validateAppVersion();
-	}
+    public void validateMicrositeId(String micrositeId) {
+        mAppIdentityManagerHelper.micrositeIdValidation(micrositeId);
+    }
 
-	@Override
-	public AppState getAppState() {
-     return mAppIdentityManagerHelper.getApplicationState();
-	}
-
-	@Override
-	public String getServiceDiscoveryEnvironment() {
-		return mAppIdentityManagerHelper.getServiceDiscoveryEnvironments();
-	}
+    @Override
+    public String getAppName() {
+        return mAppIdentityManagerHelper.getApplicationName();
+    }
 
 
-	@Override
-	public String getLocalizedAppName() {
-	    /* Vertical App should have this string defined for all supported language files
+    @Override
+    public String getAppVersion() {
+        return mAppIdentityManagerHelper.validateAppVersion();
+    }
+
+    @Override
+    public AppState getAppState() {
+        return mAppIdentityManagerHelper.getApplicationState();
+    }
+
+    @Override
+    public String getServiceDiscoveryEnvironment() {
+        return mAppIdentityManagerHelper.getServiceDiscoveryEnvironments();
+    }
+
+
+    @Override
+    public String getLocalizedAppName() {
+        /* Vertical App should have this string defined for all supported language files
 	     *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
          * */
-		return mAppIdentityManagerHelper.getLocalizedApplicationName();
-	}
+        return mAppIdentityManagerHelper.getLocalizedApplicationName();
+    }
 
 
-	@Override
-	public String getMicrositeId() {
-		return mAppIdentityManagerHelper.reteriveMicrositeId();
-	}
+    @Override
+    public String getMicrositeId() {
+        return mAppIdentityManagerHelper.retrieveMicrositeId();
+    }
 
 
-	@Override
-	public String getSector() {
-		return mAppIdentityManagerHelper.validateSector() ;
-	}
+    @Override
+    public String getSector() {
+        return mAppIdentityManagerHelper.validateSector();
+    }
 
 }
