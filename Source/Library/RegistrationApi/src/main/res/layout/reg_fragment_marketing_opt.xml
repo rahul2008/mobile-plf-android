@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                    android:layout_marginTop="@dimen/text_size_12"
+                    android:layout_marginTop="@dimen/reg_text_size_12"
                     android:text="@string/reg_Receive_Philips_News_lbltxt"
                     android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />

@@ -176,10 +176,15 @@
     <dimen name="reg_layout_margin_12dp">12dp</dimen>
     <dimen name="reg_layout_margin_8dp">8dp</dimen>
     <dimen name="reg_margin_24">24dp</dimen>
+    <dimen name="reg_margin_16dp">16dp</dimen>
 
-    <dimen name="text_size_12">12dip</dimen>
-    <dimen name="text_size_20">20dip</dimen>
-    <dimen name="text_size_16">16dip</dimen>
+    <dimen name="reg_layout_margin_bottom_16">16dp</dimen>
+    <dimen name="reg_layout_margin_start_16">16dp</dimen>
+    <dimen name="reg_layout_margin_end_16">16dp</dimen>
+    <dimen name="reg_layout_margin_top_24">24dp</dimen>
+    <dimen name="reg_text_size_12">12sp</dimen>
+    <dimen name="reg_text_size_20">20sp</dimen>
+    <dimen name="reg_text_size_16">16sp</dimen>
 
 
 
