@@ -20,6 +20,10 @@ import android.util.Log;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
@@ -35,6 +39,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.view.widget.*;
 import com.philips.platform.urdemo.themesettings.*;
 import com.philips.platform.urdemolibrary.R;
 
@@ -59,9 +64,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
-//        initTheme();
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
+        initTheme();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
@@ -76,6 +81,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         Button mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
+        Button changeThemeButton = (Button) findViewById(R.id.change_theme);
+        changeThemeButton.setOnClickListener(this);
+
         final Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(this);
@@ -86,7 +94,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
-        Switch mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+        com.philips.platform.uid.view.widget.Switch mCountrySelectionSwitch = (com.philips.platform.uid.view.widget.Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
         Button mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
@@ -99,7 +107,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
 
-        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+//        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
         mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -200,7 +208,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                     String restoredText = prefs.getString("reg_hsdp_environment", null);
-                    RLog.i("Restored teest",""+restoredText);
+                    RLog.i("Restored teest", "" + restoredText);
 
                 }
 
@@ -272,14 +280,14 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     @Override
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
-        ActivityLauncher activityLauncher;
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, getThemeConfig(), themeResourceId, null);
         URInterface urInterface;
         initCountrySelection();
 
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            //  RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
             urLaunchInput.setAccountSettings(true);
@@ -287,11 +295,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_B);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
-//            activityLauncher = new ActivityLauncher(ActivityLauncher.
-//                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, getThemeConfig(), themeResourceId, null);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
             final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
@@ -321,8 +325,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_C);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
@@ -354,8 +356,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setAccountSettings(false);
-            activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
 
@@ -376,9 +376,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             }
 
         } else if (i == R.id.btn_update_gender) {
-//            Intent intent = new Intent(this, ThemeSettingsActivity.class);
-//            startActivity(intent);
-//
+
             User user1 = new User(mContext);
             if (!user1.isUserSignIn()) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
@@ -392,7 +390,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             } else {
                 handleDoBUpdate(user.getDateOfBirth());
             }
-
+        } else if (i == R.id.change_theme) {
+            Intent intent = new Intent(this, ThemeSettingsActivity.class);
+            startActivity(intent);
         }
     }
 
