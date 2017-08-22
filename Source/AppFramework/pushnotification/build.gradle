@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.1.201405082137"
 }
 
 //def coverageSourceDirs = [
