@@ -115,10 +115,10 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
     }
 
     public void testObfuscate() {
-        String obfuscate = keyBagHelper.obfuscate("Raja Ram Mohan Roy", 0XAEF7);
+        String obfuscate = keyBagHelper.deObfuscate("Raja Ram Mohan Roy", 0XAEF7);
         assertFalse(obfuscate.equals("Raja Ram Mohan Roy"));
-        assertEquals(keyBagHelper.obfuscate(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
-        assertFalse(keyBagHelper.obfuscate(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
+        assertEquals(keyBagHelper.deObfuscate(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
+        assertFalse(keyBagHelper.deObfuscate(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
     }
 
     public void testGetAppendedServiceIds() {

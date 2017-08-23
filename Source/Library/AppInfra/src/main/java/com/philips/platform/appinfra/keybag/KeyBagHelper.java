@@ -114,7 +114,7 @@ public class KeyBagHelper {
         return null;
     }
 
-    String obfuscate(String data, int seed) {
+    String deObfuscate(String data, int seed) {
         char[] chars = keyBagLib.obfuscateDeObfuscate(data.toCharArray(), seed);
         if (chars != null && chars.length > 0) {
             return new String(chars);
@@ -177,7 +177,7 @@ public class KeyBagHelper {
                 String key = keys.next();
                 String value = (String) jsonObject.get(key);
                 String seed = getSeed(serviceId, index, key);
-                hashMap.put(key, obfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16)));
+                hashMap.put(key, deObfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16)));
             }
             return hashMap;
         } catch (JSONException e) {
