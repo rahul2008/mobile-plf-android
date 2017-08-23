@@ -88,12 +88,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         return getActivity();
     }
 
-
-    @Override
-    public boolean handleBackEvent() {
-        return true;
-    }
-
     @Override
     public void onClick(View view) {
         int i = view.getId();

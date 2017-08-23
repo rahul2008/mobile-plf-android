@@ -53,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:layout_marginTop="@dimen/ths_margin_bottom"
-            android:textColor="@color/uid_signal_red_level_60"
             android:gravity="center"
             android:text="@string/ths_cancel_visit"/>
 

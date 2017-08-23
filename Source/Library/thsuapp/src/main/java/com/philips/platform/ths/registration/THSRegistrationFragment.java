@@ -135,12 +135,6 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         return getActivity();
     }
 
-
-    @Override
-    public boolean handleBackEvent() {
-        return true;
-    }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
