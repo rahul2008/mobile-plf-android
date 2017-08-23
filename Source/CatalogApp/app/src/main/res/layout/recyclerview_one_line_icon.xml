@@ -5,18 +5,24 @@
     <data>
 
         <variable
-            name="data"
-            type="com.philips.platform.catalogapp.DataHolder"></variable>
+                name="data"
+                type="com.philips.platform.catalogapp.DataHolder"></variable>
     </data>
 
-    <com.philips.platform.uid.view.widget.Label
-        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
-        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
-        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
-        android:drawablePadding="@dimen/recycler_view_drawable_padding"
-        android:drawableStart="@{data.getIcon()}"
-        android:gravity="start|center_vertical"
-        android:text="@{data.text}"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/uid_list_item_selector">
+
+        <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+                android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+                android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+                android:drawablePadding="@dimen/recycler_view_drawable_padding"
+                android:drawableStart="@{data.getIcon()}"
+                android:gravity="start|center_vertical"
+                android:text="@{data.text}"/>
+    </LinearLayout>
 </layout>

@@ -55,7 +55,7 @@ class AccentValidator {
     }
 
     private static <T, U> boolean arrayContainsElement(T[] origObject, U searchObject) {
-        if (origObject != null) {
+        if (origObject == null) {
             return false;
         }
         boolean found = false;

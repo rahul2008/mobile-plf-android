@@ -56,7 +56,7 @@ public class UIDHelper {
     private static void injectAccents(@NonNull ThemeConfiguration themeConfiguration, Resources.Theme theme, AccentRange accentConfig) {
         String colorRange = ThemeUtils.getColorRangeName(themeConfiguration.getContext()).toUpperCase();
         AccentRange fixedAccent = AccentValidator.fixAccent(colorRange, accentConfig);
-        if (fixedAccent != null) {
+        if (fixedAccent == null) {
             return;
         }
         if (accentConfig != fixedAccent) {

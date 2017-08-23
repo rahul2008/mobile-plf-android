@@ -5,13 +5,10 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,8 +22,6 @@ import com.philips.platform.catalogapp.DataHolderView;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -145,17 +140,11 @@ public class RecyclerViewFragment extends BaseFragment {
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
 
-            Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
-            Context themedContext = UIDContextWrapper.getThemedContext(holder.itemView.getContext(), theme);
-            ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_recyclerview_background_selector);
-            final int selectedStateColor = colorStateList.getDefaultColor();
-
             ((BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     boolean isSelected = holder.itemView.isSelected();
                     holder.itemView.setSelected(!isSelected);
-                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
                 }
             });
         }

@@ -9,6 +9,7 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
@@ -45,6 +46,9 @@ import java.util.ArrayList;
  * </p>
  */
 public class Label extends AppCompatTextView {
+
+    ColorStateList drawableTintList;
+
     private UIDClickableSpan[] pressedLinks;
     private ColorStateList linkColors;
     private UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor;
@@ -81,7 +85,44 @@ public class Label extends AppCompatTextView {
     private void processAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         TypedArray attrsArray = context.obtainStyledAttributes(attrs, R.styleable.UIDLabel, defStyleAttr, R.style.UIDLabel);
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
+        setDrawableTintColor(context, attrsArray);
         attrsArray.recycle();
+    }
+
+    private void setDrawableTintColor(Context context, TypedArray typedArray) {
+        if (typedArray.hasValue(R.styleable.UIDLabel_uidDrawableTint)) {
+            int resourceId = typedArray.getResourceId(R.styleable.UIDLabel_uidDrawableTint, -1);
+            if (resourceId == -1) {
+                drawableTintList = ColorStateList.valueOf(typedArray.getColor(R.styleable.UIDLabel_uidDrawableTint, 0));
+            } else {
+                drawableTintList = ThemeUtils.buildColorStateList(context, resourceId);
+            }
+            Drawable[] compoundDrawables = getCompoundDrawables();
+            for (Drawable drawable : compoundDrawables) {
+                if (drawable != null) {
+                    drawable.setTintList(drawableTintList);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setCompoundDrawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
+        super.setCompoundDrawables(wrapCompoundDrawableTint(left), wrapCompoundDrawableTint(top),
+                wrapCompoundDrawableTint(right), wrapCompoundDrawableTint(bottom));
+    }
+
+    @Override
+    public void setCompoundDrawablesRelative(@Nullable Drawable start, @Nullable Drawable top, @Nullable Drawable end, @Nullable Drawable bottom) {
+        super.setCompoundDrawablesRelative(wrapCompoundDrawableTint(start), wrapCompoundDrawableTint(top),
+                wrapCompoundDrawableTint(end), (bottom));
+    }
+
+    private Drawable wrapCompoundDrawableTint(Drawable drawable) {
+        if (drawable != null && drawableTintList != null) {
+            drawable.setTintList(drawableTintList);
+        }
+        return drawable;
     }
 
     /**
