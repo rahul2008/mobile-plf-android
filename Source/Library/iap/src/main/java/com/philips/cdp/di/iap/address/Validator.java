@@ -5,10 +5,13 @@
 
 package com.philips.cdp.di.iap.address;
 
+import com.philips.cdp.di.iap.utils.InputValidator;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validator {
+public class Validator extends InputValidator {
 
     private static final String NAME = "^[a-zA-Z ]{1,17}$";
     private static final String ADDRESS = "^[a-zA-Z0-9(.',#/\\-)_\\s]{1,35}$";
@@ -28,15 +31,15 @@ public class Validator {
                     "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                     ")+";
 
-    private Pattern mNamePattern;
-    private Pattern mAddressPattern;
-    private Pattern mTownPattern;
-    private Pattern mPostalCodePattern;
-    private Pattern mCountryPattern;
-    private Pattern mPhoneNumberPattern;
-    private Pattern mEmailPattern;
+    private static Pattern mNamePattern;
+    private static Pattern mAddressPattern;
+    private static Pattern mTownPattern;
+    private static Pattern mPostalCodePattern;
+    private static Pattern mCountryPattern;
+    private static Pattern mPhoneNumberPattern;
+    private static Pattern mEmailPattern;
 
-    public Validator() {
+    static {
         mNamePattern = Pattern.compile(NAME);
         mEmailPattern = Pattern.compile(EMAIL);
         mAddressPattern = Pattern.compile(ADDRESS);
@@ -44,6 +47,11 @@ public class Validator {
         mPhoneNumberPattern = Pattern.compile(PHONE_NUMBER);
         mTownPattern = Pattern.compile(TOWN);
         mCountryPattern = Pattern.compile(COUNTRY);
+    }
+
+    public Validator(InputValidationLayout inputValidationLayout, String errorMessage, Pattern valid_regex_pattern) {
+        super(inputValidationLayout,errorMessage,valid_regex_pattern);
+
     }
 
     private boolean isValidString(String stringToBeValidated) {

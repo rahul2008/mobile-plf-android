@@ -43,7 +43,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.utils.EmailValidator;
+import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -148,7 +148,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         View rootView = inflater.inflate(R.layout.iap_shipping_billing_address_layout, container, false);
         phoneNumberUtil = PhoneNumberUtil.getInstance();
         InputValidationLayout mFirstName = (InputValidationLayout) rootView.findViewById(R.id.input_validation_first_name);
-        mFirstName.setValidator(new EmailValidator());
+        mFirstName.setValidator(new Validator(inputValidationLayout, errorMessage, valid_regex_pattern));
         mUseThisAddressCheckBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
         mSameAsShippingAddress = (LinearLayout) rootView.findViewById(R.id.iap_same_as_shipping_address);
 
@@ -165,7 +165,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 //
 //        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
 //
-//        mLlFirstName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
+          mLlFirstName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
 //        mLlLastName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
 //        mLlSalutation = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_salutation);
 //        mLlAddressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
