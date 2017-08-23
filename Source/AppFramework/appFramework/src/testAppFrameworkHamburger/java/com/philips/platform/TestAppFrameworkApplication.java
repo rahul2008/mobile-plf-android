@@ -18,6 +18,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,8 +49,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         try {
             super.attachBaseContext(base);
         } catch (RuntimeException ignored) {
-            // Multidex support doesn't play well with Robolectric yet
-        }
+            RALog.e("TestAppFrameworkApplication", " multidex exception with Roboelectric");        }
     }
 
     @Override

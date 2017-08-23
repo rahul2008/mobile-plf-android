@@ -14,6 +14,8 @@ import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.R;
 import com.philips.platform.referenceapp.utils.PNLog;
 
+import java.io.IOException;
+
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "PushNotification";
@@ -33,7 +35,7 @@ public class RegistrationIntentService extends IntentService {
             PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext());
             PNLog.i(TAG, "GCM Registration Token: " + token);
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             PNLog.d(TAG, "Failed to complete token refresh"+e.getMessage());
         }
     }
