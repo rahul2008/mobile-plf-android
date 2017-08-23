@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
     </data>
@@ -11,35 +11,35 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-    <com.philips.platform.uid.view.widget.NavigationContainer
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <com.philips.platform.uid.view.widget.NavigationContainer
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/appBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:elevation="0dp">
-
-                <include
-                    layout="@layout/uid_toolbar_layout"/>
-            </android.support.design.widget.AppBarLayout>
-
-
-            <FrameLayout
-                android:id="@+id/mainContainer"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
-            </FrameLayout>
-        </LinearLayout>
-    </com.philips.platform.uid.view.widget.NavigationContainer>
+
+                <android.support.design.widget.AppBarLayout
+                    android:id="@+id/appBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:elevation="0dp">
+
+                    <include
+                        layout="@layout/uid_toolbar_layout"/>
+                </android.support.design.widget.AppBarLayout>
+
+
+                <FrameLayout
+                    android:id="@+id/mainContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                </FrameLayout>
+            </LinearLayout>
+        </com.philips.platform.uid.view.widget.NavigationContainer>
 
         <RelativeLayout
             android:id="@+id/sidebar_left_root"
@@ -82,51 +82,63 @@
 
         </RelativeLayout>
 
-
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/sidebar_right_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:fitsSystemWindows="true"
+            android:orientation="vertical"
             android:background="?attr/uidContentPrimaryBackgroundColor">
 
-            <LinearLayout
-                android:id="@+id/sidebar_right_header_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true">
-
-                <include
-                    android:id="@+id/sidebar_right_header_layout"
-                    layout="@layout/sidebar_right_header_view"/>
-
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/sidebar_right_listview"
-                android:overScrollMode="never"
-                android:dividerHeight="@dimen/uid_divider_Height"
+            <!--<android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/sidebar_right_header_container"
-                android:listSelector="@drawable/uid_ui_picker_item_background_selector"/>
+                android:fillViewport="true">
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/sidebar_right_relative"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                    <LinearLayout
+                        android:id="@+id/sidebar_right_header_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/sidebar_right_header_layout"
+                            layout="@layout/sidebar_right_header_view"/>
+
+                    </LinearLayout>-->
+
+                    <ListView
+                        android:id="@+id/sidebar_right_listview"
+                        android:overScrollMode="never"
+                        android:dividerHeight="@dimen/uid_divider_Height"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:listSelector="@drawable/uid_ui_picker_item_background_selector"/>
+
+                <!--</RelativeLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+-->
+        </LinearLayout>
 
         <!--<com.philips.platform.uid.view.widget.Label
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sidebar Text"/>-->
 
-    <!--    <include
-            android:id="@+id/sidebar_recyclerview"
-            layout="@layout/uid_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start" />-->
+        <!--    <include
+                android:id="@+id/sidebar_recyclerview"
+                layout="@layout/uid_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start" />-->
 
         <!--<android.support.design.widget.NavigationView
             android:id="@+id/navigation_view"

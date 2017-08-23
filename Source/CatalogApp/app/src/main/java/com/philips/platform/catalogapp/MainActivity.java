@@ -26,6 +26,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -82,7 +84,7 @@ public class MainActivity extends UIDActivity {
     private int rightListViewSelectedPosition = 0;
 
     private RelativeLayout leftSidebarRoot;
-    private RelativeLayout rightSidebarRoot;
+    private LinearLayout rightSidebarRoot;
 
     private static final String[] RIGHT_MENU_ITEMS = new String[]{
             "Profile item 1",
@@ -123,7 +125,7 @@ public class MainActivity extends UIDActivity {
 
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
         leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
-        rightSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_right_root);
+        rightSidebarRoot = (LinearLayout) findViewById(R.id.sidebar_right_root);
         //sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
         /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
         sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
@@ -139,6 +141,8 @@ public class MainActivity extends UIDActivity {
         leftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
+        ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
+        rightListView.addHeaderView(header, null, false);
         setRightListItems();
 
         drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
