@@ -154,6 +154,9 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive true
     }
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        transitive = true
+    }
 
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
