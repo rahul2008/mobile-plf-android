@@ -177,7 +177,7 @@ public static <fields>;
 -keep enum com.philips.cdp.prodreg.** {*;}
 
 # App-framework
- -keep class com.philips.platform.appframework.** {*;}
+-keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
 
 
 ##--------------- ORMLite  ----------
@@ -434,6 +434,7 @@ public static <fields>;
 -keep interface com.android.volley.** { *; }
 -keep class org.apache.commons.logging.**
 
+#app-infra
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
