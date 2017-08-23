@@ -167,8 +167,6 @@
     <dimen name="reg_first_to_know_know">72dip</dimen>
     <dimen name="reg_text_padding_bottom">5dp</dimen>
 
-    <dimen name="reg_margin_top_24">24dp</dimen>
-    <dimen name="reg_margin_bottom_24">24dp</dimen>
     <dimen name="reg_layout_margin_16dp">16dp</dimen>
     <dimen name="reg_layout_margin_10dp">10dp</dimen>
     <dimen name="reg_layout_margin_20dp">20dp</dimen>

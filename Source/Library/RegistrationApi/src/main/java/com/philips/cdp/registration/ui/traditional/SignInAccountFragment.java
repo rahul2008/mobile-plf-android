@@ -48,6 +48,8 @@ import butterknife.*;
 import io.reactivex.Observable;
 import io.reactivex.disposables.*;
 
+import static com.android.volley.Request.Method.HEAD;
+
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
@@ -213,7 +215,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchResetPasswordFragment() {
-//        if (registrationSettingsURL.isChinaFlow()) {
+//        if (registrationSettingsURL.isMobileFlow()) {
 //            getRegistrationFragment().addFragment(new ResetPasswordWebView());
 //        } else {
         getRegistrationFragment().addResetPasswordFragment();
@@ -578,7 +580,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleResend() {
         mBtnSignInAccount.setEnabled(false);
-        if (registrationSettingsURL.isChinaFlow()) {
+        if (registrationSettingsURL.isMobileFlow()) {
             serviceDiscovery();
         } else {
             mUser.resendVerificationMail(loginValidationEditText.getText().toString(), this);

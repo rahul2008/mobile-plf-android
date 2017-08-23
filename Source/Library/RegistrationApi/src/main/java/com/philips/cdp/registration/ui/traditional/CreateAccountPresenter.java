@@ -137,7 +137,7 @@ public class CreateAccountPresenter implements NetworStateListener, EventListene
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()) {
+            if (RegistrationHelper.getInstance().isMobileFlow()) {
                 createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
             } else {
                 createAccountContract.emailError(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg);
