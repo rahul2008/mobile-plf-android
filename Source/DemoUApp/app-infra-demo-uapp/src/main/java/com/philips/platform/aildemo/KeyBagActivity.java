@@ -85,7 +85,7 @@ public class KeyBagActivity extends AppCompatActivity {
 				AIKMService aikmService = aikmServiceList.get(i);
 				stringBuilder.append(aikmService.getServiceId());
 				stringBuilder.append(", ");
-				if(!TextUtils.isEmpty(aikmService.getmError())) {
+				if(TextUtils.isEmpty(aikmService.getmError())) {
 					stringBuilder.append("Url:");
 					stringBuilder.append("  ");
 					stringBuilder.append(aikmService.getConfigUrls());
@@ -111,7 +111,7 @@ public class KeyBagActivity extends AppCompatActivity {
 				}
 				AIKMService.KEY_BAG_ERROR keyBagError = aikmService.getKeyBagError();
 				if (null != keyBagError) {
-					stringBuilder.append("error -- ");
+					stringBuilder.append("error while fetching key bag -- ");
 					stringBuilder.append(keyBagError.name());
 				}
 				stringBuilder.append("\n");
