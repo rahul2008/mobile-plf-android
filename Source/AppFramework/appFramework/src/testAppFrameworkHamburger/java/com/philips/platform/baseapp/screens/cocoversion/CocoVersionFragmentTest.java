@@ -6,7 +6,6 @@
 package com.philips.platform.baseapp.screens.cocoversion;
 
 import android.support.v7.widget.RecyclerView;
-import android.widget.FrameLayout;
 
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
@@ -22,7 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -31,7 +29,7 @@ import org.robolectric.annotation.Config;
 public class CocoVersionFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
     private CocoVersionFragment cocoVersionFragment;
-    CocoVersionAdapter.CocoInfoViewHolder candyViewHolder;
+ //  CocoVersionAdapter.CocoInfoViewHolder candyViewHolder;
     CocoVersionAdapter  cocoVersionAdapter;
     private ActivityController<TestActivity> activityController;
 
@@ -52,8 +50,8 @@ public class CocoVersionFragmentTest extends TestCase {
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoVersionFragment, "CoCoVersion").commit();
         RecyclerView recyclerView = (RecyclerView) cocoVersionFragment.getView().findViewById(R.id.coco_version_view);
         cocoVersionAdapter = (CocoVersionAdapter) recyclerView.getAdapter();
-        candyViewHolder = cocoVersionAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
-
+      //  candyViewHolder = cocoVersionAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
+//
 
     }
 

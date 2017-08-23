@@ -6,12 +6,11 @@
 package com.philips.platform.baseapp.screens.userregistration;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 
 
 public class UserRegistrationOnBoardingState extends UserRegistrationState {
 
-    private BaseState baseState;
+
     /**
      * AppFlowState constructor
      *
