@@ -10,7 +10,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.RemoteRequest;
 import com.philips.cdp.dicommclient.request.RemoteRequestType;
@@ -19,6 +18,7 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 
 import java.beans.PropertyChangeEvent;

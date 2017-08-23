@@ -1,9 +1,14 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.networknode;
+package com.philips.cdp2.commlib.core.store;
 
 import android.database.Cursor;
 import android.database.SQLException;
@@ -19,9 +24,9 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.DB_SCHEMA;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.DB_VERSION;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.DB_SCHEMA;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.DB_VERSION;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 import static junit.framework.Assert.assertEquals;
 
 public class NetworkNodeDatabaseHelperTest extends RobolectricTest {

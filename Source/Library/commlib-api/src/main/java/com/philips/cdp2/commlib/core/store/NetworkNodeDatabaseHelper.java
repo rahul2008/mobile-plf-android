@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.networknode;
+package com.philips.cdp2.commlib.core.store;
 
 import android.content.Context;
 import android.database.SQLException;

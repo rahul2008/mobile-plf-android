@@ -3,32 +3,19 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.networknode;
+package com.philips.cdp2.commlib.core.store;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_HTTPS;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_KNOWN_NETWORK;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_PIN;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 public class NetworkNodeDatabase {
 
@@ -46,24 +33,24 @@ public class NetworkNodeDatabase {
         SQLiteDatabase db = null;
         try {
             db = dbHelper.getReadableDatabase();
-            cursor = db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+            cursor = db.query(NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE, null, null, null, null, null, null);
 
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
 
                 do {
-                    String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
-                    long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
-                    String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
-                    String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
-                    String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LAST_KNOWN_NETWORK));
-                    int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
-                    long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
-                    String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
-                    String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
-                    String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
-                    boolean https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS)) == 1;
-                    String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
+                    String cppId = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_CPP_ID));
+                    long bootId = cursor.getLong(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_BOOT_ID));
+                    String encryptionKey = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY));
+                    String name = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_DEVICE_NAME));
+                    String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_LAST_KNOWN_NETWORK));
+                    int pairedStatus = cursor.getInt(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_IS_PAIRED));
+                    long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(NetworkNodeDatabaseHelper.KEY_LAST_PAIRED));
+                    String ipAddress = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_IP_ADDRESS));
+                    String deviceType = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE));
+                    String modelId = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_MODEL_ID));
+                    boolean https = cursor.getShort(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_HTTPS)) == 1;
+                    String pin = cursor.getString(cursor.getColumnIndex(NetworkNodeDatabaseHelper.KEY_PIN));
 
                     NetworkNode networkNode = new NetworkNode();
                     networkNode.setCppId(cppId);
@@ -110,26 +97,26 @@ public class NetworkNodeDatabase {
             db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(KEY_CPP_ID, networkNode.getCppId());
-            values.put(KEY_BOOT_ID, networkNode.getBootId());
-            values.put(KEY_ENCRYPTION_KEY, networkNode.getEncryptionKey());
-            values.put(KEY_DEVICE_NAME, networkNode.getName());
-            values.put(KEY_LAST_KNOWN_NETWORK, networkNode.getHomeSsid());
-            values.put(KEY_IS_PAIRED, networkNode.getPairedState().ordinal());
+            values.put(NetworkNodeDatabaseHelper.KEY_CPP_ID, networkNode.getCppId());
+            values.put(NetworkNodeDatabaseHelper.KEY_BOOT_ID, networkNode.getBootId());
+            values.put(NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY, networkNode.getEncryptionKey());
+            values.put(NetworkNodeDatabaseHelper.KEY_DEVICE_NAME, networkNode.getName());
+            values.put(NetworkNodeDatabaseHelper.KEY_LAST_KNOWN_NETWORK, networkNode.getHomeSsid());
+            values.put(NetworkNodeDatabaseHelper.KEY_IS_PAIRED, networkNode.getPairedState().ordinal());
 
             if (networkNode.getPairedState() == PairingState.PAIRED) {
-                values.put(KEY_LAST_PAIRED, networkNode.getLastPairedTime());
+                values.put(NetworkNodeDatabaseHelper.KEY_LAST_PAIRED, networkNode.getLastPairedTime());
             } else {
-                values.put(KEY_LAST_PAIRED, -1L);
+                values.put(NetworkNodeDatabaseHelper.KEY_LAST_PAIRED, -1L);
             }
 
-            values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
-            values.put(KEY_DEVICE_TYPE, networkNode.getDeviceType());
-            values.put(KEY_MODEL_ID, networkNode.getModelId());
-            values.put(KEY_HTTPS, networkNode.isHttps());
-            values.put(KEY_PIN, networkNode.getPin());
+            values.put(NetworkNodeDatabaseHelper.KEY_IP_ADDRESS, networkNode.getIpAddress());
+            values.put(NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE, networkNode.getDeviceType());
+            values.put(NetworkNodeDatabaseHelper.KEY_MODEL_ID, networkNode.getModelId());
+            values.put(NetworkNodeDatabaseHelper.KEY_HTTPS, networkNode.isHttps());
+            values.put(NetworkNodeDatabaseHelper.KEY_PIN, networkNode.getPin());
 
-            rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            rowId = db.insertWithOnConflict(NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
             DICommLog.d(DICommLog.DATABASE, "Saved NetworkNode in db: " + networkNode);
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,7 +135,7 @@ public class NetworkNodeDatabase {
         Cursor cursor = null;
         try {
             db = dbHelper.getWritableDatabase();
-            cursor = db.query(TABLE_NETWORK_NODE, null, KEY_CPP_ID + " = ?", new String[]{networkNode.getCppId()}, null, null, null);
+            cursor = db.query(NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE, null, NetworkNodeDatabaseHelper.KEY_CPP_ID + " = ?", new String[]{networkNode.getCppId()}, null, null, null);
 
             if (cursor.getCount() > 0) {
                 DICommLog.d(DICommLog.DATABASE, "NetworkNode already in db - " + networkNode);
@@ -171,7 +158,7 @@ public class NetworkNodeDatabase {
         try {
             db = dbHelper.getReadableDatabase();
 
-            rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[]{networkNode.getCppId()});
+            rowsDeleted = db.delete(NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE, NetworkNodeDatabaseHelper.KEY_CPP_ID + "= ?", new String[]{networkNode.getCppId()});
             DICommLog.d(DICommLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  (" + rowsDeleted + ")");
         } catch (Exception e) {
             DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
