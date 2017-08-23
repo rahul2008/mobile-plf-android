@@ -63,11 +63,11 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         String groupId = "appinfra.languagePack2";
         int index = 1;
         String key = "client_id";
-        assertNull(groomHelper.getInitialValue("", 0, "test"));
-        assertNull(groomHelper.getInitialValue("test", 0, ""));
-        assertNull(groomHelper.getInitialValue(null, 0, ""));
-        assertNull(groomHelper.getInitialValue("test", 0, null));
-        String seed = groomHelper.getInitialValue(groupId, index, key);
+        assertNull(groomHelper.getValue("", 0, "test"));
+        assertNull(groomHelper.getValue("test", 0, ""));
+        assertNull(groomHelper.getValue(null, 0, ""));
+        assertNull(groomHelper.getValue("test", 0, null));
+        String seed = groomHelper.getValue(groupId, index, key);
         assertTrue(seed.length() == 4);
     }
 
@@ -109,8 +109,8 @@ public class GroomHelperTest extends AppInfraInstrumentation {
 
     public void testConvertingToHex() {
         String hexString = "52616a612052616d204d6f68616e20526f79";
-        assertEquals(groomHelper.convertHexDataToString(hexString), "Raja Ram Mohan Roy");
-        String testString = groomHelper.convertHexDataToString("c2b3c2a5085a2dc3a91672c29fc28e55c2955bc2a4c282656cc3bc");
+        assertEquals(groomHelper.convertData(hexString), "Raja Ram Mohan Roy");
+        String testString = groomHelper.convertData("c2b3c2a5085a2dc3a91672c29fc28e55c2955bc2a4c282656cc3bc");
         assertNotNull(testString);
     }
 

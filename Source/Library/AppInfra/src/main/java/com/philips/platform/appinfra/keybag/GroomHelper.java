@@ -84,7 +84,7 @@ public class GroomHelper {
         return null;
     }
 
-    String getInitialValue(String groupId, int index, String key) {
+    String getValue(String groupId, int index, String key) {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
             String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
             String md5Value = getAilGroomInHex(concatData);
@@ -94,7 +94,7 @@ public class GroomHelper {
         return null;
     }
 
-    String convertHexDataToString(String hex) {
+    String convertData(String hex) {
         int l = hex.length();
         char[] data = new char[l / 2];
         for (int i = 0; i < l; i += 2) {
@@ -176,8 +176,8 @@ public class GroomHelper {
             while (keys.hasNext()) {
                 String key = keys.next();
                 String value = (String) jsonObject.get(key);
-                String seed = getInitialValue(serviceId, index, key);
-                hashMap.put(key, ailGroom(convertHexDataToString(value), Integer.parseInt(seed, 16)));
+                String initialValue = getValue(serviceId, index, key);
+                hashMap.put(key, ailGroom(convertData(value), Integer.parseInt(initialValue, 16)));
             }
             return hashMap;
         } catch (JSONException e) {
