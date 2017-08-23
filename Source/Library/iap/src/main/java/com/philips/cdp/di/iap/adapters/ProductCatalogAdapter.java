@@ -248,7 +248,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void onClick(final View v) {
             boolean isSelected = this.itemView.isSelected();
             this.itemView.setSelected(!isSelected);
-            this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_recyclerview_background_selector));
+            this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_list_item_background_selector));
             setTheProductDataForDisplayingInProductDetailPage(getAdapterPosition());
         }
     }
