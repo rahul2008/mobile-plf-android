@@ -49,16 +49,16 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            launchInput = 1;
+            launchInput = APPOINTMENTS;
             checkForUserExisitance();
         } else if (componentID == R.id.visit_history) {
-            launchInput = 2;
+            launchInput = VISIT_HISTORY;
             checkForUserExisitance();
         } else if (componentID == R.id.how_it_works) {
-            launchInput = 3;
+            launchInput = HOW_IT_WORKS;
             uiBaseView.showToast("Coming Soon!!!");
         }else if(componentID == R.id.ths_start){
-            launchInput = 4;
+            launchInput = PRACTICES;
             checkForUserExisitance();
         }
     }

@@ -63,14 +63,13 @@
                 android:layout_below="@id/visit_reason"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/additional_comment"
                 style="@style/ths_list_item"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/checkbox_container"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
@@ -82,38 +81,40 @@
                 android:id="@+id/additional_comments_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:gravity="top"
-                android:isScrollContainer="true"
                 android:layout_below="@id/additional_comment"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
                 android:enabled="true"
-                android:hint="@string/write_here" />
+                android:gravity="top"
+                android:hint="@string/write_here"
+                android:inputType="textMultiLine"
+                android:isScrollContainer="true"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical" />
 
-            <com.philips.platform.uid.view.widget.ImageButton
-                android:id="@+id/camera_click_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/additional_comments_edittext"
-                android:layout_alignStart="@+id/additional_comments_edittext"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="@dimen/ths_fab_margin"
-                android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginStart="12dp"
-                android:background="@drawable/reg_circle"
-                app:uidImageButtonDrawableSrc="@mipmap/camera_icon"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/imagelist"
+            <RelativeLayout
+                android:id="@+id/ths_camera_image_list_layout"
+                android:layout_below="@+id/additional_comments_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/additional_comments_edittext"
-                android:layout_marginLeft="@dimen/ths_fab_margin"
-                android:layout_marginRight="@dimen/ths_fab_margin" />
+                android:layout_marginStart="@dimen/ths_32dp"
+                android:layout_marginEnd="@dimen/ths_fab_margin">
+
+                <com.philips.platform.uid.view.widget.ImageButton
+                    android:id="@+id/camera_click_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/reg_circle"
+                    android:gravity="center_horizontal"
+                    app:uidImageButtonDrawableSrc="@mipmap/dls_capture_camera_icon" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/imagelist"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_toRightOf="@id/camera_click_button" />
+            </RelativeLayout>
 
         </RelativeLayout>
 

@@ -176,7 +176,6 @@
                 android:enabled="true"
                 android:hint="@string/vitals_faranheit"
                 android:inputType="numberDecimal"
-                android:maxLength="3"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
         <View
@@ -214,8 +213,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="true"
                 android:hint="@string/vitals_ponds"
-                android:inputType="number"
-                android:maxLength="3"
+                android:inputType="numberDecimal"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
         <View

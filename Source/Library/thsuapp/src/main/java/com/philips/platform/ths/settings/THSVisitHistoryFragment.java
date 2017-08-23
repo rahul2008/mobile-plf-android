@@ -41,6 +41,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ths_visit_dates_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
+        mNumberOfAppointmentsLabel.setVisibility(View.GONE);
         return view;
     }
 
@@ -57,6 +58,7 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
 
     public void updateVisitHistoryView(List<VisitReport> visitReports) {
         if(getContext()!=null) {
+            mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
             String text = getString(R.string.ths_number_of_visits_scheduled, visitReports.size());
             mNumberOfAppointmentsLabel.setText(text);
             mThsVisitHistoryAdapter = new THSVisitHistoryAdapter(visitReports, this);

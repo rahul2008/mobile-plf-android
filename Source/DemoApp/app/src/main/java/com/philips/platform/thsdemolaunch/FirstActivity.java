@@ -55,6 +55,11 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
         launchAmwell.setOnClickListener(this);
         mProgress = (ProgressBar) findViewById(R.id.progress);
         logout = (Button) findViewById(R.id.logout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         if(!user.isUserSignIn()){
             logout.setVisibility(View.GONE);

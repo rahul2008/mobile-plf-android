@@ -6,13 +6,10 @@
 package com.philips.platform.ths.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -26,8 +23,6 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 public class THSLaunchActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-    private TextView mTitleTextView;
-    private int containerId;
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
 
@@ -35,7 +30,6 @@ public class THSLaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-//        initCustomActionBar();
         setContentView(R.layout.ths_rename_activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
@@ -47,36 +41,6 @@ public class THSLaunchActivity extends AppCompatActivity {
             fragmentTransaction.commitAllowingStateLoss();
         }
     }
-
-    /*private void initCustomActionBar() {
-        ActionBar mActionBar = this.getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.ths_custom_action_bar, null); // layout which contains your button.
-
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
-        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-
-        ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
-//        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
-
-        mActionBar.setCustomView(mCustomView, params);
-        setTitle(getString(R.string.app_name));
-        mActionBar.setDisplayShowCustomEnabled(true);
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -94,29 +58,15 @@ public class THSLaunchActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState, final PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putBoolean("test", true);
-    }
-
-    @Override
     public void setTitle(final CharSequence title) {
         super.setTitle(title);
-        mTitleTextView.setText(title);
     }
 
     @Override
     public void setTitle(int titleId) {
-        if (mTitleTextView != null)
-            mTitleTextView.setText(titleId);
-        else
-            super.setTitle(titleId);
+        super.setTitle(titleId);
     }
 
-
-    private int getContainerId() {
-        return R.id.parent_layout;
-    }
 
      public void initTheme() {
         int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
@@ -125,17 +75,5 @@ public class THSLaunchActivity extends AppCompatActivity {
         }
         getTheme().applyStyle(themeIndex, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        int q=12;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        int q=12;
     }
 }

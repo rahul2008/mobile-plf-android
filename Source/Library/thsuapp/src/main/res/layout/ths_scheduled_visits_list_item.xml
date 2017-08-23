@@ -52,8 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_marginTop="@dimen/ths_margin_bottom"
-            android:textColor="@color/uid_signal_red_level_60"
             android:gravity="center"
             android:text="@string/ths_cancel_visit"/>
 
@@ -70,7 +68,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_marginTop="@dimen/ths_margin_bottom"
             android:textColor="?attr/uidColorLevel45"
             android:gravity="center"
             android:text="@string/ths_start_visit"/>
@@ -80,7 +77,7 @@
     <View
         android:id="@+id/ths_scheduled_appintment_separator_below"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ths_list_space_normal"
+        android:layout_height="@dimen/ths_list_space"
         android:layout_below="@+id/ths_button_container"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 </RelativeLayout>

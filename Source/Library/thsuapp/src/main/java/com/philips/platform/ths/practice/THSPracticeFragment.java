@@ -77,14 +77,6 @@ public class THSPracticeFragment extends THSBaseFragment{
     }
 
     @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
-
-
-
-
-    @Override
     public FragmentActivity getFragmentActivity() {
         return getActivity();
     }

@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 
 public class THSConditionsPresenterTest {
 
-    THSConditionsPresenter thsConditionsPresenter;
+    THSMedicalConditionsPresenter thsMedicalConditionsPresenter;
 
     @Mock
     THSMedicalConditionsFragment pTHBaseViewMock;
@@ -69,7 +69,7 @@ public class THSConditionsPresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        thsConditionsPresenter = new THSConditionsPresenter(pTHBaseViewMock);
+        thsMedicalConditionsPresenter = new THSMedicalConditionsPresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(pthConsumerMock);
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
@@ -79,14 +79,14 @@ public class THSConditionsPresenterTest {
 
     @Test
     public void onEventContinueBtn() throws Exception {
-        thsConditionsPresenter.onEvent(R.id.continue_btn);
+        thsMedicalConditionsPresenter.onEvent(R.id.continue_btn);
         verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
         verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
     }
 
     @Test
     public void onEventSkipBtn() throws Exception {
-        thsConditionsPresenter.onEvent(R.id.conditions_skip);
+        thsMedicalConditionsPresenter.onEvent(R.id.conditions_skip);
         verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
     }
 
@@ -101,30 +101,30 @@ public class THSConditionsPresenterTest {
         conditions.add(condition1Mock);
         conditions.add(condition2Mock);
         when(thsConditions.getConditions()).thenReturn(conditions);
-        thsConditionsPresenter.onResponse(thsConditions, pthsdkError);
+        thsMedicalConditionsPresenter.onResponse(thsConditions, pthsdkError);
         verify(pTHBaseViewMock).setConditions(anyList());
     }
 
     @Test
     public void onFailure() throws Exception {
-        thsConditionsPresenter.onFailure(throwableMock);
+        thsMedicalConditionsPresenter.onFailure(throwableMock);
         verify(pTHBaseViewMock).showToast(anyString());
     }
 
     @Test
     public void onUpdateConditonResponse() throws Exception {
-        thsConditionsPresenter.onUpdateConditonResponse(null,pthsdkError);
+        thsMedicalConditionsPresenter.onUpdateConditonResponse(null,pthsdkError);
     }
 
     @Test
     public void onUpdateConditionFailure() throws Exception {
-        thsConditionsPresenter.onUpdateConditionFailure(throwableMock);
+        thsMedicalConditionsPresenter.onUpdateConditionFailure(throwableMock);
     }
 
     @Test
     public void updateConditionsFailsWithException(){
         doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
-        thsConditionsPresenter.onEvent(R.id.continue_btn);
+        thsMedicalConditionsPresenter.onEvent(R.id.continue_btn);
         verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
         verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
     }

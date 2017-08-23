@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -28,25 +29,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class THSMedicalConditionsFragment extends THSBaseFragment implements View.OnClickListener {
-    protected THSConditionsPresenter mThsConditionsPresenter;
+    protected THSMedicalConditionsPresenter thsMedicalConditionsPresenter;
     public static final String TAG = THSMedicalConditionsFragment.class.getSimpleName();
-    protected LinearLayout mLinerLayout;
-    private Button mContinueButton;
-    private Button mSkipLabel;
-    protected List<THSConditions> mTHSConditions = null;
-    private RelativeLayout mRelativeLayout;
+    protected LinearLayout checkBoxLinearLayout;
+    private Button continueButton;
+    private Button skipLabel;
+    protected List<THSConditions> thsConditionsList = null;
+    private RelativeLayout conditionsRelativeLayout;
+    private boolean isMedicalConditionChecked = false;
+    private List<CheckBox> checkBoxList;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_medical_conditions, container, false);
-        mLinerLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
-        mContinueButton = (Button) view.findViewById(R.id.continue_btn);
-        mContinueButton.setOnClickListener(this);
-        mSkipLabel = (Button) view.findViewById(R.id.conditions_skip);
-        mSkipLabel.setOnClickListener(this);
-        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
+        checkBoxLinearLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
+        continueButton = (Button) view.findViewById(R.id.continue_btn);
+        continueButton.setOnClickListener(this);
+        continueButton.setEnabled(false);
+        skipLabel = (Button) view.findViewById(R.id.conditions_skip);
+        skipLabel.setOnClickListener(this);
+        conditionsRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
         AmwellLog.i(AmwellLog.LOG, "onCreateView called");
+        checkBoxList = new ArrayList<>();
         return view;
     }
 
@@ -57,14 +62,14 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
 
         AmwellLog.i(AmwellLog.LOG, "OnActivityCreated called");
 
-        mThsConditionsPresenter = new THSConditionsPresenter(this);
+        thsMedicalConditionsPresenter = new THSMedicalConditionsPresenter(this);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
 
 
         if (getTHSConditions() == null) {
-            createCustomProgressBar(mRelativeLayout, BIG);
+            createCustomProgressBar(conditionsRelativeLayout, BIG);
             getConditionsFromServer();
         } else {
             setConditions(getTHSConditions());
@@ -74,7 +79,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
 
     private void getConditionsFromServer() {
         try {
-            mThsConditionsPresenter.getConditions();
+            thsMedicalConditionsPresenter.getConditions();
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -83,12 +88,9 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
 
     @Override
     public void onClick(View view) {
-        int i = view.getId();
-        if (i == R.id.continue_btn) {
-            mThsConditionsPresenter.onEvent(R.id.continue_btn);
-        } else if (i == R.id.conditions_skip) {
-            mThsConditionsPresenter.onEvent(R.id.conditions_skip);
-        }
+
+        thsMedicalConditionsPresenter.onEvent( view.getId());
+
     }
 
 
@@ -103,36 +105,56 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         }
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/centralesansbook.ttf");
         if (getContext() != null) {
-            for (final Condition condition : conditionList
-                    ) {
-                CheckBox checkBox = new CheckBox(getContext());
+            int i=0;
+            for (final Condition condition : conditionList) {
+                final CheckBox checkBox = new CheckBox(getContext());
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
+                checkBox.setTag(i);
                 checkBox.setTypeface(typeface);
                 checkBox.setText(condition.getName());
                 if (condition.isCurrent()) {
                     checkBox.setChecked(true);
                 }
-                mLinerLayout.addView(checkBox);
+                checkBoxLinearLayout.addView(checkBox);
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         condition.setCurrent(true);
                     }
                 });
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        validateCheckBox();
+                    }
+                });
+                checkBoxList.add(checkBox);
+                i++;
             }
-            mContinueButton.setEnabled(true);
+
         }
         hideProgressBar();
     }
 
+    private void validateCheckBox() {
+
+        isMedicalConditionChecked = false;
+        for(CheckBox checkBoxItem: checkBoxList){
+            if(checkBoxItem.isChecked()){
+                isMedicalConditionChecked = true;
+            }
+        }
+        continueButton.setEnabled(isMedicalConditionChecked);
+    }
+
     public List<THSConditions> getTHSConditions() {
-        return mTHSConditions;
+        return thsConditionsList;
     }
 
     public void setTHSConditions(List<THSConditions> mTHSConditions) {
-        this.mTHSConditions = mTHSConditions;
+        this.thsConditionsList = mTHSConditions;
     }
 
 }

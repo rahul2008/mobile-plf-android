@@ -8,6 +8,7 @@ package com.philips.platform.ths.intake;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,14 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mSystolic = (EditText) view.findViewById(R.id.systolic);
         mDiastolic = (EditText) view.findViewById(R.id.diastolic);
         mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
+        mTemperature.setFilters(new InputFilter[]{new THSInputFilters(0.0,120.0)});
         mWeight = (EditText) view.findViewById(R.id.ponds);
+        mWeight.setFilters(new InputFilter[]{new THSInputFilters(0,500)});
         mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
         mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);
         mSkipLabel.setOnClickListener(this);
+
         mSystolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_systolic_container);
         mSystolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
