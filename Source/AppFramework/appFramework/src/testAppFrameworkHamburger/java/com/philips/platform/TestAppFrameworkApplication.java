@@ -6,6 +6,7 @@
 package com.philips.platform;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -37,6 +38,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     private UserRegistrationOnBoardingState userRegistrationOnBoardingState;
     private IAPState iapState;
     private LanguagePackInterface languagePackInterface;
+
+
     @Test
     public void shouldPass() {
         assertTrue(true);
@@ -68,6 +71,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         });
 
         appInfra = Mockito.mock(AppInfra.class);
+
+        Mockito.mock(Intent.class);
 
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
