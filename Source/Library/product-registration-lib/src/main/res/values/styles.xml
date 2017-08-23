@@ -63,11 +63,11 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
-    <style name="DatePickerStyle">
-        <item name="android:textColor">#0066a1</item>
-        <item name="android:textSize">15sp</item>
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
-    </style>
+    <!--<style name="DatePickerStyle">-->
+        <!--<item name="android:textColor">#0066a1</item>-->
+        <!--<item name="android:textSize">15sp</item>-->
+        <!--<item name="fontPath">fonts/centralesansbook.ttf</item>-->
+    <!--</style>-->
 
     <style name="Prod_Reg_Generic_Style">
         <item name="android:paddingLeft">@dimen/pr_left_padding_sm</item>
