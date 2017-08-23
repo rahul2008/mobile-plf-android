@@ -43,6 +43,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ths_visit_dates_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
+        mNumberOfAppointmentsLabel.setVisibility(View.GONE);
         return view;
     }
 
@@ -66,6 +67,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     }
 
     public void updateList(List<Appointment> appointments) {
+        mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
         String text = getString(R.string.ths_number_of_visits_scheduled,appointments.size());
         mNumberOfAppointmentsLabel.setText(text);
         mThsScheduledVisitsAdapter = new THSScheduledVisitsAdapter(appointments, this);

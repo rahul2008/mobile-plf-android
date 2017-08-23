@@ -11,7 +11,9 @@
         android:text="@string/ths_number_of_visits_scheduled"
         style="@style/ths_list_header"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:gravity="left|center_vertical"
         />
 
 
