@@ -80,8 +80,13 @@ public class MainActivity extends UIDActivity {
     private ListView rightListView;
     public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
     public static final String RIGHT_SELECTED_POSITION = "RIGHT_SELECTED_POSITION";
+    public static final String LEFT_SIDEBAR_BG = "LEFT_SIDEBAR_BG";
+    public static final String RIGHT_SIDEBAR_BG = "RIGHT_SIDEBAR_BG";
     private int leftRecyclerViewSelectedPosition = 0;
     private int rightListViewSelectedPosition = 0;
+    private int leftSidebarBGColor = 0;
+    private int rightSidebarBGColor = 0;
+
 
     private RelativeLayout leftSidebarRoot;
     private LinearLayout rightSidebarRoot;
@@ -185,11 +190,13 @@ public class MainActivity extends UIDActivity {
     }
 
     public void setLeftSidebarBGColor(int color){
-        leftSidebarRoot.setBackgroundColor(color);
+        leftSidebarBGColor = color;
+        leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
     }
 
     public void setRightSidebarBGColor(int color){
-        rightSidebarRoot.setBackgroundColor(color);
+        rightSidebarBGColor = color;
+        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
     }
 
     @Override
@@ -351,6 +358,10 @@ public class MainActivity extends UIDActivity {
         navigationController.initIconState(savedInstanceState);
         leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
         rightListViewSelectedPosition = savedInstanceState.getInt(RIGHT_SELECTED_POSITION);
+        leftSidebarBGColor = savedInstanceState.getInt(LEFT_SIDEBAR_BG);
+        rightSidebarBGColor = savedInstanceState.getInt(RIGHT_SIDEBAR_BG);
+        leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
+        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
 
         rightListView.setSelection(rightListViewSelectedPosition);
     }
@@ -401,6 +412,8 @@ public class MainActivity extends UIDActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
         outState.putInt(RIGHT_SELECTED_POSITION, rightListViewSelectedPosition);
+        outState.putInt(LEFT_SIDEBAR_BG, leftSidebarBGColor);
+        outState.putInt(RIGHT_SIDEBAR_BG, rightSidebarBGColor);
     }
 
     public ThemeConfiguration getThemeConfig() {
