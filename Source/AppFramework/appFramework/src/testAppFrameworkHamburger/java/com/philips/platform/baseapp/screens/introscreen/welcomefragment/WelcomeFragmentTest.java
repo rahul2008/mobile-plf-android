@@ -7,12 +7,11 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 import com.shamanland.fonticon.FontIconView;
 
