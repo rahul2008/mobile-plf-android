@@ -289,8 +289,6 @@
     <string name="unknown">unknown</string>
 
 
-
-
     <string name="reg_password_description">Password must have at least 8 characters with a mix of letters (A-Z, a-z), digits(0-9) and/or symbols (_.@$).</string>
     <string name="reg_almost_description1">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>
     <string name="reg_almost_description2">Subscribe to our newsletter to receive exclusive promotions and coupons and be the first to know about new products.</string>
@@ -323,13 +321,10 @@
     <string name="reg_forgotpassword_dialog_button">Back to log in</string>
 
 
-
-
-
     <string name="reg_philips_communication_content1">As a result of your consent, Philips group companies may contact you with promotional communication via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. This data may include:</string>
     <string name="reg_philips_communication_content2">Data you gave us\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.</string>
     <string name="reg_philips_communication_content4">Data we get from your interactions with Philips\nData about your interactions and usage of the Philips digital channels, such as social media, websites, email, apps and connected products. This data may include: IP address. cookies, device information, communications you click on, location details, and websites you visit</string>
-    <string name="reg_philips_communication_content6">Philips will give you the opportunity to withdraw your consent at any time. For more information, please read the Philips Privacy notice and the Philips Cookie notice</string>
+    <string name="reg_philips_communication_content6">Philips will give you the opportunity to withdraw your consent at any time. For more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
 
 
 

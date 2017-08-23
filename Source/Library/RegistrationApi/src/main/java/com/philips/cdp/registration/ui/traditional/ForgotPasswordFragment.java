@@ -30,7 +30,7 @@ import butterknife.*;
 import static com.philips.cdp.registration.ui.utils.RegAlertDialog.*;
 
 public class ForgotPasswordFragment extends RegistrationBaseFragment implements
-         ForgotPasswordContract {
+        ForgotPasswordContract {
 
     private static final int FAILURE_TO_CONNECT = -1;
 
@@ -62,10 +62,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     ForgotPasswordPresenter forgotPasswordPresenter;
 
+    boolean isValidLoginId;
+
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
-            if(valid)
+            isValidLoginId = valid;
+            if (valid)
                 enableSendButton();
             else
                 disableSendButton();
@@ -85,11 +88,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     });
 
 
-    void enableSendButton(){
+    void enableSendButton() {
         sendButton.setEnabled(true);
     }
 
-    void disableSendButton(){
+    void disableSendButton() {
         sendButton.setEnabled(false);
     }
 
@@ -114,14 +117,13 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
         usr_forgotpassword_inputId_inputValidation.setValidator(loginIdValidator);
 
-        initUI(view);
+        initUI();
         handleUiState();
         handleOrientation(view);
         return view;
     }
 
-    private void initUI(View view) {
-//        consumeTouch(view);
+    private void initUI() {
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();
         userIdEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -168,7 +170,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void updateUiStatus() {
         if (networkUtility.isNetworkAvailable()) {
-            sendButton.setEnabled(true);
+            if (isValidLoginId) {
+                sendButton.setEnabled(true);
+            }
             sendButton.hideProgressIndicator();
             mRegError.hideError();
         } else {
@@ -184,32 +188,21 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     }
 
     private void resetPassword() {
-        boolean validatorResult;
-        if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {
-            validatorResult = true;
-        } else {
-            validatorResult = FieldsValidator.isValidMobileNumber(userIdEditText.getText().toString());
-        }
-
-        if (!validatorResult) {
-            usr_forgotpassword_inputId_inputValidation.showError();
-        } else {
-            if (networkUtility.isNetworkAvailable()) {
-
-                if (user != null) {
-                    userIdEditText.clearFocus();
-                    showForgotPasswordSpinner();
-                    if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {
-                        forgotPasswordPresenter.forgotPasswordRequest(userIdEditText.getText().toString(),
-                                user);
-                    } else {
-                        forgotPasswordPresenter.initateCreateResendSMSIntent(userIdEditText.getText().toString(),getRegistrationFragment());
-                    }
+        if (networkUtility.isNetworkAvailable()) {
+            if (user != null) {
+                userIdEditText.clearFocus();
+                showForgotPasswordSpinner();
+                if (FieldsValidator.isValidEmail(userIdEditText.getText().toString())) {
+                    forgotPasswordPresenter.forgotPasswordRequest(userIdEditText.getText().toString(),
+                            user);
+                } else {
+                    forgotPasswordPresenter.initateCreateResendSMSIntent(
+                            userIdEditText.getText().toString(), getRegistrationFragment());
                 }
-
-            } else {
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
+
+        } else {
+            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
         }
     }
 
@@ -241,18 +234,17 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
-        if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT ||
+                userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE) {
             mRegError.setError(context.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             usr_forgotpassword_inputId_inputValidation.showError();
             return;
         }
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
-            usr_forgotpassword_inputId_inputValidation.setErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
-            usr_forgotpassword_inputId_inputValidation.showError();
+            forgotPasswordErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             sendButton.setEnabled(false);
         } else {
-            usr_forgotpassword_inputId_inputValidation.showError();
-            usr_forgotpassword_inputId_inputValidation.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
+            forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
             sendButton.setEnabled(false);
         }
         scrollViewAutomatically(userIdEditText, layoutScrollView);
@@ -281,7 +273,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void trackAction(String state, String key, String value) {
-        trackActionStatus(state,key,value);
+        trackActionStatus(state, key, value);
     }
 
     @Override
@@ -296,7 +288,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     }
 
     @Override
-    public void forgotPasswordErrorMessage(String errorMsg){
+    public void forgotPasswordErrorMessage(String errorMsg) {
         usr_forgotpassword_inputId_inputValidation.setErrorMessage(errorMsg);
         usr_forgotpassword_inputId_inputValidation.showError();
     }
