@@ -63,7 +63,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
-    private RelativeLayout mRelativeLayout,ths_symptoms_relative_layout;
+    private RelativeLayout mRelativeLayout, ths_symptoms_relative_layout;
     protected THSVisitContext mThsVisitContext;
     private String userChosenTask;
     private RecyclerView imageListView;
@@ -285,7 +285,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         switch (requestCode) {
             case RESULT_LOAD_IMAGE:
                 if (requestCode == RESULT_LOAD_IMAGE &&
-                        resultCode == RESULT_OK && null != data) {
+                        resultCode == RESULT_OK && null != data && null != data.getData()) {
                     Uri selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getActivity().getContentResolver()
@@ -315,8 +315,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                 break;
         }
 
-        updateDocumentsToUpload(picturePath);
-        mTHSSymptomsPresenter.uploadDocuments(mCapturedImageURI);
+        if (null != picturePath) {
+            updateDocumentsToUpload(picturePath);
+            mTHSSymptomsPresenter.uploadDocuments(mCapturedImageURI);
+        }
+
 
     }
 

@@ -18,11 +18,11 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -106,7 +106,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ok_got_it) {
-            popFragmentByTag(THSPracticeFragment.TAG, 0);
+            popFragmentByTag(THSWelcomeFragment.TAG, 0);
         }
     }
 }

@@ -97,6 +97,7 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/ths_providerlist_right_arrow_icon"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_alignParentEnd="true"
