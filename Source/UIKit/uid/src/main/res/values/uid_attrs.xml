@@ -39,6 +39,7 @@
     <attr name="uidColorRange" format="reference|string" />
     <attr name="uidTonalRange" format="reference|string" />
     <attr name="uidAccentRange" format="reference|string" />
+    <attr name="uidNavigationRange" format="reference|string" />
     <attr name="uidAboutScreenDefaultBackgroundColor" format="reference|color" />
     <attr name="uidAboutScreenDefaultCloseIconColor" format="reference|color" />
     <attr name="uidAboutScreenDefaultIconColor" format="reference|color" />

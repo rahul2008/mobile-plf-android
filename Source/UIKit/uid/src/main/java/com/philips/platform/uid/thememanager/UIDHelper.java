@@ -37,16 +37,20 @@ public class UIDHelper {
         Resources.Theme theme = themeConfiguration.getContext().getTheme();
         Log.d(UIDHelper.class.getName(), " init ");
         AccentRange accentConfig = null;
+        NavigationColor navigationConfig = null;
 
         for (ThemeConfig config : themeConfiguration.getConfigurations()) {
             Log.d(UIDHelper.class.getName(), " config " + config);
             config.injectStyle(theme);
             if (config instanceof AccentRange) {
                 accentConfig = (AccentRange) config;
+            } else if(config instanceof NavigationColor) {
+                navigationConfig = (NavigationColor) config;
             }
         }
 
         injectAccents(themeConfiguration, theme, accentConfig);
+        injectNavigation(themeConfiguration.getContext(), theme, navigationConfig);
     }
 
     private static void injectAccents(@NonNull ThemeConfiguration themeConfiguration, Resources.Theme theme, AccentRange accentConfig) {
@@ -59,6 +63,12 @@ public class UIDHelper {
             fixedAccent.injectStyle(theme);
         }
         fixedAccent.injectAllAccentAttributes(themeConfiguration.getContext(), theme);
+    }
+
+    private static void injectNavigation(Context context, Resources.Theme theme, NavigationColor navigationConfig) {
+        if (navigationConfig != null) {
+            navigationConfig.injectNavigationTopColors(context, theme);
+        }
     }
 
     /**
