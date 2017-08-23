@@ -41,7 +41,7 @@ import io.reactivex.observers.*;
 import io.reactivex.schedulers.*;
 
 public class AccountActivationResendMailFragment extends RegistrationBaseFragment implements
-         RefreshUserHandler, AccountActivationResendMailContract,CounterListener {
+        RefreshUserHandler, AccountActivationResendMailContract, CounterListener {
 
     @Inject
     UpdateUserProfile updateUserProfile;
@@ -66,6 +66,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @BindView(R2.id.usr_activationresend_rootLayout_scrollView)
     ScrollView mSvRootLayout;
+
+    @BindView(R2.id.usr_activationresend_root_layout)
+    LinearLayout usr_activationresend_root_layout;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
@@ -174,7 +177,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         showResendSpinner();
         mResendEmail.setEnabled(false);
         mReturnButton.setEnabled(false);
-        accountActivationResendMailPresenter.resendMail(mUser,email);
+        accountActivationResendMailPresenter.resendMail(mUser, email);
     }
 
     private void initUI(View view) {
@@ -214,7 +217,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mRegError, width);
+        applyParams(config, usr_activationresend_root_layout, width);
     }
 
     @Override
@@ -295,9 +298,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void addEmailClicked(String emailId) {
         mResendEmail.showProgressIndicator();
         if (emailId.equals(usr_activationresend_emailormobile_textfield.getText().toString())) {
-            if(proceedResend){
+            if (proceedResend) {
                 handleResend(emailId);
-            } else{
+            } else {
                 mResendEmail.hideProgressIndicator();
                 showAlertDialog();
             }
@@ -365,9 +368,10 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     boolean proceedResend = true;
+
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed"+timeLeft);
+        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
 
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             proceedResend = true;

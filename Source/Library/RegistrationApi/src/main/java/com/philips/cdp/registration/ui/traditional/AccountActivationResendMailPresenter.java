@@ -9,10 +9,6 @@ import com.philips.cdp.registration.ui.utils.*;
 
 import javax.inject.*;
 
-/**
- * Created by philips on 22/06/17.
- */
-
 public class AccountActivationResendMailPresenter implements NetworStateListener,
         ResendVerificationEmailHandler {
 
