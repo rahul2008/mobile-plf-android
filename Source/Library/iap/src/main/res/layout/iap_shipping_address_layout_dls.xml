@@ -25,7 +25,7 @@
             android:text="@string/iap_salutation" />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
-            android:id="@+id/input_validation_salutation"
+            android:id="@+id/ll_salutation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -82,7 +82,7 @@
             android:text="@string/iap_last_name" />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
-            android:id="@+id/input_validation_last_name"
+            android:id="@+id/ll_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -125,7 +125,7 @@
                 android:text="@string/iap_email" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_email"
+                android:id="@+id/ll_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -149,7 +149,7 @@
                 android:text="@string/iap_phone" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_phone"
+                android:id="@+id/ll_phone1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -193,7 +193,7 @@
                 android:text="@string/iap_address_line_one" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_address1"
+                android:id="@+id/ll_address_line_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -217,7 +217,7 @@
                 android:text="@string/iap_address_line_two" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_address2"
+                android:id="@+id/ll_address_line_two"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -241,7 +241,7 @@
                 android:text="@string/iap_town" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_town"
+                android:id="@+id/ll_town"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -265,7 +265,7 @@
                 android:text="@string/iap_postal_code" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_postal_code"
+                android:id="@+id/ll_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -289,7 +289,7 @@
                 android:text="@string/iap_state" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_state"
+                android:id="@+id/ll_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
@@ -313,7 +313,7 @@
                 android:text="@string/iap_country" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/input_validation_country"
+                android:id="@+id/ll_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"

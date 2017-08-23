@@ -11,7 +11,7 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validator extends InputValidator {
+public class Validator {
 
     private static final String NAME = "^[a-zA-Z ]{1,17}$";
     private static final String ADDRESS = "^[a-zA-Z0-9(.',#/\\-)_\\s]{1,35}$";
@@ -31,27 +31,22 @@ public class Validator extends InputValidator {
                     "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                     ")+";
 
-    private static Pattern mNamePattern;
-    private static Pattern mAddressPattern;
-    private static Pattern mTownPattern;
-    private static Pattern mPostalCodePattern;
-    private static Pattern mCountryPattern;
-    private static Pattern mPhoneNumberPattern;
-    private static Pattern mEmailPattern;
+    public static Pattern NAME_PATTERN;
+    public static Pattern ADDRESS_PATTERN;
+    public static Pattern TOWN_PATTERN;
+    public static Pattern POSTAL_CODE_PATTERN;
+    public static Pattern COUNTRY_PATTERN;
+    public static Pattern PHONE_NUMBER_PATTERN;
+    public static Pattern EMAIL_PATTERN;
 
     static {
-        mNamePattern = Pattern.compile(NAME);
-        mEmailPattern = Pattern.compile(EMAIL);
-        mAddressPattern = Pattern.compile(ADDRESS);
-        mPostalCodePattern = Pattern.compile(POSTAL_CODE);
-        mPhoneNumberPattern = Pattern.compile(PHONE_NUMBER);
-        mTownPattern = Pattern.compile(TOWN);
-        mCountryPattern = Pattern.compile(COUNTRY);
-    }
-
-    public Validator(InputValidationLayout inputValidationLayout, String errorMessage, Pattern valid_regex_pattern) {
-        super(inputValidationLayout,errorMessage,valid_regex_pattern);
-
+        NAME_PATTERN = Pattern.compile(NAME);
+        EMAIL_PATTERN = Pattern.compile(EMAIL);
+        ADDRESS_PATTERN = Pattern.compile(ADDRESS);
+        POSTAL_CODE_PATTERN = Pattern.compile(POSTAL_CODE);
+        PHONE_NUMBER_PATTERN = Pattern.compile(PHONE_NUMBER);
+        TOWN_PATTERN = Pattern.compile(TOWN);
+        COUNTRY_PATTERN = Pattern.compile(COUNTRY);
     }
 
     private boolean isValidString(String stringToBeValidated) {
@@ -60,7 +55,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidName(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mNamePattern.matcher(stringToBeValidated);
+            Matcher matcher = NAME_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;
@@ -69,7 +64,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidEmail(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mEmailPattern.matcher(stringToBeValidated);
+            Matcher matcher = EMAIL_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;
@@ -78,7 +73,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidPostalCode(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mPostalCodePattern.matcher(stringToBeValidated);
+            Matcher matcher = POSTAL_CODE_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;
@@ -87,7 +82,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidPhoneNumber(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mPhoneNumberPattern.matcher(stringToBeValidated);
+            Matcher matcher = PHONE_NUMBER_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;
@@ -96,7 +91,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidAddress(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mAddressPattern.matcher(stringToBeValidated);
+            Matcher matcher = ADDRESS_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;
@@ -105,7 +100,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidTown(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mTownPattern.matcher(stringToBeValidated);
+            Matcher matcher = TOWN_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;
@@ -114,7 +109,7 @@ public class Validator extends InputValidator {
 
     public boolean isValidCountry(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            Matcher matcher = mCountryPattern.matcher(stringToBeValidated);
+            Matcher matcher = COUNTRY_PATTERN.matcher(stringToBeValidated);
             return matcher.matches();
         } else {
             return false;

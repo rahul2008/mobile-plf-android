@@ -8,22 +8,17 @@ import java.util.regex.Pattern;
 
 public class InputValidator implements InputValidationLayout.Validator {
 
-    private final InputValidationLayout inputValidationLayout;
-    private final String errorMessage;
     private final Pattern valid_regex_pattern;
-
-    public InputValidator(InputValidationLayout inputValidationLayout, String errorMessage, Pattern valid_regex_pattern) {
-        this.inputValidationLayout = inputValidationLayout;
-        this.errorMessage = errorMessage;
+    public InputValidator(Pattern valid_regex_pattern) {
         this.valid_regex_pattern = valid_regex_pattern;
     }
 
     @Override
     public boolean validate(CharSequence msg) {
-        Matcher matcher = valid_regex_pattern.matcher(msg);
-        if(!matcher.find()){
-            inputValidationLayout.setErrorMessage(errorMessage);
+        if(msg.toString().trim().equalsIgnoreCase("")){
+            return false;
         }
+        Matcher matcher = valid_regex_pattern.matcher(msg);
         return matcher.find();
     }
 }
