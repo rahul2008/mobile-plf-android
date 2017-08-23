@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
@@ -58,23 +59,28 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	public void onClick(View view) {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
-		String[] serviceIds = serviceIdEditText.getText().toString().split(",");
-		try {
-			keyBagInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
-                @Override
-                public void onSuccess(List<AIKMService> aikmServices) {
-                    updateView(aikmServices);
-                }
 
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                    Log.e(getClass().getSimpleName(), message);
-                }
-            });
-		} catch (KeyBagJsonFileNotFoundException e) {
-			e.printStackTrace();
-		}
+		String s = serviceIdEditText.getText().toString();
+		if(!TextUtils.isEmpty(s)) {
+			String[] serviceIds = s.split(",");
 
+			try {
+				keyBagInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
+					@Override
+					public void onSuccess(List<AIKMService> aikmServices) {
+						updateView(aikmServices);
+					}
+
+					@Override
+					public void onError(ERRORVALUES error, String message) {
+						Log.e(getClass().getSimpleName(), message);
+					}
+				});
+			} catch (KeyBagJsonFileNotFoundException e) {
+				e.printStackTrace();
+			}
+		} else
+			Toast.makeText(KeyBagActivity.this,"Please enter service id",Toast.LENGTH_SHORT).show();
 	}
 
 	private void updateView(List<AIKMService> aikmServiceList) {
