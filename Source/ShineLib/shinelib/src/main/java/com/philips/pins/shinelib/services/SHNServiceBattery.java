@@ -102,6 +102,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
         };
 
         shnCharacteristic.read(resultReporter);
+        shnCharacteristic.setShnCharacteristicChangedListener(shnCharacteristicChangedListener);
     }
 
     public void setBatteryLevelNotifications(boolean enabled, final SHNResultListener listener) {
