@@ -65,6 +65,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.usr_almostDoneScreen_description_label)
     Label almostDoneDescriptionLabel;
 
+
+    @BindView(R2.id.usr_almostDoneScreen_rootContainer_linearLayout)
+    LinearLayout usr_almostDoneScreen_rootContainer_linearLayout;
+
     @Inject
     User mUser;
 
@@ -141,11 +145,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void setViewParams(Configuration config, int width) {
-
-        applyParams(config, marketingOptCheck, width);
-        applyParams(config, errorMessage, width);
-        applyParams(config, acceptTermserrorMessage, width);
-
+        applyParams(config, usr_almostDoneScreen_rootContainer_linearLayout, width);
     }
 
     @Override
