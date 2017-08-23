@@ -67,6 +67,8 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     }
 
     public void updateList(List<Appointment> appointments) {
+        if(getContext() == null)
+            return;
         mNumberOfAppointmentsLabel.setVisibility(View.VISIBLE);
         String text = getString(R.string.ths_number_of_visits_scheduled,appointments.size());
         mNumberOfAppointmentsLabel.setText(text);
