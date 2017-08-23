@@ -216,6 +216,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
+
         appInfra = createAppInfraInstance();
         loggingInterface = appInfra.getLogging();
         loggingInterface.createInstanceForComponent("rap",BuildConfig.VERSION_NAME);
