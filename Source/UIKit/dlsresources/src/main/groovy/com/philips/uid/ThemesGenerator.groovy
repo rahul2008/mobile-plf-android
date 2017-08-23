@@ -44,8 +44,8 @@ new AccentRangeGenerator().generateAccentRanges()
 //Generate Navigation styles, must be called when all the components are created.
 NavigationStylesGenerator.instance.generateNavigationStyles()
 
-//Generate white themes
-WhiteThemeGenerator.instance.generateWhiteTheme()
+//Generate navigation top themes
+NavigationTopThemeGenerator.instance.generate()
 
 //flush all the attributes
 flushAllAttributes()

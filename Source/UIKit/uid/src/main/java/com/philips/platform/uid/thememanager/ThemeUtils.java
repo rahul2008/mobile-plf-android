@@ -24,6 +24,8 @@ public final class ThemeUtils {
     //    private static final String TAG = "ThemeUtils";
     private static final String NO_COLOR_RANGE = "";
     static final String ACCENT = "Accent";
+    private static final String THEME_ULTRA_LIGHT = "Theme.DLS.%s.UltraLight";
+    private static final String NAVIGTION_TOP = "Navigation%s%sTopTheme";
     private static final String TR_VD = "VeryDark";
     private static final String TR_B = "Bright";
 
@@ -76,6 +78,16 @@ public final class ThemeUtils {
         return context.getResources().getIdentifier(accentThemeName, "style", context.getPackageName());
     }
 
+    static int getNavigationTopResourceID(@NonNull Context context) {
+        TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
+        String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
+        String navigationRange = themeArray.getString(R.styleable.PhilipsUID_uidNavigationRange);
+        String navigationTopColorTheme = String.format(NAVIGTION_TOP, colorRange, navigationRange);
+        themeArray.recycle();
+
+        return context.getResources().getIdentifier(navigationTopColorTheme, "style", context.getPackageName());
+    }
+
     private static int getResourceIdBasedComponentType(@NonNull final TypedArray typedArray) {
         int resourceId = typedArray.getInt(0, 0);
         if (resourceId == 1) {
@@ -114,7 +126,7 @@ public final class ThemeUtils {
 
     private static int getPopupThemeResourceID(Context context) {
         String colorRange = getColorRangeName(context);
-        String themeName = String.format("Popup%sTheme", colorRange);
+        String themeName = String.format(THEME_ULTRA_LIGHT, colorRange);
         return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
     }
 }

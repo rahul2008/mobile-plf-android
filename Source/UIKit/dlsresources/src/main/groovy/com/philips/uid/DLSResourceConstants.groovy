@@ -43,6 +43,7 @@ class DLSResourceConstants {
     static final String PATH_OUT_ACCENT_FILE = "${PATH_OUT}/uid_accent_%s.xml"
     static final String PATH_OUT_COLORS_FILE = "${PATH_OUT}/uid_colors.xml"
     static final String PATH_OUT_NAVIGATION_FILE = "${PATH_OUT}/uid_navigation.xml"
+    static final String PATH_OUT_NAVIGATION__TOP_FILE = "${PATH_OUT}/uid_navigation_top.xml"
 //    static final String PATH_OUT_ACCENT_FILE = "${PATH_OUT}/uid_accent_themes.xml"
     static final String PATH_OUT_ATTRS_FILE = "${PATH_OUT}/uid_attrs.xml"
     public static final String HOVER = "Hover"
@@ -53,6 +54,10 @@ class DLSResourceConstants {
 
     static def getWhiteThemeFilePath() {
         PATH_OUT_THEME_WHITE_FILE
+    }
+
+    static def getNavigationTopFilePath() {
+        PATH_OUT_NAVIGATION__TOP_FILE
     }
 
     static def getAccentFilePath(fileName) {

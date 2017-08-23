@@ -6,8 +6,8 @@
 
 package com.philips.platform.uid.thememanager;
 
+import android.content.Context;
 import android.content.res.Resources;
-
 import com.philips.platform.uid.R;
 
 public enum NavigationColor implements ThemeConfig{
@@ -50,5 +50,10 @@ public enum NavigationColor implements ThemeConfig{
         theme.applyStyle(style, true);
     }
 
+    public void injectNavigationTopColors(Context context, Resources.Theme theme) {
+        theme.applyStyle(ThemeUtils.getNavigationTopResourceID(context), true);
+    }
+
     public abstract void injectStyle(Resources.Theme theme);
+
 }
