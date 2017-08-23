@@ -169,4 +169,9 @@
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
     </style>
+
+    <style name="UIDLabel.SidebarFooterText">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
+    </style>
 </resources>

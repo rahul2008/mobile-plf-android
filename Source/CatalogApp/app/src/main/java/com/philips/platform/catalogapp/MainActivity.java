@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
@@ -84,8 +85,8 @@ public class MainActivity extends UIDActivity {
     public static final String RIGHT_SIDEBAR_BG = "RIGHT_SIDEBAR_BG";
     private int leftRecyclerViewSelectedPosition = 0;
     private int rightListViewSelectedPosition = 0;
-    private int leftSidebarBGColor = 0;
-    private int rightSidebarBGColor = 0;
+    private int leftSidebarBGColor;
+    private int rightSidebarBGColor;
 
 
     private RelativeLayout leftSidebarRoot;
@@ -131,6 +132,12 @@ public class MainActivity extends UIDActivity {
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
         leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
         rightSidebarRoot = (LinearLayout) findViewById(R.id.sidebar_right_root);
+        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
+        if (typedArray != null) {
+            leftSidebarBGColor = typedArray.getColor(0, Color.WHITE);
+            rightSidebarBGColor = typedArray.getColor(0, Color.WHITE);
+            typedArray.recycle();
+        }
         //sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
         /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
         sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
