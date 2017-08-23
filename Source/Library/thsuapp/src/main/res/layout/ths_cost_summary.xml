@@ -492,7 +492,7 @@
                     android:layout_marginRight="@dimen/ths_fab_margin"
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
-
+                    android:enabled="false"
                     android:text="Ok, continue" />
 
             </RelativeLayout>

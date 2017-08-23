@@ -8,12 +8,15 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.cost.THSCostSummaryFragment;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.registration.THSConsumer;
@@ -40,7 +43,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
                 mTHSFollowUpFragment.mFollowUpContinueButton.showProgressIndicator();
                 acceptLegalText();
                 updateConsumer(mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().trim());
-            }else {
+            } else {
                 mTHSFollowUpFragment.showToast("Please Enter a valid Phone Number");
             }
             // mTHSFollowUpFragment.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
@@ -98,13 +101,26 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         //update signleton THSManager THSConsumer member
         THSManager.getInstance().setPTHConsumer(thsConsumer);
-        fetchConsumerPreferredPharmacy(thsConsumer);
+        boolean isPharmacyDetailRequired = THSManager.getInstance().getPthVisitContext().getVisitContext().isCanPrescribe();
+        isPharmacyDetailRequired=true;// todo this line is to removed when isCanPrescribe() returns correct value
+        if (isPharmacyDetailRequired) { // go to pharmacy detail
+            fetchConsumerPreferredPharmacy(thsConsumer);
+        } else {  // go to insurance or cost detail
+            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                mTHSFollowUpFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            } else {
+                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                mTHSFollowUpFragment.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+            }
+        }
     }
 
     @Override
     public void onUpdateConsumerFailure(Throwable var1) {
         mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
-       mTHSFollowUpFragment.showToast(var1.getMessage());
+        mTHSFollowUpFragment.showToast(var1.getMessage());
     }
 
     @Override

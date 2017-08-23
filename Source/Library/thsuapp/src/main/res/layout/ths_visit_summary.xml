@@ -21,8 +21,9 @@
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="6sp"
             android:text="This concludes your visit with"
+            android:textColor="?attr/uidContentItemDefaultDisabledSubtitleTextColor"
 
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+
             android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -111,11 +112,12 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_wrap_up_visit_report_title_label"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultDisabledSubtitleTextColor"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ths_list_item_height"
             android:layout_below="@+id/ths_wrap_up_cost_detail_seperator_bottom"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
             android:gravity="center_vertical"
             android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
             android:text="Your visit report"

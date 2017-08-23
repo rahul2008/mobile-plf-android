@@ -8,10 +8,12 @@ package com.philips.platform.ths.pharmacy;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
+import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
@@ -42,8 +44,15 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
         //TODO: check this immediately
-        thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
-        ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
+        Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+        if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+            thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+        } else {
+            final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+            thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+        }
+        //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
     }
 
     @Override
