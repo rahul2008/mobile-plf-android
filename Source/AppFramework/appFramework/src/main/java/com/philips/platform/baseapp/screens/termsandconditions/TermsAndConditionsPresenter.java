@@ -24,9 +24,9 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
     private Context context;
 
-    public static final String TERMS_AND_CONDITIONS = "app.termsandconditions";
+    protected static final String TERMS_AND_CONDITIONS = "app.termsandconditions";
 
-    public static final String PRIVACY = "app.privacynotice";
+    protected static final String PRIVACY = "app.privacynotice";
 
     public TermsAndConditionsPresenter(TermsAndConditionsContract.View viewListener, Context context) {
         this.viewListener = viewListener;

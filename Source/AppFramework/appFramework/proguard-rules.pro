@@ -133,6 +133,8 @@
 -keep interface com.philips.cdp.prodreg.** {*;}
 -keep enum com.philips.cdp.prodreg.** {*;}
 
+# App-framework
+-keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
 
 
 ##--------------- ORMLite  ----------
@@ -323,12 +325,10 @@
 -keep public class com.adobe.mobile.** {*;}
 
 
+#app-infra
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
-# Added as Flowmanager does not provide rules for obfuscation
--keep class com.philips.platform.appframework.flowmanager.** { *; }
--keep interface com.philips.platform.appframework.flowmanager.** { *; }
 #-----------------------------app infra ends here-----------------------------------
 
 
@@ -341,7 +341,7 @@
 #------------------------------Apeligent ends here------------------------------------
 
 #------------------------------Application specific rules start here------------------------------------
-
+#Detail info at https://www.guardsquare.com/en/proguard/manual/examples#application
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
