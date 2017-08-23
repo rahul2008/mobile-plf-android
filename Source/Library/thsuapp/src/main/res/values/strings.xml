@@ -100,8 +100,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Practice screen strings -->
     <string name="ths_practice_screen_title">Start</string>
     <!-- Registration constants-->
-    <string name="ths_detail">Detail</string>
-    <string name="ths_more_details">We need more details to provide the best possible care</string>
+    <string name="ths_detail">Details</string>
+    <string name="ths_location">Location</string>
+    <string name="ths_more_details">In order to provide the best experience, Philips will share the data below with Amwell</string>
     <string name="ths_first_name">First name</string>
     <string name="ths_last_name">Last name</string>
     <string name="ths_dob">Your date of birth</string>
@@ -111,7 +112,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
-    <string name="ths_your_details">"Your Details"</string>
+    <string name="ths_your_details">"Your details"</string>
 
 
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>

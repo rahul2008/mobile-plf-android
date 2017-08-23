@@ -97,7 +97,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
                                                     fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
                                                     Bundle bundle = new Bundle();
                                                     bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate());
-                                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPracticeInfo());
+                                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPractice());
                                                     bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
                                                     bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
                                                     mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle);
