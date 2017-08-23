@@ -9,12 +9,12 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
-import com.philips.cdp.dicommclient.discovery.NullApplianceDatabase;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+import com.philips.cdp2.commlib.core.store.NullApplianceDatabase;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
 import java.beans.PropertyChangeEvent;
@@ -60,7 +60,7 @@ public class ApplianceManager {
     @NonNull
     private final NetworkNodeDatabase networkNodeDatabase;
     @NonNull
-    private final DICommApplianceDatabase applianceDatabase;
+    private final ApplianceDatabase applianceDatabase;
 
     private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
         @Override
@@ -124,7 +124,7 @@ public class ApplianceManager {
     public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies,
                             @NonNull ApplianceFactory applianceFactory,
                             @NonNull NetworkNodeDatabase networkNodeDatabase,
-                            @Nullable DICommApplianceDatabase applianceDatabase) {
+                            @Nullable ApplianceDatabase applianceDatabase) {
         this.networkNodeDatabase = networkNodeDatabase;
 
         if (applianceDatabase == null) {

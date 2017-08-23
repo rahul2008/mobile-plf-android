@@ -11,8 +11,6 @@ package com.philips.cdp.dicommclient.discovery;
  * of DICommAppliances which is further handled by User Interface and Appliance
  * Manager. In order to build this list, the Discovery Manager makes use of
  * input from SSDP, a pairing database and network changes.
- *
- * @publicApi
  */
 /**
 @Deprecated
@@ -27,7 +25,7 @@ public class DiscoveryManager<T extends Appliance> {
     private ApplianceFactory<T> mApplianceFactory;
     private NetworkNodeDatabase mNetworkNodeDatabase;
 
-    private DICommApplianceDatabase<T> mApplianceDatabase;
+    private ApplianceDatabase<T> mApplianceDatabase;
     private List<DiscoveryEventListener> mDiscoveryEventListenersList;
 
     private static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
@@ -67,7 +65,7 @@ public class DiscoveryManager<T extends Appliance> {
         return createSharedInstance(applicationContext, applianceFactory, new NullApplianceDatabase());
     }
 
-    private static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory applianceFactory, DICommApplianceDatabase applianceDatabase) {
+    private static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory applianceFactory, ApplianceDatabase applianceDatabase) {
         if (sInstance == null) {
             DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase);
             sInstance = discoveryManager;
@@ -82,7 +80,7 @@ public class DiscoveryManager<T extends Appliance> {
         return sInstance;
     }
 
-    private DiscoveryManager(@NonNull Context context, ApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase) {
+    private DiscoveryManager(@NonNull Context context, ApplianceFactory<T> applianceFactory, ApplianceDatabase<T> applianceDatabase) {
         mContext = context;
         mApplianceFactory = applianceFactory;
         mApplianceDatabase = applianceDatabase;

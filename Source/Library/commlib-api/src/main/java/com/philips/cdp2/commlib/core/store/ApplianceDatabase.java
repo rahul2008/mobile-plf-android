@@ -8,11 +8,11 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.appliance;
+package com.philips.cdp2.commlib.core.store;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
-public interface DICommApplianceDatabase {
+public interface ApplianceDatabase {
 
     long save(Appliance appliance);
 

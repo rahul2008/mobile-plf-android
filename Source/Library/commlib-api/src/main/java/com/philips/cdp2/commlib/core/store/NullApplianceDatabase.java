@@ -8,12 +8,11 @@
  *   All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.discovery;
+package com.philips.cdp2.commlib.core.store;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
-public class NullApplianceDatabase implements DICommApplianceDatabase {
+public class NullApplianceDatabase implements ApplianceDatabase {
 
     @Override
     public long save(Appliance appliance) {
