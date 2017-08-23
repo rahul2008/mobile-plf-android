@@ -94,7 +94,14 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                 setSerialNumberTextView(productMetadataResponseData);
                 Log.d("imageUrl", "imageUrl " + url);
                 final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
+                int width = getResources().getDisplayMetrics().widthPixels;
+                if(width > 680) {
+                    serialNumberImageView.getLayoutParams().height = (width * 9) / 16;
+                } else {
+                    serialNumberImageView.getLayoutParams().height = (width * 5) / 12;
+                }
                 imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+                serialNumberImageView.requestLayout();
             }
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
