@@ -34,7 +34,6 @@
     "LANGUAGEPACK.SERVICEID":"app.languagepack",
     "servicediscovery.propositionEnabled":true,
     "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
-    "logging.releaseConfig":{
       "logging.releaseConfig":{
         "fileName":"AppInfraLog",
         "numberOfFiles":5,

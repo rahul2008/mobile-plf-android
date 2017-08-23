@@ -36,7 +36,7 @@ public class SettingsFragmentPresenter extends AbstractUIBasePresenter {
     private BaseState baseState;
     private FragmentLauncher fragmentLauncher;
     private String SETTINGS_LOGOUT = "logout";
-    private String SETTINGS_ORDER_HISTORY = "order_history";
+  //  private String SETTINGS_ORDER_HISTORY = "order_history";
 
     public SettingsFragmentPresenter(final SettingsView settingsView) {
         super(settingsView);
@@ -110,8 +110,8 @@ public class SettingsFragmentPresenter extends AbstractUIBasePresenter {
         switch (componentID) {
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 return SETTINGS_LOGOUT;
-            case Constants.IAP_PURCHASE_HISTORY:
-                return SETTINGS_ORDER_HISTORY;
+           /* case Constants.IAP_PURCHASE_HISTORY:
+                return SETTINGS_ORDER_HISTORY;*/
             case Constants.LOGIN_BUTTON_CLICK_CONSTANT:
                 return SETTINGS_LOGIN;
         }
