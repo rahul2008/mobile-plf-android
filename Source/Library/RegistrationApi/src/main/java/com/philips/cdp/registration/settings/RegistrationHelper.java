@@ -22,6 +22,7 @@ import com.philips.ntputils.ServerTime;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Locale;
 
@@ -41,6 +42,10 @@ public class RegistrationHelper {
 
     @Inject
     ABTestClientInterface abTestClientInterface;
+
+    ThemeConfiguration themeConfiguration;
+
+    int theme;
 
     private String countryCode;
 
@@ -240,5 +245,21 @@ public class RegistrationHelper {
     }
     public boolean isMobileFlow(){
         return registrationSettingsURL.isMobileFlow();
+    }
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
+    }
+
+    public void setThemeConfiguration(ThemeConfiguration themeConfiguration) {
+        this.themeConfiguration = themeConfiguration;
+    }
+
+    public int getTheme() {
+        return theme;
+    }
+
+    public void setTheme(int theme) {
+        this.theme = theme;
     }
 }

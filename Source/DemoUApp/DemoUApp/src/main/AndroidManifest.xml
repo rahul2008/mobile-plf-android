@@ -25,5 +25,7 @@
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name="com.philips.platform.urdemo.themesettings.ThemeSettingsActivity"
+            android:theme="@style/Theme.DLS.Green.VeryDark"/>
     </application>
 </manifest>
