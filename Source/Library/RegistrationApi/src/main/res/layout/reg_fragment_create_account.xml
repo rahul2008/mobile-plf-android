@@ -16,6 +16,7 @@
             android:id="@+id/usr_createScreen_baseLayout_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingBottom="@dimen/reg_margin_24"
             android:layout_marginTop="@dimen/reg_layout_margin_12dp"
             android:orientation="vertical">
@@ -166,14 +167,14 @@
                 android:id="@+id/usr_createscreen_termsandconditions_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="@dimen/reg_layout_margin_10dp"
                 android:text="@string/reg_TermsAndConditionsAcceptanceText"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_createscreen_termsandconditionsalert_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:layout_marginTop="@dimen/reg_layout_margin_10dp"
                 android:visibility="gone"/>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton

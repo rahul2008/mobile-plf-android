@@ -35,7 +35,7 @@ import javax.inject.*;
 import butterknife.*;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements
-        AccountActivationContract,RefreshUserHandler,CounterListener {
+        AccountActivationContract, RefreshUserHandler, CounterListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -54,6 +54,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @BindView(R2.id.usr_activation_activation_error)
     XRegError mEMailVerifiedError;
+
+    @BindView(R2.id.usr_activation_root_layout)
+    LinearLayout usr_activation_root_layout;
 
     AccountActivationPresenter accountActivationPresenter;
 
@@ -155,10 +158,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     void emailResend() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend email");
 
-        if(proceedResend){
+        if (proceedResend) {
             getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
-        }
-        else{
+        } else {
             showResendAlertDialog();
         }
     }
@@ -171,8 +173,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         setupSpannableText(mTvVerifyEmail, email, mEmailId);
         handleUiState(networkUtility.isNetworkAvailable());
     }
+
     private static void setupSpannableText(TextView mTvVerifyEmailText,
-                                     String moreAccountSettings, String link) {
+                                           String moreAccountSettings, String link) {
         SpannableString spanableString = new SpannableString(moreAccountSettings);
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
                 link.toLowerCase());
@@ -192,8 +195,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mTvVerifyEmail, width);
-        applyParams(config, mEMailVerifiedError, width);
+        applyParams(config, usr_activation_root_layout, width);
     }
 
     @Override
@@ -264,7 +266,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 
-    private void showResendAlertDialog(){
+    private void showResendAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
                 R.string.reg_verify_resend_mail_intime_title),
                 mContext.getResources().getString(
@@ -316,11 +318,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             updateActivationUIState();
         }
     }
+
     private View.OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed"+timeLeft);
+        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
 
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             proceedResend = true;
