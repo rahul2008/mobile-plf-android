@@ -172,7 +172,7 @@ public class ProdRegBaseActivity extends UIDActivity {
             mActionBar.setDisplayShowCustomEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-           // mToolbar.setNavigationIcon(R.drawable.prodreg_left_arrow);
+            mToolbar.setNavigationIcon(R.drawable.prodreg_left_arrow);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

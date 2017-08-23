@@ -12,14 +12,14 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_title_message"
-        style="@style/ProductRegistrationProductHeaderTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationProductHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_registered_message"
-        style="@style/ProductRegistrationProductSubTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_registration_margin_top"
@@ -28,7 +28,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_warranty_message"
-        style="@style/ProductRegistrationProductSubTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
