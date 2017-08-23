@@ -53,11 +53,9 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
     public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS =
             "/c-w/user-registration/apps/reset-password.html";
 
-    private final ForgotPasswordContract accountActivationContract;
+    private final ForgotPasswordContract forgotPasswordContract;
 
     private final CompositeDisposable disposable = new CompositeDisposable();
-
-    RegistrationFragment registrationFragment;
 
     String verificationSmsCodeURL;
 
@@ -68,16 +66,16 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
     Context context;
 
     public ForgotPasswordPresenter(
-            ForgotPasswordContract accountActivationContract, Context context) {
+            ForgotPasswordContract forgotPasswordContract, Context context) {
         URInterface.getComponent().inject(this);
-        this.accountActivationContract = accountActivationContract;
+        this.forgotPasswordContract = forgotPasswordContract;
         this.context = context;
     }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
-        accountActivationContract.handleUiState(isOnline);
+        forgotPasswordContract.handleUiState(isOnline);
     }
 
     public void registerListener() {
@@ -95,18 +93,18 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
     public void onEventReceived(String event) {
         RLog.i(RLog.EVENT_LISTENERS, "ResetPasswordFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            accountActivationContract.handleUiStatus();
+            forgotPasswordContract.handleUiStatus();
         }
     }
 
     @Override
     public void onSendForgotPasswordSuccess() {
-        accountActivationContract.handleSendForgotPasswordSuccess();
+        forgotPasswordContract.handleSendForgotPasswordSuccess();
     }
 
     @Override
     public void onSendForgotPasswordFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        accountActivationContract.handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+        forgotPasswordContract.handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
     }
 
     void forgotPasswordRequest(String userId, User user) {
@@ -117,9 +115,9 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
     public void onReceiveResult(int resultCode, Bundle resultData) {
         String response = resultData.getString("responseStr");
         RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
-        accountActivationContract.hideForgotPasswordSpinner();
+        forgotPasswordContract.hideForgotPasswordSpinner();
         if (response == null) {
-            accountActivationContract.forgotPasswordErrorMessage(
+            forgotPasswordContract.forgotPasswordErrorMessage(
                     context.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
             return;
         } else {
@@ -136,8 +134,8 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
 
         try {
             JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getString("errorCode").toString().equals("0")) {
-                accountActivationContract.trackAction(AppTagingConstants.SEND_DATA,
+            if ("0".equals(jsonObject.getString("errorCode").toString())) {
+                forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
                 JSONObject json = null;
                 String payload = null;
@@ -151,19 +149,12 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
                     e.printStackTrace();
                 }
                 RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
-                MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(mobileNumberKey, userId);
-                bundle.putString(tokenKey, token);
-                bundle.putString(redirectUriKey, getRedirectUri());
-                bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
-                mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
-                registrationFragment.addFragment(mobileForgotPasswordVerifyCodeFragment);
+                constructMobileVerifyCodeFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey, token);
             } else {
-                accountActivationContract.trackAction(AppTagingConstants.SEND_DATA,
+                forgotPasswordContract.trackAction(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), context);
-                accountActivationContract.forgotPasswordErrorMessage(errorMsg);
+                forgotPasswordContract.forgotPasswordErrorMessage(errorMsg);
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 return;
             }
@@ -172,7 +163,18 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
         }
     }
 
-    private Intent createResendSMSIntent(String url) {
+    private void constructMobileVerifyCodeFragment(String mobileNumberKey, String tokenKey, String redirectUriKey, String verificationSmsCodeURLKey, String token) {
+        MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(mobileNumberKey, userId);
+        bundle.putString(tokenKey, token);
+        bundle.putString(redirectUriKey, getRedirectUri());
+        bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
+        mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
+        forgotPasswordContract.addFragment(mobileForgotPasswordVerifyCodeFragment);
+    }
+
+    public Intent createResendSMSIntent(String url) {
 
         final String receiverKey = "receiver";
         final String bodyContentKey = "bodyContent";
@@ -209,11 +211,10 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
         return resetPasswordSmsRedirectUri;
     }
 
-    void initateCreateResendSMSIntent(String userId, RegistrationFragment registrationFragment) {
+    void initateCreateResendSMSIntent(String userId) {
         this.userId = userId;
         String smsServiceID = "userreg.urx.verificationsmscode";
 
-        this.registrationFragment = registrationFragment;
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(smsServiceID)
                 .map(serviceUrl -> getBaseUrl(serviceUrl))
@@ -227,13 +228,13 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        registrationFragment.getActivity().startService(createResendSMSIntent(verificationUrl));
+                        forgotPasswordContract.intiateService(verificationUrl);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        accountActivationContract.hideForgotPasswordSpinner();
-                        accountActivationContract.forgotPasswordErrorMessage(
+                        forgotPasswordContract.hideForgotPasswordSpinner();
+                        forgotPasswordContract.forgotPasswordErrorMessage(
                                 context.getString(R.string.reg_Generic_Network_Error));
                     }
                 }));
@@ -251,7 +252,7 @@ public class ForgotPasswordPresenter implements NetworStateListener, EventListen
         return (url.getProtocol() + urlSeprator + url.getHost());
     }
 
-    public void clearDisposal() {
+    public void clearDisposable() {
         disposable.clear();
     }
 }

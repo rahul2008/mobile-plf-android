@@ -12,43 +12,41 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
 import android.support.annotation.*;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
+import android.text.*;
+import android.text.style.*;
 import android.view.*;
-import android.view.View.OnClickListener;
+import android.view.View.*;
 import android.widget.*;
-import android.widget.ProgressBar;
 
 import com.jakewharton.rxbinding2.widget.*;
-import com.janrain.android.Jump;
+import com.janrain.android.*;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.*;
 import com.philips.platform.uid.view.widget.*;
-import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.*;
 
 import org.json.*;
 
 import java.net.*;
 import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import butterknife.*;
 import io.reactivex.Observable;
 import io.reactivex.disposables.*;
-
-import static com.android.volley.Request.Method.HEAD;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
