@@ -54,7 +54,9 @@
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:text="Pediatrician"
             android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-            android:textSize="@dimen/ths_title_text"
+            android:textSize="@dimen/ths_small_body_text"
+            android:paddingTop="@dimen/ths_body_text_padding"
+            android:paddingBottom="@dimen/ths_body_text_padding"
             android:layout_toLeftOf="@id/ths_arrow"
             android:layout_alignStart="@id/providerNameLabel" />
 
