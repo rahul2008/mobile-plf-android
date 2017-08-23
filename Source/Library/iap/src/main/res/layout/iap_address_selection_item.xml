@@ -2,81 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    >
 
-    <com.philips.platform.uid.view.widget.RadioButton
-        style="@style/iapCentralesansBoldFont"
-        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-        android:id="@+id/rbtn_toggle"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/iap_selection_address_text_size"
-        android:text="@string/action_settings"
-        android:paddingStart="@dimen/border12_margin"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top" />
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top"
+        android:id="@+id/ll_shopping_address">
 
-    <FrameLayout
-        android:id="@+id/options_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true">
-
-        <ImageView
-            android:id="@+id/img_options"
+        <com.philips.platform.uid.view.widget.RadioButton
+            style="@style/iapCentralesansBoldFont"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:id="@+id/rbtn_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginEnd="@dimen/iap_shopping_cart_image_margin_top"
-            android:layout_marginStart="@dimen/iap_shopping_cart_dots_margin_left"
-            android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top" />
-    </FrameLayout>
+            android:textSize="@dimen/iap_selection_address_text_size"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:text="@string/action_settings"
+            android:paddingStart="@dimen/border12_margin"
+            />
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/tv_address"
-        style="@style/iapCentralesansBookFont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rbtn_toggle"
-        android:paddingStart="@dimen/border12_margin"
-        android:layout_marginTop="@dimen/iap_selection_address_margin_top"
-        android:includeFontPadding="false"
-        android:textColor="@color/iap_address_text_color"
-        android:textSize="@dimen/iap_selection_address_text_size" />
-
-    <LinearLayout
-        android:id="@+id/payment_options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_address"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_deliver_to_this_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_address"
-            android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
-            android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
-            android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-            android:text="@string/iap_deliver_to_this_address"
-            android:textAllCaps="false" />
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_add_new_address"
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_address"
             style="@style/iapCentralesansBookFont"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/border16_margin_left_right"
-            android:layout_marginEnd="@dimen/border16_margin_left_right"
-            android:layout_marginTop="@dimen/border24_margin"
-            android:enabled="false"
-            app:uidComponentType="Primary"
-            android:layout_below="@id/btn_deliver_to_this_address"
-            android:text="@string/iap_add_new_address"
-            android:textAllCaps="false" />
-    </LinearLayout>
+            android:layout_below="@id/rbtn_toggle"
+            android:paddingStart="@dimen/border12_margin"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/iap_selection_address_margin_top"
+            android:includeFontPadding="false"
+            android:textColor="@color/iap_address_text_color"
+            android:textSize="@dimen/iap_selection_address_text_size" />
+
+    </RelativeLayout>
+
+
+    <include
+        android:id="@+id/iap_address_full"
+        layout="@layout/iap_address_selection_item_all_address"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_below="@id/ll_shopping_address"
+        />
+
+    <include
+        android:id="@+id/payment_options"
+        layout="@layout/iap_address_selection_sub_item"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/iap_address_full"
+        />
+    <View
+        android:id="@+id/bottom_space"
+        android:background="@color/uikit_enricher7"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/reg_layout_margin_8dp"
+        android:layout_below="@+id/payment_options"/>
 
 </RelativeLayout>

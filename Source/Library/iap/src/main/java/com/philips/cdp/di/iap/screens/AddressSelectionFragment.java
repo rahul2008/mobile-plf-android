@@ -56,7 +56,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private AddressController mAddressController;
     private AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses = new ArrayList<>();
-    private Button mCancelButton;
+   // private Button mCancelButton;
 
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
@@ -75,8 +75,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
-        mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
-        bindCancelListener();
+       // mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
+       // bindCancelListener();
 
         mAddressController = new AddressController(mContext, this);
         mJanRainEmail = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
@@ -119,8 +119,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             if (isNetworkConnected()) {
                 getAddresses();
             }
-            mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
-            mAddressListView.setAdapter(mAdapter);
+            mAdapter.setAddresses(mAddresses);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -140,14 +139,14 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         EventHelper.getInstance().registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
 
-    public void bindCancelListener() {
+   /* public void bindCancelListener() {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 moveToShoppingCart();
             }
         });
-    }
+    }*/
 
     @Override
     public boolean handleBackEvent() {
@@ -175,14 +174,14 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                     mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
                 mAdapter.notifyDataSetChanged();
+                return;
             } else if (isVisible()) {
                 if (msg.obj instanceof GetShippingAddressData) {
                     GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                     mAddresses = shippingAddresses.getAddresses();
                 }
             }
-            mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
-            mAddressListView.setAdapter(mAdapter);
+            mAdapter.setAddresses(mAddresses);
             mAdapter.notifyDataSetChanged();
         }
     }

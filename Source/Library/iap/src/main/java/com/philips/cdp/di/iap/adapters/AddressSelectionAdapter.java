@@ -5,13 +5,11 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -24,7 +22,7 @@ import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;
 
-public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionAdapter.AddressSelectionHolder> {
+public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Addresses> mAddresses;
 
@@ -34,51 +32,81 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
     private int mOptionsClickPosition = -1;
 
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_FOOTER = 2;
+
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
+        addresses.add(0,null);
         mAddresses = addresses;
         mSelectedIndex = 0;
         initOptionsDrawable();
     }
 
     private void initOptionsDrawable() {
-       // mOptionsDrawable = Drawable.create(mContext, R.drawable.iap_options_icon_5x17);
+        // mOptionsDrawable = Drawable.create(mContext, R.drawable.iap_options_icon_5x17);
     }
 
     @Override
-    public AddressSelectionHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.iap_address_selection_item, null);
-        return new AddressSelectionHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+
+        View view = null;
+        RecyclerView.ViewHolder viewHolder = null;
+        switch (viewType) {
+
+            case TYPE_HEADER:
+
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_header, parent, false);
+                return new AddressSelectionHeader(view);
+
+            case TYPE_ITEM:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_item, parent, false);
+                return new AddressSelectionHolder(view);
+
+            case TYPE_FOOTER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_footer, parent, false);
+                return new AddressSelectionFooter(view);
+
+        }
+        return viewHolder;
     }
 
     @Override
     public int getItemCount() {
-        return mAddresses.size();
+        return mAddresses.size()+1;
     }
 
     @Override
-    public void onBindViewHolder(final AddressSelectionHolder holder, final int position) {
-        Addresses address = mAddresses.get(position);
-        holder.toggle.setText(address.getFirstName() + " " + address.getLastName());
-        holder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
-       // holder.options.setImageDrawable(mOptionsDrawable);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        //Update payment options buttons
-        updatePaymentButtonsVisibility(holder.paymentOptions, position);
+        if (holder == null) return;
 
-        //bind options: edit, delete menu
-        bindOptionsButton(holder.optionLayout, position);
+        if (holder instanceof AddressSelectionHolder) {
+            Addresses address = mAddresses.get(position);
+            AddressSelectionHolder addressSelectionHolder = (AddressSelectionHolder) holder;
+            addressSelectionHolder.toggle.setText(address.getFirstName() + " " + address.getLastName());
+            addressSelectionHolder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
+            // holder.options.setImageDrawable(mOptionsDrawable);
 
-        //bind toggle button
-        setToggleStatus(holder.toggle, position);
-        bindToggleButton(holder, holder.toggle);
+            //Update payment options buttons
+            updatePaymentButtonsVisibility(addressSelectionHolder.paymentOptions, position);
 
-        //bind deliver to address
-        bindDeliverToThisAddress(holder.deliverToThisAddress);
+            //bind options: edit, delete menu
+            // bindOptionsButton(holder.optionLayout, position);
 
-        //bind add new address
-        bindAddNewAddress(holder.addNewAddress);
+            //bind toggle button
+            setToggleStatus(addressSelectionHolder.toggle, position);
+            bindToggleButton(addressSelectionHolder, addressSelectionHolder.toggle);
+
+            //bind deliver to address
+            bindDeliverToThisAddress(addressSelectionHolder.deliverToThisAddress);
+
+            //bind add new address
+            // bindAddNewAddress(holder.addNewAddress);
+        }
+
     }
 
     private void bindAddNewAddress(final Button newAddress) {
@@ -157,32 +185,32 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
     public void setAddresses(final List<Addresses> data) {
         mSelectedIndex = 0;
+        data.add(0,null);
         mAddresses = data;
     }
 
     public class AddressSelectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Button deliverToThisAddress;
-        Button addNewAddress;
+        // Button addNewAddress;
 
         //TextView name;
         TextView address;
 
         RadioButton toggle;
-        ImageView options;
+        // ImageView options;
 
         ViewGroup paymentOptions;
-        ViewGroup optionLayout;
+        // ViewGroup optionLayout;
 
         public AddressSelectionHolder(final View view) {
             super(view);
             //name = (TextView) view.findViewById(R.id.tv_name);
             address = (TextView) view.findViewById(R.id.tv_address);
             toggle = (RadioButton) view.findViewById(R.id.rbtn_toggle);
-            options = (ImageView) view.findViewById(R.id.img_options);
+            //options = (ImageView) view.findViewById(R.id.img_options);
             paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
             deliverToThisAddress = (Button) view.findViewById(R.id.btn_deliver_to_this_address);
-            addNewAddress = (Button) view.findViewById(R.id.btn_add_new_address);
-            optionLayout = (ViewGroup) view.findViewById(R.id.options_layout);
+            // addNewAddress = (Button) view.findViewById(R.id.btn_add_new_address);
             view.setOnClickListener(this);
         }
 
@@ -191,6 +219,40 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             mSelectedIndex = getAdapterPosition();
             setToggleStatus(toggle, getAdapterPosition());
             notifyDataSetChanged();
+        }
+    }
+
+    private boolean isPositionHeader(int position) {
+        return position == 0;
+    }
+
+    private boolean isPositionFooter(int position) {
+        return position == mAddresses.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isPositionHeader(position)) {
+            return TYPE_HEADER;
+        } else if (isPositionFooter(position)) {
+            return TYPE_FOOTER;
+        }
+        return TYPE_ITEM;
+    }
+
+    private class AddressSelectionHeader extends RecyclerView.ViewHolder {
+
+        TextView mTvSelectAddressHeader;
+        public AddressSelectionHeader(View view) {
+            super(view);
+            mTvSelectAddressHeader=(TextView)view.findViewById(R.id.tv_select_address);
+            mTvSelectAddressHeader.setText("Select Header");
+        }
+    }
+
+    private class AddressSelectionFooter extends RecyclerView.ViewHolder {
+        public AddressSelectionFooter(View view) {
+            super(view);
         }
     }
 }
