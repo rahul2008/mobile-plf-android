@@ -323,6 +323,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mAdapter.tagProducts();
 
         String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+        if(mData.size() == 1){
+            numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_product);
+        }
         numberOfProducts = String.format(numberOfProducts, mData.size());
         mNumberOfProducts.setText(numberOfProducts);
         mNumberOfProducts.setVisibility(View.VISIBLE);

@@ -168,11 +168,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
 
     @Override
-    protected void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-    }
-
-    @Override
     protected void onDestroy() {
         dismissProgressDialog();
         NetworkUtility.getInstance().dismissErrorDialog();

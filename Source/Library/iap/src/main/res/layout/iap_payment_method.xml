@@ -13,7 +13,7 @@
         android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
         android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
         android:text="@string/iap_payment_method"
-        android:textColor="?attr/uikit_baseColor"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="@dimen/iap_selection_address_select_address_text_size" />
 
     <View
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/tv_payment_method"
-        android:background="?attr/uikit_listDividerColor" />
+       />
 
     <Button
         android:id="@+id/btn_cancel"

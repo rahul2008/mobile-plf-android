@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.EmailValidator;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -51,6 +53,8 @@ import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.CheckBox;
+import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -106,6 +110,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
     protected EditText mEtEmail;
     protected EditText mEtPhone1;
     protected EditText mEtPhone2;
+    protected CheckBox mUseThisAddressCheckBox;
+    LinearLayout mSameAsShippingAddress;
 
     protected Button mBtnContinue;
     protected Button mBtnCancel;
@@ -139,72 +145,86 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.iap_shipping_address_layout, container, false);
+        View rootView = inflater.inflate(R.layout.iap_shipping_billing_address_layout, container, false);
         phoneNumberUtil = PhoneNumberUtil.getInstance();
-        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
+        InputValidationLayout mFirstName = (InputValidationLayout) rootView.findViewById(R.id.input_validation_first_name);
+        mFirstName.setValidator(new EmailValidator());
+        mUseThisAddressCheckBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
+        mSameAsShippingAddress = (LinearLayout) rootView.findViewById(R.id.iap_same_as_shipping_address);
 
-        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-
-        mLlFirstName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
-        mLlLastName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
-        mLlSalutation = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_salutation);
-        mLlAddressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
-        mLlAddressLineTwo = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_two);
-        mLlTown = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_town);
-        mLlPostalCode = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_postal_code);
-        mLlCountry = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_country);
-        mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
-        mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
-        mLlPhone1 = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone1);
-
-        mTvSalutation = (TextView) mInlineFormsParent.findViewById(R.id.tv_salutation);
-        mTvFirstName = (TextView) mInlineFormsParent.findViewById(R.id.tv_first_name);
-        mTvLastName = (TextView) mInlineFormsParent.findViewById(R.id.tv_last_name);
-        mTvAddressLineOne = (TextView) mInlineFormsParent.findViewById(R.id.tv_address_line_one);
-        mTvAddressLineTwo = (TextView) mInlineFormsParent.findViewById(R.id.tv_address_line_two);
-        mTvTown = (TextView) mInlineFormsParent.findViewById(R.id.tv_town);
-        mTvPostalCode = (TextView) mInlineFormsParent.findViewById(R.id.tv_postal_code);
-        mTvCountry = (TextView) mInlineFormsParent.findViewById(R.id.tv_country);
-        mTvState = (TextView) mInlineFormsParent.findViewById(R.id.tv_state);
-        mTvEmail = (TextView) mInlineFormsParent.findViewById(R.id.tv_email);
-        mTvPhone1 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone1);
-
-        mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
-        mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);
-        mEtSalutation = (EditText) mInlineFormsParent.findViewById(R.id.et_salutation);
-        mEtAddressLineOne = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_one);
-        mEtAddressLineTwo = (EditText) mInlineFormsParent.findViewById(R.id.et_address_line_two);
-        mEtTown = (EditText) mInlineFormsParent.findViewById(R.id.et_town);
-        mEtPostalCode = (EditText) mInlineFormsParent.findViewById(R.id.et_postal_code);
-        mEtCountry = (EditText) mInlineFormsParent.findViewById(R.id.et_country);
-        mEtState = (EditText) mInlineFormsParent.findViewById(R.id.et_state);
-        mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
-        mEtPhone1 = (EditText) mInlineFormsParent.findViewById(R.id.et_phone1);
+        mUseThisAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    mSameAsShippingAddress.setVisibility(View.VISIBLE);
+                else
+                    mSameAsShippingAddress.setVisibility(View.GONE);
+            }
+        });
+//        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.inlineForms);
+//
+//        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
+//
+//        mLlFirstName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_first_name);
+//        mLlLastName = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_last_name);
+//        mLlSalutation = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_salutation);
+//        mLlAddressLineOne = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_one);
+//        mLlAddressLineTwo = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_address_line_two);
+//        mLlTown = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_town);
+//        mLlPostalCode = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_postal_code);
+//        mLlCountry = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_country);
+//        mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
+//        mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
+//        mLlPhone1 = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone1);
+//
+//        mTvSalutation = (TextView) mInlineFormsParent.findViewById(R.id.tv_salutation);
+//        mTvFirstName = (TextView) mInlineFormsParent.findViewById(R.id.tv_first_name);
+//        mTvLastName = (TextView) mInlineFormsParent.findViewById(R.id.tv_last_name);
+//        mTvAddressLineOne = (TextView) mInlineFormsParent.findViewById(R.id.tv_address_line_one);
+//        mTvAddressLineTwo = (TextView) mInlineFormsParent.findViewById(R.id.tv_address_line_two);
+//        mTvTown = (TextView) mInlineFormsParent.findViewById(R.id.tv_town);
+//        mTvPostalCode = (TextView) mInlineFormsParent.findViewById(R.id.tv_postal_code);
+//        mTvCountry = (TextView) mInlineFormsParent.findViewById(R.id.tv_country);
+//        mTvState = (TextView) mInlineFormsParent.findViewById(R.id.tv_state);
+//        mTvEmail = (TextView) mInlineFormsParent.findViewById(R.id.tv_email);
+//        mTvPhone1 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone1);
+//
+        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
+        mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
+        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
+        mEtAddressLineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
+        mEtAddressLineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
+        mEtTown = (EditText) rootView.findViewById(R.id.et_town);
+        mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
+        mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
+        mEtState = (EditText) rootView.findViewById(R.id.et_state);
+        mEtEmail = (EditText) rootView.findViewById(R.id.et_email);
+        mEtPhone1 = (EditText) rootView.findViewById(R.id.et_phone1);
 
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
-
+//
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
-
+//
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
-
+//
         mValidator = new Validator();
-        mInlineFormsParent.setValidator(this);
-
+//        mInlineFormsParent.setValidator(this);
+//
         mAddressController = new AddressController(mContext, this);
         mPaymentController = new PaymentController(mContext, this);
         mShippingAddressFields = new AddressFields();
-
+//
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
-
+//
         mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
         showUSRegions();
         mEtCountry.setEnabled(false);
-
+//
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
@@ -217,12 +237,12 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
-
-        Bundle bundle = getArguments();
-        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateFields();
-        }
-
+//
+//        Bundle bundle = getArguments();
+//        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+//            updateFields();
+//        }
+//
         setImageArrow();
         mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
         mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
@@ -489,11 +509,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
     }
 
     private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
-            mlLState.setVisibility(View.VISIBLE);
-        } else {
-            mlLState.setVisibility(View.GONE);
-        }
+//        if (mEtCountry.getText().toString().equals("US")) {
+//            mlLState.setVisibility(View.VISIBLE);
+//        } else {
+//            mlLState.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -602,7 +622,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         private boolean isInAfterTextChanged;
 
         public synchronized void afterTextChanged(Editable text) {
-            if (mEditText == mEtPhone1  && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
+            if (mEditText == mEtPhone1 && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
                 validate(mEditText, false);
                 isInAfterTextChanged = false;
@@ -669,7 +689,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
                 mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
             String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
-            String stateCode = code.substring(code.length()-2);
+            String stateCode = code.substring(code.length() - 2);
             mEtState.setText(stateCode);
             mlLState.setVisibility(View.VISIBLE);
         } else {

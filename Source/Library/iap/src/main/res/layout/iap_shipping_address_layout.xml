@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"
             android:gravity="center_horizontal"
             android:text="@string/iap_shipping_address"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="@dimen/iap_shipping_address_title_size"
             android:textStyle="bold" />
 

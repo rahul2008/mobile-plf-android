@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_order_one_spacing"
             android:layout_marginTop="@dimen/iap_order_margin_top"
-            android:textColor="?attr/uikit_baseColor" />
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />
 
         <TextView
             android:id="@+id/tv_shipping_address"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_order_one_spacing"
             android:layout_marginTop="@dimen/iap_order_margin_top"
-            android:textColor="?attr/uikit_baseColor" />
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />
 
         <TextView
             android:id="@+id/tv_billing_address"
@@ -74,7 +74,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
+     />
 
     <LinearLayout
         android:id="@+id/ll_payment_mode"
@@ -142,7 +142,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor"
         android:visibility="gone" />
 
     <LinearLayout
@@ -191,7 +190,7 @@
         android:id="@+id/delivery_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/uikit_listDividerColor" />
+       />
 
     <LinearLayout
         android:layout_width="match_parent"

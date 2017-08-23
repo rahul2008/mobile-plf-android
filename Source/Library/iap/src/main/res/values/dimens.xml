@@ -124,5 +124,8 @@
     <dimen name="iap_shopping_cart_btn_margin">16dp</dimen>
 
     <item name="iap_match_parent" type="dimen" format="integer">-1</item>
+    <item name="iap_wrap_content" type="dimen" format="integer">-2</item>
     <dimen name="iap_btn_height_48">48dp</dimen>
+    <dimen name="iap_margin_20dp">20dp</dimen>
+    <dimen name="border_margin_32dp">32dp</dimen>
 </resources>

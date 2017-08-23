@@ -303,4 +303,13 @@
     <style name="IAPQuietButton" parent="UIDQuietButton">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+
+    <style name="AddressItemLabel" parent="UIDLabel">
+        <item name="android:textColor">?attr/uidLabelDescriptorNormalTextColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">@dimen/border8_margin</item>
+        <item name="android:layout_marginBottom">@dimen/border8_margin</item>
+    </style>
 </resources>

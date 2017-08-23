@@ -29,8 +29,8 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
-import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private OutOfStockListener mOutOfStock;
-    private UIKitListPopupWindow mPopupWindow;
+    private UIPicker mPopupWindow;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
@@ -280,7 +280,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
-            setCountArrow(mContext, false);
             setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else if (pStockLevel < pQuantity) {
