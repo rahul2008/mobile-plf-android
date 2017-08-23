@@ -32,18 +32,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class KeyBagHelper {
+public class GroomHelper {
 
     private final KeyBagLib keyBagLib;
     private JSONObject rootJsonObject;
     private AppInfra mAppInfra;
 
-    KeyBagHelper(AppInfra appInfra) {
+    GroomHelper(AppInfra appInfra) {
         keyBagLib = new KeyBagLib();
         this.mAppInfra = appInfra;
     }
 
-    boolean init(AppInfra mAppInfra,InputStream mInputStream) throws KeyBagJsonFileNotFoundException {
+    boolean init(AppInfra mAppInfra, InputStream mInputStream) throws KeyBagJsonFileNotFoundException {
         this.mAppInfra = mAppInfra;
         StringBuilder total;
         try {
@@ -64,7 +64,7 @@ public class KeyBagHelper {
         return false;
     }
 
-    String getMd5ValueInHex(String data) {
+    String getAilGroomInHex(String data) {
         if (!TextUtils.isEmpty(data)) {
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
@@ -84,10 +84,10 @@ public class KeyBagHelper {
         return null;
     }
 
-    String getSeed(String groupId, int index, String key) {
+    String getInitialValue(String groupId, int index, String key) {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
             String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
-            String md5Value = getMd5ValueInHex(concatData);
+            String md5Value = getAilGroomInHex(concatData);
             if (md5Value != null && md5Value.length() > 4)
                 return md5Value.substring(0, 4).toUpperCase();
         }
@@ -104,7 +104,7 @@ public class KeyBagHelper {
         return new String(data);
     }
 
-    String getKeyBagIndex(String value) {
+    String getGroomIndex(String value) {
         String data = "https://www.philips.com/";
         if (!TextUtils.isEmpty(value)) {
             StringTokenizer st = new StringTokenizer(value, data);
@@ -114,8 +114,8 @@ public class KeyBagHelper {
         return null;
     }
 
-    String deObfuscate(String data, int seed) {
-        char[] chars = keyBagLib.obfuscateDeObfuscate(data.toCharArray(), seed);
+    String ailGroom(String data, int seed) {
+        char[] chars = keyBagLib.ailGroom(data.toCharArray(), seed);
         if (chars != null && chars.length > 0) {
             return new String(chars);
         }
@@ -133,14 +133,14 @@ public class KeyBagHelper {
 
             ServiceDiscoveryService keyBagValue = keyBagUrlMap.get(key.concat(".kindex"));
             if (keyBagValue != null) {
-                String keyBagHelperIndex = getKeyBagIndex(keyBagValue.getConfigUrls());
-                mapAndValidateKey(aikmService, entry.getKey(), keyBagHelperIndex);
+                String keyBagHelperIndex = getGroomIndex(keyBagValue.getConfigUrls());
+                mapAndValidateGroom(aikmService, entry.getKey(), keyBagHelperIndex);
             }
             aiKmServices.add(aikmService);
         }
     }
 
-    void mapAndValidateKey(AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
+    void mapAndValidateGroom(AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
         if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
             int index;
             try {
@@ -150,7 +150,7 @@ public class KeyBagHelper {
                 e.printStackTrace();
                 return;
             }
-            Object propertiesForKey = getPropertiesForKey(serviceId);
+            Object propertiesForKey = getAilGroomProperties(serviceId);
             if (propertiesForKey instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) propertiesForKey;
                 try {
@@ -176,8 +176,8 @@ public class KeyBagHelper {
             while (keys.hasNext()) {
                 String key = keys.next();
                 String value = (String) jsonObject.get(key);
-                String seed = getSeed(serviceId, index, key);
-                hashMap.put(key, deObfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16)));
+                String seed = getInitialValue(serviceId, index, key);
+                hashMap.put(key, ailGroom(convertHexDataToString(value), Integer.parseInt(seed, 16)));
             }
             return hashMap;
         } catch (JSONException e) {
@@ -186,7 +186,7 @@ public class KeyBagHelper {
         return null;
     }
 
-    Object getPropertiesForKey(String serviceId) {
+    Object getAilGroomProperties(String serviceId) {
         try {
             return rootJsonObject.get(serviceId);
         } catch (JSONException e) {
@@ -195,7 +195,7 @@ public class KeyBagHelper {
         return null;
     }
 
-    ArrayList<String> getAppendedServiceIds(List<String> serviceIds) {
+    ArrayList<String> getAppendedGrooms(List<String> serviceIds) {
         ArrayList<String> appendedServiceIds = new ArrayList<>();
         for (String serviceId : serviceIds) {
             if (!TextUtils.isEmpty(serviceId))

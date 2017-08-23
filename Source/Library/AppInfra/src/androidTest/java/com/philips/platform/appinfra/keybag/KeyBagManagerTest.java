@@ -53,14 +53,14 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        final KeyBagHelper keyBagHelperMock = mock(KeyBagHelper.class);
+        final GroomHelper groomHelperMock = mock(GroomHelper.class);
         ArrayList<String> serviceIds = new ArrayList<>();
         final InputStream finalInputStream = inputStream;
         keyBagManager = new KeyBagManager(appInfraMock) {
             @NonNull
             @Override
-            KeyBagHelper getKeyBagHelper() {
-                return keyBagHelperMock;
+            GroomHelper getGroomHelper() {
+                return groomHelperMock;
             }
 
             @Override
@@ -76,7 +76,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         };
 
         keyBagManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
-        verify(keyBagHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
+        verify(groomHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
     }
 
 

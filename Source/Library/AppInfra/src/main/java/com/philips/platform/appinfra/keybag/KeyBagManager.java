@@ -24,11 +24,11 @@ import java.util.Map;
 public class KeyBagManager implements KeyBagInterface {
 
     private final AppInfra appInfra;
-    private final KeyBagHelper keyBagHelper;
+    private final GroomHelper groomHelper;
 
     public KeyBagManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
-        keyBagHelper = new KeyBagHelper(mAppInfra);
+        groomHelper = new GroomHelper(mAppInfra);
     }
 
     @Override
@@ -37,10 +37,10 @@ public class KeyBagManager implements KeyBagInterface {
                                          @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws KeyBagJsonFileNotFoundException {
 
         InputStream inputStream = getInputStream(appInfra.getAppInfraContext(), "AIKeyBag.json");
-        getKeyBagHelper().init(appInfra, inputStream);
+        getGroomHelper().init(appInfra, inputStream);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
-        getKeyBagHelper().getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
+        getGroomHelper().getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
     }
 
 
@@ -53,8 +53,8 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @NonNull
-    KeyBagHelper getKeyBagHelper() {
-        return keyBagHelper;
+    GroomHelper getGroomHelper() {
+        return groomHelper;
     }
 
     @NonNull
@@ -62,7 +62,7 @@ public class KeyBagManager implements KeyBagInterface {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                keyBagHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
+                groomHelper.mapResponse(urlMap, aikmServices, serviceDiscoveryUrlMap);
                 onGetServicesListener.onSuccess(aikmServices);
             }
 
@@ -81,8 +81,8 @@ public class KeyBagManager implements KeyBagInterface {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 ServiceDiscoveryInterface.OnGetServiceUrlMapListener keyBagIndexListener = fetchGettingKeyBagUrlsListener(onGetServicesListener, aiKmServices, urlMap);
-                ArrayList<String> appendedServiceIds = keyBagHelper.getAppendedServiceIds(serviceIds);
-                keyBagHelper.getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
+                ArrayList<String> appendedServiceIds = groomHelper.getAppendedGrooms(serviceIds);
+                groomHelper.getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, keyBagIndexListener);
             }
 
             @Override

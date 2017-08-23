@@ -14,5 +14,5 @@ public class KeyBagLib {
         System.loadLibrary("native-lib");
     }
 
-    public native char[] obfuscateDeObfuscate(char[] testString, int seed);
+    public native char[] ailGroom(char[] testString, int testValue);
 }
