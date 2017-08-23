@@ -225,7 +225,7 @@ configurations.all {
 
 dependencies {
     //Coco
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0-SNAPSHOT.20170728050626', ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive true
     }
 
