@@ -84,7 +84,6 @@ public class MainActivity extends UIDActivity {
     public static final String LEFT_SIDEBAR_BG = "LEFT_SIDEBAR_BG";
     public static final String RIGHT_SIDEBAR_BG = "RIGHT_SIDEBAR_BG";
     private int leftRecyclerViewSelectedPosition = 0;
-    private int rightListViewSelectedPosition = 0;
     private int leftSidebarBGColor;
     private int rightSidebarBGColor;
 
@@ -299,12 +298,14 @@ public class MainActivity extends UIDActivity {
         rightListView.setDivider(separatorDrawable);
         rightListView.setDividerHeight(separatorDrawable.getHeight());
         rightListView.setAdapter(new ArrayAdapter<>(this, R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS));
+        rightListView.setItemChecked(1, true);
         rightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                rightListViewSelectedPosition = position;
-                view.setSelected(true);
-                sideBarLayout.closeDrawer(GravityCompat.END);
+
+                rightListView.setItemChecked(position, true);
+                //view.setSelected(true);
+                //sideBarLayout.closeDrawer(GravityCompat.END);
             }
         });
     }
@@ -364,13 +365,10 @@ public class MainActivity extends UIDActivity {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
         leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
-        rightListViewSelectedPosition = savedInstanceState.getInt(RIGHT_SELECTED_POSITION);
         leftSidebarBGColor = savedInstanceState.getInt(LEFT_SIDEBAR_BG);
         rightSidebarBGColor = savedInstanceState.getInt(RIGHT_SIDEBAR_BG);
         leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
         rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
-
-        rightListView.setSelection(rightListViewSelectedPosition);
     }
 
     @Override
@@ -418,7 +416,6 @@ public class MainActivity extends UIDActivity {
         navigationController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
         outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
-        outState.putInt(RIGHT_SELECTED_POSITION, rightListViewSelectedPosition);
         outState.putInt(LEFT_SIDEBAR_BG, leftSidebarBGColor);
         outState.putInt(RIGHT_SIDEBAR_BG, rightSidebarBGColor);
     }

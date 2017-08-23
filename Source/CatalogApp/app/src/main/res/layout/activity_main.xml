@@ -121,8 +121,7 @@
                         android:dividerHeight="@dimen/uid_divider_Height"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
-                        android:listSelector="@drawable/uid_ui_picker_item_background_selector"/>
+                        android:choiceMode="singleChoice"/>
 
                 <!--</RelativeLayout>
 
