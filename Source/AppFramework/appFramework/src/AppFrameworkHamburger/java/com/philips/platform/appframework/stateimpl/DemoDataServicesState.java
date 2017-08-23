@@ -66,7 +66,7 @@ public class DemoDataServicesState extends BaseState
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        new DSDemoAppuAppInterface().launch(new ActivityLauncher
+        dsDemoAppuAppInterface.launch(new ActivityLauncher
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 0), null);
     }
 

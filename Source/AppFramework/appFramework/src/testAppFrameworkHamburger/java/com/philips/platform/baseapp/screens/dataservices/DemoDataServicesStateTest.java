@@ -5,12 +5,11 @@
 */
 package com.philips.platform.baseapp.screens.dataservices;
 
-import android.app.ActivityManager;
-import android.content.Context;
-
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import junit.framework.TestCase;
@@ -42,17 +41,14 @@ public class DemoDataServicesStateTest extends TestCase {
         activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 0);
     }
 
-    public TestAppFrameworkApplication getApplicationContext() {
-        return (TestAppFrameworkApplication) RuntimeEnvironment.application;
+    public AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) RuntimeEnvironment.application;
     }
 
     @Test
     public void testLaunchDemoDataServicesState() {
         demoDataServicesState.init(getApplicationContext());
         demoDataServicesState.navigate(activityLauncher);
-
-        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-        assertEquals(0, activityManager.getRunningAppProcesses().size());
+        assertNotNull(DataServicesManager.getInstance());
     }
-
 }
