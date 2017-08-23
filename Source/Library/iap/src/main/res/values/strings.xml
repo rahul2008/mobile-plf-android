@@ -311,4 +311,5 @@
     <string name="iap_product_remove_description">Your product will be removed from your shopping cart. Are you sure?</string>
     <string name="iap_including_tax">Including tax</string>
     <string name="iap_shopping_cart_dls">Shopping cart</string>
+    <string name="iap_option">Option</string>
 </resources>

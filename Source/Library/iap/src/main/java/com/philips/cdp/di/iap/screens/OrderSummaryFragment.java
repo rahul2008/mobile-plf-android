@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.adapters.CheckOutHistoryAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
@@ -46,7 +46,7 @@ import java.util.List;
 
 public class OrderSummaryFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
-        ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
+        CheckOutHistoryAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
         DeliveryModeDialog.DialogListener, com.philips.cdp.di.iap.utils.AlertListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
@@ -55,7 +55,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
 
-    public ShoppingCartAdapter mAdapter;
+    public CheckOutHistoryAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private ShoppingCartAPI mShoppingCartAPI;
@@ -64,8 +64,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private DeliveryModes mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
 
-    public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
-        ShoppingCartFragment fragment = new ShoppingCartFragment();
+    public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
+        OrderSummaryFragment fragment = new OrderSummaryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
@@ -89,15 +89,15 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
-        View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
+        View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
+        mCheckoutBtn = (Button) rootView.findViewById(R.id.pay_now_btn);
         mCheckoutBtn.setOnClickListener(this);
-        mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
+        mContinuesBtn = (Button) rootView.findViewById(R.id.cancel_btn);
         mContinuesBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
@@ -112,7 +112,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
-        setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
+        setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
@@ -122,7 +122,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (!isProgressDialogShowing()) {
             showProgressDialog(mContext, getString(R.string.iap_please_wait));
         }
-
         mAddressController.getDeliveryModes();
     }
 
@@ -315,7 +314,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (getActivity() == null) return;
         mData = (ArrayList<ShoppingCartData>) data;
         onOutOfStock(false);
-        mAdapter = new ShoppingCartAdapter(mContext, mData, this);
+        mAdapter = new CheckOutHistoryAdapter(mContext, mData, this);
         if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(mData.get(0).getDeliveryItemsQuantity());
         }
