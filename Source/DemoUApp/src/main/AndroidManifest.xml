@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
-        tools:replace="android:theme,android:label">
+        tools:replace="android:theme,android:allowBackup">
         <activity
             android:name="com.philips.platform.dscdemo.activity.DemoActivity"
             android:screenOrientation="portrait"
