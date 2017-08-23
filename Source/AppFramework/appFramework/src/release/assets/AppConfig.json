@@ -39,7 +39,7 @@
         "fileName":"AppInfraLog",
         "numberOfFiles":5,
         "fileSizeInBytes":50000,
-        "logLevel":"Warn",
+        "logLevel":"Debug",
         "fileLogEnabled":false,
         "consoleLogEnabled":true,
         "componentLevelLogEnabled":true,
