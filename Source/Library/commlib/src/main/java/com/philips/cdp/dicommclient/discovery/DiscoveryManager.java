@@ -5,30 +5,6 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-
-import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
-import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-
 /**
  * Discovery of the appliances is managed by Discovery Manager. It is the main
  * interface to the User Interface. The output of Discovery Manager is the list
@@ -38,6 +14,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
  *
  * @publicApi
  */
+/**
 @Deprecated
 public class DiscoveryManager<T extends Appliance> {
 
@@ -86,11 +63,11 @@ public class DiscoveryManager<T extends Appliance> {
 
     private static DiscoveryTimeoutHandler sDiscoveryTimeoutHandler = new DiscoveryTimeoutHandler<>(sInstance);
 
-    public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory<U> applianceFactory) {
-        return createSharedInstance(applicationContext, applianceFactory, new NullApplianceDatabase<U>());
+    public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory applianceFactory) {
+        return createSharedInstance(applicationContext, applianceFactory, new NullApplianceDatabase());
     }
 
-    private static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+    private static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull ApplianceFactory applianceFactory, DICommApplianceDatabase applianceDatabase) {
         if (sInstance == null) {
             DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase);
             sInstance = discoveryManager;
@@ -220,7 +197,7 @@ public class DiscoveryManager<T extends Appliance> {
                 }
             }
         }
-    };*/
+    };
 
     private CppDiscoverEventListener mCppDiscoverEventListener = new CppDiscoverEventListener() {
 
@@ -302,7 +279,7 @@ public class DiscoveryManager<T extends Appliance> {
         if (existingAppliance.getNetworkNode().getConnectionState() != networkNode.getConnectionState()) {
             existingAppliance.getNetworkNode().setConnectionState(networkNode.getConnectionState());
         }
-        */
+
 
         notifyDiscoveryListener();
         DICommLog.d(DICommLog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
@@ -310,7 +287,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     /**
      * Completely new appliance - never seen before
-     */
+
     private void addNewAppliance(final NetworkNode networkNode) {
         if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
             DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
@@ -527,7 +504,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     /**
      * Only needs to be done after a network change to Wifi network
-     */
+
     private void connectViaCppAfterLocalAttemptDelayed() {
         DICommLog.i(DICommLog.DISCOVERY, "START delayed job to connect via cpp to appliances that did not appear local");
         sDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
@@ -543,7 +520,7 @@ public class DiscoveryManager<T extends Appliance> {
     /**
      * Only needs to be done after the SSDP service has actually stopped.
      * (appliances could have gone offline during the stopped period)
-     */
+
     public void syncLocalAppliancesWithSsdpStackDelayed() {
         DICommLog.i(DICommLog.DISCOVERY, "START delayed job to mark local appliances offline that did not reappear after ssdp restart");
         sDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
@@ -610,7 +587,7 @@ public class DiscoveryManager<T extends Appliance> {
                     break;
             }
         }
-        */
+
         DICommLog.d(tag, String.format(Locale.US, offline, offline.length() - offline.replace(",", "").length()));
         DICommLog.d(tag, String.format(Locale.US, local, local.length() - local.replace(",", "").length()));
         DICommLog.d(tag, String.format(Locale.US, cpp, cpp.length() - cpp.replace(",", "").length()));
@@ -686,3 +663,4 @@ public class DiscoveryManager<T extends Appliance> {
     }
     // ********** END TEST METHODS ************
 }
+*/

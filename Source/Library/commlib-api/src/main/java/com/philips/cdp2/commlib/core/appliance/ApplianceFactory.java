@@ -13,12 +13,9 @@ import java.util.Set;
  * Factory for <code>Appliances</code>. This interface is implemented by an app developer to create
  * <code>Appliances</code> for specific hardware.
  *
- * @param <T> The type of {@link Appliance} this factory will create. If your factory needs to
- *            support multiple <code>Appliance</code> types this can be the <code>Appliance</code>
- *            interface itself.
  * @publicApi
  */
-public interface ApplianceFactory<T> {
+public interface ApplianceFactory {
 
     /**
      * Called when Discovery finds any DiComm appliance on the network.
@@ -35,7 +32,7 @@ public interface ApplianceFactory<T> {
      * @param networkNode <code>NetworkNode</code> to create an <code>Appliance</code> for.
      * @return Created <code>Appliance</code>
      */
-    T createApplianceForNode(NetworkNode networkNode);
+    Appliance createApplianceForNode(NetworkNode networkNode);
 
     /**
      * Indicate the device types supported by this <code>ApplianceFactory</code>.

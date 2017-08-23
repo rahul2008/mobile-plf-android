@@ -41,7 +41,7 @@ public class ApplianceManagerTest {
 
     public static final String CPPID = "CPPID";
     @Mock
-    private ApplianceFactory<Appliance> applianceFactoryMock;
+    private ApplianceFactory applianceFactoryMock;
 
     @Mock
     private Handler handlerMock;

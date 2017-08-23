@@ -36,7 +36,7 @@ public final class CommCentral {
     private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
     @NonNull
-    private final ApplianceFactory<?> applianceFactory;
+    private final ApplianceFactory applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
     @NonNull
     private final ApplianceManager applianceManager;

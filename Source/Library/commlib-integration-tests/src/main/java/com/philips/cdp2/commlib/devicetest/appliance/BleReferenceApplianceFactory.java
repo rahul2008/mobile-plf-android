@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
@@ -16,7 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class BleReferenceApplianceFactory implements ApplianceFactory<BleReferenceAppliance> {
+public final class BleReferenceApplianceFactory implements ApplianceFactory {
     @NonNull
     private final BleTransportContext bleTransportContext;
 
@@ -30,7 +31,7 @@ public final class BleReferenceApplianceFactory implements ApplianceFactory<BleR
     }
 
     @Override
-    public BleReferenceAppliance createApplianceForNode(NetworkNode networkNode) {
+    public Appliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
 
             switch (networkNode.getDeviceType()) {

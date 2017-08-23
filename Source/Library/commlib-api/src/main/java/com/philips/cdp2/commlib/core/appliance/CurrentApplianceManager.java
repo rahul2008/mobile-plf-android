@@ -150,7 +150,6 @@ public class CurrentApplianceManager implements PropertyChangeListener {
 
         if (appliance.isAvailable()) {
             appliance.subscribe();
-            appliance.enableCommunication();
         }
     }
 
@@ -161,7 +160,6 @@ public class CurrentApplianceManager implements PropertyChangeListener {
         if (appliance == null) {
             return;
         }
-        appliance.disableCommunication();
         appliance.stopResubscribe();
     }
 

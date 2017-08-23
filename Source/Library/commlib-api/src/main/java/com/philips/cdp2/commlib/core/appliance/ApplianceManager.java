@@ -17,11 +17,15 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
 
 /**
@@ -84,20 +88,7 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            final String cppId = networkNode.getCppId();
-            if (availableAppliances.containsKey(cppId)) {
-                onNetworkNodeUpdated(networkNode);
-            } else if (allAppliances.containsKey(cppId)) {
-                Appliance foundAppliance = allAppliances.get(cppId);
-                availableAppliances.put(cppId, foundAppliance);
-                notifyApplianceFound(foundAppliance);
-            } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
-                final Appliance appliance = (Appliance) applianceFactory.createApplianceForNode(networkNode);
-                appliance.addAvailabilityListener(applianceAvailabilityListener);
-                allAppliances.put(cppId, appliance);
-                availableAppliances.put(cppId, appliance);
-                notifyApplianceFound(appliance);
-            }
+            processNetworkNode(networkNode);
         }
 
         @Override
@@ -150,7 +141,29 @@ public class ApplianceManager {
         }
         this.applianceFactory = applianceFactory;
 
-        loadAppliancesFromPersistentStorage();
+        loadAllAddedAppliancesFromDatabase();
+    }
+
+    @Nullable
+    private Appliance processNetworkNode(NetworkNode networkNode) {
+        final String cppId = networkNode.getCppId();
+        if (availableAppliances.containsKey(cppId)) {
+            discoveryListener.onNetworkNodeUpdated(networkNode);
+            return availableAppliances.get(cppId);
+        } else if (allAppliances.containsKey(cppId)) {
+            final Appliance appliance = allAppliances.get(cppId);
+            availableAppliances.put(cppId, appliance);
+            notifyApplianceFound(appliance);
+            return appliance;
+        } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
+            final Appliance appliance = applianceFactory.createApplianceForNode(networkNode);
+            appliance.addAvailabilityListener(applianceAvailabilityListener);
+            allAppliances.put(cppId, appliance);
+            availableAppliances.put(cppId, appliance);
+            notifyApplianceFound(appliance);
+            return appliance;
+        }
+        return null;
     }
 
     /**
@@ -177,9 +190,29 @@ public class ApplianceManager {
      *
      * @param appliance the appliance
      */
-    public void storeAppliance(@NonNull Appliance appliance) {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented yet.");
+    public void storeAppliance(@NonNull final Appliance appliance) {
+        if (!networkNodeDatabase.contains(appliance.getNetworkNode())) {
+            networkNodeDatabase.save(appliance.getNetworkNode());
+            applianceDatabase.save(appliance);
+        }
+    }
+
+    /**
+     * No longer persist a previously stored {@link Appliance}.
+     * <p>
+     * After calling this, the {@link Appliance} will no longer be stored. If the {@link Appliance}
+     * is available you will still be able to communicate with it.
+     *
+     * @param appliance {@link Appliance} to forget.
+     * @return <code>true</code> if an {@link Appliance} was removed from storage.
+     */
+    public boolean forgetStoredAppliance(@NonNull final Appliance appliance) {
+        int rowsDeleted = networkNodeDatabase.delete(appliance.getNetworkNode());
+        if (rowsDeleted > 1) {
+            applianceDatabase.delete(appliance);
+        }
+
+        return rowsDeleted > 1;
     }
 
     /**
@@ -202,9 +235,32 @@ public class ApplianceManager {
         return applianceListeners.remove(applianceListener);
     }
 
-    private void loadAppliancesFromPersistentStorage() {
-        // TODO
+    private void loadAllAddedAppliancesFromDatabase() {
+        List<NetworkNode> networkNodes = networkNodeDatabase.getAll();
+
+        for (final NetworkNode networkNode : networkNodes) {
+            final Appliance appliance = processNetworkNode(networkNode);
+            if (appliance != null) {
+                applianceDatabase.loadDataForAppliance(appliance);
+                networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        onNetworkNodeChanged(evt, appliance, networkNode);
+                    }
+                });
+            }
+        }
     }
+
+    private void onNetworkNodeChanged(PropertyChangeEvent propertyChangeEvent, Appliance appliance, NetworkNode networkNode) {
+        DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+        networkNodeDatabase.save(networkNode);
+
+        if (propertyChangeEvent.getPropertyName().equals(KEY_ENCRYPTION_KEY)) {
+            storeAppliance(appliance);
+        }
+    }
+
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
         DICommLog.v(DICommLog.DISCOVERY, "Appliance found " + appliance.toString());
