@@ -257,7 +257,7 @@ public class MainActivity extends UIDActivity {
 
             Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
             Context themedContext = UIDContextWrapper.getThemedContext(holder.itemView.getContext(), theme);
-            ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_recyclerview_background_selector);
+            ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_list_item_background_selector);
             final int selectedStateColor = colorStateList.getDefaultColor();
 
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
