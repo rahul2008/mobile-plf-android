@@ -35,32 +35,30 @@
     "servicediscovery.propositionEnabled":true,
     "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
     "logging.releaseConfig":{
-      "fileName":"AppInfraLog",
-      "numberOfFiles":5,
-      "fileSizeInBytes":50000,
-      "logLevel":"Off",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
-      "componentIds": [
-        "DemoAppInfra",
-        "Registration"
-      ]
-    },
-    "logging.debugConfig":{
-      "fileName":"AppInfraLog",
-      "numberOfFiles":5,
-      "fileSizeInBytes":50000,
-      "logLevel":"Info",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
-      "componentIds": [
-
-        "DemoAppInfra",
-        "Registration","component1"
-      ]
-    }
+      "logging.releaseConfig":{
+        "fileName":"AppInfraLog",
+        "numberOfFiles":5,
+        "fileSizeInBytes":50000,
+        "logLevel":"Warn",
+        "fileLogEnabled":false,
+        "consoleLogEnabled":true,
+        "componentLevelLogEnabled":true,
+        "componentIds": [
+          "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
+        ]
+      },
+      "logging.debugConfig":{
+        "fileName":"AppInfraLog",
+        "numberOfFiles":5,
+        "fileSizeInBytes":50000,
+        "logLevel":"All",
+        "fileLogEnabled":false,
+        "consoleLogEnabled":true,
+        "componentLevelLogEnabled":true,
+        "componentIds": [
+          "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
+        ]
+      }
   },
   "ReferenceApp":{
     "PushNotification.autoLogout":"true",

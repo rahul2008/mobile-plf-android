@@ -218,6 +218,7 @@ public class AppFrameworkApplication extends Application {
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         appInfra = createAppInfraInstance();
         loggingInterface = appInfra.getLogging();
+        loggingInterface.createInstanceForComponent("rap",BuildConfig.VERSION_NAME);
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
