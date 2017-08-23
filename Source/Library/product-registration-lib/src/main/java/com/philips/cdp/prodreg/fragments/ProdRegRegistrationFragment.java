@@ -326,7 +326,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                         mMonthInt = mCalendar.get(Calendar.MONTH);
                         mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                     }
-                    datePickerDialog = new DatePickerDialog(mActivity, myDateListener, mYear, mMonthInt, mDay);
+                    datePickerDialog = new DatePickerDialog(mActivity,R.style.UIDDatePickerDialogTheme,
+                            myDateListener, mYear, mMonthInt, mDay);
                     final ProdRegUtil prodRegUtil = new ProdRegUtil();
                     datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
                     datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
@@ -346,7 +347,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             public void onClick(final View v) {
                 // registerButton.setEnabled(false);
                 isRegisterButtonClicked = true;
-                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(), field_serial.getText().toString());
+                prodRegRegistrationController.registerProduct(date_EditText.getText().toString(),
+                        field_serial.getText().toString());
             }
         };
     }
