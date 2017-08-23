@@ -18,7 +18,7 @@
             android:id="@+id/device_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/prodreg_placeholder"
@@ -57,6 +57,7 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ok_found_button"
+            style="@style/ButtonTexts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

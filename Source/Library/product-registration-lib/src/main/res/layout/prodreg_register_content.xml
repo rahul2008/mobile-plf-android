@@ -114,6 +114,7 @@
         android:id="@+id/prg_registerScreen_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/ButtonTexts"
         android:layout_below="@+id/prg_registerScreen_dateOfPurchase_Layout"
         android:layout_marginBottom="@dimen/pr_marginbottom"
         android:layout_marginTop="@dimen/pr_margintop"

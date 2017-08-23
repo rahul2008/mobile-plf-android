@@ -63,6 +63,11 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
+    <style name="ButtonTexts">
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
     <!--<style name="DatePickerStyle">-->
         <!--<item name="android:textColor">#0066a1</item>-->
         <!--<item name="android:textSize">15sp</item>-->
