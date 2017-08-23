@@ -15,9 +15,9 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 public class NullApplianceDatabase implements ApplianceDatabase {
 
     @Override
-    public long save(Appliance appliance) {
+    public boolean save(Appliance appliance) {
         // NOP
-        return 0;
+        return false;
     }
 
     @Override
@@ -26,9 +26,9 @@ public class NullApplianceDatabase implements ApplianceDatabase {
     }
 
     @Override
-    public int delete(Appliance appliance) {
+    public boolean delete(Appliance appliance) {
         // NOP
-        return 0;
+        return false;
     }
 
 }
