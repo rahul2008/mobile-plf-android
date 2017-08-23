@@ -37,4 +37,5 @@
 
     <!-- Welcome Screen-->
     <dimen name="ths_see_provider">28dp</dimen>
+    <dimen name="ths_32dp">32dp</dimen>
 </resources>

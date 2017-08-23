@@ -38,6 +38,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
     private Label mChangeAppointDateView;
     private RelativeLayout providerListItemLayoutBasedOnDate;
+    private ImageView imageView;
 
     @Nullable
     @Override
@@ -47,6 +48,8 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
             getActionBarListener().updateActionBar(getString(R.string.ths_pick_a_provider), true);
         }
 
+        imageView = (ImageView) view.findViewById(R.id.ths_providerlist_right_arrow_icon);
+        imageView.setVisibility(View.INVISIBLE);
         mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
         providerListItemLayoutBasedOnDate = (RelativeLayout) view.findViewById(R.id.providerListItemLayoutBasedOnDate);
