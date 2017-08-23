@@ -79,26 +79,27 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
         mTHSAvailableProviderList = availableProviderses;
 
-        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
+        if(getContext()!=null){
+            mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
 
-        List<THSAvailableProvider> listOfProviderInfos = new ArrayList();
-        for (AvailableProvider availableProvider:availableProviderses.getAvailableProvidersList()) {
-            THSAvailableProvider thsProviderInfo = new THSAvailableProvider();
-            thsProviderInfo.setAvailableProvider(availableProvider);
-            listOfProviderInfos.add(thsProviderInfo);
-        }
-        THSProvidersListAdapter adapter= new THSProvidersListAdapter(listOfProviderInfos);
-
-        mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() +" "+ getString(R.string.ths_available_location_specialists_string));
-
-        adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
-            @Override
-            public void onItemClick(THSProviderEntity item) {
-                mTHSAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(item,mDate,mPractice);
+            List<THSAvailableProvider> listOfProviderInfos = new ArrayList();
+            for (AvailableProvider availableProvider : availableProviderses.getAvailableProvidersList()) {
+                THSAvailableProvider thsProviderInfo = new THSAvailableProvider();
+                thsProviderInfo.setAvailableProvider(availableProvider);
+                listOfProviderInfos.add(thsProviderInfo);
             }
-        });
-        recyclerView.setAdapter(adapter);
+            THSProvidersListAdapter adapter = new THSProvidersListAdapter(listOfProviderInfos);
 
+            mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() + " " + getString(R.string.ths_available_location_specialists_string));
+
+            adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
+                @Override
+                public void onItemClick(THSProviderEntity item) {
+                    mTHSAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(item, mDate, mPractice);
+                }
+            });
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override

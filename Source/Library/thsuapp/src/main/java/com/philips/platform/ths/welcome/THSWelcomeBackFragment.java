@@ -21,8 +21,10 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,6 +39,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     private THSWelcomeBackPresenter mThsWelcomeBackPresenter;
     private PracticeInfo mPracticeInfo;
     private Provider mProvider;
+    private RatingBar mRatingBar;
 
     @Nullable
     @Override
@@ -50,6 +53,9 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         mBtnGetStarted = (Button) view.findViewById(R.id.ths_get_started);
         mBtnGetStarted.setOnClickListener(this);
 
+        mRatingBar = (RatingBar) view.findViewById(R.id.providerRatingValue);
+        mRatingBar.setVisibility(View.VISIBLE);
+
         final Bundle arguments = getArguments();
         Long date = arguments.getLong(THSConstants.THS_DATE);
         mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
@@ -59,7 +65,17 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         String text = getString(R.string.ths_appointment_start_time,format);
 
         mLabel.setText(text);
+        mRatingBar.setRating(mProvider.getRating());
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome_back),true);
+        }
     }
 
     @Override
