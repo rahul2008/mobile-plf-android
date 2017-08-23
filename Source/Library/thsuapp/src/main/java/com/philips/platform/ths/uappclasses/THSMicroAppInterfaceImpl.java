@@ -46,7 +46,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            THSBaseFragment welcomeFragment = new THSWelcomeFragment();
+            THSWelcomeFragment welcomeFragment = new THSWelcomeFragment();
             Bundle bundle = new Bundle();
             welcomeFragment.setArguments(bundle);
             welcomeFragment.setActionBarListener(fragmentLauncher.getActionbarListener());

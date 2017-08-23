@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.pharmacy.PharmacyType;
 import com.google.android.gms.maps.CameraUpdate;
@@ -43,11 +44,13 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
@@ -123,7 +126,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if (item.getItemId() == R.id.ths_provider_search) {
             THSSearchFragment thsSearchFragment = new THSSearchFragment();
             thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
-            thsSearchFragment.setTargetFragment(this,THSConstants.PHARMACY_SEARCH_CONSTANT);
+            thsSearchFragment.setTargetFragment(this, THSConstants.PHARMACY_SEARCH_CONSTANT);
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
@@ -250,7 +253,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if (v.getId() == R.id.ths_pharmacy_search) {
             THSSearchFragment thsSearchFragment = new THSSearchFragment();
             thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
-            thsSearchFragment.setTargetFragment(this,THSConstants.PHARMACY_SEARCH_CONSTANT);
+            thsSearchFragment.setTargetFragment(this, THSConstants.PHARMACY_SEARCH_CONSTANT);
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
@@ -378,9 +381,15 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
             addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null);
         } else {
-            THSInsuranceConfirmationFragment thsInsuranceConfirmationFragment = new THSInsuranceConfirmationFragment();
-            thsInsuranceConfirmationFragment.setFragmentLauncher(getFragmentLauncher());
-            addFragment(thsInsuranceConfirmationFragment, THSInsuranceConfirmationFragment.TAG, null);
+
+            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            } else {
+                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+            }
         }
 
     }

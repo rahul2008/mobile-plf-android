@@ -1,6 +1,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="ths_nopp"><u>Notice of Privacy Practices.</u></string>
+
+
+    <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
     <string name="action_settings">Settings</string>
     <string name="ths_vitals_prepare_visit_title">Prepare your visit</string>
     <string name="app_name">AmwellUapp</string>
@@ -172,4 +174,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_available_location_specialists_string">available location specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
 
+    <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
+    <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>
+    <string name="hippa_notice">HIPPA notice</string>
+    <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
 </resources>

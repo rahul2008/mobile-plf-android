@@ -143,7 +143,7 @@ public class THSManager {
     private AWSDK mAwsdk = null;
     private THSConsumer mTHSConsumer = null;
     private THSVisitContext mVisitContext = null;
-    private THSVisit  mTHSVisit;
+
 
     @VisibleForTesting
     private User mUser;
@@ -154,13 +154,7 @@ public class THSManager {
     public boolean TEST_FLAG = false;
 
 
-    public THSVisit getTHSVisit() {
-        return mTHSVisit;
-    }
 
-    public void setTHSVisit(THSVisit mTHSVisit) {
-        this.mTHSVisit = mTHSVisit;
-    }
 
     public THSVisitContext getPthVisitContext() {
         return mVisitContext;
@@ -1143,8 +1137,8 @@ public class THSManager {
         });
 
     }
-    public void startVisit(Context context , final Intent intent,final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().startVisit(getTHSVisit().getVisit(), getTHSVisit().getVisit().getConsumer().getAddress(), intent,new StartVisitCallback() {
+    public void startVisit(Context context ,Visit visit,  final Intent intent,final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().startVisit(visit, visit.getConsumer().getAddress(), intent,new StartVisitCallback() {
             @Override
             public void onProviderEntered(@NonNull Intent intent) {
                 thsStartVisitCallback.onProviderEntered(intent);
@@ -1192,8 +1186,8 @@ public class THSManager {
         });
     }
 
-    public void cancelVisit(Context context, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().cancelVisit(getTHSVisit().getVisit(), new SDKCallback<Void, SDKError>() {
+    public void cancelVisit(Context context,Visit visit, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().cancelVisit(visit, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 tHSSDKCallback.onResponse(aVoid, sdkError);
@@ -1292,8 +1286,8 @@ public class THSManager {
         });
     }
 
-    public void getVisitSummary(Context context, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().getVisitSummary(getTHSVisit().getVisit(), new SDKCallback<VisitSummary, SDKError>() {
+    public void getVisitSummary(Context context,Visit visit, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().getVisitSummary(visit, new SDKCallback<VisitSummary, SDKError>() {
             @Override
             public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
                 THSVisitSummary thsVisitSummary = new THSVisitSummary();
@@ -1327,8 +1321,8 @@ public class THSManager {
 
     }
 
-    public void sendRatings(Context context, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
-        getAwsdk(context).getVisitManager().sendRatings(getTHSVisit().getVisit(), providerRating, visitRating, new SDKCallback<Void, SDKError>() {
+    public void sendRatings(Context context,Visit visit, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
+        getAwsdk(context).getVisitManager().sendRatings(visit, providerRating, visitRating, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 thssdkCallback.onResponse(aVoid,sdkError);
