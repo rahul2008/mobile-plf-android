@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/reg_layout_margin_12dp"
+            android:layout_marginTop="@dimen/reg_margin_24"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_margin_24"
+            android:paddingBottom="@dimen/reg_layout_margin_12dp"
             android:weightSum="1">
 
             <com.philips.platform.uid.view.widget.Label
@@ -28,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:layout_marginTop="@dimen/reg_margin_top_24"
                 android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
                 android:textSize="@dimen/reg_error_alert_size"
                 android:textStyle="bold"/>
