@@ -1,4 +1,3 @@
-rootProject.setName 'uid'
 include ':app'
 include ':uid'
 project(':uid').projectDir = new File('../UIKit/uid')
