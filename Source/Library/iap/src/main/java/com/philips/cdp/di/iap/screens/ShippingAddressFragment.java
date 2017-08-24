@@ -181,6 +181,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private EditText mEtPhone1Billing;
     private SalutationDropDown mSalutationDropDownBilling;
     private StateDropDown mStateDropDownBilling;
+    private Validator mValidator;
 
     //Billing Address
     private AddressFields mBillingAddressFields;
@@ -362,7 +363,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 //        showUSRegions();
 //        mEtCountry.setEnabled(false);
 
-
+        mValidator = new Validator();
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
@@ -744,11 +745,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
 
-        if (inputValidatorFirstName.validate(firstName) && inputValidatorLastName.validate(lastName)
-                && inputValidatorAddressLineOne.validate(addressLineOne) && (addressLineTwo.trim().equals("") || inputValidatorAddressLineTwo.validate(addressLineTwo))
-                && inputValidatorPostalCode.validate(postalCode)
-                && inputValidatorEmail.validate(email) && inputValidatorPhone.validate(phone1)
-                && inputValidatorTown.validate(town) && inputValidatorCountry.validate(country)
+        if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
+                && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
+                && mValidator.isValidPostalCode(postalCode)
+                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
+                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
