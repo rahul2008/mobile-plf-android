@@ -12,7 +12,7 @@
 <string name="PPR_Reg_In_Web_Lbltxt">Eller registrera produkten i webbversionen på www.phlips.com</string>
 <string name="PPR_Back_Btntxt">Tillbaka</string>
 <string name="PPR_Connect_Product_Btntxt">Anslut en produkt</string>
-<string name="PPR_RegSuccess_Lbltxt">Har registrerats!</string>
+<string name="PPR_RegSuccess_Lbltxt">Har registrerats</string>
 <string name="PPR_Extended_Warranty_Lbltxt">Garantiperioden har utökats till</string>
 <string name="PPR_Eamil_Sent_Lbltxt">Ett e-postmeddelande med en utökad garanti har skickats till din e-postadress</string>
 <string name="PPR_Thank_You_Lbltxt">Tack för att du väljer Philips produkter!</string>

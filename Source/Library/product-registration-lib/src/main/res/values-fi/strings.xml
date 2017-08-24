@@ -12,7 +12,7 @@
 <string name="PPR_Reg_In_Web_Lbltxt">Voit rekisteröidä tuotteen myös verkkosivuillamme osoitteessa www.philips.com.</string>
 <string name="PPR_Back_Btntxt">Takaisin</string>
 <string name="PPR_Connect_Product_Btntxt">Yhdistä laite</string>
-<string name="PPR_RegSuccess_Lbltxt">Rekisteröinti onnistui!</string>
+<string name="PPR_RegSuccess_Lbltxt">Rekisteröinti onnistui</string>
 <string name="PPR_Extended_Warranty_Lbltxt">Takuuta on pidennetty ja uusi takuuaika päättyy</string>
 <string name="PPR_Eamil_Sent_Lbltxt">Pidennettyä takuuta koskevat tiedot on lähetetty sähköpostiosoitteeseesi.</string>
 <string name="PPR_Thank_You_Lbltxt">Kiitos, että valitsit Philipsin!</string>

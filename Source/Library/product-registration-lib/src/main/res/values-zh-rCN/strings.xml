@@ -12,7 +12,7 @@
 <string name="PPR_Reg_In_Web_Lbltxt">或者，通过 www.philips.com 在 Web 版本中注册您的产品</string>
 <string name="PPR_Back_Btntxt">返回</string>
 <string name="PPR_Connect_Product_Btntxt">连接产品</string>
-<string name="PPR_RegSuccess_Lbltxt">已成功注册！</string>
+<string name="PPR_RegSuccess_Lbltxt">已成功注册 </string>
 <string name="PPR_Extended_Warranty_Lbltxt">您的保修期已延长至</string>
 <string name="PPR_Eamil_Sent_Lbltxt">已向您的电子邮件地址发送了一封含延长保修合同的电子邮件</string>
 <string name="PPR_Thank_You_Lbltxt">感谢您选择飞利浦产品！</string>

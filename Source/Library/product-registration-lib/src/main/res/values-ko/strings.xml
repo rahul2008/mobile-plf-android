@@ -12,7 +12,7 @@
 <string name="PPR_Reg_In_Web_Lbltxt">또는 웹 사이트(www.philips.com)에서 제품을 웹 버전으로 등록하십시오.</string>
 <string name="PPR_Back_Btntxt">뒤로</string>
 <string name="PPR_Connect_Product_Btntxt">제품 연결</string>
-<string name="PPR_RegSuccess_Lbltxt">등록이 완료되었습니다!</string>
+<string name="PPR_RegSuccess_Lbltxt">등록이 완료되었습니다</string>
 <string name="PPR_Extended_Warranty_Lbltxt">다음까지 보증 기간 연장됨:</string>
 <string name="PPR_Eamil_Sent_Lbltxt">연장된 보증 계약서가 포함된 이메일이 고객님의 이메일 주소로 전송되었습니다.</string>
 <string name="PPR_Thank_You_Lbltxt">필립스 제품을 구입해 주셔서 감사합니다.</string>

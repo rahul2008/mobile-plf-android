@@ -12,7 +12,7 @@
 <string name="PPR_Reg_In_Web_Lbltxt">Ou enregistrez votre produit en ligne au www.philips.com</string>
 <string name="PPR_Back_Btntxt">Retour</string>
 <string name="PPR_Connect_Product_Btntxt">Connecter un produit</string>
-<string name="PPR_RegSuccess_Lbltxt">Produit enregistré!</string>
+<string name="PPR_RegSuccess_Lbltxt">Produit enregistré</string>
 <string name="PPR_Extended_Warranty_Lbltxt">Votre période de garantie a été prolongée jusqu\'au</string>
 <string name="PPR_Eamil_Sent_Lbltxt">Vous recevrez par courriel le contrat relatif à cette période de garantie prolongée</string>
 <string name="PPR_Thank_You_Lbltxt">Merci d\'avoir choisi les produits Philips!</string>

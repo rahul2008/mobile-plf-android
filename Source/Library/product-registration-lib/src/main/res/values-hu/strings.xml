@@ -12,7 +12,7 @@
 <string name="PPR_Reg_In_Web_Lbltxt">Vagy regisztrálja termékét a webes változaton: www.philips.com</string>
 <string name="PPR_Back_Btntxt">Vissza</string>
 <string name="PPR_Connect_Product_Btntxt">Termék csatlakoztatása</string>
-<string name="PPR_RegSuccess_Lbltxt">A regisztrálás sikeres!</string>
+<string name="PPR_RegSuccess_Lbltxt">A regisztrálás sikeres</string>
 <string name="PPR_Extended_Warranty_Lbltxt">A garancia időtartamát kiterjesztettük a következő dátumig:</string>
 <string name="PPR_Eamil_Sent_Lbltxt">A kiterjesztett garanciaszerződést tartalmazó e-mailt elküldtük az e-mail címére</string>
 <string name="PPR_Thank_You_Lbltxt">Köszönjük, hogy Philips terméket választott!</string>
