@@ -1,5 +1,6 @@
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -27,6 +28,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,12 +43,20 @@ public class WelcomeVideoPagerFragmentTest {
     private TextureVideoView textureVideoView;
     private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
 
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    private static WelcomeVideoFragmentContract.Presenter presenter;
+
+
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
+        presenter = mock(WelcomeVideoPresenter.class);
         activityController = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
         launchActivity = activityController.create().start().resume().visible().get();
-        welcomeVideoPagerFragment =  new WelcomeVideoPagerFragment();
+        welcomeVideoPagerFragment =  new WelcomeVideoPagerFragmentMock();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeVideoPagerFragment,null).commit();
         thumbNail = (ImageView) welcomeVideoPagerFragment.getView().findViewById(R.id.thumb_nail);
         textureVideoView = (TextureVideoView) welcomeVideoPagerFragment.getView().findViewById(R.id.onboarding_video);
@@ -94,7 +104,7 @@ public class WelcomeVideoPagerFragmentTest {
     public void thumbNailClickTest() {
         thumbNail.setVisibility(View.VISIBLE);
         thumbNail.performClick();
-        assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
+        verify(presenter, times(1)).fetchVideoDataSource();
     }
 
     @Test
@@ -117,8 +127,16 @@ public class WelcomeVideoPagerFragmentTest {
         launchActivity = null;
         thumbNail = null;
         play = null;
+        presenter = null;
         textureVideoView = null;
         activityController = null;
+    }
+
+    public static class WelcomeVideoPagerFragmentMock extends WelcomeVideoPagerFragment {
+        @Override
+        protected WelcomeVideoFragmentContract.Presenter getWelcomeVideoPagerPresenter() {
+            return presenter;
+        }
     }
 }
 

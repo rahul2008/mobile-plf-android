@@ -62,6 +62,10 @@ public class PushNotificationManager {
         this.pushNotificationUserRegistationWrapperInterface=pushNotificationUserRegistationWrapperInterface;
     }
 
+    public PushNotificationUserRegistationWrapperInterface getPushNotificationUserRegistationWrapperInterface () {
+        return pushNotificationUserRegistationWrapperInterface;
+    }
+
     /**
      * Register common component for payload
      * @param handleNotificationPayloadInterface
