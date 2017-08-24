@@ -59,7 +59,7 @@ public class RecyclerViewHeaderTest {
 
     @Test
     public void verifyHeaderBGColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentTertiaryBackgroundColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentSecondaryBackgroundColor);
         getHeader().check(matches(TextViewPropertiesMatchers.sameBackgroundColor(expectedColor)));
     }
 
