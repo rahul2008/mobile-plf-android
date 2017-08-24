@@ -344,9 +344,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mShippingAddressFields = new AddressFields();
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
+        mEtEmailBilling.setEnabled(false);
         mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
         showUSRegions();
         mEtCountry.setEnabled(false);
+        mEtCountryBilling.setEnabled(false);
 
         //should it be done for billing address -- Indrajit
 
@@ -372,6 +374,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtPhone1.addTextChangedListener(new IAPTextWatcher(mEtPhone1));
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
+
+        Bundle bundle = getArguments();
+        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            updateFields();
+        }
 
         setImageArrow();
         mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
@@ -437,12 +444,13 @@ public class ShippingAddressFragment extends InAppBaseFragment
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    mSameAsShippingAddress.setVisibility(View.VISIBLE);
+                    //mSameAsShippingAddress.setVisibility(View.VISIBLE);
                     //disableAllFields();
-                    prePopulateShippingAddress();
+                    mBillingAddressFields = mShippingAddressFields;
+                    prePopulateBillingAddress();
                     mBtnContinue.setEnabled(true);
                 } else {
-                    mSameAsShippingAddress.setVisibility(View.GONE);
+                    // mSameAsShippingAddress.setVisibility(View.GONE);
                     clearAllBillingFields();
                     mBtnContinue.setEnabled(false);
                 }
@@ -455,24 +463,25 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     private void clearAllBillingFields() {
         mIgnoreTextChangeListener = true;
-        mEtFirstName.setText("");
-        mEtLastName.setText("");
-        mEtSalutation.setText("");
-        mEtAddressLineOne.setText("");
-        mEtAddressLineTwo.setText("");
-        mEtTown.setText("");
-        mEtPostalCode.setText("");
-        mEtPhone1.setText("");
+        mEtFirstNameBilling.setText("");
+        mEtLastNameBilling.setText("");
+        mEtSalutationBilling.setText("");
+        mEtAddressLineOneBilling.setText("");
+        mEtAddressLineTwoBilling.setText("");
+        mEtEmailBilling.setText("");
+        mEtTownBilling.setText("");
+        mEtPostalCodeBilling.setText("");
+        mEtPhone1Billing.setText("");
 //        mEtPhone2.setText("");
-        mEtState.setText("");
+        mEtStateBilling.setText("");
         if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
-            mlLState.setVisibility(View.VISIBLE);
+            mlLStateBilling.setVisibility(View.VISIBLE);
         } else {
-            mlLState.setVisibility(View.GONE);
+            mlLStateBilling.setVisibility(View.GONE);
         }
         mIgnoreTextChangeListener = false;
-        enableAllFields();
-        enableFocus();
+        // enableAllFields();
+        // enableFocus();
         //removeErrorInAllFields();
     }
 
@@ -546,29 +555,29 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtCountry.setEnabled(false);
     }
 
-    private void prePopulateShippingAddress() {
+    private void prePopulateBillingAddress() {
         mIgnoreTextChangeListener = true;
 
         if (mBillingAddressFields != null) {
-            mEtFirstName.setText(mBillingAddressFields.getFirstName());
-            mEtLastName.setText(mBillingAddressFields.getLastName());
-            mEtSalutation.setText(mBillingAddressFields.getTitleCode());
-            mEtAddressLineOne.setText(mBillingAddressFields.getLine1());
-            mEtAddressLineTwo.setText(mBillingAddressFields.getLine2());
-            mEtTown.setText(mBillingAddressFields.getTown());
-            mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
-            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-            mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+            mEtFirstNameBilling.setText(mBillingAddressFields.getFirstName());
+            mEtLastNameBilling.setText(mBillingAddressFields.getLastName());
+            mEtSalutationBilling.setText(mBillingAddressFields.getTitleCode());
+            mEtAddressLineOneBilling.setText(mBillingAddressFields.getLine1());
+            mEtAddressLineTwoBilling.setText(mBillingAddressFields.getLine2());
+            mEtTownBilling.setText(mBillingAddressFields.getTown());
+            mEtPostalCodeBilling.setText(mBillingAddressFields.getPostalCode());
+            mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
 
             if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
                     mBillingAddressFields.getRegionName() != null) {
-                mEtState.setText(mBillingAddressFields.getRegionName());
-                mlLState.setVisibility(View.VISIBLE);
+                mEtStateBilling.setText(mBillingAddressFields.getRegionName());
+                mlLStateBilling.setVisibility(View.VISIBLE);
             } else {
-                mlLState.setVisibility(View.GONE);
+                mlLStateBilling.setVisibility(View.GONE);
             }
             mIgnoreTextChangeListener = false;
-            mEtPhone1.setText(mBillingAddressFields.getPhone1());
+            mEtPhone1Billing.setText(mBillingAddressFields.getPhone1());
         }
         //setTextColor();
     }
@@ -630,20 +639,20 @@ public class ShippingAddressFragment extends InAppBaseFragment
 //                    mAddressController.updateAddress(addressHashMap);
 //                }
 //            } else {//Add new address
-                if (!isProgressDialogShowing()) {
-                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                    if (mlLState.getVisibility() == View.GONE)
-                        mShippingAddressFields.setRegionIsoCode(null);
-                    if (CartModelContainer.getInstance().getAddressId() != null) {
-                        HashMap<String, String> updateAddressPayload = addressPayload();
-                        if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
-                            updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
-                        updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
-                        mAddressController.updateAddress(updateAddressPayload);
-                    } else {
-                        mAddressController.createAddress(mShippingAddressFields);
-                    }
+            if (!isProgressDialogShowing()) {
+                showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                if (mlLState.getVisibility() == View.GONE)
+                    mShippingAddressFields.setRegionIsoCode(null);
+                if (CartModelContainer.getInstance().getAddressId() != null) {
+                    HashMap<String, String> updateAddressPayload = addressPayload();
+                    if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
+                        updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+                    updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+                    mAddressController.updateAddress(updateAddressPayload);
+                } else {
+                    mAddressController.createAddress(mShippingAddressFields);
                 }
+            }
 //            }
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
@@ -1030,7 +1039,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         return addressHashMap;
     }
 
-    @SuppressWarnings("unchecked")
     private void updateFields() {
         Bundle bundle = getArguments();
         mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
