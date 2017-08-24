@@ -242,9 +242,11 @@ class LoggingConfiguration {
                     if (handler instanceof FileHandler) {
                         handler.close(); // flush and close connection of file
                         mJavaLogger.removeHandler(handler);
-                        mFileHandler.flush();
-                        mFileHandler.close();
-                        mFileHandler = null;
+                        if (mFileHandler != null) {
+                            mFileHandler.flush();
+                            mFileHandler.close();
+                            mFileHandler = null;
+                        }
                     }
                 }
             }
