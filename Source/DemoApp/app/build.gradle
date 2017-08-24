@@ -36,7 +36,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "iapApp"
 
 group = 'com.philips.cdp'
 version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
@@ -167,11 +167,11 @@ android {
             android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
             android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
         } else {
-            println 'NOPE - signing.properties NOT found'
+            println 'iap NOPE - signing.properties NOT found'
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'signing.properties not found'
+        println 'iap signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
     /*
