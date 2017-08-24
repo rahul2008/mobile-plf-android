@@ -17,7 +17,7 @@ import java.util.Map;
 public class IAPServiceDiscoveryWrapper {
     private IAPSettings mIAPSettings;
     private ArrayList<String> listOfServiceId;
-    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     IAPServiceDiscoveryWrapper(IAPSettings pIAPSettings) {
