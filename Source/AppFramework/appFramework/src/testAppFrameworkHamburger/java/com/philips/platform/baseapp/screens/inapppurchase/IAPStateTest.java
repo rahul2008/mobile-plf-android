@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.inapppurchase;
 
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -28,8 +29,8 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class IAPStateTest extends TestCase {
     private IAPRetailerFlowState iapRetailerFlowState;
     private FragmentLauncher fragmentLauncher;

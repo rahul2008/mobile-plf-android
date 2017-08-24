@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -40,8 +41,8 @@ import static junit.framework.Assert.assertFalse;
 /**
  * Test for BLEScanDialogFragment
  */
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class BLEScanDialogFragmentTest {
 
     private BLEScanDialogFragment bleScanDialogFragment;

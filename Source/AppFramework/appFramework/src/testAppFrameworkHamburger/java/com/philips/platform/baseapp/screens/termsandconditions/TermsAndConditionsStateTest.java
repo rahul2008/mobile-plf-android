@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.termsandconditions;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -28,8 +29,8 @@ import static org.robolectric.Shadows.shadowOf;
 /**
  * Created by philips on 27/07/17.
  */
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class TermsAndConditionsStateTest extends TestCase{
     private TermsAndConditionsState termsAndConditionsState;
     private FragmentLauncher fragmentLauncher;

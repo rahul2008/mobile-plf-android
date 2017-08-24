@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.utility;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 
@@ -17,8 +18,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class BaseAppUtilTest extends TestCase {
     BaseAppUtil baseAppUtil;
 

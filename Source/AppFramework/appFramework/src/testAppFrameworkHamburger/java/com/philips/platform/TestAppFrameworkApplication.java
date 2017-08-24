@@ -30,8 +30,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     public AppInfraInterface appInfra;

@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.splash;
 
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -27,8 +28,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class SplashStateTest extends TestCase {
     private SplashState splashState;
     private FragmentLauncher fragmentLauncher;

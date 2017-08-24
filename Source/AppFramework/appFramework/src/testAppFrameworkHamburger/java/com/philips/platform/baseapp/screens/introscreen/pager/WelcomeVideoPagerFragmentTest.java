@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -33,8 +34,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class WelcomeVideoPagerFragmentTest {
 
     private WelcomeVideoPagerFragment welcomeVideoPagerFragment;

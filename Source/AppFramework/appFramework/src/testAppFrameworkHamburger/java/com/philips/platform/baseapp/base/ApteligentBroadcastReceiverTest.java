@@ -8,6 +8,7 @@ package com.philips.platform.baseapp.base;
 import android.content.Intent;
 
 import com.crittercism.app.Crittercism;
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -39,9 +40,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 @PrepareForTest(Crittercism.class)
 public class ApteligentBroadcastReceiverTest {
     private ApteligentBroadcastReceiver broadcastReceiver;

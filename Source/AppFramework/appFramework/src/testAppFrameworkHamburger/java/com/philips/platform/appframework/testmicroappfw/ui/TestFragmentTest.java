@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -31,8 +32,8 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class TestFragmentTest extends TestCase implements TestConfigManager.TestConfigCallback{
     private HamburgerActivity hamburgerActivity = null;
     private TestFragment testFragment;
