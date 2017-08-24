@@ -157,7 +157,7 @@ android {
             keyAlias 'philips'
             keyPassword 'philips'
 			//FIXME: path incorrect
-            storeFile project.file('/../extra/signing/UIT_GoogleBeta_KeyStore.jks"
+            storeFile project.file('/../extra/signing/UIT_GoogleBeta_KeyStore.jks')
             storePassword 'philips'
         }
         debug {
