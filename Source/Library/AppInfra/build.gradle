@@ -38,7 +38,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name
+archivesBaseName = "AppInfra"
 
 allprojects {
     repositories {
@@ -197,7 +197,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    def propFile = new File('signing.properties')
+    def propFile = new File("${projectDir}/signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
@@ -211,7 +211,7 @@ android {
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'signing.properties not found'
+        println 'ail signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
 }
