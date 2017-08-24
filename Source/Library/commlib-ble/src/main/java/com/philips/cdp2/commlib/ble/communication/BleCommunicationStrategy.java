@@ -41,6 +41,8 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
 
     private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
 
+    private static final long CONNECTION_TIMEOUT = 30000L;
+
     @NonNull
     private final String cppId;
     @NonNull
@@ -192,7 +194,7 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     public void enableCommunication() {
         if (isAvailable()) {
             SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
-            device.connect();
+            device.connect(CONNECTION_TIMEOUT);
         }
         disconnectAfterRequest.set(false);
     }
