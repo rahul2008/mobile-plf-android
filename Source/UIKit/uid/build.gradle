@@ -42,7 +42,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name
+archivesBaseName = 'uid'
 
 allprojects {
     repositories {
@@ -156,7 +156,7 @@ android {
 
     signingConfigs {
         debug {
-            storeFile project.rootProject.file('../CatalogApp/extra/signing/debug.keystore')
+            storeFile project.file('../../CatalogApp/extra/signing/debug.keystore')
         }
     }
 

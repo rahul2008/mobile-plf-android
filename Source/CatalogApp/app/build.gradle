@@ -47,7 +47,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "uidApp"
 
 group = 'com.philips.cdp'
 version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
@@ -156,11 +156,12 @@ android {
         TestPhilipsStore {
             keyAlias 'philips'
             keyPassword 'philips'
-            storeFile project.rootProject.file('extra/signing/UIT_GoogleBeta_KeyStore.jks')
+			//FIXME: path incorrect
+            storeFile project.file('/../extra/signing/UIT_GoogleBeta_KeyStore.jks"
             storePassword 'philips'
         }
         debug {
-            storeFile project.rootProject.file('extra/signing/debug.keystore')
+            storeFile project.file('/../extra/signing/debug.keystore')
         }
     }
 
