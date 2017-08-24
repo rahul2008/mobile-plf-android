@@ -246,6 +246,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        CartModelContainer.getInstance().clearCategorisedProductList();
         EventHelper.getInstance().unregisterEventNotification
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
     }

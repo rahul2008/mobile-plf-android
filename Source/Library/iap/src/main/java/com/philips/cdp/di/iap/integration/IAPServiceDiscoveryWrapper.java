@@ -17,18 +17,50 @@ import java.util.Map;
 public class IAPServiceDiscoveryWrapper {
     private IAPSettings mIAPSettings;
     private ArrayList<String> listOfServiceId;
-    protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
-
+    private ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
+    private ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     IAPServiceDiscoveryWrapper(IAPSettings pIAPSettings) {
         mIAPSettings = pIAPSettings;
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add("iap.baseurl");
+        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
+        serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+
     }
 
+    void initializeStoreFromServiceDiscoveryResponse(final IAPHandler iapHandler) {
+
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
+                Collection<ServiceDiscoveryService> collection = map.values();
+
+                List<ServiceDiscoveryService> list = new ArrayList<>();
+                list.addAll(collection);
+                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+
+                String locale = serviceDiscoveryService.getLocale();
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+                if (configUrls == null) {
+                    mIAPSettings.setUseLocalData(true);
+                } else {
+                    mIAPSettings.setUseLocalData(false);
+                }
+                iapHandler.initIAPRequisite();
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+            }
+        };
+        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
+    }
+
+
     void getLocaleFromServiceDiscovery(final UiLauncher pUiLauncher, final IAPHandler pIAPHandler, final IAPLaunchInput pIapLaunchInput, final IAPListener iapListener, final String entry) {
-        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
-        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
 
         serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
