@@ -46,7 +46,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "product-registration-libApp"
 
 allprojects {
     repositories {
@@ -179,11 +179,11 @@ android {
             android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
             android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
         } else {
-            println 'NOPE - signing.properties NOT found'
+            println 'prg NOPE - signing.properties NOT found'
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'signing.properties not found'
+        println 'prg signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
     /*

@@ -1,2 +1,1 @@
-rootProject.setName 'product-registration-lib'
 include ':product-registration-lib'
