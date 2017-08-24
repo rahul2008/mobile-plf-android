@@ -33,7 +33,6 @@ public class ScheduleSyncReceiver {
 
     public void onReceive(final Context context) {
         mDataServices = DataServicesManager.getInstance();
-        mDataServices.clearExpiredMoments(null);
         //TODO: review changing connection
         if (mUtility.isOnline(context)) {
             DSLog.i(DSLog.LOG,"START SYNC FROM REC");
