@@ -34,12 +34,12 @@ import java.util.StringTokenizer;
 
 public class GroomHelper {
 
-    private final KeyBagLib keyBagLib;
+    private final GroomLib groomLib;
     private JSONObject rootJsonObject;
     private AppInfra mAppInfra;
 
     GroomHelper(AppInfra appInfra) {
-        keyBagLib = new KeyBagLib();
+        groomLib = new GroomLib();
         this.mAppInfra = appInfra;
     }
 
@@ -115,14 +115,14 @@ public class GroomHelper {
     }
 
     String ailGroom(String data, int seed) {
-        char[] chars = keyBagLib.ailGroom(data.toCharArray(), seed);
+        char[] chars = groomLib.ailGroom(data.toCharArray(), seed);
         if (chars != null && chars.length > 0) {
             return new String(chars);
         }
         return null;
     }
 
-    void mapResponse(Map<String, ServiceDiscoveryService> keyBagUrlMap, List<AIKMService> aiKmServices, Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
+    void mapResponse(Map<String, ServiceDiscoveryService> map, List<AIKMService> aiKmServices, Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
         for (Map.Entry<String, ServiceDiscoveryService> entry : serviceDiscoveryUrlMap.entrySet()) {
             String key = entry.getKey();
             ServiceDiscoveryService value = entry.getValue();
@@ -131,20 +131,20 @@ public class GroomHelper {
             aikmService.init(value.getLocale(), value.getConfigUrls());
             aikmService.setmError(value.getmError());
 
-            ServiceDiscoveryService keyBagValue = keyBagUrlMap.get(key.concat(".kindex"));
-            if (keyBagValue != null) {
-                String keyBagHelperIndex = getGroomIndex(keyBagValue.getConfigUrls());
-                mapAndValidateGroom(aikmService, entry.getKey(), keyBagHelperIndex);
+            ServiceDiscoveryService serviceDiscoveryService = map.get(key.concat(".kindex"));
+            if (serviceDiscoveryService != null) {
+                String groomIndex = getGroomIndex(serviceDiscoveryService.getConfigUrls());
+                mapAndValidateGroom(aikmService, entry.getKey(), groomIndex);
             }
             aiKmServices.add(aikmService);
         }
     }
 
-    void mapAndValidateGroom(AIKMService aikmService, String serviceId, String keyBagHelperIndex) {
-        if (serviceId != null && !TextUtils.isEmpty(keyBagHelperIndex)) {
+    void mapAndValidateGroom(AIKMService aikmService, String serviceId, String groomIndex) {
+        if (serviceId != null && !TextUtils.isEmpty(groomIndex)) {
             int index;
             try {
-                index = Integer.parseInt(keyBagHelperIndex);
+                index = Integer.parseInt(groomIndex);
             } catch (NumberFormatException e) {
                 aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INVALID_INDEX_URL);
                 e.printStackTrace();
@@ -155,8 +155,8 @@ public class GroomHelper {
                 JSONArray jsonArray = (JSONArray) propertiesForKey;
                 try {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-                    Map keyBag = mapData(jsonObject, index, serviceId);
-                    aikmService.setKeyBag(keyBag);
+                    Map map = mapData(jsonObject, index, serviceId);
+                    aikmService.setKeyBag(map);
                 } catch (JSONException e) {
                     aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INDEX_NOT_MAPPED);
                     e.printStackTrace();

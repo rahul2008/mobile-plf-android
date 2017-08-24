@@ -7,7 +7,7 @@
 package com.philips.platform.appinfra.keybag;
 
 
-public class KeyBagLib {
+public class GroomLib {
 
 
     static {
