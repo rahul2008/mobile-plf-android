@@ -38,7 +38,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "dataServicesApp"
 
 
 allprojects {
@@ -187,7 +187,7 @@ android {
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'signing.properties not found'
+        println 'dsc signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
     /*
