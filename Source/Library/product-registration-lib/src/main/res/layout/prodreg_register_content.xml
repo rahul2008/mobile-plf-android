@@ -7,7 +7,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/prg_registerScreen_productTitle_label"
-        style="@style/ProductRegistrationHeaderTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/pr_a_value_sm"
@@ -16,7 +16,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/prg_registerScreen_ctn_label"
-        style="@style/ProductRegistrationCtnTheme"
+        style="@style/UIDLabel.ProductRegistrationCtnTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/prg_registerScreen_productTitle_label"
@@ -74,7 +74,8 @@
             android:layout_marginBottom="@dimen/pr_b_value_sm"
             android:layout_marginStart="5dp"
             android:text="@string/PPR_Find_Serial_Number"
-            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor" />
+            style="UIDLabel.ProductRegistrationSubTitleTheme"
+           />
     </LinearLayout>
 
 
@@ -85,7 +86,6 @@
         android:layout_below="@+id/prg_registerScreen_serialNumber_layout"
         android:orientation="vertical"
         android:visibility="gone">
-
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/prg_registerScreen_dateOfPurchase_label"
@@ -103,6 +103,7 @@
 
             <com.philips.platform.uid.view.widget.ValidationEditText
                 android:id="@+id/prg_registerScreen_dateOfPurchase_validationEditText"
+                style="@style/ButtonTexts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/prodreg_calendar_inverted"
@@ -114,6 +115,7 @@
         android:id="@+id/prg_registerScreen_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/ButtonTexts"
         android:layout_below="@+id/prg_registerScreen_dateOfPurchase_Layout"
         android:layout_marginBottom="@dimen/pr_marginbottom"
         android:layout_marginTop="@dimen/pr_margintop"

@@ -10,7 +10,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pr_success_title_textview"
-        style="@style/ProductRegistrationHeaderTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_margintop"
@@ -20,7 +20,6 @@
 
 
     <RelativeLayout
-        style="@style/Prod_Reg_Generic_Style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -45,7 +44,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/prg_product_description"
-            style="@style/ProductRegistrationCtnTheme"
+            style="@style/UIDLabel.ProductRegistrationCtnTheme"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +72,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/team_member_name"
-                style="@style/ProductRegistrationCtnTheme"
+                style="@style/UIDLabel.ProductRegistrationCtnTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/team_member_icon"
@@ -88,7 +87,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pr_success_thanks_textView"
-        style="@style/ProductRegistrationSubTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fab_margin"
@@ -98,7 +97,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pr_success_configurable_textView"
-        style="@style/ProductRegistrationSubTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fab_margin"

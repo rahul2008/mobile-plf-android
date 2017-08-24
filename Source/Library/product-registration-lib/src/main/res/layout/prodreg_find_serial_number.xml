@@ -16,12 +16,14 @@
 
         <ImageView
             android:id="@+id/device_image"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_horizontal"
             android:src="@drawable/prodreg_placeholder"
-            android:layout_marginTop="@dimen/pr_margintop"/>
+            android:layout_marginTop="@dimen/pr_margintop"
+            android:maxWidth="680dp"/>
 
         <com.philips.platform.uid.view.widget.Label
             fontPath="fonts/centralesansbold.ttf"
@@ -55,6 +57,7 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ok_found_button"
+            style="@style/ButtonTexts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
