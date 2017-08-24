@@ -60,9 +60,9 @@ public class KeyBagActivity extends AppCompatActivity {
 	public void onClick(View view) {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
 
-		String s = serviceIdEditText.getText().toString();
-		if(!TextUtils.isEmpty(s)) {
-			String[] serviceIds = s.split(",");
+		String serviceIdsFromEditText = serviceIdEditText.getText().toString();
+		if(!TextUtils.isEmpty(serviceIdsFromEditText)) {
+			String[] serviceIds = serviceIdsFromEditText.split(",");
 
 			try {
 				keyBagInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
