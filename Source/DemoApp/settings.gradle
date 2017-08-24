@@ -1,4 +1,3 @@
-rootProject.setName 'securedblibrary'
 include ':app', ':securedblibrary'
 include ':app'
 include ':securedblibrary'
