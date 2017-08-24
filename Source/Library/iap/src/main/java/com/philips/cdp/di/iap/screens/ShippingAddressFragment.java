@@ -51,7 +51,6 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
-import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -66,7 +65,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener,
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
-        StateDropDown.StateListener ,View.OnFocusChangeListener{
+        StateDropDown.StateListener, View.OnFocusChangeListener {
 
     private Context mContext;
     public static final String TAG = ShippingAddressFragment.class.getName();
@@ -121,7 +120,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private AddressController mAddressController;
     private AddressFields mShippingAddressFields;
 
-    protected InlineForms mInlineFormsParent;
+    //'protected InlineForms mInlineFormsParent;
 
 
     private SalutationDropDown mSalutationDropDown;
@@ -183,12 +182,15 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private SalutationDropDown mSalutationDropDownBilling;
     private StateDropDown mStateDropDownBilling;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (!(this instanceof BillingAddressFragment))
-            CartModelContainer.getInstance().setAddressId(null);
-    }
+    //Billing Address
+    private AddressFields mBillingAddressFields;
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (!(this instanceof BillingAddressFragment))
+//            CartModelContainer.getInstance().setAddressId(null);
+//    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -199,22 +201,13 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mUseThisAddressCheckBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
         mSameAsShippingAddress = (LinearLayout) rootView.findViewById(R.id.iap_same_as_shipping_address);
 
-        mUseThisAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    mSameAsShippingAddress.setVisibility(View.VISIBLE);
-                else
-                    mSameAsShippingAddress.setVisibility(View.GONE);
-            }
-        });
 
         mLlFirstName = (LinearLayout) rootView.findViewById(R.id.ll_first_name);
-        inputValidatorFirstName= getValidator(Validator.NAME_PATTERN);
+        inputValidatorFirstName = getValidator(Validator.NAME_PATTERN);
         ((InputValidationLayout) mLlFirstName).setValidator(inputValidatorFirstName);
 
         mLlFirstNameBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_first_name);
-        inputValidatorFirstNameBilling= getValidator(Validator.NAME_PATTERN);
+        inputValidatorFirstNameBilling = getValidator(Validator.NAME_PATTERN);
         ((InputValidationLayout) mLlFirstNameBilling).setValidator(inputValidatorFirstNameBilling);
 
 
@@ -229,11 +222,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
 
         mLlSalutation = (LinearLayout) rootView.findViewById(R.id.ll_salutation);
-        inputValidatorSalutation= getValidator(Validator.NAME_PATTERN);
+        inputValidatorSalutation = getValidator(Validator.NAME_PATTERN);
         ((InputValidationLayout) mLlSalutation).setValidator(inputValidatorSalutation);
 
         mLlSalutationBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_salutation);
-        inputValidatorSalutationBilling= getValidator(Validator.NAME_PATTERN);
+        inputValidatorSalutationBilling = getValidator(Validator.NAME_PATTERN);
         ((InputValidationLayout) mLlSalutationBilling).setValidator(inputValidatorSalutationBilling);
 
         mLlAddressLineOne = (LinearLayout) rootView.findViewById(R.id.ll_address_line_one);
@@ -260,7 +253,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mLlTownBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = getValidator(Validator.TOWN_PATTERN);
         ((InputValidationLayout) mLlTownBilling).setValidator(inputValidatorTownBilling);
-
 
 
         mLlPostalCode = (LinearLayout) rootView.findViewById(R.id.ll_postal_code);
@@ -359,15 +351,15 @@ public class ShippingAddressFragment extends InAppBaseFragment
         //should it be done for billing address -- Indrajit
 
 
-        /* mAddressController = new AddressController(mContext, this);
-        mPaymentController = new PaymentController(mContext, this);
-        mShippingAddressFields = new AddressFields();
-        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
-        mEtEmail.setEnabled(false);
-        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-        showUSRegions();
-        mEtCountry.setEnabled(false);
-        */
+//        mAddressController = new AddressController(mContext, this);
+//        mPaymentController = new PaymentController(mContext, this);
+//        mShippingAddressFields = new AddressFields();
+//        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+//        mEtEmail.setEnabled(false);
+//        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+//        showUSRegions();
+//        mEtCountry.setEnabled(false);
+
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -441,12 +433,144 @@ public class ShippingAddressFragment extends InAppBaseFragment
             }
         });
 
+        mUseThisAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mSameAsShippingAddress.setVisibility(View.VISIBLE);
+                    //disableAllFields();
+                    prePopulateShippingAddress();
+                    mBtnContinue.setEnabled(true);
+                } else {
+                    mSameAsShippingAddress.setVisibility(View.GONE);
+                    clearAllBillingFields();
+                    mBtnContinue.setEnabled(false);
+                }
+            }
+        });
+
+
         return rootView;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void clearAllBillingFields() {
+        mIgnoreTextChangeListener = true;
+        mEtFirstName.setText("");
+        mEtLastName.setText("");
+        mEtSalutation.setText("");
+        mEtAddressLineOne.setText("");
+        mEtAddressLineTwo.setText("");
+        mEtTown.setText("");
+        mEtPostalCode.setText("");
+        mEtPhone1.setText("");
+//        mEtPhone2.setText("");
+        mEtState.setText("");
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
+        mIgnoreTextChangeListener = false;
+        enableAllFields();
+        enableFocus();
+        //removeErrorInAllFields();
+    }
+
+    private void enableAllFields() {
+        setFieldsEnabled(true);
+    }
+
+    private void disableAllFields() {
+        // removeErrorInAllFields();
+        setFieldsEnabled(false);
+        disableFocus();
+    }
+
+    private void enableFocus() {
+        setFieldsFocusable(true);
+    }
+
+    private void disableFocus() {
+        setFieldsFocusable(false);
+    }
+
+    private void setFieldsEnabled(boolean enable) {
+        mEtFirstName.setEnabled(enable);
+        mEtLastName.setEnabled(enable);
+        mEtSalutation.setEnabled(enable);
+        mEtAddressLineOne.setEnabled(enable);
+        mEtAddressLineTwo.setEnabled(enable);
+        mEtTown.setEnabled(enable);
+        mEtPostalCode.setEnabled(enable);
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.setEnabled(enable);
+        }
+        mEtPhone1.setEnabled(enable);
+        //mEtPhone2.setEnabled(enable);
+    }
+
+    private void setFieldsFocusable(boolean focusable) {
+        mEtFirstName.setFocusable(focusable);
+        mEtLastName.setFocusable(focusable);
+        mEtSalutation.setFocusable(focusable);
+        mEtAddressLineOne.setFocusable(focusable);
+        mEtAddressLineTwo.setFocusable(focusable);
+        mEtTown.setFocusable(focusable);
+        mEtPostalCode.setFocusable(focusable);
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.setFocusable(focusable);
+        }
+        mEtPhone1.setFocusable(focusable);
+        //  mEtPhone2.setFocusable(focusable);
+
+        if (focusable) {
+            mEtFirstName.setFocusableInTouchMode(true);
+            mEtLastName.setFocusableInTouchMode(true);
+            mEtSalutation.setFocusableInTouchMode(true);
+            mEtAddressLineOne.setFocusableInTouchMode(true);
+            mEtAddressLineTwo.setFocusableInTouchMode(true);
+            mEtTown.setFocusableInTouchMode(true);
+            mEtPostalCode.setFocusableInTouchMode(true);
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                mEtState.setFocusableInTouchMode(true);
+            }
+            mEtPhone1.setFocusableInTouchMode(true);
+            // mEtPhone2.setFocusableInTouchMode(true);
+        }
+
+        mEtCountry.setFocusable(false);
+        mEtCountry.setFocusableInTouchMode(false);
+        mEtEmail.setFocusableInTouchMode(false);
+        mEtEmail.setFocusable(false);
+        mEtEmail.setEnabled(false);
+        mEtCountry.setEnabled(false);
+    }
+
+    private void prePopulateShippingAddress() {
+        mIgnoreTextChangeListener = true;
+
+        if (mBillingAddressFields != null) {
+            mEtFirstName.setText(mBillingAddressFields.getFirstName());
+            mEtLastName.setText(mBillingAddressFields.getLastName());
+            mEtSalutation.setText(mBillingAddressFields.getTitleCode());
+            mEtAddressLineOne.setText(mBillingAddressFields.getLine1());
+            mEtAddressLineTwo.setText(mBillingAddressFields.getLine2());
+            mEtTown.setText(mBillingAddressFields.getTown());
+            mEtPostalCode.setText(mBillingAddressFields.getPostalCode());
+            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+
+            if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
+                    mBillingAddressFields.getRegionName() != null) {
+                mEtState.setText(mBillingAddressFields.getRegionName());
+                mlLState.setVisibility(View.VISIBLE);
+            } else {
+                mlLState.setVisibility(View.GONE);
+            }
+            mIgnoreTextChangeListener = false;
+            mEtPhone1.setText(mBillingAddressFields.getPhone1());
+        }
+        //setTextColor();
     }
 
     private void setImageArrow() {
@@ -475,8 +599,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             CartModelContainer.getInstance().setShippingAddressFields(mShippingAddressFields);
-            addFragment(
-                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
+//            addFragment(
+//                    BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -499,13 +623,13 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             //Edit and save address
-            if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
-                if (!isProgressDialogShowing()) {
-                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                    HashMap<String, String> addressHashMap = addressPayload();
-                    mAddressController.updateAddress(addressHashMap);
-                }
-            } else {//Add new address
+//            if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
+//                if (!isProgressDialogShowing()) {
+//                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
+//                    HashMap<String, String> addressHashMap = addressPayload();
+//                    mAddressController.updateAddress(addressHashMap);
+//                }
+//            } else {//Add new address
                 if (!isProgressDialogShowing()) {
                     showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     if (mlLState.getVisibility() == View.GONE)
@@ -520,7 +644,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
                         mAddressController.createAddress(mShippingAddressFields);
                     }
                 }
-            }
+//            }
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
@@ -567,25 +691,30 @@ public class ShippingAddressFragment extends InAppBaseFragment
             if (error.getSubject() != null) {
                 String errorMessage;
                 if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
-                    errorMessage = getResources().getString(R.string.iap_country_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtCountry);
+                    //errorMessage = getResources().getString(R.string.iap_country_error);
+                    ((InputValidationLayout) mLlCountryBilling).setValidator(inputValidatorCountryBilling);
+                    // mInlineFormsParent.setErrorMessage(errorMessage);
+                    //mInlineFormsParent.showError(mEtCountry);
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
-                    errorMessage = getResources().getString(R.string.iap_postal_code_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtPostalCode);
+                    ((InputValidationLayout) mLlPostalCode).setValidator(inputValidatorPostalCode);
+//                    errorMessage = getResources().getString(R.string.iap_postal_code_error);
+//                    mInlineFormsParent.setErrorMessage(errorMessage);
+//                    mInlineFormsParent.showError(mEtPostalCode);
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
-                    errorMessage = getResources().getString(R.string.iap_phone_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtPhone1);
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
-                    errorMessage = getResources().getString(R.string.iap_address_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtAddressLineTwo);
+                    ((InputValidationLayout) mLlPhone1).setValidator(inputValidatorPhone);
+//                    errorMessage = getResources().getString(R.string.iap_phone_error);
+//                    mInlineFormsParent.setErrorMessage(errorMessage);
+//                    mInlineFormsParent.showError(mEtPhone1);
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
-                    errorMessage = getResources().getString(R.string.iap_address_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtAddressLineOne);
+                    ((InputValidationLayout) mLlAddressLineOne).setValidator(inputValidatorAddressLineOne);
+//                    errorMessage = getResources().getString(R.string.iap_address_error);
+//                    mInlineFormsParent.setErrorMessage(errorMessage);
+//                    mInlineFormsParent.showError(mEtAddressLineOne);
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+                    ((InputValidationLayout) mLlAddressLineTwo).setValidator(inputValidatorAddressLineTwo);
+//                    errorMessage = getResources().getString(R.string.iap_address_error);
+//                    mInlineFormsParent.setErrorMessage(errorMessage);
+//                    mInlineFormsParent.showError(mEtAddressLineTwo);
                 }
                 NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                         getString(R.string.iap_ok), getString(R.string.iap_server_error),
@@ -595,7 +724,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         }
     }
 
-/*    public void checkFields() {
+    public void checkFields() {
         String firstName = mEtFirstName.getText().toString();
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
@@ -606,11 +735,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
 
-        if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
-                && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
-                && mValidator.isValidPostalCode(postalCode)
-                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
-                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
+        if (inputValidatorFirstName.validate(firstName) && inputValidatorLastName.validate(lastName)
+                && inputValidatorAddressLineOne.validate(addressLineOne) && (addressLineTwo.trim().equals("") || inputValidatorAddressLineTwo.validate(addressLineTwo))
+                && inputValidatorPostalCode.validate(postalCode)
+                && inputValidatorEmail.validate(email) && inputValidatorPhone.validate(phone1)
+                && inputValidatorTown.validate(town) && inputValidatorCountry.validate(country)
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
@@ -620,7 +749,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         } else {
             mBtnContinue.setEnabled(false);
         }
-    }*/
+    }
 
 
     public void validate(View editText, boolean hasFocus) {
@@ -628,9 +757,9 @@ public class ShippingAddressFragment extends InAppBaseFragment
         String errorMessage = null;
 
         if (editText.getId() == R.id.et_first_name && !hasFocus) {
-           // result = mValidator.isValidName(mEtFirstName.getText().toString());
+            // result = mValidator.isValidName(mEtFirstName.getText().toString());
             errorMessage = getResources().getString(R.string.iap_first_name_error);
-            result=inputValidatorFirstName.validate(((EditText)editText).getText().toString());
+            result = inputValidatorFirstName.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_last_name && !hasFocus) {
             //result = mValidator.isValidName(mEtLastName.getText().toString());
@@ -644,7 +773,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         }
         if (editText.getId() == R.id.et_phone1 && !hasFocus) {
             //result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
-              //      , mEtPhone1.getText().toString());
+            //      , mEtPhone1.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
             result = inputValidatorPhone.validate(mEtPhone1.getText().toString());
         }
@@ -658,7 +787,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             //result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
             errorMessage = getResources().getString(R.string.iap_postal_code_error);
-            result =inputValidatorPostalCode.validate(mEtPostalCode.getText().toString());
+            result = inputValidatorPostalCode.validate(mEtPostalCode.getText().toString());
         }
         if (editText.getId() == R.id.et_email && !hasFocus) {
             //result = mValidator.isValidEmail(mEtEmail.getText().toString());
@@ -668,59 +797,59 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (editText.getId() == R.id.et_address_line_one && !hasFocus) {
             //result = mValidator.isValidAddress(mEtAddressLineOne.getText().toString());
             errorMessage = getResources().getString(R.string.iap_address_error);
-            result=inputValidatorAddressLineOne.validate(mEtAddressLineOne.getText().toString());
+            result = inputValidatorAddressLineOne.validate(mEtAddressLineOne.getText().toString());
         }
         if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
             if (mEtAddressLineTwo.getText().toString().trim().equals("")) {
                 result = true;
             } else {
                 errorMessage = getResources().getString(R.string.iap_address_error);
-                result =inputValidatorAddressLineTwo.validate(mEtAddressLineTwo.getText().toString());
+                result = inputValidatorAddressLineTwo.validate(mEtAddressLineTwo.getText().toString());
             }
 
         }
         if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
-            //checkFields();
+            checkFields();
         }
 
         //================For billing Address
 
         if (editText.getId() == R.id.et_billing_first_name && !hasFocus) {
-            result=inputValidatorFirstNameBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorFirstNameBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_last_name && !hasFocus) {
-            result = inputValidatorLastNameBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorLastNameBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_town && !hasFocus) {
-            result = inputValidatorTownBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorTownBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_phone1 && !hasFocus) {
-            result = inputValidatorPhoneBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorPhoneBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_country && !hasFocus) {
             showUSRegions();
-            result = inputValidatorCountryBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorCountryBilling.validate(((EditText) editText).getText().toString());
 
         }
         if (editText.getId() == R.id.et_billing_postal_code && !hasFocus) {
-            result =inputValidatorPostalCodeBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorPostalCodeBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_email && !hasFocus) {
-            result = inputValidatorEmailBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorEmailBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_address_line_one && !hasFocus) {
-            result=inputValidatorAddressLineOneBilling.validate(((EditText)editText).getText().toString());
+            result = inputValidatorAddressLineOneBilling.validate(((EditText) editText).getText().toString());
         }
         if (editText.getId() == R.id.et_billing_address_line_two && !hasFocus) {
             if (mEtAddressLineTwoBilling.getText().toString().trim().equals("")) {
                 result = true;
             } else {
-                result =inputValidatorAddressLineTwoBilling.validate(((EditText)editText).getText().toString());
+                result = inputValidatorAddressLineTwoBilling.validate(((EditText) editText).getText().toString());
             }
 
         }
         if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus) {
-            //checkFields();
+            checkFields();
         }
 
         //===================
@@ -733,7 +862,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
     }
 
     private void showUSRegions() {
-       if (mEtCountry.getText().toString().equals("US")) {
+        if (mEtCountry.getText().toString().equals("US")) {
             mlLState.setVisibility(View.VISIBLE);
         } else {
             mlLState.setVisibility(View.GONE);
@@ -744,16 +873,22 @@ public class ShippingAddressFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
-        if (!(this instanceof BillingAddressFragment)) {
-            if (getArguments() != null &&
-                    getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
-            } else {
-                IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
-            }
-            if (CartModelContainer.getInstance().getRegionIsoCode() != null)
-                mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+
+        if (mUseThisAddressCheckBox.isChecked()) {
+            // disableAllFields();
+            mBtnContinue.setEnabled(true);
         }
+
+        //if (!(this instanceof BillingAddressFragment)) {
+        if (getArguments() != null &&
+                getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_EDIT_PAGE_NAME);
+        } else {
+            IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_PAGE_NAME);
+        }
+        if (CartModelContainer.getInstance().getRegionIsoCode() != null)
+            mShippingAddressFields.setRegionIsoCode(CartModelContainer.getInstance().getRegionIsoCode());
+//        }
     }
 
 
@@ -822,9 +957,9 @@ public class ShippingAddressFragment extends InAppBaseFragment
             addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
         }
 
-        if (!(this instanceof BillingAddressFragment)) {
-            CartModelContainer.getInstance().setRegionIsoCode(regionCode);
-        }
+//        if (!(this instanceof BillingAddressFragment)) {
+//            CartModelContainer.getInstance().setRegionIsoCode(regionCode);
+//        }
     }
 
     @Override
@@ -946,15 +1081,15 @@ public class ShippingAddressFragment extends InAppBaseFragment
         addressFields.setEmail(mEtEmail.getText().toString());
 
 
-        if (this instanceof BillingAddressFragment) {
-            if (mlLState.getVisibility() == View.VISIBLE) {
-                addressFields.setRegionIsoCode(mRegionIsoCode);
-                addressFields.setRegionName(mEtState.getText().toString());
-            } else {
-                addressFields.setRegionIsoCode(null);
-                addressFields.setRegionName(null);
-            }
-        }
+//        if (this instanceof BillingAddressFragment) {
+//            if (mlLState.getVisibility() == View.VISIBLE) {
+//                addressFields.setRegionIsoCode(mRegionIsoCode);
+//                addressFields.setRegionName(mEtState.getText().toString());
+//            } else {
+//                addressFields.setRegionIsoCode(null);
+//                addressFields.setRegionName(null);
+//            }
+//        }
         return addressFields;
     }
 
@@ -992,7 +1127,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         return super.handleBackEvent();
     }
 
-    InputValidator getValidator(Pattern valid_regex_pattern){
+    InputValidator getValidator(Pattern valid_regex_pattern) {
         return new InputValidator(valid_regex_pattern);
     }
 

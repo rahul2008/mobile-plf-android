@@ -121,8 +121,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
-                    BillingAddressFragment.TAG);
+//            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
+//                    BillingAddressFragment.TAG);
         }
     }
 

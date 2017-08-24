@@ -148,9 +148,9 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             dismissProgressDialog();
-            addFragment(
-                    BillingAddressFragment.createInstance(new Bundle(),
-                            AnimationType.NONE), BillingAddressFragment.TAG);
+//            addFragment(
+//                    BillingAddressFragment.createInstance(new Bundle(),
+//                            AnimationType.NONE), BillingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else if ((msg.obj instanceof PaymentMethods)) {
