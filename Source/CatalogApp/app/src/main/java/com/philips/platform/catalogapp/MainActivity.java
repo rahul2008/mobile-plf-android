@@ -28,6 +28,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -130,6 +131,9 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
+        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+
         leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
         rightSidebarRoot = (NavigationView) findViewById(R.id.sidebar_right_root);
         TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
@@ -138,7 +142,7 @@ public class MainActivity extends UIDActivity {
             rightSidebarBGColor = typedArray.getColor(0, Color.WHITE);
             typedArray.recycle();
         }
-        //sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+
         /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
         sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
         sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
@@ -158,7 +162,7 @@ public class MainActivity extends UIDActivity {
        // rightListView.setHeaderDividersEnabled(false);
         setRightListItems();
 
-        drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
+       // drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
         drawerToggle.setDrawerIndicatorEnabled(false);
         drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
@@ -166,10 +170,10 @@ public class MainActivity extends UIDActivity {
                 // event when click home button
                 if (navigationController.hasBackStack()) {
                     onBackPressed();
-                } else {
+                } /*else {
                     //showSnackBar();
                     sideBarLayout.openDrawer(GravityCompat.START);
-                }
+                }*/
             }
         });
     }
@@ -461,6 +465,14 @@ public class MainActivity extends UIDActivity {
 
     @Override
     public void onBackPressed() {
+        if(sideBarLayout.isDrawerOpen(GravityCompat.START)){
+            sideBarLayout.closeDrawer(GravityCompat.START);
+            return;
+        } else if(sideBarLayout.isDrawerOpen(GravityCompat.END)){
+            sideBarLayout.closeDrawer(GravityCompat.END);
+            return;
+        }
+
         if (navigationController.updateStack()) {
             super.onBackPressed();
         }
