@@ -43,9 +43,8 @@ public class IAPServiceDiscoveryWrapperTest {
         TestUtils.getStubbedHybrisDelegate();
         mIAPSettings = new IAPSettings(pContext);
         iapHandler = new IAPHandler(mock(IAPDependencies.class), mIAPSettings);
-        iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
-        iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
         CartModelContainer.getInstance().setAppInfraInstance(mock(AppInfra.class));
+
 
         map = new HashMap<>();
         ServiceDiscoveryService discoveryService = new ServiceDiscoveryService();
@@ -54,6 +53,7 @@ public class IAPServiceDiscoveryWrapperTest {
         map.put("iap.baseurl", discoveryService);
 
         appInfraInstance = CartModelContainer.getInstance().getAppInfraInstance();
+
         when(appInfraInstance.getServiceDiscovery()).thenReturn(mock(ServiceDiscoveryInterface.class));
         when(appInfraInstance.getConfigInterface()).thenReturn(mock(AppConfigurationInterface.class));
     }
@@ -64,6 +64,8 @@ public class IAPServiceDiscoveryWrapperTest {
         discoveryService.init("en_US", "iap.baseurl");
         discoveryService.setConfigUrl("https://acc.occ.shop.philips.com/en_US");
         map.put("iap.baseurl", discoveryService);
+        iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
+        iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
         iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
@@ -74,6 +76,8 @@ public class IAPServiceDiscoveryWrapperTest {
         discoveryService.init("en_US", "iap.baseurl");
         discoveryService.setConfigUrl(null);
         map.put("iap.baseurl", discoveryService);
+        iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
+        iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
         iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
@@ -84,6 +88,8 @@ public class IAPServiceDiscoveryWrapperTest {
         discoveryService.init("en_US", "iap.baseurl");
         discoveryService.setConfigUrl(null);
         map.put("iap.baseurl", discoveryService);
+        iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
+        iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
         iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
     }
