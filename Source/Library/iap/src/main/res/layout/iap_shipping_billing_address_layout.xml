@@ -53,7 +53,7 @@
                 android:textSize="@dimen/iap_shipping_address_title_size"
                 android:textStyle="bold" />
 
-            <include layout="@layout/iap_shipping_address_layout_dls" />
+            <include layout="@layout/iap_billing_address_layout_dls" />
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Button
