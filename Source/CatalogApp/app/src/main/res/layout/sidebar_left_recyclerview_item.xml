@@ -18,5 +18,6 @@
         android:drawablePadding="@dimen/recycler_view_drawable_padding"
         android:drawableStart="@{data.getIcon()}"
         android:gravity="start|center_vertical"
-        android:text="@{data.text}"/>
+        android:text="@{data.text}"
+        android:background="@drawable/uid_list_item_selector"/>
 </layout>

@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
@@ -89,7 +90,7 @@ public class MainActivity extends UIDActivity {
 
 
     private RelativeLayout leftSidebarRoot;
-    private LinearLayout rightSidebarRoot;
+    private NavigationView rightSidebarRoot;
 
     private static final String[] RIGHT_MENU_ITEMS = new String[]{
             "Profile item 1",
@@ -130,7 +131,7 @@ public class MainActivity extends UIDActivity {
 
         sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
         leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
-        rightSidebarRoot = (LinearLayout) findViewById(R.id.sidebar_right_root);
+        rightSidebarRoot = (NavigationView) findViewById(R.id.sidebar_right_root);
         TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
         if (typedArray != null) {
             leftSidebarBGColor = typedArray.getColor(0, Color.WHITE);
@@ -154,6 +155,7 @@ public class MainActivity extends UIDActivity {
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
         ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
         rightListView.addHeaderView(header, null, false);
+       // rightListView.setHeaderDividersEnabled(false);
         setRightListItems();
 
         drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
@@ -255,19 +257,23 @@ public class MainActivity extends UIDActivity {
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
 
-            Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
+            /*Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
             Context themedContext = UIDContextWrapper.getThemedContext(holder.itemView.getContext(), theme);
             ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_list_item_background_selector);
-            final int selectedStateColor = colorStateList.getDefaultColor();
-
+            final int selectedStateColor = colorStateList.getDefaultColor();*/
+            holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position ? true : false);
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
+                    notifyItemChanged(leftRecyclerViewSelectedPosition);
                     leftRecyclerViewSelectedPosition = position;
+                    holder.itemView.setSelected(true);
                     sideBarLayout.closeDrawer(GravityCompat.START);
-                    boolean isSelected = holder.itemView.isSelected();
-                    holder.itemView.setSelected(!isSelected);
-                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
+                    //notifyItemChanged(leftRecyclerViewSelectedPosition);
+
+                    //boolean isSelected = holder.itemView.isSelected();
+
+                    //holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
                 }
             });
         }
@@ -305,7 +311,7 @@ public class MainActivity extends UIDActivity {
 
                 rightListView.setItemChecked(position, true);
                 //view.setSelected(true);
-                //sideBarLayout.closeDrawer(GravityCompat.END);
+                sideBarLayout.closeDrawer(GravityCompat.END);
             }
         });
     }

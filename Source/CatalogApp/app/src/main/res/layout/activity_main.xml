@@ -84,13 +84,12 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <android.support.design.widget.NavigationView
             android:id="@+id/sidebar_right_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:fitsSystemWindows="true"
-            android:orientation="vertical"
             android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <!--<android.support.v4.widget.NestedScrollView
@@ -127,7 +126,7 @@
 
             </android.support.v4.widget.NestedScrollView>
 -->
-        </LinearLayout>
+        </android.support.design.widget.NavigationView>
 
         <!--<com.philips.platform.uid.view.widget.Label
             android:layout_width="wrap_content"

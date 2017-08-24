@@ -21,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sidebar_left_header_height"
             android:paddingEnd="@dimen/sidebar_item_margin_left_right"
-            android:paddingStart="7dp"
-            android:drawablePadding="@dimen/sidebar_view_drawable_padding"
+            android:paddingStart="@dimen/sidebar_item_margin_left_right"
+            android:drawablePadding="@dimen/sidebar_item_margin_left_right"
             android:drawableStart="@drawable/sidebar_left_avatar"
             android:gravity="start|center_vertical"
             android:text="@string/sidebar_header_item"/>
