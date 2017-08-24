@@ -211,7 +211,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         if (newVer > oldVer) {
             if (newVer >= 2 && oldVer==1) {
                 try {
-                    this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL;");
+                    this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
                 } catch (SQLException e){
                     DSLog.e( SQLITE_EXCEPTION,e.getMessage());
                 }
