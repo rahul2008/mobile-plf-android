@@ -159,6 +159,7 @@ android {
         ]
     }
 
+    dataBinding.enabled = true
 
     buildTypes {
         release {

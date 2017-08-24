@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,8 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.prdemoapp.activity.MainActivity;
+import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
 import com.philips.platform.prdemoapplibrary.R;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
@@ -27,15 +26,16 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class LaunchFragment extends Fragment implements View.OnClickListener {
+public class LaunchFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView configurationTextView;
-    private Button user_registration_button, pr_button, reg_list_button;
+    private Button user_registration_button, pr_button, reg_list_button,btn_set_theme;
+
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        View view = inflater.inflate(R.layout.launch_fragment, container, false);
         setUp(view);
         return view;
     }
@@ -43,6 +43,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
     private void setUp(final View view) {
         initViews(view);
         setOnClickListeners();
+
     }
 
     @NonNull
@@ -108,12 +109,18 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         urInterface.launch(activityLauncher, urLaunchInput);
     }
 
-    private void showFragment(final Fragment fragment, final String TAG) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    private void showFragment(BaseFragment  fragment, final String TAG) {
+        /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.parent_layout, fragment,
                 TAG);
         fragmentTransaction.addToBackStack(TAG);
-        fragmentTransaction.commitAllowingStateLoss();
+        fragmentTransaction.commitAllowingStateLoss();*/
+        ((MainActivity) getActivity()).getNavigationController().switchFragment(fragment);
+    }
+
+    @Override
+    public int getPageTitle() {
+        return 0;
     }
 }

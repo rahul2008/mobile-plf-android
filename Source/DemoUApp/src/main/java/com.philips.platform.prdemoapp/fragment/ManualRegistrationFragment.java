@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +32,7 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.prdemoapp.activity.MainActivity;
+import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
 import com.philips.platform.prdemoapplibrary.R;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -49,7 +49,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ManualRegistrationFragment extends Fragment implements View.OnClickListener {
+public class ManualRegistrationFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String TAG = ManualRegistrationFragment.class.getName();
     private ToggleButton toggleButton;
@@ -221,7 +221,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         products.add(product);
         PRLaunchInput prLaunchInput;
         if (!isActivity) {
-            FragmentLauncher fragLauncher = new FragmentLauncher(
+           FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.parent_layout, new ActionBarListener() {
                 @Override
                 public void updateActionBar(@StringRes final int i, final boolean b) {
@@ -241,7 +241,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 prLaunchInput = new PRLaunchInput(products, false);
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            new PRInterface().launch(fragLauncher, prLaunchInput);
+           // new PRInterface().launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
             if (type.equalsIgnoreCase("app_flow")) {
@@ -299,5 +299,10 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             inputManager.hideSoftInputFromWindow(view.getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    @Override
+    public int getPageTitle() {
+        return 0;
     }
 }
