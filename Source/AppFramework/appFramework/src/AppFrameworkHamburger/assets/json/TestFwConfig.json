@@ -34,6 +34,14 @@
           "coconame":"Comm Lib"
         }
       ]
+    },
+    {
+      "chapterName":"One Backend",
+      "commonComponents":[
+        {
+          "coconame":"Device Pairing"
+        }
+      ]
     }
   ]
 }

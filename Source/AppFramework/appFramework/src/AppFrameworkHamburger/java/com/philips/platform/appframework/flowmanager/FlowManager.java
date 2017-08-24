@@ -23,6 +23,7 @@ import com.philips.platform.baseapp.FlowManagerUtil;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
+import com.philips.platform.baseapp.screens.devicepairing.DevicePairingState;
 
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTCC,new DemoDCCState());
         uiStateMap.put(AppStates.TESTDICOMM, new DemoCMLState());
         uiStateMap.put(AppStates.TESTBLUELIB,new DemoBLLState());
+        uiStateMap.put(AppStates.DEVICE_PAIRING,new DevicePairingState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

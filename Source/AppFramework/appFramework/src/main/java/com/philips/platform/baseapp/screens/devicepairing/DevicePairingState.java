@@ -27,7 +27,7 @@ public class DevicePairingState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         mFragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AbstractAppFrameworkBaseActivity) mFragmentLauncher.getFragmentActivity()).handleFragmentBackStack(null, null, getUiStateData().getFragmentLaunchState());
+//        ((AbstractAppFrameworkBaseActivity) mFragmentLauncher.getFragmentActivity()).handleFragmentBackStack(null, null, getUiStateData().getFragmentLaunchState());
         launchDevicePairing();
     }
 
