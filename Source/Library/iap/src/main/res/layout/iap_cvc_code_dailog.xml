@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/parent_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/uikit_modal_alert"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/extra_option_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tv_cvv_title"
+                style="@style/iapCentralesansBoldFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/iap_cvv_code"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textSize="@dimen/iap_text_size_16sp" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tv_cvv_code_hint"
+                style="@style/iapCentralesansBoldFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/iap_cvv_code_hint_description"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textSize="@dimen/iap_text_size_16sp" />
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/et_cvv_digits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:freezesText="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:hint="@string/iap_cvv_code_hint"
+                android:inputType="number"
+                android:maxLines="1" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/continue_btn"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:enabled="true"
+                android:text="@string/iap_continue"
+                app:uidComponentType="Primary" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/not_now_btn"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:enabled="true"
+                android:text="@string/iap_not_now"
+                app:uidComponentType="Secondary" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_scroll_margin" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

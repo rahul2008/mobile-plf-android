@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.State.RegionsList;
@@ -34,9 +36,12 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -45,15 +50,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderSummaryFragment extends InAppBaseFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener,
+        implements View.OnClickListener, PaymentController.MakePaymentListener,EventListener, AddressController.AddressListener,
         CheckOutHistoryAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
         DeliveryModeDialog.DialogListener, com.philips.cdp.di.iap.utils.AlertListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Context mContext;
 
-    private Button mCheckoutBtn;
-    private Button mContinuesBtn;
+    private Button mPayNowBtn;
+    private Button mCancelBtn;
 
     public CheckOutHistoryAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -63,6 +68,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private List<Addresses> mAddresses = new ArrayList<>();
     private DeliveryModes mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
+    private PaymentMethod mPaymentMethod;
+    Bundle bundle;
+    private PaymentController mPaymentController;
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
         OrderSummaryFragment fragment = new OrderSummaryFragment();
@@ -90,15 +98,20 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
+        mPaymentController = new PaymentController(mContext, this);
+        bundle = getArguments();
+        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
+            mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+        }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mCheckoutBtn = (Button) rootView.findViewById(R.id.pay_now_btn);
-        mCheckoutBtn.setOnClickListener(this);
-        mContinuesBtn = (Button) rootView.findViewById(R.id.cancel_btn);
-        mContinuesBtn.setOnClickListener(this);
+        mPayNowBtn = (Button) rootView.findViewById(R.id.pay_now_btn);
+        mPayNowBtn.setOnClickListener(this);
+        mCancelBtn = (Button) rootView.findViewById(R.id.cancel_btn);
+        mCancelBtn.setOnClickListener(this);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
@@ -153,31 +166,51 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onClick(final View v) {
-        if (v == mCheckoutBtn) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext,
-                        mContext.getResources().getString(R.string.iap_please_wait));
-                mAddressController.getRegions();
+
+
+        if (!isNetworkConnected()) return;
+        if (v == mPayNowBtn) {
+            if (mPaymentMethod != null)
+                showCvvDialog(getFragmentManager());
+            else {
+                placeOrder(null);
             }
-
-            //Track checkout action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
-
-            if (mAdapter.isFreeDelivery()) {
-                //Action to track free delivery
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
-            }
+        } else if (v == mCancelBtn) {
+            doOnCancelOrder();
         }
-        if (v == mContinuesBtn) {
-            if (!isNetworkConnected()) return;
+    }
 
-            //Track continue shopping action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
-                    IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
+    private void placeOrder(String pSecurityCode) {
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
+                IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            mPaymentController.placeOrder(pSecurityCode);
         }
+    }
+
+    private void showCvvDialog(FragmentManager pFragmentManager) {
+        if (mPaymentMethod != null)
+            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
+        CvvCvcDialogFragment cvvCvcDialogFragment = new CvvCvcDialogFragment();
+        cvvCvcDialogFragment.setTargetFragment(this, CvvCvcDialogFragment.REQUEST_CODE);
+        cvvCvcDialogFragment.setArguments(bundle);
+        cvvCvcDialogFragment.show(pFragmentManager, "EditErrorDialog");
+        cvvCvcDialogFragment.setShowsDialog(true);
+    }
+
+
+    private void doOnCancelOrder() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToVerticalAppByClearingStack();
+        } else {
+            showFragment(ShoppingCartFragment.TAG);
+        }
+    }
+
+    private boolean paymentMethodAvailable() {
+        return mPaymentMethod != null;
     }
 
     @Override
@@ -195,7 +228,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
-            mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
+            mPayNowBtn.setEnabled(!Boolean.getBoolean(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
             startProductDetailFragment();
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
@@ -273,11 +306,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onOutOfStock(boolean isOutOfStockReached) {
-        if (mCheckoutBtn == null) return;
+        if (mPayNowBtn == null) return;
         if (isOutOfStockReached) {
-            mCheckoutBtn.setEnabled(false);
+            mPayNowBtn.setEnabled(false);
         } else {
-            mCheckoutBtn.setEnabled(true);
+            mPayNowBtn.setEnabled(true);
         }
     }
 
@@ -398,5 +431,54 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onNegativeBtnClick() {
 
+    }
+
+    @Override
+    public void onMakePayment(Message msg) {
+
+    }
+
+    @Override
+    public void onPlaceOrder(final Message msg) {
+        if (msg.obj instanceof PlaceOrder) {
+            PlaceOrder order = (PlaceOrder) msg.obj;
+            String orderID = order.getCode();
+            updateCount(0);
+            CartModelContainer.getInstance().setOrderNumber(orderID);
+
+            if (paymentMethodAvailable()) {
+                dismissProgressDialog();
+                launchConfirmationScreen((PlaceOrder) msg.obj);
+            } else {
+                mPaymentController.makPayment(orderID);
+            }
+        } else if (msg.obj instanceof IAPNetworkError) {
+            dismissProgressDialog();
+            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            if (null != iapNetworkError.getServerError()) {
+                checkForOutOfStock(iapNetworkError, msg);
+            } else {
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            }
+        }
+    }
+
+    private void launchConfirmationScreen(PlaceOrder details) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
+        bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, Boolean.TRUE);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+    }
+
+    private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
+        com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
+        String type = error.getType();
+        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
+            String subject = error.getMessage();
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_out_of_stock), subject);
+        } else {
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        }
     }
 }

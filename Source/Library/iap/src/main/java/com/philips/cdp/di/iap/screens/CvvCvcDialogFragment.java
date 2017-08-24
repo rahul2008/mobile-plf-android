@@ -34,20 +34,20 @@ public class CvvCvcDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.iap_edit_text_dialog, container, false);
+        View view = inflater.inflate(R.layout.iap_cvc_code_dailog, container, false);
         Bundle bundle = getArguments();
         PaymentMethod mPaymentMethod = null;
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
         }
-        TextView iap_mastercard = (TextView) view.findViewById(R.id.iap_mastercard);
-        TextView iap_mastercard_number = (TextView) view.findViewById(R.id.iap_mastercard_number);
+        TextView iap_mastercard = (TextView) view.findViewById(R.id.tv_cvv_title);
+        TextView iap_mastercard_number = (TextView) view.findViewById(R.id.tv_cvv_code_hint);
         if (mPaymentMethod != null) {
             iap_mastercard.setText(mPaymentMethod.getCardType().getCode());
             iap_mastercard_number.setText(mPaymentMethod.getCardNumber());
         }
-        final Button btnProceed = (Button) view.findViewById(R.id.dialogButtonOk);
-        mEditText = (EditText) view.findViewById(R.id.iap_edit_box);
+        final Button continueBtn = (Button) view.findViewById(R.id.continue_btn);
+        mEditText = (EditText) view.findViewById(R.id.et_cvv_digits);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -57,9 +57,9 @@ public class CvvCvcDialogFragment extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim().length() == 0) {
-                    btnProceed.setEnabled(false);
+                    continueBtn.setEnabled(false);
                 } else {
-                    btnProceed.setEnabled(true);
+                    continueBtn.setEnabled(true);
                 }
             }
 
@@ -69,7 +69,7 @@ public class CvvCvcDialogFragment extends DialogFragment {
             }
         });
 
-        btnProceed.setOnClickListener(new View.OnClickListener() {
+        continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCvv = mEditText.getText().toString();

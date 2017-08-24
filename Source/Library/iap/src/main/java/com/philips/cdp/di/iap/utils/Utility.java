@@ -173,8 +173,6 @@ public class Utility {
         if(!TextUtils.isEmpty(pErrorString)){
             builder.setTitle(pErrorString);
         }
-
-
         builder.setPositiveButton(positiveBtnText, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

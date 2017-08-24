@@ -312,4 +312,8 @@
     <string name="iap_including_tax">Including tax</string>
     <string name="iap_shopping_cart_dls">Shopping cart</string>
     <string name="iap_option">Option</string>
+    <string name="iap_cvv_code">Please enter the CVV/CVC for master card ****1234</string>
+    <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
+    <string name="iap_cvv_code_hint">000</string>
+    <string name="iap_not_now">Not now</string>
 </resources>
