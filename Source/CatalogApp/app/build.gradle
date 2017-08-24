@@ -156,7 +156,8 @@ android {
         TestPhilipsStore {
             keyAlias 'philips'
             keyPassword 'philips'
-			//FIXME: path incorrect
+			println project.file('/../extra/signing/UIT_GoogleBeta_KeyStore.jks').getAbsolutePath()
+			println projectDir
             storeFile project.file('/../extra/signing/UIT_GoogleBeta_KeyStore.jks')
             storePassword 'philips'
         }
