@@ -1,2 +1,1 @@
-rootProject.setName 'digitalCare'
 include ':digitalCare'
