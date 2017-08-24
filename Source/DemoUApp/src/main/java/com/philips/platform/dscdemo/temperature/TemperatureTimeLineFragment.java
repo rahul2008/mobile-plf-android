@@ -393,11 +393,23 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         });
     }
 
+    private void reloadData() {
+        mDataServicesManager.registerDBChangeListener(this);
+        mTemperaturePresenter.fetchData(this);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TemperatureTimeLineFragment.this.getView().invalidate();
+            }
+        });
+    }
+
     public class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
 
         @Override
         public void onSuccess(List<? extends Integer> data) {
             TemperatureTimeLineFragment.this.showToastOnUiThread(TemperatureTimeLineFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
+            reloadData();
         }
 
         @Override
