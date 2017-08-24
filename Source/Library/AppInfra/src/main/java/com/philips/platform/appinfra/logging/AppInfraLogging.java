@@ -45,7 +45,7 @@ public class AppInfraLogging implements LoggingInterface {
     public void log(LogLevel level, String eventId, String message) {
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger(mComponentID);
+            createLogger("");
         }
         if (null != mJavaLogger) {
             switch (level) {
@@ -83,7 +83,7 @@ public class AppInfraLogging implements LoggingInterface {
 
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger(mComponentID);
+            createLogger("");
         }
         if (null != mJavaLogger) {
             params[0]=message;
@@ -114,7 +114,7 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     void createLogger(String pComponentId) {
-        final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra, mComponentID, mComponentVersion);
+        final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra, pComponentId, mComponentVersion);
         final HashMap<String, Object> loggingProperty = loggingConfiguration.getLoggingProperties(mAppInfra);
         if (null != loggingProperty) {
             final String logLevel = loggingConfiguration.getLogLevel(loggingProperty);
