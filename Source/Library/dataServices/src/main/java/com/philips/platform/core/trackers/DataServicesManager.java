@@ -40,6 +40,7 @@ import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
 import com.philips.platform.core.events.FetchInsightsFromDB;
@@ -398,6 +399,13 @@ public class DataServicesManager {
     @NonNull
     public Moment createMoment(@NonNull final String type) {
         return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
+    }
+
+    /**
+     * Delete expired moments and associated sub-entities
+     */
+    public void clearExpiredMoments(DBRequestListener<Integer> dbRequestListener) {
+        mEventing.post(new DeleteExpiredMomentRequest(dbRequestListener));
     }
 
     /**

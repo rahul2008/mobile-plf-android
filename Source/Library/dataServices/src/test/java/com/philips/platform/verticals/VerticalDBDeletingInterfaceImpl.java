@@ -49,6 +49,11 @@ public class VerticalDBDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public void deleteAllExpiredMoments(DBRequestListener<Integer> dbRequestListener) {
+
+    }
+
+    @Override
     public void markMomentsAsInActive(List<Moment> moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
     }

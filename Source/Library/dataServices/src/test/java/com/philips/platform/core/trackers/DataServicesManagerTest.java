@@ -26,6 +26,7 @@ import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.FetchInsightsFromDB;
@@ -497,5 +498,11 @@ public class DataServicesManagerTest {
         list.add(insightMock);
         tracker.deleteInsights(list,dbRequestListener);
         verify(eventingMock).post(any(DeleteInsightFromDB.class));
+    }
+
+    @Test
+    public void Should_ClearExpiredMoments_called() {
+        tracker.clearExpiredMoments(dbRequestListener);
+        verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
     }
 }

@@ -9,6 +9,7 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightRequest;
 import com.philips.platform.core.events.DeleteInsightResponse;
 import com.philips.platform.core.events.DeleteInsightFromDB;
@@ -69,6 +70,16 @@ public class DeletingMonitor extends EventMonitor {
         }
         //   eventing.post(new MomentChangeEvent(event.getEventId(), event.getMoments()));
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(DeleteExpiredMomentRequest event) {
+        DBRequestListener<Integer> dbRequestListener = event.getDbRequestListener();
+        try{
+            dbInterface.deleteAllExpiredMoments(dbRequestListener);
+        } catch (SQLException e) {
+            dbInterface.deleteFailed(e, dbRequestListener);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

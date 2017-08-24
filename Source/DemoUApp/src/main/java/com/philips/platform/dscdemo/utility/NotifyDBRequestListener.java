@@ -14,6 +14,8 @@ import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -41,6 +43,15 @@ public class NotifyDBRequestListener {
     public void notifyPrepareForDeletion(DBRequestListener dbRequestListener) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
+        } else {
+            //Callback not registered
+            DSLog.i(DataServicesManager.TAG, "Callback not registered");
+        }
+    }
+
+    public <T> void notifySuccess(DBRequestListener<T> dbRequestListener, T... returnValue) {
+        if (dbRequestListener != null) {
+            dbRequestListener.onSuccess(Arrays.asList(returnValue));
         } else {
             //Callback not registered
             DSLog.i(DataServicesManager.TAG, "Callback not registered");

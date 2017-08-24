@@ -2,13 +2,16 @@ package com.philips.platform.dscdemo.temperature;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -185,7 +188,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         if (i == R.id.add) {
             mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
         } else if (i == R.id.delete_moments) {
-            Log.i("delete moment", "pressed");
+            mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
         } else if (i == R.id.tv_set_consents) {
             ConsentDialogFragment dFragment = new ConsentDialogFragment();
             replaceFragment(dFragment, "consents");
@@ -389,4 +392,18 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             }
         });
     }
+
+    public class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
+
+        @Override
+        public void onSuccess(List<? extends Integer> data) {
+            TemperatureTimeLineFragment.this.showToastOnUiThread(TemperatureTimeLineFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            TemperatureTimeLineFragment.this.showToastOnUiThread(TemperatureTimeLineFragment.this.getActivity().getString(R.string.error_deleting_expired_moments));
+        }
+    }
+
 }

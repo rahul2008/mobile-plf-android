@@ -35,6 +35,7 @@ import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -150,6 +151,46 @@ public class OrmDeleting {
         measurementDao.executeRawNoArgs("DELETE FROM `ormmeasurement`");
         measurementDetailDao.executeRawNoArgs("DELETE FROM `ormmeasurementdetail`");
         synchronisationDataDao.executeRawNoArgs("DELETE FROM `ormsynchronisationdata`");
+    }
+
+    public int deleteAllExpiredMoments() throws SQLException {
+
+        Long currentUnixTimestamp = System.currentTimeMillis();
+
+        measurementDetailDao.executeRaw("DELETE FROM 'ormmeasurementdetail' WHERE ormMeasurement_id IN" +
+                " (SELECT id FROM `ormmeasurement` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? ))))", currentUnixTimestamp.toString());
+
+        measurementDao.executeRaw("DELETE FROM `ormmeasurement` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? )))", currentUnixTimestamp.toString());
+
+        synchronisationDataDao.executeRaw("DELETE FROM `ormsynchronisationdata` WHERE guid IN" +
+                " (SELECT synchronisationData_id FROM `ormmoment` WHERE expirationDate < ? )", currentUnixTimestamp.toString());
+
+        momentDetailDao.executeRaw("DELETE FROM `ormmomentdetail` WHERE ormmoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? )", currentUnixTimestamp.toString());
+
+        measurementGroupDetailDao.executeRaw("DELETE FROM `ormmeasurementgroupdetail` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? )))", currentUnixTimestamp.toString());
+
+        measurementGroupsDao.executeRaw("DELETE FROM `ormmeasurementgroup` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? ))", currentUnixTimestamp.toString());
+
+        measurementGroupDetailDao.executeRaw("DELETE FROM `ormmeasurementgroupdetail` WHERE ormMeasurementGroup_id IN" +
+                " (SELECT id FROM `ormmeasurementgroup` WHERE ormMoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? ))", currentUnixTimestamp.toString());
+
+        measurementGroupsDao.executeRaw("DELETE FROM `ormmeasurementgroup` WHERE ormMoment_id IN" +
+                " (SELECT id FROM `ormmoment` WHERE expirationDate < ? )", currentUnixTimestamp.toString());
+
+        return momentDao.executeRaw("DELETE FROM `ormmoment` WHERE expirationDate < ?", currentUnixTimestamp.toString());
     }
 
     public void deleteAllConsentDetails() throws  SQLException{

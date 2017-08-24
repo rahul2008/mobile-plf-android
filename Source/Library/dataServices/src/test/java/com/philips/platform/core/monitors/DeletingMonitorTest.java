@@ -8,6 +8,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
+import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
 import com.philips.platform.core.events.DeleteInsightResponse;
 import com.philips.platform.core.events.Event;
@@ -26,6 +27,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -303,5 +305,18 @@ public class DeletingMonitorTest {
        // doThrow(SQLException.class).when(deletingMock).deleteInsight(insightMock,dbRequestListener);
         monitor.onEventBackGround(new DeleteInsightResponse(insightMock,dbRequestListener));
         verify(deletingMock).deleteInsight(insightMock,dbRequestListener);
+    }
+
+    @Test
+    public void DeleteAllExpiredMomentsAsked_WhenDeleteExpiredMomentsRequested() throws Exception {
+        monitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
+        verify(deletingMock).deleteAllExpiredMoments(dbRequestListener);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLDeletionFails_For_deleteExpiredMoments() throws Exception {
+        doThrow(SQLException.class).when(deletingMock).deleteAllExpiredMoments(dbRequestListener);
+        monitor.onEventBackGround(new DeleteExpiredMomentRequest(dbRequestListener));
+        verify(deletingMock).deleteFailed(any(SQLException.class), any(dbRequestListener.getClass()));
     }
 }
