@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
 
 /**
@@ -191,10 +190,8 @@ public class ApplianceManager {
      * @param appliance the appliance
      */
     public void storeAppliance(@NonNull final Appliance appliance) {
-        if (!networkNodeDatabase.contains(appliance.getNetworkNode())) {
-            networkNodeDatabase.save(appliance.getNetworkNode());
-            applianceDatabase.save(appliance);
-        }
+        networkNodeDatabase.save(appliance.getNetworkNode());
+        applianceDatabase.save(appliance);
     }
 
     /**
@@ -208,11 +205,11 @@ public class ApplianceManager {
      */
     public boolean forgetStoredAppliance(@NonNull final Appliance appliance) {
         int rowsDeleted = networkNodeDatabase.delete(appliance.getNetworkNode());
-        if (rowsDeleted > 1) {
+        if (rowsDeleted > 0) {
             applianceDatabase.delete(appliance);
         }
 
-        return rowsDeleted > 1;
+        return rowsDeleted > 0;
     }
 
     /**
@@ -255,12 +252,7 @@ public class ApplianceManager {
     private void onNetworkNodeChanged(PropertyChangeEvent propertyChangeEvent, Appliance appliance, NetworkNode networkNode) {
         DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
         networkNodeDatabase.save(networkNode);
-
-        if (propertyChangeEvent.getPropertyName().equals(KEY_ENCRYPTION_KEY)) {
-            storeAppliance(appliance);
-        }
     }
-
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
         DICommLog.v(DICommLog.DISCOVERY, "Appliance found " + appliance.toString());
