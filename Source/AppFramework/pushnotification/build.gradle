@@ -1,5 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -104,8 +110,28 @@ android {
     }
     buildTypes {
         release {
+//            testCoverageEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            shrinkResources false
+            testCoverageEnabled true
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+
+        unitTests.all {
+            // set JVM arguments for the test JVM(s)
+            jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
         }
     }
 }
@@ -118,5 +144,54 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+    testCompile 'org.robolectric:robolectric:3.3.1'
+    testCompile 'org.robolectric:shadows-multidex:3.3.1'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
+    testCompile 'org.mockito:mockito-all:1.10.17'
+
+    testCompile 'org.powermock:powermock-core:1.6.6'
+    testCompile "org.powermock:powermock-module-junit4:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule-agent:1.6.6"
+    testCompile "org.powermock:powermock-api-mockito:1.6.6"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
+    testCompile 'org.robolectric:robolectric:3.3.1'
+    testCompile 'org.robolectric:robolectric-annotations:3.3.1'
 }
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+        dir: "${buildDir}/intermediates/classes/debug",
+        excludes: [
+                '**/R.class',
+                '**/R$*.class',
+                '**/*$ViewInjector*.*',
+                '**/*$ViewBinder*.*',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+        ])
+
+    def coverageSourceDirs = [
+            "src/main/java"
+    ]
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+
+    executionData = fileTree(dir: buildDir, includes: [
+            "jacoco/testDebugUnitTest.exec",
+    ])
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
 apply plugin: 'com.google.gms.google-services'

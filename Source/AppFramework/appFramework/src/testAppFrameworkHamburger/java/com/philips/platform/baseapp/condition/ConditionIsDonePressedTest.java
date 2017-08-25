@@ -10,7 +10,6 @@ import android.content.Context;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 
 import junit.framework.TestCase;
@@ -27,7 +26,7 @@ import org.robolectric.annotation.Config;
 public class ConditionIsDonePressedTest extends TestCase {
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ConditionIsDonePressed conditionIsDonePressed;
-    private AppFrameworkApplication appFrameworkApplication;
+
     private Context context;
 
     @Before

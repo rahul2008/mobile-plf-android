@@ -62,6 +62,10 @@ public class PushNotificationManager {
         this.pushNotificationUserRegistationWrapperInterface=pushNotificationUserRegistationWrapperInterface;
     }
 
+    public PushNotificationUserRegistationWrapperInterface getPushNotificationUserRegistationWrapperInterface () {
+        return pushNotificationUserRegistationWrapperInterface;
+    }
+
     /**
      * Register common component for payload
      * @param handleNotificationPayloadInterface
@@ -100,9 +104,9 @@ public class PushNotificationManager {
      * @param context
      */
     public void startPushNotificationRegistration(Context context){
-        if(TextUtils.isEmpty(pushNotificationManager.getToken(context))){
+        if(TextUtils.isEmpty(getToken(context))){
             PNLog.d(TAG,"Token is empty. Starting GCM registration....");
-            pushNotificationManager.startGCMRegistrationService(context);
+            startGCMRegistrationService(context);
         }else if(pushNotificationUserRegistationWrapperInterface.isUserSignedIn(context)){
             PNLog.d(TAG,"User is signed in");
             if(!isTokenRegistered(context)){
@@ -133,7 +137,7 @@ public class PushNotificationManager {
     /**
      * Registration of token with datacore or backend
      */
-    private void registerTokenWithBackend(final Context applicationContext) {
+    void registerTokenWithBackend(final Context applicationContext) {
         PNLog.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             PNLog.d(TAG, "Token is empty. Trying to register device with GCM server.....");

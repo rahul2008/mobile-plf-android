@@ -14,20 +14,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
-import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
@@ -39,21 +39,24 @@ import static org.junit.Assert.assertTrue;
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;
-    private TextView actionBarTitle = null;
     private Resources resource = null;
     private NavigationView navigationView;
     private DrawerLayout philipsDrawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
     private FrameLayout hamburgerClick = null;
+    private ActivityController<HamburgerMock> activityController;
 
 //    private TestAppFrameworkApplication application = null;
 
+    static class HamburgerMock extends HamburgerActivity {
+        @Override
+        public void initDLS() {
+            setTheme(R.style.Theme_Philips_BrightAqua_Gradient_NoActionBar);
+        }
+    }
     @Before
     public void setup() {
-//        application = new TestAppFrameworkApplication();
-//        application.setTargetFlowManager();
-        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
-        actionBarTitle = (TextView) hamburgerActivity.findViewById(R.id.af_actionbar_title);
+        activityController=Robolectric.buildActivity(HamburgerMock.class);
+        hamburgerActivity=activityController.create().start().get();
         navigationView = (NavigationView) hamburgerActivity.findViewById(R.id.navigation_view);
         philipsDrawerLayout = (DrawerLayout) hamburgerActivity.findViewById(R.id.philips_drawer_layout);
 
@@ -67,9 +70,7 @@ public class HamburgerActivityTest {
     public void titleShouldShouldNotBeEmpty() throws Exception {
         String title = resource.getString(R.string.app_name);
         hamburgerActivity.setTitle(title);
-
         assertNotNull(title);
-//        assertThat("Show error for title field ", actionBarTitle.getError(), is(CoreMatchers.notNullValue()));
     }
 
     @Test
@@ -85,7 +86,6 @@ public class HamburgerActivityTest {
 
         philipsDrawerLayout.addDrawerListener(drawerToggle);
         hamburgerClick.performClick();
-//        assertTrue(!philipsDrawerLayout.isShown());
         philipsDrawerLayout.openDrawer(navigationView);
         assertTrue(philipsDrawerLayout.isDrawerVisible(navigationView));
     }
@@ -145,7 +145,6 @@ public class HamburgerActivityTest {
     @Test
     public void onBackPressFragmentCount(){
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-//        Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container);
         int fragmentCount = fragmentManager.getBackStackEntryCount();
         if(philipsDrawerLayout.isDrawerOpen(navigationView))
         {
@@ -165,5 +164,10 @@ public class HamburgerActivityTest {
         else{
             assertNotEquals(hamburgerItem.getTitle(), menuItem);
         }
+    }
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
     }
 }

@@ -135,6 +135,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
+
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
@@ -193,11 +194,12 @@ android {
             resValue "string", "af_app_name", "ReferenceApp"
 
         }
+        /*
         AppFrameworkTabbed {
             applicationId = "com.philips.platform.referenceapp"
             resValue "string", "af_app_name", "ReferenceApp"
         }
-
+        */
         applicationVariants.all { variant ->
             variant.outputs.each { output ->
                 if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
@@ -248,8 +250,17 @@ android {
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        psraRelease {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
     }
 
+    
     /*
     This defined for signing the apk -- start
      */
@@ -313,9 +324,18 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-        // set JVM arguments for the test JVM(s)
+
         unitTests.all {
+            // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
+
+            jacoco {
+                includeNoLocationClasses = false
+            }
         }
     }
 }
@@ -344,6 +364,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    psraReleaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
@@ -352,20 +373,16 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:multidex:1.0.1'
-
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar',changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar',changing: true) {
-
-        transitive=true
+        transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'iap', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar',changing: true) {
-        transitive=true
+    compile(group: 'com.philips.cdp', name: 'iap', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        transitive = true
     }
-
     compile(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
 
 
@@ -374,40 +391,49 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-
-    compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-
-    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '6.0.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         exclude group: 'joda-time', module: 'joda-time'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: '3.0.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'DICommClientSampleUApp', version: '7.1.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
         exclude group: 'com.android.support'
-        exclude group: 'com.philips.cdp', module:'RegistrationApi'
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        exclude group: 'com.philips.cdp', module: 'RegistrationApi'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'devicepairingUApp', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        exclude group: 'joda-time', module: 'joda-time'
+        transitive = true
+    }
+
+
+    compile 'joda-time:joda-time:2.9.2'
+    compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
     compile("joda-time:joda-time:2.9.2")
     testCompile 'junit:junit:4.12'
@@ -417,8 +443,17 @@ dependencies {
     testCompile 'org.robolectric:shadows-support-v4:3.3.1'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
+
+    testCompile 'org.powermock:powermock-core:1.6.6'
+    testCompile "org.powermock:powermock-module-junit4:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.6"
+    testCompile "org.powermock:powermock-module-junit4-rule-agent:1.6.6"
+    testCompile "org.powermock:powermock-api-mockito:1.6.6"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
+
+    testCompile 'org.json:json:20170516'
+
     compile project(':pushnotification')
-    compile project(':wifirefuapp')
 }
 
 task copyToLib(type: Copy) {
@@ -455,7 +490,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     reports {
         xml.enabled = true
-        html.enabled = false
+        html.enabled = true
     }
 }
 
@@ -528,4 +563,21 @@ project.afterEvaluate {
 
 tasks.withType(Test) {
     ignoreFailures = true
+    maxParallelForks = Runtime.runtime.availableProcessors()
+    maxHeapSize="2048m"
+}
+
+task('printArtifactoryApkPath') {
+    doLast {
+        if(new File('apkname.txt').exists()) {
+            new File('apkname.txt').delete()
+        }
+        File apkname = new File('apkname.txt')
+        apkname.append(objcdp.getArtifactoryContextUrl() + \
+        "/" + objcdp.getArtifactoryPublishRepoKey() + \
+        "/" + project.group.replace('.','/') + "/" + \
+        archivesBaseName + "/" + version + \
+        "/" + archivesBaseName + "-" + version + ".apk")
+        println "Artifactory path of apk stored in apkname.txt"
+    }
 }

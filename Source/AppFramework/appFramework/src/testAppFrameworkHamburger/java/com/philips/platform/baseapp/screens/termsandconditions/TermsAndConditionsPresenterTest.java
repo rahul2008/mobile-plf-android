@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.termsandconditions;
 
 import android.content.Context;
@@ -16,7 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URL;
 
-import static com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsPresenter.PRIVACY_KEY;
+import static com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsPresenter.PRIVACY;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -54,7 +59,7 @@ public class TermsAndConditionsPresenterTest {
         when(appFrameworkApplicationMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         termsAndConditionsPresenter.loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
-        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(PRIVACY_KEY), captor.capture());
+        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(PRIVACY), captor.capture());
         value= captor.getValue();
 
 
