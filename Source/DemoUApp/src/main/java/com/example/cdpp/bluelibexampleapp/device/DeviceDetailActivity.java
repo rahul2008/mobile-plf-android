@@ -33,6 +33,8 @@ public class DeviceDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceDetail";
 
+    private static final long CONNECTION_TIMEOUT = 30000L;
+
     private View mView;
     private FloatingActionButton mFab;
 
@@ -75,7 +77,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
                 if (mDevice == null) {
                     return;
                 }
-                mDevice.connect();
+                mDevice.connect(CONNECTION_TIMEOUT);
             }
         });
 
