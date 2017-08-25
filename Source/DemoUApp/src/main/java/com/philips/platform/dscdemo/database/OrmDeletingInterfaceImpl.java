@@ -91,6 +91,11 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         return isDeleted;
     }
 
+    @Override
+    public void deleteAllExpiredMoments(DBRequestListener<Integer> dbRequestListener) throws SQLException {
+        int affected = ormDeleting.deleteAllExpiredMoments();
+        notifyDBRequestListener.notifySuccess(dbRequestListener, affected);
+    }
 
     @Override
     public void deleteMomentDetail(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {

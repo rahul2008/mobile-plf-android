@@ -208,12 +208,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         DSLog.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
-        try {
-            this.dropTables(connectionSource);
-            this.createTables(connectionSource);
-            insertDictionaries();
-        } catch (SQLException e){
-            DSLog.e(SQLITE_EXCEPTION, "onCreate DatabaseHelper");
+        if (newVer > oldVer) {
+            if (newVer >= 2 && oldVer==1) {
+                try {
+                    this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
+                } catch (SQLException e){
+                    DSLog.e( SQLITE_EXCEPTION,e.getMessage());
+                }
+            }
         }
     }
 

@@ -85,6 +85,14 @@ public interface DBDeletingInterface {
     void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException;
 
     /**
+     * Delete all expired moments and associated sub-entities
+     * @param dbRequestListener Callback for notifying the deleteAllExpiredMoments
+     * @return returns number of affected rows
+     * @throws SQLException throws exception if DataBase operation fails
+     */
+    void deleteAllExpiredMoments(DBRequestListener<Integer> dbRequestListener) throws SQLException;
+
+    /**
      * Batch Operation for deleting more than one moment
      * When Propositions requests for delete, first the moments are marked as inActive
      * One's the Data gets synced with the cloud, that particular moment is deleted from Data-Base
