@@ -197,7 +197,7 @@ public class BleCommunicationStrategyTestSteps {
                 }
                 return null;
             }
-        }).when(device).connect();
+        }).when(device).connect(30000L);
 
         doAnswer(new Answer() {
             @Override

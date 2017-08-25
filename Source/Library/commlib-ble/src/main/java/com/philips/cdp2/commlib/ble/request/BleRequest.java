@@ -11,8 +11,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleCacheData;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -61,6 +61,8 @@ public abstract class BleRequest implements Runnable {
     public static final int MAX_PAYLOAD_LENGTH = (1 << 16) - 1;
 
     private static final long REQUEST_TIMEOUT_MS = 30000L;
+
+    private static final long CONNECTION_TIMEOUT = 30000L;
 
     enum State {
         CREATED,
@@ -240,7 +242,7 @@ public abstract class BleRequest implements Runnable {
     };
 
     private void connectToDevice() {
-        bleDevice.connect();
+        bleDevice.connect(CONNECTION_TIMEOUT);
     }
 
     private void onConnected() {
