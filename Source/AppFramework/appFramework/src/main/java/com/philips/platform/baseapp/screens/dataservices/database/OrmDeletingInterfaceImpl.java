@@ -113,6 +113,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         markMomentsAsInActive((List<Moment>) moments, dbRequestListener);
     }
 
+    @Override
+    public void deleteAllExpiredMoments(DBRequestListener<Integer> dbRequestListener) throws SQLException {
+        int affected = ormDeleting.deleteAllExpiredMoments();
+        notifyDBRequestListener.notifySuccess(dbRequestListener, affected);
+    }
+
     private boolean isMomentSyncedToBackend(final Moment moment) {
         return moment.getSynchronisationData() != null;
     }
