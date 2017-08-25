@@ -7,6 +7,7 @@ package com.philips.cdp2.demouapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.demouapp.fragment.MainFragment;
@@ -22,17 +23,18 @@ import java.lang.ref.WeakReference;
 
 public class CommlibUapp implements UappInterface {
 
-    private static final WeakReference<CommlibUapp> reference = new WeakReference<>(new CommlibUapp());
+    private static final CommlibUapp reference = new CommlibUapp();
 
     public static CommlibUapp get() {
-        return reference.get();
+        return reference;
     }
 
     private CommlibUappDependencies dependencies;
 
     private FragmentLauncher fragmentLauncher;
 
-    private Context context;
+    @Nullable
+    private WeakReference<Context> contextref;
 
     @Override
     public void init(UappDependencies dependencies, UappSettings settings) {
@@ -42,13 +44,13 @@ public class CommlibUapp implements UappInterface {
 
         this.dependencies = (CommlibUappDependencies) dependencies;
 
-        context = settings.getContext();
+        contextref = new WeakReference<>(settings.getContext().getApplicationContext());
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (dependencies == null) {
-            throw new UnsupportedOperationException("No CommlibUappDependencies set during init.");
+            throw new IllegalStateException("No CommlibUappDependencies set during init.");
         }
 
         if (uiLauncher instanceof FragmentLauncher) {
@@ -59,6 +61,12 @@ public class CommlibUapp implements UappInterface {
                     .add(fragmentLauncher.getParentContainerResourceID(), new MainFragment())
                     .commit();
         } else if (uiLauncher instanceof ActivityLauncher) {
+            final Context context = contextref == null ? null : contextref.get();
+
+            if (context == null) {
+                throw new IllegalStateException("No context set during init. Call init before launching!");
+            }
+
             Intent intent = new Intent(context, CommlibUappActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
