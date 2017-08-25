@@ -177,7 +177,7 @@ public abstract class Appliance implements Availability<Appliance> {
         return wifiUIPort;
     }
 
-    Set<DICommPort> getAllPorts() {
+    public Set<DICommPort> getAllPorts() {
         return ports;
     }
 
