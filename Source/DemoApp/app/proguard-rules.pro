@@ -51,9 +51,6 @@
 -dontwarn com.philips.platform.appinfra.**
 
 -dontwarn org.apache.**
--keep class android.net.http.** { *; }
-
-
 
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
