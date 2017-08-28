@@ -37,9 +37,6 @@
 -dontwarn android.app.Notification
 
 #check if somethings below can be removed?
--dontwarn org.apache.log4j.**
--dontwarn org.apache.commons.logging.**
--dontwarn org.apache.commons.codec.binary.**
 -dontwarn javax.persistence.**
 -dontwarn javax.lang.**
 -dontwarn javax.annotation.**
