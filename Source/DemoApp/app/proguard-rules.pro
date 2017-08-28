@@ -1,46 +1,3 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in /Users/philips/Library/Android/sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep options here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in C:\Users\310240027\AppData\Local\Android\Sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep options here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
 #Android support library
 -keep class android.support.v4.** { *; }
 -keep interface android.support.v4.** { *; }
@@ -49,30 +6,6 @@
 -keep class android.support.v8.renderscript.** { *; }
 
 -verbose
-
-#Volley
--keep class com.android.volley.** { *; }
--keep interface com.android.volley.** { *; }
--keep class org.apache.commons.logging.**
--keep class com.squareup.okhttp.** { *; }
--keep class okio.** { *; }
-
-#Gson
--keep class sun.misc.Unsafe { *; }
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
-
-#LocaleMatch
--keep class com.philips.cdp.localematch.** {*;}
--keep interface com.philips.cdp.localematch.** {*;}
-
-#Tagging
--keep class com.adobe.mobile.** {*;}
--keep class com.philips.cdp.tagging.** {*;}
-
-#Hockey
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
 
 #Registration
 -keep class com.philips.cdp.registration.** {*;}
@@ -128,25 +61,6 @@ public static ** valueOf(java.lang.String);
 public static <fields>;
 }
 
-
--dontwarn com.google.gson.**
-
--dontwarn com.android.volley.**
--dontwarn com.squareup.okhttp.**
--dontwarn java.nio.file.**
--dontwarn okio.**
-
--dontwarn com.facebook.android.BuildConfig
-
--dontwarn android.support.**
--dontwarn android.support.v8.**
--dontwarn com.philips.cdp.registration.**
--dontwarn com.philips.cdp.platform.**
--dontwarn org.apache.**
-#-dontwarn com.philips.cdp.digitalcare.**
-#-dontwarn com.philips.cdp.prxclient.**
-
-
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
@@ -160,24 +74,6 @@ public static <fields>;
 
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-
-# -------------WeChat---------------------------------------------------
-
--keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
-
--keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
-
--keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
-
--keep class com.philips.platform.baseapp.base.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
-
--keep class com.tencent.mm.sdk.** {
-      *;
-  }
 
 #-------------------------Consumer Care Starts -------------------------
 
