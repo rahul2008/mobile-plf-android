@@ -37,8 +37,6 @@
 -dontwarn android.app.Notification
 
 #check if somethings below can be removed?
--dontwarn javax.persistence.**
--dontwarn javax.lang.**
 -dontwarn javax.annotation.**
 -dontwarn javax.tools.**
 
