@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -29,10 +30,11 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         final CloudController cloudController = setupCloudController(context);
         final CloudTransportContext cloudTransportContext = new CloudTransportContext(context, cloudController);
 
+        final BleTransportContext bleTransportContext = new BleTransportContext(context, true);
         final LanTransportContext lanTransportContext = new LanTransportContext(context);
-        final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(lanTransportContext, cloudTransportContext);
+        final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
 
-        this.commCentral = new CommCentral(applianceFactory, lanTransportContext, cloudTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
     }
 
     @NonNull
