@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.appinfra.keybag.model.AIKMService.KEY_BAG_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR;
+import static com.philips.platform.appinfra.keybag.model.AIKMService.MAP_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -160,10 +160,10 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
         groomHelper.mapAndValidateGroom(aikmService, null, "0");
-        assertEquals(aikmService.getKeyBagError(), SERVICE_DISCOVERY_RESPONSE_ERROR);
+        assertEquals(aikmService.getMapError(), SERVICE_DISCOVERY_RESPONSE_ERROR);
 
         groomHelper.mapAndValidateGroom(aikmService, "service_id", "string");
-        assertEquals(AIKMService.KEY_BAG_ERROR.INVALID_INDEX_URL, aikmService.getKeyBagError());
+        assertEquals(AIKMService.MAP_ERROR.INVALID_INDEX_URL, aikmService.getMapError());
 
         groomHelper = new GroomHelper(mAppInfraMock) {
             @Override
@@ -172,7 +172,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             }
         };
         groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
-        assertEquals(AIKMService.KEY_BAG_ERROR.INVALID_JSON_STRUCTURE, aikmService.getKeyBagError());
+        assertEquals(AIKMService.MAP_ERROR.INVALID_JSON_STRUCTURE, aikmService.getMapError());
 
         JSONObject someJsonObject = new JSONObject();
         try {
@@ -185,8 +185,8 @@ public class GroomHelperTest extends AppInfraInstrumentation {
                 }
             };
             groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
-            assertTrue(aikmService.getKeyBag() != null);
-            assertEquals(aikmService.getKeyBag().get("clientId"), "test");
+            assertTrue(aikmService.getMap() != null);
+            assertEquals(aikmService.getMap().get("clientId"), "test");
         } catch (JSONException e) {
             e.printStackTrace();
         }

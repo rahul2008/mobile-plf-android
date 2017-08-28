@@ -146,7 +146,7 @@ public class GroomHelper {
             try {
                 index = Integer.parseInt(groomIndex);
             } catch (NumberFormatException e) {
-                aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INVALID_INDEX_URL);
+                aikmService.setMapError(AIKMService.MAP_ERROR.INVALID_INDEX_URL);
                 e.printStackTrace();
                 return;
             }
@@ -156,16 +156,16 @@ public class GroomHelper {
                 try {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(index);
                     Map map = mapData(jsonObject, index, serviceId);
-                    aikmService.setKeyBag(map);
+                    aikmService.setMap(map);
                 } catch (JSONException e) {
-                    aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INDEX_NOT_MAPPED);
+                    aikmService.setMapError(AIKMService.MAP_ERROR.INDEX_NOT_MAPPED);
                     e.printStackTrace();
                 }
             } else {
-                aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.INVALID_JSON_STRUCTURE);
+                aikmService.setMapError(AIKMService.MAP_ERROR.INVALID_JSON_STRUCTURE);
             }
         } else {
-            aikmService.setKeyBagError(AIKMService.KEY_BAG_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR);
+            aikmService.setMapError(AIKMService.MAP_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR);
         }
     }
 

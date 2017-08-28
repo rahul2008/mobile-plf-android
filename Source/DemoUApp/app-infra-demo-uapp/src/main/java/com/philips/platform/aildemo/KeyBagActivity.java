@@ -101,7 +101,7 @@ public class KeyBagActivity extends AppCompatActivity {
 					stringBuilder.append(aikmService.getmError());
 				}
 				stringBuilder.append(", ");
-				Map keyBag = aikmService.getKeyBag();
+				Map keyBag = aikmService.getMap();
 				if (keyBag != null) {
 					for (Object object : keyBag.entrySet()) {
 						Map.Entry pair = (Map.Entry) object;
@@ -115,7 +115,7 @@ public class KeyBagActivity extends AppCompatActivity {
 						stringBuilder.append("  ");
 					}
 				}
-				AIKMService.KEY_BAG_ERROR keyBagError = aikmService.getKeyBagError();
+				AIKMService.MAP_ERROR keyBagError = aikmService.getMapError();
 				if (null != keyBagError) {
 					stringBuilder.append("error while fetching key bag -- ");
 					stringBuilder.append(keyBagError.name());

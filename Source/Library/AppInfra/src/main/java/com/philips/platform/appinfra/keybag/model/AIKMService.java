@@ -14,19 +14,19 @@ import java.util.Map;
 public class AIKMService extends ServiceDiscoveryService {
 
     private String serviceId;
-    private Map keyBag;
-    private KEY_BAG_ERROR key_bag_error;
+    private Map map;
+    private MAP_ERROR mapError;
 
-    public enum KEY_BAG_ERROR {
+    public enum MAP_ERROR {
         INDEX_NOT_MAPPED, INVALID_INDEX_URL, INVALID_JSON_STRUCTURE, SERVICE_DISCOVERY_RESPONSE_ERROR
     }
 
-    public Map getKeyBag() {
-        return keyBag;
+    public Map getMap() {
+        return map;
     }
 
-    public void setKeyBag(Map keyBag) {
-        this.keyBag = keyBag;
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     public String getServiceId() {
@@ -37,12 +37,12 @@ public class AIKMService extends ServiceDiscoveryService {
         this.serviceId = serviceId;
     }
 
-    public KEY_BAG_ERROR getKeyBagError() {
-        return key_bag_error;
+    public MAP_ERROR getMapError() {
+        return mapError;
     }
 
-    public void setKeyBagError(KEY_BAG_ERROR key_bag_error) {
-        this.key_bag_error = key_bag_error;
+    public void setMapError(MAP_ERROR MAP_error) {
+        this.mapError = MAP_error;
     }
 
 }
