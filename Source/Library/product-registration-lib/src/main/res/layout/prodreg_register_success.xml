@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/successLayout"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/fab_margin"
     android:layout_marginRight="@dimen/fab_margin"
@@ -18,18 +18,18 @@
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="@dimen/pr_title_textsize" />
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_layout_divider"
+        android:background="?attr/uidButtonPrimaryNormalTextColor" />
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/success_background_image"
             android:layout_width="@dimen/prg_success_image_width"
             android:layout_height="@dimen/prg_success_image_height"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:src="@drawable/prodreg_placeholder" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -52,9 +52,8 @@
             android:layout_marginLeft="@dimen/pr_registration_margin_left"
             android:layout_marginTop="@dimen/pr_a_value_sm"
             android:layout_toRightOf="@id/success_background_image"
-            android:text="HR293/40"
             android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
-            android:textSize="@dimen/pr_connect_title_textsize" />
+            android:textSize="@dimen/prg_serial_number_size" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
@@ -78,14 +77,15 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/team_member_icon"
                 android:paddingLeft="@dimen/pr_b_value_sm"
-                android:text="Unregister"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/pr_connect_title_textsize" />
 
         </RelativeLayout>
-
-
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_layout_divider"
+        android:background="?attr/uidButtonPrimaryDisabledTextColor" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pr_success_thanks_textView"
@@ -120,6 +120,7 @@
         android:layout_marginTop="@dimen/pr_b_value_sm"
         android:text="@string/PRG_Register_Another"
         android:textAllCaps="false"
+        android:layout_marginBottom="@dimen/pr_margintop"
         app:uidComponentType="Secondary" />
 
 

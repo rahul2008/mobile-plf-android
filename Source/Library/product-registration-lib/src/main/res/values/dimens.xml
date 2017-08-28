@@ -47,5 +47,6 @@
     <dimen name="prg_register_unregister_image_width">24dp</dimen>
     <dimen name="prg_register_unregister_image_height">24dp</dimen>
     <dimen name="theme_settings_pagemargin">48dp</dimen>
-
+    <dimen name="prg_serial_number_size">12sp</dimen>
+    <dimen name="button_layout_divider">1dp</dimen>
 </resources>
