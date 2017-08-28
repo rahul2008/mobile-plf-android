@@ -60,6 +60,20 @@
             android:layout_toLeftOf="@id/ths_arrow"
             android:layout_alignStart="@id/providerNameLabel" />
 
+        <com.philips.platform.uid.view.widget.RatingBar
+            android:id="@+id/providerRatingValue"
+            style="@style/UIDRatingBarStandardDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/practiceNameLabel"
+            android:stepSize=".1"
+            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:visibility="gone"
+            android:layout_alignLeft="@id/practiceNameLabel"
+            android:layout_alignParentRight="true"
+            android:numStars="5"
+            android:textSize="@dimen/uid_grid_descrption_size" />
+
     </RelativeLayout>
 
 </RelativeLayout>
