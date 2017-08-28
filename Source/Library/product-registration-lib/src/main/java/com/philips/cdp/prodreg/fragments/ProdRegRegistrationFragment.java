@@ -52,11 +52,13 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements ProdRegRegistrationController.RegisterControllerCallBacks {
@@ -78,6 +80,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private InputValidationLayout serial_input_field ,date_input_field;
     private ValidationEditText field_serial;
     private boolean isRegisterButtonClicked = false;
+    private String minDate;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -328,8 +331,17 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     }
                     datePickerDialog = new DatePickerDialog(mActivity,R.style.UIDDatePickerDialogTheme,
                             myDateListener, mYear, mMonthInt, mDay);
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmmm:ss.SSSZ",Locale.ENGLISH);
+
+                    long dateInLong =0;
+                    try {
+                        Date date = formatter.parse(minDate);
+                        dateInLong = date.getTime();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     final ProdRegUtil prodRegUtil = new ProdRegUtil();
-                    datePickerDialog.getDatePicker().setMinDate(prodRegUtil.getMinDate());
+                    datePickerDialog.getDatePicker().setMinDate(dateInLong);
                     datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                     datePickerDialog.show();
                     field_serial.setFocusableInTouchMode(true);
@@ -409,7 +421,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             findSerialTextView.setVisibility(View.GONE);
         } else
             showErrorMessageSerialNumber();
-
     }
 
     @Override
@@ -424,9 +435,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 productTitleTextView.setVisibility(View.GONE);
                 prg_product_title.setVisibility(View.GONE);
             }
-
-            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(productImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
-            imageLoader.get(summaryData.getImageURL(), ImageLoader.getImageListener(success_background_image, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+            minDate = summaryData.getSop();
+            imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(productImageView,
+                    R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+            imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(success_background_image,
+                    R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
             field_serial.addTextChangedListener(getWatcher());
         }
     }
