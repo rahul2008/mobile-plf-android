@@ -1252,6 +1252,10 @@ public class THSManager {
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
                 URConfigurationConstants.UR, configError));
+        if(propertyForKey instanceof Map){
+            HashMap map = (HashMap)propertyForKey;
+            return map.get("default").toString();
+        }
         return propertyForKey.toString();
     }
 
