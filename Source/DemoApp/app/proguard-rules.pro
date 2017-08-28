@@ -9,7 +9,6 @@
 
 #Registration
 -keep class com.philips.cdp.registration.** {*;}
-
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
@@ -18,11 +17,15 @@
 
 #GMS (Registration)
 -keep  class com.google.android.gms.* { public *; }
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
 #Webkit (Registration)
 -keep  class android.net.http.SslError
 -keep  class android.webkit.WebViewClient
-
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
 
 #Janrain (Registration)
 -keep public class com.janrain.android.** {*;}
@@ -30,21 +33,8 @@
 -keep class com.philips.cdp.registration.User$*{*;}
 -keep  class com.janrain.android.capture.Capture$* {*;}
 
-
--dontwarn android.webkit.WebView
--dontwarn android.net.http.SslError
--dontwarn android.webkit.WebViewClient
-
 #notification (Registration)
 -dontwarn android.app.Notification
-
--keepclasseswithmembernames class * {
-    native <methods>;
-}
-
--dontwarn com.google.android.gms.**
--dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-
 
 #check if somethings below can be removed?
 -dontwarn org.slf4j.**
@@ -55,10 +45,6 @@
 -dontwarn javax.lang.**
 -dontwarn javax.annotation.**
 -dontwarn javax.tools.**
-
-#Network
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
 
 #--------------------------AppInfra starts here-----------
 -keep public class javax.net.ssl.**
