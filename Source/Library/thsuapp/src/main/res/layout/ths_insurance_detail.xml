@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_provider_select_insurance_edit_text"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:text="Subscription ID"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
@@ -103,6 +103,7 @@
                 android:drawableRight="@mipmap/right_arrow_icon"
                 android:focusable="false"
                 android:hint="Choose Relationship"
+                fontPath="fonts/centralesansbold.ttf"
                 android:textColor="@color/awsdk_color_black"></com.philips.platform.uid.view.widget.EditText>
 
             <com.philips.platform.uid.view.widget.Label
@@ -171,7 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_relationship_relative_layout"
 
-            android:layout_marginBottom="@dimen/ths_margin_between_buttons"
+            android:layout_marginBottom="8dp"
 
             android:text="Continue" />
 
