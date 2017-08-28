@@ -26,6 +26,7 @@ Version {next}
 
 ### Defects solved
 * \#72227 Timeout callback not called
+* \#76117 commlib-ble makes bluelib connect() calls without timeout
 
 ### Residual anomalies
 * To be filled in at release
