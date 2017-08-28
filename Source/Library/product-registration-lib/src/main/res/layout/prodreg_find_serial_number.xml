@@ -21,7 +21,7 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/prodreg_placeholder"
+            android:src="@drawable/product_placeholder"
             android:layout_marginTop="@dimen/pr_margintop"
             android:maxWidth="680dp"/>
 
@@ -37,6 +37,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/serial_number_guide_format_text"
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,6 +48,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/serial_number_guide_text"
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
