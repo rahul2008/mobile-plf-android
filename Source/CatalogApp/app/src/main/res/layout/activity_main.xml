@@ -92,17 +92,20 @@
             android:fitsSystemWindows="true"
             android:background="?attr/uidContentPrimaryBackgroundColor">
 
-            <!--<android.support.v4.widget.NestedScrollView
+            <ScrollView
+                android:id="@+id/sidebar_right_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:fillViewport="true"
+                android:overScrollMode="never">
 
                 <RelativeLayout
                     android:id="@+id/sidebar_right_relative"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <LinearLayout
+
+                <LinearLayout
                         android:id="@+id/sidebar_right_header_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -112,15 +115,32 @@
                             android:id="@+id/sidebar_right_header_layout"
                             layout="@layout/sidebar_right_header_view"/>
 
-                    </LinearLayout>-->
 
-                    <ListView
+                        <com.philips.platform.catalogapp.dataUtils.NonScrollableListView
+                        android:id="@+id/sidebar_right_listview"
+                        android:overScrollMode="never"
+                        android:dividerHeight="@dimen/uid_divider_Height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                            android:choiceMode="singleChoice"/>
+
+                    <include
+                        layout="@layout/uid_horizontal_separator"/>
+
+                </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </ScrollView>
+
+                    <!--<ListView
                         android:id="@+id/sidebar_right_listview"
                         android:overScrollMode="never"
                         android:dividerHeight="@dimen/uid_divider_Height"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:choiceMode="singleChoice"/>
+                        android:choiceMode="singleChoice"/>-->
 
                 <!--</RelativeLayout>
 

@@ -33,6 +33,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -160,8 +161,8 @@ public class MainActivity extends UIDActivity {
         leftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
-        ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
-        rightListView.addHeaderView(header, null, false);
+        //ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
+        //rightListView.addHeaderView(header, null, false);
         sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
         sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(this), 0, 0);
 
@@ -314,7 +315,7 @@ public class MainActivity extends UIDActivity {
         rightListView.setDivider(separatorDrawable);
         rightListView.setDividerHeight(separatorDrawable.getHeight());
         rightListView.setAdapter(new ArrayAdapter<>(this, R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS));
-        rightListView.setItemChecked(1, true);
+        rightListView.setItemChecked(0, true);
         rightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
