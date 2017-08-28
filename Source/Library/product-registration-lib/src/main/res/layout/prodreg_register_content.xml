@@ -31,7 +31,7 @@
         android:layout_marginBottom="@dimen/pr_c_value_sm"
         android:layout_marginTop="@dimen/pr_margintop"
         android:scaleType="fitCenter"
-        android:src="@drawable/prodreg_placeholder" />
+        android:src="@drawable/product_placeholder" />
 
     <LinearLayout
         android:id="@+id/prg_registerScreen_serialNumber_layout"
@@ -106,7 +106,7 @@
                 style="@style/ButtonTexts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/prodreg_calendar_inverted"
+                android:drawableEnd="@drawable/ic_calender"
                 android:hint="@string/purchase_date_format" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
     </LinearLayout>

@@ -28,7 +28,6 @@
             style="@style/UIDLabel.ProductRegistrationConnectSubTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uikit_veryLightColor"
             android:paddingBottom="@dimen/pr_d_value_sm"
             android:paddingLeft="@dimen/pr_left_padding_sm"
             android:paddingRight="@dimen/pr_right_padding_sm"
@@ -40,7 +39,6 @@
             style="@style/UIDLabel.ProductRegistrationConnectSubTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uikit_veryLightColor"
             android:paddingLeft="@dimen/pr_left_padding_sm"
             android:paddingRight="@dimen/pr_bottom_padding_sm"
             android:text="@string/PPR_Connect_Your_Product_Lbltxt"/>
@@ -50,7 +48,6 @@
             style="@style/UIDLabel.ProductRegistrationConnectSubTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uikit_veryLightColor"
             android:paddingBottom="@dimen/pr_d_value_sm"
             android:paddingLeft="@dimen/pr_left_padding_sm"
             android:paddingRight="@dimen/pr_bottom_padding_sm"
@@ -68,7 +65,6 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/connect_product_btn"
-            style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"

@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/uikit_modal_alert_button_left_margin">
+        android:padding="10dp">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_title_message"

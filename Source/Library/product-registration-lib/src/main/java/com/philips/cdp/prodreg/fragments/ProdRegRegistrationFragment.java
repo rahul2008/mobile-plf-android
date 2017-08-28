@@ -437,9 +437,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             }
             minDate = summaryData.getSop();
             imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(productImageView,
-                    R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+                    R.drawable.product_placeholder, R.drawable.product_placeholder));
             imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(success_background_image,
-                    R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+                    R.drawable.product_placeholder, R.drawable.product_placeholder));
             field_serial.addTextChangedListener(getWatcher());
         }
     }

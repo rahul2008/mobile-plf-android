@@ -100,7 +100,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                 } else {
                     serialNumberImageView.getLayoutParams().height = (width * 5) / 12;
                 }
-                imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+                imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView,
+                        R.drawable.product_placeholder, R.drawable.product_placeholder));
                 serialNumberImageView.requestLayout();
             }
             @Override

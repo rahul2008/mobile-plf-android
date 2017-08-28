@@ -30,7 +30,7 @@
             android:id="@+id/success_background_image"
             android:layout_width="@dimen/prg_success_image_width"
             android:layout_height="@dimen/prg_success_image_height"
-            android:src="@drawable/prodreg_placeholder" />
+            android:src="@drawable/product_placeholder" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/prg_product_title"
