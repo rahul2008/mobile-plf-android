@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -110,7 +109,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_checkout_history_footer, parent, false);
             return new FooterShoppingCartViewHolder(v);
         } else if (viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_data, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_checkout_history_data, parent, false);
             return new ShoppingCartProductHolder(v);
         }
         return null;
@@ -171,7 +170,6 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        System.out.println("888888 onBindViewHolder : ");
         if (mData.size() == 0)
             return;
 
@@ -179,30 +177,12 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
-
-            if (mData.size() == 1 || position == mData.size() - 1) {
-                shoppingCartProductHolder.viewBottomSpace.setVisibility(View.GONE);
-            }
-
             String imageURL = cartData.getImageURL();
-            // shoppingCartProductHolder.mTvActualPrice.setText(cartData.getFormattedTotalPrice());
-            // shoppingCartProductHolder.mTvActualPrice.setPaintFlags(shoppingCartProductHolder.mTvActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
-            shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
             getNetworkImage(shoppingCartProductHolder, imageURL);
-            shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
-            bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
-
-            shoppingCartProductHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    mSelectedItemPosition = holder.getAdapterPosition();
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM);
-                }
-            });
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
@@ -306,23 +286,14 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (pStockLevel == 0) {
             pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
-            pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
-            pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             setCountArrow(mContext, false);
             setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else if (pStockLevel < pQuantity) {
-            pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
-            pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
             pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
             pShoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + pStockLevel + " left");
             setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
-        } else {
-            pShoppingCartProductHolder.mQuantityLayout.setEnabled(true);
-            pShoppingCartProductHolder.mQuantityLayout.setClickable(true);
-            pShoppingCartProductHolder.mTvQuantity.setEnabled(true);
-            setCountArrow(mContext, true);
         }
     }
 
@@ -364,13 +335,9 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         NetworkImageView mNetworkImage;
         TextView mTvPrice;
         TextView mTvActualPrice;
-        RelativeLayout mQuantityLayout;
         TextView mTvAfterDiscountPrice;
-        TextView mTvQuantity;
         TextView mIvOptions;
-        Button deleteBtn;
         View itemView;
-        View viewBottomSpace;
 
         ShoppingCartProductHolder(final View itemView) {
             super(itemView);
@@ -378,13 +345,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mTvPrice = (TextView) itemView.findViewById(R.id.price_label);
             mTvActualPrice = (TextView) itemView.findViewById(R.id.actual_price);
-            mQuantityLayout = (RelativeLayout) itemView.findViewById(R.id.quantity_count_layout);
             mTvAfterDiscountPrice = (TextView) itemView.findViewById(R.id.after_discount_price);
-            mTvQuantity = (TextView) itemView.findViewById(R.id.quantity_val);
             mIvOptions = (TextView) itemView.findViewById(R.id.right_arrow);
-            deleteBtn = (Button) itemView.findViewById(R.id.delete_btn);
-            viewBottomSpace = (View) itemView.findViewById(R.id.bottom_space);
-
         }
     }
 
