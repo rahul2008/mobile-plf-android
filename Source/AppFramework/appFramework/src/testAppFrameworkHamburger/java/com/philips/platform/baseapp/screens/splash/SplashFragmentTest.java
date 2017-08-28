@@ -8,9 +8,11 @@ package com.philips.platform.baseapp.screens.splash;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 
 import org.junit.After;
@@ -27,10 +29,10 @@ import static junit.framework.Assert.assertNotNull;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class SplashFragmentTest {
-    private LaunchActivityMockAbstract launchActivity;
+    private HamburgerActivity launchActivity;
     private SplashFragment splashFragment;
     private ImageView logo;
-    private ActivityController<LaunchActivityMockAbstract> activityController;
+    private ActivityController<TestActivity> activityController;
 
     @After
     public void tearDown(){
@@ -41,7 +43,7 @@ public class SplashFragmentTest {
     }
     @Before
     public void setUp(){
-        activityController= Robolectric.buildActivity(LaunchActivityMockAbstract.class);
+        activityController= Robolectric.buildActivity(TestActivity.class);
         launchActivity=activityController.create().start().get();
         splashFragment =  new SplashFragment();
         launchActivity.getSupportFragmentManager().beginTransaction().add(splashFragment,null).commit();
