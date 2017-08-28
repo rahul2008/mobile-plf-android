@@ -40,6 +40,9 @@
       "commonComponents":[
         {
           "coconame":"Device Pairing"
+        },
+        {
+          "coconame": "Data Services"
         }
       ]
     }
