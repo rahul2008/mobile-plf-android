@@ -57,7 +57,7 @@ import static android.app.Activity.RESULT_OK;
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
         THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
-    protected THSSymptomsPresenter mTHSSymptomsPresenter;
+    protected THSSymptomsPresenter thsSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
     private THSOnDemandSpeciality thsOnDemandSpeciality;
     protected LinearLayout topicLayout;
@@ -81,7 +81,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private THSFileUtils thsFileUtils;
     private EditText additional_comments_edittext;
 
-    //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,25 +106,19 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         mContinue = (Button) view.findViewById(R.id.continue_btn);
         mContinue.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.symptoms_container);
-        mTHSSymptomsPresenter = new THSSymptomsPresenter(this);
-        //requestWritePermission();
+        thsSymptomsPresenter = new THSSymptomsPresenter(this);
+
+        thsSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
+        }
+        getVisistContext();
         return view;
     }
 
 
     public void setConsumerObject(THSConsumer thsConsumer) {
         this.thsConsumer = thsConsumer;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
-        if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
-        }
-        getVisistContext();
     }
 
     @Override
@@ -139,10 +132,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             createCustomProgressBar(mRelativeLayout, BIG);
             mContinue.setEnabled(false);
             if (mThsProviderInfo != null) {
-                mTHSSymptomsPresenter.getVisitContext();
+                thsSymptomsPresenter.getVisitContext();
             } else {
                 try {
-                    mTHSSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
+                    thsSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
                 } catch (AWSDKInstantiationException e) {
                     e.printStackTrace();
                 }
@@ -153,7 +146,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         }
     }
 
-    //TODO: SPOORTI - crashing when back is pressed
     public void addTopicsToView(THSVisitContext visitContext) {
         ths_symptoms_relative_layout.setVisibility(View.VISIBLE);
         mThsVisitContext = visitContext;
@@ -186,7 +178,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.continue_btn) {
-            mTHSSymptomsPresenter.onEvent(R.id.continue_btn);
+            thsSymptomsPresenter.onEvent(R.id.continue_btn);
         }
         if (i == R.id.camera_click_button) {
             selectImage();
@@ -215,16 +207,16 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.ths_choose_image_dialog);
         dialog.setCancelable(false);
-        dialog.setTitle("Add Photo!");
+        dialog.setTitle(getString(R.string.ths_intake_symptoms_add_photo));
         Button cancelDialogButton = (Button) dialog.findViewById(R.id.cancel_dialog);
-        cancelDialogButton.setText("Cancel");
+        cancelDialogButton.setText(getString(R.string.cancel));
         cancelDialogButton.setOnClickListener(this);
         Button selectFromGalleryButton = (Button) dialog.findViewById(R.id.select_from_gallery);
         selectFromGalleryButton.setOnClickListener(this);
-        selectFromGalleryButton.setText("Select from gallery");
+        selectFromGalleryButton.setText(getString(R.string.ths_intake_symptoms_choose_from_library));
         Button selectFromCameraButton = (Button) dialog.findViewById(R.id.camera_image);
         selectFromCameraButton.setOnClickListener(this);
-        selectFromCameraButton.setText("Take a photo");
+        selectFromCameraButton.setText(getString(R.string.ths_intake_symptoms_take_photo));
         dialog.show();
     }
 
@@ -237,9 +229,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                             Manifest.permission.CAMERA},
                     REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA);
         } else {
-            if (userChosenTask.equals("Take Photo")) {
+            if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_take_photo))) {
                 cameraIntent();
-            } else if (userChosenTask.equals("Choose from Library")) {
+            } else if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_choose_from_library))) {
                 galleryIntent();
             }
         }
@@ -253,7 +245,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-            mTHSSymptomsPresenter.fetchHealthDocuments();
+            thsSymptomsPresenter.fetchHealthDocuments();
         }
     }
 
@@ -317,7 +309,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
         if (null != picturePath) {
             updateDocumentsToUpload(picturePath);
-            mTHSSymptomsPresenter.uploadDocuments(mCapturedImageURI);
+            thsSymptomsPresenter.uploadDocuments(mCapturedImageURI);
         }
 
 
@@ -342,19 +334,18 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         switch (requestCode) {
             case REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (userChosenTask.equals("Take Photo"))
+                    if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_take_photo)))
                         cameraIntent();
-                    else if (userChosenTask.equals("Choose from Library"))
+                    else if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_choose_from_library)))
                         galleryIntent();
                 } else {
-                    showToast("Permission to select image denied");
+                    showToast(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
                 }
                 break;
             case REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
                 } else {
-                    showToast("Permission to select image denied");
+                    showToast(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
                 }
         }
 

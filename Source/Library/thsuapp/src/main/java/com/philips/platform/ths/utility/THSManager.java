@@ -135,8 +135,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.http.HEAD;
-
 
 public class THSManager {
     private static THSManager sTHSManager = null;
@@ -1246,6 +1244,10 @@ public class THSManager {
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
                 URConfigurationConstants.UR, configError));
+        if(propertyForKey instanceof Map){
+            HashMap map = (HashMap) propertyForKey;
+            return map.get("default").toString();
+        }
         return propertyForKey.toString();
     }
 
