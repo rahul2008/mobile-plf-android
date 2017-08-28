@@ -180,7 +180,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
 
-            if(mData.size()==1 || position==mData.size()-1){
+            if (mData.size() == 1 || position == mData.size() - 1) {
                 shoppingCartProductHolder.viewBottomSpace.setVisibility(View.GONE);
             }
 
@@ -252,16 +252,18 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mIsFreeDelivery = true;
                 }
 
-                if(data.getDeliveryAddressEntity()!=null){
-                    shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName()+" "+data.getDeliveryAddressEntity().getLastName());
-                    shoppingCartFooter.mShippingAddress.setText(data.getDeliveryAddressEntity().getFormattedAddress());
+                if (data.getDeliveryAddressEntity() != null) {
+                    shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName() + " " + data.getDeliveryAddressEntity().getLastName());
+                    final String formattedAddress = data.getDeliveryAddressEntity().getFormattedAddress();
+                    shoppingCartFooter.mShippingAddress.setText(Utility.formatAddress(formattedAddress));
                 }
 
                 mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
                 if (null != mBillingAddress) {
                     String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                     shoppingCartFooter.mBillingName.setText(billingName);
-                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress) + shoppingCartDataForProductDetailPage.getDeliveryAddressEntity().getCountry().getName());
+//                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress) + shoppingCartDataForProductDetailPage.getDeliveryAddressEntity().getCountry().getName());
+                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress));
                 }
 
                 for (int i = 0; i < mData.size(); i++) {
@@ -372,7 +374,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         ShoppingCartProductHolder(final View itemView) {
             super(itemView);
-            this.itemView=itemView;
+            this.itemView = itemView;
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mTvPrice = (TextView) itemView.findViewById(R.id.price_label);
             mTvActualPrice = (TextView) itemView.findViewById(R.id.actual_price);
@@ -381,7 +383,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mTvQuantity = (TextView) itemView.findViewById(R.id.quantity_val);
             mIvOptions = (TextView) itemView.findViewById(R.id.right_arrow);
             deleteBtn = (Button) itemView.findViewById(R.id.delete_btn);
-            viewBottomSpace=(View)itemView.findViewById(R.id.bottom_space);
+            viewBottomSpace = (View) itemView.findViewById(R.id.bottom_space);
 
         }
     }

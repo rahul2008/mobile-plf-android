@@ -53,6 +53,7 @@ import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
+import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -69,17 +70,17 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private Context mContext;
     public static final String TAG = ShippingAddressFragment.class.getName();
 
-    protected LinearLayout mLlFirstName;
-    protected LinearLayout mLlLastName;
-    protected LinearLayout mLlSalutation;
-    protected LinearLayout mLlAddressLineOne;
-    protected LinearLayout mLlAddressLineTwo;
-    protected LinearLayout mLlTown;
-    protected LinearLayout mLlPostalCode;
-    protected LinearLayout mLlCountry;
-    protected LinearLayout mlLState;
-    protected LinearLayout mLlEmail;
-    protected LinearLayout mLlPhone1;
+    protected InputValidationLayout mLlFirstName;
+    protected InputValidationLayout mLlLastName;
+    protected InputValidationLayout mLlSalutation;
+    protected InputValidationLayout mLlAddressLineOne;
+    protected InputValidationLayout mLlAddressLineTwo;
+    protected InputValidationLayout mLlTown;
+    protected InputValidationLayout mLlPostalCode;
+    protected InputValidationLayout mLlCountry;
+    protected InputValidationLayout mlLState;
+    protected InputValidationLayout mLlEmail;
+    protected InputValidationLayout mLlPhone1;
 
     protected CheckBox mUseThisAddressCheckBox;
     LinearLayout mSameAsShippingAddress;
@@ -118,52 +119,52 @@ public class ShippingAddressFragment extends InAppBaseFragment
     private InputValidator inputValidatorSalutation;
     private InputValidator inputValidatorAddressLineTwo;
 
-    private LinearLayout mLlFirstNameBilling;
+    private InputValidationLayout mLlFirstNameBilling;
     private InputValidator inputValidatorFirstNameBilling;
-    private LinearLayout mLlLastNameBilling;
+    private InputValidationLayout mLlLastNameBilling;
     private InputValidator inputValidatorLastNameBilling;
-    private LinearLayout mLlSalutationBilling;
+    private InputValidationLayout mLlSalutationBilling;
     private InputValidator inputValidatorSalutationBilling;
-    private LinearLayout mLlAddressLineOneBilling;
+    private InputValidationLayout mLlAddressLineOneBilling;
     private InputValidator inputValidatorAddressLineOneBilling;
-    private LinearLayout mLlAddressLineTwoBilling;
+    private InputValidationLayout mLlAddressLineTwoBilling;
     private InputValidator inputValidatorAddressLineTwoBilling;
-    private LinearLayout mLlTownBilling;
+    private InputValidationLayout mLlTownBilling;
     private InputValidator inputValidatorTownBilling;
-    private LinearLayout mLlPostalCodeBilling;
+    private InputValidationLayout mLlPostalCodeBilling;
     private InputValidator inputValidatorPostalCodeBilling;
-    private LinearLayout mLlCountryBilling;
+    private InputValidationLayout mLlCountryBilling;
     private InputValidator inputValidatorCountryBilling;
-    private LinearLayout mlLStateBilling;
+    private InputValidationLayout mlLStateBilling;
     private InputValidator inputValidatorStateBilling;
-    private LinearLayout mLlEmailBilling;
+    private InputValidationLayout mLlEmailBilling;
     private InputValidator inputValidatorEmailBilling;
-    private LinearLayout mLlPhone1Billing;
+    private InputValidationLayout mLlPhone1Billing;
     private InputValidator inputValidatorPhoneBilling;
 
-    protected EditText mEtFirstName;
-    protected EditText mEtLastName;
-    protected EditText mEtSalutation;
-    protected EditText mEtAddressLineOne;
-    protected EditText mEtAddressLineTwo;
-    protected EditText mEtTown;
-    protected EditText mEtPostalCode;
-    protected EditText mEtCountry;
-    protected EditText mEtState;
-    protected EditText mEtEmail;
-    protected EditText mEtPhone1;
+    protected ValidationEditText mEtFirstName;
+    protected ValidationEditText mEtLastName;
+    protected ValidationEditText mEtSalutation;
+    protected ValidationEditText mEtAddressLineOne;
+    protected ValidationEditText mEtAddressLineTwo;
+    protected ValidationEditText mEtTown;
+    protected ValidationEditText mEtPostalCode;
+    protected ValidationEditText mEtCountry;
+    protected ValidationEditText mEtState;
+    protected ValidationEditText mEtEmail;
+    protected ValidationEditText mEtPhone1;
 
-    private EditText mEtFirstNameBilling;
-    private EditText mEtLastNameBilling;
-    private EditText mEtSalutationBilling;
-    private EditText mEtAddressLineOneBilling;
-    private EditText mEtAddressLineTwoBilling;
-    private EditText mEtTownBilling;
-    private EditText mEtPostalCodeBilling;
-    private EditText mEtCountryBilling;
-    private EditText mEtStateBilling;
-    private EditText mEtEmailBilling;
-    private EditText mEtPhone1Billing;
+    private ValidationEditText mEtFirstNameBilling;
+    private ValidationEditText mEtLastNameBilling;
+    private ValidationEditText mEtSalutationBilling;
+    private ValidationEditText mEtAddressLineOneBilling;
+    private ValidationEditText mEtAddressLineTwoBilling;
+    private ValidationEditText mEtTownBilling;
+    private ValidationEditText mEtPostalCodeBilling;
+    private ValidationEditText mEtCountryBilling;
+    private ValidationEditText mEtStateBilling;
+    private ValidationEditText mEtEmailBilling;
+    private ValidationEditText mEtPhone1Billing;
 
     private SalutationDropDown mSalutationDropDownBilling;
     private StateDropDown mStateDropDownBilling;
@@ -182,127 +183,127 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mSameAsShippingAddress = (LinearLayout) rootView.findViewById(R.id.iap_same_as_shipping_address);
 
 
-        mLlFirstName = (LinearLayout) rootView.findViewById(R.id.ll_first_name);
+        mLlFirstName = (InputValidationLayout) rootView.findViewById(R.id.ll_first_name);
         inputValidatorFirstName = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mLlFirstName).setValidator(inputValidatorFirstName);
+        mLlFirstName.setValidator(inputValidatorFirstName);
 
-        mLlFirstNameBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_first_name);
+        mLlFirstNameBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_first_name);
         inputValidatorFirstNameBilling = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mLlFirstNameBilling).setValidator(inputValidatorFirstNameBilling);
+        mLlFirstNameBilling.setValidator(inputValidatorFirstNameBilling);
 
 
-        mLlLastName = (LinearLayout) rootView.findViewById(R.id.ll_last_name);
+        mLlLastName = (InputValidationLayout) rootView.findViewById(R.id.ll_last_name);
         inputValidatorLastName = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mLlLastName).setValidator(inputValidatorLastName);
+        mLlLastName.setValidator(inputValidatorLastName);
 
 
-        mLlLastNameBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_last_name);
+        mLlLastNameBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_last_name);
         inputValidatorLastNameBilling = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mLlLastNameBilling).setValidator(inputValidatorLastNameBilling);
+        mLlLastNameBilling.setValidator(inputValidatorLastNameBilling);
 
 
-        mLlSalutation = (LinearLayout) rootView.findViewById(R.id.ll_salutation);
+        mLlSalutation = (InputValidationLayout) rootView.findViewById(R.id.ll_salutation);
         inputValidatorSalutation = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mLlSalutation).setValidator(inputValidatorSalutation);
+        mLlSalutation.setValidator(inputValidatorSalutation);
 
-        mLlSalutationBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_salutation);
+        mLlSalutationBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_salutation);
         inputValidatorSalutationBilling = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mLlSalutationBilling).setValidator(inputValidatorSalutationBilling);
+        mLlSalutationBilling.setValidator(inputValidatorSalutationBilling);
 
-        mLlAddressLineOne = (LinearLayout) rootView.findViewById(R.id.ll_address_line_one);
+        mLlAddressLineOne = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_one);
         inputValidatorAddressLineOne = getValidator(Validator.ADDRESS_PATTERN);
-        ((InputValidationLayout) mLlAddressLineOne).setValidator(inputValidatorAddressLineOne);
+        mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
 
-        mLlAddressLineOneBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_address_line_one);
+        mLlAddressLineOneBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_address_line_one);
         inputValidatorAddressLineOneBilling = getValidator(Validator.ADDRESS_PATTERN);
-        ((InputValidationLayout) mLlAddressLineOneBilling).setValidator(inputValidatorAddressLineOneBilling);
+        mLlAddressLineOneBilling.setValidator(inputValidatorAddressLineOneBilling);
 
 
-        mLlAddressLineTwo = (LinearLayout) rootView.findViewById(R.id.ll_address_line_two);
+        mLlAddressLineTwo = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_two);
         inputValidatorAddressLineTwo = getValidator(Validator.ADDRESS_PATTERN);
-        ((InputValidationLayout) mLlAddressLineTwo).setValidator(inputValidatorAddressLineTwo);
+        mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
-        mLlAddressLineTwoBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_address_line_two);
+        mLlAddressLineTwoBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_address_line_two);
         inputValidatorAddressLineTwoBilling = getValidator(Validator.ADDRESS_PATTERN);
-        ((InputValidationLayout) mLlAddressLineTwoBilling).setValidator(inputValidatorAddressLineTwoBilling);
+        mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
-        mLlTown = (LinearLayout) rootView.findViewById(R.id.ll_town);
+        mLlTown = (InputValidationLayout) rootView.findViewById(R.id.ll_town);
         inputValidatorTown = getValidator(Validator.TOWN_PATTERN);
-        ((InputValidationLayout) mLlTown).setValidator(inputValidatorTown);
+        mLlTown.setValidator(inputValidatorTown);
 
-        mLlTownBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_town);
+        mLlTownBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = getValidator(Validator.TOWN_PATTERN);
-        ((InputValidationLayout) mLlTownBilling).setValidator(inputValidatorTownBilling);
+        mLlTownBilling.setValidator(inputValidatorTownBilling);
 
 
-        mLlPostalCode = (LinearLayout) rootView.findViewById(R.id.ll_postal_code);
+        mLlPostalCode = (InputValidationLayout) rootView.findViewById(R.id.ll_postal_code);
         inputValidatorPostalCode = getValidator(Validator.POSTAL_CODE_PATTERN);
-        ((InputValidationLayout) mLlPostalCode).setValidator(inputValidatorPostalCode);
+        mLlPostalCode.setValidator(inputValidatorPostalCode);
 
-        mLlPostalCodeBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_postal_code);
+        mLlPostalCodeBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_postal_code);
         inputValidatorPostalCodeBilling = getValidator(Validator.POSTAL_CODE_PATTERN);
-        ((InputValidationLayout) mLlPostalCodeBilling).setValidator(inputValidatorPostalCodeBilling);
+        mLlPostalCodeBilling.setValidator(inputValidatorPostalCodeBilling);
 
 
-        mLlCountry = (LinearLayout) rootView.findViewById(R.id.ll_country);
+        mLlCountry = (InputValidationLayout) rootView.findViewById(R.id.ll_country);
         inputValidatorCountry = getValidator(Validator.COUNTRY_PATTERN);
-        ((InputValidationLayout) mLlCountry).setValidator(inputValidatorCountry);
+        mLlCountry.setValidator(inputValidatorCountry);
 
-        mLlCountryBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_country);
+        mLlCountryBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_country);
         inputValidatorCountryBilling = getValidator(Validator.COUNTRY_PATTERN);
-        ((InputValidationLayout) mLlCountryBilling).setValidator(inputValidatorCountryBilling);
+        mLlCountryBilling.setValidator(inputValidatorCountryBilling);
 
 
-        mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
+        mlLState = (InputValidationLayout) rootView.findViewById(R.id.ll_state);
         inputValidatorState = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mlLState).setValidator(inputValidatorState);
+        mlLState.setValidator(inputValidatorState);
 
-        mlLStateBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_state);
+        mlLStateBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_state);
         inputValidatorStateBilling = getValidator(Validator.NAME_PATTERN);
-        ((InputValidationLayout) mlLStateBilling).setValidator(inputValidatorStateBilling);
+        mlLStateBilling.setValidator(inputValidatorStateBilling);
 
 
-        mLlEmail = (LinearLayout) rootView.findViewById(R.id.ll_email);
+        mLlEmail = (InputValidationLayout) rootView.findViewById(R.id.ll_email);
         inputValidatorEmail = getValidator(Validator.EMAIL_PATTERN);
-        ((InputValidationLayout) mLlEmail).setValidator(inputValidatorEmail);
+        mLlEmail.setValidator(inputValidatorEmail);
 
-        mLlEmailBilling = (LinearLayout) rootView.findViewById(R.id.ll_billing_email);
+        mLlEmailBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_email);
         inputValidatorEmailBilling = getValidator(Validator.EMAIL_PATTERN);
-        ((InputValidationLayout) mLlEmailBilling).setValidator(inputValidatorEmailBilling);
+        mLlEmailBilling.setValidator(inputValidatorEmailBilling);
 
-        mLlPhone1 = (LinearLayout) rootView.findViewById(R.id.ll_phone1);
+        mLlPhone1 = (InputValidationLayout) rootView.findViewById(R.id.ll_phone1);
         inputValidatorPhone = getValidator(Validator.PHONE_NUMBER_PATTERN);
-        ((InputValidationLayout) mLlPhone1).setValidator(inputValidatorPhone);
+        mLlPhone1.setValidator(inputValidatorPhone);
 
-        mLlPhone1Billing = (LinearLayout) rootView.findViewById(R.id.ll_billing_phone1);
+        mLlPhone1Billing = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_phone1);
         inputValidatorPhoneBilling = getValidator(Validator.PHONE_NUMBER_PATTERN);
-        ((InputValidationLayout) mLlPhone1Billing).setValidator(inputValidatorPhoneBilling);
+        mLlPhone1Billing.setValidator(inputValidatorPhoneBilling);
 
-        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
-        mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
-        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
-        mEtAddressLineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
-        mEtAddressLineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
-        mEtTown = (EditText) rootView.findViewById(R.id.et_town);
-        mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
-        mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
-        mEtState = (EditText) rootView.findViewById(R.id.et_state);
-        mEtEmail = (EditText) rootView.findViewById(R.id.et_email);
-        mEtPhone1 = (EditText) rootView.findViewById(R.id.et_phone1);
+        mEtFirstName = (ValidationEditText) rootView.findViewById(R.id.et_first_name);
+        mEtLastName = (ValidationEditText) rootView.findViewById(R.id.et_last_name);
+        mEtSalutation = (ValidationEditText) rootView.findViewById(R.id.et_salutation);
+        mEtAddressLineOne = (ValidationEditText) rootView.findViewById(R.id.et_address_line_one);
+        mEtAddressLineTwo = (ValidationEditText) rootView.findViewById(R.id.et_address_line_two);
+        mEtTown = (ValidationEditText) rootView.findViewById(R.id.et_town);
+        mEtPostalCode = (ValidationEditText) rootView.findViewById(R.id.et_postal_code);
+        mEtCountry = (ValidationEditText) rootView.findViewById(R.id.et_country);
+        mEtState = (ValidationEditText) rootView.findViewById(R.id.et_state);
+        mEtEmail = (ValidationEditText) rootView.findViewById(R.id.et_email);
+        mEtPhone1 = (ValidationEditText) rootView.findViewById(R.id.et_phone1);
 
         //For Billing address
 
-        mEtFirstNameBilling = (EditText) rootView.findViewById(R.id.et_billing_first_name);
-        mEtLastNameBilling = (EditText) rootView.findViewById(R.id.et_billing_last_name);
-        mEtSalutationBilling = (EditText) rootView.findViewById(R.id.et_billing_salutation);
-        mEtAddressLineOneBilling = (EditText) rootView.findViewById(R.id.et_billing_address_line_one);
-        mEtAddressLineTwoBilling = (EditText) rootView.findViewById(R.id.et_billing_address_line_two);
-        mEtTownBilling = (EditText) rootView.findViewById(R.id.et_billing_town);
-        mEtPostalCodeBilling = (EditText) rootView.findViewById(R.id.et_billing_postal_code);
-        mEtCountryBilling = (EditText) rootView.findViewById(R.id.et_billing_country);
-        mEtStateBilling = (EditText) rootView.findViewById(R.id.et_billing_state);
-        mEtEmailBilling = (EditText) rootView.findViewById(R.id.et_billing_email);
-        mEtPhone1Billing = (EditText) rootView.findViewById(R.id.et_billing_phone1);
+        mEtFirstNameBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_first_name);
+        mEtLastNameBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_last_name);
+        mEtSalutationBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_salutation);
+        mEtAddressLineOneBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_address_line_one);
+        mEtAddressLineTwoBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_address_line_two);
+        mEtTownBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_town);
+        mEtPostalCodeBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_postal_code);
+        mEtCountryBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_country);
+        mEtStateBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_state);
+        mEtEmailBilling = (ValidationEditText) rootView.findViewById(R.id.et_billing_email);
+        mEtPhone1Billing = (ValidationEditText) rootView.findViewById(R.id.et_billing_phone1);
 
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mEtSalutation.setKeyListener(null);
@@ -332,18 +333,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         showUSRegions();
         mEtCountry.setEnabled(false);
         mEtCountryBilling.setEnabled(false);
-
-        //should it be done for billing address -- Indrajit
-
-
-//        mAddressController = new AddressController(mContext, this);
-//        mPaymentController = new PaymentController(mContext, this);
-//        mShippingAddressFields = new AddressFields();
-//        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
-//        mEtEmail.setEnabled(false);
-//        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-//        showUSRegions();
-//        mEtCountry.setEnabled(false);
 
         mValidator = new Validator();
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -514,7 +503,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
             mEtStateBilling.setFocusable(focusable);
         }
         mEtPhone1Billing.setFocusable(focusable);
-        //  mEtPhone2.setFocusable(focusable);
 
         if (focusable) {
             mEtFirstNameBilling.setFocusableInTouchMode(true);
@@ -528,7 +516,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
                 mEtStateBilling.setFocusableInTouchMode(true);
             }
             mEtPhone1Billing.setFocusableInTouchMode(true);
-            // mEtPhone2.setFocusableInTouchMode(true);
         }
 
         mEtCountryBilling.setFocusable(false);
@@ -563,7 +550,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
             mIgnoreTextChangeListener = false;
             mEtPhone1Billing.setText(mBillingAddressFields.getPhone1());
         }
-        //setTextColor();
     }
 
     private void setImageArrow() {
@@ -686,37 +672,26 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         if (error != null) {
             if (error.getSubject() != null) {
-                String errorMessage;
                 if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
-                    //errorMessage = getResources().getString(R.string.iap_country_error);
-                    ((InputValidationLayout) mLlCountryBilling).setValidator(inputValidatorCountryBilling);
-                    ((InputValidationLayout) mLlCountryBilling).setErrorMessage(R.string.iap_country_error);
-                    // mInlineFormsParent.setErrorMessage(errorMessage);
-                    //mInlineFormsParent.showError(mEtCountry);
+                    mLlCountryBilling.setValidator(inputValidatorCountryBilling);
+                    mLlCountryBilling.setErrorMessage(R.string.iap_country_error);
+                    mLlCountryBilling.showError();
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
-                    ((InputValidationLayout) mLlPostalCode).setValidator(inputValidatorPostalCode);
-                    ((InputValidationLayout) mLlPostalCode).setErrorMessage(R.string.iap_postal_code_error);
-//                    errorMessage = getResources().getString(R.string.iap_postal_code_error);
-//                    mInlineFormsParent.setErrorMessage(errorMessage);
-//                    mInlineFormsParent.showError(mEtPostalCode);
+                    mLlPostalCode.setValidator(inputValidatorPostalCode);
+                    mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
+                    mLlPostalCode.showError();
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
-                    ((InputValidationLayout) mLlPhone1).setValidator(inputValidatorPhone);
-                    ((InputValidationLayout) mLlPhone1).setErrorMessage(R.string.iap_phone_error);
-//                    errorMessage = getResources().getString(R.string.iap_phone_error);
-//                    mInlineFormsParent.setErrorMessage(errorMessage);
-//                    mInlineFormsParent.showError(mEtPhone1);
+                    mLlPhone1.setValidator(inputValidatorPhone);
+                    mLlPhone1.setErrorMessage(R.string.iap_phone_error);
+                    mLlPhone1.showError();
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
-                    ((InputValidationLayout) mLlAddressLineOne).setValidator(inputValidatorAddressLineOne);
-                    ((InputValidationLayout) mLlAddressLineOne).setErrorMessage(R.string.iap_address_error);
-//                    errorMessage = getResources().getString(R.string.iap_address_error);
-//                    mInlineFormsParent.setErrorMessage(errorMessage);
-//                    mInlineFormsParent.showError(mEtAddressLineOne);
+                    mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
+                    mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
+                    mLlAddressLineOne.showError();
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
-                    ((InputValidationLayout) mLlAddressLineTwo).setValidator(inputValidatorAddressLineTwo);
-                    ((InputValidationLayout) mLlAddressLineTwo).setErrorMessage(R.string.iap_address_error);
-//                    errorMessage = getResources().getString(R.string.iap_address_error);
-//                    mInlineFormsParent.setErrorMessage(errorMessage);
-//                    mInlineFormsParent.showError(mEtAddressLineTwo);
+                    mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+                    mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
+                    mLlAddressLineTwo.showError();
                 }
                 NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                         getString(R.string.iap_ok), getString(R.string.iap_server_error),
@@ -747,7 +722,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
             mShippingAddressFields = setAddressFields(mShippingAddressFields);
 
-            mBtnContinue.setEnabled(true);
+            if (mUseThisAddressCheckBox.isChecked()) {
+                mBtnContinue.setEnabled(true);
+            } else {
+                mBtnContinue.setEnabled(false);
+            }
         } else {
             mBtnContinue.setEnabled(false);
         }
@@ -782,66 +761,73 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     public void validate(View editText, boolean hasFocus) {
         boolean result = true;
-        String errorMessage = null;
-
         if (editText.getId() == R.id.et_first_name && !hasFocus) {
-            // result = mValidator.isValidName(mEtFirstName.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_first_name_error);
             result = inputValidatorFirstName.isValidName(((EditText) editText).getText().toString());
-            ((InputValidationLayout) mLlFirstName).setErrorMessage(R.string.iap_first_name_error);
+            if (!result) {
+                mLlFirstName.setErrorMessage(R.string.iap_first_name_error);
+                mLlFirstName.showError();
+            }
         }
         if (editText.getId() == R.id.et_last_name && !hasFocus) {
-            //result = mValidator.isValidName(mEtLastName.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_last_name_error);
             result = inputValidatorLastName.isValidName(mEtLastName.getText().toString());
-            ((InputValidationLayout) mLlLastName).setErrorMessage(R.string.iap_last_name_error);
+            if (!result) {
+                mLlLastName.setErrorMessage(R.string.iap_last_name_error);
+                mLlLastName.showError();
+            }
         }
         if (editText.getId() == R.id.et_town && !hasFocus) {
-            //result = mValidator.isValidTown(mEtTown.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_town_error);
             result = inputValidatorTown.isValidTown(mEtTown.getText().toString());
-            ((InputValidationLayout) mLlTown).setErrorMessage(R.string.iap_town_error);
+            if (!result) {
+                mLlTown.setErrorMessage(R.string.iap_town_error);
+                mLlTown.showError();
+            }
         }
         if (editText.getId() == R.id.et_phone1 && !hasFocus) {
             result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_phone_error);
-            ((InputValidationLayout) mLlPhone1).setErrorMessage(R.string.iap_phone_error);
-            // result = inputValidatorPhone.validate(mEtPhone1.getText().toString());
+            if (!result) {
+                mLlPhone1.setErrorMessage(R.string.iap_phone_error);
+                mLlPhone1.showError();
+            }
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
-            //result = mValidator.isValidCountry(mEtCountry.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_country_error);
             showUSRegions();
             result = inputValidatorCountry.isValidCountry(mEtCountry.getText().toString());
-            ((InputValidationLayout) mLlCountry).setErrorMessage(R.string.iap_country_error);
-
+            if (!result) {
+                mLlCountry.setErrorMessage(R.string.iap_country_error);
+                mLlCountry.showError();
+            }
         }
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
-            //result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_postal_code_error);
             result = inputValidatorPostalCode.isValidPostalCode(mEtPostalCode.getText().toString());
-            ((InputValidationLayout) mLlPostalCode).setErrorMessage(R.string.iap_postal_code_error);
+            if (!result) {
+                mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
+                mLlPostalCode.showError();
+            }
         }
         if (editText.getId() == R.id.et_email && !hasFocus) {
-            //result = mValidator.isValidEmail(mEtEmail.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_email_error);
             result = inputValidatorEmail.isValidEmail(mEtEmail.getText().toString());
-            ((InputValidationLayout) mLlEmail).setErrorMessage(R.string.iap_email_error);
+            if (!result) {
+                mLlEmail.setErrorMessage(R.string.iap_email_error);
+                mLlEmail.showError();
+            }
         }
         if (editText.getId() == R.id.et_address_line_one && !hasFocus) {
-            //result = mValidator.isValidAddress(mEtAddressLineOne.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_address_error);
             result = inputValidatorAddressLineOne.isValidAddress(mEtAddressLineOne.getText().toString());
-            ((InputValidationLayout) mLlAddressLineOne).setErrorMessage(R.string.iap_address_error);
+            if (!result) {
+                mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineOne.showError();
+            }
         }
-        if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
+        if (editText.getId() == R.id.et_address_line_two) {
+            result = inputValidatorAddressLineTwo.isValidAddress(mEtAddressLineTwo.getText().toString());
             if (mEtAddressLineTwo.getText().toString().trim().equals("")) {
                 result = true;
             } else {
-                errorMessage = getResources().getString(R.string.iap_address_error);
-                result = inputValidatorAddressLineTwo.isValidAddress(mEtAddressLineTwo.getText().toString());
-                ((InputValidationLayout) mLlAddressLineTwo).setErrorMessage(R.string.iap_address_error);
+                if (!result) {
+                    mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
+                    mLlAddressLineTwo.showError();
+                }
             }
 
         }
@@ -853,44 +839,71 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (!mUseThisAddressCheckBox.isChecked()) {
             if (editText.getId() == R.id.et_billing_first_name && !hasFocus) {
                 result = inputValidatorFirstNameBilling.isValidName(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlFirstNameBilling).setErrorMessage(R.string.iap_first_name_error);
+                if (!result) {
+                    mLlFirstNameBilling.setErrorMessage(R.string.iap_first_name_error);
+                    mLlFirstNameBilling.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_last_name && !hasFocus) {
                 result = inputValidatorLastNameBilling.isValidName(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlLastNameBilling).setErrorMessage(R.string.iap_last_name_error);
+                if (!result) {
+                    mLlLastNameBilling.setErrorMessage(R.string.iap_last_name_error);
+                    mLlLastNameBilling.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_town && !hasFocus) {
                 result = inputValidatorTownBilling.isValidTown(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlTownBilling).setErrorMessage(R.string.iap_town_error);
+                if (!result) {
+                    mLlTownBilling.setErrorMessage(R.string.iap_town_error);
+                    mLlTownBilling.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_phone1 && !hasFocus) {
                 result = validatePhoneNumber(mEtPhone1Billing, HybrisDelegate.getInstance().getStore().getCountry()
                         , mEtPhone1Billing.getText().toString());
-                ((InputValidationLayout) mLlPhone1Billing).setErrorMessage(R.string.iap_phone_error);
+                if (!result) {
+                    mLlPhone1Billing.setErrorMessage(R.string.iap_phone_error);
+                    mLlPhone1Billing.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_country && !hasFocus) {
                 showUSRegions();
                 result = inputValidatorCountryBilling.isValidCountry(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlCountryBilling).setErrorMessage(R.string.iap_country_error);
+                if (!result) {
+                    mLlCountryBilling.setErrorMessage(R.string.iap_country_error);
+                    mLlCountryBilling.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_postal_code && !hasFocus) {
                 result = inputValidatorPostalCodeBilling.isValidPostalCode(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlPostalCodeBilling).setErrorMessage(R.string.iap_postal_code_error);
+                if (!result) {
+                    mLlPostalCodeBilling.setErrorMessage(R.string.iap_postal_code_error);
+                    mLlPostalCodeBilling.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_email && !hasFocus) {
                 result = inputValidatorEmailBilling.isValidEmail(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlEmailBilling).setErrorMessage(R.string.iap_email_error);
+                if (!result) {
+                    mLlEmailBilling.setErrorMessage(R.string.iap_email_error);
+                    mLlEmailBilling.showError();
+                }
             }
             if (editText.getId() == R.id.et_billing_address_line_one && !hasFocus) {
                 result = inputValidatorAddressLineOneBilling.isValidAddress(((EditText) editText).getText().toString());
-                ((InputValidationLayout) mLlAddressLineOneBilling).setErrorMessage(R.string.iap_address_error);
+                if (!result) {
+                    mLlAddressLineOneBilling.setErrorMessage(R.string.iap_address_error);
+                    mLlAddressLineOneBilling.showError();
+                }
             }
-            if (editText.getId() == R.id.et_billing_address_line_two && !hasFocus) {
+            if (editText.getId() == R.id.et_billing_address_line_two) {
+                result = inputValidatorAddressLineTwoBilling.isValidAddress(((EditText) editText).getText().toString());
                 if (mEtAddressLineTwoBilling.getText().toString().trim().equals("")) {
                     result = true;
                 } else {
-                    result = inputValidatorAddressLineTwoBilling.isValidAddress(((EditText) editText).getText().toString());
-                    ((InputValidationLayout) mLlAddressLineTwoBilling).setErrorMessage(R.string.iap_address_error);
+                    if (!result) {
+                        mLlAddressLineTwoBilling.setErrorMessage(R.string.iap_address_error);
+                        mLlAddressLineTwoBilling.showError();
+                    }
                 }
 
             }
@@ -995,19 +1008,23 @@ public class ShippingAddressFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onSalutationSelect(String salutation) {
-        if (mUseThisAddressCheckBox.isChecked())
+    public void onSalutationSelect(View editText, String salutation) {
+        if (editText.getId() == R.id.et_salutation) {
             mEtSalutation.setText(salutation);
-        else
+        } else {
             mEtSalutationBilling.setText(salutation);
+        }
+
     }
 
     @Override
-    public void onStateSelect(String state) {
-        if (mUseThisAddressCheckBox.isChecked())
+    public void onStateSelect(View editText, String state) {
+        if (editText.getId() == R.id.et_state) {
             mEtState.setText(state);
-        else
+        } else {
             mEtStateBilling.setText(state);
+        }
+
     }
 
     @Override

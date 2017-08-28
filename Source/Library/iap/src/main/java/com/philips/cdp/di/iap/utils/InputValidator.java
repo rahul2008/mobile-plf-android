@@ -59,9 +59,9 @@ public class InputValidator extends Validator implements InputValidationLayout.V
 
     @Override
     public boolean validate(CharSequence msg) {
-        if (msg.toString().trim().equalsIgnoreCase("")) {
-            return false;
-        }
+//        if (msg.toString().trim().equalsIgnoreCase("")) {
+//            return false;
+//        }
         Matcher matcher = valid_regex_pattern.matcher(msg);
         return matcher.find();
     }

@@ -16,14 +16,16 @@ import com.philips.platform.uid.view.widget.UIPicker;
 public class SalutationDropDown {
 
     public interface SalutationListener {
-        void onSalutationSelect(String salutation);
+        void onSalutationSelect(View view, String salutation);
     }
 
     private UIPicker mPopUp;
+    private View mAnchor;
     private SalutationListener mSalutationListener;
 
     public SalutationDropDown(Context context, View anchor, SalutationListener salutationListener) {
         mSalutationListener = salutationListener;
+        mAnchor = anchor;
         createPopUp(anchor, context);
     }
 
@@ -73,7 +75,7 @@ public class SalutationDropDown {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
             String salutation = (String) parent.getItemAtPosition(position);
-            mSalutationListener.onSalutationSelect(salutation);
+            mSalutationListener.onSalutationSelect(mAnchor, salutation);
             dismiss();
         }
     };

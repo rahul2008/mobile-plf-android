@@ -15,13 +15,13 @@ import com.philips.platform.uid.view.widget.UIPicker;
 public class StateDropDown {
 
     public interface StateListener {
-        void onStateSelect(String state);
+        void onStateSelect(View view, String state);
 
         void stateRegionCode(String regionCode);
     }
 
     private UIPicker mPopUp;
-    //    UIKitListPopupWindow mPopUp;
+    private View mAnchor;
     private StateListener mStateListener;
     private Context mContext;
     private RegionsList mRegionList;
@@ -29,6 +29,7 @@ public class StateDropDown {
     public StateDropDown(Context context, View anchor, StateListener stateListener) {
         mStateListener = stateListener;
         mContext = context;
+        mAnchor = anchor;
         createPopUp(anchor, context);
     }
 
@@ -72,7 +73,7 @@ public class StateDropDown {
             String isocode = mRegionList.getRegions().get(position).getIsocode();
             String stateCode = isocode.substring(isocode.length() - 2);
             mStateListener.stateRegionCode(isocode);
-            mStateListener.onStateSelect(stateCode);
+            mStateListener.onStateSelect(mAnchor, stateCode);
             dismiss();
         }
     };
