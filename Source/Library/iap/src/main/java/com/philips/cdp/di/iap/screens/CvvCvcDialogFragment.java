@@ -40,13 +40,12 @@ public class CvvCvcDialogFragment extends DialogFragment {
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
         }
-        TextView iap_mastercard = (TextView) view.findViewById(R.id.tv_cvv_title);
-        TextView iap_mastercard_number = (TextView) view.findViewById(R.id.tv_cvv_code_hint);
+        TextView cardNumber = (TextView) view.findViewById(R.id.tv_cvv_card_number);
         if (mPaymentMethod != null) {
-            iap_mastercard.setText(mPaymentMethod.getCardType().getCode());
-            iap_mastercard_number.setText(mPaymentMethod.getCardNumber());
+            cardNumber.setText(mPaymentMethod.getCardType().getCode() +" "+mPaymentMethod.getCardNumber());
         }
         final Button continueBtn = (Button) view.findViewById(R.id.continue_btn);
+        final Button notNotBtn = (Button) view.findViewById(R.id.not_now_btn);
         mEditText = (EditText) view.findViewById(R.id.et_cvv_digits);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,6 +75,13 @@ public class CvvCvcDialogFragment extends DialogFragment {
                 dismiss();
                 setShowsDialog(false);
                 sendResult(REQUEST_CODE);
+            }
+        });
+
+        notNotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 

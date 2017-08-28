@@ -11,7 +11,6 @@
         android:id="@+id/extra_option_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
         android:paddingLeft="@dimen/border16_margin_left_right"
         android:paddingRight="@dimen/border16_margin_left_right"
         android:orientation="vertical">
@@ -31,9 +30,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            style="@style/iapCentralesansMediumFont"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:text="@string/iap_your_order_number_is"
+            android:textSize="@dimen/iap_text_size_16sp"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_order_number_val"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             style="@style/iapCentralesansBoldFont"
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-            android:text="@string/iap_your_order_number"
+            android:text=""
             android:textSize="@dimen/iap_text_size_16sp"/>
 
         <com.philips.platform.uid.view.widget.Label
@@ -41,8 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            style="@style/iapCentralesansBoldFont"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            style="@style/iapCentralesansMediumFont"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
             android:text="@string/iap_confirmation_email_msg"
             android:textSize="@dimen/iap_text_size_16sp"/>
 

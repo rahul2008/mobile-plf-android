@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
@@ -230,8 +229,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             Addresses address = retrieveSelectedAddress();
             AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-            addFragment(BillingAddressFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    BillingAddressFragment.TAG);
+            addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
+                    OrderSummaryFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {

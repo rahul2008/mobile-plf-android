@@ -469,7 +469,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onPlaceOrder(final Message msg) {
-        if (msg.obj instanceof PlaceOrder) {
+        launchConfirmationScreen(new PlaceOrder());//need to remove
+        /*if (msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
             String orderID = order.getCode();
             updateCount(0);
@@ -488,7 +489,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             }
-        }
+        }*/
     }
 
     @Override

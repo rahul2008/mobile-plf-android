@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     private Context mContext;
 
     private TextView mConfirmationText;
-   // private TextView mOrderText;
-    private TextView mOrderNumber;
     private TextView mConfirmWithEmail;
+    private TextView mOrderNumber;
 
     private TwoButtonDialogFragment mDialog;
 
@@ -48,9 +48,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
 
     private void initViews(ViewGroup viewGroup) {
         mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank_you_title);
-       // mOrderText = (TextView) viewGroup.findViewById(R.id.tv_order_number);
-        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_number);
         mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirmation_email_shortly);
+        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_number_val);
         final Button mOKButton = (Button) viewGroup.findViewById(R.id.ok_btn);
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +115,6 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
 
         setPaymentTitle(R.string.iap_payment_failed);
-        //mOrderText.setVisibility(View.INVISIBLE);
-        mOrderNumber.setVisibility(View.INVISIBLE);
         mConfirmWithEmail.setVisibility(View.INVISIBLE);
     }
 
@@ -125,7 +122,6 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         if (arguments != null) {
             if (arguments.containsKey(ModelConstants.ORDER_NUMBER)) {
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
-
                 HashMap<String, String> contextData = new HashMap<>();
                 contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
                 contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
@@ -137,7 +133,10 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
             String emailConfirmation = getString(R.string.iap_confirmation_email_msg);
-            mConfirmWithEmail.setText(emailConfirmation + " " + email);
+            String updateEmailText =  " " + "<b>" + email + "</b> ";
+            emailConfirmation =  String.format(emailConfirmation, updateEmailText);
+            //mConfirmWithEmail.setText(emailConfirmation + " " + updateEmailText);
+            mConfirmWithEmail.setText(Html.fromHtml(emailConfirmation));
             setPaymentTitle(R.string.iap_thank_for_order);
         }
     }
