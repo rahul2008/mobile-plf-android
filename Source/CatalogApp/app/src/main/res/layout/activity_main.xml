@@ -79,6 +79,7 @@
                 android:id="@+id/sidebar_left_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:overScrollMode="never"
                 android:layout_below="@id/sidebar_left_header_container"
                 android:layout_above="@id/sidebar_left_footer_container"/>
 
@@ -102,10 +103,9 @@
                 <RelativeLayout
                     android:id="@+id/sidebar_right_relative"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
-
-                <LinearLayout
+                    <LinearLayout
                         android:id="@+id/sidebar_right_header_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -115,71 +115,25 @@
                             android:id="@+id/sidebar_right_header_layout"
                             layout="@layout/sidebar_right_header_view"/>
 
-
                         <com.philips.platform.catalogapp.dataUtils.NonScrollableListView
-                        android:id="@+id/sidebar_right_listview"
-                        android:overScrollMode="never"
-                        android:dividerHeight="@dimen/uid_divider_Height"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                            android:id="@+id/sidebar_right_listview"
+                            android:overScrollMode="never"
+                            android:dividerHeight="@dimen/uid_divider_Height"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:choiceMode="singleChoice"/>
 
-                    <include
-                        layout="@layout/uid_horizontal_separator"/>
+                        <include
+                            layout="@layout/uid_horizontal_separator"/>
 
-                </LinearLayout>
+                    </LinearLayout>
 
                 </RelativeLayout>
 
-
             </ScrollView>
 
-                    <!--<ListView
-                        android:id="@+id/sidebar_right_listview"
-                        android:overScrollMode="never"
-                        android:dividerHeight="@dimen/uid_divider_Height"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:choiceMode="singleChoice"/>-->
-
-                <!--</RelativeLayout>
-
-            </android.support.v4.widget.NestedScrollView>
--->
         </android.support.design.widget.NavigationView>
 
-        <!--<com.philips.platform.uid.view.widget.Label
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sidebar Text"/>-->
-
-        <!--    <include
-                android:id="@+id/sidebar_recyclerview"
-                layout="@layout/uid_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start" />-->
-
-        <!--<android.support.design.widget.NavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:maxWidth="320dp"
-            android:layout_gravity="start"
-            android:background="@color/uidColorWhite">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/sidebar_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </android.support.design.widget.NavigationView>-->
-
-        <!--<com.philips.platform.uid.view.widget.Label
-            android:id="@+id/sidebar_label"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Sidebar Label"
-            android:layout_marginLeft="200dp"/>-->
     </com.philips.platform.uid.view.widget.SideBar>
+
 </layout>

@@ -10,7 +10,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -26,14 +25,11 @@ import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,27 +39,35 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-
-import com.philips.platform.catalogapp.events.*;
+import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
+import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
+import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
+import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.thememanager.*;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
-import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import java.io.*;
 
 public class MainActivity extends UIDActivity {
 
@@ -81,19 +85,13 @@ public class MainActivity extends UIDActivity {
     private SideBar sideBarLayout;
     private ActionBarDrawerToggle drawerToggle;
     private RecyclerView leftRecyclerView;
-    private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
-
     private ListView rightListView;
     public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
-    public static final String RIGHT_SELECTED_POSITION = "RIGHT_SELECTED_POSITION";
     public static final String LEFT_SIDEBAR_BG = "LEFT_SIDEBAR_BG";
     public static final String RIGHT_SIDEBAR_BG = "RIGHT_SIDEBAR_BG";
     private int leftRecyclerViewSelectedPosition = 0;
     private int leftSidebarBGColor;
     private int rightSidebarBGColor;
-    private ImageView sidebarRightImg;
-
-
     private RelativeLayout leftSidebarRoot;
     private NavigationView rightSidebarRoot;
 
@@ -147,13 +145,9 @@ public class MainActivity extends UIDActivity {
             typedArray.recycle();
         }
 
-        /*sideBarLayout.addHeaderView(R.layout.sidebar_left_header_view);
-        sideBarLayout.addMenuView(R.layout.sidebar_left_menu_view);
-        sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
-
         drawerToggle = setupDrawerToggle();
 
-        separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
         leftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_left_recyclerview);
         leftRecyclerView.addItemDecoration(separatorItemDecoration);
         initializeRecyclerView(this);
@@ -163,13 +157,13 @@ public class MainActivity extends UIDActivity {
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
         //ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
         //rightListView.addHeaderView(header, null, false);
-        sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
+        ImageView sidebarRightImg;sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
         sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(this), 0, 0);
 
-       // rightListView.setHeaderDividersEnabled(false);
+        // rightListView.setHeaderDividersEnabled(false);
         setRightListItems();
 
-       // drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
+        // drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
         drawerToggle.setDrawerIndicatorEnabled(false);
         drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
@@ -187,17 +181,12 @@ public class MainActivity extends UIDActivity {
 
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, sideBarLayout, navigationController.getToolbar(), R.string.sidebar_open,  R.string.sidebar_close){
-
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
-
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -233,7 +222,6 @@ public class MainActivity extends UIDActivity {
     private void initializeRecyclerView(Context context) {
         DataHolderView dataHolderView = getIconDataHolderView(context);
         leftRecyclerView.setAdapter(new MainActivity.RecyclerViewAdapter(dataHolderView.dataHolders));
-        //findViewById(R.id.uid_recyclerview_header).setVisibility(View.GONE);
     }
 
     @NonNull
@@ -248,18 +236,17 @@ public class MainActivity extends UIDActivity {
         return dataHolderView;
     }
 
-    class RecyclerViewAdapter extends RecyclerView.Adapter {
+    private class RecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
 
-        public RecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
+        private RecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
             this.dataHolders = dataHolders;
         }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
-            MainActivity.RecyclerViewAdapter.BindingHolder holder = new MainActivity.RecyclerViewAdapter.BindingHolder(v);
-            return holder;
+            return new MainActivity.RecyclerViewAdapter.BindingHolder(v);
         }
 
         @Override
@@ -268,11 +255,7 @@ public class MainActivity extends UIDActivity {
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
 
-            /*Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
-            Context themedContext = UIDContextWrapper.getThemedContext(holder.itemView.getContext(), theme);
-            ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_list_item_background_selector);
-            final int selectedStateColor = colorStateList.getDefaultColor();*/
-            holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position ? true : false);
+            holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
             ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -280,11 +263,6 @@ public class MainActivity extends UIDActivity {
                     leftRecyclerViewSelectedPosition = position;
                     holder.itemView.setSelected(true);
                     sideBarLayout.closeDrawer(GravityCompat.START);
-                    //notifyItemChanged(leftRecyclerViewSelectedPosition);
-
-                    //boolean isSelected = holder.itemView.isSelected();
-
-                    //holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
                 }
             });
         }
@@ -297,7 +275,7 @@ public class MainActivity extends UIDActivity {
         class BindingHolder extends RecyclerView.ViewHolder {
             private ViewDataBinding binding;
 
-            public BindingHolder(@NonNull View rowView) {
+            BindingHolder(@NonNull View rowView) {
                 super(rowView);
                 binding = DataBindingUtil.bind(rowView);
             }
@@ -319,9 +297,7 @@ public class MainActivity extends UIDActivity {
         rightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 rightListView.setItemChecked(position, true);
-                //view.setSelected(true);
                 sideBarLayout.closeDrawer(GravityCompat.END);
             }
         });
@@ -417,9 +393,9 @@ public class MainActivity extends UIDActivity {
         return true;
     }
 
-    private void showSnackBar() {
+    /*private void showSnackBar() {
         Snackbar.make(navigationController.getToolbar(), R.string.hamburger_not_ready, Snackbar.LENGTH_LONG).show();
-    }
+    }*/
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {

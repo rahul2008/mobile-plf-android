@@ -276,6 +276,7 @@
     <string name="sidebar_close">Close</string>
     <string name="sidebar_header_item">Header item</string>
     <string name="sidebar_footer_item">Footer item</string>
+    <string name="sidebar_right_header_avatar">Sidebar Right Header Avatar</string>
     <string name="sidebar_location">Location</string>
     <string name="sidebar_bg_color">Background color</string>
     <string name="sidebar_left_side">Left side</string>

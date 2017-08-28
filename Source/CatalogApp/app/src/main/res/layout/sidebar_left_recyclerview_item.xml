@@ -3,7 +3,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="data"
             type="com.philips.platform.catalogapp.DataHolder"></variable>
@@ -20,4 +19,5 @@
         android:gravity="start|center_vertical"
         android:text="@{data.text}"
         android:background="@drawable/uid_list_item_selector"/>
+
 </layout>

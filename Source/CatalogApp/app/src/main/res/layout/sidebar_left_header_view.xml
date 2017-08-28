@@ -1,85 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <import type="android.view.View"/>
-        <variable
-            name="frag"
-            type="com.philips.platform.catalogapp.fragments.SideBarFragment"/>
-    </data>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SidebarHeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/sidebar_left_header_height"
+        android:paddingEnd="@dimen/sidebar_item_margin_left_right"
+        android:paddingStart="@dimen/sidebar_item_margin_left_right"
+        android:drawablePadding="@dimen/sidebar_item_margin_left_right"
+        android:drawableStart="@drawable/sidebar_left_avatar"
+        android:gravity="start|center_vertical"
+        android:text="@string/sidebar_header_item"/>
 
+    <include
+        layout="@layout/uid_horizontal_separator" />
 
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.SidebarHeaderText"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/sidebar_left_header_height"
-            android:paddingEnd="@dimen/sidebar_item_margin_left_right"
-            android:paddingStart="@dimen/sidebar_item_margin_left_right"
-            android:drawablePadding="@dimen/sidebar_item_margin_left_right"
-            android:drawableStart="@drawable/sidebar_left_avatar"
-            android:gravity="start|center_vertical"
-            android:text="@string/sidebar_header_item"/>
-
-        <include
-            layout="@layout/uid_horizontal_separator" />
-
-    </LinearLayout>
-
-    <!--<com.philips.platform.uid.view.widget.SideBar
-        android:id="@+id/sidebar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        &lt;!&ndash; This LinearLayout represents the contents of the screen  &ndash;&gt;
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            &lt;!&ndash;&lt;!&ndash; The ActionBar displayed at the top &ndash;&gt;
-
-            <include
-
-                layout="@layout/toolbar"
-
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content" />&ndash;&gt;
-
-
-
-            &lt;!&ndash; The main content view where fragments are loaded &ndash;&gt;
-
-            <FrameLayout
-                android:id="@+id/content_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-
-
-        &lt;!&ndash; The navigation drawer that comes from the left &ndash;&gt;
-
-        &lt;!&ndash; Note that `android:layout_gravity` needs to be set to 'start' &ndash;&gt;
-
-        <include
-            android:id="@+id/sidebar_recyclerview"
-            layout="@layout/uid_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"/>
-
-    </com.philips.platform.uid.view.widget.SideBar>
--->
-<!--
-</layout>-->
+</LinearLayout>

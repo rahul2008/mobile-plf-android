@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/sidebar_right_avatar"
-        android:layout_marginTop="@dimen/sidebar_right_avatar_top_bottom_margin"/>
+        android:layout_marginTop="@dimen/sidebar_right_avatar_top_bottom_margin"
+        android:contentDescription="@string/sidebar_right_header_avatar"/>
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.SidebarHeaderText"
