@@ -31,6 +31,8 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.selectimage.THSImageRecyclerViewAdapter;
@@ -44,11 +46,13 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSSharedPreferenceUtility;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.ImageButton;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +72,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private String userChosenTask;
     private RecyclerView imageListView;
     private THSImageRecyclerViewAdapter thsImageRecyclerViewAdapter;
-    private List<THSSelectedImagePojo> selectedImagePojoList;
+    private ArrayList<THSSelectedImagePojo> selectedImagePojoList;
     public static final int REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA = 123;
     public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 124;
     private Dialog dialog;
@@ -80,6 +84,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private List<DocumentRecord> documentRecordList;
     private THSFileUtils thsFileUtils;
     private EditText additional_comments_edittext;
+    private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
 
     @Nullable
     @Override
@@ -90,6 +95,17 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
         }
+        selectedImagePojoList = new ArrayList<>();
+
+
+        String jsonValue = THSSharedPreferenceUtility.getString(getContext(),THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, null);
+        if(null != jsonValue && jsonValue.length() > 0){
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<THSSelectedImagePojo>>() {}.getType();
+            selectedImagePojoList = gson.fromJson(jsonValue, type);
+        }
+
+
         thsFileUtils = new THSFileUtils();
         documentRecordList = new ArrayList<>();
         ths_symptoms_relative_layout = (RelativeLayout) view.findViewById(R.id.ths_symptoms_relative_layout);
@@ -98,8 +114,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         additional_comments_edittext.setOnTouchListener(this);
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
         imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        selectedImagePojoList = new ArrayList<>();
+
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojoList, this);
+        imageListView.setAdapter(thsImageRecyclerViewAdapter);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         camera_button = (ImageButton) view.findViewById(R.id.camera_click_button);
         camera_button.setOnClickListener(this);
@@ -107,7 +124,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         mContinue.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.symptoms_container);
         thsSymptomsPresenter = new THSSymptomsPresenter(this);
-
         thsSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
@@ -115,7 +131,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         getVisistContext();
         return view;
     }
-
 
     public void setConsumerObject(THSConsumer thsConsumer) {
         this.thsConsumer = thsConsumer;
@@ -187,12 +202,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             dialog.dismiss();
         }
         if (i == R.id.select_from_gallery) {
-            userChosenTask = "Choose from Library";
+            userChosenTask = getString(R.string.ths_intake_symptoms_choose_from_library);
             dialog.dismiss();
             requestPermission();
         }
         if (i == R.id.camera_image) {
-            userChosenTask = "Take Photo";
+            userChosenTask = getString(R.string.ths_intake_symptoms_take_photo);
             dialog.dismiss();
             requestPermission();
         }
@@ -317,7 +332,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     public void updateDocumentsToUpload(String picturePath) {
         THSSelectedImagePojo image = new THSSelectedImagePojo();
-
         String filename = null;
         filename = thsFileUtils.getFileName(getContext(), mCapturedImageURI);
         image.setTitle(filename);
@@ -369,6 +383,22 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if(null != selectedImagePojoList && selectedImagePojoList.size() > 0) {
+            Gson gson = new Gson();
+            String json = gson.toJson(selectedImagePojoList);
+            THSSharedPreferenceUtility.setString(getContext(), THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY, json);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        THSSharedPreferenceUtility.setString(getContext(),THSConstants.THS_SAVE_UPLOAD_IMAGE_KEY,null);
+    }
+
+    @Override
     public void onImageClicked(int position) {
         thsSelectedImageFragment = new THSSelectedImageFragment();
         thsSelectedImageFragment.setSelectedImage(position, selectedImagePojoList, documentRecordList);
@@ -377,7 +407,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     }
 
     @Override
-    public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList) {
+    public void dismissSelectedImageFragment(ArrayList<THSSelectedImagePojo> selectedImagePojoList) {
         this.selectedImagePojoList = selectedImagePojoList;
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);

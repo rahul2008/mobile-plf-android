@@ -56,4 +56,6 @@ public class THSConstants {
     public static final String THS_ONE_WEEK_REMINDER = "one week";
     public static final String THS_VISIT_ARGUMENT_KEY = "ths_visit_argument_key";
 
+    public static final String THS_SAVE_UPLOAD_IMAGE_KEY = "ths_upload_image_key";
+
 }
