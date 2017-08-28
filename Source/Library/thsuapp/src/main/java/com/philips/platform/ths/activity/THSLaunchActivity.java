@@ -5,6 +5,7 @@
  */
 package com.philips.platform.ths.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,8 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class THSLaunchActivity extends AppCompatActivity {
@@ -33,9 +36,7 @@ public class THSLaunchActivity extends AppCompatActivity {
         setContentView(R.layout.ths_rename_activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            THSWelcomeFragment pthWelcomeFragment = new THSWelcomeFragment
-                    ();
-
+            THSWelcomeFragment pthWelcomeFragment = new THSWelcomeFragment();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parent_layout, pthWelcomeFragment);
             fragmentTransaction.commitAllowingStateLoss();
@@ -55,6 +56,11 @@ public class THSLaunchActivity extends AppCompatActivity {
         if (!backState) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

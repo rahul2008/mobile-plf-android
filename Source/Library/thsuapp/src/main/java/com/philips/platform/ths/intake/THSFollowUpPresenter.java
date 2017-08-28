@@ -102,7 +102,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         //update signleton THSManager THSConsumer member
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         boolean isPharmacyDetailRequired = THSManager.getInstance().getPthVisitContext().getVisitContext().isCanPrescribe();
-        isPharmacyDetailRequired=true;// todo this line is to removed when isCanPrescribe() returns correct value
+        isPharmacyDetailRequired = true;// todo this line is to removed when isCanPrescribe() returns correct value
         if (isPharmacyDetailRequired) { // go to pharmacy detail
             fetchConsumerPreferredPharmacy(thsConsumer);
         } else {  // go to insurance or cost detail

@@ -102,15 +102,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.pth_intake_follow_up_continue_button) {
-
-            mTHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_continue_button);
-
-        } else if (v.getId() == R.id.pth_intake_follow_up_i_agree_link_text) {
-
-            mTHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_i_agree_link_text);
-        }
-
+        mTHSFollowUpPresenter.onEvent(v.getId());
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
@@ -124,7 +116,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     public void displaySearchPharmacy() {
         mFollowUpContinueButton.hideProgressIndicator();
-        if(checkGooglePlayServices()){
+        if (checkGooglePlayServices()) {
             checkPermission();
         }
     }
@@ -132,6 +124,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     /**
      * Location services code below. Checking if google play services is installed/latest/supported version?
+     *
      * @return
      */
     private boolean checkGooglePlayServices() {
@@ -237,12 +230,13 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
         thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null);
+        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
 
     }
 
     /**
      * checks is provider is available
+     *
      * @return
      */
     private boolean isProviderAvailable() {
