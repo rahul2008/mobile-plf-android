@@ -137,28 +137,13 @@ public static <fields>;
 -keep  class com.fasterxml.jackson.core.** {*;}
 -keep  class com.fasterxml.jackson.databind.** {*;}
 
-#Tagging
-
--keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
-
-
-#LocaleMatch
-
--keep public class com.philips.cdp.localematch.** {*;}
-
 
 #Network
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
-#UIKit
--keep class com.shamanland.** {*;}
--keep class uk.co.chrisjenx.** {*;}
-
 
 #ConsumerCare
--keep class com.philips.cdp.digitalcare.** {*;}
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -245,21 +230,6 @@ public static <fields>;
 
 
 #-------------------------Consumer Care Ends -------------------------
-
-#InAppPurchase
--keep class com.philips.cdp.di.iap.store** {*;}
--keep interface com.philips.cdp.di.iap.store** {*;}
--keep class com.philips.cdp.di.iap.model** {*;}
--keep interface com.philips.cdp.di.iap.model** {*;}
--keep class com.philips.cdp.di.iap.response** {*;}
--keep interface com.philips.cdp.di.iap.response** {*;}
--keep class com.philips.cdp.di.iap.session.** {*;}
--keep interface com.philips.cdp.di.iap.session.** {*;}
--dontwarn com.philips.cdp.di.iap.analytics.**
-
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
 
 
 #--------------------------AppInfra starts here-----------
