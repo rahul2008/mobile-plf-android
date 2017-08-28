@@ -86,14 +86,6 @@ public static <fields>;
 -keepattributes *Annotation*
 -keepattributes Signature
 
-
-# Gson specific classes
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.** {*;}
--keep class com.philips.cdp.prxclient.** {*;}
--keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
--keep class com.google.gson.examples.android.model.** { *; }
-
 #check if somethings below can be removed?
 -dontwarn org.slf4j.**
 -dontwarn org.apache.log4j.**
@@ -103,15 +95,6 @@ public static <fields>;
 -dontwarn javax.lang.**
 -dontwarn javax.annotation.**
 -dontwarn javax.tools.**
-
-
-
-##--------------- Jodatime  ----------
-
--dontwarn org.joda.convert.**
--dontwarn org.joda.time.**
--keep class org.joda.time.** { *; }
--keep interface org.joda.time.** { *; }
 
 ##-------------- Retrofit -------------
 
