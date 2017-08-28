@@ -356,6 +356,7 @@ public class SettingsAdapter extends BaseAdapter {
         userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
+                RALog.d(TAG ," UserRegistration onLogoutSuccess  - ");
                 //    ((AbstractAppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                 //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
                 progressDialog.cancel();
@@ -379,11 +380,11 @@ public class SettingsAdapter extends BaseAdapter {
             }
 
             @Override
-            public void onLogoutFailure(final int i, final String s) {
-                RALog.d(TAG ," onLogoutFailure  ");
+            public void onLogoutFailure(final int i, final String errorMessage) {
+                RALog.d(TAG ," UserRegistration onLogoutFailure  - " + errorMessage);
 
                 progressDialog.cancel();
-                Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
+                Toast.makeText(activityContext, errorMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
