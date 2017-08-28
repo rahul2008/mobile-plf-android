@@ -181,6 +181,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         mUseThisAddressCheckBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
         mSameAsShippingAddress = (LinearLayout) rootView.findViewById(R.id.iap_same_as_shipping_address);
+        mUseThisAddressCheckBox.setChecked(true);
 
 
         mLlFirstName = (InputValidationLayout) rootView.findViewById(R.id.ll_first_name);
@@ -412,6 +413,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             }
         });
 
+
         mUseThisAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -420,9 +422,12 @@ public class ShippingAddressFragment extends InAppBaseFragment
                     mBillingAddressFields = mShippingAddressFields;
                     prePopulateBillingAddress();
                     mBtnContinue.setEnabled(true);
+                    mSameAsShippingAddress.setVisibility(View.GONE);
+
                 } else {
                     clearAllBillingFields();
                     mBtnContinue.setEnabled(false);
+                    mSameAsShippingAddress.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -430,6 +435,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (!mUseThisAddressCheckBox.isChecked() && mBillingAddressFields == null) {
             mBtnContinue.setEnabled(false);
         }
+
 
         return rootView;
     }
@@ -942,6 +948,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
 
         if (mUseThisAddressCheckBox.isChecked()) {
+            mBillingAddressFields = mShippingAddressFields;
             disableAllFields();
             mBtnContinue.setEnabled(true);
         }
