@@ -96,7 +96,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
         ChapterAdapter.ChapterViewHolder viewHolder = chapterAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
         chapterAdapter.onBindViewHolder(viewHolder,0);
-        assertEquals("Mobile Frontend",viewHolder.chapterTextView.getText().toString());
+        assertEquals("Chapter Mobile",viewHolder.chapterTextView.getText().toString());
     }
 
     protected static  Chapter createChapterObject() {

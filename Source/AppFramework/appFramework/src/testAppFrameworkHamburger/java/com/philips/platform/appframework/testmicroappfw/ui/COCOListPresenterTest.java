@@ -112,7 +112,7 @@ public class COCOListPresenterTest {
     @Test
     public void getEventState() throws Exception {
         Assert.assertEquals(COCOListPresenter.TEST_IAP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.IAP_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_APP_INFRA_EVENT,cocoListPresenter.getEventState(COCOListPresenter.APP_INFRA_DEMO_APP));
+        Assert.assertEquals(COCOListPresenter.TEST_APP_INFRA,cocoListPresenter.getEventState(COCOListPresenter.DEMO_APP_INFRA));
         Assert.assertEquals(COCOListPresenter.TEST_CC_EVENT,cocoListPresenter.getEventState(COCOListPresenter.CC_DEMO_APP));
         Assert.assertEquals(COCOListPresenter.TEST_DS_EVENT,cocoListPresenter.getEventState(COCOListPresenter.DS_DEMO_APP));
         Assert.assertEquals(COCOListPresenter.TEST_PR_EVENT,cocoListPresenter.getEventState(COCOListPresenter.PRODUCT_REGISTRATION));
