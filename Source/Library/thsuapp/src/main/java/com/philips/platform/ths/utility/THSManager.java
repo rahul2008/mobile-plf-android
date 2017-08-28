@@ -56,6 +56,7 @@ import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.MatchmakerCallback;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
@@ -107,6 +108,7 @@ import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSFetchEstimatedCostCallback;
+import com.philips.platform.ths.providerdetails.THSMatchMakingCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
@@ -1346,6 +1348,35 @@ public class THSManager {
             @Override
             public void onFailure(Throwable throwable) {
                 thsPracticeCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void doMatchMaking(Context context, THSVisitContext thsVisitContext, final THSMatchMakingCallback thsMatchMakingCallback)throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().startMatchmaking(thsVisitContext.getVisitContext(), new MatchmakerCallback() {
+            @Override
+            public void onProviderFound(Provider provider, VisitContext visitContext) {
+                thsMatchMakingCallback.onMatchMakingProviderFound(provider,visitContext);
+            }
+
+            @Override
+            public void onProviderListExhausted() {
+                thsMatchMakingCallback.onMatchMakingProviderListExhausted();
+            }
+
+            @Override
+            public void onRequestGone() {
+                thsMatchMakingCallback.onMatchMakingRequestGone();
+            }
+
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                thsMatchMakingCallback.onMatchMakingResponse(aVoid,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsMatchMakingCallback.onMatchMakingFailure(throwable);
             }
         });
     }
