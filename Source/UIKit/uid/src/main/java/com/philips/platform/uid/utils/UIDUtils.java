@@ -83,4 +83,13 @@ public final class UIDUtils {
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
         return metrics.heightPixels;
     }
+
+    public static int getStatusBarHeight(Context context) {
+        int height = 0;
+        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resId > 0) {
+            height = context.getResources().getDimensionPixelSize(resId);
+        }
+        return height;
+    }
 }

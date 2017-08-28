@@ -41,6 +41,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -52,6 +53,7 @@ import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
@@ -88,6 +90,7 @@ public class MainActivity extends UIDActivity {
     private int leftRecyclerViewSelectedPosition = 0;
     private int leftSidebarBGColor;
     private int rightSidebarBGColor;
+    private ImageView sidebarRightImg;
 
 
     private RelativeLayout leftSidebarRoot;
@@ -159,6 +162,9 @@ public class MainActivity extends UIDActivity {
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
         ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
         rightListView.addHeaderView(header, null, false);
+        sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
+        sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(this), 0, 0);
+
        // rightListView.setHeaderDividersEnabled(false);
         setRightListItems();
 
