@@ -118,7 +118,7 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData testStateData=new UIStateData();
                 testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return testStateData;
-            case AppStates.DEVICE_PAIRING:
+            case AppStates.TEST_DEVICE_PAIRING:
                 final UIStateData devicePairingStateData = new UIStateData();
                 devicePairingStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return devicePairingStateData;

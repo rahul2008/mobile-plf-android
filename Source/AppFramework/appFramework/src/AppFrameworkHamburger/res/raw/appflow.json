@@ -327,11 +327,20 @@
             ]
           },
           {
-            "eventId": "TestAppInfraEvent",
+            "eventId": "AppInfra",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "demoAppInfra"
+                "nextState": "AppInfra"
+              }
+            ]
+          },
+          {
+            "eventId": "DLS",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "DLS"
               }
             ]
           },

@@ -13,6 +13,7 @@ import com.philips.platform.appframework.stateimpl.DemoBLLState;
 import com.philips.platform.appframework.stateimpl.DemoCMLState;
 import com.philips.platform.appframework.stateimpl.DemoDCCState;
 import com.philips.platform.appframework.stateimpl.DemoDSState;
+import com.philips.platform.appframework.stateimpl.DemoDlsState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
 import com.philips.platform.appframework.stateimpl.DemoUFWState;
@@ -23,7 +24,8 @@ import com.philips.platform.baseapp.FlowManagerUtil;
 import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
-import com.philips.platform.baseapp.screens.devicepairing.DevicePairingState;
+import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
+import com.philips.platform.screens.dls.DlsState;
 
 import java.util.Map;
 
@@ -42,7 +44,8 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTCC,new DemoDCCState());
         uiStateMap.put(AppStates.TESTDICOMM, new DemoCMLState());
         uiStateMap.put(AppStates.TESTBLUELIB,new DemoBLLState());
-        uiStateMap.put(AppStates.DEVICE_PAIRING,new DevicePairingState());
+        uiStateMap.put(AppStates.TEST_DEVICE_PAIRING,new DemoDevicePairingState());
+        uiStateMap.put(AppStates.TESTDLS,new DemoDlsState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {
