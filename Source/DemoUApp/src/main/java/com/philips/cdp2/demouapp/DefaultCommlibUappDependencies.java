@@ -32,7 +32,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         final LanTransportContext lanTransportContext = new LanTransportContext(context);
         final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(lanTransportContext, cloudTransportContext);
 
-        this.commCentral = new CommCentral(applianceFactory, context, lanTransportContext, cloudTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, lanTransportContext, cloudTransportContext);
     }
 
     @NonNull

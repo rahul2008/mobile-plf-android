@@ -22,7 +22,7 @@ public final class App extends Application {
         final BleTransportContext bleTransportContext = new BleTransportContext(this, false);
         final ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
-        this.commCentral = new CommCentral(applianceFactory, this, bleTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, bleTransportContext);
     }
 
     public CommCentral getCommCentral() {

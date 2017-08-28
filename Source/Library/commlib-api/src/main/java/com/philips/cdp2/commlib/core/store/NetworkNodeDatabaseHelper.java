@@ -13,6 +13,7 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.ContextProvider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -59,8 +60,8 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_PIN = "pin";
     public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
 
-    public NetworkNodeDatabaseHelper(Context context) {
-        this(context, DB_VERSION);
+    public NetworkNodeDatabaseHelper() {
+        this(ContextProvider.get(), DB_VERSION);
     }
 
     @VisibleForTesting

@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +53,7 @@ public class CommCentralTest {
     private DiscoveryStrategy anotherDiscoveryStrategyMock;
 
     @Mock
-    private Context context;
+    private Context contextMock;
 
     private CommCentral commCentral;
     private Set<String> emptyDeviceTypes = Collections.emptySet();
@@ -69,7 +70,9 @@ public class CommCentralTest {
         when(someTransportContextMock.getDiscoveryStrategy()).thenReturn(someDiscoveryStrategyMock);
         when(anotherTransportContextMock.getDiscoveryStrategy()).thenReturn(anotherDiscoveryStrategyMock);
 
-        commCentral = new CommCentral(applianceFactoryMock, context, someTransportContextMock, anotherTransportContextMock);
+        setTestingContext(contextMock);
+
+        commCentral = new CommCentral(applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
     }
 
     @Test

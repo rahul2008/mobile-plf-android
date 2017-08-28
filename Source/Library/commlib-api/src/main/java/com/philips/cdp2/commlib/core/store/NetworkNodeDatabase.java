@@ -6,7 +6,6 @@
 package com.philips.cdp2.commlib.core.store;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -21,8 +20,8 @@ public class NetworkNodeDatabase {
 
     private NetworkNodeDatabaseHelper dbHelper;
 
-    public NetworkNodeDatabase(Context context) {
-        dbHelper = new NetworkNodeDatabaseHelper(context);
+    public NetworkNodeDatabase() {
+        dbHelper = new NetworkNodeDatabaseHelper();
     }
 
     public List<NetworkNode> getAll() {
