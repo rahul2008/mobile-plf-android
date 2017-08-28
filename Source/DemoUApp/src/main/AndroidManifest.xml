@@ -9,9 +9,9 @@
     <application android:allowBackup="true"
         android:supportsRtl="true"
         android:largeHeap="true">
-        <activity android:name="com.philips.platform.screens.introscreen.LaunchActivity" />
-        <activity android:name="com.philips.platform.screens.homescreen.UappHamburgerActivity" />
-        <activity android:name="com.philips.platform.screens.dls.DLSActivity" />
+        <activity android:name="com.philips.platform.uappdemo.screens.introscreen.LaunchActivity" />
+        <activity android:name="com.philips.platform.uappdemo.screens.homescreen.UappHamburgerActivity" />
+        <activity android:name="com.philips.platform.uappdemo.screens.dls.DLSActivity" />
     </application>
 
 </manifest>
