@@ -75,6 +75,7 @@ public static <fields>;
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
+
 #-------------------------Consumer Care Starts -------------------------
 
 
@@ -92,15 +93,6 @@ public static <fields>;
 -keep class com.philips.cdp.prxclient.** {*;}
 -keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
-
-#Product Registration library
--keep class com.philips.cdp.prodreg.** {*;}
--keep interface com.philips.cdp.prodreg.** {*;}
--keep enum com.philips.cdp.prodreg.** {*;}
-
-# App-framework
- -keep class com.philips.platform.appframework.** {*;}
-
 
 ##--------------- ORMLite  ----------
 
@@ -127,31 +119,6 @@ public static <fields>;
 -dontwarn javax.tools.**
 
 
-##--------------- Eventbus  ----------
-
--keepclassmembers class ** {
-    !private void onEvent*(**);}
-#     @org.greenrobot.eventbus.Subscribe <methods>;
-#     public void onEvent(**);
-#     public void onEventMainThread(**);
-#     public void onEventBackgroundThread(**);
-#     public void onEvent*(***);
-#     void onEvent*(**);
-#     void onEvent*(***);
-
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** { *; }
-#-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
-
-#-keep class * {
-#    @de.greenrobot.event.* <methods>;
-#}
-
-# Only required if you use AsyncExecutor
-#-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-#    <init>(java.lang.Throwable);
-#}
 
 ##--------------- Jodatime  ----------
 
@@ -177,40 +144,6 @@ public static <fields>;
 -dontwarn rx.**
 -dontwarn android.app.Notification
 
-#Data-Services
--keep class com.philips.platform.core.** {*;}
--keep interface com.philips.platform.core.** {*;}
-
-##----------------- Gson -------------------
--keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
--keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
--keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
--keep class com.philips.platform.datasync.moments.UCoreMomentsHistory { *; }
--keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
--keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
--keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
--keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
--keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
--keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
--keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
-#Insight
--keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
--keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
-
-#Push notification
--keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
-
-#Device pairing
--keep class com.philips.platform.datasync.devicePairing.UCoreDevicePair { *; }
-
-#Subject Profile
--keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest { *; }
--keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileResponse { *; }
--keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
--keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
-
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppUserCharacteristics { *; }
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppCharacteristics { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
