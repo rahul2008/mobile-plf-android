@@ -135,7 +135,7 @@ public class DemoDataServicesState extends BaseState
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(mContext)
                 .setSmallIcon(R.mipmap.app_icon)
                 .setLargeIcon(icon)
-                .setContentTitle("Reference App ")
+                .setContentTitle(mContext.getString(R.string.RA_DLS_home_page_text))
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
