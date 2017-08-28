@@ -8,6 +8,7 @@ package com.philips.cdp2.demouapp;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
@@ -17,6 +18,7 @@ import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.appliance.airpurifier.ComfortAirPurifier;
 import com.philips.cdp2.demouapp.appliance.airpurifier.JaguarAirPurifier;
+import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
 
 import java.util.Collections;
@@ -26,12 +28,16 @@ import java.util.Set;
 class CommlibUappApplianceFactory implements ApplianceFactory<Appliance> {
 
     @NonNull
+    private final BleTransportContext bleTransportContext;
+
+    @NonNull
     private final LanTransportContext lanTransportContext;
 
     @NonNull
     private final CloudTransportContext cloudTransportContext;
 
-    public CommlibUappApplianceFactory(@NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
+    public CommlibUappApplianceFactory(@NonNull final BleTransportContext bleTransportContext, @NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
+        this.bleTransportContext = bleTransportContext;
         this.lanTransportContext = lanTransportContext;
         this.cloudTransportContext = cloudTransportContext;
     }
@@ -45,6 +51,7 @@ class CommlibUappApplianceFactory implements ApplianceFactory<Appliance> {
     public Appliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
+                    bleTransportContext.createCommunicationStrategyFor(networkNode),
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
@@ -57,6 +64,8 @@ class CommlibUappApplianceFactory implements ApplianceFactory<Appliance> {
                     } else {
                         return new JaguarAirPurifier(networkNode, communicationStrategy);
                     }
+                case BleReferenceAppliance.DEVICETYPE:
+                    return new BleReferenceAppliance(networkNode, communicationStrategy);
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
                 default:
@@ -76,6 +85,7 @@ class CommlibUappApplianceFactory implements ApplianceFactory<Appliance> {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(AirPurifier.DEVICETYPE);
             add(WifiReferenceAppliance.DEVICETYPE);
+            add(BleReferenceAppliance.DEVICETYPE);
         }});
     }
 }

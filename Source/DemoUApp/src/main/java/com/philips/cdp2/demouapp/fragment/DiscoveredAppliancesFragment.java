@@ -5,10 +5,15 @@
 
 package com.philips.cdp2.demouapp.fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,10 +39,15 @@ import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 
 import java.util.Set;
 
-import static android.content.ContentValues.TAG;
 import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
 
 public class DiscoveredAppliancesFragment extends Fragment {
+
+    private static final String TAG = "DiscoveredApplFragment";
+
+    private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
+
+    private Runnable permissionCallback;
 
     private CommCentral commCentral;
 
@@ -131,23 +141,39 @@ public class DiscoveredAppliancesFragment extends Fragment {
     }
 
     private void updateAppId() {
-        ((TextView) view.findViewById(R.id.cml_textViewAppId)).setText(appIdProvider.getAppId());
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView) view.findViewById(R.id.cml_textViewAppId)).setText(appIdProvider.getAppId());
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        try {
-            commCentral.startDiscovery();
-        } catch (MissingPermissionException e) {
-            Log.e(TAG, "Error starting discovery: " + e.getMessage());
-        }
+        startDiscovery();
 
         commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
         applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
+    }
+
+    private void startDiscovery() {
+        try {
+            commCentral.startDiscovery();
+        } catch (MissingPermissionException e) {
+            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+
+            acquirePermission(new Runnable() {
+                @Override
+                public void run() {
+                    startDiscovery();
+                }
+            });
+        }
     }
 
     @Override
@@ -162,4 +188,26 @@ public class DiscoveredAppliancesFragment extends Fragment {
         return new DiscoveredAppliancesFragment();
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new Handler().post(this.permissionCallback);
+                } else {
+                    // TODO Handle error in UI
+                }
+            }
+        }
+    }
+
+    private void acquirePermission(@NonNull Runnable permissionCallback) {
+        this.permissionCallback = permissionCallback;
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+        }
+    }
 }

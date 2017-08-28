@@ -343,10 +343,14 @@ public class NetworkNode implements Parcelable {
      * @return true, if this {@link NetworkNode} is valid.
      */
     public boolean isValid() {
-        return !TextUtils.isEmpty(getCppId())
+        boolean isValid = !TextUtils.isEmpty(getCppId())
                 && !TextUtils.isEmpty(getName())
-                && !TextUtils.isEmpty(getDeviceType())
-                && Patterns.IP_ADDRESS.matcher(getIpAddress()).matches();
+                && !TextUtils.isEmpty(getDeviceType());
+
+        if (!TextUtils.isEmpty(getIpAddress())) {
+            isValid &= Patterns.IP_ADDRESS.matcher(getIpAddress()).matches();
+        }
+        return isValid;
     }
 
     @Override
