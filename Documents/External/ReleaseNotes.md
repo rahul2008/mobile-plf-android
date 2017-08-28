@@ -5,27 +5,28 @@ Version {next}
 -------------
 
 ### Functionality Delivered
-* \#65109 Removed connection state machine from DiscoveryManager.
+* CommLib - \#65109 Removed connection state machine from DiscoveryManager.
 	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
 
 ### Backwards Compatibility
-* `Appliance.enableCommunication` is no longer needed before a subscription. 
+* CommLib - `Appliance.enableCommunication` is no longer needed before a subscription. 
 
 ### Features not covered
 * To be filled in at release
 
 ### Breaking Changes
-* `NetworkNode` and `Applaince` no longer has a `(get/set)ConnectionState`. In return `Appliances`, `CommunicationStrategies` and `TransportContexts` now got an `isAvailable()` method to tell about the availablity of a connection.
-* `enableCommunication` for any `CommunicationStrategy` doesn't have any parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
-* The following classes are moved to a new package:
+* CommLib - `NetworkNode` and `Applaince` no longer has a `(get/set)ConnectionState`. In return `Appliances`, `CommunicationStrategies` and `TransportContexts` now got an `isAvailable()` method to tell about the availablity of a connection.
+* CommLib - `enableCommunication` for any `CommunicationStrategy` doesn't have any parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
+* CommLib - The following classes are moved to a new package:
 	* `CurrentApplianceManager` -> `com.philips.cdp2.commlib.core.appliance`
 	* `ApplianceFactory` -> `com.philips.cdp2.commlib.core.appliance`
 	
-* The following classes are renamed:
+* CommLib - The following classes are renamed:
 	* DICommApplianceFactory -> ApplianceFactory 
 
 ### Defects solved
-* \#72227 Timeout callback not called
+* CommLib - \#72227 Timeout callback not called
+* CloudController - \#55808 BufferUnderflowException while reading download data
 
 ### Residual anomalies
 * To be filled in at release
