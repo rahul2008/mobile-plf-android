@@ -189,9 +189,11 @@ public class ApplianceManager {
      *
      * @param appliance the appliance
      */
-    public void storeAppliance(@NonNull final Appliance appliance) {
-        networkNodeDatabase.save(appliance.getNetworkNode());
+    public boolean storeAppliance(@NonNull final Appliance appliance) {
+        long rowId = networkNodeDatabase.save(appliance.getNetworkNode());
         applianceDatabase.save(appliance);
+
+        return rowId != -1L;
     }
 
     /**
@@ -207,6 +209,7 @@ public class ApplianceManager {
         int rowsDeleted = networkNodeDatabase.delete(appliance.getNetworkNode());
         if (rowsDeleted > 0) {
             applianceDatabase.delete(appliance);
+            applianceAvailabilityListener.onAvailabilityChanged(appliance);
         }
 
         return rowsDeleted > 0;

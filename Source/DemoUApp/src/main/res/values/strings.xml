@@ -70,4 +70,11 @@
     <string name="cml_prompt_certificate_mismatch_accept">Accept</string>
     <string name="cml_prompt_certificate_mismatch_cancel">Cancel</string>
     <string name="cml_prompt_certificate_mismatch_title">Invalid certificate</string>
+    <string name="cml_persistance">Persistance</string>
+    <string name="cml_persist">Persist</string>
+    <string name="cml_forget">Forget</string>
+    <string name="cml_forget_failed">Appliance could not be forgotten</string>
+    <string name="cml_forget_success">Appliance forgotten</string>
+    <string name="cml_persist_success">Appliance persisted</string>
+    <string name="cml_persist_failed">Appliance not persisted</string>
 </resources>
