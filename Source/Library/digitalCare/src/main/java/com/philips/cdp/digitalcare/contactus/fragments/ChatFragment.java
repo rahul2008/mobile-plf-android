@@ -48,7 +48,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setButtonParams();
+        //setButtonParams();
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
 

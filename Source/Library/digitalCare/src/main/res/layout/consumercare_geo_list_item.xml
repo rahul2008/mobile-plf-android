@@ -47,7 +47,7 @@
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:id="@+id/place_title"
                 android:paddingRight="50dp"
                 android:text="Title"
@@ -59,7 +59,7 @@
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:id="@+id/place_address"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="10dip"
@@ -71,7 +71,7 @@
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:id="@+id/place_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

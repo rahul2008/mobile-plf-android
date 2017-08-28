@@ -83,7 +83,7 @@
 
                     <com.philips.platform.uid.view.widget.Label
                         android:id="@+id/show_place_title"
-                        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                        style="@style/UIDLabel"
                         fontPath="fonts/centralesansbold.ttf"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/show_place_address"
-                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
@@ -112,7 +112,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/shop_details_url"
-                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp" />
@@ -138,14 +138,14 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/contactUsOpeningHours"
-                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/firstRowText"
-                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -153,7 +153,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/secondRowText"
-                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    style="@style/UIDLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
