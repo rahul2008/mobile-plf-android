@@ -17,7 +17,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.flowmanager.UappFlowManager;
 import com.philips.platform.flowmanager.utility.UappBaseAppUtil;
-import com.philips.platform.screens.base.UappFileUtility;
+import com.philips.platform.uappdemo.screens.base.UappFileUtility;
 import com.philips.platform.uappdemolibrary.BuildConfig;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.uappinput.UappDependencies;

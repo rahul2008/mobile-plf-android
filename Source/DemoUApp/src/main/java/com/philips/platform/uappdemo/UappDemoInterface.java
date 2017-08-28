@@ -3,7 +3,7 @@ package com.philips.platform.uappdemo;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.platform.screens.introscreen.LaunchActivity;
+import com.philips.platform.uappdemo.screens.introscreen.LaunchActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;

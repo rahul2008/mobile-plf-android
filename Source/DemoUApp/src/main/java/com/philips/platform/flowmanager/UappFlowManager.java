@@ -10,13 +10,13 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.condition.UappConditionAppLaunch;
 import com.philips.platform.flowmanager.condition.UappConditionIsDonePressed;
-import com.philips.platform.screens.aboutscreen.AboutScreenState;
-import com.philips.platform.screens.dls.DlsState;
-import com.philips.platform.screens.homefragment.HomeFragmentState;
-import com.philips.platform.screens.introscreen.welcomefragment.WelcomeState;
-import com.philips.platform.screens.sample.SampleState;
-import com.philips.platform.screens.splash.SplashState;
-import com.philips.platform.screens.stateimpl.HamburgerActivityState;
+import com.philips.platform.uappdemo.screens.aboutscreen.AboutScreenState;
+import com.philips.platform.uappdemo.screens.dls.DlsState;
+import com.philips.platform.uappdemo.screens.homefragment.HomeFragmentState;
+import com.philips.platform.uappdemo.screens.introscreen.welcomefragment.WelcomeState;
+import com.philips.platform.uappdemo.screens.sample.SampleState;
+import com.philips.platform.uappdemo.screens.splash.SplashState;
+import com.philips.platform.uappdemo.screens.stateimpl.HamburgerActivityState;
 
 import java.util.Map;
 
