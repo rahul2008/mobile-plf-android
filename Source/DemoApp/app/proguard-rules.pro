@@ -36,9 +36,7 @@
 #notification (Registration)
 -dontwarn android.app.Notification
 
-#check if somethings below can be removed?
 -dontwarn javax.annotation.**
--dontwarn javax.tools.**
 
 #--------------------------AppInfra starts here-----------
 -keepattributes InnerClasses,Exceptions
