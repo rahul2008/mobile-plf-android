@@ -96,24 +96,6 @@ public static <fields>;
 -dontwarn javax.annotation.**
 -dontwarn javax.tools.**
 
-##-------------- Retrofit -------------
-
--keep class com.squareup.** { *; }
--keep interface com.squareup.** { *; }
--keep class retrofit.** { *; }
--keep interface retrofit.** { *;}
-
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
--dontwarn com.squareup.okhttp.**
--dontwarn retrofit.**
--dontwarn okio.**
--dontwarn rx.**
--dontwarn android.app.Notification
-
-
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
 -keep  class com.fasterxml.jackson.annotation.** {*;}
