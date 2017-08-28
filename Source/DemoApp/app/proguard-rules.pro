@@ -51,7 +51,6 @@
 -dontwarn com.philips.platform.appinfra.**
 
 -dontwarn org.apache.**
--keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
 
