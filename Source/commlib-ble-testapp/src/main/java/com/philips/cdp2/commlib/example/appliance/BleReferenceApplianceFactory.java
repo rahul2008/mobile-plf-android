@@ -36,8 +36,8 @@ public final class BleReferenceApplianceFactory implements ApplianceFactory {
 
             switch (networkNode.getDeviceType()) {
                 case BleReferenceAppliance.DEVICETYPE:
-                    final CommunicationStrategy bleCommunicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
-                    return new BleReferenceAppliance(networkNode, bleCommunicationStrategy);
+                    final CommunicationStrategy communicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
+                    return new BleReferenceAppliance(networkNode, communicationStrategy);
             }
         }
         return null;

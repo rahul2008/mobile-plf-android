@@ -45,6 +45,8 @@ public abstract class Appliance implements Availability<Appliance> {
     protected final CommunicationStrategy communicationStrategy;
 
     private final Set<DICommPort> ports = new HashSet<>();
+
+    // TODO expose
     private final Set<AvailabilityListener<Appliance>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
@@ -226,7 +228,7 @@ public abstract class Appliance implements Availability<Appliance> {
     public void addAvailabilityListener(@NonNull final AvailabilityListener<Appliance> listener) {
         communicationStrategy.addAvailabilityListener(new AvailabilityListener<CommunicationStrategy>() {
             @Override
-            public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
+            public void onAvailabilityChanged(@NonNull CommunicationStrategy communicationStrategy) {
                 listener.onAvailabilityChanged(Appliance.this);
             }
         });
@@ -236,7 +238,7 @@ public abstract class Appliance implements Availability<Appliance> {
     public void removeAvailabilityListener(@NonNull final AvailabilityListener<Appliance> listener) {
         communicationStrategy.removeAvailabilityListener(new AvailabilityListener<CommunicationStrategy>() {
             @Override
-            public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
+            public void onAvailabilityChanged(@NonNull CommunicationStrategy communicationStrategy) {
                 listener.onAvailabilityChanged(Appliance.this);
             }
         });

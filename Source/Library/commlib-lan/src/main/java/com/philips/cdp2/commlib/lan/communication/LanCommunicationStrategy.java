@@ -16,7 +16,7 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
@@ -34,7 +34,7 @@ import javax.net.ssl.X509TrustManager;
 
 import static java.util.Objects.requireNonNull;
 
-public class LanCommunicationStrategy extends CommunicationStrategy {
+public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final RequestQueue requestQueue;
     @NonNull

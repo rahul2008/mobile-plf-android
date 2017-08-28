@@ -85,6 +85,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         return this.discoveryStrategy;
     }
 
+    @NonNull
     @Override
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);

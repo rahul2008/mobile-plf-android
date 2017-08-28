@@ -122,7 +122,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         }
     };
 
-    public FirmwarePort(CommunicationStrategy communicationStrategy) {
+    public FirmwarePort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
         callbackHandler = HandlerProvider.createHandler();
     }
@@ -136,7 +136,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
      */
     public void pushLocalFirmware(final byte[] firmwareData, final long stateTransitionTimeout) throws IllegalStateException {
         if (firmwareUpdateOperation == null) {
-            firmwareUpdateOperation = new FirmwareUpdatePushLocal(this, this.mCommunicationStrategy, this.listener, firmwareData);
+            firmwareUpdateOperation = new FirmwareUpdatePushLocal(this, this.communicationStrategy, this.listener, firmwareData);
             firmwareUpdateOperation.start(stateTransitionTimeout);
         } else {
             throw new IllegalStateException("Firmware update already in progress.");

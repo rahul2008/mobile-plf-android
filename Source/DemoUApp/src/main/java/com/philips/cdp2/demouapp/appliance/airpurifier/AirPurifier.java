@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.demouapp.appliance.airpurifier;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -16,7 +18,7 @@ public abstract class AirPurifier extends Appliance {
     public static final String DEVICETYPE = "AirPurifier";
     AirPort<? extends AirPortProperties> airPort;
 
-    AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    AirPurifier(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
     }
 

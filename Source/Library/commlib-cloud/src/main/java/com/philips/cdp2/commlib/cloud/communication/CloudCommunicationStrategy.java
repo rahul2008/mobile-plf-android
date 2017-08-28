@@ -17,7 +17,7 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @publicApi
  */
-public class CloudCommunicationStrategy extends CommunicationStrategy {
+public class CloudCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private final RemoteSubscriptionHandler remoteSubscriptionHandler;
     private final NetworkNode networkNode;
