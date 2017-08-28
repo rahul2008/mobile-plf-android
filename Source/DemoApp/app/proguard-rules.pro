@@ -94,21 +94,7 @@ public static <fields>;
 -keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 
-##--------------- ORMLite  ----------
-
-# Keep ORMLite specifics
--keep class com.j256.**
--keepclassmembers class com.j256.** { *; }
--keep enum com.j256.**
--keepclassmembers enum com.j256.** { *; }
--keep interface com.j256.**
--keepclassmembers interface com.j256.** { *; }
-
--keep @com.j256.ormlite.table.DatabaseTable class * { *; }
-
-
-
-
+#check if somethings below can be removed?
 -dontwarn org.slf4j.**
 -dontwarn org.apache.log4j.**
 -dontwarn org.apache.commons.logging.**
