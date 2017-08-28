@@ -96,13 +96,6 @@ public static <fields>;
 -dontwarn javax.annotation.**
 -dontwarn javax.tools.**
 
-#HSDP Lib
--keep  class com.philips.dhpclient.** {*;}
--keep  class com.fasterxml.jackson.annotation.** {*;}
--keep  class com.fasterxml.jackson.core.** {*;}
--keep  class com.fasterxml.jackson.databind.** {*;}
-
-
 #Network
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
