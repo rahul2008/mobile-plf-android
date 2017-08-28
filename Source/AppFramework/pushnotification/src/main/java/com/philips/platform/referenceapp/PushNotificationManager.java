@@ -38,6 +38,7 @@ public class PushNotificationManager {
     private HandleNotificationPayloadInterface payloadListener;
     private PushNotificationTokenRegistrationInterface tokenRegistrationListener;
     private PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface;
+    private AppInfraInterface appInfra;
 
     public interface DeregisterTokenListener {
         void onSuccess();
@@ -59,6 +60,7 @@ public class PushNotificationManager {
     public void init(AppInfraInterface appInfra,PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface){
         PNLog.initialise(appInfra);
         PNLog.enablePNLogging();
+        this.appInfra = appInfra;
         this.pushNotificationUserRegistationWrapperInterface=pushNotificationUserRegistationWrapperInterface;
     }
 
@@ -161,15 +163,19 @@ public class PushNotificationManager {
         }
     }
 
-
     /**
      * Deregistration of token with datacore or backend
      */
     public void deregisterTokenWithBackend(final Context applicationContext, final DeregisterTokenListener deregisterTokenListener) {
         PNLog.d(TAG, "deregistering token with data core");
+
         if (TextUtils.isEmpty(getToken(applicationContext))) {
             PNLog.d(TAG, "Something went wrong. Token should not be empty");
-        } else if(tokenRegistrationListener!=null){
+        }
+        else if(!isNetworkAvailable()) {
+            deregisterTokenListener.onError();
+        }
+        else if(tokenRegistrationListener!=null){
             tokenRegistrationListener.deregisterToken(getToken(applicationContext), PushNotificationConstants.APP_VARIANT, new RegistrationCallbacks.DergisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isDeRegistered) {
@@ -246,6 +252,10 @@ public class PushNotificationManager {
         //Start registration service
         Intent intent = new Intent(context, RegistrationIntentService.class);
         context.startService(intent);
+    }
+
+    public boolean isNetworkAvailable() {
+        return appInfra.getRestClient().isInternetReachable();
     }
 
     /**
