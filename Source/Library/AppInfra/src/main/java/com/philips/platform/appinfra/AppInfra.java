@@ -19,8 +19,8 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
-import com.philips.platform.appinfra.keybag.KeyBagInterface;
-import com.philips.platform.appinfra.keybag.KeyBagManager;
+import com.philips.platform.appinfra.aikm.AIKMInterface;
+import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
@@ -63,7 +63,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
      */
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
-    private KeyBagInterface keyBagInterface;
+    private AIKMInterface serviceInterface;
 
 
     private AppInfra(Context pContext) {
@@ -227,13 +227,12 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
-    @Override
-    public KeyBagInterface getKeyBagInterface() {
-        return keyBagInterface;
+    public AIKMInterface getServiceInterface() {
+        return serviceInterface;
     }
 
-    public void setKeyBagInterface(KeyBagInterface keyBagInterface) {
-        this.keyBagInterface = keyBagInterface;
+    public void setServiceInterface(AIKMInterface serviceInterface) {
+        this.serviceInterface = serviceInterface;
     }
 
     /**
@@ -256,7 +255,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
-        private KeyBagInterface keyBagInterface;
+        private AIKMInterface serviceInterface;
 
 
         /**
@@ -275,7 +274,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
-            keyBagInterface = null;
+            serviceInterface = null;
         }
 
 
@@ -457,9 +456,9 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final KeyBagManager keyBagManager;
-                    keyBagManager = new KeyBagManager(ai);
-                    ai.setKeyBagInterface(keyBagInterface == null ? keyBagManager : keyBagInterface);
+                    final AIKManager keyBagManager;
+                    keyBagManager = new AIKManager(ai);
+                    ai.setServiceInterface(serviceInterface == null ? keyBagManager : serviceInterface);
                 }
             }).start();
 

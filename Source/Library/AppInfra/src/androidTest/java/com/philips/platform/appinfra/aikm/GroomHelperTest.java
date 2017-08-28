@@ -3,12 +3,12 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.appinfra.keybag;
+package com.philips.platform.appinfra.aikm;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
-import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
+import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.appinfra.keybag.model.AIKMService.MAP_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR;
+import static com.philips.platform.appinfra.aikm.model.AIKMService.MAP_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,11 +97,11 @@ public class GroomHelperTest extends AppInfraInstrumentation {
 
     public void testInit() {
         ExpectedException thrown = ExpectedException.none();
-        thrown.expect(KeyBagJsonFileNotFoundException.class);
+        thrown.expect(AIKMJsonFileNotFoundException.class);
         thrown.expectMessage("AIKeyBag.json file not found in assets folder");
         try {
             groomHelper.init(mAppInfraMock, inputStream);
-        } catch (KeyBagJsonFileNotFoundException e) {
+        } catch (AIKMJsonFileNotFoundException e) {
             e.printStackTrace();
             assertEquals(e.getMessage(), "AIKeyBag.json file not found in assets folder");
         }
@@ -148,7 +148,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         assertNotNull(groomHelper.mapData(new JSONObject(), 0, "service_id"));
     }
 
-    public void testMapAndValidateKey() throws KeyBagJsonFileNotFoundException {
+    public void testMapAndValidateKey() throws AIKMJsonFileNotFoundException {
         groomHelper = new GroomHelper(mAppInfraMock) {
             @Override
             Object getAilGroomProperties(String serviceId) {

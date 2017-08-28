@@ -3,14 +3,14 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.appinfra.keybag;
+package com.philips.platform.appinfra.aikm;
 
 
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
-import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
+import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -43,7 +43,7 @@ public class GroomHelper {
         this.mAppInfra = appInfra;
     }
 
-    boolean init(AppInfra mAppInfra, InputStream mInputStream) throws KeyBagJsonFileNotFoundException {
+    boolean init(AppInfra mAppInfra, InputStream mInputStream) throws AIKMJsonFileNotFoundException {
         this.mAppInfra = mAppInfra;
         StringBuilder total;
         try {
@@ -57,7 +57,7 @@ public class GroomHelper {
             return true;
         } catch (JSONException | IOException e) {
             if (e instanceof IOException)
-                throw new KeyBagJsonFileNotFoundException();
+                throw new AIKMJsonFileNotFoundException();
             else
                 e.printStackTrace();
         }

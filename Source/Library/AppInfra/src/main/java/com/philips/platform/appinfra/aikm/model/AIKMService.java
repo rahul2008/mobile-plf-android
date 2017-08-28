@@ -3,7 +3,7 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.appinfra.keybag.model;
+package com.philips.platform.appinfra.aikm.model;
 
 
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;

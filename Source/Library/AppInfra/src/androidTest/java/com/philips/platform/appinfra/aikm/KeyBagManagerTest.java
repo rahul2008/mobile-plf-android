@@ -1,12 +1,12 @@
-package com.philips.platform.appinfra.keybag;
+package com.philips.platform.appinfra.aikm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
-import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
+import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 public class KeyBagManagerTest extends AppInfraInstrumentation {
 
 
-    private KeyBagManager keyBagManager;
+    private AIKManager keyBagManager;
 
     @Override
     protected void setUp() throws Exception {
@@ -33,10 +33,10 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         AppInfra appInfraMock = mock(AppInfra.class);
         ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
-        keyBagManager = new KeyBagManager(appInfraMock);
+        keyBagManager = new AIKManager(appInfraMock);
     }
 
-    public void testInvokingServices() throws KeyBagJsonFileNotFoundException {
+    public void testInvokingServices() throws AIKMJsonFileNotFoundException {
         Context context = getInstrumentation().getContext();
         AppInfra appInfraMock = mock(AppInfra.class);
         when(appInfraMock.getAppInfraContext()).thenReturn(context);
@@ -56,7 +56,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         final GroomHelper groomHelperMock = mock(GroomHelper.class);
         ArrayList<String> serviceIds = new ArrayList<>();
         final InputStream finalInputStream = inputStream;
-        keyBagManager = new KeyBagManager(appInfraMock) {
+        keyBagManager = new AIKManager(appInfraMock) {
             @NonNull
             @Override
             GroomHelper getGroomHelper() {
@@ -64,7 +64,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
             }
 
             @Override
-            InputStream getInputStream(Context mContext, String fileName) throws KeyBagJsonFileNotFoundException {
+            InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
                 return finalInputStream;
             }
 

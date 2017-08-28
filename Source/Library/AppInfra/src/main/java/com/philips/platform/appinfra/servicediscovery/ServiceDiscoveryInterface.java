@@ -7,7 +7,7 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.BroadcastReceiver;
 
-import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;

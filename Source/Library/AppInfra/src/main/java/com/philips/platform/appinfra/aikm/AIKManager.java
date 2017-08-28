@@ -3,14 +3,14 @@
  * All rights are reserved. Reproduction or dissemination in whole or in part
  * is prohibited without the prior written consent of the copyright holder.
  */
-package com.philips.platform.appinfra.keybag;
+package com.philips.platform.appinfra.aikm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.keybag.exception.KeyBagJsonFileNotFoundException;
-import com.philips.platform.appinfra.keybag.model.AIKMService;
+import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
+import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class KeyBagManager implements KeyBagInterface {
+public class AIKManager implements AIKMInterface {
 
     private final AppInfra appInfra;
     private final GroomHelper groomHelper;
 
-    public KeyBagManager(AppInfra mAppInfra) {
+    public AIKManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
         groomHelper = new GroomHelper(mAppInfra);
     }
@@ -34,7 +34,7 @@ public class KeyBagManager implements KeyBagInterface {
     @Override
     public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
                                          Map<String, String> replacement,
-                                         @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws KeyBagJsonFileNotFoundException {
+                                         @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException {
 
         InputStream inputStream = getInputStream(appInfra.getAppInfraContext(), "AIKeyBag.json");
         getGroomHelper().init(appInfra, inputStream);
@@ -44,11 +44,11 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
 
-    InputStream getInputStream(Context mContext, String fileName) throws KeyBagJsonFileNotFoundException {
+    InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
         try {
             return mContext.getAssets().open(fileName);
         } catch (IOException e) {
-            throw new KeyBagJsonFileNotFoundException();
+            throw new AIKMJsonFileNotFoundException();
         }
     }
 

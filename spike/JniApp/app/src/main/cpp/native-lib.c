@@ -2,7 +2,7 @@
 #include <jni.h>
 /* In-place string obfuscation */
 
-JNIEXPORT jcharArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib_ailGroom(
+JNIEXPORT jcharArray JNICALL Java_com_philips_platform_appinfra_aikm_GroomLib_ailGroom(
         JNIEnv *env, jobject obj,
         jcharArray testData, jint testValue) {
     // Array to fill with data

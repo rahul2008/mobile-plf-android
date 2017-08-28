@@ -4,7 +4,7 @@
  * is prohibited without the prior written consent of the copyright holder.
  */
 
-package com.philips.platform.appinfra.keybag;
+package com.philips.platform.appinfra.aikm;
 
 
 public class GroomLib {
