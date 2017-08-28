@@ -31,7 +31,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     private Context mContext;
 
     private TextView mConfirmationText;
-    private TextView mOrderText;
+   // private TextView mOrderText;
     private TextView mOrderNumber;
     private TextView mConfirmWithEmail;
 
@@ -39,7 +39,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_payment_confirmation,
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_order_confirmation,
                 container, false);
         initViews(view);
         updatePaymentUI();
@@ -47,11 +47,11 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     }
 
     private void initViews(ViewGroup viewGroup) {
-        mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank);
-        mOrderText = (TextView) viewGroup.findViewById(R.id.tv_your_order_num);
-        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_num);
-        mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirm_email);
-        final Button mOKButton = (Button) viewGroup.findViewById(R.id.tv_confirm_ok);
+        mConfirmationText = (TextView) viewGroup.findViewById(R.id.tv_thank_you_title);
+       // mOrderText = (TextView) viewGroup.findViewById(R.id.tv_order_number);
+        mOrderNumber = (TextView) viewGroup.findViewById(R.id.tv_order_number);
+        mConfirmWithEmail = (TextView) viewGroup.findViewById(R.id.tv_confirmation_email_shortly);
+        final Button mOKButton = (Button) viewGroup.findViewById(R.id.ok_btn);
         mOKButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -116,7 +116,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
 
         setPaymentTitle(R.string.iap_payment_failed);
-        mOrderText.setVisibility(View.INVISIBLE);
+        //mOrderText.setVisibility(View.INVISIBLE);
         mOrderNumber.setVisibility(View.INVISIBLE);
         mConfirmWithEmail.setVisibility(View.INVISIBLE);
     }

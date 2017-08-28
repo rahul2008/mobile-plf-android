@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
@@ -29,6 +30,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -53,6 +55,16 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private int mSelectedItemPosition = -1;
     private int mQuantityStatus;
     private int mNewCount;
+    private OrderSummaryUpdateListner orderSummaryUpdateListner;
+    private AddressFields mBillingAddress;
+
+    public void setOrderSummaryUpdateListner(OrderSummaryUpdateListner orderSummaryUpdateListner) {
+        this.orderSummaryUpdateListner = orderSummaryUpdateListner;
+    }
+
+    public interface OrderSummaryUpdateListner {
+        void onGetCartUpdate();
+    }
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -240,10 +252,16 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mIsFreeDelivery = true;
                 }
 
-                System.out.println("888888 getBillingAddress : "+CartModelContainer.getInstance().getBillingAddress());
                 if(data.getDeliveryAddressEntity()!=null){
                     shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName()+" "+data.getDeliveryAddressEntity().getLastName());
                     shoppingCartFooter.mShippingAddress.setText(data.getDeliveryAddressEntity().getFormattedAddress());
+                }
+
+                mBillingAddress = CartModelContainer.getInstance().getBillingAddress();
+                if (null != mBillingAddress) {
+                    String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
+                    shoppingCartFooter.mBillingName.setText(billingName);
+                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress) + shoppingCartDataForProductDetailPage.getDeliveryAddressEntity().getCountry().getName());
                 }
 
                 for (int i = 0; i < mData.size(); i++) {
@@ -256,7 +274,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             }
         }
-
+        orderSummaryUpdateListner.onGetCartUpdate();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -381,6 +399,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView mDeliveryTitle;
         TextView mShippingName;
         TextView mShippingAddress;
+        TextView mBillingName;
+        TextView mBillingAddress;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
 
@@ -398,6 +418,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mDeliveryTitle = (TextView) itemView.findViewById(R.id.delivery_ups_title);
             mShippingName = (TextView) itemView.findViewById(R.id.tv_shipping_name);
             mShippingAddress = (TextView) itemView.findViewById(R.id.tv_shipping_address);
+            mBillingName = (TextView) itemView.findViewById(R.id.tv_billing_name);
+            mBillingAddress = (TextView) itemView.findViewById(R.id.tv_billing_address);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
 
