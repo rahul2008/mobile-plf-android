@@ -72,7 +72,7 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.Select_Product_Title);
+        return getResources().getString(R.string.pse_Select_Your_Product_Title);
     }
 
     @Override

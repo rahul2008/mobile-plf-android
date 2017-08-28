@@ -15,4 +15,26 @@
 <string name="Continue_Btntxt">Doorgaan</string>
 <string name="No_Internet">Geen internetverbinding. Controleer uw verbinding in de Wi-Fi-instellingen of gegevensinstellingen van uw telefoon.</string>
     <string name="myphilips_CC">Mijn Philips-account</string>
+
+    <string name="pse_Selected_Product">Geselecteerd product</string>
+    <string name="pse_Selected">Geselecteerd</string>
+    <string name="pse_Select_Your_Product_Title">Uw product selecteren</string>
+    <string name="pse_Find_Your_Product_Title">Uw product zoeken</string>
+    <string name="pse_No_Result">0 resultaten gevonden voor</string>
+    <string name="pse_No_Result_Desc">Hiermee wordt de productlijst gefilterd. Controleer of u geen typefouten hebt gemaakt</string>
+    <string name="pse_What_Product">Welk product gebruikt u?</string>
+    <string name="pse_Product_Support_Desc">Laat ons weten welk product u hebt zodat wij u zo goed mogelijk kunnen ondersteunen.</string>
+    <string name="pse_Skip_Registration">Registratie overslaan</string>
+    <string name="pse_Change_Product">U kunt uw productselectie aanpassen via Mijn account</string>
+    <string name="pse_Register_Your_Product">Registreer uw product</string>
+    <string name="pse_My_Account">Mijn account</string>
+    <string name="pse_Change_Your_Product">U kunt uw geselecteerde product wijzigen via Mijn account.</string>
+    <string name="pse_View_Recipes">Recepten weergeven</string>
+    <string name="pse_Back_My_Account">Terug naar Mijn account</string>
+    <string name="pse_Choose_Product_Register.">Kies het product dat u wilt registreren.</string>
+    <string name="pse_Skip_Step">Stap overslaan</string>
+    <string name="pse_Explain_Benefits">Leg hier uit wat de voordelen zijn van uw productkeuze.</string>
+    <string name="pse_Product_Register">Welk product wilt u registreren?</string>
+    <string name="pse_App_Content">De inhoud van deze app is nu afgestemd op uw geselecteerde product.</string>
+
 </resources>

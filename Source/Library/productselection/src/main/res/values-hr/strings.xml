@@ -16,4 +16,25 @@
     <string name="No_Internet">Nema internetske veze. Provjerite stanje svoje veze u Wi-Fi postavkama ili podatkovnim postavkama telefona</string>
     <string name="myphilips_CC">MyPhilips račun</string>
 
+    <string name="pse_Selected_Product">Odabrani proizvod</string>
+    <string name="pse_Selected">Odabrano</string>
+    <string name="pse_Select_Your_Product_Title">Odaberite proizvod</string>
+    <string name="pse_Find_Your_Product_Title">Pronađite proizvod</string>
+    <string name="pse_No_Result">Pronađeno 0 rezultata za:</string>
+    <string name="pse_No_Result_Desc">Time se filtrira popis proizvoda. Provjerite je li uvjet za filtriranje pravilno napisan</string>
+    <string name="pse_What_Product">Koji proizvod koristite?</string>
+    <string name="pse_Product_Support_Desc">Možemo vam pružiti najbolju podršku; recite nam koji proizvod posjedujete.</string>
+    <string name="pse_Skip_Registration">Preskoči registraciju</string>
+    <string name="pse_Change_Product">Ako želite promijeniti odabir proizvoda, to možete učiniti putem Mog računa</string>
+    <string name="pse_Register_Your_Product">Registrirajte svoj proizvod</string>
+    <string name="pse_My_Account">Moj račun</string>
+    <string name="pse_Change_Your_Product">Ako poželite promijeniti odabrani proizvod, to možete učiniti putem Mog računa.</string>
+    <string name="pse_View_Recipes">Prikaz recepata</string>
+    <string name="pse_Back_My_Account">Natrag na Moj račun</string>
+    <string name="pse_Choose_Product_Register.">Odaberite proizvod koji želite registrirati.</string>
+    <string name="pse_Skip_Step">Preskoči korak</string>
+    <string name="pse_Explain_Benefits">Za objašnjenje pogodnosti ovdje odaberite proizvod.</string>
+    <string name="pse_Product_Register">Koji proizvod želite registrirati?</string>
+    <string name="pse_App_Content">Sadržaj ove aplikacije sad je prilagođen za vaš</string>
+
 </resources>

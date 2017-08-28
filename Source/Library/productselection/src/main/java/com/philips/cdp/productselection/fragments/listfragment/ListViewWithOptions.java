@@ -174,8 +174,8 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
             mProductsList.clear();
             SummaryModel summaryModel = new SummaryModel();
             Data data=new Data();
-            data.setProductTitle(activity.getResources().getString(R.string.Zero_records_found)+" "+searchStr);
-            data.setCtn(String.valueOf(activity.getResources().getString(R.string.Zero_records_found_filter)));
+            data.setProductTitle(activity.getResources().getString(R.string.pse_No_Result)+" "+searchStr);
+            data.setCtn(String.valueOf(activity.getResources().getString(R.string.pse_No_Result_Desc)));
             summaryModel.setData(data);
             mProductsList.add(summaryModel);
         }

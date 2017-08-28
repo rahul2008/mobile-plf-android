@@ -15,4 +15,26 @@
 <string name="Continue_Btntxt">Turpināt</string>
 <string name="No_Internet">Nav interneta savienojuma. Pārbaudiet, vai jūsu savienojums darbojas tālruņa wifi iestatījumos vai datu iestatījumos</string>
     <string name="myphilips_CC">MyPhilips konts</string>
+
+    <string name="pse_Selected_Product">atlasītais produkts</string>
+    <string name="pse_Selected">Atlasīts</string>
+    <string name="pse_Select_Your_Product_Title">Atlasiet savu produktu</string>
+    <string name="pse_Find_Your_Product_Title">Atrodiet savu produktu</string>
+    <string name="pse_No_Result">Atrasti 0 rezultāti par</string>
+    <string name="pse_No_Result_Desc">Tiek filtrēts produktu saraksts. Lūdzu, pārbaudiet, vai filtrēšanas vārdā nav kļūdu</string>
+    <string name="pse_What_Product">Kādu produktu jūs izmantojat?</string>
+    <string name="pse_Product_Support_Desc">Lai varētu sniegt jums vislabāko atbalstu, lūdzu, informējiet par savā īpašumā esošo produktu.</string>
+    <string name="pse_Skip_Registration">Izlaist reģistrāciju</string>
+    <string name="pse_Change_Product">Ja vēlaties mainīt produkta atlasi, dariet to sadaļā Mans konts</string>
+    <string name="pse_Register_Your_Product">Reģistrējiet savu produktu</string>
+    <string name="pse_My_Account">Mans konts</string>
+    <string name="pse_Change_Your_Product">Ja vēlaties mainīt atlasīto produktu, dariet to sadaļā Mans konts.</string>
+    <string name="pse_View_Recipes">Skatīt receptes</string>
+    <string name="pse_Back_My_Account">Atpakaļ uz Mans konts</string>
+    <string name="pse_Choose_Product_Register.">Izvēlieties produktu, kuru vēlaties reģistrēt.</string>
+    <string name="pse_Skip_Step">Izlaist soli</string>
+    <string name="pse_Explain_Benefits">Šeit izskaidrotas priekšrocības, ko sniedz pareizā produkta izvēle.</string>
+    <string name="pse_Product_Register">Kuru produktu vēlaties reģistrēt?</string>
+    <string name="pse_App_Content">Aplikācijas saturs tagad ir pielāgots jūsu</string>
+
 </resources>

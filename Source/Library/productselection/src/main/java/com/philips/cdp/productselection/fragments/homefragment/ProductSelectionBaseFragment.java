@@ -535,7 +535,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             }
             String titleText = null;
             if (getActionbarTitle() == null) {
-                titleText = getResources().getString(R.string.Product_Title);
+                titleText = getResources().getString(R.string.pse_Find_Your_Product_Title);
             } else {
                 titleText = getActionbarTitle();
             }

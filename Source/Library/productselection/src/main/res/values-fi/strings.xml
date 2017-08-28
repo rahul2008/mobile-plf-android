@@ -15,4 +15,26 @@
 <string name="Continue_Btntxt">Jatka</string>
 <string name="No_Internet">Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa</string>
     <string name="myphilips_CC">MyPhilips-tili</string>
+
+    <string name="pse_Selected_Product">Tuote valittu</string>
+    <string name="pse_Selected">Valittu</string>
+    <string name="pse_Select_Your_Product_Title">Valitse tuote</string>
+    <string name="pse_Find_Your_Product_Title">Etsi tuote</string>
+    <string name="pse_No_Result">Ei tuloksia:</string>
+    <string name="pse_No_Result_Desc">Tämä suodattaa tuotevalikoimamme. Tarkista, että hakusanassa ei ole kirjoitusvirheitä.</string>
+    <string name="pse_What_Product">Mitä tuotetta käytät?</string>
+    <string name="pse_Product_Support_Desc">Kerro meille, mitä tuotetta käytät, niin voimme antaa sinulle parhaan tuen.</string>
+    <string name="pse_Skip_Registration">Ohita rekisteröinti</string>
+    <string name="pse_Change_Product">Voit vaihtaa tuotevalikoimaa Oma tili -sivulla</string>
+    <string name="pse_Register_Your_Product">Rekisteröi tuotteesi</string>
+    <string name="pse_My_Account">Oma tili</string>
+    <string name="pse_Change_Your_Product">Omalla tilillä voit vaihtaa valitun tuotteen milloin vain.</string>
+    <string name="pse_View_Recipes">Näytä reseptit</string>
+    <string name="pse_Back_My_Account">Siirry omaan tiliin</string>
+    <string name="pse_Choose_Product_Register.">Valitse tuote, jonka haluat rekisteröidä.</string>
+    <string name="pse_Skip_Step">Ohita tämä vaihe</string>
+    <string name="pse_Explain_Benefits">Kerro eduista ja valitse oikea tuote täältä.</string>
+    <string name="pse_Product_Register">Minkä tuotteen haluat rekisteröidä?</string>
+    <string name="pse_App_Content">Sovelluksen sisältö on nyt räätälöity tuotteellesi</string>
+
 </resources>

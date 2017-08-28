@@ -15,4 +15,26 @@
 <string name="Continue_Btntxt">Kontynuuj</string>
 <string name="No_Internet">Brak połączenia internetowego. Sprawdź połączenie w ustawieniach Wi-Fi lub ustawieniach przesyłu danych telefonu.</string>
     <string name="myphilips_CC">Konto MyPhilips</string>
+
+    <string name="pse_Selected_Product">Wybrano produkt</string>
+    <string name="pse_Selected">Wybrano</string>
+    <string name="pse_Select_Your_Product_Title">Wybierz produkt</string>
+    <string name="pse_Find_Your_Product_Title">Znajdź produkt</string>
+    <string name="pse_No_Result">0 wyników wyszukiwania dla:</string>
+    <string name="pse_No_Result_Desc">Ta funkcja filtruje naszą listę produktów. Sprawdź, czy nazwa filtra jest wpisana poprawnie</string>
+    <string name="pse_What_Product">Jakiego produktu używasz?</string>
+    <string name="pse_Product_Support_Desc">Aby zapewnić Ci najlepsze wsparcie, prosimy o informację, jaki produkt posiadasz.</string>
+    <string name="pse_Skip_Registration">Pomiń rejestrację</string>
+    <string name="pse_Change_Product">Zmiany wyboru produktu można dokonać w obszarze Moje konto</string>
+    <string name="pse_Register_Your_Product">Zarejestruj produkt</string>
+    <string name="pse_My_Account">Moje konto</string>
+    <string name="pse_Change_Your_Product">Zmiany wyboru produktu można dokonać w obszarze Moje konto.</string>
+    <string name="pse_View_Recipes">Przejrzyj przepisy</string>
+    <string name="pse_Back_My_Account">Powrót do obszaru Moje konto</string>
+    <string name="pse_Choose_Product_Register.">Wybierz produkt, który chcesz zarejestrować.</string>
+    <string name="pse_Skip_Step">Pomiń ten krok</string>
+    <string name="pse_Explain_Benefits">Aby poznać korzyści, wybierz tutaj odpowiedni produkt.</string>
+    <string name="pse_Product_Register">Jaki produkt chcesz zarejestrować?</string>
+    <string name="pse_App_Content">Zawartość aplikacji jest teraz dostosowana do Ciebie</string>
+
 </resources>

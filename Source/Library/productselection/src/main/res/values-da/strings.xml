@@ -15,4 +15,26 @@
 <string name="Continue_Btntxt">Fortsæt</string>
 <string name="No_Internet">Ingen internetforbindelse. Kontroller forbindelsen i din telefons Wi-Fi-indstillinger eller dataindstillinger</string>
     <string name="myphilips_CC">MyPhilips-konto</string>
+
+    <string name="pse_Selected_Product">Valgte produkter</string>
+    <string name="pse_Selected">Valgt</string>
+    <string name="pse_Select_Your_Product_Title">Vælg dit produkt</string>
+    <string name="pse_Find_Your_Product_Title">Find dit produkt</string>
+    <string name="pse_No_Result">0 resultater fundet for</string>
+    <string name="pse_No_Result_Desc">Dette filtrerer vores produktliste. Kontroller, at der ikke er stavefejl i dit søgeord</string>
+    <string name="pse_What_Product">Hvilket produkt bruger du?</string>
+    <string name="pse_Product_Support_Desc">For at kunne give dig den bedst mulige support vil vi gerne vide, hvilket produkt du har.</string>
+    <string name="pse_Skip_Registration">Spring registrering over</string>
+    <string name="pse_Change_Product">Hvis du vil ændre dit produktvalg, kan du gøre det under Min konto</string>
+    <string name="pse_Register_Your_Product">Registrer dit produkt</string>
+    <string name="pse_My_Account">Min konto</string>
+    <string name="pse_Change_Your_Product">Hvis du på et tidspunkt gerne vil ændre dit valgte produkt, kan du gøre det under Min konto.</string>
+    <string name="pse_View_Recipes">Se opskrifter</string>
+    <string name="pse_Back_My_Account">Tilbage til Min konto</string>
+    <string name="pse_Choose_Product_Register.">Vælg det produkt, du ønsker at registrere.</string>
+    <string name="pse_Skip_Step">Spring trin over</string>
+    <string name="pse_Explain_Benefits">For at forklare fordelene skal du vælge det rette produkt her.</string>
+    <string name="pse_Product_Register">Hvilket produkt vil du gerne registrere?</string>
+    <string name="pse_App_Content">Indholdet i denne app er nu skræddersyet til dit valgte produkt</string>
+
 </resources>

@@ -27,7 +27,7 @@
        fontPath="fonts/centralesansbold.ttf"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="@string/Zero_records_found"
+       android:text="@string/pse_No_Result"
        android:textSize="16sp"/>
    </LinearLayout>
 
@@ -39,6 +39,6 @@
        android:layout_marginTop="4dp"
        android:padding="5dip"
        android:includeFontPadding="false"
-       android:text="@string/Zero_records_found_filter"
+       android:text="@string/pse_No_Result_Desc"
        android:textSize="12sp" />
 </LinearLayout>

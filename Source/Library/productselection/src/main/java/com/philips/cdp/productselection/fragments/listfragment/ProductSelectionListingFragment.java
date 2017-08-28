@@ -144,7 +144,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.Product_Title);
+        return getResources().getString(R.string.pse_Find_Your_Product_Title);
     }
 
     @Override
