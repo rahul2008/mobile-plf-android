@@ -76,16 +76,6 @@ public static <fields>;
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
 
-#-------------------------Consumer Care Starts -------------------------
-
-
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--dontpreverify
--keepattributes *Annotation*
--keepattributes Signature
-
 #check if somethings below can be removed?
 -dontwarn org.slf4j.**
 -dontwarn org.apache.log4j.**
