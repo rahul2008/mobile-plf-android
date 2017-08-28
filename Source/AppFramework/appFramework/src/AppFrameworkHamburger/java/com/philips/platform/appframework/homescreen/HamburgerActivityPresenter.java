@@ -108,8 +108,6 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
                 return HOME_COCO_VERSION_INFO;
-            case MENU_OPTION_DEVICE_PAIRING:
-                return HOME_DEVICE_PAIRING;
             case MENU_OPTION_DEBUG:
                 return HOME_DEBUG;
             case MENU_OPTION_TEST_MICROAPP:

@@ -213,7 +213,6 @@
         <item>@string/RA_Coco_Version</item>
         <item>@string/RA_DebugScreen_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
-        <item>@string/RA_Device_Pairing</item>
     </string-array>
 
     <string-array name="demo_drawer_items">
@@ -225,7 +224,6 @@
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Coco_Version</item>
-        <item>@string/RA_Demo_Menu_Title</item>
     </string-array>
 
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
