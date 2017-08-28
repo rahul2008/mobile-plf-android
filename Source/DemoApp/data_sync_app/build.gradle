@@ -158,7 +158,6 @@ android {
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-
         debug {
             minifyEnabled false
             shrinkResources false
