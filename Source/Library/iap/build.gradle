@@ -227,11 +227,11 @@ dependencies {
             {
                 transitive = true
             }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
 
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.3.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.3.2' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
     // Tests
