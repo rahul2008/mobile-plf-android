@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">등록할 제품은 무엇입니까?</string>
     <string name="pse_App_Content">이 앱의 콘텐츠는 현재 귀하에게 맞춤 설정되어 있습니다.</string>
 
+    <string name="search"> 검색 </string>
+
 </resources>

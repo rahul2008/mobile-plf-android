@@ -26,8 +26,8 @@
             android:paddingLeft="@dimen/view_padding"
             android:layout_marginBottom="16dp"
             android:paddingRight="@dimen/view_padding"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            fontPath="fonts/centralesansbold.ttf"
+            android:textSize="20sp"/>
         </LinearLayout>
 
       <include layout="@layout/uid_horizontal_separator"/>
@@ -63,16 +63,16 @@
                     android:id="@+id/savedscreen_productname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    fontPath="fonts/centralesansbook.ttf"
                     android:layout_marginTop="16dp"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textSize="16sp"/>
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
+                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                     android:id="@+id/savedscreen_productvariant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dip"
+                    android:layout_marginTop="6dip"
                     android:layout_below="@id/savedscreen_productname"
                     android:textSize="12sp"
                     android:text="hhhhhi"
@@ -81,7 +81,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dip"
+                    android:layout_marginTop="8dip"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -92,11 +92,11 @@
                         android:scaleType="fitXY" />
 
                     <com.philips.platform.uid.view.widget.Label
-                        style="@style/UIDLabel"
+                        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="Selected"
+                        android:text="@string/pse_Selected"
                         android:layout_marginBottom="16dp"
                         android:textSize="@dimen/title_text_size_small"
                         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
@@ -126,22 +126,23 @@
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
             <com.philips.platform.uid.view.widget.Button
-                style="@style/UIDPrimaryControl.Secondary"
-                android:id="@+id/savedscreen_button_settings"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Confirmation_Change"
-                android:textAllCaps="false"
-                app:uidComponentType="Secondary"/>
-
-            <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDExtraWideButton.Center"
                 android:id="@+id/savedscreen_button_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
                 android:text="@string/Continue_Btntxt"
                 android:textAllCaps="false"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDPrimaryControl.Secondary"
+                android:id="@+id/savedscreen_button_settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
+                android:text="@string/Confirmation_Change"
+                android:textAllCaps="false"
+                app:uidComponentType="Secondary"/>
+
         </LinearLayout>
         
         <View

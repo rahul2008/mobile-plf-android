@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">Millist toodet soovite registreerida?</string>
     <string name="pse_App_Content">Selle rakenduse sisu on nüüd kohandatud teie valitud tootest lähtuvalt.</string>
 
+    <string name="search"> Otsing </string>
+
 </resources>

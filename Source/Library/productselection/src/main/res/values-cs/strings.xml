@@ -37,5 +37,7 @@
     <string name="pse_Product_Register">Jaký výrobek chcete zaregistrovat?</string>
     <string name="pse_App_Content">Obsah této aplikace je nyní přizpůsoben vašemu</string>
 
+    <string name="search"> Hledat </string>
+
 </resources>
 

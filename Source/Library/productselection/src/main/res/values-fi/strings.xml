@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">Minkä tuotteen haluat rekisteröidä?</string>
     <string name="pse_App_Content">Sovelluksen sisältö on nyt räätälöity tuotteellesi</string>
 
+    <string name="search"> Haku </string>
+
 </resources>

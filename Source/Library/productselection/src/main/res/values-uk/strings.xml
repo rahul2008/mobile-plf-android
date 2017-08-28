@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">Який виріб Ви бажаєте зареєструвати?</string>
     <string name="pse_App_Content">Вміст цього додатка тепер налаштовано відповідно до</string>
 
+    <string name="search"> Пошук </string>
+
 </resources>

@@ -32,7 +32,7 @@
         <com.philips.platform.uid.view.widget.Label
             style="@style/UIDLabel"
             android:id="@+id/product_name_view"
-            fontPath="fonts/centralesansbold.ttf"
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
@@ -41,12 +41,12 @@
             android:textSize="16sp"/>
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:id="@+id/ctn_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_name_view"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="7dp"
             android:layout_toEndOf="@+id/from"
             android:layout_toRightOf="@+id/from"
             android:includeFontPadding="false"

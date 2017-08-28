@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">Bạn muốn đăng ký sản phẩm gì?</string>
     <string name="pse_App_Content">Nội dung của ứng dụng này hiện đã được điều chỉnh thích hợp cho</string>
 
+    <string name="search"> Tìm kiếm </string>
+
 </resources>

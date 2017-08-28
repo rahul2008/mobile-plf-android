@@ -36,4 +36,6 @@
     <string name="pse_Product_Register">Hvilket produkt vil du registrere?</string>
     <string name="pse_App_Content">Innholdet i denne appen er nå skreddersydd for det valgte produktet</string>
 
+    <string name="search"> Søk </string>
+
 </resources>

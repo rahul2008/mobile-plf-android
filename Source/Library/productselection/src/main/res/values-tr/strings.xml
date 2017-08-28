@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">Hangi ürünü kaydetmek istiyorsunuz?</string>
     <string name="pse_App_Content">Bu uygulamanın içeriği seçili ürüne uygun olarak düzenlenmiştir.</string>
 
+    <string name="search"> Ara </string>
+
 </resources>

@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">ما المنتج الذي تريد تسجيله؟</string>
     <string name="pse_App_Content">تم تخصيص محتوى هذا التطبيق الآن ليتلاءم مع</string>
 
+    <string name="search"> البحث </string>
+
 </resources>

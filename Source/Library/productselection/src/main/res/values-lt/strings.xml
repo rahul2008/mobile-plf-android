@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">Kokį produktą norite registruoti?</string>
     <string name="pse_App_Content">Dabar šios programos turinys pritaikytas</string>
 
+    <string name="search"> Paieška </string>
+
 </resources>

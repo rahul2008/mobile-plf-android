@@ -37,4 +37,6 @@
     <string name="pse_Product_Register">¿Qué producto deseas registrar?</string>
     <string name="pse_App_Content">El contenido de esta aplicación está personalizado para tu producto seleccionado</string>
 
+    <string name="search"> Buscar </string>
+
 </resources>
