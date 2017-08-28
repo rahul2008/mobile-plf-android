@@ -137,7 +137,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        String title = getResources().getString(R.string.chat_with_philips);
+        String title = getResources().getString(R.string.live_chat);
         return title;
     }
 

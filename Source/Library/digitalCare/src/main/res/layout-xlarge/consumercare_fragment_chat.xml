@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fontPath="fonts/centralesansbold.ttf"
-                android:text="@string/chat_to_us" />
+                android:text="@string/dcc_chat_to_us" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/chatDesc"
@@ -50,7 +50,7 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
-                android:text="@string/chat_desc" />
+                android:text="@string/dcc_chat_desc" />
 
             <LinearLayout
                 android:id="@+id/chatNowParentPort"

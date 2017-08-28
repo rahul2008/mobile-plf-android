@@ -126,7 +126,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
 
     @Override
     public String getActionbarTitle() {
-        String title = getResources().getString(R.string.feedback);
+        String title = getResources().getString(R.string.dcc_tellUs_header);
         return title;
     }
 

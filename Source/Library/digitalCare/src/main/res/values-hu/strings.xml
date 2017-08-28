@@ -145,4 +145,37 @@
     <string name="NO_SUPPORT_KEY">Nem áll rendelkezésre támogatás</string>
     <string name="FAQ_KEY_TABLET">Gyakran feltett kérdések
 </string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Vagy küldjön üzenetet</string>
+    <string name="dcc_get_in_touch">Beszéljen a csapat egyik tagjával</string>
+    <string name="dcc_help_and_Answer">Azért vagyunk itt, hogy segítsünk és megválaszoljuk az esetleges kérdéseit.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Hívjon minket</string>
+    <string name="dcc_chat_to_us">Cseteljen velünk</string>
+    <string name="dcc_chat_desc">A hét minden napján, napi 24 órában csetelhet angolul termékszakértőnkkel. </string>
+    <string name="dcc_remove_photo">Fénykép eltávolítása</string>
+    <string name="dcc_continue">Folytatás</string>
+    <string name="dcc_characters_left">hátralévő karakter</string>
+    <string name="dcc_your_message">Az Ön üzenete</string>
+    <string name="dcc_tellUs_header">Ossza meg élményeit</string>
+    <string name="dcc_tellUs_sub_header">Írjon véleményt vagy értékelje az alkalmazást. Visszajelzése fontos.</string>
+    <string name="dcc_write_review">Vélemény írása</string>
+    <string name="dcc_rate_this_app">Az alkalmazás értékelése</string>
+    <string name="dcc_productDownloadManual">Kézikönyv letöltése</string>
+    <string name="dcc_productInformationOnWebsite">Ugrás a termék webhelyére</string>
+    <string name="dcc_show_all">Összes megjelenítése</string>
+    <string name="dcc_show_less">Kevesebb megjelenítése</string>
+    <string name="dcc_Call_not_Supported">A hívás nem támogatott</string>
+    <string name="dcc_Turn_On_Location_Service">Az újbóli engedélyezéshez lépjen a Beállítások lehetőségre, és kapcsolja be a helyalapú szolgáltatást ehhez az alkalmazáshoz.</string>
+    <string name="dcc_No_Service_Url">Nem érhető el a szolgáltatás URL-címe</string>
+    <string name="dcc_No_Product_Information">Nem áll rendelkezésre termékinformáció ehhez a típushoz.</string>
+    <string name="dcc_Allow_Acess_Twitter">Az alkalmazás használója számára hozzáférés engedélyezése az Ön Twitter-fiókjához.</string>
+    <string name="dcc_No_Facebook_Key">Nincs Facebook-fiók</string>
+    <string name="dcc_About_App">Az alkalmazás jellemzői</string>
+    <string name="dcc_Help_Support">Súgó és támogatás</string>
+    <string name="dcc_Call">Hívás</string>
+    <string name="dcc_Opening_Hours">Nyitva tartás</string>
+
 </resources>

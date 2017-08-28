@@ -146,4 +146,36 @@
     <string name="FAQ_KEY_TABLET">Ofte stillede spørgsmål
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Eller send en meddelelse</string>
+    <string name="dcc_get_in_touch">Tal med en i teamet</string>
+    <string name="dcc_help_and_Answer">Vi er her for at hjælpe dig og besvare ethvert spørgsmål, du måtte have.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Ring til os</string>
+    <string name="dcc_chat_to_us">Chat med os</string>
+    <string name="dcc_chat_desc">Live chat 24/7 på engelsk med en af vores produktspecialister. </string>
+    <string name="dcc_remove_photo">Fjern foto</string>
+    <string name="dcc_continue">Fortsæt</string>
+    <string name="dcc_characters_left">tegn tilbage</string>
+    <string name="dcc_your_message">Din meddelelse</string>
+    <string name="dcc_tellUs_header">Del dine oplevelser</string>
+    <string name="dcc_tellUs_sub_header">Skriv en anmeldelse, eller vurder denne app. Dit feedback er vigtigt.</string>
+    <string name="dcc_write_review">Skriv en anmeldelse</string>
+    <string name="dcc_rate_this_app">Vurder denne app</string>
+    <string name="dcc_productDownloadManual">Download brugervejledning</string>
+    <string name="dcc_productInformationOnWebsite">Besøg produktets websted</string>
+    <string name="dcc_show_all">Vis alt</string>
+    <string name="dcc_show_less">Vis mindre</string>
+    <string name="dcc_Call_not_Supported">Opkald understøttes ikke</string>
+    <string name="dcc_Turn_On_Location_Service">For at genaktivere skal du gå til Indstillinger og aktivere Lokalitetstjeneste for denne app.</string>
+    <string name="dcc_No_Service_Url">Ingen service-url tilgængelig</string>
+    <string name="dcc_No_Product_Information">Der er ingen tilgængelige produktoplysninger for denne model</string>
+    <string name="dcc_Allow_Acess_Twitter">Giv app-bruger adgang til brug af din twitter-konto</string>
+    <string name="dcc_No_Facebook_Key">Ingen Facebook-konti</string>
+    <string name="dcc_About_App">Om denne app</string>
+    <string name="dcc_Help_Support">Hjælp og support</string>
+    <string name="dcc_Call">Opkald</string>
+    <string name="dcc_Opening_Hours">Åbningstider</string>
+
 </resources>

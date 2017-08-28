@@ -22,28 +22,30 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/lbl_getintouch"
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:layout_width="match_parent"
                 fontPath="fonts/centralesansbold.ttf"
                 android:layout_height="wrap_content"
-                android:text="@string/get_in_touch"/>
+                android:textSize="20sp"
+                android:text="@string/dcc_get_in_touch"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/contactUsOpeningHours"
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:textSize="16sp"
                 android:visibility="gone"
-                android:text="@string/callus_help"/>
+                android:text="@string/dcc_help_and_Answer"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/firstRowText"
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:textSize="16sp"
                 android:text=""/>
 
             <com.philips.platform.uid.view.widget.Button
@@ -51,17 +53,16 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:visibility="gone"
+                android:layout_marginBottom="6dp"
                 android:gravity="center"
-                android:text="@string/call_number"/>
+                android:text="@string/dcc_call_number"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/contactUsChat"
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:gravity="center"
                 android:text="@string/live_chat"
                 app:uidComponentType="Secondary"/>
@@ -87,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/send_us_message" />
+                android:text="@string/dcc_send_us_message" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/contactUsSocialProvideButtonsParent"

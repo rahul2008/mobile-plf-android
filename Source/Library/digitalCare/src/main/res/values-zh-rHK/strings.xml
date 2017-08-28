@@ -147,4 +147,37 @@
     <string name="NO_SUPPORT_KEY">沒有可供使用的支援服務</string>
     <string name="FAQ_KEY_TABLET">常見問題解答 (FAQ)
 </string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">或發訊息</string>
+    <string name="dcc_get_in_touch">與團隊成員對話</string>
+    <string name="dcc_help_and_Answer">我們誠意為您提供協助和解答問題。</string>
+    <string name="dcc_send_email">電郵</string>
+    <string name="dcc_call_number">致電我們</string>
+    <string name="dcc_chat_to_us">與我們即時通訊</string>
+    <string name="dcc_chat_desc">以英文與我們的產品專家即時通訊，全天候為您服務。 </string>
+    <string name="dcc_remove_photo">移除相片</string>
+    <string name="dcc_continue">繼續</string>
+    <string name="dcc_characters_left">剩餘字元</string>
+    <string name="dcc_your_message">您的訊息</string>
+    <string name="dcc_tellUs_header">分享您的體驗</string>
+    <string name="dcc_tellUs_sub_header">為此應用程式撰寫評論或評分。您的意見對我們十分重要。</string>
+    <string name="dcc_write_review">撰寫評論</string>
+    <string name="dcc_rate_this_app">為這個應用程式評分</string>
+    <string name="dcc_productDownloadManual">下載手冊</string>
+    <string name="dcc_productInformationOnWebsite">瀏覽產品網站</string>
+    <string name="dcc_show_all">全部顯示</string>
+    <string name="dcc_show_less">顯示更少</string>
+    <string name="dcc_Call_not_Supported">不支援來電</string>
+    <string name="dcc_Turn_On_Location_Service">如要重新啟用，請前往「設定」，開啟本應用程式的「位置服務」。</string>
+    <string name="dcc_No_Service_Url">找不到可用的服務網址</string>
+    <string name="dcc_No_Product_Information">找不到此型號的可用產品資料</string>
+    <string name="dcc_Allow_Acess_Twitter">允許應用程式使用者使用您的 Twitter 帳戶</string>
+    <string name="dcc_No_Facebook_Key">尚無 Facebook 帳戶</string>
+    <string name="dcc_About_App">關於本應用程式</string>
+    <string name="dcc_Help_Support">說明與支援</string>
+    <string name="dcc_Call">致電</string>
+    <string name="dcc_Opening_Hours">開放時間</string>
+
 </resources>

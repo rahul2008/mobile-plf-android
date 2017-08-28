@@ -146,4 +146,37 @@
     <string name="NO_SUPPORT_KEY">이용 가능한 지원 없음</string>
     <string name="FAQ_KEY_TABLET">자주 묻는 질문 (FAQ)
 </string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">또는 메시지 보내기</string>
+    <string name="dcc_get_in_touch">팀원과 상의하기</string>
+    <string name="dcc_help_and_Answer">여러분이 가질 수 있는 질문에 답을 드리고 지원을 제공하고자 합니다.</string>
+    <string name="dcc_send_email">이메일</string>
+    <string name="dcc_call_number">전화하기</string>
+    <string name="dcc_chat_to_us">채팅하기</string>
+    <string name="dcc_chat_desc">제품 전문가와 연중무휴 라이브챗(영어)이 가능합니다. </string>
+    <string name="dcc_remove_photo">사진 제거</string>
+    <string name="dcc_continue">계속</string>
+    <string name="dcc_characters_left">자 남음</string>
+    <string name="dcc_your_message">메시지</string>
+    <string name="dcc_tellUs_header">제품 경험 공유하기</string>
+    <string name="dcc_tellUs_sub_header">이 앱에 대한 리뷰와 평가를 남겨주세요. 여러분의 피드백은 소중합니다.</string>
+    <string name="dcc_write_review">리뷰 작성</string>
+    <string name="dcc_rate_this_app">이 앱 평가하기</string>
+    <string name="dcc_productDownloadManual">설명서 다운로드</string>
+    <string name="dcc_productInformationOnWebsite">제품 웹사이트 방문</string>
+    <string name="dcc_show_all">관련 제품 전체 보기</string>
+    <string name="dcc_show_less">접기</string>
+    <string name="dcc_Call_not_Supported">통화 지원 안 됨</string>
+    <string name="dcc_Turn_On_Location_Service">다시 설정하려면 설정으로 이동하여 이 앱의 위치 서비스를 켜십시오.</string>
+    <string name="dcc_No_Service_Url">사용 가능한 서비스 URL 없음</string>
+    <string name="dcc_No_Product_Information">이 모델에 대해 사용 가능한 제품 정보 없음</string>
+    <string name="dcc_Allow_Acess_Twitter">앱 사용자가 귀하의 Twitter 계정을 사용할 수 있도록 접근 허용</string>
+    <string name="dcc_No_Facebook_Key">Facebook 계정 없음</string>
+    <string name="dcc_About_App">이 앱 정보</string>
+    <string name="dcc_Help_Support">도움 및 지원</string>
+    <string name="dcc_Call">통화</string>
+    <string name="dcc_Opening_Hours">시작 시간</string>
+
 </resources>

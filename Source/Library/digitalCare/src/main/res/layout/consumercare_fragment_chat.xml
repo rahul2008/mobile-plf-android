@@ -43,21 +43,22 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/lbl_chatToUs"
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 fontPath="fonts/centralesansbold.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/chat_to_us" />
+                android:textSize="20sp"
+                android:text="@string/dcc_chat_to_us" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/chatDesc"
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                style="@style/UIDLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:textSize="16sp"
                 android:layout_marginBottom="24dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/chat_desc" />
+                android:text="@string/dcc_chat_desc" />
 
             <LinearLayout
                 android:id="@+id/chatNowParentPort"

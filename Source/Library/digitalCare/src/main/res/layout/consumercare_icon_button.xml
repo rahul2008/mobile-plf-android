@@ -17,10 +17,9 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/icon_button_text"
-        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        style="@style/UIDLabel"
         android:layout_width="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
-        android:textColor="@color/black"
         android:gravity="start|center" />
 </LinearLayout>

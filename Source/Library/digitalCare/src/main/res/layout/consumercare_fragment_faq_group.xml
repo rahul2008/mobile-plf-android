@@ -14,6 +14,7 @@
             style="@style/UIDLabel.RecyclerViewHeaderText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_alignParentLeft="true"
             android:background="?attr/uidContentSecondaryBackgroundColor"
             android:gravity="center_vertical" />
@@ -27,11 +28,15 @@
             android:layout_marginRight="16dp"
             android:gravity="center_vertical"
             android:minHeight="@dimen/uid_recyclerview_header_height"
-            android:text="@string/show_all" />
+            android:text="@string/dcc_show_all" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/faq_list_item_recycle_view"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false">

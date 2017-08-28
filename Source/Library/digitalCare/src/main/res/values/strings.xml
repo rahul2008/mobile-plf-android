@@ -142,8 +142,8 @@
     <string name="QUESTION_KEY">Question and answer</string>
     <string name="NO_PRODUCT_KEY">No products available</string>
     <string name="NO_SUPPORT_KEY">No support available</string>
-    <string name="show_all">Show all</string>
-    <string name="show_less">Show less</string>
+  <!--  <string name="show_all">Show all</string>
+    <string name="show_less">Show less</string>-->
 
     <string name="ManualDownLoadConfirmMessage">Press OK to download manual in %s language</string>
     <string name="download_ticker">Downloading Help Manual</string>
@@ -156,7 +156,7 @@
 
     <!-- DLS Contact US -->
 
-    <string name="twitter">  Twitter</string>
+    <!--<string name="twitter">  Twitter</string>
     <string name="facebook">  Facebook</string>
     <string name="send_us_message">Or send as a message</string>
     <string name="get_in_touch">Get in Touch</string>
@@ -166,7 +166,45 @@
     <string name="chat_to_us">Chat to us</string>
 
     <string name="linkedin">  LinkedIn </string>
-    <string name="googleplus">  Google Plus </string>
+    <string name="googleplus">  Google Plus </string>-->
 
+    <string name="dcc_twitter">twitter</string> <!--done-->
+    <string name="dcc_facebook">facebook</string> <!--done-->
+    <string name="dcc_send_us_message">Or send a message</string> <!--done-->
+    <string name="dcc_get_in_touch">Talk to one of the team</string> <!--done-->
+    <string name="dcc_help_and_Answer">We\'re here to help and answer any questions you may have.</string> <!--done-->
+    <string name="dcc_send_email">Email</string> <!--done-->
+    <string name="dcc_call_number">Call us</string> <!--done-->
+    <string name="dcc_chat_to_us">Chat to us</string>
+    <string name="dcc_chat_desc">Live chat 24/7 in English with one of our product specialists. </string>
+    <string name="dcc_remove_photo">Remove photo</string>
+    <string name="dcc_continue">Continue</string>
+    <string name="dcc_characters_left">characters left</string>
+    <string name="dcc_your_message">Your message</string>
+    <string name="dcc_tellUs_header">Share your experiences</string> <!--done-->
+    <string name="dcc_tellUs_sub_header">Write a review or rate this app. Your feedback is important.</string> <!--done-->
+    <string name="dcc_write_review">Write a review</string> <!--done-->
+    <string name="dcc_rate_this_app">Rate this app</string> <!--done-->
+    <string name="dcc_productDownloadManual">Download manual</string> <!--done-->
+    <string name="dcc_productInformationOnWebsite">Visit product website</string> <!--done-->
+    <string name="dcc_show_all">Show all</string> <!--done-->
+    <string name="dcc_show_less">Show less</string> <!--done-->
+    <string name="dcc_Call_not_Supported">Call not supported</string>
+    <string name="dcc_Turn_On_Location_Service">To re-enable, please go to Settings and turn on Location Service for this app.</string>
+    <string name="dcc_No_Service_Url">No service url available</string>
+    <string name="dcc_No_Product_Information">No product information available for this model</string>
+    <string name="dcc_Allow_Acess_Twitter">Allow app user acess to use your twitter account</string>
+    <string name="dcc_No_Facebook_Key">No Facebook Accounts</string>
+    <string name="dcc_About_App">About this app</string>
+    <string name="dcc_Help_Support">Help and support</string> <!--done-->
+    <string name="dcc_Call">Call</string>
+    <string name="dcc_Opening_Hours">Opening hours</string>
+
+
+  <!--  Remove
+
+    "chat_desc"
+    "twitter"
+    "facebook"-->
 
 </resources>

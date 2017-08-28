@@ -145,4 +145,37 @@
     <string name="NO_SUPPORT_KEY">אין תמיכה זמינה</string>
     <string name="FAQ_KEY_TABLET">שאלות נפוצות
 </string>
+
+    <string name="dcc_twitter">טוויטר</string>
+    <string name="dcc_facebook">פייסבוק</string>
+    <string name="dcc_send_us_message">או שלח הודעה</string>
+    <string name="dcc_get_in_touch">התקשר לאחד מאנשי הצוות</string>
+    <string name="dcc_help_and_Answer">אנחנו כאן כדי לעזור ולענות על כל שאלה שלך.</string>
+    <string name="dcc_send_email">דוא\"ל</string>
+    <string name="dcc_call_number">התקשר אלינו</string>
+    <string name="dcc_chat_to_us">נהל אתנו צ\'אט</string>
+    <string name="dcc_chat_desc">נהל צ\'אט חי באנגלית 24/7 עם אחד ממומחי המוצר שלנו. </string>
+    <string name="dcc_remove_photo">הסר תמונה</string>
+    <string name="dcc_continue">המשך</string>
+    <string name="dcc_characters_left">מספר התווים שנותרו</string>
+    <string name="dcc_your_message">ההודעה שלך</string>
+    <string name="dcc_tellUs_header">שתף אחרים בחוויות שלך</string>
+    <string name="dcc_tellUs_sub_header">כתוב ביקורת או דרג אפליקציה זו; המשוב שלך חשוב.</string>
+    <string name="dcc_write_review">כתוב ביקורת</string>
+    <string name="dcc_rate_this_app">דרג אפליקציה זו</string>
+    <string name="dcc_productDownloadManual">הורד מדריך</string>
+    <string name="dcc_productInformationOnWebsite">בקר באתר המוצר</string>
+    <string name="dcc_show_all">הצג הכול</string>
+    <string name="dcc_show_less">הצג פחות</string>
+    <string name="dcc_Call_not_Supported">אין תמיכה בשיחות</string>
+    <string name="dcc_Turn_On_Location_Service">כדי להפעיל מחדש, עבור אל \'Settings\' (הגדרות) והפעל את \'Location Service\' (שירות המיקום) עבור אפליקציה זו.</string>
+    <string name="dcc_No_Service_Url">לא קיימת כתובת שירות</string>
+    <string name="dcc_No_Product_Information">לא קיימים פרטי מוצר עבור דגם זה</string>
+    <string name="dcc_Allow_Acess_Twitter">אפשר גישה למשתמשי האפליקציה כדי להשתמש בחשבון הטוויטר שלך</string>
+    <string name="dcc_No_Facebook_Key">אין חשבונות פייסבוק</string>
+    <string name="dcc_About_App">אודות אפליקציה זו</string>
+    <string name="dcc_Help_Support">Help and support (עזרה ותמיכה)</string>
+    <string name="dcc_Call">שיחה</string>
+    <string name="dcc_Opening_Hours">שעות פתיחה</string>
+
 </resources>

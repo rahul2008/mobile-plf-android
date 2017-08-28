@@ -147,4 +147,38 @@
     <string name="NO_SUPPORT_KEY">Няма налична поддръжка</string>
     <string name="FAQ_KEY_TABLET">Често задавани въпроси</string>
 
+    <!--DLS-->
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Или изпращане на съобщение</string>
+    <string name="dcc_get_in_touch">Говорете с член на екипа</string>
+    <string name="dcc_help_and_Answer">Ние сме тук, за да ви помогнем и да отговорим на всички въпроси, които възникнат.</string>
+    <string name="dcc_send_email">Е-поща</string>
+    <string name="dcc_call_number">Обадете ни се</string>
+    <string name="dcc_chat_to_us">Разговаряйте в чат с нас</string>
+    <string name="dcc_chat_desc">Чат на живо 24/7 на английски език с нашите продуктови специалисти. </string>
+    <string name="dcc_remove_photo">Премахване на снимка</string>
+    <string name="dcc_continue">Продължи</string>
+    <string name="dcc_characters_left">символа остават</string>
+    <string name="dcc_your_message">Вашето съобщение</string>
+    <string name="dcc_tellUs_header">Споделете опита си</string>
+    <string name="dcc_tellUs_sub_header">Напишете рецензия или оценете това приложение. Вашето мнение е важно.</string>
+    <string name="dcc_write_review">Напишете рецензия</string>
+    <string name="dcc_rate_this_app">Оценете това приложение</string>
+    <string name="dcc_productDownloadManual">Изтегляне на ръководство</string>
+    <string name="dcc_productInformationOnWebsite">Посетете продуктовия уебсайт</string>
+    <string name="dcc_show_all">Покажи всички</string>
+    <string name="dcc_show_less">Показване на по-малко</string>
+    <string name="dcc_Call_not_Supported">Обаждания не се поддържат</string>
+    <string name="dcc_Turn_On_Location_Service">За да активирате повторно, отидете в \"Настройки\" и включете услугата за местоположение за това приложение.</string>
+    <string name="dcc_No_Service_Url">Няма наличен url за услуга</string>
+    <string name="dcc_No_Product_Information">Няма продуктова информация за този модел</string>
+    <string name="dcc_Allow_Acess_Twitter">Позволете на потребители на приложението достъп до вашия twitter акаунт</string>
+    <string name="dcc_No_Facebook_Key">Няма акаунти във Facebook</string>
+    <string name="dcc_About_App">Информация за приложението</string>
+    <string name="dcc_Help_Support">Помощ и поддръжка</string>
+    <string name="dcc_Call">Избери</string>
+    <string name="dcc_Opening_Hours">Работно време</string>
+
 </resources>

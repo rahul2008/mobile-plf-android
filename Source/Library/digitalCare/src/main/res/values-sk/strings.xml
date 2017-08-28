@@ -146,4 +146,36 @@
     <string name="FAQ_KEY_TABLET">Často kladené otázky
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebooku</string>
+    <string name="dcc_send_us_message">Alebo odošlite správu</string>
+    <string name="dcc_get_in_touch">Hovorte s niektorým členom tímu</string>
+    <string name="dcc_help_and_Answer">Sme tu, aby sme vám pomohli a odpovedali na naše otázky.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Zavolajte nám</string>
+    <string name="dcc_chat_to_us">Četujte s nami</string>
+    <string name="dcc_chat_desc">Nepretržitý živý čet v angličtine s jedným z našich špecialistov na výrobky. </string>
+    <string name="dcc_remove_photo">Odstrániť fotografiu</string>
+    <string name="dcc_continue">Pokračovať</string>
+    <string name="dcc_characters_left">zvyšných znakov</string>
+    <string name="dcc_your_message">Vaša správa</string>
+    <string name="dcc_tellUs_header">Podeľte sa o svoje skúsenosti</string>
+    <string name="dcc_tellUs_sub_header">Napíšte recenziu alebo ohodnoťte túto aplikáciu. Vaša spätná väzba je dôležitá.</string>
+    <string name="dcc_write_review">Napíšte recenziu</string>
+    <string name="dcc_rate_this_app">Ohodnotiť túto aplikáciu</string>
+    <string name="dcc_productDownloadManual">Prevziať príručku</string>
+    <string name="dcc_productInformationOnWebsite">Prejdite na stránku s výrobkami</string>
+    <string name="dcc_show_all">Zobraziť všetky</string>
+    <string name="dcc_show_less">Zobraziť menej</string>
+    <string name="dcc_Call_not_Supported">Hovory nie sú podporované</string>
+    <string name="dcc_Turn_On_Location_Service">Ak to chcete znova povoliť, prejdite do nastavení a zapnite zisťovania službu polohy pre túto aplikáciu.</string>
+    <string name="dcc_No_Service_Url">K dispozícii nie je žiadna adresa URL služby</string>
+    <string name="dcc_No_Product_Information">Pre tento model nie sú k dispozícii žiadne informácie o výrobku</string>
+    <string name="dcc_Allow_Acess_Twitter">Povoliť používateľom aplikácie prístup k vášmu účtu služby Twitter</string>
+    <string name="dcc_No_Facebook_Key">Žiadne účty Facebook</string>
+    <string name="dcc_About_App">O tejto aplikácii</string>
+    <string name="dcc_Help_Support">Pomoc a podpora</string>
+    <string name="dcc_Call">Volať</string>
+    <string name="dcc_Opening_Hours">Otváracie hodiny</string>
+
 </resources>

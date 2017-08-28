@@ -97,7 +97,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        String title = getResources().getString(R.string.feedback);
+        String title = getResources().getString(R.string.dcc_write_review);
         DigiCareLogger.i(TAG, "Philips Product Review Page title : " + title);
         return title;
     }

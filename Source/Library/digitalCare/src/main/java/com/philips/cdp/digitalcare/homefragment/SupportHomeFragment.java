@@ -332,7 +332,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     showFragment(new ContactUsFragment());
                 } else isConnectionAlertDisplayed();
             }
-        } else if (tag.equals(getStringKey(R.string.view_product_details))) {
+        } else if (tag.equals(getStringKey(R.string.product_info))) {
             DigiCareLogger.i(TAG, "Clicked on View Product Details button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
@@ -353,7 +353,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                         showFragment(new LocatePhilipsFragment());
                 }
             }
-        } else if (tag.equals(getStringKey(R.string.view_faq))) {
+        } else if (tag.equals(getStringKey(R.string.FAQ_KEY))) {
             DigiCareLogger.i(TAG, "Clicked on ReadFaq button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
@@ -361,7 +361,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     launchProductSelectionComponent();
                 } else
                     launchFaqScreen();
-        } else if (tag.equals(getStringKey(R.string.feedback))) {
+        } else if (tag.equals(getStringKey(R.string.dcc_tellUs_header))) {
             DigiCareLogger.i(TAG, "Clicked on TellUs what you think button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
@@ -533,8 +533,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private void disablePrxDependentButtons() {
         DigiCareLogger.i(TAG, "Removing the PRX dependent Buttons from the SupportScreen");
         ArrayList<Integer> disabledButtons = new ArrayList<>();
-        disabledButtons.add(R.string.view_product_details);
-        disabledButtons.add(R.string.view_faq);
+        disabledButtons.add(R.string.product_info);
+        disabledButtons.add(R.string.FAQ_KEY);
         disabledButtons.add(R.string.Change_Selected_Product);
 
         if (!Utils.isCountryChina()) {
@@ -542,7 +542,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         }
 
         if (!isProductReviewLinkAvailable() && Utils.isCountryChina()) {
-            disabledButtons.add(R.string.feedback);
+            disabledButtons.add(R.string.dcc_tellUs_header);
         }
         if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().
                 getHardCodedProductList().length < 2)) {
@@ -648,7 +648,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.actionbar_title_support);
+        return getResources().getString(R.string.dcc_Help_Support);
     }
 
     private ArrayList<MenuItem> getMenuItems() {

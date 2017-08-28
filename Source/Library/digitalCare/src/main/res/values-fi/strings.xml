@@ -147,4 +147,36 @@
     <string name="FAQ_KEY_TABLET">Usein kysytyt kysymykset
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebookissa</string>
+    <string name="dcc_send_us_message">Tai lähetä viesti</string>
+    <string name="dcc_get_in_touch">Keskustele tiimiläisen kanssa</string>
+    <string name="dcc_help_and_Answer">Olemme täällä auttamassa ja vastaamassa mahdollisiin kysymyksiisi.</string>
+    <string name="dcc_send_email">Sähköposti</string>
+    <string name="dcc_call_number">Soita meille</string>
+    <string name="dcc_chat_to_us">Lähetä meille chat-viesti</string>
+    <string name="dcc_chat_desc">Live chat -tuki asiantuntijamme kanssa englanniksi vuorokauden ympäri. </string>
+    <string name="dcc_remove_photo">Poista kuva</string>
+    <string name="dcc_continue">Jatka</string>
+    <string name="dcc_characters_left">merkkiä jäljellä</string>
+    <string name="dcc_your_message">Viesti</string>
+    <string name="dcc_tellUs_header">Jaa kokemuksiasi</string>
+    <string name="dcc_tellUs_sub_header">Kirjoita arvostelu tai arvioi sovellus. Palautteesi on meille tärkeä.</string>
+    <string name="dcc_write_review">Kirjoita arvostelu</string>
+    <string name="dcc_rate_this_app">Arvioi sovellus</string>
+    <string name="dcc_productDownloadManual">Lataa opas</string>
+    <string name="dcc_productInformationOnWebsite">Käy tuotteen verkkosivulla</string>
+    <string name="dcc_show_all">Näytä kaikki</string>
+    <string name="dcc_show_less">Näytä vähemmän</string>
+    <string name="dcc_Call_not_Supported">Puhelua ei tueta</string>
+    <string name="dcc_Turn_On_Location_Service">Ota puhelut uudelleen käyttöön menemällä Asetuksiin ja käynnistämällä Paikannustoiminto.</string>
+    <string name="dcc_No_Service_Url">Palvelun URL-osoitetta ei ole saatavilla</string>
+    <string name="dcc_No_Product_Information">Tälle mallille ei ole saatavilla tuotetietoja</string>
+    <string name="dcc_Allow_Acess_Twitter">Salli sovelluksen käyttäjien käyttää twitter-tiliäsi</string>
+    <string name="dcc_No_Facebook_Key">Ei Facebook-tilejä</string>
+    <string name="dcc_About_App">Tietoja sovelluksesta</string>
+    <string name="dcc_Help_Support">Ohje ja tuki</string>
+    <string name="dcc_Call">Soita</string>
+    <string name="dcc_Opening_Hours">Aukioloajat</string>
+
 </resources>

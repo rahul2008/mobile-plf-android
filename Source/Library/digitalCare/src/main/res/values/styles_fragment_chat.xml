@@ -19,7 +19,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:textColor">?attr/uikit_baseColor</item>
-        <item name="android:text">@string/chat_desc</item>
+        <item name="android:text">@string/dcc_chat_desc</item>
         <item name="android:textSize">@dimen/title_text_size_medium</item>
         <item name="android:paddingRight">@dimen/activity_margin</item>
         <item name="android:paddingLeft">@dimen/activity_margin</item>

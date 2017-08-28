@@ -151,4 +151,36 @@
     <string name="download_error">Download Fout</string>
     <string name="PdfWarningMessage">Installeer Adobe Reader nodig om de PDF-handleiding bekijken.</string>
 
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Of stuur ons een bericht</string>
+    <string name="dcc_get_in_touch">Praat met iemand van het team</string>
+    <string name="dcc_help_and_Answer">Wij zijn er om u te helpen en uw vragen te beantwoorden.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Ons bellen</string>
+    <string name="dcc_chat_to_us">Chat met ons</string>
+    <string name="dcc_chat_desc">Chat 24/7 live in het Engels met een van onze productspecialisten. </string>
+    <string name="dcc_remove_photo">Foto verwijderen</string>
+    <string name="dcc_continue">Doorgaan</string>
+    <string name="dcc_characters_left">tekens over</string>
+    <string name="dcc_your_message">Uw bericht</string>
+    <string name="dcc_tellUs_header">Deel je ervaringen</string>
+    <string name="dcc_tellUs_sub_header">Schrijf een recensie of beoordeel deze app. Uw feedback is belangrijk.</string>
+    <string name="dcc_write_review">Een beoordeling schrijven</string>
+    <string name="dcc_rate_this_app">Deze app waarderen</string>
+    <string name="dcc_productDownloadManual">Handleiding downloaden</string>
+    <string name="dcc_productInformationOnWebsite">Ga naar de productpagina van onze website</string>
+    <string name="dcc_show_all">Alles weergeven</string>
+    <string name="dcc_show_less">Minder informatie</string>
+    <string name="dcc_Call_not_Supported">Bellen wordt niet ondersteund</string>
+    <string name="dcc_Turn_On_Location_Service">Om deze optie in te schakelen, gaat u naar Instellingen en schakelt u de locatieservices voor deze app in.</string>
+    <string name="dcc_No_Service_Url">Geen service-url beschikbaar</string>
+    <string name="dcc_No_Product_Information">Voor dit model is geen productinformatie beschikbaar</string>
+    <string name="dcc_Allow_Acess_Twitter">De app toegang geven tot uw Twitteraccount</string>
+    <string name="dcc_No_Facebook_Key">Geen Facebook-accounts</string>
+    <string name="dcc_About_App">Over deze app</string>
+    <string name="dcc_Help_Support">Help en ondersteuning</string>
+    <string name="dcc_Call">Telefoon</string>
+    <string name="dcc_Opening_Hours">Openingstijden</string>
+
 </resources>

@@ -146,4 +146,36 @@
     <string name="FAQ_KEY_TABLET">Întrebări frecvente
 </string>
 
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Sau trimite un mesaj</string>
+    <string name="dcc_get_in_touch">Vorbeşte cu un membru al echipei</string>
+    <string name="dcc_help_and_Answer">Suntem aici pentru a te ajuta şi a răspunde la întrebările tale.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Sună-ne</string>
+    <string name="dcc_chat_to_us">Vorbeşte cu noi pe chat</string>
+    <string name="dcc_chat_desc">Discută prin chat live în limba engleză cu unul dintre specialiştii noştri în produse, disponibili non-stop. </string>
+    <string name="dcc_remove_photo">Eliminare fotografie</string>
+    <string name="dcc_continue">Continuă</string>
+    <string name="dcc_characters_left">caractere rămase</string>
+    <string name="dcc_your_message">Mesajul tău</string>
+    <string name="dcc_tellUs_header">Împărtăşeşte-ţi experienţele</string>
+    <string name="dcc_tellUs_sub_header">Scrie o recenzie sau evaluează această aplicaţie. Feedbackul tău este important.</string>
+    <string name="dcc_write_review">Scrie o recenzie</string>
+    <string name="dcc_rate_this_app">Evaluează această aplicaţie</string>
+    <string name="dcc_productDownloadManual">Descărcare manual</string>
+    <string name="dcc_productInformationOnWebsite">Vizitează site-ul web al produselor</string>
+    <string name="dcc_show_all">Afişare toate</string>
+    <string name="dcc_show_less">Afişează mai puţine</string>
+    <string name="dcc_Call_not_Supported">Apelul nu este acceptat</string>
+    <string name="dcc_Turn_On_Location_Service">Pentru a le reactiva, accesează Setări şi activează Serviciile de locaţie ale aplicaţiei.</string>
+    <string name="dcc_No_Service_Url">Nu este disponibilă o adresă URL pentru servicii</string>
+    <string name="dcc_No_Product_Information">Nu sunt disponibile informaţii de produs pentru acest model</string>
+    <string name="dcc_Allow_Acess_Twitter">Permite utilizatorilor aplicaţiei să îţi acceseze contul de Twitter</string>
+    <string name="dcc_No_Facebook_Key">Nu există conturi de Facebook</string>
+    <string name="dcc_About_App">Despre această aplicaţie</string>
+    <string name="dcc_Help_Support">Ajutor şi asistenţă</string>
+    <string name="dcc_Call">Apelare</string>
+    <string name="dcc_Opening_Hours">Orar</string>
+
 </resources>

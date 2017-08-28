@@ -146,4 +146,36 @@
     <string name="FAQ_KEY_TABLET">Česta pitanja
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Možete i poslati poruku</string>
+    <string name="dcc_get_in_touch">Porazgovarajte s članom tima</string>
+    <string name="dcc_help_and_Answer">Ovdje smo kako bismo vam pomogli i odgovorili na vaša pitanja.</string>
+    <string name="dcc_send_email">E-pošta</string>
+    <string name="dcc_call_number">Nazovite nas</string>
+    <string name="dcc_chat_to_us">Razgovarajte s nama</string>
+    <string name="dcc_chat_desc">Razgovarajte na engleskom 24/7 s jednim od naših stručnjaka za proizvode. </string>
+    <string name="dcc_remove_photo">Ukloni fotografiju</string>
+    <string name="dcc_continue">Nastavi</string>
+    <string name="dcc_characters_left">preostalo znakova</string>
+    <string name="dcc_your_message">Poruka</string>
+    <string name="dcc_tellUs_header">Podijelite svoja iskustva</string>
+    <string name="dcc_tellUs_sub_header">Napišite recenziju ili ocijenite ovu aplikaciju. Vaše su nam povratne informacije bitne.</string>
+    <string name="dcc_write_review">Napišite recenziju</string>
+    <string name="dcc_rate_this_app">Ocijenite ovu aplikaciju</string>
+    <string name="dcc_productDownloadManual">Preuzmi priručnik</string>
+    <string name="dcc_productInformationOnWebsite">Posjetite web-mjesto proizvoda</string>
+    <string name="dcc_show_all">Prikaži sve</string>
+    <string name="dcc_show_less">Prikaži manje</string>
+    <string name="dcc_Call_not_Supported">Pozivi nisu podržani</string>
+    <string name="dcc_Turn_On_Location_Service">Za ponovno omogućavanje odaberite Postavke i uključite uslugu praćenja lokacije za ovu aplikaciju.</string>
+    <string name="dcc_No_Service_Url">URL usluge nedostupan</string>
+    <string name="dcc_No_Product_Information">Za ovaj model nisu dostupne informacije o proizvodu</string>
+    <string name="dcc_Allow_Acess_Twitter">Za upotrebu svog Twitter računa dopustite pristup korisnika aplikaciji</string>
+    <string name="dcc_No_Facebook_Key">Nema Facebook računa</string>
+    <string name="dcc_About_App">Više informacija o aplikaciji</string>
+    <string name="dcc_Help_Support">Pomoć i podrška</string>
+    <string name="dcc_Call">Pozovi</string>
+    <string name="dcc_Opening_Hours">Radno vrijeme</string>
+
 </resources>

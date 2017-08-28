@@ -320,7 +320,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         //TypedArray icons = getResources().obtainTypedArray(R.array.product_menu_resource);
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
-            menus.add(new MenuItem(R.drawable.consumercare_viewproduct_videorightarrow, titles.getResourceId(i, 0)));
+            menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
         }
         return menus;
     }
@@ -395,7 +395,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
-                R.string.product_download_manual))) {
+                R.string.dcc_productDownloadManual))) {
             String mFilePath = mViewProductDetailsModel.getManualLink();
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
             String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
@@ -421,11 +421,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
 
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
-                R.string.product_information))) {
+                R.string.dcc_productInformationOnWebsite))) {
             if (isConnectionAvailable()) {
                 showFragment(new ProductInformationFragment());
             }
-        } else if (tag.equals(getResources().getResourceEntryName(R.string.view_faq))) {
+        } else if (tag.equals(getResources().getResourceEntryName(R.string.FAQ_KEY))) {
             launchFaqScreen();
         }
     }
@@ -510,7 +510,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             viewProductDetailsModel.setManualLink(mManualPdf);
         } else {
             ArrayList<Integer> disabledButtons = new ArrayList<>();
-            disabledButtons.add(R.string.product_download_manual);
+            disabledButtons.add(R.string.dcc_productDownloadManual);
             updateMenus(disabledButtons);
         }
         mProductPage = viewProductDetailsModel.getProductInfoLink();

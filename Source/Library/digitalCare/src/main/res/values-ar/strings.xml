@@ -146,4 +146,39 @@
     <string name="NO_PRODUCT_KEY">ما من منتجات متوفرة</string>
     <string name="NO_SUPPORT_KEY">ما من دعم متوفر</string>
     <string name="FAQ_KEY_TABLET">الأسئلة المتداولة</string>
+
+    <!--DLS-->
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">أو إرسال رسالة</string>
+    <string name="dcc_get_in_touch">تحدث إلى أحد أعضاء الفريق</string>
+    <string name="dcc_help_and_Answer">نحن هنا لمساعدتك وللإجابة عن أي أسئلة تراودك.</string>
+    <string name="dcc_send_email">البريد الإلكتروني</string>
+    <string name="dcc_call_number">اتصل بنا</string>
+    <string name="dcc_chat_to_us">الدردشة معنا</string>
+    <string name="dcc_chat_desc">دردشة حية على مدار الساعة باللغة الإنجليزية مع أحد المتخصصين في المنتج لدينا. </string>
+    <string name="dcc_remove_photo">إزالة الصورة</string>
+    <string name="dcc_continue">متابعة</string>
+    <string name="dcc_characters_left">من الأحرف المتبقية</string>
+    <string name="dcc_your_message">رسالتك</string>
+    <string name="dcc_tellUs_header">مشاركة تجاربك</string>
+    <string name="dcc_tellUs_sub_header">اكتب رأيك أو قم بتصنيف هذا التطبيق. فملاحظاتك تهمّنا.</string>
+    <string name="dcc_write_review">كتابة رأي</string>
+    <string name="dcc_rate_this_app">تصنيف هذا التطبيق</string>
+    <string name="dcc_productDownloadManual">تنزيل الدليل</string>
+    <string name="dcc_productInformationOnWebsite">زيارة موقع ويب الخاص بالمنتج</string>
+    <string name="dcc_show_all">إظهار الكل</string>
+    <string name="dcc_show_less">إظهار محتوى أقل</string>
+    <string name="dcc_Call_not_Supported">المكالمة غير معتمدة</string>
+    <string name="dcc_Turn_On_Location_Service">لإعادة تمكين الخيار، يرجى الانتقال إلى \"الإعدادات\" وتشغيل \"خدمة الموقع\" لهذا التطبيق.</string>
+    <string name="dcc_No_Service_Url">لا يتوفر url للخدمة</string>
+    <string name="dcc_No_Product_Information">لا تتوفر معلومات حول المنتج لهذا الطراز</string>
+    <string name="dcc_Allow_Acess_Twitter">السماح لمستخدمي التطبيق من الوصول إلى حسابك على twitter</string>
+    <string name="dcc_No_Facebook_Key">ما من حساب Facebook</string>
+    <string name="dcc_About_App">حول هذا التطبيق</string>
+    <string name="dcc_Help_Support">التعليمات والدعم</string>
+    <string name="dcc_Call">المكالمة</string>
+    <string name="dcc_Opening_Hours">ساعات العمل</string>
+
 </resources>

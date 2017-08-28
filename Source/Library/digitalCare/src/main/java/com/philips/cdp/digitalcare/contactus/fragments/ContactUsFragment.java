@@ -265,12 +265,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 showDialog(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null
-                && tag.equalsIgnoreCase(getStringKey(R.string.facebook)) && isConnectionAvailable()) {
+                && tag.equalsIgnoreCase(getStringKey(R.string.dcc_facebook)) && isConnectionAvailable()) {
             launchFacebookFeature();
         } else if (tag != null
-                && tag.equalsIgnoreCase(getStringKey(R.string.twitter)) && isConnectionAvailable()) {
+                && tag.equalsIgnoreCase(getStringKey(R.string.dcc_twitter)) && isConnectionAvailable()) {
             launchTwitterFeature();
-        } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
+        } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.dcc_send_email))) && isConnectionAvailable()) {
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
             sendEmail();
         }
@@ -472,7 +472,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         ArrayList<MenuItem> menus = new ArrayList<>();
 
         if (DigitalCareConfigManager.getInstance().getEmailUrl() != null){
-            menus.add(new MenuItem(R.string.icon_dls_questionmark, R.string.send_email));
+            menus.add(new MenuItem(R.string.icon_dls_questionmark, R.string.dcc_send_email));
         }
 
         if(!Utils.isCountryChina())
