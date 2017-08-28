@@ -13,11 +13,6 @@ import com.philips.cdp.di.iap.adapters.UIPickerAdapter;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.UIPicker;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.offset;
-
 public class SalutationDropDown {
 
     public interface SalutationListener {
@@ -33,24 +28,44 @@ public class SalutationDropDown {
     }
 
     private void createPopUp(final View anchor, final Context context) {
-        List<String> rowItems = createRowItems(context);
+        //   List<String> rowItems = createRowItems(context);
         Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
         mPopUp = new UIPicker(popupThemedContext);
+        mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, createRowItems(context)));
         mPopUp.setAnchorView(anchor);
-        mPopUp.setHorizontalOffset(-18);
-        mPopUp.setWidth((int) context.getResources().getDimension(R.dimen
-                .iap_count_drop_down_popup_width));
+//        mPopUp.setHorizontalOffset(-18);
+//        mPopUp.setWidth((int) context.getResources().getDimension(R.dimen
+//                .iap_count_drop_down_popup_width));
         mPopUp.setModal(true);
-        mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, rowItems));
         mPopUp.setOnItemClickListener(mListener);
     }
 
-    private List<String> createRowItems(Context context) {
-        List<String> rowItems = new ArrayList<>();
+    //    private List<String> createRowItems(Context context) {
+//        List<String> rowItems = new ArrayList<>();
+//        String mr = context.getResources().getString(R.string.iap_mr);
+//        String ms = context.getResources().getString(R.string.iap_mrs);
+//        rowItems.add(mr + ".");
+//        rowItems.add(ms + ".");
+//        return rowItems;
+//    }
+    private String[] createRowItems(Context context) {
+        // List<String> rowItems = new ArrayList<>();
+//        mRegionList = CartModelContainer.getInstance().getRegionList();
+//        String[] rowItems = new String[mRegionList.getRegions().size()];
+//
+//        if (mRegionList != null) {
+//            for (int i = 0; i < mRegionList.getRegions().size(); i++) {
+//                //rowItems.add(mRegionList.getRegions().get(i).getName());
+//                rowItems[i] = mRegionList.getRegions().get(i).getName();
+//            }
+//        }
         String mr = context.getResources().getString(R.string.iap_mr);
         String ms = context.getResources().getString(R.string.iap_mrs);
-        rowItems.add(mr + ".");
-        rowItems.add(ms + ".");
+        String[] rowItems = new String[2];
+        rowItems[0] = mr + ".";
+        rowItems[1] = ms + ".";
+
+
         return rowItems;
     }
 

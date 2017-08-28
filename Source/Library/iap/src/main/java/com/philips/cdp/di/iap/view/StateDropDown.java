@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.view;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.UIPickerAdapter;
@@ -10,9 +11,6 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.UIPicker;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StateDropDown {
 
@@ -22,10 +20,11 @@ public class StateDropDown {
         void stateRegionCode(String regionCode);
     }
 
-    UIPicker mPopUp;
-    StateListener mStateListener;
-    Context mContext;
-    RegionsList mRegionList;
+    private UIPicker mPopUp;
+    //    UIKitListPopupWindow mPopUp;
+    private StateListener mStateListener;
+    private Context mContext;
+    private RegionsList mRegionList;
 
     public StateDropDown(Context context, View anchor, StateListener stateListener) {
         mStateListener = stateListener;
@@ -34,26 +33,33 @@ public class StateDropDown {
     }
 
     private void createPopUp(final View anchor, final Context context) {
-        List<String> rowItems = createRowItems();
+        // List<String> rowItems = createRowItems();
 
+//        mPopUp = new UIKitListPopupWindow(context, anchor,
+//                UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPLEFT, rowItems);
         Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
         mPopUp = new UIPicker(popupThemedContext);
+        //mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, rowItems));
+        ArrayAdapter adapter = new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, createRowItems());
+        mPopUp.setAdapter(adapter);
         mPopUp.setAnchorView(anchor);
-        mPopUp.setHorizontalOffset(-18);
-        mPopUp.setHeight((int) context.getResources().getDimension(R.dimen
-                .iap_count_drop_down_popup_height));
+        //mPopUp.setHorizontalOffset(-18);
+//        mPopUp.setHeight((int) context.getResources().getDimension(R.dimen
+//                .iap_count_drop_down_popup_height));
+        // mPopUp.setHeight(500);
         mPopUp.setModal(true);
-        mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, rowItems));
         mPopUp.setOnItemClickListener(mListener);
     }
 
-    private List<String> createRowItems() {
-        List<String> rowItems = new ArrayList<>();
+    private String[] createRowItems() {
+        // List<String> rowItems = new ArrayList<>();
         mRegionList = CartModelContainer.getInstance().getRegionList();
+        String[] rowItems = new String[mRegionList.getRegions().size()];
 
         if (mRegionList != null) {
             for (int i = 0; i < mRegionList.getRegions().size(); i++) {
-                rowItems.add(mRegionList.getRegions().get(i).getName());
+                //rowItems.add(mRegionList.getRegions().get(i).getName());
+                rowItems[i] = mRegionList.getRegions().get(i).getName();
             }
         }
         return rowItems;
@@ -84,4 +90,30 @@ public class StateDropDown {
     public boolean isShowing() {
         return mPopUp.isShowing();
     }
+
+//    class StatePickerAdapter extends ArrayAdapter<String> {
+//
+//        private LayoutInflater inflater;
+//        private int resID;
+//
+//        public StatePickerAdapter(Context context, int resource, String[] states) {
+//            super(context, resource, states);
+//            resID = resource;
+//            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            inflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(context));
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            Label view;
+//            if (convertView == null) {
+//                view = (Label) inflater.inflate(resID, parent, false);
+//            } else {
+//                view = (Label) convertView;
+//            }
+//            view.setText(getItem(position));
+//            return view;
+//        }
+//    }
+
 }

@@ -31,7 +31,7 @@
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             app:uidTextBoxValidationErrorText="@string/iap_first_name_error">
 
-            <com.philips.platform.uid.view.widget.EditText
+            <com.philips.platform.uid.view.widget.ValidationEditText
                 android:id="@+id/et_billing_salutation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/iap_first_name_hint"
-                android:inputType="text"
+                android:inputType="textCapSentences"
+                android:maxLength="17"
                 android:maxLines="1"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -93,7 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/iap_last_name_hint"
-                android:inputType="text"
+                android:inputType="textCapSentences"
+                android:maxLength="17"
                 android:maxLines="1"
                 app:uidInputTextWithClearButton="true" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -136,7 +138,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/iap_email_hint"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -160,7 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/iap_phone_hint"
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -204,7 +206,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/iap_address_line_one_hint"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
+                    android:maxLength="35"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -252,7 +255,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/iap_town_hint"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
+                    android:maxLength="35"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -276,7 +280,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/iap_postal_code_hint"
-                    android:inputType="text"
+                    android:inputType="textCapSentences|textNoSuggestions|textVisiblePassword"
+                    android:maxLength="10"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -324,7 +329,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/iap_country_hint"
-                    android:inputType="text"
+                    android:inputType="textCapCharacters|textNoSuggestions|textVisiblePassword"
+                    android:maxLength="2"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
