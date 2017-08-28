@@ -43,11 +43,6 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-
-/**
- * @author ...
- *         This class has UI extended from UIKIT about screen , It shows the current version of the app
- */
 public class DemoDataServicesState extends BaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
 
