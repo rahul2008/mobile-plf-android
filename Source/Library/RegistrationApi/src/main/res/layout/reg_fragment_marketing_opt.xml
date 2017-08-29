@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
-                android:layout_marginTop="@dimen/reg_margin_top_24"
+                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
                 android:enabled="false"
                 android:textStyle="normal"
                 app:uidIsIndeterminateProgressIndicator="true"
@@ -86,7 +86,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_bottom_24"
+                android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16"
                 android:text="@string/reg_Opt_In_May_Be_later"
                 android:textStyle="normal"
                 app:uidComponentType="Secondary"/>
