@@ -95,25 +95,6 @@
     <string name="RA_Connectivity_Posting_Data">Posting data in datacore, Please wait&#8230; </string>
     <string name="RA_Connectivity_Getting_Moment">Getting moment from datacore, Please wait&#8230;</string>
 
-
-    <!-- Consumer Care related-->
-    <string-array name="productselection_ctnlist" translatable="false">
-        <item>HX6064/33</item>
-    </string-array>
-
-    <!-- TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
-        product selection screen. Which is not considered in for testing by Madan's team. -->
-    <!-- Consumer Care related-->
-    <string-array name="productselection_ctnlist_china" translatable="false">
-        <item>HX6721/33</item>
-    </string-array>
-
-
-    <string-array name="iap_productselection_ctnlist" translatable="false">
-        <item>HD9240/90</item>
-    </string-array>
-    <!--ConsumerCare related end here.-->
-
     <!--UR related starts here.-->
     <string-array name="country_code" translatable="false">
         <item>AU</item>

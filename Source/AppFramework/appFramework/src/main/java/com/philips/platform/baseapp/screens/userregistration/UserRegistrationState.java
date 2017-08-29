@@ -212,6 +212,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         setUrCompleted();
         if (null != activity) {
             getApplicationContext().determineChinaFlow();
+            //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
+            getApplicationContext().determineHybrisFlow();
 
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
