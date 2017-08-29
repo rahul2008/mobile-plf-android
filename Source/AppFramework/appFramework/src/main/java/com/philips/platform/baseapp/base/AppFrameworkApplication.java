@@ -59,6 +59,8 @@ public class AppFrameworkApplication extends Application {
     private ConnectivityChangeReceiver connectivityChangeReceiver;
     private boolean isHybrisFlow = false;
 
+    private final String IAP_BASE_URL_CONSTANT = "iap.baseurl";
+
     @Override
     public void onCreate() {
         applyStrictMode();
@@ -199,7 +201,7 @@ public class AppFrameworkApplication extends Application {
 
     public void determineHybrisFlow() {
         ArrayList listOfServiceId = new ArrayList();
-        listOfServiceId.add("iap.baseurl");
+        listOfServiceId.add(IAP_BASE_URL_CONSTANT);
         appInfra.getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             public void onSuccess(Map<String, ServiceDiscoveryService> map) {
                 RALog.d(LOG, " AppFrameworkApplication getServicesWithCountryPreference Map" + map.toString());
