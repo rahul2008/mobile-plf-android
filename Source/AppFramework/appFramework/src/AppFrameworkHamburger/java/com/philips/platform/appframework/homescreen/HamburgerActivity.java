@@ -67,7 +67,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private SharedPreferenceUtility sharedPreferenceUtility;
     Handler handler = new Handler();
 
-    private ProgressDialog progressDialog;
    /* private ImageView cartIcon;
     private TextView cartCount;
     private boolean isCartVisible = true;*/
@@ -87,8 +86,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         presenter = new HamburgerActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
         initializeActivityContents();
     }
 
@@ -202,18 +199,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         int resID = com.philips.cdp.uikit.R.drawable.uikit_philips_logo;
         footerView.setImageDrawable(VectorDrawable.create(this, resID));
         setSupportActionBar(toolbar);
-    }
-
-    @Override
-    public void showProgressBar() {
-        progressDialog.show();
-    }
-
-    @Override
-    public void hideProgressBar() {
-        if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
     }
 
     private void setDrawerAdapter() {

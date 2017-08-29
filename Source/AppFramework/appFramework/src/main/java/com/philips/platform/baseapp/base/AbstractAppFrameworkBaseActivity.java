@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,12 +43,15 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     public abstract int getContainerId();
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
         initDLS();
         super.onCreate(savedInstanceState);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
     }
 
     public void initDLS() {
@@ -193,9 +197,13 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     }
 
     public void showProgressBar() {
+        progressDialog.show();
     }
 
     public void hideProgressBar() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
 }
