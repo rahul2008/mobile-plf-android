@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.core.communication;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
 import org.junit.Before;
@@ -56,6 +57,7 @@ public class CombinedCommunicationStrategyTest {
 
     @SuppressWarnings("unchecked")
     private CommunicationStrategy createCommunicationStrategy(boolean available) {
+        DICommLog.disableLogging();
         CommunicationStrategy strategy = mock(CommunicationStrategy.class);
         when(strategy.isAvailable()).thenReturn(available);
         doAnswer(new Answer() {
