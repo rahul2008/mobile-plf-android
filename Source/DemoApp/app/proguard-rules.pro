@@ -68,20 +68,6 @@
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
-#-------------------------Consumer Care Starts -------------------------
-
-
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--dontpreverify
--keepattributes *Annotation*
--keepattributes Signature
--dontwarn javax.annotation.**
-
--dontwarn okio.**
--dontwarn rx.**
--dontwarn android.app.Notification
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
