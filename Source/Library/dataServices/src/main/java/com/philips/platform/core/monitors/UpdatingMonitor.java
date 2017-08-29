@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
@@ -27,7 +32,6 @@ import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregator;
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -41,10 +45,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class UpdatingMonitor extends EventMonitor {
     @NonNull
@@ -86,7 +86,7 @@ public class UpdatingMonitor extends EventMonitor {
         try {
             dbUpdatingInterface.updateMoment(moment, dbRequestListener);
         } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e,dbRequestListener);
+            dbUpdatingInterface.updateFailed(e, dbRequestListener);
             e.printStackTrace();
         }
     }
@@ -99,7 +99,7 @@ public class UpdatingMonitor extends EventMonitor {
         try {
             dbUpdatingInterface.updateMoments(moments, dbRequestListener);
         } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e,dbRequestListener);
+            dbUpdatingInterface.updateFailed(e, dbRequestListener);
             e.printStackTrace();
         }
     }
@@ -110,9 +110,8 @@ public class UpdatingMonitor extends EventMonitor {
         try {
 
             final DBRequestListener<ConsentDetail> dbRequestListener = consentUpdateRequest.getDbRequestListener();
-            if(dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(), dbRequestListener))
-            {
-                dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(),false);
+            if (dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(), dbRequestListener)) {
+                dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(), false);
                 eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));
             }
 
@@ -129,27 +128,22 @@ public class UpdatingMonitor extends EventMonitor {
         }
         try {
             momentsSegregator.processMomentsReceivedFromBackend(moments, null);
-            DSLog.i(DSLog.LOG,"After Process Moment");
             notifyDBChangeSuccess(SyncType.MOMENT);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             notifyDBFailure(e);
         }
     }
 
     private void notifyDBChangeSuccess(SyncType moment) {
-        DSLog.i(DSLog.LOG,"inside notifyDBChange UpdatingMonitor");
         DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
-        if(mDbChangeListener !=null) {
-            DSLog.i(DSLog.LOG,"inside notifyDBChange UpdatingMonitor - Listener registered and UI notified");
+        if (mDbChangeListener != null) {
             mDbChangeListener.dBChangeSuccess(moment);
-        }else{
-            DSLog.i(DSLog.LOG,"inside notifyDBChange UpdatingMonitor - Listener not registered");
         }
     }
 
     private void notifyDBFailure(SQLException e) {
         DBChangeListener mDbChangeListener = DataServicesManager.getInstance().getDbChangeListener();
-        if(mDbChangeListener !=null){
+        if (mDbChangeListener != null) {
             mDbChangeListener.dBChangeFailed(e);
         }
     }
@@ -160,17 +154,17 @@ public class UpdatingMonitor extends EventMonitor {
         if (moments == null || moments.isEmpty()) {
             return;
         }
-        momentsSegregator.processCreatedMoment(moments,null);
+        momentsSegregator.processCreatedMoment(moments, null);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final ConsentBackendSaveResponse consentBackendSaveResponse) throws SQLException {
         try {
-            if(dbFetchingInterface.isSynced(SyncType.CONSENT.getId())) {
+            if (dbFetchingInterface.isSynced(SyncType.CONSENT.getId())) {
                 dbUpdatingInterface.updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
                 notifyDBChangeSuccess(SyncType.CONSENT);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             notifyDBFailure(e);
         }
     }
@@ -179,8 +173,8 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventBackGround(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
 
-            if(dbFetchingInterface.fetchDCSyncData(SyncType.CHARACTERISTICS)==null){
-                dbSavingInterface.saveSyncBit(SyncType.CHARACTERISTICS,true);
+            if (dbFetchingInterface.fetchDCSyncData(SyncType.CHARACTERISTICS) == null) {
+                dbSavingInterface.saveSyncBit(SyncType.CHARACTERISTICS, true);
             }
 
             if (mUserCharacteristicsSegregator.isUCSynced()) {
@@ -193,55 +187,54 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException{
-        try{
+    public void onEventBackGround(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException {
+        try {
             Settings settings = dbFetchingInterface.fetchSettings();
             DCSync dcSync = dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS);
 
-            if(dcSync==null){
-                dbSavingInterface.saveSyncBit(SyncType.SETTINGS,true);
+            if (dcSync == null) {
+                dbSavingInterface.saveSyncBit(SyncType.SETTINGS, true);
             }
 
-            if(settings==null){
-                dbSavingInterface.saveSettings(databaseSettingsUpdateRequest.getSettings(),databaseSettingsUpdateRequest.getDbRequestListener());
-                dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(),false);
-            }else{
+            if (settings == null) {
+                dbSavingInterface.saveSettings(databaseSettingsUpdateRequest.getSettings(), databaseSettingsUpdateRequest.getDbRequestListener());
+                dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(), false);
+            } else {
                 dbUpdatingInterface.updateSettings(databaseSettingsUpdateRequest.getSettings(), databaseSettingsUpdateRequest.getDbRequestListener());
-                dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(),false);
+                dbUpdatingInterface.updateSyncBit(SyncType.SETTINGS.getId(), false);
             }
 
 
             eventing.post(new SettingsBackendSaveRequest(databaseSettingsUpdateRequest.getSettings()));
-        }catch (SQLException e){
+        } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, databaseSettingsUpdateRequest.getDbRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final SyncBitUpdateRequest syncBitUpdateRequest) throws SQLException{
-        try{
-            dbUpdatingInterface.updateSyncBit(syncBitUpdateRequest.getTableType().getId(),syncBitUpdateRequest.isSynced());
-        }catch (SQLException e){
-            dbUpdatingInterface.updateFailed(e,null);
+    public void onEventBackGround(final SyncBitUpdateRequest syncBitUpdateRequest) throws SQLException {
+        try {
+            dbUpdatingInterface.updateSyncBit(syncBitUpdateRequest.getTableType().getId(), syncBitUpdateRequest.isSynced());
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, null);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException{
-        DSLog.i(DSLog.LOG,"Settings updatingMonitor in SettingsBackendSaveResponse");
-        try{
-            if(dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS)==null){
-                dbSavingInterface.saveSyncBit(SyncType.SETTINGS,true);
+    public void onEventBackGround(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException {
+        try {
+            if (dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS) == null) {
+                dbSavingInterface.saveSyncBit(SyncType.SETTINGS, true);
             }
-            if(dbFetchingInterface.fetchSettings()==null){
+            if (dbFetchingInterface.fetchSettings() == null) {
 
-                if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())) {
+                if (dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())) {
                     dbSavingInterface.saveSettings(settingsBackendSaveResponse.getSettings(), null);
 
                 }
             }
-            if(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())){
-                dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(),null);
+            if (dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())) {
+                dbUpdatingInterface.updateSettings(settingsBackendSaveResponse.getSettings(), null);
             }
             notifyDBChangeSuccess(SyncType.SETTINGS);
         } catch (SQLException e) {

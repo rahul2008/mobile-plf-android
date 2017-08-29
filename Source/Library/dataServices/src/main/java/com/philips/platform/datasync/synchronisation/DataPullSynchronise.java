@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.datasync.synchronisation;
 
@@ -11,7 +12,6 @@ import android.support.annotation.Nullable;
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
@@ -94,30 +94,25 @@ public class DataPullSynchronise {
 
 
     public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
-        DSLog.i(DSLog.LOG,"In Data Pull synchronize startFetching");
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                DSLog.i(DSLog.LOG,"In Data Pull synchronize startFetching execute");
                 preformFetch(fetcher, lastSyncDateTime, referenceId);
             }
         });
     }
 
     public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
-        DSLog.i(DSLog.LOG,"In startSynchronise - DataPullSynchronize");
         this.lastSyncDateTime = lastSyncDateTime;
         this.referenceId = referenceId;
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
-        if(!isLoggedIn){
-            DSLog.i(DSLog.LOG,"DataPullSynchronize isLogged-in is false");
+        if (!isLoggedIn) {
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
             return;
         }
 
         if (!isSyncStarted()) {
-            DSLog.i(DSLog.LOG,"DataPullSynchronize isLogged-in is true");
             synchronized (this) {
                 fetchData(lastSyncDateTime, referenceId);
             }
@@ -131,15 +126,12 @@ public class DataPullSynchronise {
     }*/
 
     protected void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
-        DSLog.i(DSLog.LOG,"In Data Pull synchronize preformFetch");
         RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
         updateResult(resultError);
 
         int jobsRunning = numberOfRunningFetches.decrementAndGet();
-        DSLog.i(DSLog.LOG,"In Data Pull synchronize preformFetch and jobsRunning = " + jobsRunning);
 
         if (jobsRunning <= 0) {
-            DSLog.i(DSLog.LOG,"In Data Pull synchronize preformFetch and jobsRunning = " + jobsRunning + "calling report result");
             reportResult(fetchResult, referenceId);
         }
     }
@@ -151,41 +143,33 @@ public class DataPullSynchronise {
     }
 
     private void reportResult(final RetrofitError result, final int referenceId) {
-        DSLog.i(DSLog.LOG,"In Data Pull synchronize reportResult");
         if (result == null) {
-            DSLog.i(DSLog.LOG,"In Data Pull synchronize reportResult is OK call postOK");
             postOk();
         } else {
-            DSLog.i(DSLog.LOG,"In Data Pull synchronize reportResult is not OK call postError");
             postError(referenceId, result);
         }
-       // eventing.post(new WriteDataToBackendRequest());
-        synchronisationManager.shutdownAndAwaitTermination(((ExecutorService)executor));
+        // eventing.post(new WriteDataToBackendRequest());
+        synchronisationManager.shutdownAndAwaitTermination(((ExecutorService) executor));
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
-        DSLog.i(DSLog.LOG,"Error DataPullSynchronize postError" + error.getMessage());
         synchronisationManager.dataPullFail(error);
         eventing.post(new BackendResponse(referenceId, error));
     }
 
     private void postOk() {
-        DSLog.i(DSLog.LOG,"In Data Pull synchronize postOK");
         synchronisationManager.dataPullSuccess();
-       // eventing.post(new ReadDataFromBackendResponse(referenceId, null));
+        // eventing.post(new ReadDataFromBackendResponse(referenceId, null));
     }
 
     private void initFetch(int size) {
-        DSLog.i(DSLog.LOG,"In Data Pull synchronize initFetch");
         numberOfRunningFetches.set(size);
         fetchResult = null;
     }
 
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
-        DSLog.i(DSLog.LOG, "In Data Pull synchronize fetchData");
 
-        if(configurableFetchers.size()<=0){
-            DSLog.i(DSLog.LOG, "In Data Pull synchronize Zero fetchers configured");
+        if (configurableFetchers.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
         }
@@ -196,10 +180,10 @@ public class DataPullSynchronise {
         }
     }
 
-    private List<? extends DataFetcher> getFetchers(){
+    private List<? extends DataFetcher> getFetchers() {
         Set<String> configurableFetchers = mDataServicesManager.getSyncTypes();
 
-        if(configurableFetchers == null){
+        if (configurableFetchers == null) {
             return fetchers;
         }
 
@@ -212,8 +196,8 @@ public class DataPullSynchronise {
             }
         }
 
-        for (String fetcher : configurableFetchers){
-            switch (fetcher){
+        for (String fetcher : configurableFetchers) {
+            switch (fetcher) {
                 case "moment":
                     fetchList.add(momentsDataFetcher);
                     break;

@@ -7,7 +7,6 @@ import com.google.gson.JsonParseException;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.pojo.AppCharacteristics;
 import com.philips.platform.dscdemo.pojo.AppUserCharacteristics;
 
@@ -56,7 +55,6 @@ public class CharacteristicsPresenter {
         try {
             return new Gson().fromJson(userCharacteristics, AppUserCharacteristics.class);
         } catch (Exception ex) {
-            DSLog.e(DSLog.LOG, "JSON Parser Exception =" + ex.getMessage());
             return null;
         }
     }

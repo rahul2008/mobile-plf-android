@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.moments;
 
 import com.philips.platform.core.datatypes.Moment;
@@ -8,7 +13,6 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -169,14 +173,12 @@ public class MomentsSegregator {
     }
 
     public Map<Class, List<?>> putMomentsForSync(final Map<Class, List<?>> dataToSync) {
-        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl before fetchNonSynchronizedMoments");
         List<? extends Moment> ormMomentList = null;
         try {
             ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        DSLog.i(DSLog.LOG, "In OrmFetchingInterfaceImpl dataToSync.put");
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;
     }

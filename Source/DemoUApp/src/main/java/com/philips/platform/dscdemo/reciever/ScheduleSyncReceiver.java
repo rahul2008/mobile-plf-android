@@ -2,9 +2,7 @@ package com.philips.platform.dscdemo.reciever;
 
 import android.content.Context;
 
-import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.utility.Utility;
 
 import org.joda.time.DateTimeConstants;
@@ -36,7 +34,6 @@ public class ScheduleSyncReceiver {
         mDataServices.clearExpiredMoments(null);
         //TODO: review changing connection
         if (mUtility.isOnline(context)) {
-            DSLog.i(DSLog.LOG,"START SYNC FROM REC");
             mDataServices.synchronize();
         }
     }

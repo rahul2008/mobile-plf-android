@@ -1,8 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.synchronisation;
 
 import android.support.annotation.NonNull;
@@ -13,7 +13,6 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsSender;
 import com.philips.platform.datasync.consent.ConsentDataSender;
@@ -88,8 +87,6 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     public void startSynchronise(final int eventId) {
-        DSLog.i(DSLog.LOG, "In startSynchronise - DataPushSynchronize");
-
         if (isSyncStarted()) {
             return;
         }
@@ -97,11 +94,9 @@ public class DataPushSynchronise extends EventMonitor {
         boolean isLoggedIn = accessProvider.isLoggedIn();
 
         if (isLoggedIn) {
-            DSLog.i(DSLog.LOG, "DataPushSynchronize isLogged-in is true");
             registerEvent();
             fetchNonSynchronizedData(eventId);
         } else {
-            DSLog.i(DSLog.LOG, "DataPushSynchronize isLogged-in is false");
             eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
     }
@@ -119,25 +114,20 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void fetchNonSynchronizedData(int eventId) {
-        DSLog.i(DSLog.LOG, "DataPushSynchronize fetchNonSynchronizedData before calling GetNonSynchronizedDataRequest");
         eventing.post(new GetNonSynchronizedDataRequest(eventId));
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataResponse response) {
-        DSLog.i(DSLog.LOG, "DataPushSynchronize GetNonSynchronizedDataResponse");
         synchronized (this) {
 
-                startAllSenders(response);
+            startAllSenders(response);
 
         }
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        DSLog.i(DSLog.LOG, "DataPushSynchronize startAllSenders");
-
-        if(configurableSenders.size()<=0){
-            DSLog.i(DSLog.LOG, "In Data Push synchronize Zero Senders configured");
+        if (configurableSenders.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
         }
@@ -150,10 +140,8 @@ public class DataPushSynchronise extends EventMonitor {
                 public void run() {
                     sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
                     int jobsRunning = numberOfRunningSenders.decrementAndGet();
-                    DSLog.i(DSLog.LOG,"In Data Push synchronize preformFetch and jobsRunning = " + jobsRunning);
 
                     if (jobsRunning <= 0) {
-                        DSLog.i(DSLog.LOG,"In Data Push synchronize preformPush and jobsRunning = " + jobsRunning + "calling report result");
                         postPushComplete();
                     }
                 }
@@ -162,9 +150,8 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void postPushComplete() {
-        DSLog.i(DSLog.LOG,"DataPushSynchronize set Push complete");
         synchronisationManager.dataSyncComplete();
-        synchronisationManager.shutdownAndAwaitTermination((ExecutorService)executor);
+        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
     }
 
     private boolean isSyncStarted() {
@@ -172,14 +159,13 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void initPush(int size) {
-        DSLog.i(DSLog.LOG,"In Data Push synchronize initPush");
         numberOfRunningSenders.set(size);
     }
 
-    private List<? extends DataSender> getSenders(){
-      Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
+    private List<? extends DataSender> getSenders() {
+        Set<String> configurableSenders = mDataServicesManager.getSyncTypes();
 
-        if(configurableSenders == null){
+        if (configurableSenders == null) {
             return senders;
         }
 
@@ -193,8 +179,8 @@ public class DataPushSynchronise extends EventMonitor {
             }
         }
 
-        for (String sender : configurableSenders){
-            switch (sender){
+        for (String sender : configurableSenders) {
+            switch (sender) {
                 case "moment":
                     dataSenders.add(momentsDataSender);
                     break;

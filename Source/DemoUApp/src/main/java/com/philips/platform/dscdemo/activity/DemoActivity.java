@@ -16,7 +16,6 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
@@ -42,7 +41,6 @@ public class DemoActivity extends AppCompatActivity
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
-        DSLog.enableLogging(true);
         User user = new User(this);
 
         if (savedInstanceState == null)
@@ -123,7 +121,6 @@ public class DemoActivity extends AppCompatActivity
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        DSLog.i(DSLog.LOG, "CALLBACK FROM UR RECIEVED");
         runOnUiThread(new Runnable() {
             public void run() {
                 SyncScheduler.getInstance().stopSync();

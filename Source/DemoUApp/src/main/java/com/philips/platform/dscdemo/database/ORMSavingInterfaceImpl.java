@@ -13,7 +13,6 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.database.table.BaseAppDateTime;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
 import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
@@ -56,7 +55,6 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             }
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            DSLog.e(TAG, "Exception occurred during updateDatabaseWithMoments" + e);
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed!!");
             return false;
         }

@@ -19,7 +19,6 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.characteristics.UCoreCharacteristics;
 import com.philips.platform.datasync.characteristics.UCoreUserCharacteristics;
 import com.philips.platform.dscdemo.R;
@@ -175,7 +174,6 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
                    // DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
-                    DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -234,10 +232,8 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        DSLog.i(DSLog.LOG, "Inder fetchData before editing");
         if(type!=SyncType.CHARACTERISTICS)return;
         if (!isEditable) {
-            DSLog.i(DSLog.LOG, "Inder fetchData editing");
             DataServicesManager.getInstance().fetchUserCharacteristics(this);
         }
     }

@@ -26,7 +26,6 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
@@ -171,10 +170,10 @@ public class TemperaturePresenter {
                         break;
                     case UPDATE:
                         final TemperatureMomentHelper helper = new TemperatureMomentHelper();
-                        if(String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")){
+                        if (String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")) {
                             Toast.makeText(mContext,
                                     "Invalid", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             addOrUpdateMoment(UPDATE, data.get(selectedItem));
                         }
                         popupWindow.dismiss();
@@ -199,9 +198,6 @@ public class TemperaturePresenter {
             mDataServices.deleteMoment(moment, dbRequestListener);
 
         } catch (ArrayIndexOutOfBoundsException e) {
-            if (e.getMessage() != null) {
-                DSLog.i(DSLog.LOG, "e = " + e.getMessage());
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

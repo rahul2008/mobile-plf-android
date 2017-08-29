@@ -2,19 +2,15 @@ package com.philips.platform.dscdemo.temperature;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +29,6 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.dscdemo.consents.ConsentDialogFragment;
@@ -208,7 +203,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSuccess(final List<? extends Moment> data) {
-        DSLog.i(DSLog.LOG, "on Success Temperature");
         mTemperaturePresenter.fetchData(this);
     }
 
@@ -223,11 +217,9 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             @Override
             public void run() {
                 if (e != null && e.getMessage() != null) {
-                    DSLog.i(TAG, "http : UI update Failed" + e.getMessage());
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    DSLog.i(TAG, "http : UI update Failed");
                     if (mContext != null)
                         Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -268,10 +260,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess");
         if (type != SyncType.MOMENT) return;
-
-        DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
         mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
     }
 
@@ -293,7 +282,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onSyncComplete() {
-        DSLog.i(TAG, "Sync completed");
         dismissProgressDialog();
     }
 
@@ -327,7 +315,6 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DSLog.i(DSLog.LOG, "http TEmperature TimeLine : UI updated");
                 mData = (ArrayList<? extends Moment>) data;
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();

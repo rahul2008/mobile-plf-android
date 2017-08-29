@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
@@ -15,7 +15,6 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.MomentBackendDeleteResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.MomentGsonConverter;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
@@ -173,12 +172,10 @@ public class MomentsDataSender extends DataSender {
                 }
                 postUpdatedOk(Collections.singletonList(moment));
             } else if (isConflict(response)) {
-                DSLog.i(DSLog.LOG, "Exception - 409");
             }
             return false;
         } catch (RetrofitError error) {
             if (error != null && isConflict(error.getResponse())) {
-                DSLog.i(DSLog.LOG, "Exception - 409");
             } else {
                 eventing.post(new BackendResponse(1, error));
                 onError(error);

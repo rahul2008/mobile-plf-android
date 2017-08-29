@@ -7,7 +7,6 @@ import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.database.OrmTypeChecking;
 import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
@@ -15,7 +14,6 @@ import com.philips.platform.dscdemo.database.table.OrmMoment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -26,8 +24,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess((ArrayList<? extends Object>) ormObjectList);
         } else {
-            //CallBack not registered
-            DSLog.i(DataServicesManager.TAG, "CallBack not registered");
         }
     }
 
@@ -35,8 +31,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
         } else {
-            //Callback not registered
-            DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
 
@@ -44,8 +38,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
         } else {
-            //Callback not registered
-            DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
 
@@ -53,8 +45,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(Arrays.asList(returnValue));
         } else {
-            //Callback not registered
-            DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
 
@@ -64,8 +54,6 @@ public class NotifyDBRequestListener {
             list.add(settings);
             dbRequestListener.onSuccess(list);
         } else {
-            //Callback not registered
-            DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
 
@@ -73,8 +61,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(ormConsents);
         } else {
-            //Callback not registerd
-            DSLog.i(DataServicesManager.TAG, "Callback Not registered");
         }
     }
 
@@ -83,9 +69,6 @@ public class NotifyDBRequestListener {
             List list = new ArrayList();
             list.add(ormMoment);
             dbRequestListener.onSuccess(list);
-        } else {
-            //No Callback registered
-            DSLog.i(DataServicesManager.TAG, "No callback registered");
         }
     }
 
@@ -93,7 +76,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(ormConsents);
         } else {
-            DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
 
@@ -101,8 +83,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onFailure(e);
         } else {
-            //Callback No registered
-            DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
 
@@ -110,8 +90,6 @@ public class NotifyDBRequestListener {
         if (dbRequestListener != null) {
             dbRequestListener.onFailure(e);
         } else {
-            //Callback not registered
-            DSLog.i(DataServicesManager.TAG, msg);
         }
     }
 
@@ -119,8 +97,6 @@ public class NotifyDBRequestListener {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormConsents);
         } else {
-            //CallBack not registered
-            DSLog.i(DataServicesManager.TAG, "CallBack not registered");
         }
     }
 
@@ -140,8 +116,6 @@ public class NotifyDBRequestListener {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormMoments);
         } else {
-            //CallBack not registered
-            DSLog.i(DataServicesManager.TAG, "CallBack not registered");
         }
     }
 
@@ -155,8 +129,6 @@ public class NotifyDBRequestListener {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormInsights);
         } else {
-            //CallBack not registered
-            DSLog.i(DataServicesManager.TAG, "CallBack not registered");
         }
     }
 }

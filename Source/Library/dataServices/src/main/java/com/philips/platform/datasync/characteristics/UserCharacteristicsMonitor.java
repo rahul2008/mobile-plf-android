@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.characteristics;
 
 import com.philips.platform.core.Eventing;
@@ -9,7 +10,6 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.monitors.EventMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -42,7 +42,6 @@ public class UserCharacteristicsMonitor extends EventMonitor {
     //Save Request
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(CharacteristicsBackendSaveRequest characteristicsBackendSaveRequest) {
-        DSLog.d(DSLog.LOG, "Inder = UserCharacteristicsMonitors Send Request");
         sendToBackend(characteristicsBackendSaveRequest);
     }
 
@@ -67,7 +66,6 @@ public class UserCharacteristicsMonitor extends EventMonitor {
     }
 
     private void postError(int referenceId, final RetrofitError error) {
-        DSLog.i(DSLog.LOG, "Error In ConsentsMonitor - posterror");
         mEventing.post(new BackendResponse(referenceId, error));
     }
 

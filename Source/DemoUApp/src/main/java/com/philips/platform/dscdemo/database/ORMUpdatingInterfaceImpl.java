@@ -8,7 +8,6 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
@@ -127,7 +126,6 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Orm Type check failed");
-            DSLog.e(TAG, "Eror while type checking");
         }
         return null;
     }

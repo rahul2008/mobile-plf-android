@@ -1,8 +1,8 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.datasync.synchronisation;
 
@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.core.ErrorHandlingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
@@ -24,10 +23,6 @@ import javax.inject.Inject;
 
 import retrofit.RetrofitError;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public abstract class DataFetcher {
     int UNKNOWN = -1;
 
@@ -56,13 +51,12 @@ public abstract class DataFetcher {
         return fetchDataSince(null);
     }
 
-    public void onError(RetrofitError error){
+    public void onError(RetrofitError error) {
         synchronisationManager.dataPullFail(error);
         refreshTokenIfTokenExpired(error);
     }
 
     private boolean refreshTokenIfTokenExpired(RetrofitError e) {
-        DSLog.i("UserRegistrationInterfaceImpl", "Check is token valid in MomentDataFetcher");
         int status = -1000;
         if (e != null && e.getResponse() != null) {
             status = e.getResponse().getStatus();
@@ -70,7 +64,6 @@ public abstract class DataFetcher {
 
         if (status == HttpURLConnection.HTTP_UNAUTHORIZED ||
                 status == HttpURLConnection.HTTP_FORBIDDEN) {
-            DSLog.i("UserRegistrationInterfaceImpl", "Call refresh token using work around");
             userRegistrationInterface.refreshAccessTokenUsingWorkAround();
             return true;
         }

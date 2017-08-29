@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
@@ -20,7 +21,6 @@ import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
@@ -36,10 +36,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class FetchingMonitor extends EventMonitor {
 
@@ -74,39 +70,24 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
-        DSLog.i(DSLog.LOG, "In Fetching Monitor GetNonSynchronizedDataRequest");
-
         Map<Class, List<?>> dataToSync = new HashMap<>();
-
-        DSLog.i(DSLog.LOG, "In Fetching Monitor before putMomentsForSync");
         dataToSync = momentsSegregator.putMomentsForSync(dataToSync);
-
-        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse");
         dataToSync = consentsSegregator.putConsentForSync(dataToSync);
-
-        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
-
         try {
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
         } catch (SQLException e) {
             e.printStackTrace();
             dataToSync.put(Characteristics.class, null);
         }
-
-        DSLog.i(DSLog.LOG, "In Fetching Monitor before sending GetNonSynchronizedDataResponse for UC");
         dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
-
         dataToSync = insightSegregator.putInsightForSync(dataToSync);
-
         eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
-
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadMomentsRequest event) {
         try {
             if (event.hasType()) {
-                DSLog.i(DSLog.LOG, "pabitra LoadMomentsRequest monitor fetchMomentWithType");
                 dbInterface.fetchMoments(event.getDbFetchRequestListener(), event.getTypes());
             } else if (event.hasID()) {
                 dbInterface.fetchMomentById(event.getMomentID(), event.getDbFetchRequestListener());
@@ -129,7 +110,6 @@ public class FetchingMonitor extends EventMonitor {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedConsentsRequest event) {
-        DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedConsentsRequest");
         List<ConsentDetail> consentDetails = null;
         try {
             consentDetails = (List<ConsentDetail>) dbInterface.fetchConsentDetails();

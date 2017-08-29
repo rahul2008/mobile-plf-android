@@ -7,7 +7,6 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
@@ -132,7 +131,6 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         } catch (OrmTypeChecking.OrmTypeException e) {
             notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "type check failed!");
             if (e.getMessage() != null) {
-                DSLog.i(DSLog.LOG, "Exception = " + e.getMessage());
             }
         }
         return null;
@@ -177,12 +175,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
-    public int deleteSyncBit(SyncType syncType) throws SQLException{
-       return ormDeleting.deleteSyncBit(syncType);
+    public int deleteSyncBit(SyncType syncType) throws SQLException {
+        return ormDeleting.deleteSyncBit(syncType);
     }
 
     @Override
     public void deleteUserCharacteristics() throws SQLException {
-       ormDeleting.deleteCharacteristics();
+        ormDeleting.deleteCharacteristics();
     }
 }

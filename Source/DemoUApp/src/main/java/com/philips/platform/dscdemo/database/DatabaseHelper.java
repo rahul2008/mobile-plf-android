@@ -16,7 +16,6 @@ import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.consents.ConsentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
@@ -45,8 +44,6 @@ import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 
 import java.sql.SQLException;
 import java.util.List;
-
-import static com.philips.platform.core.utils.DataServicesErrorConstants.SQLITE_EXCEPTION;
 
 
 /**
@@ -85,20 +82,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
     }
+
     public static synchronized DatabaseHelper getInstance(Context context, final UuidGenerator uuidGenerator) {
         if (sDatabaseHelper == null) {
-            return sDatabaseHelper = new DatabaseHelper(context,uuidGenerator);
+            return sDatabaseHelper = new DatabaseHelper(context, uuidGenerator);
         }
         return sDatabaseHelper;
     }
+
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-        DSLog.d(TAG, "onCreate DatabaseHelper");
         try {
             createTables(connectionSource);
             insertDictionaries();
         } catch (SQLException e) {
-            DSLog.e(TAG, "Error Unable to create databases" + e);
         }
     }
 
@@ -114,12 +111,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private void insertDefaultConsent() {
 
         try {
-            consentDetailDao=getConsentDetailsDao();
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+            consentDetailDao = getConsentDetailsDao();
+            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                     ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                     ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(),ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+            consentDetailDao.createOrUpdate(new OrmConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED.getDescription(), ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                     ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
             insertDefaultDCSyncValues(SyncType.CONSENT);
         } catch (SQLException e) {
@@ -130,12 +127,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void insertDefaultDCSyncValues(SyncType tableType) {
 
-            try {
-                ormDCSyncDao = getDCSyncDao();
-                ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            ormDCSyncDao = getDCSyncDao();
+            ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -207,13 +204,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
-        DSLog.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
         if (newVer > oldVer) {
-            if (newVer >= 2 && oldVer==1) {
+            if (newVer >= 2 && oldVer == 1) {
                 try {
                     this.getMomentDao().executeRaw("ALTER TABLE `OrmMoment` ADD COLUMN expirationDate INTEGER NULL");
-                } catch (SQLException e){
-                    DSLog.e( SQLITE_EXCEPTION,e.getMessage());
+                } catch (SQLException e) {
                 }
             }
         }

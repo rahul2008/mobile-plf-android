@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import javax.inject.Inject;
@@ -31,7 +30,7 @@ import static com.janrain.android.engage.JREngage.getApplicationContext;
  * All rights reserved.
  */
 @Singleton
-public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
+public class UserRegistrationInterfaceImpl implements UserRegistrationInterface {
 
     @NonNull
     private final Context context;
@@ -71,7 +70,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll(dbRequestListener);
         clearPreferences();
-        email =  null;
+        email = null;
         accessToken = "";
     }
 
@@ -103,18 +102,9 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
     @NonNull
     @Override
     public String getHSDPAccessToken() {
-        DSLog.i(DSLog.LOG,"Inside getHSDPAccessToken");
-
-        if(accessToken!=null){
-            DSLog.i(DSLog.LOG,"AccessToken is not null = " + accessToken);
-        }
-
         if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
-            DSLog.i(DSLog.LOG,"get the token from Registration");
             accessToken = gethsdpaccesstoken();
-            DSLog.i(DSLog.LOG,"get the token from Registration access token = " + accessToken);
         }
-        DSLog.i(DSLog.LOG,"get the token from Registration return - " + accessToken);
         return accessToken;
     }
 
@@ -133,11 +123,9 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
 
     @Override
     public synchronized void refreshAccessTokenUsingWorkAround() {
-        DSLog.i(DSLog.LOG,"Inside Refresh Access Token");
         if (accessTokenRefreshInProgress) {
             return;
         }
-        DSLog.d(DSLog.LOG, "refreshAccessTokenUsingWorkAround()");
         accessTokenRefreshInProgress = true;
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(refreshLoginSessionRunnable);
@@ -210,18 +198,19 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface{
         return propertyForKey.toString();
     }
 
-    boolean isLogoutSuccess=false;
-    public boolean logout(){
+    boolean isLogoutSuccess = false;
+
+    public boolean logout() {
 
         user.logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                isLogoutSuccess=true;
+                isLogoutSuccess = true;
             }
 
             @Override
             public void onLogoutFailure(int i, String s) {
-                isLogoutSuccess=false;
+                isLogoutSuccess = false;
             }
         });
         return isLogoutSuccess;
