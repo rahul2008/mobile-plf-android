@@ -40,6 +40,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
+import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.uid.view.widget.Label;
@@ -72,6 +73,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private ContactUsPresenter contactUsFragmentPresenter;
     private Configuration config = null;
     private Utils mUtils = null;
+    private ContactUsUtils mContactUsUtils = null;
     private AlertDialog mAlertDialog = null;
 
     @Override
@@ -102,6 +104,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
         mLLSocialParent = (LinearLayout) view.findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
+        mContactUsUtils = new ContactUsUtils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
@@ -288,7 +291,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private void launchFacebookFeature() {
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_Facebook);
         try {
-            final Uri uri = Uri.parse(getFacebookURL());
+            final Uri uri = Uri.parse(mContactUsUtils.facebooAppUrl(getActivity()));
             final Map<String, String> contextData = new HashMap<String, String>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
@@ -304,25 +307,27 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                     .getPackageInfo("com.facebook.katana", 0);
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (Exception e) {
-            showFragment(new FacebookWebFragment());
+            showFragment(new FacebookWebFragment(mContactUsUtils.facebookWebUrl(getActivity())));
         }
     }
 
-    private String getFacebookURL(){
+/*    private String getFacebookURL(){
 
-        String facebookPageUrl = null;
+        String facebookPageID = null;
 
-        if(DigitalCareConfigManager.getInstance().getTwitterUrl() != null){
-            String fbSDUrl = DigitalCareConfigManager.getInstance().getFbUrl();
-            facebookPageUrl= fbSDUrl.substring(fbSDUrl.lastIndexOf("/") + 1);
+        String serviceDiscoveryFBUrl = Utils.serviceDiscoveryFBUrl();
+        if(serviceDiscoveryFBUrl != null){
+            String fbSDUrl = serviceDiscoveryFBUrl;
+            facebookPageID= fbSDUrl.substring(fbSDUrl.lastIndexOf("/") + 1);
         }
         else{
-            facebookPageUrl = getActivity().getString(R.string.facebook_product_pageID);
+            facebookPageID = getActivity().getString(R.string.facebook_product_pageID);
         }
 
-        return "fb://page/" + facebookPageUrl;
+        return "fb://page/" + facebookPageID;
 
-    }
+    }*/
+
     public void launchTwitterFeature() {
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
@@ -347,7 +352,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             trackTwitterAction();
             startActivity(tweetIntent);
         } else {
-            showFragment(new TwitterWebFragment());
+            showFragment(new TwitterWebFragment(mContactUsUtils.twitterPageName(getActivity())));
         }
     }
 
@@ -364,14 +369,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     }
 
     protected String getProductInformation() {
+/*
         String twitterPageName = null;
 
-        if(DigitalCareConfigManager.getInstance().getTwitterUrl() != null){
-            String twitterPage = DigitalCareConfigManager.getInstance().getTwitterUrl();
+        String serviceDiscoveryTwitterUrl = mUtils.serviceDiscoveryTwitterUrl();
+
+        if(serviceDiscoveryTwitterUrl != null){
+            String twitterPage = serviceDiscoveryTwitterUrl;
             twitterPageName = twitterPage.substring(twitterPage.lastIndexOf("@") + 1);
         }
         else
             twitterPageName = getActivity().getString(R.string.twitter_page);
+*/
 
         //String finalTwitterName = twitterPage.substring(twitterPage.lastIndexOf("@") + 1);
         final String twitterLocalizedPrefixText = getActivity().getResources().getString(
@@ -380,11 +389,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 .getConsumerProductInfo().getProductTitle();
         final String ctn = DigitalCareConfigManager.getInstance()
                 .getConsumerProductInfo().getCtn();
-        return "@" + twitterPageName + " " + twitterLocalizedPrefixText
+        String productInfo = "@" + mContactUsUtils.twitterPageName(getActivity()) + " " + twitterLocalizedPrefixText
                 + " "
                 + productTitle
                 + " "
                 + ctn;
+
+        Log.i("sdtest","ContactusFragment - TwitterFeature : "+productInfo);
+
+        return productInfo;
     }
 
     @Override
@@ -503,8 +516,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
             }
 
-        if(DigitalCareConfigManager.getInstance().getTwitterUrl() == null && getActivity().getString(R.string.twitter_page).trim().length() == 0 ){
-            Log.i("testSD","remove twitter");
+        if(mContactUsUtils.serviceDiscoveryTwitterUrl() == null && getActivity().getString(R.string.twitter_page).trim().length() == 0 ){
+            Log.i("sdtest","remove twitter");
             for (int i = 0; i < menus.size(); i++) {
                 if (menus.get(i).mText == R.string.twitter) {
                     menus.remove(i);
@@ -513,8 +526,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             }
         }
 
-        if(DigitalCareConfigManager.getInstance().getFbUrl() == null  && getActivity().getString(R.string.facebook_product_pageID).trim().length() == 0 ){
-            Log.i("testSD","remove facebook");
+        if(mContactUsUtils.serviceDiscoveryFacebookUrl() == null  && getActivity().getString(R.string.facebook_product_pageID).trim().length() == 0 ){
+            Log.i("sdtest","remove facebook");
             for (int i = 0; i < menus.size(); i++) {
                 if (menus.get(i).mText == R.string.facebook) {
                     menus.remove(i);

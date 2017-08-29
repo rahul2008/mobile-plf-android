@@ -4,7 +4,7 @@
     "appidentity.sector": "b2c",
     "appidentity.appState": "PRODUCTION",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
-    "servicediscovery.platformMicrositeId": "77000",
+    "servicediscovery.platformMicrositeId": "77001",
     "servicediscovery.platformEnvironment": "PRODUCTION",
     "logging.releaseConfig": {
       "fileName": "AppInfraLog",

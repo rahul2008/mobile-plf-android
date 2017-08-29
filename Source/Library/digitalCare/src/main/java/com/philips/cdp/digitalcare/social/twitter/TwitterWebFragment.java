@@ -2,6 +2,7 @@ package com.philips.cdp.digitalcare.social.twitter;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,17 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressBar mProgressBar = null;
+    private String mTwitterPageName = null;
     private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=@";
+
+    public TwitterWebFragment() {
+
+    }
+
+    public TwitterWebFragment(String twitterPageIndex) {
+        this.mTwitterPageName = twitterPageIndex;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +54,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     private void loadInAppTwitter() {
+        Log.i("sdtest","TwitterWebFragment - getTwitterUrl() :"+getTwitterUrl());
         Utils.loadWebPageContent(getTwitterUrl(), mTwitterWebView, mProgressBar);
     }
 
@@ -56,17 +68,8 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     private String getTwitterUrl() {
-        String twitterPage = null;
 
-        if(DigitalCareConfigManager.getInstance().getTwitterUrl() != null){
-            String twitterPageURL = DigitalCareConfigManager.getInstance().getTwitterUrl();
-            twitterPage = twitterPageURL.substring(twitterPageURL.lastIndexOf("@") + 1);
-        }
-        else {
-            twitterPage = getActivity().getString(R.string.twitter_page);
-        }
-
-        return TWITTTERURL +twitterPage + getProductInformation();
+        return TWITTTERURL + mTwitterPageName + getProductInformation();
     }
 
     protected String getProductInformation() {

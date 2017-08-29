@@ -31,6 +31,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.ContactUsUtils;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
@@ -57,7 +58,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
-        setChatEndPoint(getChatUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
+        setChatEndPoint(ContactUsUtils.liveChatUrl(getActivity()) + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
         initView(view);
         return view;
     }
@@ -75,7 +76,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
     }
 
     private void loadChat() {
-        if (getChatUrl() == null) {
+        if (ContactUsUtils.liveChatUrl(getActivity()) == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             mWebView.setWebChromeClient(new CustomWebChromeClient());
@@ -90,26 +91,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         mProgressBar.setVisibility(View.GONE);
     }
 
-    private String getChatUrl() {
-        String chatLink = null;
-/*        if(DigitalCareConfigManager.getInstance().getLiveChatUrl() == null){
-            chatLink = getResources().getString(R.string.live_chat_url);
-        }else {
-            chatLink = DigitalCareConfigManager.getInstance().getLiveChatUrl();
-        }*/
 
-        if( DigitalCareConfigManager.getInstance().getLiveChatUrl() != null){
-            chatLink = DigitalCareConfigManager.getInstance().getLiveChatUrl();
-        }
-        else if(DigitalCareConfigManager.getInstance().getSdLiveChatUrl() != null ){
-            chatLink = DigitalCareConfigManager.getInstance().getSdLiveChatUrl();
-        }
-        else if (getResources().getBoolean(R.bool.live_chat_required) && getResources().getString(R.string.live_chat_url) != null ) {
-            chatLink = getResources().getString(R.string.live_chat_url);
-        }
-
-        return chatLink;
-    }
 
     @Override
     public String getActionbarTitle() {

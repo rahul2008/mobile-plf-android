@@ -8,6 +8,7 @@
 
 package com.philips.cdp.digitalcare.social.facebook;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,7 +30,15 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressBar mProgressBar = null;
-    private String FacebookURL = "http://www.facebook.com/";
+
+    private String mFacebookUrl = null;
+
+    public FacebookWebFragment() {
+    }
+
+    public FacebookWebFragment(String facebookUrlIndex) {
+        this.mFacebookUrl = facebookUrlIndex;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +59,7 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     }
 
     private void loadInAppFacebook() {
-        Utils.loadWebPageContent(getFacebookUrl(), mFacebookWebView, mProgressBar);
+        Utils.loadWebPageContent(mFacebookUrl, mFacebookWebView, mProgressBar);
 
     }
 
@@ -62,7 +71,7 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mProgressBar.setVisibility(View.GONE);
     }
-
+/*
     private String getFacebookUrl() {
 
         String facebookUrl = null;
@@ -75,7 +84,7 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
         }
 
         return facebookUrl;
-    }
+    }*/
 
     @Override
     public String getActionbarTitle() {
