@@ -24,8 +24,6 @@ import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
