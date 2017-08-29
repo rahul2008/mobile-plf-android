@@ -7,14 +7,14 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/social_icon_facebook"
-        style="@style/UIDSocialIconPrimary"
+        style="@style/UIDSocialIconPrimaryOutline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:uidButtonImageDrawableSrc="@drawable/ic_hamburger_menu"/>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/social_icon_twitter"
-        style="@style/UIDSocialIconWhite"
+        style="@style/UIDSocialIconWhiteOutline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:uidButtonImageDrawableSrc="@drawable/ic_hamburger_menu"/>
