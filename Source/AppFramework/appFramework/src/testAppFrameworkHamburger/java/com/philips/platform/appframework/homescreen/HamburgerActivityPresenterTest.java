@@ -42,7 +42,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
         super.setUp();
         fragmentViewMock = mock(FragmentView.class);
         Resources resourcesMock = mock(Resources.class);
-        when(resourcesMock.getStringArray(R.array.productselection_ctnlist)).thenReturn(new String[]{"abcd"});
         fragmentActivityMock = mock(FragmentActivity.class);
         ActionBarListener actionBarListenerMock = mock(ActionBarListener.class);
         when(fragmentActivityMock.getResources()).thenReturn(resourcesMock);
@@ -55,13 +54,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
                 super.setState(AppStates.HAMBURGER_HOME);
             }
 
-            @NonNull
-            @Override
-            protected ArrayList<String> getCtnList() {
-                ArrayList<String> ctnList = new ArrayList<>();
-                ctnList.add("HX6064/33");
-                return ctnList;
-            }
         };
     }
 
