@@ -27,14 +27,12 @@
         android:id="@+id/prg_welcomeScreen_yes_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ButtonTexts"
         android:layout_marginTop="@dimen/pr_margintop"
         android:text="@string/PPR_Yes_Btntxt"
         android:textAllCaps="false"/>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/prg_welcomeScreen_no_button"
-        style="@style/ButtonTexts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
