@@ -768,8 +768,8 @@ public class THSManager {
         });
     }
 
-    public void getConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getConsumerPharmacy(thsConsumer.getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+    public void getConsumerPreferredPharmacy(Context context, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConsumerPharmacy(getPTHConsumer().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
             @Override
             public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
                 thsPreferredPharmacyCallback.onPharmacyReceived(pharmacy, sdkError);
@@ -796,8 +796,8 @@ public class THSManager {
         });
     }
 
-    public void getConsumerShippingAddress(Context context, final THSConsumer thsConsumer, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getShippingAddress(thsConsumer.getConsumer(), new SDKCallback<Address, SDKError>() {
+    public void getConsumerShippingAddress(Context context, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getShippingAddress(getPTHConsumer().getConsumer(), new SDKCallback<Address, SDKError>() {
             @Override
             public void onResponse(Address address, SDKError sdkError) {
                 thsConsumerShippingAddressCallback.onSuccessfulFetch(address, sdkError);

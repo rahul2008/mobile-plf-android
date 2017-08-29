@@ -10,24 +10,58 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.cost.THSCostSummaryFragment;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
+import com.philips.platform.ths.pharmacy.THSPharmacyAndShippingFragment;
 import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
 import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
 import com.philips.platform.ths.utility.THSManager;
 
-public class THSCheckPharmacyConditionsFragment extends THSBaseFragment {
+public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implements THSCheckPharmacyConditonsView {
+    public static String TAG = THSCheckPharmacyConditionsFragment.class.getSimpleName();
 
     private int REQUEST_LOCATION = 1001;
     private LocationManager mLocationManager = null;
     private String provider = null;
     protected Location updatedLocation = null;
+    private THSCheckPharmacyConditionsPresenter thscheckPharmacyConditionsPresenter;
+    ;
 
-    public void displaySearchPharmacy() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this);
+        checkIfPharmacyRequired();
+    }
+
+    private void checkIfPharmacyRequired() {
+        boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
+        isPharmacyRequired = true;// TODO: this line is to removed when isCanPrescribe() returns correct value
+        if (isPharmacyRequired) {
+            thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
+        } else {  // go to insurance or cost detail
+            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            } else {
+                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+            }
+        }
+    }
+
+    public void displayPharmacy() {
         if (checkGooglePlayServices()) {
             checkPermission();
         }
@@ -180,7 +214,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment {
     }
 
     private void callPharmacyListFragment(Location location) {
-
+        getActivity().getSupportFragmentManager().popBackStack();
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
@@ -189,10 +223,19 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment {
     }
 
     private void showPharmacySearch() {
-
+        getActivity().getSupportFragmentManager().popBackStack();
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
+    }
+
+    public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
+        getActivity().getSupportFragmentManager().popBackStack();
+        THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
+        thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
+        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
+        thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
+        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
     }
 
 }
