@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/uid_group_blue_level_45"
+                android:textColor="?attr/uidColorLevel45"
                 android:textSize="88dp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ths_cost_summary_cost_big_label"
-                android:textColor="@color/uid_group_blue_level_45"
+                android:textColor="?attr/uidColorLevel45"
                 android:textSize="34dp" />
 
         </RelativeLayout>

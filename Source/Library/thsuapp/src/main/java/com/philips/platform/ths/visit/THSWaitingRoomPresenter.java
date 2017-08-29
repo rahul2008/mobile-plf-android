@@ -21,6 +21,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.Map;
 
@@ -47,10 +48,10 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onEvent(int componentID) {
-        if (componentID == R.id.uid_alert_positive_button) {
+        if (componentID == R.id.ths_confirmation_dialog_primary_button) {
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
             cancelVisit();
-            mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
+
         }
     }
 
@@ -119,7 +120,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     void abondonCurrentVisit() {
         try {
             THSManager.getInstance().abondonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
-            mTHSWaitingRoomFragment.getFragmentActivity().getSupportFragmentManager().popBackStack();
+            mTHSWaitingRoomFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

@@ -128,10 +128,18 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
 
         if(thsProviderDetailsViewInterface.getProvider().hasImage()) {
             try {
-                THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
-                        newImageLoader(thsProviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
-                                ProviderImageSize.SMALL).placeholder(providerImage.getResources().
-                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+                if(null==thsProviderDetailsViewInterface.getTHSProviderInfo()){
+                    THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
+                            newImageLoader(thsProviderDetailsViewInterface.getProvider(), providerImage,
+                                    ProviderImageSize.SMALL).placeholder(providerImage.getResources().
+                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                }else {
+
+                    THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
+                            newImageLoader(thsProviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
+                                    ProviderImageSize.SMALL).placeholder(providerImage.getResources().
+                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                }
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
