@@ -193,37 +193,28 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy im
     @Override
     @Deprecated
     public void enableCommunication() {
-        setContinuousConnection(true);
+        if (isAvailable()) {
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
+            device.connect(CONNECTION_TIMEOUT);
+        }
+        disconnectAfterRequest.set(false);
     }
 
     /**
-     * @see BleCommunicationStrategy#setContinuousConnection(boolean)
+     * Disables continuous connection to the appliance, after each request the connection will
+     * be severed to preserve battery life.
      */
     @Override
-    @Deprecated
     public void disableCommunication() {
-        setContinuousConnection(false);
+        if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
+            device.disconnect();
+        }
+        disconnectAfterRequest.set(true);
     }
 
     @VisibleForTesting
     protected void dispatchRequest(final BleRequest request) {
         requestExecutor.execute(new VerboseRunnable(request));
-    }
-
-    @Override
-    public void setContinuousConnection(boolean isContinuous) {
-        if (isContinuous) {
-            if (isAvailable()) {
-                SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
-                device.connect(CONNECTION_TIMEOUT);
-            }
-            disconnectAfterRequest.set(false);
-        } else {
-            if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
-                SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
-                device.disconnect();
-            }
-            disconnectAfterRequest.set(true);
-        }
     }
 }
