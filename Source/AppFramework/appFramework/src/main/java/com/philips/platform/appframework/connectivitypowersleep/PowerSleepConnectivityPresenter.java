@@ -1,31 +1,17 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.connectivitypowersleep;
 
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.appframework.connectivity.models.Measurement;
-import com.philips.platform.appframework.connectivity.models.MomentDetail;
-import com.philips.platform.appframework.connectivity.models.UserMoment;
-import com.philips.platform.appframework.connectivity.network.GetMomentRequest;
-import com.philips.platform.appframework.connectivity.network.PostMomentRquest;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
-import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.core.utils.DataServicesConstants;
-
-import java.net.URL;
-import java.util.ArrayList;
 
 public class PowerSleepConnectivityPresenter implements ConnectivityPowerSleepContract.UserActionsListener {
     public static final String TAG = PowerSleepConnectivityPresenter.class.getSimpleName();

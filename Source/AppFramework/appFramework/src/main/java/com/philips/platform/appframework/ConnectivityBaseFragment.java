@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework;
 
 import android.app.Activity;
@@ -21,10 +26,6 @@ import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppl
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
-/**
- * Created by philips on 8/24/17.
- */
 
 public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseFragment {
 
