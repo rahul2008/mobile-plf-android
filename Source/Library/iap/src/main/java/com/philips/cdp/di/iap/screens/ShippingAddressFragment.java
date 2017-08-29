@@ -204,11 +204,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
 
         mLlSalutation = (InputValidationLayout) rootView.findViewById(R.id.ll_salutation);
-        inputValidatorSalutation = getValidator(Validator.NAME_PATTERN);
+        inputValidatorSalutation = getValidator(Validator.ADDRESS_PATTERN);
         mLlSalutation.setValidator(inputValidatorSalutation);
 
         mLlSalutationBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_salutation);
-        inputValidatorSalutationBilling = getValidator(Validator.NAME_PATTERN);
+        inputValidatorSalutationBilling = getValidator(Validator.ADDRESS_PATTERN);
         mLlSalutationBilling.setValidator(inputValidatorSalutationBilling);
 
         mLlAddressLineOne = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_one);
@@ -386,7 +386,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtPostalCodeBilling.addTextChangedListener(new IAPTextWatcher(mEtPostalCodeBilling));
         mEtCountryBilling.addTextChangedListener(new IAPTextWatcher(mEtCountryBilling));
         mEtEmailBilling.addTextChangedListener(new IAPTextWatcher(mEtEmailBilling));
-        mEtPhone1Billing.addTextChangedListener(new IAPTextWatcher(mEtPhone1Billing));
+        mEtPhone1Billing.addTextChangedListener(new IAPTextWatcherPhoneBilling(mEtPhone1Billing));
         mEtStateBilling.addTextChangedListener(new IAPTextWatcher(mEtStateBilling));
         mEtSalutationBilling.addTextChangedListener(new IAPTextWatcher(mEtSalutationBilling));
 
@@ -432,6 +432,12 @@ public class ShippingAddressFragment extends InAppBaseFragment
             }
         });
 
+        if (bundle != null && bundle.getBoolean(IAPConstant.EMPTY_BILLING_ADDRESS)) {
+            mUseThisAddressCheckBox.setChecked(false);
+        }
+        if (bundle != null && bundle.containsKey(IAPConstant.ASK_TO_FILL_EMPTY_BILLING_ADDRESS)) {
+            updateFieldsIfBillingAddressEmpty();
+        }
         if (!mUseThisAddressCheckBox.isChecked() && mBillingAddressFields == null) {
             mBtnContinue.setEnabled(false);
         }
@@ -440,14 +446,58 @@ public class ShippingAddressFragment extends InAppBaseFragment
         return rootView;
     }
 
+    private void updateFieldsIfBillingAddressEmpty() {
+
+        AddressFields shippingAddress = (AddressFields) getArguments().getSerializable(IAPConstant.ASK_TO_FILL_EMPTY_BILLING_ADDRESS);
+        if (null == shippingAddress) {
+            return;
+        }
+        mBtnContinue.setText(getString(R.string.iap_save));
+
+        mEtFirstName.setText(shippingAddress.getFirstName());
+        mEtLastName.setText(shippingAddress.getLastName());
+        mEtSalutation.setText(shippingAddress.getTitleCode());
+        mEtAddressLineOne.setText(shippingAddress.getLine1());
+        mEtAddressLineTwo.setText(shippingAddress.getLine2());
+        mEtTown.setText(shippingAddress.getTown());
+        mEtPostalCode.setText(shippingAddress.getPostalCode());
+        mEtCountry.setText(shippingAddress.getCountryIsocode());
+        mEtPhone1.setText(shippingAddress.getPhone1());
+        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+        if (shippingAddress.getRegionIsoCode() != null) {
+            mlLState.setVisibility(View.VISIBLE);
+            String code = shippingAddress.getRegionIsoCode();
+            String stateCode = code.substring(code.length() - 2);
+            mEtState.setText(stateCode);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
+//
+//        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+//                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+//            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
+//            String stateCode = code.substring(code.length() - 2);
+//            mEtState.setText(stateCode);
+//            mlLState.setVisibility(View.VISIBLE);
+//        } else {
+//            mlLState.setVisibility(View.GONE);
+//        }
+
+//        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+//                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+//            addressHashMap.put(ModelConstants.REGION_ISOCODE,
+//                    mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
+//        }
+    }
+
     private void clearAllBillingFields() {
-        mIgnoreTextChangeListener = true;
+        // mIgnoreTextChangeListener = true;
         mEtFirstNameBilling.setText("");
         mEtLastNameBilling.setText("");
         mEtSalutationBilling.setText("");
         mEtAddressLineOneBilling.setText("");
         mEtAddressLineTwoBilling.setText("");
-        mEtEmailBilling.setText("");
+        //  mEtEmailBilling.setText("");
         mEtTownBilling.setText("");
         mEtPostalCodeBilling.setText("");
         mEtPhone1Billing.setText("");
@@ -458,7 +508,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         } else {
             mlLStateBilling.setVisibility(View.GONE);
         }
-        mIgnoreTextChangeListener = false;
+        // mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();
         //removeErrorInAllFields();
@@ -526,14 +576,14 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
         mEtCountryBilling.setFocusable(false);
         mEtCountryBilling.setFocusableInTouchMode(false);
-        mEtEmailBilling.setFocusableInTouchMode(false);
-        mEtEmailBilling.setFocusable(false);
-        mEtEmailBilling.setEnabled(false);
+//        mEtEmailBilling.setFocusableInTouchMode(false);
+//        mEtEmailBilling.setFocusable(false);
+//        mEtEmailBilling.setEnabled(false);
         mEtCountryBilling.setEnabled(false);
     }
 
     private void prePopulateBillingAddress() {
-        mIgnoreTextChangeListener = true;
+        //mIgnoreTextChangeListener = true;
 
         if (mBillingAddressFields != null) {
             mEtFirstNameBilling.setText(mBillingAddressFields.getFirstName());
@@ -553,7 +603,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             } else {
                 mlLStateBilling.setVisibility(View.GONE);
             }
-            mIgnoreTextChangeListener = false;
+            //  mIgnoreTextChangeListener = false;
             mEtPhone1Billing.setText(mBillingAddressFields.getPhone1());
         }
     }
@@ -789,11 +839,13 @@ public class ShippingAddressFragment extends InAppBaseFragment
             }
         }
         if (editText.getId() == R.id.et_phone1 && !hasFocus) {
-            result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
-                    , mEtPhone1.getText().toString());
-            if (!result) {
-                mLlPhone1.setErrorMessage(R.string.iap_phone_error);
-                mLlPhone1.showError();
+            if (mEtPhone1.getText() != null) {
+                result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
+                        , mEtPhone1.getText().toString());
+                if (!result) {
+                    mLlPhone1.setErrorMessage(R.string.iap_phone_error);
+                    mLlPhone1.showError();
+                }
             }
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
@@ -1055,6 +1107,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     private class IAPTextWatcher implements TextWatcher {
         private EditText mEditText;
+        private boolean isInAfterTextChanged;
 
         public IAPTextWatcher(EditText editText) {
             mEditText = editText;
@@ -1069,8 +1122,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
             }
         }
 
-        private boolean isInAfterTextChanged;
-
         public synchronized void afterTextChanged(Editable text) {
             if (mEditText == mEtPhone1 && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
@@ -1081,6 +1132,34 @@ public class ShippingAddressFragment extends InAppBaseFragment
 
     }
 
+    private class IAPTextWatcherPhoneBilling implements TextWatcher {
+        private EditText mEditText;
+        private boolean isInAfterTextChanged;
+
+        public IAPTextWatcherPhoneBilling(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mEditText != mEtPhone1Billing && !mIgnoreTextChangeListener) {
+                validate(mEditText, false);
+            }
+        }
+
+        public synchronized void afterTextChanged(Editable text) {
+            if (mEditText == mEtPhone1Billing && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
+                isInAfterTextChanged = true;
+                validate(mEditText, false);
+                isInAfterTextChanged = false;
+            }
+        }
+
+    }
+
+
     private boolean validatePhoneNumber(EditText editText, String country, String number) {
         try {
             phoneNumber = phoneNumberUtil.parse(number, country);
@@ -1088,7 +1167,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
             String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
             editText.setText(formattedPhoneNumber);
             editText.setSelection(editText.getText().length());
-            // return inputValidatorTown.isValidPhoneNumber(mEtTown.getText().toString());
             return isValid;
         } catch (Exception e) {
             IAPLog.d("ShippingAddressFragment", "NumberParseException");

@@ -115,4 +115,6 @@ public class IAPConstant {
     public static final String PRODUCT_QUANTITY = "PRODUCT_QUANTITY";
     public static final String PRODUCT_STOCK = "PRODUCT_STOCK";
     public static final String SHOPPING_CART_CODE = "SHOPPING_CART_CODE";
+    public static final String EMPTY_BILLING_ADDRESS = "EMPTY_BILLING_ADDRESS";
+    public static final String ASK_TO_FILL_EMPTY_BILLING_ADDRESS = "ASK_TO_FILL_EMPTY_BILLING_ADDRESS";
 }
