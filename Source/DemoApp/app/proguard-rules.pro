@@ -59,24 +59,8 @@
 
 
 #--------------------GooglePLayServices--------------------
-
--keep class android.support.** {*;}
--keep class android.view.** {*;}
-
--keep interface android.support.v13.app.** { *; }
--keep public class * extends android.support.v13.**
--keep public class * extends android.app.Fragment
--keep class com.philips.cdp.uikit.customviews.**
--keep class com.philips.cdp.productselection.**
--keep class com.philips.cdp.productselection.utils.ProductSelectionLogger.**
--keep class com.philips.cdp.productselection.ProductModelSelectionHelper.**
-
 -dontwarn com.google.android.gms.**
-
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
--dontwarn android.view.**
--dontwarn android.media.session
--dontwarn android.app.**
 
 #--------------------------AppInfra starts here-----------
 -keep public class javax.net.ssl.**
