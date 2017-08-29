@@ -138,7 +138,7 @@ public class NavigationController {
         titleResource = R.string.product_registration;
     }
 
-    protected boolean hasBackStack() {
+    public boolean hasBackStack() {
         return supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() > 0;
     }
 

@@ -30,6 +30,11 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.ActionBarTextView;
@@ -41,7 +46,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private Handler mSiteCatListHandler = new Handler();
-    //   private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private Toolbar mToolbar;
     private ActionBarTextView mActionBarTextView;
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -63,9 +69,7 @@ public class ProdRegBaseActivity extends UIDActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  setUiKitThemeIfRequired();
-
-        UIDHelper.injectCalligraphyFonts();
+        initTheme();
 
         if(PRUiHelper.getInstance().getThemeConfiguration() != null) {
             UIDHelper.init(PRUiHelper.getInstance().getThemeConfiguration());
@@ -84,12 +88,23 @@ public class ProdRegBaseActivity extends UIDActivity {
         }
     }
 
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
+        int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT,
+                NavigationColor.BRIGHT, AccentRange.ORANGE));
 
+    }
     private void setUiKitThemeIfRequired() {
         final Bundle extras = getIntent().getExtras();
         int theme = extras.getInt(ProdRegConstants.UI_KIT_THEME);

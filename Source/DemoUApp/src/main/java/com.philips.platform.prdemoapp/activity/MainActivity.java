@@ -106,7 +106,7 @@ public class MainActivity extends UIDActivity {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         EventBus.getDefault().register(this);
-       navigationController = new NavigationController(this, getIntent(), activityMainBinding);
+        navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
@@ -136,7 +136,7 @@ public class MainActivity extends UIDActivity {
 
     public void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
-         themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
+         themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor,navigationColor, accentColorRange);
         themeConfig.add(navigationColor);
         themeConfig.add(accentColorRange);
         setTheme(themeResourceId);
@@ -150,8 +150,17 @@ public class MainActivity extends UIDActivity {
     {
         return  themeResourceId;
     }
+
+    public  NavigationColor getNavigationColor(){
+        return navigationColor;
+    }
+
+    public AccentRange getAccentColorRange(){
+        return accentColorRange;
+    }
+
     @StyleRes
-    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
+    int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor,NavigationColor navigationColor,AccentRange accentColorRange) {
         final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange.name()), toCamelCase(contentColor.name()));
 
         return resources.getIdentifier(themeName, "style", packageName);
@@ -212,11 +221,13 @@ public class MainActivity extends UIDActivity {
             saveThemeSettings();
             restartActivity();
 
+        } else if (i == android.R.id.home) {
+            if (navigationController.hasBackStack()) {
+                onBackPressed();
+            }
         }
-
-        return true;
+            return true;
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
