@@ -261,15 +261,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private class AddressSelectionFooter extends RecyclerView.ViewHolder {
+
         public AddressSelectionFooter(View view) {
             super(view);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bindAddNewAddress(v);
-                }
-            });
+            bindAddNewAddress(view);
         }
     }
 }

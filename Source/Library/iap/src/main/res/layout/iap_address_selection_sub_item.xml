@@ -37,7 +37,6 @@
             android:layout_below="@id/btn_deliver_to_this_address"
             android:background="@drawable/address_button_background_border"
             android:text="@string/iap_edit"
-            android:textColor="@color/iap_address_text_color"
             android:textAllCaps="false" />
 
 
@@ -52,7 +51,6 @@
             android:layout_below="@id/btn_deliver_to_this_address"
             android:text="@string/delete_row"
             android:background="@drawable/address_button_background_border"
-            android:textColor="@color/iap_address_text_color"
             android:textAllCaps="false" />
 
     </LinearLayout>
