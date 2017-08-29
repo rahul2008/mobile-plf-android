@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/fab_margin"
@@ -23,6 +22,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/fab_margin"
         android:background="?attr/uidSeparatorInputNormalBackgroundColor" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -89,11 +89,13 @@
 
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/fab_margin"
         android:background="?attr/uidSeparatorInputNormalBackgroundColor" />
+
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pr_success_thanks_textView"
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
@@ -121,16 +123,6 @@
         android:layout_marginTop="@dimen/fab_margin"
         android:text="@string/PPR_Continue"
         android:textAllCaps="false" />
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/register_next_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/pr_margintop"
-        android:layout_marginTop="@dimen/pr_b_value_sm"
-        android:text="@string/PRG_Register_Another"
-        android:textAllCaps="false"
-        app:uidComponentType="Secondary" />
 </LinearLayout>
 
 
