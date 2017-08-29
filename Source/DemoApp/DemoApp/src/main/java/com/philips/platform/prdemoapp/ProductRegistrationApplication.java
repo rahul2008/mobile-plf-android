@@ -17,6 +17,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.Locale;
 
@@ -30,6 +31,7 @@ public class ProductRegistrationApplication extends Application {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
+        UIDHelper.injectCalligraphyFonts();
         initAppInfra();
         initProductRegistration();
         initRegistration(Configuration.EVALUATION);

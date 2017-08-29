@@ -8,6 +8,7 @@
  */
 package com.philips.cdp.prodreg.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -17,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
@@ -41,12 +41,16 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private Handler mSiteCatListHandler = new Handler();
- //   private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    //   private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private Toolbar mToolbar;
     private ActionBarTextView mActionBarTextView;
+    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override
@@ -56,7 +60,6 @@ public class ProdRegBaseActivity extends UIDActivity {
     };
 
     private Runnable mResumeSiteCatalystRunnable = new Runnable() {
-
         @Override
         public void run() {
             AppTagging.collectLifecycleData(ProdRegBaseActivity.this);
@@ -65,10 +68,9 @@ public class ProdRegBaseActivity extends UIDActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
-      //  setUiKitThemeIfRequired();
-        UIDHelper.injectCalligraphyFonts();
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        //  setUiKitThemeIfRequired();
         setContentView(R.layout.prodreg_activity);
         mToolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         mActionBarTextView = (ActionBarTextView) findViewById(R.id.uid_toolbar_title);
@@ -77,6 +79,23 @@ public class ProdRegBaseActivity extends UIDActivity {
         if (savedInstanceState == null) {
             showFragment();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
+        int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT,
+                NavigationColor.BRIGHT, AccentRange.ORANGE));
+
     }
 
     private void setUiKitThemeIfRequired() {
@@ -88,9 +107,9 @@ public class ProdRegBaseActivity extends UIDActivity {
 //        getTheme().applyStyle(theme ,true);
 //
 //        UIDHelper.init(new ThemeConfiguration(this, ColorRange.BLUE, NavigationColor.VERY_DARK, ContentColor.VERY_DARK, AccentRange.ORANGE));
-         // setTheme(theme);
+        // setTheme(theme);
         setTheme(theme);
-       // UIDHelper.init((ThemeConfiguration) extras.getSerializable(ProdRegConstants.UI_KIT_THEME));
+        // UIDHelper.init((ThemeConfiguration) extras.getSerializable(ProdRegConstants.UI_KIT_THEME));
     }
 
     @Override
@@ -165,9 +184,9 @@ public class ProdRegBaseActivity extends UIDActivity {
 
     private void initCustomActionBar() {
         setSupportActionBar(mToolbar);
-       ActionBar mActionBar = this.getSupportActionBar();
+        ActionBar mActionBar = this.getSupportActionBar();
         if (mActionBar != null) {
-          //  mActionBar.setDisplayShowHomeEnabled(false);
+            //  mActionBar.setDisplayShowHomeEnabled(false);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setDisplayShowCustomEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
