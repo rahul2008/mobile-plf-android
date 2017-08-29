@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.PushNotification;
 
+import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.events.PushNotificationResponse;
 import com.philips.platform.core.events.RegisterDeviceToken;
@@ -13,15 +14,13 @@ import com.philips.platform.datasync.UCoreAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-
-import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
-import static org.junit.Assert.*;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -45,6 +44,8 @@ public class PushNotificationMonitorTest {
     @Mock
     private AppComponent mAppComponent;
     @Mock
+    private Eventing mEventing;
+    @Mock
     private UCoreAccessProvider mUCoreAccessProvider;
 
     @Before
@@ -59,6 +60,7 @@ public class PushNotificationMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mPushNotificationMonitor.onEventAsync(mRegisterDeviceToken);
+        verify(mEventing, never()).post(isA(RegisterDeviceToken.class));
     }
 
     @Test
@@ -66,6 +68,7 @@ public class PushNotificationMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mPushNotificationMonitor.onEventAsync(mUnRegisterDeviceToken);
+        verify(mEventing, never()).post(isA(UnRegisterDeviceToken.class));
     }
 
     @Test
@@ -84,6 +87,7 @@ public class PushNotificationMonitorTest {
         });
         mPushNotificationMonitor.onEventAsync(registerDeviceToken);
         mPushNotificationMonitor.onEventAsync(mPushNotificationResponse);
+        verify(mEventing, never()).post(isA(PushNotificationResponse.class));
     }
 
     @Test
@@ -102,5 +106,6 @@ public class PushNotificationMonitorTest {
         });
         mPushNotificationMonitor.onEventAsync(registerDeviceToken);
         mPushNotificationMonitor.onEventAsync(mPushNotificationErrorResponse);
+        verify(mEventing, never()).post(isA(PushNotificationErrorResponse.class));
     }
 }

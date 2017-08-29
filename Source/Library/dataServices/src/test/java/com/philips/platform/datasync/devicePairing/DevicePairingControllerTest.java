@@ -233,6 +233,5 @@ public class DevicePairingControllerTest {
         when(mDevicePairingClient.getPairedDevices(TEST_USER_ID, 12, TEST_USER_ID)).thenThrow(retrofitError);
         mDevicePairingController.getPairedDevices();
         verify(mEventing).post(isA(DevicePairingErrorResponseEvent.class));
-//        assertNotNull(mDevicePairingController.createDataServicesError(423, "invalid"));
     }
 }

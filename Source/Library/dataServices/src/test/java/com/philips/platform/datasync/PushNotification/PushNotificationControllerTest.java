@@ -2,11 +2,11 @@ package com.philips.platform.datasync.PushNotification;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.PushNotificationErrorResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,10 +23,14 @@ import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedString;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -82,7 +86,7 @@ public class PushNotificationControllerTest {
         registerPushNotificationTest();
     }
 
-    public void registerPushNotificationTest() {
+    private void registerPushNotificationTest() {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
@@ -96,6 +100,7 @@ public class PushNotificationControllerTest {
         assertTrue(uCorePushNotification.getProtocolProvider() != null);
         when(mPushNotificationClient.registerDeviceToken(eq(TEST_USER_ID), eq(TEST_USER_ID), eq(13), any(UCorePushNotification.class))).thenReturn(mResponse);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
+        assertEquals(mResponse.getReason(), "OK");
     }
 
     @Test
@@ -104,7 +109,7 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
-        mPushNotificationController.registerPushNotification(null);
+        assertFalse(mPushNotificationController.registerPushNotification(null));
     }
 
     @Test
@@ -114,7 +119,7 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(mPushNotificationController.isUserInvalid()).thenReturn(true);
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
-        mPushNotificationController.registerPushNotification(null);
+        assertFalse(mPushNotificationController.registerPushNotification(null));
     }
 
     @Test
@@ -123,7 +128,11 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
+
+        Response response = new Response("", 200, "OK", new ArrayList<Header>(), null);
+        when(mPushNotificationClient.unRegisterDeviceToken(eq(TEST_USER_ID), eq(TEST_USER_ID), eq(13), eq("test app variant"), eq("test token"))).thenReturn(response);
         mPushNotificationController.unRegisterPushNotification("test app variant", "test token");
+        assertEquals(response.getReason(), "OK");
     }
 
     @Test
@@ -132,7 +141,7 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
-        mPushNotificationController.unRegisterPushNotification(null, null);
+        assertFalse(mPushNotificationController.unRegisterPushNotification(null, null));
     }
 
     @Test
@@ -142,7 +151,7 @@ public class PushNotificationControllerTest {
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(mPushNotificationController.isUserInvalid()).thenReturn(true);
         when(mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mPushNotificationClient);
-        mPushNotificationController.unRegisterPushNotification(null, null);
+        assertFalse(mPushNotificationController.unRegisterPushNotification(null, null));
     }
 
     @Test
@@ -152,13 +161,13 @@ public class PushNotificationControllerTest {
         uCorePushNotification.setAppVariant("test app variant");
         uCorePushNotification.setProtocolAddress("test token");
         uCorePushNotification.setProtocolProvider("Push.Gcma");
-        mPushNotificationController.registerPushNotification(uCorePushNotification);
+        assertFalse(mPushNotificationController.registerPushNotification(uCorePushNotification));
     }
 
     @Test
     public void userInvalidUnregisterTokenTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
-        mPushNotificationController.unRegisterPushNotification(null, null);
+        assertFalse(mPushNotificationController.unRegisterPushNotification(null, null));
     }
 
     @Test
@@ -183,6 +192,7 @@ public class PushNotificationControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mPushNotificationClient.registerDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, uCorePushNotification)).thenThrow(retrofitError);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
+        verify(mEventing).post(isA(PushNotificationErrorResponse.class));
     }
 
     @Test
@@ -197,7 +207,8 @@ public class PushNotificationControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mPushNotificationClient.unRegisterDeviceToken(TEST_USER_ID, TEST_USER_ID, 13, "app variant", "token")).thenThrow(retrofitError);
         mPushNotificationController.unRegisterPushNotification("app variant", "token");
-        mPushNotificationController.createDataServicesError(423, "invalid");
+        verify(mEventing).post(isA(PushNotificationErrorResponse.class));
+//        assertNotNull(mPushNotificationController.createDataServicesError(423, "invalid"));
     }
 
 }

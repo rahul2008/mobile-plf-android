@@ -2,6 +2,10 @@ package com.philips.platform.datasync.subjectProfile;
 
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
+import com.philips.platform.core.events.GetSubjectProfileListResponseEvent;
+import com.philips.platform.core.events.GetSubjectProfileResponseEvent;
+import com.philips.platform.core.events.SubjectProfileErrorResponseEvent;
+import com.philips.platform.core.events.SubjectProfileResponseEvent;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -23,10 +27,14 @@ import retrofit.converter.GsonConverter;
 import retrofit.mime.TypedString;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -83,7 +91,7 @@ public class SubjectProfileControllerTest {
         createSubjectProfile();
     }
 
-    public void createSubjectProfile() {
+    private void createSubjectProfile() {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
@@ -109,6 +117,7 @@ public class SubjectProfileControllerTest {
 
         when(mSubjectProfileClient.createSubjectProfile(eq(TEST_USER_ID), any(UCoreCreateSubjectProfileRequest.class))).thenReturn(mResponse);
         mSubjectProfileController.createSubjectProfile(uCoreCreateSubjectProfileRequest);
+        assertEquals(mResponse.getReason(), "OK");
     }
 
     @Test
@@ -118,6 +127,7 @@ public class SubjectProfileControllerTest {
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
         when(mUCoreAdapter.getAppFrameworkClient(SubjectProfileClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mSubjectProfileClient);
         mSubjectProfileController.getSubjectProfile("subjectID");
+        verify(mEventing).post(isA(GetSubjectProfileResponseEvent.class));
     }
 
     @Test
@@ -152,10 +162,10 @@ public class SubjectProfileControllerTest {
 
         uCoreSubjectProfiles.add(uCoreSubjectProfile);
         uCoreSubjectProfileList.setSubjectProfiles(uCoreSubjectProfiles);
-
         assertTrue(uCoreSubjectProfileList.getSubjectProfiles() != null);
 
         mSubjectProfileController.getSubjectProfileList();
+        verify(mEventing).post(isA(GetSubjectProfileListResponseEvent.class));
     }
 
     @Test
@@ -166,6 +176,7 @@ public class SubjectProfileControllerTest {
         when(mUCoreAdapter.getAppFrameworkClient(SubjectProfileClient.class, TEST_ACCESS_TOKEN, mGsonConverter)).thenReturn(mSubjectProfileClient);
 
         mSubjectProfileController.deleteSubjectProfile("subjectID");
+        verify(mEventing).post(isA(SubjectProfileResponseEvent.class));
     }
 
     @Test
@@ -187,6 +198,7 @@ public class SubjectProfileControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mSubjectProfileClient.createSubjectProfile(TEST_USER_ID, uCoreCreateSubjectProfileRequest)).thenThrow(retrofitError);
         mSubjectProfileController.createSubjectProfile(uCoreCreateSubjectProfileRequest);
+        verify(mEventing).post(isA(SubjectProfileErrorResponseEvent.class));
     }
 
     @Test
@@ -201,6 +213,7 @@ public class SubjectProfileControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mSubjectProfileClient.getSubjectProfile(TEST_USER_ID, "subjectID")).thenThrow(retrofitError);
         mSubjectProfileController.getSubjectProfile("subjectID");
+        verify(mEventing).post(isA(SubjectProfileErrorResponseEvent.class));
     }
 
     @Test
@@ -215,6 +228,7 @@ public class SubjectProfileControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mSubjectProfileClient.getSubjectProfiles(TEST_USER_ID)).thenThrow(retrofitError);
         mSubjectProfileController.getSubjectProfileList();
+        verify(mEventing).post(isA(SubjectProfileErrorResponseEvent.class));
     }
 
     @Test
@@ -229,30 +243,31 @@ public class SubjectProfileControllerTest {
         when(retrofitError.getResponse()).thenReturn(mResponse);
         when(mSubjectProfileClient.deleteSubjectProfile(TEST_USER_ID, "subjectID")).thenThrow(retrofitError);
         mSubjectProfileController.deleteSubjectProfile("subjectID");
+        verify(mEventing).post(isA(SubjectProfileErrorResponseEvent.class));
     }
 
     @Test
     public void userInvalidWhenCreatingSubjectProfileTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
-        mSubjectProfileController.createSubjectProfile(null);
+        assertFalse(mSubjectProfileController.createSubjectProfile(null));
     }
 
     @Test
     public void userInvalidWhenFetchingProfileListTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
-        mSubjectProfileController.getSubjectProfileList();
+        assertFalse(mSubjectProfileController.getSubjectProfileList());
     }
 
     @Test
     public void userInvalidWhenFetchingProfileTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
-        mSubjectProfileController.getSubjectProfile("subjectID");
+        assertFalse(mSubjectProfileController.getSubjectProfile("subjectID"));
     }
 
     @Test
     public void userInvalidWhenDeletingProfileTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(false);
-        mSubjectProfileController.deleteSubjectProfile("subjectID");
+        assertFalse(mSubjectProfileController.deleteSubjectProfile("subjectID"));
     }
 
     @Test

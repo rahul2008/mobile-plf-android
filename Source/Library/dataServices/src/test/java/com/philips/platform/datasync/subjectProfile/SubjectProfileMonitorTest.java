@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.subjectProfile;
 
+import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
@@ -23,6 +24,9 @@ import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -54,6 +58,8 @@ public class SubjectProfileMonitorTest {
     @Mock
     private AppComponent mAppComponent;
     @Mock
+    private Eventing mEventing;
+    @Mock
     private UCoreAccessProvider mUCoreAccessProvider;
 
     @Before
@@ -68,6 +74,7 @@ public class SubjectProfileMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mSubjectProfileMonitor.onEventAsync(mCreateSubjectProfileRequestEvent);
+        verify(mEventing, never()).post(isA(CreateSubjectProfileRequestEvent.class));
     }
 
     @Test
@@ -75,6 +82,7 @@ public class SubjectProfileMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mSubjectProfileMonitor.onEventAsync(mGetSubjectProfileListRequestEvent);
+        verify(mEventing, never()).post(isA(GetSubjectProfileListRequestEvent.class));
     }
 
     @Test
@@ -82,6 +90,7 @@ public class SubjectProfileMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mSubjectProfileMonitor.onEventAsync(mGetSubjectProfileRequestEvent);
+        verify(mEventing, never()).post(isA(GetSubjectProfileRequestEvent.class));
     }
 
     @Test
@@ -89,6 +98,7 @@ public class SubjectProfileMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mSubjectProfileMonitor.onEventAsync(mDeleteSubjectProfileRequestEvent);
+        verify(mEventing, never()).post(isA(DeleteSubjectProfileRequestEvent.class));
     }
 
     @Test
@@ -114,6 +124,7 @@ public class SubjectProfileMonitorTest {
                 });
         mSubjectProfileMonitor.onEventAsync(createSubjectProfileRequestEvent);
         mSubjectProfileMonitor.onEventAsync(mSubjectProfileResponseEvent);
+        verify(mEventing, never()).post(isA(SubjectProfileResponseEvent.class));
     }
 
     @Test
@@ -139,6 +150,7 @@ public class SubjectProfileMonitorTest {
                 });
         mSubjectProfileMonitor.onEventAsync(createSubjectProfileRequestEvent);
         mSubjectProfileMonitor.onEventAsync(mSubjectProfileErrorResponseEvent);
+        verify(mEventing, never()).post(isA(SubjectProfileErrorResponseEvent.class));
     }
 
     @Test(expected = NullPointerException.class)
@@ -164,6 +176,7 @@ public class SubjectProfileMonitorTest {
                 });
         mSubjectProfileMonitor.onEventAsync(getSubjectProfileListRequestEvent);
         mSubjectProfileMonitor.onEventAsync(mGetSubjectProfileListResponseEvent);
+        verify(mEventing, never()).post(isA(GetSubjectProfileListResponseEvent.class));
     }
 
     @Test
@@ -189,5 +202,6 @@ public class SubjectProfileMonitorTest {
                 });
         mSubjectProfileMonitor.onEventAsync(getSubjectProfileRequestEvent);
         mSubjectProfileMonitor.onEventAsync(mGetSubjectProfileResponseEvent);
+        verify(mEventing, never()).post(isA(GetSubjectProfileResponseEvent.class));
     }
 }
