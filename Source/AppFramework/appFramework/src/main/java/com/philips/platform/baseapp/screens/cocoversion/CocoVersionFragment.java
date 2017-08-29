@@ -15,18 +15,8 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.uikit.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
-import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
-import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
-import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 
 import java.util.ArrayList;
 
