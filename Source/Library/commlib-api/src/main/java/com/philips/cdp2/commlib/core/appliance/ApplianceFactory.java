@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.commlib.core.appliance;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import java.util.Set;
@@ -24,7 +26,7 @@ public interface ApplianceFactory {
      *                    {link Appliance} (e.g. by checking the model name and/or type).
      * @return true if it can create, false if not
      */
-    boolean canCreateApplianceForNode(NetworkNode networkNode);
+    boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode);
 
     /**
      * Create an {@link Appliance} for the supplied {@link NetworkNode}.
@@ -32,7 +34,7 @@ public interface ApplianceFactory {
      * @param networkNode <code>NetworkNode</code> to create an <code>Appliance</code> for.
      * @return Created <code>Appliance</code>
      */
-    Appliance createApplianceForNode(NetworkNode networkNode);
+    Appliance createApplianceForNode(@NonNull NetworkNode networkNode);
 
     /**
      * Indicate the device types supported by this <code>ApplianceFactory</code>.

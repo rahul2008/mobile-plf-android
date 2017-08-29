@@ -40,11 +40,31 @@ import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
  */
 public class ApplianceManager {
 
+    /**
+     * Listen to {@link Appliance}s being found or lost.
+     *
+     * @param <A> Type of {@link Appliance} to listen for.
+     */
     public interface ApplianceListener<A extends Appliance> {
+        /**
+         * Called when an {@link Appliance} is found.
+         *
+         * @param foundAppliance
+         */
         void onApplianceFound(@NonNull A foundAppliance);
 
+        /**
+         * Called when an {@link Appliance} is updated due to new information from Discovery.
+         *
+         * @param updatedAppliance
+         */
         void onApplianceUpdated(@NonNull A updatedAppliance);
 
+        /**
+         * Called when an {@link Appliance} is lost.
+         *
+         * @param lostAppliance
+         */
         void onApplianceLost(@NonNull A lostAppliance);
     }
 
@@ -54,8 +74,8 @@ public class ApplianceManager {
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
     private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
 
+    @NonNull
     private final Handler handler = createHandler();
-
     @NonNull
     private final NetworkNodeDatabase networkNodeDatabase;
     @NonNull
@@ -144,7 +164,7 @@ public class ApplianceManager {
     }
 
     @Nullable
-    private Appliance processNetworkNode(NetworkNode networkNode) {
+    private Appliance processNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
         if (availableAppliances.containsKey(cppId)) {
             discoveryListener.onNetworkNodeUpdated(networkNode);
@@ -166,12 +186,23 @@ public class ApplianceManager {
     }
 
     /**
-     * Gets available appliances.
+     * Gets all available {@link Appliance}s.
      *
      * @return The currently available appliances
      */
+    @NonNull
     public Set<Appliance> getAvailableAppliances() {
         return new CopyOnWriteArraySet<>(availableAppliances.values());
+    }
+
+    /**
+     * Gets all {@link Appliance}s that this manager has found, even if no longer available.
+     *
+     * @return All known appliances.
+     */
+    @NonNull
+    public Set<Appliance> getAllAppliances() {
+        return new CopyOnWriteArraySet<>(allAppliances.values());
     }
 
     /**
@@ -180,14 +211,16 @@ public class ApplianceManager {
      * @param cppId the cpp id
      * @return the appliance
      */
+    @Nullable
     public Appliance findApplianceByCppId(final String cppId) {
         return availableAppliances.get(cppId);
     }
 
     /**
-     * Store an appliance.
+     * Store an {@link Appliance}.
      *
      * @param appliance the appliance
+     * @return <code>true</code> if the {@link Appliance} was stored.
      */
     public boolean storeAppliance(@NonNull final Appliance appliance) {
         long rowId = networkNodeDatabase.save(appliance.getNetworkNode());
@@ -218,8 +251,9 @@ public class ApplianceManager {
     /**
      * Add an appliance listener.
      *
-     * @param applianceListener the listener
-     * @return true, if the listener didn't exist yet and was therefore added
+     * @param applianceListener the listener.
+     * @return <code>true</code> if the listener didn't exist yet and was therefore added.
+     * @see ApplianceListener
      */
     public boolean addApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.add(applianceListener);
@@ -228,8 +262,9 @@ public class ApplianceManager {
     /**
      * Remove an appliance listener.
      *
-     * @param applianceListener the listener
-     * @return true, if the listener was present and therefore removed
+     * @param applianceListener the listener.
+     * @return <code>true</code> if the listener was present and therefore removed.
+     * @see ApplianceListener
      */
     public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
