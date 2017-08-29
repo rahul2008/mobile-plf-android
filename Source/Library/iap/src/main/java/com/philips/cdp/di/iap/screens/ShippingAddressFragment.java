@@ -1179,6 +1179,8 @@ public class ShippingAddressFragment extends InAppBaseFragment
     }
 
     private void updateFields() {
+
+        mUseThisAddressCheckBox.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
         if (null == mAddressFieldsHashmap) {

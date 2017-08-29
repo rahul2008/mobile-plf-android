@@ -82,6 +82,8 @@ public class IAPConstant {
     public static final String ADDRESS_LIST = "ADDRESS_LIST";
     public static final String ADD_NEW_ADDRESS = "ADD_NEW_ADDRESS";
     public static final String DELIVER_TO_THIS_ADDRESS = "DELIVER_TO_THIS_ADDRESS";
+    public static final String ADDRESS_SELECTION_EVENT_EDIT = "event_edit";
+    public static final String ADDRESS_SELECTION_EVENT_DELETE = "event_delete";
 
     //Payment selection screen
     public static final String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";

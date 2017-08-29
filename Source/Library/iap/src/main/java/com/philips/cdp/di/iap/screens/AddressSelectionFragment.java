@@ -249,10 +249,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
-            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+            if (IAPConstant.ADDRESS_SELECTION_EVENT_EDIT.equals(event)) {
                 HashMap<String, String> addressHashMap = updateShippingAddress();
                 moveToShippingAddressFragment(addressHashMap);
-            } else if (EditDeletePopUP.EVENT_DELETE.equals(event) && isNetworkConnected()) {
+            } else if (IAPConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
                 deleteShippingAddress();
             }
         }

@@ -27,7 +27,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<Addresses> mAddresses;
 
     private EditDeletePopUP mPopUP;
-    private int mSelectedIndex=1; //As Oth position is taken by header
+    private int mSelectedIndex=0; //As Oth position is taken by header
     //private Drawable mOptionsDrawable;
 
     private int mOptionsClickPosition = -1;
@@ -36,12 +36,14 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
+    public static final String EVENT_EDIT = "event_edit";
+    public static final String EVENT_DELETE = "event_delete";
+
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
-        addresses.add(0,null);
         mAddresses = addresses;
-        mSelectedIndex = 1; //As Oth position is taken by header
+        mSelectedIndex = 0; //As Oth position is taken by header
         initOptionsDrawable();
     }
 
@@ -105,6 +107,20 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //bind add new address
             // bindAddNewAddress(holder.addNewAddress);
+
+            addressSelectionHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADDRESS_SELECTION_EVENT_DELETE);
+                }
+            });
+
+            addressSelectionHolder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADDRESS_SELECTION_EVENT_EDIT);
+                }
+            });
         }
 
     }
@@ -136,7 +152,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void updatePaymentButtonsVisibility(final ViewGroup paymentOptions,final Button dleteButton, final int position) {
         if (mSelectedIndex == position) {
             paymentOptions.setVisibility(View.VISIBLE);
-            if(this.getItemCount()== 2){
+            if(this.getItemCount()== 1){
                 dleteButton.setEnabled(false);
             }
         } else {
@@ -167,28 +183,13 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public int getOptionsClickPosition() {
-        return mOptionsClickPosition;
+        return this.getSelectedPosition();
     }
 
 
-    private void bindOptionsButton(View view, final int position) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mOptionsClickPosition = position;
-                boolean disableDelete = false;
-                if (mAddresses.size() == 1) {
-                    disableDelete = true;
-                }
-                mPopUP = new EditDeletePopUP(mContext, v, disableDelete);
-                mPopUP.show();
-            }
-        });
-    }
 
     public void setAddresses(final List<Addresses> data) {
         mSelectedIndex = 0;
-        data.add(0,null);
         mAddresses = data;
     }
 
@@ -242,7 +243,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
         if (isPositionHeader(position)) {
-            return TYPE_HEADER;
+           // return TYPE_HEADER;
         } else if (isPositionFooter(position)) {
             return TYPE_FOOTER;
         }
