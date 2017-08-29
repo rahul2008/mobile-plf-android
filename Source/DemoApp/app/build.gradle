@@ -178,6 +178,9 @@ android {
             shrinkResources true
             proguardFile file('proguard-rules.pro')
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
+            resValue STRING, AWSDKKEY, "3c0f99bf"
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
     }
 
