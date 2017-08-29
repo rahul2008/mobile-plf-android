@@ -307,7 +307,7 @@ public class CloudCommunicationStrategyTest {
 
         @Override
         protected StartDcsRequest createStartDcsRequest(ResponseHandler responseHandler) {
-            CloudCommunicationStrategyTest.this.capturedResponseHandler = responseHandler;
+            capturedResponseHandler = responseHandler;
             return null;
         }
 

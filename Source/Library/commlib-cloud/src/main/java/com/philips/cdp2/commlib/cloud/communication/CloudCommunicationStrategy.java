@@ -145,11 +145,13 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
         return new RequestQueue();
     }
 
-    protected RemoteSubscriptionHandler createRemoteSubscriptionHandler(CloudController cloudController) {
+    @VisibleForTesting
+    RemoteSubscriptionHandler createRemoteSubscriptionHandler(CloudController cloudController) {
         return new RemoteSubscriptionHandler(cloudController);
     }
 
-    protected StartDcsRequest createStartDcsRequest(ResponseHandler responseHandler) {
+    @VisibleForTesting
+    StartDcsRequest createStartDcsRequest(ResponseHandler responseHandler) {
         return new StartDcsRequest(cloudController, responseHandler);
     }
 

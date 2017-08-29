@@ -43,8 +43,8 @@
     <string name="cml_pairing_port">Pairing Port</string>
     <string name="cml_air_port">Air Port</string>
     <string name="cml_time_port">Time Port</string>
-    <string name="cml_lan_appliance">Lan Appliance</string>
-    <string name="cml_enable_communication">Enable Communication</string>
+    <string name="cml_ble_appliance">BLE Appliance</string>
+    <string name="cml_continuous_connection">Continuous connection</string>
     <string name="cml_ms">milliseconds</string>
     <string name="cml_get">Get</string>
 
@@ -70,7 +70,7 @@
     <string name="cml_prompt_certificate_mismatch_accept">Accept</string>
     <string name="cml_prompt_certificate_mismatch_cancel">Cancel</string>
     <string name="cml_prompt_certificate_mismatch_title">Invalid certificate</string>
-    <string name="cml_persistance">Persistance</string>
+    <string name="cml_persistence">Persistence</string>
     <string name="cml_persist">Persist</string>
     <string name="cml_forget">Forget</string>
     <string name="cml_forget_failed">Appliance could not be forgotten</string>

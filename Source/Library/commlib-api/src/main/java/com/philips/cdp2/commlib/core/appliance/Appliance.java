@@ -23,7 +23,6 @@ import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import static java.util.Objects.requireNonNull;
 
@@ -45,9 +44,6 @@ public abstract class Appliance implements Availability<Appliance> {
     protected final CommunicationStrategy communicationStrategy;
 
     private final Set<DICommPort> ports = new HashSet<>();
-
-    // TODO expose
-    private final Set<AvailabilityListener<Appliance>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
 
@@ -105,13 +101,12 @@ public abstract class Appliance implements Availability<Appliance> {
     public abstract String getDeviceType();
 
     /**
-     * Gets the {@link NetworkNode} node representing this {@linkplain Appliance}.
+     * Gets the {@link NetworkNode} representing this {@linkplain Appliance}.
      *
-     * @return the network node that is associated with this appliance
-     * @see NetworkNode
+     * @return the {@link NetworkNode} that is associated with this appliance
      */
     public NetworkNode getNetworkNode() {
-        return networkNode;
+        return this.networkNode;
     }
 
     protected void addPort(final @NonNull DICommPort port) {
@@ -183,7 +178,7 @@ public abstract class Appliance implements Availability<Appliance> {
         return ports;
     }
 
-    public synchronized String getName() {
+    public String getName() {
         return getNetworkNode().getName();
     }
 

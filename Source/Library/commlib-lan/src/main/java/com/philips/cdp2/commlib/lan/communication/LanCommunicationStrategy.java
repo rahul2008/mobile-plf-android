@@ -37,12 +37,14 @@ import static java.util.Objects.requireNonNull;
 public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final RequestQueue requestQueue;
+
     @NonNull
     private final DISecurity diSecurity;
-    @NonNull
-    private final LocalSubscriptionHandler localSubscriptionHandler;
+
     @NonNull
     private final NetworkNode networkNode;
+
+    private final LocalSubscriptionHandler localSubscriptionHandler;
 
     @Nullable
     private SSLContext sslContext;
@@ -191,7 +193,7 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     private void doKeyExchange(final @NonNull NetworkNode networkNode) {
-        ResponseHandler responseHandler = new ResponseHandler() {
+        final ResponseHandler responseHandler = new ResponseHandler() {
 
             @Override
             public void onSuccess(String key) {
