@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_margintop"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:text="@string/PPR_RegYourProduct_Lbltxt"
+        android:text="@string/PRG_RegYourProduct_Lbltxt"
         />
 
     <com.philips.platform.uid.view.widget.Label
@@ -20,7 +20,6 @@
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/prod_reg_benefits_conf_message"
         />
 
     <com.philips.platform.uid.view.widget.Button
@@ -28,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_margintop"
-        android:text="@string/PPR_Yes_Btntxt"
+        android:text="@string/PRG_Yes_Btntxt"
         android:textAllCaps="false"/>
 
     <com.philips.platform.uid.view.widget.Button

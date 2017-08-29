@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pr_margintop"
-        android:text="@string/PPR_RegSuccess_Lbltxt"
+        android:text="@string/PRG_RegSuccess_Lbltxt"
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="@dimen/pr_title_textsize" />
 
