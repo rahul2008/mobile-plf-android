@@ -8,25 +8,24 @@
         android:id="@+id/sv_root_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/usr_StartScreen_privacyNotice_label"
+        android:layout_above="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
         android:background="@android:color/transparent">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/usr_startScreen_baseLayout_ConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_title_label"
                 style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/reg_margin_24"
                 android:text="@string/lets_get_started"
-                android:textSize="20sp"
+                android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -40,9 +39,9 @@
                 style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/reg_margin_16dp"
                 android:text="@string/start_screen_value_add"
-                android:textSize="16sp"
+                android:textSize="@dimen/reg_text_size_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -50,39 +49,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_title_label"
                 app:layout_constraintVertical_bias="0.0"/>
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/usr_startScreen_Login_Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Log in"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_valueAdd_label"
-                app:layout_constraintVertical_bias="0.0"
-                app:uidButtonCenter="true"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_orLoginWith_Label"
                 style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Or log in with"
-                android:textSize="12sp"
+                android:layout_marginTop="@dimen/reg_margin_24"
+                android:text="Log in with :"
+                android:textSize="@dimen/reg_text_size_12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_Login_Button"
+                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_valueAdd_label"
                 app:layout_constraintVertical_bias="0.0"/>
 
             <LinearLayout
                 android:id="@+id/usr_startScreen_Social_Container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -90,22 +75,43 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_orLoginWith_Label"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintVertical_bias="0.0"/>
 
-            </LinearLayout>
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_startScreen_Or_Label"
+                style="@style/UIDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Or"
+                android:textSize="@dimen/reg_text_size_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_Social_Container"
+                app:layout_constraintVertical_bias="0.0"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/usr_startScreen_Login_Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log in"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_Or_Label"
+                app:layout_constraintVertical_bias="0.0"
+                app:uidButtonCenter="true"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_createAccount_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:layout_marginTop="8dp"
                 android:text="Create my Philips account"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_Social_Container"
-                app:layout_constraintVertical_bias="0.029"
+                app:layout_constraintTop_toBottomOf="@+id/usr_startScreen_Login_Button"
+                app:layout_constraintVertical_bias="0.0"
                 app:uidButtonCenter="true"
                 app:uidComponentType="Secondary"/>
 
@@ -114,8 +120,8 @@
                 style="@style/UIDExtraWideIconQuietButton.Center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_24"
                 android:text="Continue without account"
-                android:layout_marginTop="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -126,7 +132,7 @@
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:layout_marginTop="@dimen/reg_margin_16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -136,28 +142,40 @@
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/usr_StartScreen_privacyNotice_label"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Privacy notice"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_privacyNotice_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Privacy notice"/>
 
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/usr_StartScreen_country_label"
-        style="@style/UIDLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Country: United States"/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_country_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
+            android:text="Country: United States"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/ll_root_layout"

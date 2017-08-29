@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.*;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.constraint.*;
 import android.support.v4.content.*;
 import android.text.*;
 import android.text.method.LinkMovementMethod;
@@ -111,6 +112,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @BindView(R2.id.usr_StartScreen_Skip_Button)
     Button skipRegistration;
+
+    @BindView(R2.id.usr_startScreen_baseLayout_ConstraintLayout)
+    ConstraintLayout usr_startScreen_baseLayout_ConstraintLayout;
+
+    @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
+    LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
+
 
     boolean isWeChatAppRegistered;
     String mWeChatAppId;
@@ -598,10 +606,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void setViewParams(Configuration config, int width) {
-//        applyParams(config, mTvWelcome, width);
-//        applyParams(config, mTvWelcomeDesc, width);
-//        applyParams(config, mTvWelcomeDesc, width);
-//        applyParams(config, mTvWelcomeNeedAccount, width);
+        applyParams(config, usr_startScreen_baseLayout_ConstraintLayout, width);
+        applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
     }
 
     @Override

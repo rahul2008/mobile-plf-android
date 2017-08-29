@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:custom="http://schemas.android.com/apk/res-auto"
-              xmlns:reglib="http://reg.lib/schema"
-              android:layout_width="match_parent"
+              android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:background="@drawable/reg_layout_bg">
+              android:background="?attr/uidContentPrimaryBackgroundColor"
+              android:focusable="true"
+              android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/usr_activation_rootLayout_scrollView"
@@ -16,10 +16,9 @@
             android:id="@+id/usr_activation_root_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/reg_margin_bottom"
-            android:layout_marginLeft="@dimen/reg_layout_margin_16dp"
-            android:layout_marginRight="@dimen/reg_layout_margin_16dp"
-            android:layout_marginTop="@dimen/reg_layout_top"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="@dimen/reg_layout_margin_end_16"
+            android:layout_marginTop="@dimen/reg_layout_margin_top_24"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
@@ -29,9 +28,8 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_VerifyEmail_VerifyEmail_lbltxt"
                 android:textColor="@color/uid_gray_level_90"
-                android:textSize="@dimen/text_size_20"
-                android:textStyle="bold"
-                reglib:fontAssetName="CentraleSans-Book.OTF"/>
+                android:textSize="@dimen/reg_text_size_20"
+                android:textStyle="bold"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_activation_email_label"
@@ -39,31 +37,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_VerifyEmail_EmailSentto_lbltxt"
-                android:textColor="@color/uid_gray_level_90"
-                reglib:fontAssetName="CentraleSans-Book.OTF"/>
+                android:textColor="@color/uid_gray_level_90"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_VerifyEmail_ActivateInfo_lbltxt"
-                android:textColor="@color/uid_gray_level_90"
-                reglib:fontAssetName="CentraleSans-Book.OTF"/>
+                android:textColor="@color/uid_gray_level_90"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/Activation_explain_value_to_user"
-                android:textColor="@color/uid_gray_level_90"
-                reglib:fontAssetName="CentraleSans-Book.OTF"/>
+                android:textColor="@color/uid_gray_level_90"/>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:id="@+id/usr_activation_emailVerified_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:uidIsIndeterminateProgressIndicator="true"
                 android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
+                app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_VerifyEmail_Activated_btntxt"
                 app:uidProgressIndicatorButtonText="@string/reg_VerifyEmail_Activated_btntxt"/>
 
@@ -72,8 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
-                app:uidComponentType="Secondary"
-                android:text="@string/reg_Resend_mail_btntxt"/>
+                android:text="@string/reg_Resend_mail_btntxt"
+                app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_activation_activation_error"
@@ -82,9 +77,6 @@
                 android:layout_marginTop="@dimen/reg_margin_bottom"
                 android:visibility="gone"/>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_scroll_margin"/>
         </LinearLayout>
     </ScrollView>
 

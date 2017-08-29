@@ -8,4 +8,6 @@
     <integer name="reg_badge_view_small_size_radius">12</integer>
     <integer name="reg_badge_view_medium_size_radius">16</integer>
     <integer name="reg_config_mediumAnimTime">300</integer>
+    <integer name="reg_layout_max_width_648">648</integer>
+    <integer name="reg_layout_margin_16">16</integer>
 </resources>

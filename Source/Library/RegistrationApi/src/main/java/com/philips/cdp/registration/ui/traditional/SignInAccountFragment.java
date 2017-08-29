@@ -85,6 +85,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_forgotPassword_button)
     Label resetPasswordLabel;
 
+
+    @BindView(R2.id.usr_loginScreen_rootLayout_LinearLayout)
+    LinearLayout usr_loginScreen_rootLayout_LinearLayout;
+
+
     private User mUser;
 
     private XRegError mRegError;
@@ -170,9 +175,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mLlCreateAccountFields, width);
-        applyParams(config, mRlSignInBtnContainer, width);
-        applyParams(config, mRegError, width);
+        applyParams(config, usr_loginScreen_rootLayout_LinearLayout, width);
+        applyParams(config,resetPasswordLabel,width);
     }
 
     @Override
