@@ -28,7 +28,7 @@ buildscript {
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
 //        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
