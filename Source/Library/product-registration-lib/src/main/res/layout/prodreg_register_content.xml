@@ -48,7 +48,8 @@
             android:layout_height="wrap_content"
             android:text="@string/PPR_SerialNum_Lbltxt"
             style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
-           />
+            android:layout_marginBottom="@dimen/pr_a_value_sm"
+            />
 
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -92,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
+            android:layout_marginBottom="@dimen/pr_a_value_sm"
             style="@style/UIDLabel.ProductRegistrationSubTitleTheme" />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
