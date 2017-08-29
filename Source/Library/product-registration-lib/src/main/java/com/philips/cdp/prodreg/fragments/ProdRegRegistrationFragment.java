@@ -335,14 +335,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
                     long dateInLong =0;
                     try {
-                        Date date = formatter.parse(minDate);
-                        dateInLong = date.getTime();
+                        final ProdRegUtil prodRegUtil = new ProdRegUtil();
+                        datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
+                        if(minDate != null) {
+                            Date date = formatter.parse(minDate);
+                            dateInLong = date.getTime();
+                            datePickerDialog.getDatePicker().setMinDate(dateInLong);
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    final ProdRegUtil prodRegUtil = new ProdRegUtil();
-                    datePickerDialog.getDatePicker().setMinDate(dateInLong);
-                    datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
                     datePickerDialog.show();
                     field_serial.setFocusableInTouchMode(true);
                     return true;
