@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
@@ -30,11 +29,6 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.ActionBarTextView;
@@ -44,7 +38,7 @@ import java.util.ArrayList;
 public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private Handler mSiteCatListHandler = new Handler();
- //   private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    //   private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private Toolbar mToolbar;
     private ActionBarTextView mActionBarTextView;
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -66,9 +60,18 @@ public class ProdRegBaseActivity extends UIDActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setUiKitThemeIfRequired();
+        //  setUiKitThemeIfRequired();
         UIDHelper.injectCalligraphyFonts();
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+
+        // UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+
+        if(PRUiHelper.getInstance().getThemeConfiguration() != null) {
+            UIDHelper.init(PRUiHelper.getInstance().getThemeConfiguration());
+        }
+        if(PRUiHelper.getInstance().getTheme() != 0) {
+            setTheme(PRUiHelper.getInstance().getTheme());
+        }
+
         setContentView(R.layout.prodreg_activity);
         mToolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         mActionBarTextView = (ActionBarTextView) findViewById(R.id.uid_toolbar_title);
@@ -88,9 +91,9 @@ public class ProdRegBaseActivity extends UIDActivity {
 //        getTheme().applyStyle(theme ,true);
 //
 //        UIDHelper.init(new ThemeConfiguration(this, ColorRange.BLUE, NavigationColor.VERY_DARK, ContentColor.VERY_DARK, AccentRange.ORANGE));
-         // setTheme(theme);
+        // setTheme(theme);
         setTheme(theme);
-       // UIDHelper.init((ThemeConfiguration) extras.getSerializable(ProdRegConstants.UI_KIT_THEME));
+        // UIDHelper.init((ThemeConfiguration) extras.getSerializable(ProdRegConstants.UI_KIT_THEME));
     }
 
     @Override
@@ -165,9 +168,9 @@ public class ProdRegBaseActivity extends UIDActivity {
 
     private void initCustomActionBar() {
         setSupportActionBar(mToolbar);
-       ActionBar mActionBar = this.getSupportActionBar();
+        ActionBar mActionBar = this.getSupportActionBar();
         if (mActionBar != null) {
-          //  mActionBar.setDisplayShowHomeEnabled(false);
+            //  mActionBar.setDisplayShowHomeEnabled(false);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setDisplayShowCustomEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

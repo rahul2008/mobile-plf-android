@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/fab_margin"
-        android:background="?attr/uidTextBoxDefaultDisabledIconColor" />
+        android:background="?attr/uidSeparatorInputNormalBackgroundColor" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -93,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/fab_margin"
-        android:background="?attr/uidTextBoxDefaultDisabledIconColor" />
+        android:background="?attr/uidSeparatorInputNormalBackgroundColor" />
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pr_success_thanks_textView"
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"

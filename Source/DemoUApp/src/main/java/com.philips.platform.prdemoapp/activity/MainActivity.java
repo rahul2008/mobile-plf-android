@@ -20,7 +20,6 @@ import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -43,17 +42,10 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
-import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -73,6 +65,7 @@ public class MainActivity extends UIDActivity {
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
+    private  int  themeResourceId=0;
 
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
@@ -127,6 +120,8 @@ public class MainActivity extends UIDActivity {
 
     }
 
+
+
     @Override
     protected void onPause() {
         mSiteCatListHandler.post(mPauseSiteCatalystRunnable);
@@ -139,17 +134,22 @@ public class MainActivity extends UIDActivity {
         super.onResume();
     }
 
-    private void initTheme() {
+    public void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
-        final int themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
+         themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
         themeConfig.add(navigationColor);
         themeConfig.add(accentColorRange);
         setTheme(themeResourceId);
-        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
+       // UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
 
         UIDHelper.init(themeConfig);
+
     }
 
+    public int getThemeResourceId()
+    {
+        return  themeResourceId;
+    }
     @StyleRes
     int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {
         final String themeName = String.format("Theme.DLS.%s.%s", toCamelCase(colorRange.name()), toCamelCase(contentColor.name()));
@@ -298,24 +298,5 @@ public class MainActivity extends UIDActivity {
         this.contentColor = contentColor;
     }
 
-    public String getCatalogAppJSONAssetPath() {
-        try {
-            File f = new File(getCacheDir() + "/catalogapp.json");
-            InputStream is = getAssets().open("catalogapp.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
 
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(buffer);
-            fos.close();
-            return f.getPath();
-        } catch (FileNotFoundException e) {
-            Log.e(MainActivity.class.getName(), e.getMessage());
-        } catch (IOException e) {
-            Log.e(MainActivity.class.getName(), e.getMessage());
-        }
-        return null;
-    }
 }

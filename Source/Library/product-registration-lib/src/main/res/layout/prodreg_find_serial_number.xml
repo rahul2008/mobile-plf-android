@@ -26,6 +26,7 @@
             android:maxWidth="680dp"/>
 
         <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
