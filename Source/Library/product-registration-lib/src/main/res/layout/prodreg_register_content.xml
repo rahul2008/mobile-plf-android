@@ -47,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/PPR_SerialNum_Lbltxt"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-            android:textSize="14sp" />
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
+           />
 
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -74,7 +74,7 @@
             android:layout_marginBottom="@dimen/pr_b_value_sm"
             android:layout_marginStart="5dp"
             android:text="@string/PPR_Find_Serial_Number"
-            style="UIDLabel.ProductRegistrationSubTitleTheme"
+            style="@style/UIDLabel.ProductRegistrationConnectSubTitleTheme"
            />
     </LinearLayout>
 
@@ -92,8 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/PPR_Date_Of_Purchase_Lbltxt"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-            android:textSize="14sp" />
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme" />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
             android:id="@+id/prg_registerScreen_dateOfPurchase_validationLayout"
@@ -103,7 +102,7 @@
 
             <com.philips.platform.uid.view.widget.ValidationEditText
                 android:id="@+id/prg_registerScreen_dateOfPurchase_validationEditText"
-                style="@style/ButtonTexts"
+                style="@style/UIDLabel.ButtonTexts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_calender"
@@ -115,7 +114,6 @@
         android:id="@+id/prg_registerScreen_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ButtonTexts"
         android:layout_below="@+id/prg_registerScreen_dateOfPurchase_Layout"
         android:layout_marginBottom="@dimen/pr_marginbottom"
         android:layout_marginTop="@dimen/pr_margintop"

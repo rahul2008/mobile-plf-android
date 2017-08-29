@@ -60,7 +60,6 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ok_found_button"
-            style="@style/ButtonTexts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
