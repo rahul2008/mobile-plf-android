@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/iap_cvv_code_hint_description"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                 android:textSize="@dimen/iap_text_size_16sp" />
 
             <com.philips.platform.uid.view.widget.EditText

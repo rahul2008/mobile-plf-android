@@ -274,7 +274,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-
+        setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
         if (mBundle != null) {
             if (!mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 tagProduct();
@@ -289,7 +289,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     mQuantityAndDelete.setVisibility(View.VISIBLE);
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(false);
-                    setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_item, true);
                     int quantity = getArguments().getInt(IAPConstant.PRODUCT_QUANTITY);
                     if (quantity != 0) {
                         setCountArrow(mContext, true);
@@ -397,7 +396,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void handleViews() {
-        setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), true);
         if (ControllerFactory.getInstance().isPlanB()) {
             //  mBuyFromRetailers.setText(R.string.iap_buy_now);
             mAddToCart.setVisibility(View.GONE);
@@ -548,7 +546,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
             mDetailLayout.setVisibility(View.GONE);
             //Hard coded strring provided because we dont have
-            setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), false);
             showErrorDialog(msg);
         } else {
             if (msg.what == RequestCode.SEARCH_PRODUCT) {
@@ -569,7 +566,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
-                setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), false);
                 if (mProductTitle == null) {
                     trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
                 }
