@@ -107,7 +107,7 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            processNetworkNode(networkNode);
+            processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
         }
 
         @Override
@@ -164,7 +164,7 @@ public class ApplianceManager {
     }
 
     @Nullable
-    private Appliance processNetworkNode(@NonNull NetworkNode networkNode) {
+    private Appliance processNewlyDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
         if (availableAppliances.containsKey(cppId)) {
             discoveryListener.onNetworkNodeUpdated(networkNode);
@@ -274,22 +274,18 @@ public class ApplianceManager {
         List<NetworkNode> networkNodes = networkNodeDatabase.getAll();
 
         for (final NetworkNode networkNode : networkNodes) {
-            final Appliance appliance = processNetworkNode(networkNode);
-            if (appliance != null) {
-                applianceDatabase.loadDataForAppliance(appliance);
-                networkNode.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        onNetworkNodeChanged(evt, appliance, networkNode);
-                    }
-                });
-            }
-        }
-    }
+            final Appliance appliance = processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
+            if (appliance == null) continue;
 
-    private void onNetworkNodeChanged(PropertyChangeEvent propertyChangeEvent, Appliance appliance, NetworkNode networkNode) {
-        DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
-        networkNodeDatabase.save(networkNode);
+            applianceDatabase.loadDataForAppliance(appliance);
+            networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+                    networkNodeDatabase.save(networkNode);
+                }
+            });
+        }
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
