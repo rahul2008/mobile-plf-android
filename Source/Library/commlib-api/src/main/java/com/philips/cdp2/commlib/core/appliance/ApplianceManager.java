@@ -208,12 +208,12 @@ public class ApplianceManager {
     /**
      * Find appliance by cpp id.
      *
-     * @param cppId the cpp id
-     * @return the appliance
+     * @param cppId the cpp id.
+     * @return the appliance or <code>null</code> if it can't be found.
      */
     @Nullable
     public Appliance findApplianceByCppId(final String cppId) {
-        return availableAppliances.get(cppId);
+        return allAppliances.get(cppId);
     }
 
     /**
