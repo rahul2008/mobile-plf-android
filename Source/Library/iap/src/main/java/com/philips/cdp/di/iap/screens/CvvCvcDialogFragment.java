@@ -45,7 +45,7 @@ public class CvvCvcDialogFragment extends DialogFragment {
             cardNumber.setText(mPaymentMethod.getCardType().getCode() +" "+mPaymentMethod.getCardNumber());
         }
         final Button continueBtn = (Button) view.findViewById(R.id.continue_btn);
-        final Button notNotBtn = (Button) view.findViewById(R.id.not_now_btn);
+        final Button notNowBtn = (Button) view.findViewById(R.id.not_now_btn);
         mEditText = (EditText) view.findViewById(R.id.et_cvv_digits);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,7 +78,7 @@ public class CvvCvcDialogFragment extends DialogFragment {
             }
         });
 
-        notNotBtn.setOnClickListener(new View.OnClickListener() {
+        notNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();

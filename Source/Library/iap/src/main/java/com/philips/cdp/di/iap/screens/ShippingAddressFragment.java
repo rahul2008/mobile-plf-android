@@ -472,43 +472,25 @@ public class ShippingAddressFragment extends InAppBaseFragment
         } else {
             mlLState.setVisibility(View.GONE);
         }
-//
-//        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
-//                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
-//            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
-//            String stateCode = code.substring(code.length() - 2);
-//            mEtState.setText(stateCode);
-//            mlLState.setVisibility(View.VISIBLE);
-//        } else {
-//            mlLState.setVisibility(View.GONE);
-//        }
-
-//        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
-//                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
-//            addressHashMap.put(ModelConstants.REGION_ISOCODE,
-//                    mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
-//        }
     }
 
     private void clearAllBillingFields() {
-        // mIgnoreTextChangeListener = true;
+        mIgnoreTextChangeListener = true;
         mEtFirstNameBilling.setText("");
         mEtLastNameBilling.setText("");
         mEtSalutationBilling.setText("");
         mEtAddressLineOneBilling.setText("");
         mEtAddressLineTwoBilling.setText("");
-        //  mEtEmailBilling.setText("");
         mEtTownBilling.setText("");
         mEtPostalCodeBilling.setText("");
         mEtPhone1Billing.setText("");
-//        mEtPhone2.setText("");
         mEtStateBilling.setText("");
         if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
             mlLStateBilling.setVisibility(View.VISIBLE);
         } else {
             mlLStateBilling.setVisibility(View.GONE);
         }
-        // mIgnoreTextChangeListener = false;
+        mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();
         //removeErrorInAllFields();
@@ -583,7 +565,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
     }
 
     private void prePopulateBillingAddress() {
-        //mIgnoreTextChangeListener = true;
+        mIgnoreTextChangeListener = true;
 
         if (mBillingAddressFields != null) {
             mEtFirstNameBilling.setText(mBillingAddressFields.getFirstName());
@@ -603,7 +585,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
             } else {
                 mlLStateBilling.setVisibility(View.GONE);
             }
-            //  mIgnoreTextChangeListener = false;
+            mIgnoreTextChangeListener = false;
             mEtPhone1Billing.setText(mBillingAddressFields.getPhone1());
         }
     }
