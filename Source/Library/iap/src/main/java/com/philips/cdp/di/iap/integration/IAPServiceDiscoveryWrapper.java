@@ -103,7 +103,12 @@ public class IAPServiceDiscoveryWrapper {
                         mIAPSettings.setProposition(loadConfigParams());
                         pIAPHandler.initControllerFactory();
                         if (entry.equalsIgnoreCase("completeProductList"))
-                            pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+
+                            try{
+                                pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         else
                             pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
                     }

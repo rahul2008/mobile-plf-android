@@ -191,7 +191,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
-            mIapInterface.getCompleteProductList(this);
+            try{
+                mIapInterface.getCompleteProductList(this);
+            }catch(RuntimeException e){
+
+            }
             mShopNow.setVisibility(View.VISIBLE);
             mShopNow.setEnabled(true);
             mPurchaseHistory.setVisibility(View.VISIBLE);
@@ -439,7 +443,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.GONE);
         }
 
-        mIapInterface.getCompleteProductList(this);
+        try{
+            mIapInterface.getCompleteProductList(this);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

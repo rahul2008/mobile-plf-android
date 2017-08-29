@@ -12,30 +12,39 @@
 
         <com.philips.platform.uid.view.widget.RadioButton
             style="@style/iapCentralesansBoldFont"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:id="@+id/rbtn_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/iap_selection_address_text_size"
             android:layout_marginLeft="@dimen/border16_margin_left_right"
             android:layout_marginRight="@dimen/border16_margin_left_right"
-            android:text="@string/action_settings"
             android:paddingStart="@dimen/border12_margin"
             />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/tv_rbtn_toggle"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/iap_selection_address_text_size"
+            android:layout_alignStart="@+id/tv_address"
+            android:layout_above="@+id/tv_address"
+            android:layout_alignParentTop="true" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/tv_address"
             style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rbtn_toggle"
-            android:paddingStart="@dimen/border12_margin"
-            android:layout_marginLeft="@dimen/border16_margin_left_right"
-            android:layout_marginRight="@dimen/border16_margin_left_right"
-            android:layout_marginTop="@dimen/iap_selection_address_margin_top"
             android:includeFontPadding="false"
-            android:textColor="@color/iap_address_text_color"
-            android:textSize="@dimen/iap_selection_address_text_size" />
+            android:layout_below="@+id/rbtn_toggle"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textSize="@dimen/iap_selection_address_text_size"
+            android:layout_alignStart="@+id/rbtn_toggle"
+            android:layout_marginStart="51dp" />
 
     </RelativeLayout>
 
