@@ -95,11 +95,11 @@
 
             <RelativeLayout
                 android:id="@+id/ths_camera_image_list_layout"
-                android:layout_below="@+id/additional_comments_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ths_32dp"
-                android:layout_marginEnd="@dimen/ths_fab_margin">
+                android:layout_below="@+id/additional_comments_edittext"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/ths_fab_margin">
 
                 <com.philips.platform.uid.view.widget.ImageButton
                     android:id="@+id/camera_click_button"
@@ -112,7 +112,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/imagelist"
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
+                    android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/camera_click_button" />
             </RelativeLayout>
 

@@ -159,7 +159,7 @@ public class THSSymptomsFragmentTest {
     @Test
     public void onClick() throws Exception {
         SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
-        pthSymptomsFragment.mTHSSymptomsPresenter = presenterMock;
+        pthSymptomsFragment.thsSymptomsPresenter = presenterMock;
         pthSymptomsFragment.setFragmentLauncher(fragmentLauncherMock);
         final View viewById = pthSymptomsFragment.getView().findViewById(R.id.continue_btn);
         viewById.performClick();

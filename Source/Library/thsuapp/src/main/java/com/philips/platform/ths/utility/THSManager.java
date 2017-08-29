@@ -137,8 +137,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.http.HEAD;
-
 
 public class THSManager {
     private static THSManager sTHSManager = null;
@@ -772,8 +770,8 @@ public class THSManager {
         });
     }
 
-    public void getConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getConsumerPharmacy(thsConsumer.getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+    public void getConsumerPreferredPharmacy(Context context, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConsumerPharmacy(getPTHConsumer().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
             @Override
             public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
                 thsPreferredPharmacyCallback.onPharmacyReceived(pharmacy, sdkError);
@@ -800,8 +798,8 @@ public class THSManager {
         });
     }
 
-    public void getConsumerShippingAddress(Context context, final THSConsumer thsConsumer, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getShippingAddress(thsConsumer.getConsumer(), new SDKCallback<Address, SDKError>() {
+    public void getConsumerShippingAddress(Context context, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getShippingAddress(getPTHConsumer().getConsumer(), new SDKCallback<Address, SDKError>() {
             @Override
             public void onResponse(Address address, SDKError sdkError) {
                 thsConsumerShippingAddressCallback.onSuccessfulFetch(address, sdkError);
@@ -1248,6 +1246,10 @@ public class THSManager {
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
                 URConfigurationConstants.UR, configError));
+        if(propertyForKey instanceof Map){
+            HashMap map = (HashMap) propertyForKey;
+            return map.get("default").toString();
+        }
         return propertyForKey.toString();
     }
 

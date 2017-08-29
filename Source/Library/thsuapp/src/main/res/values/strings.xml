@@ -180,6 +180,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="hippa_notice">HIPPA notice</string>
     <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
 
+
+    <!-- Symptoms fragment strings-->
+    <string name="ths_intake_symptoms_take_photo">Take Photo</string>
+    <string name="ths_intake_symptoms_choose_from_library">Choose from Library</string>
+    <string name="ths_intake_symptoms_image_selection_permission_denied">Permission to select image denied</string>
+    <string name="ths_intake_symptoms_add_photo">Add Photo!</string>
+
     <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
     <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
