@@ -171,7 +171,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
         if (!isNetworkConnected()) return;
         if (v == mPayNowBtn) {
-            showCvvDialog(getFragmentManager());// need to remove
             if (mPaymentMethod != null)
                 showCvvDialog(getFragmentManager());
             else {
@@ -469,8 +468,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onPlaceOrder(final Message msg) {
-        launchConfirmationScreen(new PlaceOrder());//need to remove
-        /*if (msg.obj instanceof PlaceOrder) {
+       // launchConfirmationScreen(new PlaceOrder());//need to remove
+        if(msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
             String orderID = order.getCode();
             updateCount(0);
@@ -489,7 +488,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             }
-        }*/
+        }
     }
 
     @Override

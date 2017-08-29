@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,10 +134,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
             String emailConfirmation = getString(R.string.iap_confirmation_email_msg);
-            String updateEmailText =  " " + "<b>" + email + "</b> ";
-            emailConfirmation =  String.format(emailConfirmation, updateEmailText);
-            //mConfirmWithEmail.setText(emailConfirmation + " " + updateEmailText);
-            mConfirmWithEmail.setText(Html.fromHtml(emailConfirmation));
+            Spanned boldCount = Html.fromHtml(emailConfirmation+ "  <b>" + email + "</b>");
+            mConfirmWithEmail.setText(boldCount);
             setPaymentTitle(R.string.iap_thank_for_order);
         }
     }
