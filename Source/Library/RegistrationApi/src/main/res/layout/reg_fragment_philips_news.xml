@@ -26,7 +26,7 @@
                 android:layout_marginTop="@dimen/reg_margin_24"
                 android:text="@string/reg_Receive_Philips_News_Meaning_lbltxt"
                 android:textColor="@color/uid_gray_level_90"
-                android:textSize="@dimen/text_size_20"
+                android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"
                 reglib:fontPath="fonts/centralesansbook.ttf"/>
 

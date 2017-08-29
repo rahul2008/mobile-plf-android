@@ -182,7 +182,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
-                android:layout_marginTop="@dimen/reg_margin_top_24"
+                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_Create_Account_CreateMyPhilips_btntxt"
@@ -193,7 +193,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_bottom_24"
+                android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16"
                 android:text="Switch to login"
                 android:visibility="gone"
                 app:uidComponentType="Secondary"/>
@@ -202,7 +202,7 @@
                 android:id="@+id/usr_createscreen_error_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_top_24"
+                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
                 />
         </LinearLayout>
     </ScrollView>
