@@ -9,7 +9,7 @@ Version {next}
 	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
 
 ### Backwards Compatibility
-* CommLib - `Appliance.enableCommunication` is no longer needed before a subscription. 
+* CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
 
 ### Features not covered
 * To be filled in at release
@@ -26,6 +26,7 @@ Version {next}
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
+* CommLib - \#76117 commlib-ble makes bluelib connect() calls without timeout
 * CloudController - \#55808 BufferUnderflowException while reading download data
 
 ### Residual anomalies
