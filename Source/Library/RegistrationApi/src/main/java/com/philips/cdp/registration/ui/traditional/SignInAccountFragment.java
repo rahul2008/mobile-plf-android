@@ -192,17 +192,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             hideValidations();
             mBtnSignInAccount.showProgressIndicator();
             signIn();
-        } else if (id == R.id.btn_reg_forgot_password) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
-            hideValidations();
-            loginValidationEditText.clearFocus();
-            passwordValidationEditText.clearFocus();
-            if (loginValidationEditText.getText().length() == 0) {
-                launchResetPasswordFragment();
-            } else {
-                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in Other Country");
-                resetPassword();
-            }
         } else if (id == R.id.btn_reg_resend) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
             loginValidationEditText.clearFocus();
