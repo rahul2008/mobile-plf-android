@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
+import com.philips.platform.dscdemo.utility.Utility;
 
 
 /**
@@ -61,8 +61,12 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
         videoView.setOnClickListener(this);
         progressBar = (ProgressBar) rootView.findViewById(R.id.onboarding_video_progress_bar);
 
-        presenter = new WelcomeVideoPresenter(this, getActivity());
+        presenter = getWelcomeVideoPagerPresenter();
         return rootView;
+    }
+
+    protected WelcomeVideoFragmentContract.Presenter getWelcomeVideoPagerPresenter() {
+        return new WelcomeVideoPresenter(this, getActivity());
     }
 
     private void setVideoViewHeight() {

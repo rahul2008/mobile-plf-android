@@ -29,7 +29,7 @@ import java.util.ArrayList;
 /**
  * This class contains all initialization & Launching details of IAP
  */
-public abstract class IAPState extends BaseState {
+public abstract class IAPState extends BaseState implements IAPListener {
     public static final String TAG =  IAPState.class.getSimpleName();
 
     /**
@@ -60,16 +60,22 @@ public abstract class IAPState extends BaseState {
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         updateDataModel();
-        launchIAP();
+        if (getApplicationContext().isHybrisFlow()) {
+            ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
+            setListener();
+        }else {
+            launchIAP();
+        }
     }
 
     private int getIAPFlowType(int iapFlowType){
-        switch (iapFlowType){
-            case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
+       // switch (iapFlowType){
+           // case IAPState.IAP_CATALOG_VIEW:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
             // case IAPState.IAP_PURCHASE_HISTORY_VIEW:return IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW;
             // case IAPState.IAP_SHOPPING_CART_VIEW:return IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW;
-            default:return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
-        }
+           // default:
+                return IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW;
+      //  }
     }
 
 
@@ -97,6 +103,7 @@ public abstract class IAPState extends BaseState {
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
+            ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
             ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
                     R.mipmap.philips_shop_overlay, IAPState.TAG);
@@ -124,5 +131,40 @@ public abstract class IAPState extends BaseState {
         iapInterface.init(iapDependencies, iapSettings);
     }
 
+    public void setListener() {
+        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).isUserSignIn()) {
+            RALog.d(TAG, "Setting Listener");
+            getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);
+        } else {
+            RALog.d(TAG, "User not signed in");
+        }
+    }
+    @Override
+    public void onGetCartCount(int i) {
+    }
 
+    @Override
+    public void onUpdateCartCount() {
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean b) {
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> arrayList) {
+        launchIAP();
+        RALog.d(TAG, "List fetched successfully");
+    }
+
+    @Override
+    public void onSuccess() {
+    }
+
+    @Override
+    public void onFailure(int i) {
+        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
+        RALog.d(TAG, "IAPState list fetching failed");
+        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.RA_DLS_check_internet_connectivity), Toast.LENGTH_LONG).show();
+    }
 }

@@ -51,30 +51,7 @@
     <string name="RA_Change_Configuration">Change Configuration: </string>
     <string name="RA_Current_Configuration">Current Configuration: </string>
 
-    <!-- Data Sync related Strings-->
-    <string name="RA_data_sync">Data Sync</string>
-    <string name="RA_DataServicesScreen_Title">Data Services</string>
-    <string name="RA_add">Add</string>
-    <string name="RA_sync">Sync</string>
-    <string name="RA_update">Update</string>
-    <string name="RA_delete">Delete</string>
-    <string name="RA_registration">Registration</string>
-    <string name="RA_phase">Time Of the Day</string>
-    <string name="RA_temperature">Temperature</string>
-    <string name="RA_temparatute_hint">Temperature of the Baby</string>
-    <string name="RA_location">Notes</string>
-    <string name="RA_location_hint">Location Name</string>
-    <string name="RA_save">Save</string>
-    <string name="RA_synced">Not Synced</string>
-    <string name="RA_create_moment">Create moment</string>
-    <string name="RA_invalid_temperature">Invalid temperature entry</string>
-    <string name="RA_consent">User Consents</string>
-    <string name="RA_set_characteristics">User Characteristics</string>
-    <string name="RA_view_characteristics">View Characteristics</string>
-    <string name="RA_hide_characteristics">Hide Characteristics</string>
-    <string name="RA_edit">Edit</string>
-    <string name="RA_consents">User Consents</string>
-    <string name="RA_something_wrong">Something went wrong</string>
+
     <string name="RA_DebugAndTestScreen_Title">Debug and Test</string>
     <string name="RA_Debug_and_Test_Menu_Title">Debug and Test</string>
 
@@ -117,25 +94,6 @@
     <string name="RA_Connectivity_DataCore_Not_Reachable">Datacore is not reachable</string>
     <string name="RA_Connectivity_Posting_Data">Posting data in datacore, Please wait&#8230; </string>
     <string name="RA_Connectivity_Getting_Moment">Getting moment from datacore, Please wait&#8230;</string>
-
-
-    <!-- Consumer Care related-->
-    <string-array name="productselection_ctnlist" translatable="false">
-        <item>HX6064/33</item>
-    </string-array>
-
-    <!-- TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
-        product selection screen. Which is not considered in for testing by Madan's team. -->
-    <!-- Consumer Care related-->
-    <string-array name="productselection_ctnlist_china" translatable="false">
-        <item>HX6721/33</item>
-    </string-array>
-
-
-    <string-array name="iap_productselection_ctnlist" translatable="false">
-        <item>HD9240/90</item>
-    </string-array>
-    <!--ConsumerCare related end here.-->
 
     <!--UR related starts here.-->
     <string-array name="country_code" translatable="false">
@@ -208,7 +166,6 @@
         <item>@string/RA_Philips_Shop_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
-        <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Coco_Version</item>
         <item>@string/RA_DebugScreen_Title</item>

@@ -8,12 +8,10 @@ package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 import com.shamanland.fonticon.FontIconView;
 
@@ -37,7 +35,6 @@ import static junit.framework.Assert.assertNull;
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class WelcomeFragmentTest {
     private SplashFragmentTest.LaunchActivityMockAbstract launchActivity;
-    private ImageView logo;
     private WelcomeFragmentMockAbstract welcomeFragment;
     private ViewPager pager;
     private ImageView rightArrow;

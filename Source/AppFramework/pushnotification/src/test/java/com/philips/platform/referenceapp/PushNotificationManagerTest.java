@@ -9,14 +9,18 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.BuildConfig;
+import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
+import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
 import com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
+import com.philips.platform.referenceapp.utils.PushNotificationConstants;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,8 +51,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
-@Config(manifest=Config.NONE, constants = BuildConfig.class, sdk = 25)
-@PrepareForTest({PushNotificationManager.class, PreferenceManager.class, TextUtils.class})
+@Config(constants = BuildConfig.class)
+@PrepareForTest({PreferenceManager.class, TextUtils.class})
 public class PushNotificationManagerTest {
     private static final String TAG = "PushNotificationTest";
     private static final String PUSH_NOTIFICATION_TOKEN = "Push_Notification_Token";
@@ -61,17 +65,20 @@ public class PushNotificationManagerTest {
     private SharedPreferences sharedPreferences;
     private PreferenceManager preferenceManager;
     private SharedPreferences.Editor editor;
+    private HandleNotificationPayloadInterface handleNotificationPayloadInterface;
+    private PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface;
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
     @Before
     public void setUp() throws Exception {
-        mockStatic(PushNotificationManager.class);
         mockStatic(PreferenceManager.class);
         mockStatic(TextUtils.class);
 
         initMocks(this);
+
+        PNLog.disablePNLogging();
 
         context = PowerMockito.mock(Context.class);
         appInfraInterface = PowerMockito.mock(AppInfraInterface.class);
@@ -79,6 +86,9 @@ public class PushNotificationManagerTest {
         preferenceManager = PowerMockito.mock(PreferenceManager.class);
         textUtils = PowerMockito.mock(TextUtils.class);
         editor = PowerMockito.mock(SharedPreferences.Editor.class);
+        pnUserRegistrationInterface = PowerMockito.mock(PushNotificationUserRegistationWrapperInterface.class);
+        handleNotificationPayloadInterface = PowerMockito.mock(HandleNotificationPayloadInterface.class);
+        pushNotificationTokenRegistrationInterface = PowerMockito.mock(PushNotificationTokenRegistrationInterface.class);
 
         /*  Whitebox -> Various utilities for accessing internals of a class.
          *  invokeConstructor -> Invoke a constructor. Useful for testing classes with a private constructor.
@@ -91,14 +101,20 @@ public class PushNotificationManagerTest {
 
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(context)).thenReturn(sharedPreferences);
 
-        PNLog.d("testing", "PreferenceManager.getDefaultSharedPreferences(context) -- " + PreferenceManager.getDefaultSharedPreferences(context));
-        PNLog.d("testing", "sharedPreferences.getString(PUSH_NOTIFICATION_TOKEN, PUSH_NOTIFICATION_TOKEN) -- " + sharedPreferences.getString(PUSH_NOTIFICATION_TOKEN, PUSH_NOTIFICATION_TOKEN));
+//        PNLog.d("testing", "PreferenceManager.getDefaultSharedPreferences(context) -- " + PreferenceManager.getDefaultSharedPreferences(context));
+//        PNLog.d("testing", "sharedPreferences.getString(PUSH_NOTIFICATION_TOKEN, PUSH_NOTIFICATION_TOKEN) -- " + sharedPreferences.getString(PUSH_NOTIFICATION_TOKEN, PUSH_NOTIFICATION_TOKEN));
     }
 
     @Test
     public void testGetTokenNotEmpty() throws Exception {
         PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn(PUSH_NOTIFICATION_TOKEN);
         assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken(context));
+    }
+
+    @Test
+    public void testGetPushNotificationUserRegistationWrapperInterface() {
+        pushNotificationManager.init(appInfraInterface, pnUserRegistrationInterface);
+        assertEquals(pnUserRegistrationInterface, pushNotificationManager.getPushNotificationUserRegistationWrapperInterface());
     }
 
     @Test
@@ -131,6 +147,16 @@ public class PushNotificationManagerTest {
         service.onStartCommand(intent, 0, 0);
         assertEquals(TestPlatformInstanceIDListenerService.class.getName(), intent.getComponent().getClassName());
     }
+
+//    @Test
+//    public void testSendPayloadToCoCo() {
+//        pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
+//        pushNotificationManager.registerForPayload(handleNotificationPayloadInterface);
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putCharSequence(PushNotificationConstants.PLATFORM_KEY, "Hello");
+//        pushNotificationManager.sendPayloadToCoCo(bundle);
+//    }
 
     @After
     public void tearDown() throws Exception {

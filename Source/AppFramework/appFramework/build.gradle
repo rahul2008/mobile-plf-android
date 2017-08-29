@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.1.201405082137"
 }
 
 buildscript {
@@ -332,6 +332,10 @@ android {
                 events "started", "passed", "skipped", "failed"
                 outputs.upToDateWhen {false}
             }
+
+            jacoco {
+                includeNoLocationClasses = false
+            }
         }
     }
 }
@@ -377,13 +381,6 @@ dependencies {
         transitive = true
     }
     compile(group: 'com.philips.cdp', name: 'iap', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
-
-
-        exclude group: 'com.android.support'
-        exclude group: 'joda-time', module: 'joda-time'
         transitive = true
     }
 
@@ -486,7 +483,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
     reports {
         xml.enabled = true
-        html.enabled = false
+        html.enabled = true
     }
 }
 

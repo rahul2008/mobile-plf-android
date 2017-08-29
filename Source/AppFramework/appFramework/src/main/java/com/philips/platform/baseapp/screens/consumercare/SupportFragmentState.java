@@ -31,6 +31,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.CTNUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -100,16 +101,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
     //product selection screen. Which is not considered in for testing by Madan's team.
     public void updateDataModel() {
         RALog.d(TAG," updateDataModel called ");
-        if(getApplicationContext().isChinaFlow()) {
-            String[] ctnList = new String[new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist_china))).size()];
-            ctnList = (new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist_china))).toArray(ctnList));
-            setCtnList(ctnList);
-        }
-        else {
-            String[] ctnList = new String[new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))).size()];
-            ctnList = (new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist))).toArray(ctnList));
-            setCtnList(ctnList);
-        }
+        String[] ctnList = new String[]{CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry())};
+        setCtnList(ctnList);
     }
 
     public String[] getCtnList() {
