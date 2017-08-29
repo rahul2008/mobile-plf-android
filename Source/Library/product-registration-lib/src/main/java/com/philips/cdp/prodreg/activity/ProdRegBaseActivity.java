@@ -8,6 +8,7 @@
  */
 package com.philips.cdp.prodreg.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -35,6 +36,8 @@ import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
     private Handler mSiteCatListHandler = new Handler();
@@ -61,9 +64,8 @@ public class ProdRegBaseActivity extends UIDActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  setUiKitThemeIfRequired();
-        UIDHelper.injectCalligraphyFonts();
 
-        // UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        UIDHelper.injectCalligraphyFonts();
 
         if(PRUiHelper.getInstance().getThemeConfiguration() != null) {
             UIDHelper.init(PRUiHelper.getInstance().getThemeConfiguration());
@@ -81,6 +83,12 @@ public class ProdRegBaseActivity extends UIDActivity {
             showFragment();
         }
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     private void setUiKitThemeIfRequired() {
         final Bundle extras = getIntent().getExtras();
