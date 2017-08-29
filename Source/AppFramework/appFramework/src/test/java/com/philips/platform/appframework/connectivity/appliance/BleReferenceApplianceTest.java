@@ -2,6 +2,7 @@ package com.philips.platform.appframework.connectivity.appliance;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +26,11 @@ public class BleReferenceApplianceTest {
     CommunicationStrategy communicationStrategy;
     @Test
     public void getDeviceType_ReturnsTrue(){
-        assertEquals("ReferenceNode", new BleReferenceAppliance(networkNode,communicationStrategy, deviceType).getDeviceType());
+        assertEquals("ReferenceNode", new BleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceType());
     }
 
     @Test
     public void getDeviceMeasurement_NotNull(){
-        assertNotNull(new BleReferenceAppliance(networkNode,communicationStrategy, deviceType).getDeviceMeasurementPort());
+        assertNotNull(new BleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceMeasurementPort());
     }
 }
