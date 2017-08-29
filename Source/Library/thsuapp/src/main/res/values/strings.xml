@@ -179,4 +179,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>
     <string name="hippa_notice">HIPPA notice</string>
     <string name="ths_visit_summary_report_info">Your visit report will be available shorlty. You will see it in your visit history soon.</string>
+
+    <string name="ths_insurance_not_verified_confirm_title">Health insurance not verified</string>
+    <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
+    <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
+    <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
 </resources>

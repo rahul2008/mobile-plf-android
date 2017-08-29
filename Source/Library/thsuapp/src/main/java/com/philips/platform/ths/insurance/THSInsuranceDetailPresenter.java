@@ -103,11 +103,12 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             if (errors.isEmpty()) {
                 THSManager.getInstance().updateInsuranceSubscription(mTHSBaseFragment.getFragmentActivity(), thsSubscriptionUpdateRequest, this);
             } else {
-
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
                 AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
+                showInsuranceNotVerifiedDialog();
             }
         } catch (Exception e) {
-
+            ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         }
 
     }
@@ -131,6 +132,8 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             }
         } else if (componentID == R.id.ths_insurance_detail_continue_button) {
             updateTHSInsuranceSubscription();
+        } else if (componentID ==R.id.ths_confirmation_dialog_primary_button){  // continue without Insurance verification
+            showCostSummaryFragment();
         }
 
     }
@@ -170,7 +173,6 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     @Override
     public void onGetInsuranceFailure(Throwable throwable) {
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
 
     }
     ////////// end of getExistingSubscription call back
@@ -181,11 +183,25 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     public void onValidationFailure(Map<String, ValidationReason> var1) {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         AmwellLog.i("updateInsurance", "fail");
+        showInsuranceNotVerifiedDialog();
     }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+        showCostSummaryFragment();
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+        showInsuranceNotVerifiedDialog();
+
+    }
+    ///////// start update suscription call back
+
+
+    private void showCostSummaryFragment(){
         AmwellLog.i("updateInsurance", "success");
         if (((THSInsuranceDetailFragment) mTHSBaseFragment).isLaunchedFromCostSummary) {
             ((THSInsuranceDetailFragment) mTHSBaseFragment).getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
@@ -196,10 +212,10 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
         }
     }
 
-    @Override
-    public void onFailure(Throwable throwable) {
-
+    private void showInsuranceNotVerifiedDialog(){
+        THSInsuranceNotVerifiedDialogFragment thsInsuranceNotVerifiedDialogFragment= new THSInsuranceNotVerifiedDialogFragment();
+        thsInsuranceNotVerifiedDialogFragment.setPresenter(this);
+        thsInsuranceNotVerifiedDialogFragment.show(((THSInsuranceDetailFragment) mTHSBaseFragment).getFragmentManager(), THSInsuranceNotVerifiedDialogFragment.TAG);
     }
-    ///////// start update suscription call back
 
 }

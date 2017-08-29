@@ -6,13 +6,9 @@
 
 package com.philips.platform.ths.visit;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +24,6 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static android.app.Activity.RESULT_CANCELED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
@@ -162,7 +152,14 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
                 mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
 
             } else {
-                showCancelDialog(true, true, true);
+
+                THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
+                tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
+                tHSConfirmationDialogFragment.show(getFragmentManager(),THSConfirmationDialogFragment.TAG);
+
+
+
+
             }
         }
 
