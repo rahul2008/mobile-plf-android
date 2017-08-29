@@ -6,16 +6,12 @@
 
 package com.philips.platform.ths.intake;
 
-import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
-import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
@@ -23,8 +19,7 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.List;
 import java.util.Map;
 
-public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError>
-        , THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
+public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
     private Pharmacy pharmacy;
 
@@ -35,21 +30,24 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.pth_intake_follow_up_continue_button) {
-
             if (null != mTHSFollowUpFragment.mPhoneNumberEditText.getText() && !mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().isEmpty()) {
                 mTHSFollowUpFragment.mFollowUpContinueButton.showProgressIndicator();
                 acceptLegalText();
                 updateConsumer(mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().trim());
-            }else {
+            } else {
                 mTHSFollowUpFragment.showToast("Please Enter a valid Phone Number");
             }
-            // mTHSFollowUpFragment.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
+
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
             final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
             fragment.setFragmentLauncher(mTHSFollowUpFragment.getFragmentLauncher());
             mTHSFollowUpFragment.addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
         }
+    }
+
+    private boolean checkIfDODFlow() {
+        return !THSManager.getInstance().getPthVisitContext().hasProvider();
     }
 
     private void acceptLegalText() {
@@ -72,21 +70,6 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     }
 
-    public void fetchConsumerPreferredPharmacy(THSConsumer thsConsumer) {
-        try {
-            THSManager.getInstance().getConsumerPreferredPharmacy(mTHSFollowUpFragment.getFragmentActivity(), thsConsumer, this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void getConsumerShippingAddress(THSConsumer thsConsumer) {
-        try {
-            THSManager.getInstance().getConsumerShippingAddress(mTHSFollowUpFragment.getFragmentActivity(), thsConsumer, this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1) {
@@ -96,39 +79,21 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
-        //update signleton THSManager THSConsumer member
+        mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
+        if (checkIfDODFlow()) {
+            //TODO: Add DOD flow here
+        } else {
+            mTHSFollowUpFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
+        }
+        //update singleton THSManager THSConsumer member
         THSManager.getInstance().setPTHConsumer(thsConsumer);
-        fetchConsumerPreferredPharmacy(thsConsumer);
+
     }
 
     @Override
     public void onUpdateConsumerFailure(Throwable var1) {
         mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
-       mTHSFollowUpFragment.showToast(var1.getMessage());
+        mTHSFollowUpFragment.showToast(var1.getMessage());
     }
 
-    @Override
-    public void onPharmacyReceived(Pharmacy pharmacy, SDKError sdkError) {
-        if (null != pharmacy) {
-            this.pharmacy = pharmacy;
-            getConsumerShippingAddress(THSManager.getInstance().getPTHConsumer());
-            //mTHSFollowUpFragment.displaySearchPharmacy();
-        } else {
-            mTHSFollowUpFragment.displaySearchPharmacy();
-        }
-    }
-
-    @Override
-    public void onSuccessfulFetch(Address address, SDKError sdkError) {
-        if (null != address) {
-            mTHSFollowUpFragment.displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
-        } else {
-            mTHSFollowUpFragment.displaySearchPharmacy();
-        }
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
-    }
 }

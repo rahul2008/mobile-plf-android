@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/uid_group_blue_level_45"
+                android:textColor="?attr/uidColorLevel45"
                 android:textSize="88dp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ths_cost_summary_cost_big_label"
-                android:textColor="@color/uid_group_blue_level_45"
+                android:textColor="?attr/uidColorLevel45"
                 android:textSize="34dp" />
 
         </RelativeLayout>
@@ -246,7 +246,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
 
-                            android:src="@android:drawable/ic_dialog_info" />
+                            android:src="@drawable/icon_in_circle" />
 
                         <com.philips.platform.uid.view.widget.Label
 
@@ -259,7 +259,7 @@
                             android:lineSpacingExtra="6sp"
                             android:text="No insurance"
                             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                            android:textStyle="bold">
+                            fontPath="fonts/centralesansbold.ttf">
 
                         </com.philips.platform.uid.view.widget.Label>
                     </RelativeLayout>
@@ -416,7 +416,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
 
-                            android:src="@android:drawable/ic_dialog_info" />
+                            android:src="@drawable/icon_in_circle" />
 
                         <com.philips.platform.uid.view.widget.Label
 
@@ -429,7 +429,7 @@
                             android:lineSpacingExtra="6sp"
                             android:text="No payment method"
                             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                            android:textStyle="bold">
+                            fontPath="fonts/centralesansbold.ttf">
 
                         </com.philips.platform.uid.view.widget.Label>
                     </RelativeLayout>
@@ -492,7 +492,7 @@
                     android:layout_marginRight="@dimen/ths_fab_margin"
                     android:layout_marginTop="@dimen/ths_margin_between_buttons"
                     android:background="?attr/uidContentPrimaryBackgroundColor"
-
+                    android:enabled="false"
                     android:text="Ok, continue" />
 
             </RelativeLayout>

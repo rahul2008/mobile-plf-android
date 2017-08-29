@@ -7,16 +7,42 @@
 package com.philips.platform.ths.intake.selectimage;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class THSSelectedImagePojo {
+public class THSSelectedImagePojo implements Parcelable{
     private String title, description, path;
     private Calendar datetime;
     private long datetimeLong;
     private boolean isUploaded;
-    protected SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
+    protected static SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
 
+
+    public THSSelectedImagePojo(){
+
+    }
+    public THSSelectedImagePojo(Parcel in) {
+        title = in.readString();
+        description = in.readString();
+        path = in.readString();
+        datetimeLong = in.readLong();
+        isUploaded = in.readByte() != 0;
+    }
+
+    public static final Creator<THSSelectedImagePojo> CREATOR = new Creator<THSSelectedImagePojo>() {
+        @Override
+        public THSSelectedImagePojo createFromParcel(Parcel in) {
+            return new THSSelectedImagePojo(in);
+        }
+
+        @Override
+        public THSSelectedImagePojo[] newArray(int size) {
+            return new THSSelectedImagePojo[size];
+        }
+    };
 
     /**
      *
@@ -131,5 +157,19 @@ public class THSSelectedImagePojo {
     public String toString() {
         return "Title:" + title + "   " + df.format(datetime.getTime()) +
                 "\nDescription:" + description + "\nPath:" + path;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(path);
+        dest.writeLong(datetimeLong);
+        dest.writeByte((byte) (isUploaded ? 1 : 0));
     }
 }

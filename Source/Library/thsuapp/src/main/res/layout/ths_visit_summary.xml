@@ -21,21 +21,22 @@
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="6sp"
             android:text="This concludes your visit with"
+            android:textColor="?attr/uidContentItemDefaultDisabledSubtitleTextColor"
 
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+
             android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_appointment_date"
+            style="@style/ths_list_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ths_list_item"
-            android:layout_centerVertical="true"
             android:layout_below="@id/ths_waiting_room_title_label"
+            android:layout_centerVertical="true"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:visibility="gone"
-            android:text="@string/ths_select_date_and_time" />
+            android:text="@string/ths_select_date_and_time"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
@@ -48,8 +49,8 @@
             android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/uidContentPrimaryBackgroundColor"
-            android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary">
+            android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary"
+            android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <include layout="@layout/ths_provider_details_c_list">
 
@@ -111,66 +112,101 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_wrap_up_visit_report_title_label"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultDisabledSubtitleTextColor"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ths_list_item_height"
             android:layout_below="@+id/ths_wrap_up_cost_detail_seperator_bottom"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
             android:gravity="center_vertical"
             android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
             android:text="Your visit report"
             android:textSize="@dimen/ths_body_text" />
 
-
-        <RelativeLayout
-            android:id="@+id/ths_wrap_up_visit_report_relativelayout"
+        <FrameLayout
+            android:id="@+id/ths_wrap_up_visit_report_framelayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/ths_list_item_height"
-            android:layout_below="@+id/ths_wrap_up_visit_report_title_label"
-            android:background="?attr/uidContentPrimaryBackgroundColor">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_wrap_up_visit_report_title_label">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_wrap_up_visit_report_download_label"
-                style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+            <!--start of visit summary report  body-->
+            <RelativeLayout
+                android:id="@+id/ths_wrap_up_visit_summary_report_relativelayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/ths_fab_margin"
-                android:gravity="center_vertical"
-                android:text="Download Report">
+                android:background="?attr/uidContentPrimaryBackgroundColor">
 
-            </com.philips.platform.uid.view.widget.Label>
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ths_wrap_up_visit_summary_report_download_label"
+                    style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_margin="@dimen/ths_fab_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/ths_visit_summary_report_info">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ths_wrap_up_visit_report_download_link"
-                style="@style/UIDLabel.RecyclerViewItemSubtitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/ths_wrap_up_visit_report_download_label"
-                android:gravity="center_vertical"
-                android:text="PDF (21MB)">
+                </com.philips.platform.uid.view.widget.Label>
+            </RelativeLayout>
+            <!--end of visit summary report  body-->
 
-            </com.philips.platform.uid.view.widget.Label>
 
-            <ImageView
-                android:id="@+id/ths_wrap_up_visit_report_arrow_image"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/ths_fab_margin"
-                android:gravity="center_vertical"
-                android:src="@mipmap/right_arrow_icon"></ImageView>
 
-        </RelativeLayout>
+            <!--start of visit history report  body-->
+            <RelativeLayout
+                android:id="@+id/ths_wrap_up_visit_report_relativelayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ths_list_item_height"
+                android:visibility="gone"
+                android:background="?attr/uidContentPrimaryBackgroundColor">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ths_wrap_up_visit_report_download_label"
+                    style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/ths_fab_margin"
+                    android:gravity="center_vertical"
+                    android:text="Download Report">
+
+                </com.philips.platform.uid.view.widget.Label>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ths_wrap_up_visit_report_download_link"
+                    style="@style/UIDLabel.RecyclerViewItemSubtitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/ths_wrap_up_visit_report_download_label"
+                    android:gravity="center_vertical"
+                    android:text="PDF (21MB)">
+
+                </com.philips.platform.uid.view.widget.Label>
+
+                <ImageView
+                    android:id="@+id/ths_wrap_up_visit_report_arrow_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/ths_fab_margin"
+                    android:gravity="center_vertical"
+                    android:src="@mipmap/right_arrow_icon"></ImageView>
+
+            </RelativeLayout>
+            <!--end of visit history report  body-->
+
+
+        </FrameLayout>
 
         <View
             android:id="@+id/ths_wrap_up_download_report_title_seperator_bottom"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/ths_wrap_up_visit_report_relativelayout"
+            android:layout_below="@+id/ths_wrap_up_visit_report_framelayout"
             android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
 
@@ -184,7 +220,7 @@
                 android:id="@+id/pharmacy_include"
                 layout="@layout/ths_pharmacy_shipping_fragment_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <View

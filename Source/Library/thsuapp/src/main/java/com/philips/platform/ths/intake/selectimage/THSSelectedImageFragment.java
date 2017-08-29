@@ -31,12 +31,13 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class THSSelectedImageFragment extends DialogFragment implements View.OnClickListener,THSSelectedImageFragmentViewCallback {
 
     public static String TAG = THSSelectedImageFragment.class.getSimpleName();
-    public List<THSSelectedImagePojo> selectedImagePojoList;
+    public ArrayList<THSSelectedImagePojo> selectedImagePojoList;
     private int selectedPosition;
     private CustomPagerAdapter pagerAdapter;
     private ViewPager imageViewPager;
@@ -60,7 +61,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         return view;
     }
 
-    public void setSelectedImage(int selectedPosition, List<THSSelectedImagePojo> selectedImagePojoList, List<DocumentRecord> documentRecordList) {
+    public void setSelectedImage(int selectedPosition, ArrayList<THSSelectedImagePojo> selectedImagePojoList, List<DocumentRecord> documentRecordList) {
         this.selectedImagePojoList = selectedImagePojoList;
         this.selectedPosition = selectedPosition;
         this.documentRecordList = documentRecordList;

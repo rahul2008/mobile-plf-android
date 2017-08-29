@@ -6,13 +6,9 @@
 
 package com.philips.platform.ths.visit;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +24,8 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static android.app.Activity.RESULT_CANCELED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
-import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 /**
  * Created by philips on 7/26/17.
@@ -53,11 +44,14 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Label mProviderPracticeLabel;
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
+    Visit mVisit;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_waiting_room, container, false);
+        Bundle bundle = getArguments();
+        mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
         mTHSWaitingRoomPresenter = new THSWaitingRoomPresenter(this);
         mProviderNameLabel = (Label) view.findViewById(R.id.details_providerNameLabel);
         mProviderPracticeLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -111,8 +105,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED && requestCode == REQUEST_VIDEO_VISIT) {
             //  todo getPresenter().setResult(resultCode, data);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mVisit);
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
-            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, null);
+            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle);
         }
     }
 
@@ -156,7 +152,14 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
                 mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
 
             } else {
-                showCancelDialog(true, true, true);
+
+                THSConfirmationDialogFragment tHSConfirmationDialogFragment = new THSConfirmationDialogFragment();
+                tHSConfirmationDialogFragment.setPresenter(mTHSWaitingRoomPresenter);
+                tHSConfirmationDialogFragment.show(getFragmentManager(),THSConfirmationDialogFragment.TAG);
+
+
+
+
             }
         }
 

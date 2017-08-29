@@ -182,7 +182,6 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         AmwellLog.d("Login","Consumer object received");
         final THSPracticeFragment fragment = new THSPracticeFragment();
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
-        uiBaseView.getActivity().getSupportFragmentManager().popBackStack();
         uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
     }
 

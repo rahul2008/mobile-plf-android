@@ -21,6 +21,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 /**
  * Created by philips on 7/26/17.
@@ -46,21 +48,21 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onEvent(int componentID) {
-        if (componentID == R.id.uid_alert_positive_button) {
+        if (componentID == R.id.ths_confirmation_dialog_primary_button) {
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
             cancelVisit();
-            mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
+
         }
     }
 
     void startVisit() {
         try {
-            if (null != THSManager.getInstance().getTHSVisit().getVisit() && null != THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider()) {
-                mTHSWaitingRoomFragment.mProviderNameLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getFullName());
-                mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getPracticeInfo().getName());
+            if (null !=mTHSWaitingRoomFragment.mVisit && null != mTHSWaitingRoomFragment.mVisit.getAssignedProvider()) {
+                mTHSWaitingRoomFragment.mProviderNameLabel.setText(mTHSWaitingRoomFragment.mVisit.getAssignedProvider().getFullName());
+                mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(mTHSWaitingRoomFragment.mVisit.getAssignedProvider().getPracticeInfo().getName());
 
                 ///////////
-                ProviderInfo providerInfo = THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider();
+                ProviderInfo providerInfo = mTHSWaitingRoomFragment.mVisit.getAssignedProvider();
                 if (providerInfo.hasImage()) {
                     try {
                         THSManager.getInstance().getAwsdk(mTHSWaitingRoomFragment.getFragmentActivity()).
@@ -75,15 +77,14 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                 }
                 ////////////
             }
-            Integer patientWaitingCount = THSManager.getInstance().getTHSVisit().getVisit().getPatientsAheadOfYou();
+            Integer patientWaitingCount = mTHSWaitingRoomFragment.mVisit.getPatientsAheadOfYou();
             if (null != patientWaitingCount && patientWaitingCount > 0) {
 
                 mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
             }
 
 
-            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), null,this);
-
+            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(),mTHSWaitingRoomFragment.mVisit, null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -101,14 +102,16 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             boolean isProviderConnected = visitExtras.getBoolean(VISIT_STATUS_PROVIDER_CONNECTED);
 
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(  " Please wait, your visit is  wrapping up");
-            mTHSWaitingRoomFragment.addFragment(new THSVisitSummaryFragment(), THSVisitSummaryFragment.TAG,null);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,visit);
+            mTHSWaitingRoomFragment.addFragment(new THSVisitSummaryFragment(), THSVisitSummaryFragment.TAG,bundle);
 
         }
     }
 
     void cancelVisit() {
         try {
-            THSManager.getInstance().cancelVisit(mTHSWaitingRoomFragment.getFragmentActivity(), this);
+            THSManager.getInstance().cancelVisit(mTHSWaitingRoomFragment.getFragmentActivity(),mTHSWaitingRoomFragment.mVisit, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -117,7 +120,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
     void abondonCurrentVisit() {
         try {
             THSManager.getInstance().abondonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
-            mTHSWaitingRoomFragment.getFragmentActivity().getSupportFragmentManager().popBackStack();
+            mTHSWaitingRoomFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

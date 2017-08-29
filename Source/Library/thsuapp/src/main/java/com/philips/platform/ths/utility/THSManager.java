@@ -56,6 +56,7 @@ import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.MatchmakerCallback;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
@@ -107,6 +108,7 @@ import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSFetchEstimatedCostCallback;
+import com.philips.platform.ths.providerdetails.THSMatchMakingCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
@@ -135,15 +137,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.http.HEAD;
-
 
 public class THSManager {
     private static THSManager sTHSManager = null;
     private AWSDK mAwsdk = null;
     private THSConsumer mTHSConsumer = null;
     private THSVisitContext mVisitContext = null;
-    private THSVisit  mTHSVisit;
+
 
     @VisibleForTesting
     private User mUser;
@@ -154,13 +154,7 @@ public class THSManager {
     public boolean TEST_FLAG = false;
 
 
-    public THSVisit getTHSVisit() {
-        return mTHSVisit;
-    }
 
-    public void setTHSVisit(THSVisit mTHSVisit) {
-        this.mTHSVisit = mTHSVisit;
-    }
 
     public THSVisitContext getPthVisitContext() {
         return mVisitContext;
@@ -776,8 +770,8 @@ public class THSManager {
         });
     }
 
-    public void getConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getConsumerPharmacy(thsConsumer.getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+    public void getConsumerPreferredPharmacy(Context context, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConsumerPharmacy(getPTHConsumer().getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
             @Override
             public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
                 thsPreferredPharmacyCallback.onPharmacyReceived(pharmacy, sdkError);
@@ -804,8 +798,8 @@ public class THSManager {
         });
     }
 
-    public void getConsumerShippingAddress(Context context, final THSConsumer thsConsumer, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getShippingAddress(thsConsumer.getConsumer(), new SDKCallback<Address, SDKError>() {
+    public void getConsumerShippingAddress(Context context, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getShippingAddress(getPTHConsumer().getConsumer(), new SDKCallback<Address, SDKError>() {
             @Override
             public void onResponse(Address address, SDKError sdkError) {
                 thsConsumerShippingAddressCallback.onSuccessfulFetch(address, sdkError);
@@ -1143,8 +1137,8 @@ public class THSManager {
         });
 
     }
-    public void startVisit(Context context , final Intent intent,final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().startVisit(getTHSVisit().getVisit(), getTHSVisit().getVisit().getConsumer().getAddress(), intent,new StartVisitCallback() {
+    public void startVisit(Context context ,Visit visit,  final Intent intent,final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().startVisit(visit, visit.getConsumer().getAddress(), intent,new StartVisitCallback() {
             @Override
             public void onProviderEntered(@NonNull Intent intent) {
                 thsStartVisitCallback.onProviderEntered(intent);
@@ -1192,8 +1186,8 @@ public class THSManager {
         });
     }
 
-    public void cancelVisit(Context context, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().cancelVisit(getTHSVisit().getVisit(), new SDKCallback<Void, SDKError>() {
+    public void cancelVisit(Context context,Visit visit, final THSCancelVisitCallBack.SDKCallback <Void, SDKError> tHSSDKCallback)  throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().cancelVisit(visit, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 tHSSDKCallback.onResponse(aVoid, sdkError);
@@ -1253,7 +1247,7 @@ public class THSManager {
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
                 URConfigurationConstants.UR, configError));
         if(propertyForKey instanceof Map){
-            HashMap map = (HashMap)propertyForKey;
+            HashMap map = (HashMap) propertyForKey;
             return map.get("default").toString();
         }
         return propertyForKey.toString();
@@ -1296,8 +1290,8 @@ public class THSManager {
         });
     }
 
-    public void getVisitSummary(Context context, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().getVisitSummary(getTHSVisit().getVisit(), new SDKCallback<VisitSummary, SDKError>() {
+    public void getVisitSummary(Context context,Visit visit, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().getVisitSummary(visit, new SDKCallback<VisitSummary, SDKError>() {
             @Override
             public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
                 THSVisitSummary thsVisitSummary = new THSVisitSummary();
@@ -1331,8 +1325,8 @@ public class THSManager {
 
     }
 
-    public void sendRatings(Context context, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
-        getAwsdk(context).getVisitManager().sendRatings(getTHSVisit().getVisit(), providerRating, visitRating, new SDKCallback<Void, SDKError>() {
+    public void sendRatings(Context context,Visit visit, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
+        getAwsdk(context).getVisitManager().sendRatings(visit, providerRating, visitRating, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 thssdkCallback.onResponse(aVoid,sdkError);
@@ -1356,6 +1350,35 @@ public class THSManager {
             @Override
             public void onFailure(Throwable throwable) {
                 thsPracticeCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void doMatchMaking(Context context, THSVisitContext thsVisitContext, final THSMatchMakingCallback thsMatchMakingCallback)throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().startMatchmaking(thsVisitContext.getVisitContext(), new MatchmakerCallback() {
+            @Override
+            public void onProviderFound(Provider provider, VisitContext visitContext) {
+                thsMatchMakingCallback.onMatchMakingProviderFound(provider,visitContext);
+            }
+
+            @Override
+            public void onProviderListExhausted() {
+                thsMatchMakingCallback.onMatchMakingProviderListExhausted();
+            }
+
+            @Override
+            public void onRequestGone() {
+                thsMatchMakingCallback.onMatchMakingRequestGone();
+            }
+
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                thsMatchMakingCallback.onMatchMakingResponse(aVoid,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsMatchMakingCallback.onMatchMakingFailure(throwable);
             }
         });
     }

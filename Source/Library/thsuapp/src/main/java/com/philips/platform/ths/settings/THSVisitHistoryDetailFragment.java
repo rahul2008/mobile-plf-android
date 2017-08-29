@@ -30,6 +30,7 @@ import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.ths.visit.THSDownloadReportPrivacyNoticeFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
@@ -48,6 +49,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     private Button continueButton;
     RelativeLayout mRelativeLayoutProviderLayout;
     RelativeLayout mRelativeLayoutDownloadReport;
+    RelativeLayout mRelativeLayoutSummaryReport;
     THSVisitHistoryDetailPresenter mThsVisitHistoryPresenter;
     private VisitReport mVisitReport;
     private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
@@ -106,11 +108,17 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         });
+        mRelativeLayoutSummaryReport= (RelativeLayout) view.findViewById(R.id.ths_wrap_up_visit_summary_report_relativelayout);
+        mRelativeLayoutSummaryReport.setVisibility(View.GONE);
         mRelativeLayoutDownloadReport = (RelativeLayout) view.findViewById(R.id.ths_wrap_up_visit_report_relativelayout);
+        mRelativeLayoutDownloadReport.setVisibility(View.VISIBLE);
         mRelativeLayoutDownloadReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mThsVisitHistoryPresenter.onEvent(R.id.ths_pdf_container);
+               // mThsVisitHistoryPresenter.onEvent(R.id.ths_pdf_container);
+                THSDownloadReportPrivacyNoticeFragment tHSDownloadReportPrivacyNoticeFragment = new THSDownloadReportPrivacyNoticeFragment();
+                tHSDownloadReportPrivacyNoticeFragment.setPresenter(mThsVisitHistoryPresenter);
+                tHSDownloadReportPrivacyNoticeFragment.show(getFragmentManager(),"TAG");
             }
         });
         return view;
@@ -158,7 +166,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         }else{
             double cost= mVisitReportDetail.getVisitCost().getExpectedConsumerCopayCost();
 
-            mLabelCreditCardCharge.setText(Double.toString(cost));
+            mLabelCreditCardCharge.setText("$"+Double.toString(cost));
         }
 
         Address address = mVisitReportDetail.getShippingAddress();

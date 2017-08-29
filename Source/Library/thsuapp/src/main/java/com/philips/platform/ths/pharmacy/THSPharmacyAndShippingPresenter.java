@@ -18,11 +18,11 @@ import com.philips.platform.ths.utility.THSManager;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_INSURANCE_AVAILABLE_KEY;
 
-public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
+public class THSPharmacyAndShippingPresenter implements THSBasePresenter {
 
     private THSPharmacyShippingViewInterface thsBaseView;
 
-    public THSPharmacyAndShippingPresenter(THSPharmacyShippingViewInterface thsBaseView){
+    public THSPharmacyAndShippingPresenter(THSPharmacyShippingViewInterface thsBaseView) {
         this.thsBaseView = thsBaseView;
     }
 
@@ -34,16 +34,13 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
         if (componentID == R.id.ps_edit_consumer_shipping_address) {
             thsBaseView.startEditShippingAddress();
         }
-        if(componentID== R.id.ths_ps_continue_button){
+        if (componentID == R.id.ths_ps_continue_button) {
             Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
-            if(consumer.getSubscription()!=null &&consumer.getSubscription().getHealthPlan()!=null ){
+            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-
-                fragment.setFragmentLauncher(((THSBaseFragment) thsBaseView).getFragmentLauncher());
-                ((THSBaseFragment) thsBaseView).addFragment(fragment, THSCostSummaryFragment.TAG, null);
-            }else {
+                 thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            } else {
                 final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                fragment.setFragmentLauncher(((THSBaseFragment) thsBaseView).getFragmentLauncher());
                 thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
             }
         }

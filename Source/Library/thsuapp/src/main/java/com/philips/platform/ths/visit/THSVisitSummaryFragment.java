@@ -7,13 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.visit.Visit;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.CircularImageView;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 /**
  * Created by philips on 8/4/17.
@@ -26,12 +34,16 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     THSVisitSummaryPresenter mTHSVisitSummaryPresenter;
     THSRatingDialogFragment thsRatingDialogFragment;
     private Button continueButton;
+     CircularImageView mImageProviderImage;
+
      Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
 
     Label providerName;
     Label providerPractice;
     Label visitCost;
+    Visit mVisit;
+    private UIDNavigationIconToggler navIconToggler;
 
     Integer mProviderRating;
     Integer mVisitRating;
@@ -40,16 +52,21 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_visit_summary, container, false);
-
+        navIconToggler = new UIDNavigationIconToggler(getActivity());
+        
 
         // hiding unused components
         view.findViewById(R.id.isAvailableLayout).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_consumer_shipping_address).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_pharmacy).setVisibility(View.GONE);
 
+        Bundle bundle = getArguments();
+        mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
 
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         providerPractice = (Label) view.findViewById(R.id.details_practiceNameLabel);
+
+
         visitCost= (Label) view.findViewById(R.id.ths_wrap_up_payment_cost);
 
         Label prescriptionLabel = (Label) view.findViewById(R.id.ps_prescription_sent_label);
@@ -73,7 +90,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         thsRatingDialogFragment = new THSRatingDialogFragment();
         thsRatingDialogFragment.setThsVisitSummaryPresenter(mTHSVisitSummaryPresenter);
         thsRatingDialogFragment.show(getFragmentManager(),"TAG");
-
+        mImageProviderImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
 
         return  view;
     }
@@ -83,6 +100,9 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
+
+
+
     }
 
 
@@ -92,7 +112,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Thank you", true);
         }
-
+        navIconToggler.hideNavigationIcon();
     }
 
 
@@ -113,5 +133,16 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
             mTHSVisitSummaryPresenter.onEvent(R.id.ths_visit_summary_continue_button);
         }
 
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        navIconToggler.restoreNavigationIcon();
     }
 }

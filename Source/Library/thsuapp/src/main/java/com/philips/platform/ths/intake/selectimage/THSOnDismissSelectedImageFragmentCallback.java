@@ -7,8 +7,8 @@
 package com.philips.platform.ths.intake.selectimage;
 
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface THSOnDismissSelectedImageFragmentCallback {
-    void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList);
+    void dismissSelectedImageFragment(ArrayList<THSSelectedImagePojo> selectedImagePojoList);
 }

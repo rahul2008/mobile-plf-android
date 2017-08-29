@@ -31,7 +31,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     Button mAddPaymentMethodButton;
     protected Label costBigLabel;
     protected Label costSmallLabel;
-    private RelativeLayout mRelativeLayoutCostContainer;
+
 
     private FrameLayout mInsuranceDetailFrameLayout;
     RelativeLayout mInsuranceDetailRelativeLayout;
@@ -47,14 +47,16 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     Label mInsuranceName, mInsuranceMemberId, mInsuranceSubscriptionType;
     Label mCardType, mMaskedCardNumber, mCardExpirationDate;
 
+    THSVisit thsVisit;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_cost_summary, container, false);
         mPresenter = new THSCostSummaryPresenter(this);
-        Bundle bundle = getArguments();
 
-        mRelativeLayoutCostContainer = (RelativeLayout) view.findViewById(R.id.cost_container);
+
+
         costBigLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_big_label);
         costSmallLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_small_label);
         mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_relativelayout);
@@ -108,8 +110,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     public void onStart() {
         super.onStart();
         mPresenter.fetchExistingSubscription();
-        mPresenter.createVisit();
         mPresenter.getPaymentMethod();
+        mPresenter.createVisit();
     }
 
     /**
