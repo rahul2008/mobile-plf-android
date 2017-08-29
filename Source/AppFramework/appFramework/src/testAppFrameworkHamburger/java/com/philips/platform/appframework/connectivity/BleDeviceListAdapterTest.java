@@ -47,7 +47,7 @@ public class BleDeviceListAdapterTest {
     }
     @Test
     public void addDevice() throws Exception {
-        adapter.addDevice(new BleReferenceAppliance(networkNode,bleDiscoveryStrategy));
+        adapter.addDevice(new BleReferenceAppliance(networkNode,bleDiscoveryStrategy, deviceType));
         Assert.assertEquals(1,adapter.getCount());
     }
 

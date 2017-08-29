@@ -49,5 +49,113 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
+    <style name="BreakDownRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
+    <style name="Divider">
+        <item name="android:background">#26000000</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+
+    <style name="BreakDownDivider" parent="@style/Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/margin_twelve</item>
+        <item name="android:layout_marginBottom">@dimen/margin_twelve</item>
+    </style>
+
+    <style name="BreakDownElement" parent="@style/Txt.Body">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="BreakDownPoints" parent="@style/Txt.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="BreakDownDeduction" parent="@style/Txt.Body">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+    </style>
+
+    <style name="BreakDownElementSub" parent="@style/Txt.Small">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <style name="BreakDownElementEnd" parent="@style/Txt.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <style name="BreakDownDivider.Fat">
+        <item name="android:background">#80000000</item>
+    </style>
+
+    <style name="Txt">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">@dimen/on_boarding_description_text_size</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Txt.Body"></style>
+
+    <style name="Txt.Small">
+        <item name="android:textSize">@dimen/welcome_button_text_size</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+
+    <style name="BreakDownTitle" parent="@style/Txt.Title">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+
+    <style name="Txt.Title">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SleepOverviewSync" parent="@style/Txt">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <style name="SleepScore" parent="@style/Txt.Large.Extra">
+        <item name="android:maxLines">1</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+    </style>
+
+    <style name="Txt.Large">
+        <item name="fontPath">fonts/centralesanslight.ttf</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    <style name="Txt.Large.Extra">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">68sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="SleepScoreLabel" parent="@style/Txt">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="textSize">22sp</item>
+        <item name="textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SleepScoreScaleLabel" parent="@style/Txt.Large">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
 </resources>

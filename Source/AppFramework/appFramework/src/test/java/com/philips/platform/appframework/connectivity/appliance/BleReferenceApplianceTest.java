@@ -25,11 +25,11 @@ public class BleReferenceApplianceTest {
     CommunicationStrategy communicationStrategy;
     @Test
     public void getDeviceType_ReturnsTrue(){
-        assertEquals("ReferenceNode", new BleReferenceAppliance(networkNode,communicationStrategy).getDeviceType());
+        assertEquals("ReferenceNode", new BleReferenceAppliance(networkNode,communicationStrategy, deviceType).getDeviceType());
     }
 
     @Test
     public void getDeviceMeasurement_NotNull(){
-        assertNotNull(new BleReferenceAppliance(networkNode,communicationStrategy).getDeviceMeasurementPort());
+        assertNotNull(new BleReferenceAppliance(networkNode,communicationStrategy, deviceType).getDeviceMeasurementPort());
     }
 }

@@ -3,6 +3,7 @@ package com.philips.platform.appframework.connectivity.appliance;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class BleReferenceApplianceFactoryTest {
 
     @Before
     public void setUp(){
-        bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext);
+        bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext, ConnectivityDeviceType.REFERENCE_NODE);
         when(networkNode.getDeviceType())
                 .thenReturn(BleReferenceAppliance.MODELNAME);
         when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);

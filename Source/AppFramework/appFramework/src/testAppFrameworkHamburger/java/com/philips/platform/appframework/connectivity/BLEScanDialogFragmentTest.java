@@ -69,7 +69,7 @@ public class BLEScanDialogFragmentTest {
         FragmentManager fm = testActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         applianceSet= new HashSet<>();
-        applianceSet.add(new BleReferenceAppliance(networkNode,bleCommunicationStrategy));
+        applianceSet.add(new BleReferenceAppliance(networkNode,bleCommunicationStrategy, deviceType));
         bleScanDialogFragment.show(ft, "fragment");
         bleScanDialogFragment.setSavedApplianceList(applianceSet);
     }

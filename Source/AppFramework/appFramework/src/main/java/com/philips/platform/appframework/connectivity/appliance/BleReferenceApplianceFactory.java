@@ -13,6 +13,7 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.Collections;
@@ -26,15 +27,25 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
 
     private final BleTransportContext bleTransportContext;
 
+    private ConnectivityDeviceType deviceType;
 
-    public BleReferenceApplianceFactory(@NonNull BleTransportContext bleTransportContext) {
+
+    public BleReferenceApplianceFactory(@NonNull BleTransportContext bleTransportContext, ConnectivityDeviceType deviceType) {
         this.bleTransportContext = bleTransportContext;
+        this.deviceType = deviceType;
+
+        RALog.d(TAG, "device type : "+deviceType);
     }
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
         RALog.d(TAG," To check if appliance for node be created ");
-        return BleReferenceAppliance.MODELNAME.equals(networkNode.getDeviceType());
+        switch (deviceType) {
+            case POWER_SLEEP:
+            return getSupportedDeviceTypes().contains(networkNode.getModelId());
+            default:
+                return BleReferenceAppliance.MODELNAME.equals(networkNode.getDeviceType());
+        }
     }
 
     @Override
@@ -42,7 +53,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
         if (canCreateApplianceForNode(networkNode)) {
             final CommunicationStrategy communicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
 
-            return new BleReferenceAppliance(networkNode, communicationStrategy);
+            return new BleReferenceAppliance(networkNode, communicationStrategy, deviceType);
         }
         return null;
     }
@@ -51,6 +62,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
     public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(BleReferenceAppliance.MODELNAME);
+            add(BleReferenceAppliance.MODEL_NAME_1);
         }});
     }
 }

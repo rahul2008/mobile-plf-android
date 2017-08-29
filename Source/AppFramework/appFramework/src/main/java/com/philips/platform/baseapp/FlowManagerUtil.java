@@ -25,6 +25,7 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSet
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.devicepairing.DevicePairingState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
+import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
 
 
 import java.util.Map;

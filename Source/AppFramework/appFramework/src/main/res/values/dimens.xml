@@ -16,6 +16,7 @@
     <dimen name="welcome_arrow_size">18sp</dimen>
     <dimen name="on_boarding_description_text_size">16sp</dimen>
     <dimen name="on_boarding_title_text_size">24sp</dimen>
+    <dimen name="default_icon_size">32dp</dimen>
 
     <dimen name="pop_up_image_margin_top">20dp</dimen>
     <dimen name="pop_up_dots_margin_left">12dp</dimen>
@@ -24,6 +25,15 @@
     <dimen name="margin_sixteen">16dip</dimen>
     <dimen name="margin_ninty_six">96dip</dimen>
     <dimen name="margin_twelve">12dip</dimen>
+    <dimen name="theme_settings_pagemargin">48dp</dimen>
+    <dimen name="done_button_width">12dp</dimen>
+    <dimen name="sleep_score_progress_size">213dp</dimen>
+    <dimen name="sleep_circle_size">198dp</dimen>
+    <dimen name="score_stroke_size">3dp</dimen>
+    <dimen name="starting_point_width">3dp</dimen>
+    <dimen name="starting_point_height">5dp</dimen>
+    <dimen name="dot_radius">5.5dp</dimen>
+
     <dimen name="margin_twenty_four">24dip</dimen>
     <dimen name="margin_forty_eight">48dip</dimen>
     <dimen name="welcome_video_height">204dip</dimen>

@@ -6,4 +6,5 @@
 
     <!--This 'transparent' is required, bcz consumer care is using this keywork-->
     <color name="transparent">@android:color/transparent</color>
+    <color name="colorAccentBright">#57f2e6</color>
 </resources>

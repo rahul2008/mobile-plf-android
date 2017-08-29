@@ -349,6 +349,11 @@ Receive free product accessories</string>
     <string name="RA_DLS_onboarding_screen9_title" translatable="false">Integrated with HSDP &amp; IT</string>
     <string name="RA_DLS_onboarding_screen9_sub_text" translatable="false">The CDP&lt;sup>&lt;small>2&lt;/small>&lt;/sup> platform is fully integrated with HSDP and IT to ensure all functionalities are enabled end-2-end within the Philips landscape.</string>
 
+    <string name="label_last_synced">Last updated: %1$s</string>
+    <string name="label_last_synced_default">Last updated: No update yet</string>
+
+    <string name="label_sleep_tips">How can I improve my sleep score?</string>
+
     <string name="RA_DLS_no_internet_connectivity" translatable="false">Internet connection is not available</string>
     <string name="RA_DLS_check_internet_connectivity" translatable="false">Check Internet Connectivity</string>
 </resources>
