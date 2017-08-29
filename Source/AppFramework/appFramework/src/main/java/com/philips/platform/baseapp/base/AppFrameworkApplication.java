@@ -17,6 +17,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
+import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -24,6 +25,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
@@ -51,7 +53,7 @@ public class AppFrameworkApplication extends Application {
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
     private IAPState iapState;
-    private DataServicesState dataSyncScreenState;
+    private DemoDataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
@@ -132,7 +134,7 @@ public class AppFrameworkApplication extends Application {
     }
 
     public void initDataServiceState() {
-        dataSyncScreenState = new DataServicesState();
+        dataSyncScreenState = new DemoDataServicesState();
         dataSyncScreenState.init(this);
     }
 
@@ -228,7 +230,7 @@ public class AppFrameworkApplication extends Application {
             }
         });
     }
-    public DataServicesState getDataServiceState() {
+    public DemoDataServicesState getDataServiceState() {
         if (dataSyncScreenState == null) {
             initDataServiceState();
         }
