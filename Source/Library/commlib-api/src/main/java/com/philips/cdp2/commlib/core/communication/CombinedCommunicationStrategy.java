@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.Arrays;
@@ -30,6 +31,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class CombinedCommunicationStrategy extends CommunicationStrategy {
 
+    public static final String TAG = "COMBINED_STRATEGY";
     @NonNull
     private final LinkedHashSet<CommunicationStrategy> communicationStrategies;
 
@@ -100,6 +102,8 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
                 public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
                     CommunicationStrategy newStrategy = firstAvailableStrategy();
                     if (newStrategy != lastPreferredStrategy) {
+                        DICommLog.v(TAG, "Switched to strategy " + (newStrategy != null ? newStrategy.toString() : "null"));
+
                         if (newStrategy == null || lastPreferredStrategy == null) {
                             notifyAvailabilityChanged();
                         }
@@ -208,8 +212,10 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
     private CommunicationStrategy findStrategy() {
         final CommunicationStrategy strategy = firstAvailableStrategy();
         if (strategy == null) {
+            DICommLog.v(TAG, "No strategy is available");
             return nullStrategy;
         }
+        DICommLog.v(TAG, "Using strategy " + strategy.toString());
         return strategy;
     }
 
@@ -217,6 +223,7 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
     private CommunicationStrategy firstAvailableStrategy() {
         for (CommunicationStrategy strategy : communicationStrategies) {
             if (strategy.isAvailable()) {
+
                 return strategy;
             }
         }
