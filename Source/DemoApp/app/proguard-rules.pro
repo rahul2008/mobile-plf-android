@@ -15,31 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-#--------------------------------demouapp--------------------------------
--dontwarn com.philips.cdp2.demouapp.fragment.MismatchedPinAppliancesFragment
--dontwarn com.philips.cdp2.demouapp.fragment.port.DevicePortFragment$2
 
 -verbose
-
-#--------------------------------Volley--------------------------------
--keep class com.android.volley.** { *; }
--keep interface com.android.volley.** { *; }
--keep class org.apache.commons.logging.**
--keep class com.squareup.okhttp.** { *; }
--keep class okio.** { *; }
-
-#--------------------------------Gson--------------------------------
--keep class sun.misc.Unsafe { *; }
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
 
 #--------------------------------Tagging--------------------------------
 -keep class com.adobe.mobile.** {*;}
 -keep class com.philips.cdp.tagging.** {*;}
-
-#--------------------------------Hockey--------------------------------
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
 
 #--------------------------------Registration--------------------------------
 -keep class com.philips.cdp.registration.** {*;}
@@ -91,24 +72,6 @@
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
-# --------------------------WeChat---------------------------------
-
--keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
-
--keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
-
--keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
-
--keep class com.philips.platform.baseapp.base.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
-
--keep class com.tencent.mm.sdk.** {
-      *;
-  }
-
 #-------------------------Consumer Care Starts -------------------------
 
 
@@ -118,37 +81,6 @@
 -dontpreverify
 -keepattributes *Annotation*
 -keepattributes Signature
-
-
-# ----------------------------Gson specific classes --------------------------
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.** {*;}
--keep class com.philips.cdp.prxclient.** {*;}
--keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
--keep class com.google.gson.examples.android.model.** { *; }
--dontwarn com.google.gson.**
-
-
-#----------------------------Product Registration library -----------------------
--keep class com.philips.cdp.prodreg.** {*;}
--keep interface com.philips.cdp.prodreg.** {*;}
--keep enum com.philips.cdp.prodreg.** {*;}
-
-# App-framework
--keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
-
-
-##--------------- ORMLite  ----------
-
-# Keep ORMLite specifics
--keep class com.j256.**
--keepclassmembers class com.j256.** { *; }
--keep enum com.j256.**
--keepclassmembers enum com.j256.** { *; }
--keep interface com.j256.**
--keepclassmembers interface com.j256.** { *; }
-
--keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
 
 
@@ -163,73 +95,11 @@
 -dontwarn javax.tools.**
 
 
-##--------------- Eventbus  ----------
-
--keepclassmembers class ** {
-    !private void onEvent*(**);}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** { *; }
-
-
-##--------------- Jodatime  ----------
-
--dontwarn org.joda.convert.**
--dontwarn org.joda.time.**
--keep class org.joda.time.** { *; }
--keep interface org.joda.time.** { *; }
-
-##-------------- Retrofit -------------
-
--keep class com.squareup.** { *; }
--keep interface com.squareup.** { *; }
--keep class retrofit.** { *; }
--keep interface retrofit.** { *;}
-
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
 -dontwarn com.squareup.okhttp.**
 -dontwarn retrofit.**
 -dontwarn okio.**
 -dontwarn rx.**
 -dontwarn android.app.Notification
-
-#Data-Services
--keep class com.philips.platform.core.** {*;}
--keep interface com.philips.platform.core.** {*;}
-
-##----------------- Gson -------------------
--keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
--keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
--keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
--keep class com.philips.platform.datasync.moments.UCoreMomentsHistory { *; }
--keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
--keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
--keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
--keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
--keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
--keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
--keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
-#Insight
--keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
--keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
-
-#Push notification
--keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
-
-#Device pairing
--keep class com.philips.platform.datasync.devicePairing.UCoreDevicePair { *; }
-
-#Subject Profile
--keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest { *; }
--keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileResponse { *; }
--keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
--keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
-
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppUserCharacteristics { *; }
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppCharacteristics { *; }
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
@@ -246,18 +116,6 @@
 #--------------------Network--------------------
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
-
-#UIKit
--keep class com.shamanland.** {*;}
--keep class uk.co.chrisjenx.** {*;}
-
-
-#--------------------ConsumerCare--------------------
--keep class com.philips.cdp.digitalcare.** {*;}
-
--keepclassmembers class *{
-  @android.webkit.JavascriptInterface <methods>;
-}
 
 
 #--------------------GooglePLayServices--------------------
@@ -282,32 +140,8 @@
 
 #------------------------- Consumer Care starts -------------------------
 
--dontwarn com.philips.cdp.digitalcare.**
-#-dontwarn com.philips.cdp.productselection.**
 -dontwarn com.adobe.mobile.**
 -dontwarn org.apache.**
-
-
--dontwarn com.shamanland.**
--dontwarn uk.co.chrisjenx.**
-
-
-#-------------------------Consumer Care Ends -------------------------
-
-#InAppPurchase
--keep class com.philips.cdp.di.iap.store** {*;}
--keep interface com.philips.cdp.di.iap.store** {*;}
--keep class com.philips.cdp.di.iap.model** {*;}
--keep interface com.philips.cdp.di.iap.model** {*;}
--keep class com.philips.cdp.di.iap.response** {*;}
--keep interface com.philips.cdp.di.iap.response** {*;}
--keep class com.philips.cdp.di.iap.session.** {*;}
--keep interface com.philips.cdp.di.iap.session.** {*;}
--dontwarn com.philips.cdp.di.iap.analytics.**
-
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
 
 
 #--------------------------AppInfra starts here-----------
