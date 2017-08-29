@@ -23,12 +23,11 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_SHOP = 2;
     protected static final int MENU_OPTION_SUPPORT = 3;
     protected static final int MENU_OPTION_ABOUT = 4;
-    protected static final int MENU_OPTION_DATA_SYNC = 5;
-    protected static final int MENU_OPTION_CONNECTIVITY = 6;
-    protected static final int MENU_OPTION_COCOVERSION = 7;
-    protected static final int MENU_OPTION_DEBUG = 8;
-    protected static final int MENU_OPTION_TEST_MICROAPP = 9;
-    protected static final int MENU_OPTION_PR = 11;
+    protected static final int MENU_OPTION_CONNECTIVITY = 5;
+    protected static final int MENU_OPTION_COCOVERSION = 6;
+    protected static final int MENU_OPTION_DEBUG = 7;
+    protected static final int MENU_OPTION_TEST_MICROAPP = 8;
+    protected static final int MENU_OPTION_PR = 9;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -37,7 +36,6 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_SHOPPING_CART = "shopping_cart";
     protected static final String HOME_ABOUT = "about";
     protected static final String HOME_FRAGMENT = "home_fragment";
-    protected static final String HOME_DATA_SYNC = "data_sync";
     protected static final String HOME_SUPPORT_PR = "pr";
     protected static final String HOME_CONNECTIVITY = "connectivity";
     protected static final String HOME_TEST_MICROAPP = "testmicroapp";
@@ -98,10 +96,6 @@ abstract public class AbstractUIBasePresenter {
                 return uiStateDataModel;*/
             case AppStates.PR:
                 return new UIStateData();
-            case AppStates.DATA_SYNC:
-                final UIStateData syncStateData = new UIStateData();
-                syncStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return syncStateData;
             case AppStates.CONNECTIVITY:
                 final UIStateData connectivityStateData = new UIStateData();
                 connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
