@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             style="@style/iapCentralesansMediumFont"
-            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:text="@string/iap_your_order_number_is"
             android:textSize="@dimen/iap_text_size_16sp"/>
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             style="@style/iapCentralesansBoldFont"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:text=""
             android:textSize="@dimen/iap_text_size_16sp"/>
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             style="@style/iapCentralesansMediumFont"
-            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:text="@string/iap_confirmation_email_msg"
             android:textSize="@dimen/iap_text_size_16sp"/>
 
