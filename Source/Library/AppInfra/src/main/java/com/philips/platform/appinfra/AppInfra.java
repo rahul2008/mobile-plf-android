@@ -63,7 +63,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
      */
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
-    private AIKMInterface serviceInterface;
+    private AIKMInterface aikmInterface;
 
 
     private AppInfra(Context pContext) {
@@ -227,12 +227,12 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
-    public AIKMInterface getServiceInterface() {
-        return serviceInterface;
+    public AIKMInterface getAikmInterface() {
+        return aikmInterface;
     }
 
-    public void setServiceInterface(AIKMInterface serviceInterface) {
-        this.serviceInterface = serviceInterface;
+    public void setAikmInterface(AIKMInterface aikmInterface) {
+        this.aikmInterface = aikmInterface;
     }
 
     /**
@@ -255,7 +255,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
-        private AIKMInterface serviceInterface;
+        private AIKMInterface aikmInterface;
 
 
         /**
@@ -274,7 +274,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
-            serviceInterface = null;
+            aikmInterface = null;
         }
 
 
@@ -456,9 +456,9 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final AIKManager keyBagManager;
-                    keyBagManager = new AIKManager(ai);
-                    ai.setServiceInterface(serviceInterface == null ? keyBagManager : serviceInterface);
+                    final AIKManager aikManager;
+                    aikManager = new AIKManager(ai);
+                    ai.setAikmInterface(aikmInterface == null ? aikManager : aikmInterface);
                 }
             }).start();
 

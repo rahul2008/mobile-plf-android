@@ -41,8 +41,8 @@ public class AIKMService extends ServiceDiscoveryService {
         return mapError;
     }
 
-    public void setMapError(MAP_ERROR MAP_error) {
-        this.mapError = MAP_error;
+    public void setMapError(MAP_ERROR mapError) {
+        this.mapError = mapError;
     }
 
 }

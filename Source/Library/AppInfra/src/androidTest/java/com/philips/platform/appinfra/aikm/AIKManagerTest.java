@@ -22,10 +22,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class KeyBagManagerTest extends AppInfraInstrumentation {
+public class AIKManagerTest extends AppInfraInstrumentation {
 
 
-    private AIKManager keyBagManager;
+    private AIKManager aikManager;
 
     @Override
     protected void setUp() throws Exception {
@@ -33,7 +33,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         AppInfra appInfraMock = mock(AppInfra.class);
         ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
-        keyBagManager = new AIKManager(appInfraMock);
+        aikManager = new AIKManager(appInfraMock);
     }
 
     public void testInvokingServices() throws AIKMJsonFileNotFoundException {
@@ -56,7 +56,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         final GroomHelper groomHelperMock = mock(GroomHelper.class);
         ArrayList<String> serviceIds = new ArrayList<>();
         final InputStream finalInputStream = inputStream;
-        keyBagManager = new AIKManager(appInfraMock) {
+        aikManager = new AIKManager(appInfraMock) {
             @NonNull
             @Override
             GroomHelper getGroomHelper() {
@@ -75,7 +75,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
             }
         };
 
-        keyBagManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
+        aikManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
         verify(groomHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
     }
 
@@ -85,7 +85,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         ArrayList<String> serviceIds = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListenerMock = mock(ServiceDiscoveryInterface.OnGetServicesListener.class);
 
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = keyBagManager.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetServicesListenerMock);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = aikManager.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetServicesListenerMock);
         serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
         verify(onGetServicesListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
     }
@@ -94,7 +94,7 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListenerMock = mock(ServiceDiscoveryInterface.OnGetServicesListener.class);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         TreeMap<String, ServiceDiscoveryService> urlMap = getStringServiceDiscoveryServiceTreeMap();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = keyBagManager.fetchGettingKeyBagUrlsListener(onGetServicesListenerMock, aiKmServices, urlMap);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = aikManager.fetchGettingKeyBagUrlsListener(onGetServicesListenerMock, aiKmServices, urlMap);
         onGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
         verify(onGetServicesListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
         onGetServiceUrlMapListener.onSuccess(urlMap);

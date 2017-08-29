@@ -58,7 +58,7 @@ public class KeyBagActivity extends AppCompatActivity {
 	}
 
 	public void onClick(View view) {
-		final AIKMInterface serviceInterface = AILDemouAppInterface.getInstance().getAppInfra().getServiceInterface();
+		final AIKMInterface serviceInterface = AILDemouAppInterface.getInstance().getAppInfra().getAikmInterface();
 
 		String serviceIdsFromEditText = serviceIdEditText.getText().toString();
 		if(!TextUtils.isEmpty(serviceIdsFromEditText)) {
