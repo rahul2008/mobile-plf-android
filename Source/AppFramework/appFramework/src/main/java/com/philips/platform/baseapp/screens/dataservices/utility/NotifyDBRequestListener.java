@@ -14,6 +14,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,6 +46,15 @@ public class NotifyDBRequestListener {
     public void notifyPrepareForDeletion(DBRequestListener dbRequestListener) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
+        } else {
+            //Callback not registered
+            DSLog.i(DataServicesManager.TAG, "Callback not registered");
+        }
+    }
+
+    public <T> void notifySuccess(DBRequestListener<T> dbRequestListener, T... returnValue) {
+        if (dbRequestListener != null) {
+            dbRequestListener.onSuccess(Arrays.asList(returnValue));
         } else {
             //Callback not registered
             DSLog.i(DataServicesManager.TAG, "Callback not registered");
