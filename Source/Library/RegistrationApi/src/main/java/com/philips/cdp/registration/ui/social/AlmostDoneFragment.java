@@ -81,7 +81,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     boolean isValidEmail;
 
 
-    public EmailValidator emailValidator = new EmailValidator(new ValidEmail() {
+    public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
             isValidEmail = valid;
@@ -120,7 +120,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         almostDonePresenter = new AlmostDonePresenter(this, mUser);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         ButterKnife.bind(this, view);
-        loginIdEditText.setValidator(emailValidator);
+        loginIdEditText.setValidator(loginIdValidator);
         initUI(view);
         almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIControls();

@@ -108,7 +108,7 @@ public class AppTaggingErrors {
                         AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
                 break;
             case EMAIL_ADDRESS_ALREADY_USE_CODE:
-                if (RegistrationHelper.getInstance().isChinaFlow()){
+                if (RegistrationHelper.getInstance().isMobileFlow()){
                     trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                             AppTagingConstants.USER_ERROR, MOBILE_ALREADY_IN_USE);
                 }else{

@@ -135,7 +135,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     });
 
 
-    public EmailValidator emailValidator = new EmailValidator(new ValidEmail() {
+    public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
             isValidEmail = valid;
@@ -169,7 +169,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         ButterKnife.bind(this, view);
-        usr_createscreen_emailormobile_inputValidationLayout.setValidator(emailValidator);
+        usr_createscreen_emailormobile_inputValidationLayout.setValidator(loginIdValidator);
         usr_createScreen_password_inputValidationField.setValidator(passwordValidator);
         usr_createScreen_password_inputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
         initUI(view);

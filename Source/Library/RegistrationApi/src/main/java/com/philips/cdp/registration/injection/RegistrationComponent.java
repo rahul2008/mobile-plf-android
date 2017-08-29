@@ -62,6 +62,7 @@ public interface RegistrationComponent {
     void inject(CreateAccountFragment createAccountFragment);
 
     void inject(ForgotPasswordFragment forgotPasswordFragment);
+    void inject(ForgotPasswordPresenter forgotPasswordPresenter);
 
     void inject(HomeFragment homeFragment);
 
