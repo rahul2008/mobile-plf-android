@@ -47,12 +47,8 @@
 -keep  class com.janrain.android.capture.Capture$* {*;}
 
 
--dontwarn com.android.volley.**
 -dontwarn com.squareup.okhttp.**
 -dontwarn java.nio.file.**
--dontwarn okio.**
-
--dontwarn com.facebook.android.BuildConfig
 
 -dontwarn android.support.**
 -dontwarn android.support.v8.**
@@ -81,22 +77,8 @@
 -dontpreverify
 -keepattributes *Annotation*
 -keepattributes Signature
-
-
-
-
--dontwarn org.slf4j.**
--dontwarn org.apache.log4j.**
--dontwarn org.apache.commons.logging.**
--dontwarn org.apache.commons.codec.binary.**
--dontwarn javax.persistence.**
--dontwarn javax.lang.**
 -dontwarn javax.annotation.**
--dontwarn javax.tools.**
 
-
--dontwarn com.squareup.okhttp.**
--dontwarn retrofit.**
 -dontwarn okio.**
 -dontwarn rx.**
 -dontwarn android.app.Notification
@@ -106,16 +88,6 @@
 -keep  class com.fasterxml.jackson.annotation.** {*;}
 -keep  class com.fasterxml.jackson.core.** {*;}
 -keep  class com.fasterxml.jackson.databind.** {*;}
-
-#--------------------Tagging--------------------
-
--keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
-
-
-#--------------------Network--------------------
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
 
 
 #--------------------GooglePLayServices--------------------
@@ -138,12 +110,6 @@
 -dontwarn android.media.session
 -dontwarn android.app.**
 
-#------------------------- Consumer Care starts -------------------------
-
--dontwarn com.adobe.mobile.**
--dontwarn org.apache.**
-
-
 #--------------------------AppInfra starts here-----------
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
@@ -155,25 +121,12 @@
 -keep class android.net.http.** { *; }
 
 
-
-#Tagging lib and jar
--keep public class com.adobe.mobile.** {*;}
-
-
 #app-infra
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
 #-----------------------------app infra ends here-----------------------------------
 
-
-#-----------------------------Apeligent starts here-----------------------------------
--dontwarn com.crittercism.**
--keep public class com.crittercism.**
--keepclassmembers public class com.crittercism.**{*;}
-
--keepattributes LineNumberTable
-#------------------------------Apeligent ends here------------------------------------
 
 #------------------------------Application specific rules start here------------------------------------
 #Detail info at https://www.guardsquare.com/en/proguard/manual/examples#application
@@ -219,10 +172,6 @@ public void set*(...);
 *** get*();
 }
 
-# Model classes for test microapp should not be obfuscated
--keep class com.philips.platform.appframework.testmicroappfw.models.** {*;}
-
-
 #Enumeration
 -keepclassmembers enum * {
 public static **[] values();
@@ -240,8 +189,6 @@ public static <fields>;
 }
 
 # OkHttp
--keepattributes Signature
--keepattributes *Annotation*
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
