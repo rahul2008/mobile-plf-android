@@ -9,7 +9,7 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.devicepair.consents.ConsentDetailType;
+import com.philips.platform.dscdemo.consents.ConsentDetailType;
 
 import java.util.ArrayList;
 import java.util.List;

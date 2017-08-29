@@ -8,9 +8,14 @@ package com.philips.platform.devicepair.uappdependencies;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.devicepair.ui.DevicePairingBaseFragment;
 import com.philips.platform.devicepair.ui.PairingFragment;
 import com.philips.platform.devicepair.ui.DevicePairingLaunchActivity;
+import com.philips.platform.dscdemo.DSDemoAppuAppDependencies;
+import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
+import com.philips.platform.dscdemo.DSDemoAppuAppSettings;
+import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -25,6 +30,15 @@ public class DevicePairingUappInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         mContext = uappSettings.getContext();
+
+        DSDemoAppuAppSettings dsDemoAppuAppSettings = new DSDemoAppuAppSettings(mContext);
+        DSDemoAppuAppInterface dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
+        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(uappDependencies.getAppInfra()), dsDemoAppuAppSettings);
+
+        User user = new User(mContext);
+        if (user.isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
     }
 
     @Override

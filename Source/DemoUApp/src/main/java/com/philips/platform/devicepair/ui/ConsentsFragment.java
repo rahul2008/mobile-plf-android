@@ -23,7 +23,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.devicepair.R;
-import com.philips.platform.devicepair.consents.OrmConsentDetail;
+import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 
 import java.util.ArrayList;
 import java.util.List;
