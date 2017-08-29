@@ -31,9 +31,6 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
     private final BleTransportContext bleTransportContext;
 
     @NonNull
-    private final BleTransportContext bleTransportContext;
-
-    @NonNull
     private final LanTransportContext lanTransportContext;
 
     @NonNull

@@ -37,7 +37,7 @@ import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_
  *
  * @publicApi
  */
-public class BleCommunicationStrategy extends ObservableCommunicationStrategy implements BleCommunication {
+public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
 
@@ -188,10 +188,9 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy im
     }
 
     /**
-     * @see BleCommunicationStrategy#setContinuousConnection(boolean)
+     * Enables continuous connection to the appliance, allowing for faster data transfer.
      */
     @Override
-    @Deprecated
     public void enableCommunication() {
         if (isAvailable()) {
             SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
