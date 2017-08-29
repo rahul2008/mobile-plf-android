@@ -117,7 +117,6 @@ public class UCoreAdapterTest {
 
         when(okClientFactoryMock.create(okHttpClientMock)).thenReturn(okClientMock);
         when(restAdapterBuilderMock.setEndpoint(anyString())).thenReturn(restAdapterBuilderMock);
-        when(restAdapterBuilderMock.setLogLevel(UCoreAdapter.LOG_LEVEL)).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setRequestInterceptor(any(RequestInterceptor.class))).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setClient(okClientMock)).thenReturn(restAdapterBuilderMock);
         when(restAdapterBuilderMock.setConverter(gsonConverterMock)).thenReturn(restAdapterBuilderMock);
@@ -149,7 +148,6 @@ public class UCoreAdapterTest {
     public void ShouldSetCorrectBaseUrl_WhenGetInsightsClientIsCalled() throws Exception {
         uCoreAdapter.getAppFrameworkClient(INSIGHT_CLASS, ACCESS_TOKEN, gsonConverterMock);
         verify(restAdapterBuilderMock).setEndpoint(TEST_INSIGHTS_URL);
-        verify(restAdapterMock).setLogLevel(UCoreAdapter.LOG_LEVEL);
     }
 
     @Test
@@ -193,7 +191,6 @@ public class UCoreAdapterTest {
         interceptRequest();
 
         verify(restAdapterBuilderMock).setEndpoint(TEST_BASE_URL);
-        verify(restAdapterMock).setLogLevel(UCoreAdapter.LOG_LEVEL);
 
         verify(requestFacadeMock).addHeader(UCoreAdapter.API_VERSION_CUSTOM_HEADER, String.valueOf(UCoreAdapter.API_VERSION));
         verify(requestFacadeMock).addHeader(eq(UCoreAdapter.APP_AGENT_HEADER), anyString());

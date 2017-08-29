@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.devicePairing;
 
+import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.DevicePairingErrorResponseEvent;
 import com.philips.platform.core.events.DevicePairingResponseEvent;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
@@ -21,6 +22,9 @@ import java.util.List;
 
 import retrofit.converter.GsonConverter;
 
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -49,6 +53,8 @@ public class DevicePairingMonitorTest {
     private AppComponent mAppComponent;
     @Mock
     private UCoreAccessProvider mUCoreAccessProvider;
+    @Mock
+    private Eventing mEventing;
 
     @Before
     public void setUp() throws Exception {
@@ -62,6 +68,7 @@ public class DevicePairingMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mDevicePairingMonitor.onEventAsync(mPairDevicesRequestEvent);
+        verify(mEventing, never()).post(isA(PairDevicesRequestEvent.class));
     }
 
     @Test
@@ -69,6 +76,7 @@ public class DevicePairingMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mDevicePairingMonitor.onEventAsync(mUnPairDeviceRequestEvent);
+        verify(mEventing, never()).post(isA(UnPairDeviceRequestEvent.class));
     }
 
     @Test
@@ -76,6 +84,7 @@ public class DevicePairingMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         mDevicePairingMonitor.onEventAsync(mGetPairedDeviceRequestEvent);
+        verify(mEventing, never()).post(isA(GetPairedDeviceRequestEvent.class));
     }
 
     @Test
@@ -100,6 +109,7 @@ public class DevicePairingMonitorTest {
         });
         mDevicePairingMonitor.onEventAsync(pairDevicesRequestEvent);
         mDevicePairingMonitor.onEventAsync(mDevicePairingResponseEvent);
+        verify(mEventing, never()).post(isA(DevicePairingResponseEvent.class));
     }
 
     @Test
@@ -124,6 +134,7 @@ public class DevicePairingMonitorTest {
         });
         mDevicePairingMonitor.onEventAsync(pairDevicesRequestEvent);
         mDevicePairingMonitor.onEventAsync(mDevicePairingErrorResponseEvent);
+        verify(mEventing, never()).post(isA(DevicePairingErrorResponseEvent.class));
     }
 
     @Test
@@ -148,6 +159,7 @@ public class DevicePairingMonitorTest {
         });
         mDevicePairingMonitor.onEventAsync(getPairedDeviceRequestEvent);
         mDevicePairingMonitor.onEventAsync(mGetPairedDevicesResponseEvent);
+        verify(mEventing, never()).post(isA(GetPairedDevicesResponseEvent.class));
     }
 
 }

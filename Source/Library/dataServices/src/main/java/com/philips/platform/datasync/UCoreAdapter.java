@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
@@ -31,7 +31,6 @@ import retrofit.converter.GsonConverter;
 
 public class UCoreAdapter {
 
-    public static final RestAdapter.LogLevel LOG_LEVEL = RestAdapter.LogLevel.FULL;
     public static final int API_VERSION = 15;
     public static final String API_VERSION_CUSTOM_HEADER = "api-version";
     public static final String APP_AGENT_HEADER = "appAgent";
@@ -94,8 +93,6 @@ public class UCoreAdapter {
                 .setClient(okClient)
                 .setConverter(gsonConverter)
                 .build();
-
-        restAdapter.setLogLevel(LOG_LEVEL);
 
         return restAdapter.create(clientClass);
     }
