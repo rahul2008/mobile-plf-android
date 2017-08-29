@@ -124,15 +124,19 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ths_provider_search) {
-            THSSearchFragment thsSearchFragment = new THSSearchFragment();
-            thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
-            thsSearchFragment.setTargetFragment(this, THSConstants.PHARMACY_SEARCH_CONSTANT);
-            thsSearchFragment.setActionBarListener(getActionBarListener());
-            Bundle bundle = new Bundle();
-            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
-            addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle);
+            launchSearchFragment();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void launchSearchFragment() {
+        THSSearchFragment thsSearchFragment = new THSSearchFragment();
+        thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
+        thsSearchFragment.setTargetFragment(this, THSConstants.PHARMACY_SEARCH_CONSTANT);
+        thsSearchFragment.setActionBarListener(getActionBarListener());
+        Bundle bundle = new Bundle();
+        bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
+        addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle);
     }
 
     @Override
@@ -214,11 +218,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentManager fm = getChildFragmentManager();
-        mapFragment = (SupportMapFragment) fm.findFragmentByTag("mapFragment");
+        mapFragment = (SupportMapFragment) fm.findFragmentByTag(THSConstants.THS_MAP_FRAGMENT_TAG);
         if (mapFragment == null) {
             mapFragment = new SupportMapFragment();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.pharmacymap, mapFragment, "mapFragment");
+            ft.add(R.id.pharmacymap, mapFragment, THSConstants.THS_MAP_FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }
@@ -229,7 +233,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void onResume() {
         super.onResume();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar("Pharmacy list", true);
+            actionBarListener.updateActionBar(getString(R.string.pharmacy_list_fragment_name), true);
         }
         if (null != location) {
             thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
@@ -251,13 +255,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void onClick(View v) {
 
         if (v.getId() == R.id.ths_pharmacy_search) {
-            THSSearchFragment thsSearchFragment = new THSSearchFragment();
-            thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
-            thsSearchFragment.setTargetFragment(this, THSConstants.PHARMACY_SEARCH_CONSTANT);
-            thsSearchFragment.setActionBarListener(getActionBarListener());
-            Bundle bundle = new Bundle();
-            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
-            addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle);
+            launchSearchFragment();
         } else {
             thsPharmacyListPresenter.onEvent(v.getId());
         }
@@ -375,23 +373,33 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void validateForMailOrder(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
         if (pharmacy.getType() == PharmacyType.MailOrder) {
-            THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-            thsShippingAddressFragment.setActionBarListener(getActionBarListener());
-            thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
-            thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
-            addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null);
+
+            showShippingFragment();
+
         } else {
 
-            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
-            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
-                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                addFragment(fragment, THSCostSummaryFragment.TAG, null);
-            } else {
-                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
-            }
+            launchInsuranceCostSummary();
         }
 
+    }
+
+    public void launchInsuranceCostSummary() {
+        Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+        if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+            addFragment(fragment, THSCostSummaryFragment.TAG, null);
+        } else {
+            final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+            addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+        }
+    }
+
+    public void showShippingFragment() {
+        THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
+        thsShippingAddressFragment.setActionBarListener(getActionBarListener());
+        thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
+        thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
+        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null);
     }
 
     private void setMarkerOnMap(final List<Pharmacy> pharmacies) {
@@ -454,7 +462,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      *
      * @param pharmacy
      */
-    private void showSelectedPharmacyDetails(Pharmacy pharmacy) {
+    protected void showSelectedPharmacyDetails(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
         handleBack = true;
         if (null != actionBarListener) {
@@ -478,14 +486,14 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
             Phonenumber.PhoneNumber numberProto = phoneUtil.parse(pharmacy.getPhone(), "US");
-            selectedPharmacyPhone.setText("phone: " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
+            selectedPharmacyPhone.setText(getString(R.string.ths_pharmacy_phone_text) + " " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
         } catch (NumberParseException e) {
             Log.e("", "NumberParseException was thrown: " + e.toString());
         }
         if (null != pharmacy.getEmail()) {
-            selectedPharmacyEmail.setText("email: " + pharmacy.getEmail());
+            selectedPharmacyEmail.setText(getString(R.string.ths_pharmacy_email_text) + " " + pharmacy.getEmail());
         } else {
-            selectedPharmacyEmail.setText("email: -");
+            selectedPharmacyEmail.setText(getString(R.string.ths_pharmacy_email_text) + "-");
         }
 
     }
@@ -514,7 +522,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         }
     }
 
-    private boolean hideSelectedPharmacy() {
+    protected boolean hideSelectedPharmacy() {
         if (mapFragment.isVisible() && isListSelected) {
             getActivity().getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
             pharmacyListRecyclerView.setVisibility(View.VISIBLE);
@@ -539,7 +547,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PHARMACY_SEARCH_CONSTANT) {
-                pharmaciesList = data.getParcelableArrayListExtra("selectedPharmacy");
+                pharmaciesList = data.getParcelableArrayListExtra(THSConstants.THS_SEARCH_PHARMACY_SELECTED);
                 updatePharmacyListView(pharmaciesList);
             }
         }

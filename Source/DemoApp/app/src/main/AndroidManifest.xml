@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.philips.platform.thsdemolaunch">
 
     <application
@@ -12,6 +13,7 @@
         android:theme="@style/Theme.DLS">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
+            tools:node="replace"
             android:value="@string/google_maps_key" />
         <activity android:name="com.philips.platform.thsdemolaunch.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
