@@ -25,6 +25,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
@@ -146,9 +147,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         @Override
         public int isEmpty(boolean emptyField) {
             if (emptyField) {
-                usr_createscreen_emailormobile_inputValidationLayout.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+                usr_createscreen_emailormobile_inputValidationLayout.setErrorMessage(
+                        R.string.reg_EmptyField_ErrorMsg);
             } else {
-                usr_createscreen_emailormobile_inputValidationLayout.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
+                    usr_createscreen_emailormobile_inputValidationLayout.setErrorMessage(
+                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                } else {
+                    usr_createscreen_emailormobile_inputValidationLayout.setErrorMessage(
+                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                }
             }
             isValidEmail = false;
             disableCreateButton();
@@ -317,6 +325,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         usr_createScreen_lastName_textField.clearFocus();
         usr_createscreen_emailormobile_textfield.clearFocus();
         usr_createScreen_password_textField.clearFocus();
+        usr_createscreen_error_view.hideError();
         if (FieldsValidator.isValidEmail(usr_createscreen_emailormobile_textfield.getText().toString())) {
             emailString = usr_createscreen_emailormobile_textfield.getText().toString();
         } else {

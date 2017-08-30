@@ -186,6 +186,7 @@
     <dimen name="reg_text_size_16">16sp</dimen>
 
 
+    <integer name="reg_et_verifycode_max_length">1</integer>
 
 
 
