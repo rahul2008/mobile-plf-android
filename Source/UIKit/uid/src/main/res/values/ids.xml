@@ -4,17 +4,22 @@
     <item name="uid_texteditbox_fill_drawable" type="id"/>
     <item name="uid_id_switch_track" type="id"/>
     <item name="uid_id_progressbar_drawable" type="id"/>
-    <item name="uid_alert_positive_button" type="id"/>
-    <item name="uid_alert_negative_button" type="id"/>
-    <item name="uid_alert_title" type="id"/>
+    <item name="uid_dialog_header" type="id"/>
+    <item name="uid_dialog_positive_button" type="id"/>
+    <item name="uid_dialog_negative_button" type="id"/>
+    <item name="uid_dialog_alternate_button" type="id"/>
+    <item name="uid_dialog_title" type="id"/>
+    <item name="uid_dialog_control_area" type="id"/>
+    <item name="uid_dialog_icon" type="id"/>
+    <item name="uid_dialog_container" type="id"/>
+    <item name="uid_dialog_top_divider" type="id"/>
+    <item name="uid_dialog_bottom_divider" type="id"/>
     <item name="uid_alert_message" type="id"/>
-    <item name="uid_alert_control_area" type="id"/>
-    <item name="uid_alert_icon" type="id"/>
-    <item name="uid_toolbar" type="id"/>
-    <item name="uid_toolbar_title" type="id"/>
-    <item name="uid_alert_dialog_header" type="id"/>
     <item name="uid_alert_message_container" type="id"/>
     <item name="uid_alert_message_scroll_container" type="id"/>
+    <item name="uid_alert" type="id"/>
+    <item name="uid_toolbar" type="id"/>
+    <item name="uid_toolbar_title" type="id"/>
     <item name="uid_recyclerview_layout" type="id"/>
     <item name="uid_recyclerview_recyclerview" type="id"/>
     <item name="uid_recyclerview_header" type="id"/>

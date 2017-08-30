@@ -9,21 +9,19 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
 import android.view.View;
 
-public class AlertDialogController {
+import com.philips.platform.uid.utils.DialogConstants;
 
-    public static final String UID_ALERT_DAILOG_MESSAGE_KEY = "UID_ALERT_DAILOG_MESSAGE_KEY";
-    public static final String UID_ALERT_DAILOG_TITLE_KEY = "UID_ALERT_DAILOG_TITLE_KEY";
-    public static final String UID_ALERT_DAILOG_TITLE_ICON_KEY = "UID_ALERT_DAILOG_TITLE_ICON_KEY";
-    public static final String UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY = "UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY";
-    public static final String UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY = "UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY";
+public class AlertDialogController {
 
     public static class DialogParams {
         private String message;
         private String title;
         private View.OnClickListener positiveButtonLister;
         private View.OnClickListener negativeButtonListener;
+        private View.OnClickListener alternateButtonListener;
         private Context context;
         @DrawableRes
         private int iconId;
@@ -31,6 +29,59 @@ public class AlertDialogController {
         private boolean cancelable;
         private String negativeButtonText;
         private String positiveButtonText;
+        private String alternateButtonText;
+        @LayoutRes private int containerLayout;
+        private boolean showDividers;
+        private int dialogType = DialogConstants.TYPE_ALERT;
+        private int dimLayer = DialogConstants.DIM_STRONG;
+
+        public int getDialogType() {
+            return dialogType;
+        }
+
+        public void setDialogType(int dialogType) {
+            this.dialogType = dialogType;
+        }
+
+        public int getDimLayer() {
+            return dimLayer;
+        }
+
+        public void setDimLayer(int dimLayer) {
+            this.dimLayer = dimLayer;
+        }
+
+        public View.OnClickListener getAlternateButtonListener() {
+            return alternateButtonListener;
+        }
+
+        public void setAlternateButtonListener(View.OnClickListener alternateButtonListener) {
+            this.alternateButtonListener = alternateButtonListener;
+        }
+
+        public String getAlternateButtonText() {
+            return alternateButtonText;
+        }
+
+        public void setAlternateButtonText(String alternateButtonText) {
+            this.alternateButtonText = alternateButtonText;
+        }
+
+        public int getContainerLayout() {
+            return containerLayout;
+        }
+
+        public void setContainerLayout(int containerLayout) {
+            this.containerLayout = containerLayout;
+        }
+
+        public boolean isShowDividers() {
+            return showDividers;
+        }
+
+        public void setShowDividers(boolean showDividers) {
+            this.showDividers = showDividers;
+        }
 
         public String getMessage() {
             return message;

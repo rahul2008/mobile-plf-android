@@ -1,5 +1,8 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.4.Sprint3
+Story 66629: Android Dialog
+
 SPRINT - MUITK.PI17.4.Sprint1
 Story 58209: Android UI Picker
 

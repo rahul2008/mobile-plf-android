@@ -23,6 +23,7 @@ public final class ThemeUtils {
 
     //    private static final String TAG = "ThemeUtils";
     private static final String NO_COLOR_RANGE = "";
+    private static final String THEME_ULTRA_LIGHT = "Theme.DLS.%s.UltraLight";
     static final String ACCENT = "Accent";
     private static final String TR_VD = "VeryDark";
     private static final String TR_B = "Bright";
@@ -114,7 +115,7 @@ public final class ThemeUtils {
 
     private static int getPopupThemeResourceID(Context context) {
         String colorRange = getColorRangeName(context);
-        String themeName = String.format("Popup%sTheme", colorRange);
+        String themeName = String.format(THEME_ULTRA_LIGHT, colorRange);
         return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
     }
 }

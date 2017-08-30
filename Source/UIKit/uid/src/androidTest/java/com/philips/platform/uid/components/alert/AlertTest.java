@@ -10,7 +10,7 @@ import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
-import com.philips.platform.uid.DialogTestFragment;
+import com.philips.platform.uid.activity.AlertDialogTestFragment;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
@@ -37,7 +37,7 @@ public class AlertTest extends BaseTest {
     public void setUp() {
         activity = mActivityTestRule.launchActivity(getLaunchIntent(0));
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(new DialogTestFragment());
+        activity.switchFragment(new AlertDialogTestFragment());
         testResources = activity.getResources();
     }
 
@@ -77,16 +77,16 @@ public class AlertTest extends BaseTest {
     }
 
     @Test
-    public void verifyAlertTitleIconRightPadding() {
+    public void verifyAlertTitleIconEndMargin() {
 
-        int expectedRightPadding = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alerttitle_icon_rightpadding);
-        getAlertTitleIcon().check(matches((ViewPropertiesMatchers.isSameRightPadding(expectedRightPadding))));
+        int expectedEndMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alerttitle_icon_rightpadding);
+        getAlertTitleIcon().check(matches((ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin))));
     }
 
     @Test
     public void verifyAlertHeaderTopMargin() {
 
-        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alerttitle_icon_leftrighttop_margin);
+        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alert_title_font_size);
         getAlertTitleIcon().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
     }
 
@@ -132,7 +132,7 @@ public class AlertTest extends BaseTest {
     @Test
     public void verifyAlertContentTopMargin() {
 
-        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alertcontent_top_padding);
+        int expectedTopMargin = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.alert_content_top_padding);
         getAlertHeader().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedTopMargin)));
     }
 
@@ -190,14 +190,14 @@ public class AlertTest extends BaseTest {
     @Test
     public void verifyFunctionalityOfConfirmativeButton() {
 
-        onView(withId(com.philips.platform.uid.test.R.id.uid_alert_positive_button)).perform(ViewActions.click());
+        onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_positive_button)).perform(ViewActions.click());
         onView(withId(com.philips.platform.uid.test.R.id.uid_alert)).check(doesNotExist());
     }
 
     @Test
     public void verifyFunctionalityOfDismissiveButton() {
 
-        onView(withId(com.philips.platform.uid.test.R.id.uid_alert_negative_button)).perform(ViewActions.click());
+        onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_negative_button)).perform(ViewActions.click());
         onView(withId(com.philips.platform.uid.test.R.id.uid_alert)).check(doesNotExist());
     }
 
@@ -224,31 +224,27 @@ public class AlertTest extends BaseTest {
     }
 
     private ViewInteraction getAlertTitle() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_title));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_title));
     }
 
     private ViewInteraction getAlertHeader() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_dialog_header));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_header));
     }
 
     private ViewInteraction getAlertTitleIcon() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_icon));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_icon));
     }
 
     private ViewInteraction getAlertContent() {
         return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_message));
     }
 
-    private ViewInteraction getAlertContainer() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_message_scroll_container));
-    }
-
     private ViewInteraction getAlertActionArea() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_control_area));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_control_area));
     }
 
     private ViewInteraction getAlertConfirmativeButton() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_alert_positive_button));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_dialog_positive_button));
     }
 }
 

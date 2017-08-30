@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
                     android:gravity="top"
-                    android:hint="@string/dialog_screen_short_content_text" />
+                    android:hint="@string/multi_line_input" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
