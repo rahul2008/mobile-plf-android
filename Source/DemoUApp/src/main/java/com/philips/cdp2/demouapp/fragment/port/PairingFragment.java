@@ -69,13 +69,13 @@ public class PairingFragment extends Fragment {
 
                 // TODO: Store appliance into database
 
-                showSnackbar(getString(cml_paired_success));
+                showSnackbar(cml_paired_success);
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showSnackbar(getString(cml_pairing_failed));
+                showSnackbar(cml_pairing_failed);
             }
         }, getCloudController());
 
@@ -97,21 +97,21 @@ public class PairingFragment extends Fragment {
 
                 // TODO: Store appliance into database
 
-                showSnackbar(getString(cml_unpair_success));
+                showSnackbar(cml_unpair_success);
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showSnackbar(getString(cml_pairing_failed));
+                showSnackbar(cml_pairing_failed);
             }
         }, getCloudController());
 
         pairingHandler.initializeRelationshipRemoval();
     }
 
-    private void showSnackbar(final String message) {
-        if (getActivity() != null) {
+    private void showSnackbar(final int message) {
+        if (isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
