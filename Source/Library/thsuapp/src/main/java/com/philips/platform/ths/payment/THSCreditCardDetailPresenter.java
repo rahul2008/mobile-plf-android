@@ -40,7 +40,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             saveCreditCardDetail();
         } else if (componentID == R.id.ths_payment_detail_card_cvc_help) {
             showCVVdetail(true, true, false);
-        } else if (componentID == R.id.uid_alert_positive_button) {
+        } else if (componentID == R.id.uid_dialog_positive_button) {
             mTHSCreditCardDetailFragment.alertDialogFragment.dismiss();
         }
 

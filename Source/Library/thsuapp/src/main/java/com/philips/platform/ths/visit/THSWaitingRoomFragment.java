@@ -146,10 +146,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         if (v.getId() == R.id.ths_waiting_room_cancel_button) ;
         {
             // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
-            if (v.getId() == R.id.uid_alert_negative_button) {
+            if (v.getId() == R.id.uid_dialog_positive_button) {
                 alertDialogFragment.dismiss();
-            } else if (v.getId() == R.id.uid_alert_positive_button) {
-                mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
+            } else if (v.getId() == R.id.uid_dialog_positive_button) {
+                mTHSWaitingRoomPresenter.onEvent(R.id.uid_dialog_positive_button);
 
             } else {
 
