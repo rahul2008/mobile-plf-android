@@ -79,23 +79,26 @@ class LoggingConfiguration {
         mJavaLogger = getLogger(pComponentId); // returns new or existing log
         if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
             final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig(loggingProperty);;
-            activateLogger();
+            activateLogger(); // activating created logger
             if (ComponentToBeLoggedList.contains(pComponentId)) {
-                // if given component listed under config's key 'logging.debugConfig'>'componentIds' then enable log
                 if(isComponentLevelLogEnabled) {
+                    // if given component listed under config's key 'logging.debugConfig'>'componentIds' then enable log
                     getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
                     enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
                 } else {
+                    // disabling component level logs if present in configuration
                     getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                     getJavaLogger().setLevel(Level.OFF);
                 }
 
             } else {
+                // on provided componentId not in configured component ids
                 getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
                 enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
             }
 
-        } else { // Turning logging level off
+        } else {
+            // Turning logging level off
             getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
             getJavaLogger().setLevel(Level.OFF);
         }
