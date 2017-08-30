@@ -218,23 +218,19 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
-        thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
     }
 
     private void showPharmacySearch() {
         getActivity().getSupportFragmentManager().popBackStack();
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
         getActivity().getSupportFragmentManager().popBackStack();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
-        thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-        thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
     }
 
