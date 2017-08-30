@@ -10,6 +10,7 @@ public class IAPLaunchInput extends UappLaunchInput {
     public IAPFlowInput mIAPFlowInput;
     private IAPListener iapListener;
     private ArrayList<String> mIgnoreRetailers;
+    ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
 
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput, ArrayList<String> pBlackListedRetailer) {
         mLandingView = pLandingView;
@@ -18,7 +19,12 @@ public class IAPLaunchInput extends UappLaunchInput {
     }
 
     public ArrayList<String> getIgnoreRetailers() {
-        return mIgnoreRetailers;
+        for (String str : mIgnoreRetailers) {
+            String[] first = str.split(" ");
+            String firstNameOfRetailer = first[0];
+            mFirstIgnoreRetailers.add(firstNameOfRetailer);
+        }
+        return mFirstIgnoreRetailers;
     }
 
     public IAPListener getIapListener() {
