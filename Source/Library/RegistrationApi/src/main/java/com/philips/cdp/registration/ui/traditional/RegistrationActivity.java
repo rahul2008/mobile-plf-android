@@ -211,19 +211,12 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        if(titleResourceID == R.string.getting_started) {
-            ivBack.setText(R.string.ic_reg_close);
-            isShowBack = true;
-        } else {
-            ivBack.setText(R.string.ic_reg_left);
-        }
-
-        if (isShowBack) {
+        if(isShowBack){
             ivBack.setVisibility(View.VISIBLE);
             TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceID));
-        } else {
-            ivBack.setVisibility(View.INVISIBLE);
+        }else{
+            ivBack.setVisibility(View.VISIBLE);
             TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
             tvTitle.setText(getString(titleResourceID));
         }
@@ -233,12 +226,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(titleResourceText);
-        if(getString(R.string.getting_started).equals(titleResourceText)) {
-            ivBack.setText(R.string.ic_reg_close);
-            isShowBack = true;
-        } else {
-            ivBack.setText(R.string.ic_reg_left);
-        }
         ivBack.setVisibility(View.VISIBLE);
         if (!isShowBack) {
             ivBack.setVisibility(View.INVISIBLE);

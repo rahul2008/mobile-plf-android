@@ -7,7 +7,7 @@
         android:id="@+id/rl_reg_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/reg_header_height"
-        android:background="?attr/uidNavigationPrimaryBackgroundColor" >
+        android:background="@drawable/reg_header_bg" >
 
         <com.philips.cdp.registration.ui.customviews.XIconTextView
             android:id="@+id/iv_reg_back"
@@ -18,17 +18,17 @@
             android:layout_marginRight="5dip"
             android:layout_centerVertical="true"
             android:padding="@dimen/reg_header_iv_back_padding"
-            android:text="@string/ic_reg_close"
-            android:textColor="?attr/uidNavigationPrimaryTextColor"
+            android:text="@string/ic_reg_left"
+            android:textColor="@color/reg_back_arrow_color"
             android:textSize="@dimen/reg_back_arrow_size" />
 
-        <com.philips.platform.uid.view.widget.Label
+        <com.philips.cdp.registration.ui.customviews.XTextView
             android:id="@+id/tv_reg_header_title"
             style="@style/reg_style_homescreen_title"
             android:layout_marginRight="@dimen/reg_header_title_margin_right"
             android:layout_toRightOf="@+id/iv_reg_back"
             android:text="@string/reg_SigIn_TitleTxt"
-            android:textColor="?attr/uidNavigationPrimaryTextColor"
+            android:textColor="@color/reg_header_text_color"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
     </RelativeLayout>
 

@@ -8,7 +8,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.*;
@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
-public class AlmostDonePresenter implements NetworStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
+public class AlmostDonePresenter implements NetworkStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
 
 
     @Inject

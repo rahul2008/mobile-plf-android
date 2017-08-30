@@ -111,7 +111,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         forgotPasswordPresenter = new ForgotPasswordPresenter(this, context);
         forgotPasswordPresenter.registerListener();
         RLog.i(RLog.EVENT_LISTENERS,
-                "ResetPasswordFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "ResetPasswordFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.reg_fragment_forgot_password, container, false);
         ButterKnife.bind(this, view);
         user = new User(context);
@@ -144,7 +144,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         forgotPasswordPresenter.unRegisterListener();
 
         RLog.i(RLog.EVENT_LISTENERS,
-                "ResetPasswordFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "ResetPasswordFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 

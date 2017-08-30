@@ -161,7 +161,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
         RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "CreateAccountFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         context = getRegistrationFragment().getActivity().getApplicationContext();
 
         createAccountPresenter = new CreateAccountPresenter(this);
@@ -169,7 +169,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         ButterKnife.bind(this, view);
-        usr_createscreen_emailormobile_inputValidationLayout.setValidator(loginIdValidator);
+        usr_createscreen_emailormobile_inputValidationLayout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence charSequence) {
+                return false;
+            }
+        });
         usr_createScreen_password_inputValidationField.setValidator(passwordValidator);
         usr_createScreen_password_inputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
         initUI(view);
@@ -191,7 +196,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         int strengthMeterMedium=66;
 
         RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment register: NetworStateListener,strength " + strength);
+                "CreateAccountFragment register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
             passwordUiUpdate(RegConstants.PASSWORD_STRENGTH_STRONG, strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
@@ -236,7 +241,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         createAccountPresenter.unRegisterListener();
 
         RLog.d(RLog.EVENT_LISTENERS,
-                "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "CreateAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 

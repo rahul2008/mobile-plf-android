@@ -11,7 +11,7 @@ import com.philips.cdp.registration.ui.utils.*;
 
 import javax.inject.*;
 
-public class CreateAccountPresenter implements NetworStateListener, EventListener, TraditionalRegistrationHandler {
+public class CreateAccountPresenter implements NetworkStateListener, EventListener, TraditionalRegistrationHandler {
 
     private static final int FAILURE_TO_CONNECT = -1;
 

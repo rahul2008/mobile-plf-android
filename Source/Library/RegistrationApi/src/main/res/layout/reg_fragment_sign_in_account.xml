@@ -21,7 +21,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_margin_24"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_layout_margin_12dp">
+            android:paddingBottom="@dimen/reg_layout_margin_end_16">
 
             <LinearLayout
                 android:id="@+id/ll_reg_create_account_fields"
@@ -120,7 +120,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/reg_margin_24"
         android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"
         android:textSize="@dimen/reg_text_size_12"/>

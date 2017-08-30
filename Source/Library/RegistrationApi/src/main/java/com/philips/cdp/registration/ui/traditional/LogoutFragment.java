@@ -20,7 +20,7 @@ import android.widget.*;
 
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
@@ -29,7 +29,7 @@ import com.philips.cdp.registration.ui.utils.*;
 import javax.inject.Inject;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateUserDetailsHandler, NetworStateListener, LogoutHandler,
+        UpdateUserDetailsHandler, NetworkStateListener, LogoutHandler,
         XCheckBox.OnCheckedChangeListener {
 
     @Inject

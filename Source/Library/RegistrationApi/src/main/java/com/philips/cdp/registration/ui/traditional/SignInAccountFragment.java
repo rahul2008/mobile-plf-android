@@ -52,7 +52,7 @@ import io.reactivex.disposables.*;
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
         EventListener, ResendVerificationEmailHandler,
-        NetworStateListener, HttpClientServiceReceiver.Listener {
+        NetworkStateListener, HttpClientServiceReceiver.Listener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -62,10 +62,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
     public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
-
-    private LinearLayout mLlCreateAccountFields;
-
-    private RelativeLayout mRlSignInBtnContainer;
 
     @BindView(R2.id.usr_loginScreen_login_button)
     ProgressBarButton mBtnSignInAccount;
@@ -134,7 +130,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         ButterKnife.bind(this, view);
         mBtnSignInAccount.setEnabled(false);
         RLog.i(RLog.EVENT_LISTENERS,
-                "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "SignInAccountFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
@@ -162,7 +158,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
         RLog.i(RLog.EVENT_LISTENERS,
-                "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "SignInAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 
@@ -192,17 +188,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             hideValidations();
             mBtnSignInAccount.showProgressIndicator();
             signIn();
-        } else if (id == R.id.btn_reg_forgot_password) {
-            RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
-            hideValidations();
-            loginValidationEditText.clearFocus();
-            passwordValidationEditText.clearFocus();
-            if (loginValidationEditText.getText().length() == 0) {
-                launchResetPasswordFragment();
-            } else {
-                RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in Other Country");
-                resetPassword();
-            }
         } else if (id == R.id.btn_reg_resend) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
             loginValidationEditText.clearFocus();
@@ -233,9 +218,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void initUI(View view) {
         consumeTouch(view);
         mBtnSignInAccount.setOnClickListener(this);
-        mLlCreateAccountFields = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_fields);
-        mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
         mEtEmail.setOnClickListener(this);
         mEtEmail.setValidator(email -> FieldsValidator.isValidEmail(email.toString()));

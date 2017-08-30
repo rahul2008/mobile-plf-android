@@ -100,7 +100,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         accountActivationResendMailPresenter = new AccountActivationResendMailPresenter(this);
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
+        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworkStateListener");
         accountActivationResendMailPresenter.registerListener();
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -124,7 +124,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
         accountActivationResendMailPresenter.unRegisterListener();
-        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
+        RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworkStateListener");
         super.onDestroy();
     }
 

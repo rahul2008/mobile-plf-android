@@ -2,7 +2,7 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.update.UpdateUserProfile;
@@ -14,7 +14,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class AddSecureEmailPresenter implements NetworStateListener {
+public class AddSecureEmailPresenter implements NetworkStateListener {
 
     @Inject
     UpdateUserProfile updateUserProfile;
