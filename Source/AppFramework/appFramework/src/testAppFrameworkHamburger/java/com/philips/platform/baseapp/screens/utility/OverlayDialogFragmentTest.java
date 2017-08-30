@@ -14,6 +14,7 @@ import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,11 +26,13 @@ import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowDialog;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class OverlayDialogFragmentTest {
 
     private TestActivity testActivity;
@@ -37,24 +40,35 @@ public class OverlayDialogFragmentTest {
     private ActivityController<TestActivity> activityController;
 
     @Before
-    public void setUp(){
-        activityController= Robolectric.buildActivity(TestActivity.class);
-        testActivity=activityController.create().start().get();
+    public void setUp() {
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        testActivity = activityController.create().start().get();
     }
 
     @Test
-    public void testDialogLaunchWithInvaildResId(){
-        overlayDialogFragment =  OverlayDialogFragment.newInstance(testActivity.getString(R.string.RA_DLS_Help_Philips_Shop), -1);
-        overlayDialogFragment.show(testActivity.getFragmentManager(),null);
+    public void testDialogLaunchWithInvaildResId() {
+        overlayDialogFragment = OverlayDialogFragment.newInstance(testActivity.getString(R.string.RA_DLS_Help_Philips_Shop), -1);
+        overlayDialogFragment.show(testActivity.getFragmentManager(), null);
         Dialog dialog = ShadowDialog.getLatestDialog();
-        Drawable drawable = ((ImageView) dialog.findViewById(R.id.imageHelp)).getDrawable();
+        Drawable drawable = ((ImageView) dialog.findViewById(R.id.imageHelp)).getBackground();
         assertNull(drawable);
     }
 
     @Test
+    public void testDialogLaunchWithVaildData() {
+        overlayDialogFragment = OverlayDialogFragment.newInstance(testActivity.getString(R.string.RA_DLS_Help_Philips_Shop), R.mipmap.philips_shop_overlay);
+        overlayDialogFragment.show(testActivity.getFragmentManager(), null);
+        Dialog dialog = ShadowDialog.getLatestDialog();
+        Drawable drawable = ((ImageView) dialog.findViewById(R.id.imageHelp)).getBackground();
+        Label description = (Label) dialog.findViewById(R.id.textView_overlay_subText);
+        assertEquals(testActivity.getString(R.string.RA_DLS_Help_Philips_Shop), description.getText().toString());
+        assertNotNull(drawable);
+    }
+
+    @Test
     public void testDialogDismissOnClick() {
-        overlayDialogFragment =  OverlayDialogFragment.newInstance(testActivity.getString(R.string.RA_DLS_Help_Philips_Shop), R.mipmap.philips_shop_overlay);
-        overlayDialogFragment.show(testActivity.getFragmentManager(),null);
+        overlayDialogFragment = OverlayDialogFragment.newInstance(testActivity.getString(R.string.RA_DLS_Help_Philips_Shop), R.mipmap.philips_shop_overlay);
+        overlayDialogFragment.show(testActivity.getFragmentManager(), null);
         Dialog dialog = ShadowDialog.getLatestDialog();
         RelativeLayout parentLayout = (RelativeLayout) dialog.findViewById(R.id.dialogBackground);
         parentLayout.performClick();
@@ -62,11 +76,11 @@ public class OverlayDialogFragmentTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         activityController.pause().stop().destroy();
-        overlayDialogFragment=null;
+        overlayDialogFragment = null;
         testActivity = null;
-        activityController=null;
+        activityController = null;
     }
 
 }
