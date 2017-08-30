@@ -29,7 +29,7 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="Email needs to be verified"
                 android:textColor="@color/uid_gray_level_90"
-                android:textSize="@dimen/text_size_20"
+                android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 

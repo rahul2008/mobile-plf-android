@@ -66,7 +66,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
     private String countryCode;
 
-    private static boolean isChinaFlow;
+    private static boolean isMobileFlow;
 
     /**
      * {@code initialiseConfigParameters} method builds configuration for information in {@code EvalRegistrationSettings}
@@ -233,7 +233,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 serviceDiscoveyService = resultMap.get("userreg.smssupported");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String smsSupport = serviceDiscoveyService.getConfigUrls();
-                    setChinaFlow(true);
+                    setMobileFlow(true);
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.smssupported :" +
                             smsSupport);
                     jumpConfig.captureLocale = locale;
@@ -242,7 +242,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.smssupported :" +
                             "Service Deiscover inis at non China local");
-                    setChinaFlow(false);
+                    setMobileFlow(false);
                     jumpConfig.captureLocale = locale;
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
@@ -258,7 +258,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     mPreferredCountryCode = countryCode;
                     mPreferredLangCode = langCode;
                     initialize();
-                    RLog.d(RLog.SERVICE_DISCOVERY, " ChinaFlow : " + isChinaFlow());
+                    RLog.d(RLog.SERVICE_DISCOVERY, " MobileFlow : " + isMobileFlow());
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.engage : ");
                     initialize();
@@ -298,11 +298,11 @@ public class RegistrationSettingsURL extends RegistrationSettings {
         }
     }
 
-    public boolean isChinaFlow() {
-        return isChinaFlow;
+    public boolean isMobileFlow() {
+        return isMobileFlow;
     }
 
-    public void setChinaFlow(boolean chinaFlow) {
-        isChinaFlow = chinaFlow;
+    public void setMobileFlow(boolean mobileFlow) {
+        isMobileFlow = mobileFlow;
     }
 }

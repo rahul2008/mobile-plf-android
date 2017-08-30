@@ -153,7 +153,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
             String emailOrMobile;
-            if (RegistrationHelper.getInstance().isChinaFlow()) {
+            if (RegistrationHelper.getInstance().isMobileFlow()) {
                 emailOrMobile = user.getMobile();
             } else {
                 emailOrMobile = user.getEmail();
