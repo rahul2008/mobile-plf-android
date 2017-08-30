@@ -3,7 +3,7 @@
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package com.philips.platform.baseapp.screens.devicepairing;
+package com.philips.platform.appframework.stateimpl;
 
 import android.support.v4.app.FragmentManager;
 
@@ -28,8 +28,8 @@ import org.robolectric.annotation.Config;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
-public class DevicePairingStateTest extends TestCase {
-    private DevicePairingState devicePairingState;
+public class DemoDevicePairingStateTest extends TestCase {
+    private DemoDevicePairingState demoDevicePairingState;
     private FragmentLauncher fragmentLauncher;
     private HamburgerActivity hamburgerActivity;
     private ActivityController<TestActivity> activityController;
@@ -37,18 +37,18 @@ public class DevicePairingStateTest extends TestCase {
     @After
     public void tearDown() {
         activityController.pause().stop().destroy();
-        devicePairingState = null;
+        demoDevicePairingState = null;
         hamburgerActivity = null;
     }
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        devicePairingState = new DevicePairingState();
+        demoDevicePairingState = new DemoDevicePairingState();
 
         UIStateData devicePairingStateData = new UIStateData();
         devicePairingStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-        devicePairingState.setUiStateData(devicePairingStateData);
+        demoDevicePairingState.setUiStateData(devicePairingStateData);
 
         activityController = Robolectric.buildActivity(TestActivity.class);
         hamburgerActivity = activityController.create().start().get();
@@ -57,7 +57,7 @@ public class DevicePairingStateTest extends TestCase {
 
     @Test(expected = UnsatisfiedLinkError.class)
     public void launchDevicePairingState() {
-        devicePairingState.navigate(fragmentLauncher);
+        demoDevicePairingState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
         assertEquals(1, fragmentCount);

@@ -7,30 +7,26 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-/**
- * Created by philips on 04/07/17.
+/*
+ * @author: Ritesh Jha
+ * @date: 28th Aug 2017
  */
 
-public class DemoBLLState extends BaseState {
-    private Context context;
+public class DemoDlsState extends BaseState {
+    private Context mContext;
 
-    public DemoBLLState() {
-        super(AppStates.TESTBLUELIB);
+    public DemoDlsState() {
+        super(AppStates.TESTDLS);
     }
 
-    @Override
     public void navigate(UiLauncher uiLauncher) {
-        //TODO:Needs to launch blue lib demo micro app
     }
 
-    @Override
     public void init(Context context) {
-        this.context = context;
+        this.mContext = context;
         Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void updateDataModel() {
-
     }
 }
