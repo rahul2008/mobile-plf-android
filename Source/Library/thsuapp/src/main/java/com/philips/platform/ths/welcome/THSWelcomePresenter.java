@@ -40,7 +40,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     private final int VISIT_HISTORY = 2;
     private final int HOW_IT_WORKS = 3;
     private final int PRACTICES = 4;
-    private int launchInput = -1;
+    protected int launchInput = -1;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
         this.uiBaseView = uiBaseView;
@@ -137,12 +137,12 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
 
             @Override
             public void onRefreshLoginSessionInProgress(String s) {
-                uiBaseView.showToast(s);
+
             }
         });
     }
 
-    void checkIfUserExisits() throws AWSDKInstantiationException {
+    private void checkIfUserExisits() throws AWSDKInstantiationException {
         THSManager.getInstance().checkConsumerExists(uiBaseView.getContext(),this);
     }
 
@@ -156,18 +156,14 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         uiBaseView.hideProgressBar();
         switch (launchInput){
             case APPOINTMENTS:
-                uiBaseView.hideProgressBar();
                 uiBaseView.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
                 break;
             case VISIT_HISTORY:
-                uiBaseView.hideProgressBar();
                 uiBaseView.addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
                 break;
             case HOW_IT_WORKS:
-                uiBaseView.hideProgressBar();
                 break;
             case PRACTICES:
-                uiBaseView.hideProgressBar();
                 launchPractice(consumer);
                 break;
         }
