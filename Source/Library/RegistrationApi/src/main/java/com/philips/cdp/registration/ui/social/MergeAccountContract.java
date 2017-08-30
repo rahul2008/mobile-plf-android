@@ -1,13 +1,13 @@
 package com.philips.cdp.registration.ui.social;
 
 interface MergeAccountContract {
-    void handleNetworkError(boolean isOnline);
+    void connectionStatus(boolean isOnline);
 
-    void handleMergeStatus(boolean isOnline);
+    void mergeStatus(boolean isOnline);
 
-    void handleMergeSuccess();
+    void mergeSuccess();
 
-    void handleMergeFailuer(String reason);
+    void mergeFailuer(String reason);
 
-    void handleMergePasswordFailuer();
+    void mergePasswordFailuer();
 }

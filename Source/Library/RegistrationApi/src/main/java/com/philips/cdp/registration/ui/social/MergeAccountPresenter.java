@@ -10,7 +10,7 @@ import com.philips.cdp.registration.ui.utils.*;
 
 import javax.inject.*;
 
-public class MergeAccountPresenter implements TraditionalLoginHandler, NetworStateListener {
+public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkStateListener {
 
     @Inject
     User mUser;
@@ -30,8 +30,8 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworSta
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        mergeAccountContract.handleNetworkError(isOnline);
-        mergeAccountContract.handleMergeStatus(isOnline);
+        mergeAccountContract.connectionStatus(isOnline);
+        mergeAccountContract.mergeStatus(isOnline);
     }
 
 
@@ -41,16 +41,16 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworSta
 
     @Override
     public void onLoginSuccess() {
-        mergeAccountContract.handleMergeSuccess();
+        mergeAccountContract.mergeSuccess();
     }
 
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-            mergeAccountContract.handleMergePasswordFailuer();
+            mergeAccountContract.mergePasswordFailuer();
             return;
         }
-        mergeAccountContract.handleMergeFailuer(userRegistrationFailureInfo.getErrorDescription());
+        mergeAccountContract.mergeFailuer(userRegistrationFailureInfo.getErrorDescription());
     }
 
 

@@ -25,14 +25,14 @@ import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.ui.controllers.ParentalConsentFragmentController;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 public class ParentalConsentFragment extends RegistrationCoppaBaseFragment
-        implements OnClickListener, NetworStateListener {
+        implements OnClickListener, NetworkStateListener {
 
     private NetworkUtility networkUtility;
 

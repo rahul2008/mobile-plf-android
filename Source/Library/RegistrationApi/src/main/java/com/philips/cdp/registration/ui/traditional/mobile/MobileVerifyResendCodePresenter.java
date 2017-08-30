@@ -13,7 +13,7 @@ import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -39,7 +39,7 @@ import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_REQUES
 import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_RESPONSE;
 import static com.philips.cdp.registration.HttpClientService.HTTP_URL_TO_BE_CALLED;
 
-public class MobileVerifyResendCodePresenter implements HttpClientServiceReceiver.Listener, NetworStateListener {
+public class MobileVerifyResendCodePresenter implements HttpClientServiceReceiver.Listener, NetworkStateListener {
 
     private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final int RESEND_OTP_REQUEST_CODE = 101;

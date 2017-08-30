@@ -25,13 +25,13 @@ import com.philips.cdp.registration.coppa.R;
 import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
-public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener, NetworStateListener {
+public class ParentalCaringSharingFragment extends RegistrationCoppaBaseFragment implements OnClickListener, NetworkStateListener {
 
     private LinearLayout mLlRootContainer;
     private Button mBtnDashboard;

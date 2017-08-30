@@ -218,11 +218,11 @@ public class RegistrationHelper {
     }
 
 
-    public synchronized void registerNetworkStateListener(NetworStateListener networStateListener) {
+    public synchronized void registerNetworkStateListener(NetworkStateListener networStateListener) {
         NetworkStateHelper.getInstance().registerEventNotification(networStateListener);
     }
 
-    public synchronized void unRegisterNetworkListener(NetworStateListener networStateListener) {
+    public synchronized void unRegisterNetworkListener(NetworkStateListener networStateListener) {
         NetworkStateHelper.getInstance().unregisterEventNotification(networStateListener);
     }
 

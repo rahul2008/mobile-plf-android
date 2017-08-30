@@ -55,7 +55,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
-        NetworStateListener, SocialProviderLoginHandler, EventListener {
+        NetworkStateListener, SocialProviderLoginHandler, EventListener {
 
     public static final String WECHAT = "wechat";
     private static final int AUTHENTICATION_FAILED = -30;
@@ -141,7 +141,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .registerEventNotification(RegConstants.WECHAT_AUTH, this);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS,
-                "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+                "HomeFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         View view;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
@@ -223,7 +223,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
         RLog.i(RLog.EVENT_LISTENERS,
-                "HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+                "HomeFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         super.onDestroy();
     }
 

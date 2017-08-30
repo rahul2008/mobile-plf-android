@@ -32,7 +32,7 @@ import io.reactivex.schedulers.*;
  * Created by philips on 22/06/17.
  */
 
-public class ForgotPasswordPresenter implements NetworStateListener, EventListener,
+public class ForgotPasswordPresenter implements NetworkStateListener, EventListener,
         ForgotPasswordHandler, HttpClientServiceReceiver.Listener {
 
     @Inject

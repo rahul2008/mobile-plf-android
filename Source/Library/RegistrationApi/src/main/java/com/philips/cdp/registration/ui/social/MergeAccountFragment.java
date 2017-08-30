@@ -22,7 +22,6 @@ import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.*;
 
 import javax.inject.*;
@@ -69,7 +68,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
         ButterKnife.bind(this, view);
         initUI(view);
-        handleNetworkError(networkUtility.isNetworkAvailable());
+        connectionStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
         mergeAccountPresenter = new MergeAccountPresenter(this);
         return view;
@@ -165,7 +164,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     }
 
     @Override
-    public void handleNetworkError(boolean isOnline) {
+    public void connectionStatus(boolean isOnline) {
         if (isOnline) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
@@ -204,7 +203,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     }
 
     @Override
-    public void handleMergeSuccess() {
+    public void mergeSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         hideMergeSpinner();
@@ -228,14 +227,14 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
 
     @Override
-    public void handleMergeFailuer(String reason) {
+    public void mergeFailuer(String reason) {
         hideMergeSpinner();
         mEtPassword.setErrorMessage(reason);
         mEtPassword.showError();
     }
 
     @Override
-    public void handleMergePasswordFailuer() {
+    public void mergePasswordFailuer() {
         hideMergeSpinner();
         mEtPassword.setErrorMessage(getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
         mEtPassword.showError();
@@ -243,7 +242,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
 
     @Override
-    public void handleMergeStatus(boolean isOnline) {
+    public void mergeStatus(boolean isOnline) {
         if (isOnline && passwordValidationEditText.getText().toString().length() > 0) {
             mEtPassword.hideError();
             enableMerge();

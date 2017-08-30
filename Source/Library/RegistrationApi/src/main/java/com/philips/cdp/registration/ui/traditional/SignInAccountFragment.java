@@ -52,7 +52,7 @@ import io.reactivex.disposables.*;
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
         EventListener, ResendVerificationEmailHandler,
-        NetworStateListener, HttpClientServiceReceiver.Listener {
+        NetworkStateListener, HttpClientServiceReceiver.Listener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -130,7 +130,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         ButterKnife.bind(this, view);
         mBtnSignInAccount.setEnabled(false);
         RLog.i(RLog.EVENT_LISTENERS,
-                "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "SignInAccountFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
@@ -158,7 +158,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
         RLog.i(RLog.EVENT_LISTENERS,
-                "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "SignInAccountFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 

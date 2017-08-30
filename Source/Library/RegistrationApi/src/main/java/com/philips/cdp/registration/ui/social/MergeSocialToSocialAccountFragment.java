@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment implements EventListener,
-        OnUpdateListener, NetworStateListener, SocialProviderLoginHandler, OnClickListener {
+        OnUpdateListener, NetworkStateListener, SocialProviderLoginHandler, OnClickListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -82,7 +82,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.reg_fragment_social_to_social_merge_account, container, false);
         RLog.i(RLog.EVENT_LISTENERS,
-                "MergeSocialToSocialAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+                "MergeSocialToSocialAccountFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS");
         mUser = new User(mContext);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
@@ -134,7 +134,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
                 this);
         RLog.i(RLog.EVENT_LISTENERS,
-                "MergeAccountFragment unregister: JANRAIN_INIT_SUCCESS,NetworStateListener");
+                "MergeAccountFragment unregister: JANRAIN_INIT_SUCCESS,NetworkStateListener");
         super.onDestroy();
     }
 

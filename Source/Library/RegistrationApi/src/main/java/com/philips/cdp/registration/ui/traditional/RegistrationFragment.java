@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 
-public class RegistrationFragment extends Fragment implements NetworStateListener,
+public class RegistrationFragment extends Fragment implements NetworkStateListener,
         OnClickListener, BackEventListener, CounterListener{
 
     @Inject
@@ -107,7 +107,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworStateListener");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworkStateListener");
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             loadFirstFragment();
@@ -148,7 +148,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworStateListener,Context");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworkStateListener,Context");
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         setPrevTiltle();

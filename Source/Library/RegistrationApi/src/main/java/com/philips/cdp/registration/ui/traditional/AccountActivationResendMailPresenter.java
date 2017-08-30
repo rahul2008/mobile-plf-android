@@ -9,7 +9,7 @@ import com.philips.cdp.registration.ui.utils.*;
 
 import javax.inject.*;
 
-public class AccountActivationResendMailPresenter implements NetworStateListener,
+public class AccountActivationResendMailPresenter implements NetworkStateListener,
         ResendVerificationEmailHandler {
 
     private final AccountActivationResendMailContract accountActivationContract;

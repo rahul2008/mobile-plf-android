@@ -12,7 +12,7 @@ package com.philips.cdp.registration.events;
 /**
  * Network state listener interface
  */
-public interface NetworStateListener {
+public interface NetworkStateListener {
     /**
      * {@code onNetWorkStateReceived} method to on network state received
      * @param isOnline
