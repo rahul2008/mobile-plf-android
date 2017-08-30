@@ -26,30 +26,18 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context mContext;
     private List<Addresses> mAddresses;
 
-    private EditDeletePopUP mPopUP;
     private int mSelectedIndex=0; //As Oth position is taken by header
-    //private Drawable mOptionsDrawable;
-
-    private int mOptionsClickPosition = -1;
-
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
-
-    public static final String EVENT_EDIT = "event_edit";
-    public static final String EVENT_DELETE = "event_delete";
 
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
         mAddresses = addresses;
         mSelectedIndex = 0; //As Oth position is taken by header
-        initOptionsDrawable();
     }
 
-    private void initOptionsDrawable() {
-        // mOptionsDrawable = Drawable.create(mContext, R.drawable.iap_options_icon_5x17);
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -90,24 +78,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             AddressSelectionHolder addressSelectionHolder = (AddressSelectionHolder) holder;
             addressSelectionHolder.tvToggle.setText(address.getFirstName() + " " + address.getLastName());
             addressSelectionHolder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
-            // holder.options.setImageDrawable(mOptionsDrawable);
-
-            //Update payment options buttons
             updatePaymentButtonsVisibility(addressSelectionHolder.paymentOptions,addressSelectionHolder.delete, position);
-
-            //bind options: edit, delete menu
-            // bindOptionsButton(holder.optionLayout, position);
-
-            //bind toggle button
             setToggleStatus(addressSelectionHolder.toggle, position);
             bindToggleButton(addressSelectionHolder, addressSelectionHolder.toggle);
-
-            //bind deliver to address
             bindDeliverToThisAddress(addressSelectionHolder.deliverToThisAddress);
-
-            //bind add new address
-            // bindAddNewAddress(holder.addNewAddress);
-
             addressSelectionHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,12 +115,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
             }
         });
-    }
-
-    public void onStop() {
-        if (mPopUP != null && mPopUP.isShowing()) {
-            mPopUP.dismiss();
-        }
     }
 
     private void updatePaymentButtonsVisibility(final ViewGroup paymentOptions,final Button dleteButton, final int position) {
@@ -195,32 +163,21 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public class AddressSelectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Button deliverToThisAddress;
-        // Button addNewAddress;
-
-        //TextView name;
         TextView address;
-
         RadioButton toggle;
         TextView tvToggle;
-        // ImageView options;
-
         ViewGroup paymentOptions;
         Button edit;
         Button delete;
-        // ViewGroup optionLayout;
-
         public AddressSelectionHolder(final View view) {
             super(view);
-            //name = (TextView) view.findViewById(R.id.tv_name);
             address = (TextView) view.findViewById(R.id.tv_address);
             toggle = (RadioButton) view.findViewById(R.id.rbtn_toggle);
             tvToggle=(TextView)view.findViewById(R.id.tv_rbtn_toggle);
-            //options = (ImageView) view.findViewById(R.id.img_options);
             paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
             deliverToThisAddress = (Button) view.findViewById(R.id.btn_deliver_to_this_address);
             edit=(Button)view.findViewById(R.id.btn_edit_address);
             delete=(Button)view.findViewById(R.id.btn_delete_address);
-            // addNewAddress = (Button) view.findViewById(R.id.btn_add_new_address);
             view.setOnClickListener(this);
         }
 
@@ -243,7 +200,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
         if (isPositionHeader(position)) {
-           // return TYPE_HEADER;
         } else if (isPositionFooter(position)) {
             return TYPE_FOOTER;
         }

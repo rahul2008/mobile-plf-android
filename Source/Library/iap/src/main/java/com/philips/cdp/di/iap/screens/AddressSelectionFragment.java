@@ -55,7 +55,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private AddressController mAddressController;
     private AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses = new ArrayList<>();
-   // private Button mCancelButton;
 
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
@@ -73,10 +72,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
-        mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
-       // mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
-       // bindCancelListener();
 
+        mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
         mAddressController = new AddressController(mContext, this);
         mJanRainEmail = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
         registerEvents();
@@ -137,15 +134,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
-
-   /* public void bindCancelListener() {
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                moveToShoppingCart();
-            }
-        });
-    }*/
 
     @Override
     public boolean handleBackEvent() {
@@ -344,9 +332,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onStop() {
         super.onStop();
-        if (mAdapter != null) {
-            mAdapter.onStop();
-        }
     }
 
     @Override
