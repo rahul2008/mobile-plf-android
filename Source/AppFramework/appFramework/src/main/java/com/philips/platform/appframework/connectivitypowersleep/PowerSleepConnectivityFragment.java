@@ -125,29 +125,9 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
                 launchBlutoothActivity();
                 break;
             case R.id.insights:
-                //replaceFragment(new InsightsFragment(), InsightsFragment.TAG);
                 break;
             default:
         }
-    }
-
-    private void replaceFragment(Fragment fragment, String tag) {
-
-        int containerId = -1;
-        if (getActivity() instanceof AbstractAppFrameworkBaseActivity) {
-            containerId = ((AbstractAppFrameworkBaseActivity) getActivity()).getContainerId();
-        }
-
-        try {
-            if (containerId == -1) return;
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(containerId, fragment, tag);
-            fragmentTransaction.addToBackStack(tag);
-            fragmentTransaction.commit();
-        } catch (IllegalStateException e) {
-            RALog.e(TAG + ILLEGAL_STATE_EXCEPTION, e.getMessage());
-        }
-
     }
 
     private BleReferenceAppliance bleReferenceAppliance = null;
@@ -193,8 +173,8 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     }
 
     private void fetchData(BleReferenceAppliance bleRefAppliance) {
-        dialog = ProgressDialog.show(mContext, "", "Wait..While we fetch your sleep data from device ");
-        dialog.setCancelable(true);
+        dialog = ProgressDialog.show(mContext, "", getString(R.string.RA_DLS_data_fetch_wait));
+        dialog.setCancelable(false);
         bleRefAppliance.getSensorDataPort().reloadProperties();
         bleRefAppliance.getSessionDataPort().reloadProperties();
         bleRefAppliance.getSessionInfoPort().reloadProperties();
@@ -217,8 +197,8 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
         RALog.d(TAG, "Session data updated");
         insights.setEnabled(true);
         insights.setAlpha(1.0f);
-        this.sleepTime.setText(TimeUnit.MILLISECONDS.toMinutes(sleepTime) + " mins");
-        this.deepSleepTime.setText(TimeUnit.MILLISECONDS.toMinutes(deepSleepTime) + " mins");
+        this.sleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(sleepTime)));
+        this.deepSleepTime.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(deepSleepTime)));
         setLastSyncDate();
         setSleepProgressPercentage(TimeUnit.MILLISECONDS.toMinutes(deepSleepTime));
     }
@@ -229,7 +209,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
             dialog.dismiss();
         }
         RALog.d(TAG, "Device Error : " + s);
-        Toast.makeText(getContext(), "Not able to fetch data", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), getString(R.string.RA_DLS_data_fetch_error), Toast.LENGTH_LONG).show();
     }
 
     private void setLastSyncDate() {

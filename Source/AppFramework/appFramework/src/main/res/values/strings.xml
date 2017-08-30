@@ -308,9 +308,22 @@ Receive free product accessories</string>
 
     <string name="label_last_synced">Last updated: %1$s</string>
     <string name="label_last_synced_default">Last updated: No update yet</string>
+    <string name="label_sleep_time_format">%d mins</string>
+    <string name="RA_DLS_healthy_sleep_title">Healthy Sleep Score</string>
+    <string name="RA_DLS_sleep_element">Sleep element</string>
+    <string name="RA_DLS_power_sleep_actual">Actual</string>
+    <string name="RA_DLS_power_sleep_time_sleep">Time asleep</string>
+    <string name="RA_DLS_power_sleep_default_data">--</string>
+    <string name="RA_DLS_power_sleep_ideal_sleep_time">(Ideal 450-540 mins)</string>
+    <string name="RA_DLS_power_sleep_deep_sleep_title">Time spent in deep sleep</string>
+    <string name="RA_DLS_power_sleep_ideal_deep_sleep">(Ideal 120 mins)</string>
+    <string name="RA_DLS_power_sleep_percentage_label">of 100</string>
 
     <string name="label_sleep_tips">How can I improve my sleep score?</string>
 
     <string name="RA_DLS_no_internet_connectivity" translatable="false">Internet connection is not available</string>
     <string name="RA_DLS_check_internet_connectivity" translatable="false">Check Internet Connectivity</string>
+
+    <string name="RA_DLS_data_fetch_wait">Wait..While we fetch your sleep data from device</string>
+    <string name="RA_DLS_data_fetch_error">Not able to fetch data</string>
 </resources>

@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="?attr/uidTextBoxDefaultNormalTextColor"
-            android:text="--"
-            tools:text="--" />
+            android:text="@string/RA_DLS_power_sleep_default_data"
+            tools:text="@string/RA_DLS_power_sleep_default_data" />
 
         <TextView
             android:id="@+id/sleepoverview_score_scale_label"
@@ -69,6 +69,6 @@
             android:layout_below="@+id/sleepoverview_score"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:text="of 100"/>
+            android:text="@string/RA_DLS_power_sleep_percentage_label"/>
     </LinearLayout>
 </RelativeLayout>

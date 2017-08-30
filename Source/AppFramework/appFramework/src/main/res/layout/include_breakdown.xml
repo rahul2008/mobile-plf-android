@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Healthy Sleep Score"
+        android:text="@string/RA_DLS_healthy_sleep_title"
         style="@style/BreakDownTitle"/>
 
     <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content">
@@ -19,10 +19,10 @@
         <!-- Header -->
         <TableRow style="@style/BreakDownRow">
             <TextView
-                android:text="Sleep element"
+                android:text="@string/RA_DLS_sleep_element"
                 style="@style/BreakDownElement"/>
             <TextView
-                android:text="Actual"
+                android:text="@string/RA_DLS_power_sleep_actual"
                 style="@style/BreakDownPoints"/>
         </TableRow>
 
@@ -31,17 +31,17 @@
         <!-- Time Asleep -->
         <TableRow style="@style/BreakDownRow">
             <TextView
-                android:text="Time asleep"
+                android:text="@string/RA_DLS_power_sleep_time_sleep"
                 style="@style/BreakDownElement"/>
             <TextView
                 android:id="@+id/sleep_time_value"
-                android:text="--"
-                tools:text="--"
+                android:text="@string/RA_DLS_power_sleep_default_data"
+                tools:text="@string/RA_DLS_power_sleep_default_data"
                 style="@style/BreakDownDeduction"/>
         </TableRow>
         <TableRow style="@style/BreakDownRow">
             <TextView
-                android:text="(Ideal 450-540 mins)"
+                android:text="@string/RA_DLS_power_sleep_ideal_sleep_time"
                 style="@style/BreakDownElementSub"/>
         </TableRow>
 
@@ -50,17 +50,17 @@
         <!-- Deep Sleep -->
         <TableRow style="@style/BreakDownRow">
             <TextView
-                android:text="Time spent in deep sleep"
+                android:text="@string/RA_DLS_power_sleep_deep_sleep_title"
                 style="@style/BreakDownElement"/>
             <TextView
                 android:id="@+id/deep_sleep_time_value"
-                android:text="--"
-                tools:text="--"
+                android:text="@string/RA_DLS_power_sleep_default_data"
+                tools:text="@string/RA_DLS_power_sleep_default_data"
                 style="@style/BreakDownDeduction"/>
         </TableRow>
         <TableRow style="@style/BreakDownRow">
             <TextView
-                android:text="(Ideal 120 mins)"
+                android:text="@string/RA_DLS_power_sleep_ideal_deep_sleep"
                 style="@style/BreakDownElementSub"/>
         </TableRow>
 
