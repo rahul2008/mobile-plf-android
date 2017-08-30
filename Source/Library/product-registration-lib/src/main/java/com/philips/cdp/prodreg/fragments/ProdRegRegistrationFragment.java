@@ -14,20 +14,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-
 
 import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
@@ -46,11 +45,11 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ValidationEditText;
-
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -81,6 +80,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ValidationEditText field_serial;
     private boolean isRegisterButtonClicked = false;
     private String minDate;
+    private Label prg_success_thanks_textView;
+    String warntyPeriod=null,emailId=null;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -143,9 +144,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
+        UIDHelper.injectCalligraphyFonts();
         dateParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_Layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.prg_registerScreen_serialNumber_layout);
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
+        prg_success_thanks_textView=(Label)view.findViewById(R.id.prg_success_thanks_textView);
         success_background_image=(ImageView)view.findViewById(R.id.success_background_image);
         prg_product_title=(Label) view.findViewById(R.id.prg_product_title);
         productTitleTextView = (Label) view.findViewById(R.id.prg_registerScreen_productTitle_label);
@@ -153,7 +156,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_input_field = (InputValidationLayout) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationLayout);
         date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
-        prSuccessConfigurableTextView = (Label) view.findViewById(R.id.pr_success_configurable_textView);
+        prSuccessConfigurableTextView = (Label) view.findViewById(R.id.prg_success_configurable_textView);
         registerButton = (Button) view.findViewById(R.id.prg_registerScreen_register_button);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
@@ -182,6 +185,34 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 return prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
             }
         });
+
+
+       // StringBuilder warntyText=new StringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt));
+        String prg_success_thanks;
+        if(warntyPeriod==null) {
+          /*  warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  xx-xx-xxxx", boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            prg_success_thanks = warntyText.toString();*/
+            int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
+            String defaultString="  xx-xx-xxxx";
+            int defaultStringLength=defaultString.length();
+            int end=start+defaultStringLength;
+            SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt)+defaultString);
+            builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
+            prg_success_thanks_textView.setText(builder);
+
+        }
+        else {
+            //warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  "+warntyPeriod, boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //prg_success_thanks=warntyText.append("  "+warntyPeriod).toString();
+            int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
+            String defaultString="  "+warntyPeriod;
+            int defaultStringLength=defaultString.length();
+            int end=start+defaultStringLength;
+            SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt)+defaultString);
+            builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
+            prg_success_thanks_textView.setText(builder);
+
+        }
 
         return view;
     }
@@ -452,6 +483,28 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         field_serial.setText(registeredProduct.getSerialNumber());
         if (!registeredProduct.getEmail()) {
             prSuccessConfigurableTextView.setVisibility(View.GONE);
+        }else {
+            if(emailId==null) {
+
+                int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
+                String defaultString="  xxx@yyy.com";
+                int defaultStringLength=defaultString.length();
+                int end=start+defaultStringLength;
+                SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Eamil_Sent_Lbltxt)+defaultString);
+                builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
+                prSuccessConfigurableTextView.setText(builder);
+
+            }
+            else {
+                int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
+                String defaultString="  "+emailId;
+                int defaultStringLength=defaultString.length();
+                int end=start+defaultStringLength;
+                SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Eamil_Sent_Lbltxt)+defaultString);
+                builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
+                prSuccessConfigurableTextView.setText(builder);
+
+            }
         }
         final String productCtn = registeredProduct.getCtn();
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
@@ -496,6 +549,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setVisibility(View.GONE);
         productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
+
         productImageView.setVisibility(View.GONE);
         productTitleTextView.setVisibility(View.GONE);
     }

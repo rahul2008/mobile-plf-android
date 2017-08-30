@@ -19,6 +19,10 @@
         <item name="android:textSize">@dimen/pr_title_textsize</item>
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
+    <style name="SuccessRegisterTheme">
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    </style>
 
 
     <style name="UIDLabel.ProductRegistrationSubTitleTheme">

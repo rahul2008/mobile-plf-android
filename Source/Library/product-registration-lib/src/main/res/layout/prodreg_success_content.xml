@@ -98,17 +98,16 @@
         android:background="?attr/uidSeparatorInputNormalBackgroundColor" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/pr_success_thanks_textView"
+        android:id="@+id/prg_success_thanks_textView"
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fab_margin"
-        android:text="@string/PPR_Extended_Warranty_Lbltxt"
         android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
         android:textSize="@dimen/pr_connect_title_textsize" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/pr_success_configurable_textView"
+        android:id="@+id/prg_success_configurable_textView"
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
