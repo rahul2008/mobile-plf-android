@@ -7,13 +7,13 @@ package com.philips.cdp2.demouapp.fragment.port;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
@@ -21,6 +21,7 @@ import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
+import static android.support.design.widget.Snackbar.LENGTH_SHORT;
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
 
 public class PairingFragment extends Fragment {
@@ -65,13 +66,13 @@ public class PairingFragment extends Fragment {
 
                 // TODO: Store appliance into database
 
-                showToast("Pairing successful");
+                showSnackbar("Pairing successful");
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showToast("Pairing failed");
+                showSnackbar("Pairing failed");
             }
         }, getCloudController());
 
@@ -93,25 +94,28 @@ public class PairingFragment extends Fragment {
 
                 // TODO: Store appliance into database
 
-                showToast("Unpaired successfully");
+                showSnackbar("Unpaired successfully");
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showToast("Pairing failed");
+                showSnackbar("Pairing failed");
             }
         }, getCloudController());
 
         pairingHandler.initializeRelationshipRemoval();
     }
 
-    private void showToast(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void showSnackbar(final String message) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    final View activityRoot = getActivity().findViewById(android.R.id.content);
+                    Snackbar.make(activityRoot, message, LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
