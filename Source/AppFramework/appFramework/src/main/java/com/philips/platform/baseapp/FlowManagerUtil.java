@@ -11,8 +11,8 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.debugtest.DebugTestFragmentState;
+import com.philips.platform.baseapp.screens.devicepairing.DevicePairingState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.introscreen.welcomefragment.WelcomeState;
@@ -23,10 +23,8 @@ import com.philips.platform.baseapp.screens.termsandconditions.TermsAndCondition
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.baseapp.screens.devicepairing.DevicePairingState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
-
 
 import java.util.Map;
 
@@ -47,7 +45,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.TERMSANDCONITIONSSTATE,new TermsAndConditionsState());
-        uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
         uiStateMap.put(AppStates.DEVICE_PAIRING, new DevicePairingState());
