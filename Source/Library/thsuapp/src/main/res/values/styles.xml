@@ -87,7 +87,7 @@
         <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
     </style>
 
-    <style name="ths_body_text_bold" parent="ths_body_text_bold">
+    <style name="ths_body_text_bold" parent="ths_body_text">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
