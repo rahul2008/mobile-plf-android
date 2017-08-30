@@ -1,4 +1,3 @@
-/*
 package com.philips.platform.ths.welcome;
 
 import android.os.Bundle;
@@ -63,8 +62,9 @@ public class THSWelcomeFragmentTest {
         mActivity = Robolectric.buildActivity(THSLaunchActivityTestMock.class).create().get();
         mWelcomeFragment = new WelcomeFragmentMock();
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
-      //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
+        //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
         mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class THSWelcomeFragmentTest {
 
     @Test
     public void handleBackEvent() throws Exception {
-        Assert.assertEquals(mWelcomeFragment.handleBackEvent(),true);
+        Assert.assertEquals(mWelcomeFragment.handleBackEvent(), false);
     }
 
     @Test
@@ -110,14 +110,50 @@ public class THSWelcomeFragmentTest {
         assertThat(id).isInstanceOf(Integer.class);
     }
 
-*/
-/*    @Test
-    public void onClick_init(){
-        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+    @Test
+    public void onClickappointments() throws Exception {
         mWelcomeFragment.presenter = presenterMock;
-        final View viewById = mWelcomeFragment.getView().findViewById(R.id.init_amwell);
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mWelcomeFragment.getView().findViewById(R.id.appointments);
         viewById.performClick();
-        verify(presenterMock).onEvent(R.id.init_amwell);
-    }*//*
+        verify(presenterMock).onEvent(R.id.appointments);
+    }
 
-}*/
+    @Test
+    public void onClickvisit_history() throws Exception {
+        mWelcomeFragment.presenter = presenterMock;
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mWelcomeFragment.getView().findViewById(R.id.visit_history);
+        viewById.performClick();
+        verify(presenterMock).onEvent(R.id.visit_history);
+    }
+
+    @Test
+    public void onClickhow_it_works() throws Exception {
+        mWelcomeFragment.presenter = presenterMock;
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mWelcomeFragment.getView().findViewById(R.id.how_it_works);
+        viewById.performClick();
+        verify(presenterMock).onEvent(R.id.how_it_works);
+    }
+
+    @Test
+    public void onClickths_start() throws Exception {
+        mWelcomeFragment.presenter = presenterMock;
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
+        final View viewById = mWelcomeFragment.getView().findViewById(R.id.ths_start);
+        viewById.performClick();
+        verify(presenterMock).onEvent(R.id.ths_start);
+    }
+
+    @Test
+    public void updateViewtest() throws Exception {
+        mWelcomeFragment.updateView();
+        View viewById = mWelcomeFragment.getView().findViewById(R.id.how_it_works);
+        assertThat(viewById.isEnabled());
+        viewById = mWelcomeFragment.getView().findViewById(R.id.appointments);
+        assertThat(viewById.isEnabled());
+        viewById = mWelcomeFragment.getView().findViewById(R.id.visit_history);
+        assertThat(viewById.isEnabled());
+    }
+}
