@@ -5,34 +5,36 @@ Version {next}
 -------------
 
 ### Functionality Delivered
-* \#65109 Removed connection state machine from DiscoveryManager.
+* CommLib - \#65109 Removed connection state machine from DiscoveryManager.
 	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
-* \#65428 Persistent NetworkNode Storage.
+* CommLib - \#65428 Persistent NetworkNode Storage.
 	* Store an Appliance by calling `ApplianceManager.storeAppliance(appliance)`
 	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
 	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`.
 
 ### Backwards Compatibility
-* `Appliance.enableCommunication` is no longer needed before a subscription. 
+* CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
 
 ### Features not covered
 * To be filled in at release
 
 ### Breaking Changes
-* `NetworkNode` and `Appliance` no longer have a `(get/set)ConnectionState`. In return `Appliance`, `CommunicationStrategy` and `TransportContext` now have an `isAvailable()` method to inform about the availablity of a connection.
-* `enableCommunication` for any `CommunicationStrategy` doesn't have parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
-* `ApplianceFactory` and `ApplianceDatabase` are no longer typed.
-* The following classes are moved to a new package:
+* CommLib - `NetworkNode` and `Appliance` no longer have a `(get/set)ConnectionState`. In return `Appliance`, `CommunicationStrategy` and `TransportContext` now have an `isAvailable()` method to inform about the availablity of a connection.
+* CommLib - `enableCommunication` for any `CommunicationStrategy` doesn't have parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
+* CommLib - `ApplianceFactory` and `ApplianceDatabase` are no longer typed.
+* CommLib - The following classes are moved to a new package:
 	* `CurrentApplianceManager` -> `com.philips.cdp2.commlib.core.appliance`
 	* `ApplianceFactory` -> `com.philips.cdp2.commlib.core.appliance`
 	* `ApplianceDatabase` -> `com.philips.cdp2.commlib.core.store`
 	
-* The following classes are renamed:
+* CommLib - The following classes are renamed:
 	* `DICommApplianceFactory` -> `ApplianceFactory`
 	* `DICommApplianceDatabase` -> `ApplianceDatabase` 
 
 ### Defects solved
-* \#72227 Timeout callback not called
+* CommLib - \#72227 Timeout callback not called
+* CommLib - \#76117 commlib-ble makes bluelib connect() calls without timeout
+* CloudController - \#55808 BufferUnderflowException while reading download data
 
 ### Residual anomalies
 * To be filled in at release
