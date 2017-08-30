@@ -51,7 +51,7 @@ node ('android&&docker') {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}_DLS", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'icf'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'icf'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 }
             }
         } catch(err) {
@@ -70,7 +70,9 @@ node ('android&&docker') {
                 junit allowEmptyResults: false, testResults: 'Source/Library/**/build/test-results/**/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/IconFont/icf/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/IconFont/icf/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-                archiveArtifacts '**/*dependencies*.lock'
+		if(fileExists('**/*dependencies*.lock')) {
+                    archiveArtifacts '**/*dependencies*.lock'
+		}
             }
             stage('informing') {
                 step([$class: 'StashNotifier'])
