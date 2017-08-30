@@ -157,7 +157,8 @@ public class ABTestClientManager implements ABTestClientInterface {
 
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "testName " + testName);
-        String testValue = getTestValueFromMemoryCache(testName);
+        final String requestName=mappedRequestName(testName);
+        String testValue = getTestValueFromMemoryCache(requestName);
 
         if (testValue == null) {
             if (getCachefromPreference() != null && updateType.name().equals
@@ -498,6 +499,37 @@ public class ABTestClientManager implements ABTestClientInterface {
             final Object mbox = appConfigurationManager.getPropertyForKey
                     ("abtest.precache", "appinfra", configError);
             return mbox;
+
+        } catch (IllegalArgumentException exception) {
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config "
+                            +exception.toString());
+        }
+        return null;
+    }
+
+    public String mappedRequestName(String requestNameKey){
+         String requestName=requestNameKey;
+         final HashMap<String,Object> mappConfig= getAbtestMapConfig(mAppInfra.getConfigInterface(), mAppInfra);
+         if(mappConfig!=null && mappConfig instanceof HashMap<?,?>){
+             final String mappedRequestName=(String) mappConfig.get(requestNameKey);
+             if(mappedRequestName!=null && mappedRequestName instanceof String){
+                 requestName=mappedRequestName;
+             }
+
+         }
+
+        return requestName;
+    }
+
+    HashMap<String,Object> getAbtestMapConfig(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
+        try {
+
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
+
+            return (HashMap<String,Object>)appConfigurationManager.getPropertyForKey
+                    ("abtest.mapping", "appinfra", configError);
 
         } catch (IllegalArgumentException exception) {
             ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,

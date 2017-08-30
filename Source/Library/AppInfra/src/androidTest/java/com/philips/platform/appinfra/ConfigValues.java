@@ -47,6 +47,7 @@ public class ConfigValues {
 				"\"RESTCLIENT.CACHESIZEINKB\"  : 1024, \n" +
 				" \"TAGGING.SENSITIVEDATA\": [\"bundleId, language\"] ,\n" +
 				"  \"ABTEST.PRECACHE\":[\"philipsmobileappabtest1content\",\"philipsmobileappabtest1success\"],\n" +
+				"  \"ABTEST.MAPPING\":{\"usr.login\":\" philipsmobileappabtest1content\"},\n" +
 				"    \"CONTENTLOADER.LIMITSIZE\":100,\n" +
 				"    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
 				"    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +

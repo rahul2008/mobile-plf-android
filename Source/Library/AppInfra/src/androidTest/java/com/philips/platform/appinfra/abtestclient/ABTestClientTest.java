@@ -97,6 +97,14 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         assertNotNull(exp);
     }
 
+    public void testMappedRequestName(){
+        String requestName=abTestClienTestManager.mappedRequestName("philipsmobileappabtest1content");
+        assertNotNull(requestName);
+        final String exp = mAbTestClientInterface.getTestValue(requestName, "defaultValue",
+                ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
+        assertNotNull(exp);
+
+    }
 
     public void testUpdateCache() {
         assertNotNull(mAbTestClientInterface);
