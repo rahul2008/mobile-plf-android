@@ -18,6 +18,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -42,6 +43,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_shipping_fragment, container, false);
         setUpViews(view);
+        thsConsumer = THSManager.getInstance().getPTHConsumer();
         ths_shipping_pharmacy_layout.setVisibility(View.INVISIBLE);
         editPharmacy.setOnClickListener(this);
         thsPharmacyAndShippingPresenter = new THSPharmacyAndShippingPresenter(this);
@@ -72,10 +74,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         pharmacyZip = (Label) view.findViewById(R.id.ps_pharmacy_zip_code);
         continueButton =(Button)view.findViewById(R.id.ths_ps_continue_button);
         continueButton.setOnClickListener(this);
-    }
-
-    public void setConsumer(THSConsumer thsConsumer) {
-        this.thsConsumer = thsConsumer;
     }
 
     public void setPharmacyAndAddress(Address address, Pharmacy pharmacy) {
@@ -109,9 +107,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     @Override
     public void startEditShippingAddress() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        thsShippingAddressFragment.setActionBarListener(getActionBarListener());
-        thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, null);
-        thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null);
     }
 

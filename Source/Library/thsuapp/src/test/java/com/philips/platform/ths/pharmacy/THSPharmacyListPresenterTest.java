@@ -3,12 +3,11 @@ package com.philips.platform.ths.pharmacy;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.pharmacy.PharmacyType;
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.ConsumerManager;
-import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumer;
@@ -55,12 +54,19 @@ public class THSPharmacyListPresenterTest {
     @Mock
     ConsumerManager consumerManagerMock;
 
+    @Mock
+    Pharmacy pharmacy;
+
+    @Mock
+    Consumer consumer;
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         thsPharmacyListPresenter = new THSPharmacyListPresenter(thsPharmacyListViewListener);
         THSManager.getInstance().setAwsdk(awsdkMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         THSManager.getInstance().setPTHConsumer(pthConsumerMock);
 
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
@@ -85,7 +91,14 @@ public class THSPharmacyListPresenterTest {
     @Test
     public void testFetchPharmacyList(){
         thsPharmacyListPresenter.fetchPharmacyList(pthConsumerMock,(float)0.11,(float)0.11,(int)0.5);
-        verify(consumerManagerMock).getPharmacies(any(Consumer.class),any(PharmacyType.class),any(String.class),
-                any(State.class),any(String.class), any(SDKValidatedCallback.class));
+        when(pthConsumerMock.getConsumer()).thenReturn(consumer);
+        verify(awsdkMock.getConsumerManager()).getPharmacies(any(Consumer.class),any(Float.class),any(Float.class),any(Integer.class),any(Boolean.class),any(SDKCallback.class));
+    }
+
+    @Test
+    public void testUpdateConsumerPreferredPharmacy(){
+        thsPharmacyListPresenter.updateConsumerPreferredPharmacy(pharmacy);
+        when(pthConsumerMock.getConsumer()).thenReturn(consumer);
+        verify(awsdkMock.getConsumerManager()).updateConsumerPharmacy(any(Consumer.class),any(Pharmacy.class),any(SDKCallback.class));
     }
 }

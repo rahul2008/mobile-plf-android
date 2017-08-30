@@ -396,9 +396,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     public void showShippingFragment() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        thsShippingAddressFragment.setActionBarListener(getActionBarListener());
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
-        thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null);
     }
 
