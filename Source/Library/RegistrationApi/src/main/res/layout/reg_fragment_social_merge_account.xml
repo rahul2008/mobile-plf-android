@@ -19,8 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_margin_24"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_layout_margin_12dp">
-
+            android:paddingBottom="@dimen/reg_margin_24">
 
 
             <com.philips.platform.uid.view.widget.Label
@@ -39,6 +38,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:text="@string/reg_Account_Merge_UsedEmail_Error_lbltxt"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -46,6 +46,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:text="Would you like to merge your accounts?"/>
 
 
@@ -60,6 +61,7 @@
                 android:id="@+id/usr_mergeScreen_password_inputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
@@ -73,15 +75,6 @@
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
 
-
-            <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/reg_error_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_reg_activate_acct"
-                android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin"/>
-
             <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:id="@+id/usr_mergeScreen_merge_button"
                 android:layout_width="match_parent"
@@ -92,16 +85,25 @@
                 app:uidProgressIndicatorButtonText="@string/reg_Account_Merge_Merge_btntxt"/>
 
 
-
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_mergeScreen_forgotPassword_button"
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16"
                 android:text="@string/reg_Forgot_Password_Title"
                 app:uidComponentType="Secondary"/>
 
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/reg_margin_bottom"
+                android:layout_marginTop="20dip"/>
         </LinearLayout>
     </ScrollView>
 

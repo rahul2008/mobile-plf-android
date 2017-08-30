@@ -21,7 +21,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_margin_24"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_layout_margin_12dp">
+            android:paddingBottom="@dimen/reg_layout_margin_end_16">
 
             <LinearLayout
                 android:id="@+id/ll_reg_create_account_fields"

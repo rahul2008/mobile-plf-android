@@ -63,10 +63,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public static final String USER_REQUEST_PASSWORD_RESET_SMS_CODE = "/api/v1/user/requestPasswordResetSmsCode";
     public static final String USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS = "/c-w/user-registration/apps/reset-password.html";
 
-    private LinearLayout mLlCreateAccountFields;
-
-    private RelativeLayout mRlSignInBtnContainer;
-
     @BindView(R2.id.usr_loginScreen_login_button)
     ProgressBarButton mBtnSignInAccount;
 
@@ -222,9 +218,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void initUI(View view) {
         consumeTouch(view);
         mBtnSignInAccount.setOnClickListener(this);
-        mLlCreateAccountFields = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_fields);
-        mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
         mEtEmail.setOnClickListener(this);
         mEtEmail.setValidator(email -> FieldsValidator.isValidEmail(email.toString()));

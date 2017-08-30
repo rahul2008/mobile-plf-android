@@ -204,9 +204,6 @@ if (propFile.canRead()){
 repositories { flatDir { dirs 'libs' } }
 dependencies {
 
-    compile project(':RegistrationApi')
-
-
     androidTestCompile "com.android.support:support-annotations:25.3.1"
 
     androidTestCompile 'com.android.support.test:runner:0.5'

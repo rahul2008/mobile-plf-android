@@ -169,7 +169,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
         ButterKnife.bind(this, view);
-        usr_createscreen_emailormobile_inputValidationLayout.setValidator(loginIdValidator);
+        usr_createscreen_emailormobile_inputValidationLayout.setValidator(new InputValidationLayout.Validator() {
+            @Override
+            public boolean validate(CharSequence charSequence) {
+                return false;
+            }
+        });
         usr_createScreen_password_inputValidationField.setValidator(passwordValidator);
         usr_createScreen_password_inputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
         initUI(view);

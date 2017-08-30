@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="@dimen/reg_layout_margin_12dp"
+            android:paddingBottom="@dimen/reg_layout_margin_end_16"
             android:layout_marginTop="@dimen/reg_margin_24"
             android:orientation="vertical">
 
@@ -204,6 +204,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_layout_margin_top_24"
                 />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/reg_margin_bottom"
+                android:layout_marginTop="20dip"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
