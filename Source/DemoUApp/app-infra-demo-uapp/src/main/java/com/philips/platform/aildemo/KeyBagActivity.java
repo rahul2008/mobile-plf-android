@@ -100,6 +100,10 @@ public class KeyBagActivity extends AppCompatActivity {
 					stringBuilder.append("  ");
 					stringBuilder.append(aikmService.getmError());
 				}
+				if(!TextUtils.isEmpty(aikmService.getLocale())){
+					stringBuilder.append(", Locale:");
+					stringBuilder.append(aikmService.getLocale());
+				}
 				stringBuilder.append(", ");
 				Map keyBag = aikmService.getMap();
 				if (keyBag != null) {

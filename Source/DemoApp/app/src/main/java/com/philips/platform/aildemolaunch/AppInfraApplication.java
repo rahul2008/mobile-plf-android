@@ -45,6 +45,7 @@ public class AppInfraApplication extends Application {
         sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onSuccess() {
+                Log.d(TAG, "success Response from Service Discovery CSV :");
             }
 
             @Override

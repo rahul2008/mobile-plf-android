@@ -94,7 +94,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListenerMock = mock(ServiceDiscoveryInterface.OnGetServicesListener.class);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         TreeMap<String, ServiceDiscoveryService> urlMap = getStringServiceDiscoveryServiceTreeMap();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = aikManager.fetchGettingKeyBagUrlsListener(onGetServicesListenerMock, aiKmServices, urlMap);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = aikManager.fetchGettingGroomUrlsListener(onGetServicesListenerMock, aiKmServices, urlMap);
         onGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
         verify(onGetServicesListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
         onGetServiceUrlMapListener.onSuccess(urlMap);
