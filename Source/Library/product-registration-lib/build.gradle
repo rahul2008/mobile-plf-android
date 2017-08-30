@@ -210,15 +210,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
 
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-        transitive = true
-    }
-
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+    compile(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
     compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         exclude group: 'com.android.support'
         transitive = true
