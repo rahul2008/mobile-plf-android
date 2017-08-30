@@ -1,2 +1,2 @@
-rootProject.setName 'product-registration-lib_DLS'
+rootProject.setName 'product-registration-lib'
 include ':product-registration-lib'
