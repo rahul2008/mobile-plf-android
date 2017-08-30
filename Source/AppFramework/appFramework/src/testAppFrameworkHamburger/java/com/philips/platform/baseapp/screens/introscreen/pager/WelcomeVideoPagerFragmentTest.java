@@ -3,8 +3,8 @@ package com.philips.platform.baseapp.screens.introscreen.pager;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 
@@ -18,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -29,8 +28,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class WelcomeVideoPagerFragmentTest {
 
     private WelcomeVideoPagerFragment welcomeVideoPagerFragment;

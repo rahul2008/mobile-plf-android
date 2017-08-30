@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
@@ -24,7 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
@@ -33,8 +32,8 @@ import java.util.ArrayList;
 
 import static org.mockito.Mockito.mock;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class COCOListFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
     private COCOListFragmentMock cocoListFragment;

@@ -3,23 +3,14 @@ package com.philips.platform.baseapp.screens.introscreen.pager;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 
-import com.philips.platform.baseapp.screens.utility.RALog;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.powermock.api.mockito.PowerMockito;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 /**
  * Created by philips on 8/17/17.
