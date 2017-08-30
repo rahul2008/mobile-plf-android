@@ -34,21 +34,7 @@ public class PowerSleepConnectivityPresenter implements ConnectivityPowerSleepCo
             throw new IllegalArgumentException("Cannot create bleReferenceAppliance for provided NetworkNode.");
         }
 
-
-
         appliance.getSessionDataPort().addPortListener(diCommPortListener);
-
-        appliance.getSensorDataPort().addPortListener(new DICommPortListener<GenericPort<SensorDataPortProperties>>() {
-
-            @Override
-            public void onPortUpdate(final GenericPort<SensorDataPortProperties> port) {
-            }
-
-            @Override
-            public void onPortError(GenericPort<SensorDataPortProperties> diCommPort, final Error error, String s) {
-
-            }
-        });
     }
 
     DICommPortListener diCommPortListener = new DICommPortListener<SessionDataPort>() {

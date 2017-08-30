@@ -11,8 +11,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import static com.philips.platform.baseapp.screens.utility.Constants.ILLEGAL_STATE_EXCEPTION;
 
 public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
@@ -88,7 +84,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
         if (view != null) {
             return view;
         }
-        connectivityPresenter = new PowerSleepConnectivityPresenter(this);
+        connectivityPresenter = getConnectivityPresenter();
         view = inflater.inflate(R.layout.overview_power_sleep, container, false);
         sleepScoreProgressView = (SleepScoreProgressView) view.findViewById(R.id.arc_progress);
         sleepTime = (TextView) view.findViewById(R.id.sleep_time_value);
@@ -105,6 +101,11 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
         startAppTagging(TAG);
         return view;
     }
+
+    protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
+        return new PowerSleepConnectivityPresenter(this);
+    }
+
 
     @Override
     public void onResume() {
@@ -172,9 +173,13 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
 
     }
 
-    private void fetchData(BleReferenceAppliance bleRefAppliance) {
+    protected void showProgressBar() {
         dialog = ProgressDialog.show(mContext, "", getString(R.string.RA_DLS_data_fetch_wait));
         dialog.setCancelable(false);
+    }
+
+    private void fetchData(BleReferenceAppliance bleRefAppliance) {
+        showProgressBar();
         bleRefAppliance.getSensorDataPort().reloadProperties();
         bleRefAppliance.getSessionDataPort().reloadProperties();
         bleRefAppliance.getSessionInfoPort().reloadProperties();
@@ -241,13 +246,17 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     @Override
     public void onDestroyView() {
         //ConnectivityUtils.hideSoftKeyboard(getActivity());
-        mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
+        removeApplianceListener();
         connectivityPresenter.removeSessionPortListener(bleReferenceAppliance);
         if (handler != null) {
             handler.removeCallbacks(stopDiscoveryRunnable);
             handler.removeCallbacksAndMessages(null);
         }
         super.onDestroyView();
+    }
+
+    protected void removeApplianceListener() {
+        mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
     }
 
 }
