@@ -283,10 +283,10 @@ public static <fields>;
 #-----------------------------app infra ends here-----------------------------------
 
 #-----------------------------Dataservices starts here------------------------------
-#Data-Services DB interface class
--keep class com.philips.platform.core.** {*;}
--keep interface com.philips.platform.core.** {*;}
+#Data-Services exposed class
+-keep class com.philips.platform.core.trackers.DataServicesManager { *; }
 
+#Pojo classes required by Retorfit to reflect the response
 #Data-Services Moments
 -keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
 -keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
