@@ -110,8 +110,8 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 CommonRecyclerViewAdapter questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
                     @Override
                     public void bindData(RecyclerView.ViewHolder holder, Item question) {
-                        Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text);
-                        ImageView readMore = (ImageView) holder.itemView.findViewById(R.id.icon_button_icon);
+                        Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text1);
+                        ImageView readMore = (ImageView) holder.itemView.findViewById(R.id.icon_button_icon1);
                         readMore.setImageResource(R.drawable.consumercare_list_right_arrow);
                         title.setText(question.getHead());
                         holder.itemView.setOnClickListener(fragment);

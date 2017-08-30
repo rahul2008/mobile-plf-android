@@ -19,8 +19,9 @@
             android:background="?attr/uidContentSecondaryBackgroundColor"
             android:gravity="center_vertical" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/faq_list_item_header_show_more_less"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -34,9 +35,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/faq_list_item_recycle_view"
         style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false">

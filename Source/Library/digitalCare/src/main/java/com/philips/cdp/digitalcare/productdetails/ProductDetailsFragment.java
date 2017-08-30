@@ -166,6 +166,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 videoLeftArrow.bringToFront();
                 videoRightArrow.bringToFront();
 
+                if(mVideoLength.size() < 2){
+                    videoLeftArrow.setVisibility(View.GONE);
+                    videoRightArrow.setVisibility(View.GONE);
+                }
+
                 addNewVideo(i, mVideoLength.get(i), child, videoThumbnail, videoPlay, videoLeftArrow, videoRightArrow);
             }
         }
@@ -302,9 +307,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             @Override
             public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
                 View container = holder.itemView.findViewById(R.id.icon_button);
-                Label label = (Label) container.findViewById(R.id.icon_button_text);
+                Label label = (Label) container.findViewById(R.id.icon_button_text1);
                 label.setText(item.mText);
-                ImageView icon = (ImageView) container.findViewById(R.id.icon_button_icon);
+                ImageView icon = (ImageView) container.findViewById(R.id.icon_button_icon1);
                 icon.setImageResource(item.mIcon);
 //                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
 //                icon.setText(item.mIcon);
