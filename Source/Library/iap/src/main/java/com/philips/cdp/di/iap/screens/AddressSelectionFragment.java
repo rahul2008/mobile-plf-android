@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
@@ -86,6 +87,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
         mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
         mAddressListView.setAdapter(mAdapter);
+        TextView tv_checkOutSteps = (TextView) view.findViewById(R.id.tv_checkOutSteps);
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps),"1"));
 
         return view;
     }
@@ -217,8 +220,11 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             Addresses address = retrieveSelectedAddress();
             AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-            addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    OrderSummaryFragment.TAG);
+
+            Bundle bundle=new Bundle();
+            bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS,true);
+            addFragment(ShippingAddressFragment.createInstance(bundle, AnimationType.NONE),
+                    ShippingAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -229,8 +235,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
-            addFragment(
-                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
+            addFragment(PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
         }
     }
 

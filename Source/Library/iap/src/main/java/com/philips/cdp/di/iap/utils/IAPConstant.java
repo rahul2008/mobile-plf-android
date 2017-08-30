@@ -90,6 +90,7 @@ public class IAPConstant {
     public static final String USE_PAYMENT = "USE_PAYMENT";
     public static final String ADD_NEW_PAYMENT = "ADD_NEW_PAYMENT";
     public static final String SELECTED_PAYMENT = "SELECTED_PAYMENT";
+    public static final String ADD_BILLING_ADDRESS = "ADD_BILLING_ADDRESS";
 
     //Customer care
     public static final String CUSTOMER_CARE_NUMBER = "CUSTOMER_CARE_NUMBER";

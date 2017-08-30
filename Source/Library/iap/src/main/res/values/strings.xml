@@ -317,4 +317,5 @@
     <string name="iap_cvv_code_hint">000</string>
     <string name="iap_not_now">Not now</string>
     <string name="iap_your_order_number_is">Your order number is:</string>
+    <string name="iap_checkout_steps">Steps %s of 3: Address</string>
 </resources>

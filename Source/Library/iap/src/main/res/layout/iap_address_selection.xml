@@ -7,13 +7,12 @@
 
     <include
         layout="@layout/checkout_steps"
-        android:id="@+id/tv_checkout_header_steps"
-        />
+        android:id="@+id/tv_checkout_header_steps"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shipping_addresses"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         />
 
 </LinearLayout>
