@@ -72,7 +72,7 @@ public class LoggingTest extends AppInfraInstrumentation {
                 return logger;
             }
         };
-        appInfraLogging.createLogger("component_id");
+        appInfraLogging.createLogger("component_id","component_version");
         verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
     }
 
@@ -84,7 +84,7 @@ public class LoggingTest extends AppInfraInstrumentation {
                 return logger;
             }
         };
-        appInfraLogging.createLogger("component_id");
+        appInfraLogging.createLogger("component_id","");
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
@@ -112,7 +112,7 @@ public class LoggingTest extends AppInfraInstrumentation {
                 return values;
             }
         };
-        appInfraLogging.createLogger("component_id");
+        appInfraLogging.createLogger("component_id","");
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("key1", "val1");
         map.put("key2", "val2");

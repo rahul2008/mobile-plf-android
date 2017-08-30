@@ -9,7 +9,6 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -114,7 +113,7 @@ public class SecureStorage implements SecureStorageInterface {
     private void postLog(long startTime, String message) {
         long endTime = System.currentTimeMillis();
         long methodDuration = (endTime - startTime);
-        Log.d(AppInfraLogEventID.AI_SECURE_STORAGE, getClass() + ""+message + methodDuration);
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, getClass() + "" + message + methodDuration);
     }
 
     @Override
