@@ -101,7 +101,6 @@ public class RestManager implements RestInterface {
         try {
             stack = new HurlStack(new ServiceIDResolver(), new TLSSocketFactory());
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
         }
         return new BasicNetwork(stack);
     }

@@ -43,7 +43,6 @@ public class FileUtils {
 				try {
 					jsonFile.createNewFile();
 				} catch (IOException var5) {
-					var5.printStackTrace();
 				}
 			}
 		}
@@ -58,13 +57,12 @@ public class FileUtils {
 			fileWriter.write(response);
 			fileWriter.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		} finally {
 			try {
 				if (fileWriter != null)
 					fileWriter.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -77,13 +75,11 @@ public class FileUtils {
 			fileInputStream = new FileInputStream(file);
 			fileInputStream.read(bytes);
 		} catch (IOException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				if (fileInputStream != null)
 					fileInputStream.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 		return (bytes.length == 0 ? null : new String(bytes));
@@ -103,7 +99,6 @@ public class FileUtils {
 			metadataJsonObject.put(LanguagePackConstants.URL, languagePackModel.getUrl());
 			saveFile(metadataJsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 	}
 
