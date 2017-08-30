@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     private Context mContext;
     private RecyclerView mRecyclerView;
     private ArrayList<StoreEntity> mStoreEntity;
+    private ArrayList<StoreEntity> mUpdtedStoreEntity;
     private static final String ICELEADS_HATCH = "iceleads";
     private static final String CHANNEL_ADVISOR = "wheretobuy";
     private static final String CHANNEL_SIGHT = "channelsight";
@@ -66,6 +68,8 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.iap_retailer_list);
         if (getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO) != null)
             mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
+
+        removedBlacklistedRetailers();
         return rootView;
     }
 
@@ -75,7 +79,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
         if (mStoreEntity != null) {
-            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
+            BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mUpdtedStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -108,4 +112,17 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         return supplierLinkWithUUID + String.valueOf(UUID.randomUUID() + "&wtbSource=" + propositionId);
     }
 
+    private void removedBlacklistedRetailers() {
+        final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER);
+        mUpdtedStoreEntity = new ArrayList<>();
+        mUpdtedStoreEntity.addAll(mStoreEntity);
+        for (StoreEntity storeEntity : mStoreEntity) {
+            final String retailerName = storeEntity.getName();
+            for (int i = 0; i < (list != null ? list.size() : 0); i++) {
+                if (Utility.indexOfSubString(true, retailerName, list.get(i)) >= 0) {
+                    mUpdtedStoreEntity.remove(storeEntity);
+                }
+            }
+        }
+    }
 }

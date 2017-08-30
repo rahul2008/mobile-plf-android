@@ -319,6 +319,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
             addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG);
         } else {
+            bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, getArguments().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER));
             bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, storeEntities);
             addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
                     BuyFromRetailersFragment.TAG);

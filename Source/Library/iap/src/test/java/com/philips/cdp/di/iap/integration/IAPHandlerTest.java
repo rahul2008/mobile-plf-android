@@ -135,7 +135,8 @@ public class IAPHandlerTest {
     public void onSuccessOfInitAsFragment() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
-        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+        final ArrayList<String> blackListedretailder = new ArrayList<>();
+        IAPFlowInput input = new IAPFlowInput("HX9043/64", blackListedretailder);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(9, input);
         mMockIAPHandler.
@@ -157,8 +158,9 @@ public class IAPHandlerTest {
     @Test
     public void testOnSuccessOfInitAsActivity() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
         ctns.add("HX9043/64");
-        IAPFlowInput input = new IAPFlowInput(ctns);
+        IAPFlowInput input = new IAPFlowInput(ctns, blackListedRetailer);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIapListener(mIapListener);
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
@@ -205,7 +207,8 @@ public class IAPHandlerTest {
     public void launchIAPAsActivityForCategorized() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
         ctns.add("HX9043/64");
-        IAPFlowInput input = new IAPFlowInput(ctns);
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
+        IAPFlowInput input = new IAPFlowInput(ctns, blackListedRetailer);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
         IAPSettings iapSettings = new IAPSettings(new Application());
@@ -217,7 +220,8 @@ public class IAPHandlerTest {
     @Test(expected = RuntimeException.class)
     public void launchIAPAsActivityForCategorizedWithNoProducts() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
-        IAPFlowInput input = new IAPFlowInput(ctns);
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
+        IAPFlowInput input = new IAPFlowInput(ctns, blackListedRetailer);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
         mMockIAPHandler.launchIAP(new ActivityLauncher
@@ -235,7 +239,8 @@ public class IAPHandlerTest {
     @Test(expected = RuntimeException.class)
     public void launchIAPAsActivityForBuyDirect() throws Exception {
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, new IAPFlowInput(""));
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, new IAPFlowInput("", blackListedRetailer));
         IAPSettings iapSettings = new IAPSettings(new Application());
         MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
         mockIAPHandler.launchIAP(new ActivityLauncher
@@ -244,7 +249,8 @@ public class IAPHandlerTest {
 
     @Test
     public void launchIAPAsActivityForProductDetail() throws Exception {
-        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+        ArrayList blackListedRetailer = new ArrayList<>();
+        IAPFlowInput input = new IAPFlowInput("HX9043/64", blackListedRetailer);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input);
         IAPSettings iapSettings = new IAPSettings(new Application());
@@ -277,7 +283,8 @@ public class IAPHandlerTest {
     public void testLaunchIAPAsFragment() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
-        IAPFlowInput input = new IAPFlowInput("HX9043/64");
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
+        IAPFlowInput input = new IAPFlowInput("HX9043/64", blackListedRetailer);
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(9, input);
         mMockIAPHandler.
@@ -296,11 +303,12 @@ public class IAPHandlerTest {
 
     @Test
     public void testGetFragment() throws Exception {
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, new IAPFlowInput("HX8331/11"));
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, new IAPFlowInput("HX8331/11"));
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, new IAPFlowInput("HX8331/11", blackListedRetailer));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, new IAPFlowInput("HX8331/11", blackListedRetailer));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, new IAPFlowInput("HX8331/11", blackListedRetailer));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, new IAPFlowInput("HX8331/11", blackListedRetailer));
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, new IAPFlowInput("HX8331/11", blackListedRetailer));
     }
 
     //add fragment test case

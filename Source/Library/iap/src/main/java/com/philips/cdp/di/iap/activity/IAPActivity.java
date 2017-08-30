@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -45,7 +44,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
@@ -81,14 +79,17 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (savedInstanceState == null) {
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
+            final ArrayList<String> blackListedRetailerList = getIntent().getExtras().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER);
             Bundle bundle = new Bundle();
             switch (landingScreen) {
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                     bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
+                    bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
                     addFragment(ProductCatalogFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
+                    bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
                     addFragment(ShoppingCartFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                     break;
@@ -98,6 +99,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                     if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+                        bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
                         addFragment(ProductDetailFragment.createInstance(bundle,
@@ -106,6 +108,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                     if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+                        bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
                         addFragment(BuyDirectFragment.createInstance(bundle,
