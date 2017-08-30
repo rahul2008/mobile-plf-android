@@ -23,6 +23,9 @@ import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
 import static android.support.design.widget.Snackbar.LENGTH_SHORT;
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_paired_success;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_pairing_failed;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
 
 public class PairingFragment extends Fragment {
     private static final String TAG = "PairingFragment";
@@ -66,13 +69,13 @@ public class PairingFragment extends Fragment {
 
                 // TODO: Store appliance into database
 
-                showSnackbar("Pairing successful");
+                showSnackbar(getString(cml_paired_success));
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showSnackbar("Pairing failed");
+                showSnackbar(getString(cml_pairing_failed));
             }
         }, getCloudController());
 
@@ -94,13 +97,13 @@ public class PairingFragment extends Fragment {
 
                 // TODO: Store appliance into database
 
-                showSnackbar("Unpaired successfully");
+                showSnackbar(getString(cml_unpair_success));
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showSnackbar("Pairing failed");
+                showSnackbar(getString(cml_pairing_failed));
             }
         }, getCloudController());
 
