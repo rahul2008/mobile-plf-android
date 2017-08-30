@@ -79,17 +79,17 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (savedInstanceState == null) {
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-            final ArrayList<String> blackListedRetailerList = getIntent().getExtras().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER);
+            final ArrayList<String> ignoreRetailerList = getIntent().getExtras().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
             Bundle bundle = new Bundle();
             switch (landingScreen) {
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                     bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
-                    bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
+                    bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
                     addFragment(ProductCatalogFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
-                    bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
+                    bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
                     addFragment(ShoppingCartFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                     break;
@@ -99,7 +99,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                     if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
-                        bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
+                        bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
                         addFragment(ProductDetailFragment.createInstance(bundle,
@@ -108,7 +108,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                     if (getIntent().hasExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
-                        bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, blackListedRetailerList);
+                        bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
                         addFragment(BuyDirectFragment.createInstance(bundle,

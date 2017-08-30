@@ -223,9 +223,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        if (bundle.getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER) != null) {
-            final ArrayList<String> list = bundle.getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER);
-            bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, list);
+        if (bundle.getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
+            final ArrayList<String> list = bundle.getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
+            bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
         }
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
     }

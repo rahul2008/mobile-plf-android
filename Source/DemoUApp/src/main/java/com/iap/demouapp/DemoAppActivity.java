@@ -74,13 +74,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private IAPSettings mIAPSettings;
     private User mUser;
 
-    private ArrayList<String> blacklistedRetailer;
+    private ArrayList<String> ignorelistedRetailer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(DEFAULT_THEME);
         super.onCreate(savedInstanceState);
-        blacklistedRetailer = new ArrayList<>();
+        ignorelistedRetailer = new ArrayList<>();
         IAPLog.enableLogging(true);
         addActionBar();
         setContentView(R.layout.demo_app_layout);
@@ -124,7 +124,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         //Integration interface
 
         mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setUseLocalData(false);
+        mIAPSettings.setUseLocalData(true);
 
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
@@ -213,11 +213,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput) {
         if (isNetworkAvailable(this)) {
 
-            blacklistedRetailer.add("Amazon - GB");
-            blacklistedRetailer.add("John Lewis - GB");
+            ignorelistedRetailer.add("Amazon ");
+            ignorelistedRetailer.add("John Lewis ");
 
 
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, ignorelistedRetailer);
             try {
                 mIapInterface.launch(new ActivityLauncher
                                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
@@ -233,10 +233,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onClick(final View view) {
-        ArrayList<String> blacklistedRetailer = new ArrayList<>();
-          blacklistedRetailer.add("amazon");
-        blacklistedRetailer.add("argos");
-         blacklistedRetailer.add("John Lewis");
         if (view == mShoppingCart) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
         } else if (view == mShopNow) {
@@ -245,20 +241,20 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null);
         } else if (view == mLaunchProductDetail) {
             IAPFlowInput iapFlowInput =
-                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""), blacklistedRetailer);
+                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
-                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList, blacklistedRetailer);
+                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
             } else {
                 Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mBuyDirect) {
             IAPFlowInput iapFlowInput =
-                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""), blacklistedRetailer);
+                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
             launchIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput);
             mEtCTN.setText("");
             hideKeypad(this);

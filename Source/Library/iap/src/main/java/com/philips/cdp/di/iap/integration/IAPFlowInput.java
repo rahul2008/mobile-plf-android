@@ -5,16 +5,15 @@ import java.util.ArrayList;
 public class IAPFlowInput {
     private String productCTN;
     private ArrayList<String> productCTNs;
-    private ArrayList<String> mBlackListedRetailers;
 
-    public IAPFlowInput(String productCTN, ArrayList<String> pBlackListedRetailer) {
+
+    public IAPFlowInput(String productCTN){
         this.productCTN = productCTN;
-        this.mBlackListedRetailers = pBlackListedRetailer;
+
     }
 
-    public IAPFlowInput(ArrayList<String> prductCTNs, ArrayList<String> pBlackListedRetailer) {
+    public IAPFlowInput(ArrayList<String> prductCTNs) {
         this.productCTNs = prductCTNs;
-        this.mBlackListedRetailers = pBlackListedRetailer;
     }
 
     public String getProductCTN() {
@@ -25,7 +24,4 @@ public class IAPFlowInput {
         return productCTNs;
     }
 
-    public ArrayList<String> getBlackListedRetailer() {
-        return mBlackListedRetailers;
-    }
 }

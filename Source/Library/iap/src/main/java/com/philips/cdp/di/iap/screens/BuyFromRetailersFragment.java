@@ -113,7 +113,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     }
 
     private void removedBlacklistedRetailers() {
-        final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER);
+        final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
         mUpdtedStoreEntity = new ArrayList<>();
         mUpdtedStoreEntity.addAll(mStoreEntity);
         for (StoreEntity storeEntity : mStoreEntity) {

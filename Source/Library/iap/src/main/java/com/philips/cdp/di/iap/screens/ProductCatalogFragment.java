@@ -179,9 +179,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
-            if (getArguments().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER) != null) {
-                final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER);
-                bundle.putStringArrayList(IAPConstant.IAP_BLACK_LISTED_RETAILER, list);
+            if (getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
+                final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
+                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
             }
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }
