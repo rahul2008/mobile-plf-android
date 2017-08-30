@@ -82,6 +82,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         dependencies = getArguments();
+        float aspectRatio;
         if (dependencies != null) {
             registeredProducts = (List<RegisteredProduct>) dependencies.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
@@ -89,9 +90,11 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 productImage.setVisibility(View.VISIBLE);
                 int width = getResources().getDisplayMetrics().widthPixels;
                 if (width > 680) {
-                    productImage.getLayoutParams().height = (width * 9) / 16;
+                    aspectRatio = (16/9);
+                    productImage.getLayoutParams().height = (int) ((width) / aspectRatio);
                 } else {
-                    productImage.getLayoutParams().height = (width * 5) / 12;
+                    aspectRatio = (12/5);
+                    productImage.getLayoutParams().height = (int) ((width) / aspectRatio);
                 }
                 productImage.setBackground(getResources().getDrawable(resId, getActivity().getTheme()));
                 productImage.requestLayout();

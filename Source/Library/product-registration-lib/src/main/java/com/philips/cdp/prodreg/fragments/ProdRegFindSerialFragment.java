@@ -91,14 +91,17 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         getImageUrl(productMetadataResponseData, new PrxRequest.OnUrlReceived() {
             @Override
             public void onSuccess(String url) {
+                float aspectRatio;
                 setSerialNumberTextView(productMetadataResponseData);
                 Log.d("imageUrl", "imageUrl " + url);
                 final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
                 int width = getResources().getDisplayMetrics().widthPixels;
                 if(width > 680) {
-                    serialNumberImageView.getLayoutParams().height = (width * 9) / 16;
+                    aspectRatio = (16/9);
+                    serialNumberImageView.getLayoutParams().height = (int) ((width) / aspectRatio);
                 } else {
-                    serialNumberImageView.getLayoutParams().height = (width * 5) / 12;
+                    aspectRatio = (12/5);
+                    serialNumberImageView.getLayoutParams().height = (int) ((width) / aspectRatio);
                 }
                 imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView,
                         R.drawable.product_placeholder, R.drawable.product_placeholder));
