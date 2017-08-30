@@ -184,17 +184,21 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
 
     public void updateShippingAddressView(Address address, String consumerName1) {
         consumerName.setText(consumerName1);
-        consumerCity.setText(address.getCity());
-        consumerState.setText(address.getState().getCode());
-        consumerShippingAddress.setText(address.getAddress1());
-        consumerShippingZip.setText(address.getZipCode());
+        if(address!=null) {
+            consumerCity.setText(address.getCity());
+            consumerState.setText(address.getState().getCode());
+            consumerShippingAddress.setText(address.getAddress1());
+            consumerShippingZip.setText(address.getZipCode());
+        }
     }
 
     public void updatePharmacyDetailsView(Pharmacy pharmacy) {
-        pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
-        pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
-        pharmacyName.setText(pharmacy.getName());
-        pharmacyState.setText(pharmacy.getAddress().getState().getCode());
-        pharmacyZip.setText(pharmacy.getAddress().getZipCode());
+        if(pharmacy!=null) {
+            pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
+            pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
+            pharmacyName.setText(pharmacy.getName());
+            pharmacyState.setText(pharmacy.getAddress().getState().getCode());
+            pharmacyZip.setText(pharmacy.getAddress().getZipCode());
+        }
     }
 }

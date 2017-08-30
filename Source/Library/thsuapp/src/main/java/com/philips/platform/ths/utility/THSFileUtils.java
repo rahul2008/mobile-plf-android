@@ -67,9 +67,6 @@ public class THSFileUtils {
         }*/
 
         if (file.exists()) {
-            if (context != null)
-                //TODO: TO be removed
-                Toast.makeText(context, "File with name \"" + fileName + "\" already exists", Toast.LENGTH_SHORT).show();
             return file;
         } else {
             FileOutputStream fos = new FileOutputStream(file);
