@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +15,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
+import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -42,12 +43,15 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     public abstract int getContainerId();
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
         initDLS();
         super.onCreate(savedInstanceState);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
     }
 
     public void initDLS() {
@@ -176,7 +180,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
             BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
             if (baseFlowManager != null) {
                 BaseState currentState = baseFlowManager.getCurrentState();
-                if (currentState instanceof DataServicesState) {
+                if (currentState instanceof DemoDataServicesState) {
                     PushNotificationManager.getInstance().startPushNotificationRegistration(this);
                 }
             }
@@ -189,6 +193,16 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         RALog.d(TAG, " onPause called");
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
+        }
+    }
+
+    public void showProgressBar() {
+        progressDialog.show();
+    }
+
+    public void hideProgressBar() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 

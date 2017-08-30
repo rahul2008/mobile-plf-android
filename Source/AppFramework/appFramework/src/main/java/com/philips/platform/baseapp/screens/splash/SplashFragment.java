@@ -87,18 +87,21 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
     }
 
     private void setFlowManager() {
-        getApplicationContext().setTargetFlowManager(new FlowManagerListener() {
-            @Override
-            public void onParseSuccess() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        presenter = new SplashPresenter(SplashFragment.this);
-                        presenter.onEvent(APP_START);
-                    }
-                }, 200);
-            }
-        });
+        if (getApplicationContext() != null) {
+            getApplicationContext().setTargetFlowManager(new FlowManagerListener() {
+                @Override
+                public void onParseSuccess() {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            presenter = new SplashPresenter(SplashFragment.this);
+                            presenter.onEvent(APP_START);
+                        }
+                    }, 200);
+
+                }
+            });
+        }
     }
 
 
@@ -210,7 +213,10 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
 
 
     public AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+        if (getFragmentActivity() != null) {
+            return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
+        }
+        return null;
     }
 
     @Override

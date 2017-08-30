@@ -1,15 +1,11 @@
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 
 import org.junit.After;
@@ -22,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -32,7 +27,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -52,32 +46,32 @@ public class WelcomeVideoPagerFragmentTest {
 
 
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         presenter = mock(WelcomeVideoPresenter.class);
         activityController = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
         launchActivity = activityController.create().start().resume().visible().get();
-        welcomeVideoPagerFragment =  new WelcomeVideoPagerFragmentMock();
-        launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeVideoPagerFragment,null).commit();
+        welcomeVideoPagerFragment = new WelcomeVideoPagerFragmentMock();
+        launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeVideoPagerFragment, null).commit();
         thumbNail = (ImageView) welcomeVideoPagerFragment.getView().findViewById(R.id.thumb_nail);
         textureVideoView = (TextureVideoView) welcomeVideoPagerFragment.getView().findViewById(R.id.onboarding_video);
         play = (ImageView) welcomeVideoPagerFragment.getView().findViewById(R.id.onboarding_play_button);
     }
 
     @Test
-    public void onFetchErrorTest(){
+    public void onFetchErrorTest() {
         welcomeVideoPagerFragment.onFetchError();
         assertTrue(thumbNail.getVisibility() == View.VISIBLE);
     }
 
     @Test
-    public void testVideoViewClickWithPlayVisible(){
+    public void testVideoViewClickWithPlayVisible() {
         textureVideoView.performClick();
         assertTrue(welcomeVideoPagerFragment.isVideoPlaying());
     }
 
     @Test
-    public void testVideoViewClickWithPlayInVisible(){
+    public void testVideoViewClickWithPlayInVisible() {
         play.setVisibility(View.INVISIBLE);
         textureVideoView.performClick();
         assertFalse(welcomeVideoPagerFragment.isVideoPlaying());
