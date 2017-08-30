@@ -78,7 +78,7 @@ class LoggingConfiguration {
 
         mJavaLogger = getLogger(pComponentId); // returns new or existing log
         if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
-            final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig(loggingProperty);;
+            final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig(loggingProperty);
             activateLogger(); // activating created logger
             if (ComponentToBeLoggedList.contains(pComponentId)) {
                 if(isComponentLevelLogEnabled) {
@@ -192,7 +192,7 @@ class LoggingConfiguration {
 
     private void enableConsoleAndFileLog(boolean consoleLog, boolean fileLog) {
         enableConsoleLog(consoleLog);
-        enableFileLog(fileLog, mComponentID, mComponentVersion);
+        enableFileLog(fileLog);
     }
 
     Logger getLogger(String pComponentId) {
@@ -244,7 +244,7 @@ class LoggingConfiguration {
         return new ConsoleHandler();
     }
 
-    private void enableFileLog(final boolean pFileLogEnabled, final String mComponentID, final String mComponentVersion) {
+    private void enableFileLog(final boolean pFileLogEnabled) {
         if (pFileLogEnabled) {
             final FileHandler fileHandler = getCurrentLogFileHandler(getJavaLogger());
 
