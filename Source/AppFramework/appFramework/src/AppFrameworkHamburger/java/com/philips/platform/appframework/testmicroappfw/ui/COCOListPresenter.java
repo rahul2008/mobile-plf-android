@@ -53,8 +53,8 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String TEST_UR_EVENT="TestUserRegistrationEvent";
     public static final String TEST_DICOMM_EVENT="TestDicommClientEvent";
     public static final String TEST_BLUE_LIB_DEMO_APP_EVENT="TestBlueLibEvent";
-    public static final String TEST_DEVICE_PAIRING = "device_pairing";
-    public static final String TEST_APP_INFRA = "AppInfra";
+    public static final String TEST_DEVICE_PAIRING_EVENT = "device_pairing";
+    public static final String TEST_APP_INFRA_EVENT = "AppInfra";
     public final COCOListContract.View cocoListContractView;
     public static final String TEST_DLS_APP="DLS";
 
@@ -130,13 +130,13 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
             case BLUE_LIB_DEMO_APP:
                 return TEST_BLUE_LIB_DEMO_APP_EVENT;
             case DEVICE_PAIRING_DEMO_APP:
-                return TEST_DEVICE_PAIRING;
+                return TEST_DEVICE_PAIRING_EVENT;
             case DEMO_APP_INFRA:
-                return TEST_APP_INFRA;
+                return TEST_APP_INFRA_EVENT;
             case DLS_DEMO_APP:
                 return TEST_DLS_APP;
             default:
-                return TEST_APP_INFRA;
+                return TEST_APP_INFRA_EVENT;
         }
     }
     @Override
