@@ -14,10 +14,13 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.google.android.gms.iid.InstanceID;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.BuildConfig;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
 import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
+import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
 import com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
@@ -40,9 +43,11 @@ import org.robolectric.android.controller.ServiceController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -64,6 +69,7 @@ public class PushNotificationManagerTest {
 
     private Context context;
     private AppInfraInterface appInfraInterface = null;
+    private AppInfra appInfra = null;
     private SharedPreferences sharedPreferences;
     private PreferenceManager preferenceManager;
     private SharedPreferences.Editor editor;
@@ -84,6 +90,7 @@ public class PushNotificationManagerTest {
 
         context = PowerMockito.mock(Context.class);
         appInfraInterface = PowerMockito.mock(AppInfraInterface.class);
+        appInfra = PowerMockito.mock(AppInfra.class);
         sharedPreferences = PowerMockito.mock(SharedPreferences.class);
         preferenceManager = PowerMockito.mock(PreferenceManager.class);
         textUtils = PowerMockito.mock(TextUtils.class);
@@ -102,9 +109,6 @@ public class PushNotificationManagerTest {
         }
 
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(context)).thenReturn(sharedPreferences);
-
-//        PNLog.d("testing", "PreferenceManager.getDefaultSharedPreferences(context) -- " + PreferenceManager.getDefaultSharedPreferences(context));
-//        PNLog.d("testing", "sharedPreferences.getString(PUSH_NOTIFICATION_TOKEN, PUSH_NOTIFICATION_TOKEN) -- " + sharedPreferences.getString(PUSH_NOTIFICATION_TOKEN, PUSH_NOTIFICATION_TOKEN));
     }
 
     @Test
@@ -161,9 +165,109 @@ public class PushNotificationManagerTest {
 //        pushNotificationManager.sendPayloadToCoCo(bundle);
 //    }
 
+    @Test
+    public void testRegisterTokenWithBackendWhenTokenRegistrationIsTrue() throws Exception {
+        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
+        PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
+        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+
+        final Boolean[] isRegisterTokenApiInvoked = {false};
+
+
+        PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface =
+                new PushNotificationTokenRegistrationInterface() {
+            @Override
+            public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
+                isRegisterTokenApiInvoked[0] = true;
+                registerCallbackListener.onResponse(true);
+            }
+
+            @Override
+            public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
+                isRegisterTokenApiInvoked[0] = false;
+                dergisterCallbackListener.onResponse(false);
+            }
+        };
+
+        final Boolean[] isResponseSuccess = {false};
+
+        RegistrationCallbacks.RegisterCallbackListener registerCallbackListener =
+                new RegistrationCallbacks.RegisterCallbackListener() {
+                    @Override
+                    public void onResponse(boolean isRegistered) {
+                        isResponseSuccess[0] = true;
+                    }
+
+                    @Override
+                    public void onError(int errorCode, String errorMessage) {
+                        isResponseSuccess[0] = false;
+                    }
+                };
+
+        pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
+        pushNotificationManager.registerTokenWithBackend(context);
+
+        assertTrue(isRegisterTokenApiInvoked[0]);
+        assertTrue(isResponseSuccess[0]);
+    }
+
+    @Test
+    public void testDegisterTokenWithBackend() throws Exception {
+        RestInterface restInterface = PowerMockito.mock(RestInterface.class);
+        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
+        PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
+        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+
+        PowerMockito.when(appInfra.getRestClient()).thenReturn(restInterface);
+        PowerMockito.when(restInterface.isInternetReachable()).thenReturn(true);
+        pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
+        PNLog.disablePNLogging();
+
+        final Boolean[] isDeregisterTokenApiInvoked = {false};
+
+        PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface =
+                new PushNotificationTokenRegistrationInterface() {
+                    @Override
+                    public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
+                        isDeregisterTokenApiInvoked[0] = false;
+                        registerCallbackListener.onResponse(false);
+                    }
+
+                    @Override
+                    public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
+                        isDeregisterTokenApiInvoked[0] = true;
+                        dergisterCallbackListener.onResponse(true);
+                    }
+                };
+
+        final Boolean[] isResponseSuccess = {false};
+
+        PushNotificationManager.DeregisterTokenListener deregisterTokenListener = new
+                PushNotificationManager.DeregisterTokenListener() {
+                    @Override
+                    public void onSuccess() {
+                        isResponseSuccess[0] = true;
+                    }
+
+                    @Override
+                    public void onError() {
+                        isResponseSuccess[0] = false;
+                    }
+                };
+
+
+        pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
+        pushNotificationManager.deregisterTokenWithBackend(context, deregisterTokenListener);
+
+        assertTrue(isDeregisterTokenApiInvoked[0]);
+        assertTrue(isResponseSuccess[0]);
+    }
+
     @After
     public void tearDown() throws Exception {
         pushNotificationManager = null;
+        pushNotificationManager.deregisterForTokenRegistration();
+        pushNotificationManager.deRegisterForPayload();
     }
 
     private static class TestService extends RegistrationIntentService {
