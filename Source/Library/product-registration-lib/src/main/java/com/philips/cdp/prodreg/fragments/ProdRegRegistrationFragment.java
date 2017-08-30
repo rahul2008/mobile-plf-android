@@ -81,7 +81,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private boolean isRegisterButtonClicked = false;
     private String minDate;
     private Label prg_success_thanks_textView;
-    String warntyPeriod=null,emailId=null;
+    String warntyPeriod=null;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -185,34 +185,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 return prodRegRegistrationController.isValidDate(date_EditText.getText().toString());
             }
         });
-
-
-       // StringBuilder warntyText=new StringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt));
-        String prg_success_thanks;
-        if(warntyPeriod==null) {
-          /*  warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  xx-xx-xxxx", boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            prg_success_thanks = warntyText.toString();*/
-            int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
-            String defaultString="  xx-xx-xxxx";
-            int defaultStringLength=defaultString.length();
-            int end=start+defaultStringLength;
-            SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt)+defaultString);
-            builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
-            prg_success_thanks_textView.setText(builder);
-
-        }
-        else {
-            //warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  "+warntyPeriod, boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //prg_success_thanks=warntyText.append("  "+warntyPeriod).toString();
-            int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
-            String defaultString="  "+warntyPeriod;
-            int defaultStringLength=defaultString.length();
-            int end=start+defaultStringLength;
-            SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt)+defaultString);
-            builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
-            prg_success_thanks_textView.setText(builder);
-
-        }
 
         return view;
     }
@@ -483,28 +455,28 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         field_serial.setText(registeredProduct.getSerialNumber());
         if (!registeredProduct.getEmail()) {
             prSuccessConfigurableTextView.setVisibility(View.GONE);
-        }else {
-            if(emailId==null) {
+        }
+         StringBuilder warntyText=new StringBuilder(getString(R.string.PPR_Extended_Warranty_Lbltxt));
+        warntyPeriod=registeredProduct.getEndWarrantyDate();
+        if(warntyPeriod==null) {
+          /*  warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  xx-xx-xxxx", boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            prg_success_thanks = warntyText.toString();*/
+            String defaultString="  xx-xx-xxxx";
+            int defaultStringLength=defaultString.length();
+            SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
+            builder.setSpan(new TextAppearanceSpan(getActivity(),R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
+            prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt)+builder);
 
-                int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
-                String defaultString="  xxx@yyy.com";
-                int defaultStringLength=defaultString.length();
-                int end=start+defaultStringLength;
-                SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Eamil_Sent_Lbltxt)+defaultString);
-                builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
-                prSuccessConfigurableTextView.setText(builder);
+        }
+        else {
+            //warntyText.append((getString(R.string.PPR_Extended_Warranty_Lbltxt))).append("  "+warntyPeriod, boldSpan, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //prg_success_thanks=warntyText.append("  "+warntyPeriod).toString();
+            String defaultString="  "+warntyPeriod;
+            int defaultStringLength=defaultString.length();
+            SpannableStringBuilder builder = new SpannableStringBuilder(defaultString);
+            builder.setSpan(new TextAppearanceSpan(getActivity(),R.style.SuccessRegisterTheme), 0, defaultStringLength, 0);
+            prg_success_thanks_textView.setText(getString(R.string.PPR_Extended_Warranty_Lbltxt)+builder);
 
-            }
-            else {
-                int start=getString(R.string.PPR_Extended_Warranty_Lbltxt).length();
-                String defaultString="  "+emailId;
-                int defaultStringLength=defaultString.length();
-                int end=start+defaultStringLength;
-                SpannableStringBuilder builder = new SpannableStringBuilder(getString(R.string.PPR_Eamil_Sent_Lbltxt)+defaultString);
-                builder.setSpan(new TextAppearanceSpan(getActivity(), android.graphics.Typeface.BOLD), start, end, 0);
-                prSuccessConfigurableTextView.setText(builder);
-
-            }
         }
         final String productCtn = registeredProduct.getCtn();
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
