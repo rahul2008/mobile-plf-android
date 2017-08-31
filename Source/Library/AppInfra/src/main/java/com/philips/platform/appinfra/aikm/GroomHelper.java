@@ -87,9 +87,9 @@ public class GroomHelper {
     String getValue(String groupId, int index, String key) {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
             String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
-            String md5Value = getAilGroomInHex(concatData);
-            if (md5Value != null && md5Value.length() > 4)
-                return md5Value.substring(0, 4).toUpperCase();
+            String ailGroomInHex = getAilGroomInHex(concatData);
+            if (ailGroomInHex != null && ailGroomInHex.length() > 4)
+                return ailGroomInHex.substring(0, 4).toUpperCase();
         }
         return null;
     }
