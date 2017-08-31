@@ -176,7 +176,7 @@ public class DemoActivity extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
-        if (currentFrag instanceof TemperatureTimeLineFragment) {
+        if (currentFrag instanceof TemperatureTimeLineFragment || !(new User(this).isUserSignIn())) {
             finish();
         } else {
             super.onBackPressed();
