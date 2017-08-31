@@ -57,6 +57,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mRegister;
     private Button mShopNow;
     private Button mShopNowCategorized;
+    private Button mShopNowCategorizedWithRetailer;
     private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mLaunchFragment;
@@ -113,6 +114,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mShopNowCategorized = (Button) findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
+        mShopNowCategorizedWithRetailer = (Button) findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
+        mShopNowCategorizedWithRetailer.setOnClickListener(this);
+
         mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
@@ -129,6 +133,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
+        ignorelistedRetailer.add("TN");
+        //ignorelistedRetailer.add("John Lewis ");
     }
 
     @Override
@@ -210,14 +216,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         super.onDestroy();
     }
 
-    private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput) {
+    private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
         if (isNetworkAvailable(this)) {
 
-            ignorelistedRetailer.add("Amazon ");
-            ignorelistedRetailer.add("John Lewis ");
-
-
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            if (pIgnoreRetailerList == null)
+                mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            else
+                mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, pIgnoreRetailerList);
             try {
                 mIapInterface.launch(new ActivityLauncher
                                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
@@ -234,28 +239,36 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onClick(final View view) {
         if (view == mShoppingCart) {
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
+            launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null);
+            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null);
+            launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
             IAPFlowInput iapFlowInput =
                     new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput);
+            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
                 IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
+            } else {
+                Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
+            }
+        } else if (view == mShopNowCategorizedWithRetailer) {
+            if (mCategorizedProductList.size() > 0) {
+                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
+                Toast.makeText(this, "Given retailer list will ignore in" + ignorelistedRetailer.get(0) + "Retailer list Screen.", Toast.LENGTH_SHORT).show();
+                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, ignorelistedRetailer);
             } else {
                 Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mBuyDirect) {
             IAPFlowInput iapFlowInput =
                     new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput);
+            launchIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput, null);
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
@@ -288,6 +301,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
+        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
+        mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNow.setVisibility(View.VISIBLE);
         mShopNow.setEnabled(true);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
@@ -326,6 +341,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mLaunchProductDetail.setVisibility(View.GONE);
         mPurchaseHistory.setVisibility(View.GONE);
         mShopNowCategorized.setVisibility(View.GONE);
+        mShopNowCategorizedWithRetailer.setVisibility(View.GONE);
     }
 
     private void showAppVersion() {

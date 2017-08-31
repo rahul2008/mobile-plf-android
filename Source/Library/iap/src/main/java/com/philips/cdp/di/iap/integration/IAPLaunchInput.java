@@ -10,7 +10,7 @@ public class IAPLaunchInput extends UappLaunchInput {
     public IAPFlowInput mIAPFlowInput;
     private IAPListener iapListener;
     private ArrayList<String> mIgnoreRetailers;
-    ArrayList<String> mFirstIgnoreRetailers;
+    private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
 
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput, ArrayList<String> pBlackListedRetailer) {
         mLandingView = pLandingView;

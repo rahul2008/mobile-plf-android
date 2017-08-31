@@ -21,5 +21,6 @@
     <string name="iap_auth_failure">Authentication Failure</string>
     <string name="iap_prod_out_of_stock">Products out of stock</string>
     <string name="categorized_shop_now">Shop Now(Categorized)</string>
+    <string name="categorized_shop_now_ignore_retailer">Shop Now(Categorized) with %s ignore retailers</string>
     <string name="buy_direct">Buy Direct</string>
 </resources>

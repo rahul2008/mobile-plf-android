@@ -60,9 +60,9 @@
 
         <Button
             android:id="@+id/btn_add_ctn"
-            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="Add" />
     </LinearLayout>
 
@@ -149,6 +149,16 @@
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now"
         android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_categorized_shop_now_with_ignore_retailer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_categorized_shop_now"
+        android:layout_marginTop="2dp"
+        android:text="@string/categorized_shop_now_ignore_retailer"
+        android:visibility="gone" />
+
 
     <Button
         android:id="@+id/btn_buy_direct"
