@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
@@ -24,6 +26,7 @@ import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
@@ -45,6 +48,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private DiscoveryManager<?> mDiscoveryManager;
     private PairDevice mPairDevice;
 
+    private Button mLogoutBtn;
     private ListView mAvailableDevicesListView;
     private ListView mPairedDevicesListView;
 
@@ -109,6 +113,14 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
                 return view;
             }
         };
+
+        mLogoutBtn = (Button) view.findViewById(R.id.logout);
+        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOut();
+            }
+        });
 
         mAvailableDevicesListView = (ListView) view.findViewById(R.id.available_devices);
         mAvailableDevicesListView.setAdapter(mAvailableDevicesAdapter);
@@ -390,4 +402,33 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             }
         }, 10000);*/
     }
+
+    public void logOut() {
+        User user = new User(getContext());
+        if (!user.isUserSignIn()) return;
+
+        user.logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onLogoutFailure(int i, String s) {
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, getString(R.string.logout_failed), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
 }

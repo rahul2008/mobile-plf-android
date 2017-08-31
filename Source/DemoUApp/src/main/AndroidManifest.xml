@@ -6,9 +6,37 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="android:label,android:supportsRtl,android:allowBackup">
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+        tools:replace="android:label,android:supportsRtl,android:allowBackup,android:theme">
         <activity
             android:name="com.philips.platform.devicepair.ui.DevicePairingLaunchActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp"
+                    android:path="/oauth2redirect"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
+            android:label="SimpleDemoApplication"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 </manifest>
