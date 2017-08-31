@@ -18,10 +18,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
@@ -77,7 +77,7 @@ public class KeyBagActivity extends AppCompatActivity {
 					}
 				});
 			} catch (AIKMJsonFileNotFoundException e) {
-				e.printStackTrace();
+				Log.e("error "," Json file not found ");
 			}
 		} else
 			Toast.makeText(KeyBagActivity.this,"Please enter service id",Toast.LENGTH_SHORT).show();
@@ -119,10 +119,10 @@ public class KeyBagActivity extends AppCompatActivity {
 						stringBuilder.append("  ");
 					}
 				}
-				AIKMService.MAP_ERROR keyBagError = aikmService.getMapError();
+				AIKMService.MapError keyBagError = aikmService.getMapError();
 				if (null != keyBagError) {
 					stringBuilder.append("error while fetching key bag -- ");
-					stringBuilder.append(keyBagError.name());
+					stringBuilder.append(keyBagError.getDescription());
 				}
 				stringBuilder.append("\n");
 				stringBuilder.append("\n");

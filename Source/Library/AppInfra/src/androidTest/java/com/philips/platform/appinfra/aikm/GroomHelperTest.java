@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.aikm;
 
+import android.util.Log;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
@@ -23,12 +25,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.appinfra.aikm.model.AIKMService.MAP_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,14 +54,14 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         try {
             inputStream = getInstrumentation().getContext().getResources().getAssets().open("AIKeyBag.json");
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("error "," while reading json");
         }
 
         groomHelper = new GroomHelper(mAppInfraMock);
         groomHelper.init(mAppInfraMock, inputStream);
     }
 
-    public void testGettingSeed() {
+    public void testGettingSeed() throws NoSuchAlgorithmException {
         String groupId = "appinfra.languagePack2";
         int index = 1;
         String key = "client_id";
@@ -90,7 +92,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         assertNull(groomHelper.getGroomIndex(null));
     }
 
-    public void testGettingMd5ValueInHex() {
+    public void testGettingMd5ValueInHex() throws NoSuchAlgorithmException {
         assertNull(groomHelper.getAilGroomInHex(null));
         assertNotNull(groomHelper.getAilGroomInHex("testing"));
     }
@@ -144,7 +146,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(null, onGetServiceUrlMapListener, replacement);
     }
 
-    public void testMappingData() {
+    public void testMappingData() throws Exception {
         assertNotNull(groomHelper.mapData(new JSONObject(), 0, "service_id"));
     }
 
@@ -160,10 +162,10 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
         groomHelper.mapAndValidateGroom(aikmService, null, "0");
-        assertEquals(aikmService.getMapError(), SERVICE_DISCOVERY_RESPONSE_ERROR);
+        assertEquals(aikmService.getMapError(), AIKMService.MapError.NO_SERVICE_FOUND);
 
         groomHelper.mapAndValidateGroom(aikmService, "service_id", "string");
-        assertEquals(AIKMService.MAP_ERROR.INVALID_INDEX_URL, aikmService.getMapError());
+        assertEquals(AIKMService.MapError.INVALID_INDEX_URL, aikmService.getMapError());
 
         groomHelper = new GroomHelper(mAppInfraMock) {
             @Override
@@ -172,7 +174,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             }
         };
         groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
-        assertEquals(AIKMService.MAP_ERROR.INVALID_JSON_STRUCTURE, aikmService.getMapError());
+        assertEquals(AIKMService.MapError.INVALID_JSON, aikmService.getMapError());
 
         JSONObject someJsonObject = new JSONObject();
         try {

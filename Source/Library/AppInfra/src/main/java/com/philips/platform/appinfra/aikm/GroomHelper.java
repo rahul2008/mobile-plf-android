@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.aikm;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
@@ -59,14 +60,13 @@ public class GroomHelper {
             if (e instanceof IOException)
                 throw new AIKMJsonFileNotFoundException();
             else
-                e.printStackTrace();
+                Log.e("error"," while mapping local Groom data");
         }
         return false;
     }
 
-    String getAilGroomInHex(String data) {
+    String getAilGroomInHex(String data) throws NoSuchAlgorithmException {
         if (!TextUtils.isEmpty(data)) {
-            try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 md.update(data.getBytes());
                 byte byteArray[] = md.digest();
@@ -77,14 +77,11 @@ public class GroomHelper {
                     hexString.append(hex);
                 }
                 return hexString.toString();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
         }
         return null;
     }
 
-    String getValue(String groupId, int index, String key) {
+    String getValue(String groupId, int index, String key) throws NoSuchAlgorithmException {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
             String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
             String ailGroomInHex = getAilGroomInHex(concatData);
@@ -133,10 +130,20 @@ public class GroomHelper {
 
             ServiceDiscoveryService serviceDiscoveryService = map.get(key.concat(".kindex"));
             if (serviceDiscoveryService != null) {
-                String groomIndex = getGroomIndex(serviceDiscoveryService.getConfigUrls());
-                mapAndValidateGroom(aikmService, entry.getKey(), groomIndex);
+                validateGroom(entry, aikmService, serviceDiscoveryService);
+            } else {
+                aikmService.setMapError(AIKMService.MapError.NO_SERVICE_FOUND);
             }
             aiKmServices.add(aikmService);
+        }
+    }
+
+    private void validateGroom(Map.Entry<String, ServiceDiscoveryService> entry, AIKMService aikmService, ServiceDiscoveryService serviceDiscoveryService) {
+        String groomIndex = getGroomIndex(serviceDiscoveryService.getConfigUrls());
+        if (groomIndex != null) {
+            mapAndValidateGroom(aikmService, entry.getKey(), groomIndex);
+        } else {
+            aikmService.setMapError(AIKMService.MapError.EMPTY_ARGUMENT_URL);
         }
     }
 
@@ -146,53 +153,46 @@ public class GroomHelper {
             try {
                 index = Integer.parseInt(groomIndex);
             } catch (NumberFormatException e) {
-                aikmService.setMapError(AIKMService.MAP_ERROR.INVALID_INDEX_URL);
-                e.printStackTrace();
+                aikmService.setMapError(AIKMService.MapError.INVALID_INDEX_URL);
                 return;
             }
-            Object propertiesForKey = getAilGroomProperties(serviceId);
-            if (propertiesForKey instanceof JSONArray) {
-                JSONArray jsonArray = (JSONArray) propertiesForKey;
-                try {
+            try {
+                Object propertiesForKey = getAilGroomProperties(serviceId);
+                if (propertiesForKey instanceof JSONArray) {
+                    JSONArray jsonArray = (JSONArray) propertiesForKey;
+
                     JSONObject jsonObject = (JSONObject) jsonArray.get(index);
                     Map map = mapData(jsonObject, index, serviceId);
                     aikmService.setMap(map);
-                } catch (JSONException e) {
-                    aikmService.setMapError(AIKMService.MAP_ERROR.INDEX_NOT_MAPPED);
-                    e.printStackTrace();
+
+                } else {
+                    aikmService.setMapError(AIKMService.MapError.INVALID_JSON);
                 }
-            } else {
-                aikmService.setMapError(AIKMService.MAP_ERROR.INVALID_JSON_STRUCTURE);
+            } catch (Exception e) {
+                if (e instanceof JSONException)
+                    aikmService.setMapError(AIKMService.MapError.BEYOND_BOUND_ERROR);
+                else
+                    aikmService.setMapError(AIKMService.MapError.DECODE_ERROR);
             }
         } else {
-            aikmService.setMapError(AIKMService.MAP_ERROR.SERVICE_DISCOVERY_RESPONSE_ERROR);
+            aikmService.setMapError(AIKMService.MapError.NO_SERVICE_FOUND);
         }
     }
 
-    Map mapData(JSONObject jsonObject, int index, String serviceId) {
-        try {
-            Iterator<String> keys = jsonObject.keys();
-            HashMap<String, String> hashMap = new HashMap<>();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                String value = (String) jsonObject.get(key);
-                String initialValue = getValue(serviceId, index, key);
-                hashMap.put(key, ailGroom(convertData(value), Integer.parseInt(initialValue, 16)));
-            }
-            return hashMap;
-        } catch (JSONException e) {
-            e.printStackTrace();
+    Map mapData(JSONObject jsonObject, int index, String serviceId) throws Exception {
+        Iterator<String> keys = jsonObject.keys();
+        HashMap<String, String> hashMap = new HashMap<>();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            String value = (String) jsonObject.get(key);
+            String initialValue = getValue(serviceId, index, key);
+            hashMap.put(key, ailGroom(convertData(value), Integer.parseInt(initialValue, 16)));
         }
-        return null;
+        return hashMap;
     }
 
-    Object getAilGroomProperties(String serviceId) {
-        try {
-            return rootJsonObject.get(serviceId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+    Object getAilGroomProperties(String serviceId) throws JSONException {
+        return rootJsonObject.get(serviceId);
     }
 
     ArrayList<String> getAppendedGrooms(List<String> serviceIds) {
