@@ -512,7 +512,7 @@ public class ABTestClientManager implements ABTestClientInterface {
          String requestName=requestNameKey;
          final HashMap<String,Object> mappConfig= getAbtestMapConfig(mAppInfra.getConfigInterface(), mAppInfra);
          if(mappConfig!=null && mappConfig instanceof HashMap<?,?>){
-             final String mappedRequestName=(String) mappConfig.get(requestNameKey);
+             String mappedRequestName=(String) mappConfig.get(requestNameKey);
              if(mappedRequestName!=null && !mappedRequestName.isEmpty()){
                  requestName=mappedRequestName;
              }
