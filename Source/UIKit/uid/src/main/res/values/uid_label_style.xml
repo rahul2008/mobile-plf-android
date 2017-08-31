@@ -78,7 +78,7 @@
         <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_header_height</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalDescriptorTextColor</item>
-        <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
+        <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewHeader">

@@ -23,7 +23,7 @@ class NavigationStylesGenerator {
                 def tonalRange = it.toString()
                 def themeTonalRange = NameConversionHelper.removeHyphensAndCapitalize("$it")
                 colorXML.style("${DLSResourceConstants.ITEM_NAME}": "UIDNavigationbar" + themeTonalRange) {
-
+                    item("${DLSResourceConstants.ITEM_NAME}": "uidNavigationRange", "${themeTonalRange}")
                     navigationList.findAll { it.tonalRange == tonalRange }.each {
                         item("${DLSResourceConstants.ITEM_NAME}": it.componentName, it.getColorValue())
                     }

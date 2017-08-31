@@ -7,13 +7,20 @@
 
     <style name="Base.UltraLight">
         <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width_ultralight</item>
+        <item name="uidTonalRange">UltraLight</item>
     </style>
 
-    <style name="Base.VeryLight" />
+    <style name="Base.VeryLight">
+        <item name="uidTonalRange">VeryLight</item>
+    </style>
 
     <!--  <style name="Base.Light">
     </style>
 -->
-    <style name="Base.Bright"/>
-    <style name="Base.VeryDark"/>
+    <style name="Base.Bright">
+        <item name="uidTonalRange">Bright</item>
+    </style>
+    <style name="Base.VeryDark">
+        <item name="uidTonalRange">VeryDark</item>
+    </style>
 </resources>

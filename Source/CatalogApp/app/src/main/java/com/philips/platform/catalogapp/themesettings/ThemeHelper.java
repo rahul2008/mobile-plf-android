@@ -5,40 +5,45 @@
  */
 package com.philips.platform.catalogapp.themesettings;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.StyleRes;
+import com.philips.platform.catalogapp.CatalogApplication;
 import com.philips.platform.uid.thememanager.*;
 
 public class ThemeHelper {
     final SharedPreferences sharedPreferences;
+    CatalogApplication catalogApplication;
 
-    public ThemeHelper(final SharedPreferences sharedPreferences) {
+    public ThemeHelper(final SharedPreferences sharedPreferences, Context context) {
         this.sharedPreferences = sharedPreferences;
+        catalogApplication = ((CatalogApplication)context.getApplicationContext());
     }
 
     public NavigationColor initNavigationRange() {
         String navigation = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
         final NavigationColor navigationColor = NavigationColor.valueOf(navigation);
-        return navigationColor;
+
+        return catalogApplication.shouldApplyAppLevelTheme() ? catalogApplication.getNavigationColor(): navigationColor;
     }
 
     public ColorRange initColorRange() {
         String color = sharedPreferences.getString(UIDHelper.COLOR_RANGE, ColorRange.GROUP_BLUE.name());
         final ColorRange colorRange = ColorRange.valueOf(color);
-        return colorRange;
+        return catalogApplication.shouldApplyAppLevelTheme() ? catalogApplication.getThemeColorRange(): colorRange;
     }
 
     public ContentColor initContentTonalRange() {
         String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
-        return contentColor;
+        return catalogApplication.shouldApplyAppLevelTheme() ? catalogApplication.getThemeContentColor(): contentColor;
     }
 
     public AccentRange initAccentRange() {
         String accentRangeString = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, AccentRange.ORANGE.name());
         final AccentRange accentRange = AccentRange.valueOf(accentRangeString);
-        return accentRange;
+        return catalogApplication.shouldApplyAppLevelTheme() ? catalogApplication.getThemeAccentRange(): accentRange;
     }
 
     @StyleRes

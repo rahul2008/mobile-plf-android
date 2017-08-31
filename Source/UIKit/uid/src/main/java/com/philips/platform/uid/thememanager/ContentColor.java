@@ -7,7 +7,6 @@
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
-
 import com.philips.platform.uid.R;
 
 /**
@@ -20,11 +19,21 @@ public enum ContentColor implements ThemeConfig {
         public void injectStyle(Resources.Theme theme) {
             theme.applyStyle(R.style.Base_UltraLight, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "UltraLight";
+        }
     },
     VERY_LIGHT {
         @Override
         public void injectStyle(Resources.Theme theme) {
             theme.applyStyle(R.style.Base_VeryLight, true);
+        }
+
+        @Override
+        public String getThemeName() {
+            return "VeryLight";
         }
     },
     /*LIGHT {
@@ -38,13 +47,25 @@ public enum ContentColor implements ThemeConfig {
         public void injectStyle(Resources.Theme theme) {
             theme.applyStyle(R.style.Base_Bright, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "Bright";
+        }
     },
     VERY_DARK {
         @Override
         public void injectStyle(Resources.Theme theme) {
             theme.applyStyle(R.style.Base_VeryDark, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "VeryDark";
+        }
     };
 
     public abstract void injectStyle(Resources.Theme theme);
+
+    abstract public String getThemeName();
 }

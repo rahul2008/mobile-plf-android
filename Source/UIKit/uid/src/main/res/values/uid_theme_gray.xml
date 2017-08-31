@@ -22,6 +22,13 @@
   </style>
   <style name="Theme.DLS.Gray.UltraLight">
     <item name="uidTonalRange">UltraLight</item>
+    <item name="uidAboutScreenDefaultBackgroundColor">@color/uid_level_white</item><!-- about-screen -->
+    <item name="uidAboutScreenDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
+    <item name="uidAboutScreenDefaultIconColor">#B2383838</item><!-- about-screen-icon -->
+    <item name="uidAboutScreenDefaultShieldColor">#0B5ED7</item><!-- philips-shield -->
+    <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_75</item><!-- about-screen-sub-title -->
+    <item name="uidAboutScreenDefaultTextColor">@color/uid_gray_level_65</item><!-- about-screen-text -->
+    <item name="uidAboutScreenDefaultTitleColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_level_white</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_gray_level_45</item><!-- control-accent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- control-accent-text -->
@@ -462,6 +469,13 @@
   </style>
   <style name="Theme.DLS.Gray.VeryLight">
     <item name="uidTonalRange">VeryLight</item>
+    <item name="uidAboutScreenDefaultBackgroundColor">@color/uid_level_white</item><!-- about-screen -->
+    <item name="uidAboutScreenDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
+    <item name="uidAboutScreenDefaultIconColor">#B2383838</item><!-- about-screen-icon -->
+    <item name="uidAboutScreenDefaultShieldColor">#0B5ED7</item><!-- philips-shield -->
+    <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_75</item><!-- about-screen-sub-title -->
+    <item name="uidAboutScreenDefaultTextColor">@color/uid_gray_level_65</item><!-- about-screen-text -->
+    <item name="uidAboutScreenDefaultTitleColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_gray_level_20</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_gray_level_50</item><!-- control-accent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- control-accent-text -->
@@ -902,6 +916,13 @@
   </style>
   <style name="Theme.DLS.Gray.Bright">
     <item name="uidTonalRange">Bright</item>
+    <item name="uidAboutScreenDefaultBackgroundColor">@color/uid_level_white</item><!-- about-screen -->
+    <item name="uidAboutScreenDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
+    <item name="uidAboutScreenDefaultIconColor">#B2383838</item><!-- about-screen-icon -->
+    <item name="uidAboutScreenDefaultShieldColor">#0B5ED7</item><!-- philips-shield -->
+    <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_75</item><!-- about-screen-sub-title -->
+    <item name="uidAboutScreenDefaultTextColor">@color/uid_gray_level_65</item><!-- about-screen-text -->
+    <item name="uidAboutScreenDefaultTitleColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_gray_level_50</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_gray_level_45</item><!-- control-accent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- control-accent-text -->
@@ -1342,6 +1363,13 @@
   </style>
   <style name="Theme.DLS.Gray.VeryDark">
     <item name="uidTonalRange">VeryDark</item>
+    <item name="uidAboutScreenDefaultBackgroundColor">@color/uid_gray_level_70</item><!-- about-screen -->
+    <item name="uidAboutScreenDefaultCloseIconColor">@color/uid_level_white</item><!-- about-screen-title -->
+    <item name="uidAboutScreenDefaultIconColor">#B2B0B0B0</item><!-- about-screen-icon -->
+    <item name="uidAboutScreenDefaultShieldColor">@color/uid_level_white</item><!-- philips-shield -->
+    <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_15</item><!-- about-screen-sub-title -->
+    <item name="uidAboutScreenDefaultTextColor">@color/uid_gray_level_25</item><!-- about-screen-text -->
+    <item name="uidAboutScreenDefaultTitleColor">@color/uid_level_white</item><!-- about-screen-title -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_gray_level_80</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_gray_level_45</item><!-- control-accent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- control-accent-text -->
@@ -1362,6 +1390,7 @@
     <item name="uidButtonInputDisabledIconColor">#59212121</item><!-- input-text-disabled -->
     <item name="uidButtonPrimaryNormalBackgroundColor">@color/uid_gray_level_45</item><!-- control-primary -->
     <item name="uidButtonPrimaryNormalIconColor">@color/uid_level_white</item><!-- control-primary-text -->
+    <item name="uidButtonPrimaryNormalSeparatorColor">#1FFFFFFF</item><!-- control-primary-separator -->
     <item name="uidButtonPrimaryNormalTextColor">@color/uid_level_white</item><!-- control-primary-text -->
     <item name="uidButtonPrimaryFocusBackgroundColor">@color/uid_gray_level_45</item><!-- control-primary-focus -->
     <item name="uidButtonPrimaryFocusBorderColor">#59696969</item><!-- control-primary-focus-border -->

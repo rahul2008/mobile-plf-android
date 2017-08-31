@@ -53,5 +53,6 @@ class Colors {
         AttributeManager.instance.addAttribute(new AttributeModel(name: "uidColorRange", refType: "reference|string"))
         AttributeManager.instance.addAttribute(new AttributeModel(name: "uidTonalRange", refType: "reference|string"))
         AttributeManager.instance.addAttribute(new AttributeModel(name: "uidAccentRange", refType: "reference|string"))
+        AttributeManager.instance.addAttribute(new AttributeModel(name: "uidNavigationRange", refType: "reference|string"))
     }
 }

@@ -31,6 +31,10 @@ public class ControlValues {
             control.component
         }
 
+        def getItem() {
+            control.controlProperty.item
+        }
+
         def getContext() {
             control.context
         }
