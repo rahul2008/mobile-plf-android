@@ -64,15 +64,15 @@ public class SideBar extends DrawerLayout {
         return Math.min(defaultWidth, maxWidth);
     }
 
-    private boolean isDrawerView(View child) {
+    boolean isDrawerView(View child) {
         final int gravity = ((LayoutParams) child.getLayoutParams()).gravity;
         final int absGravity = GravityCompat.getAbsoluteGravity(gravity,
                 ViewCompat.getLayoutDirection(child));
-        if ((absGravity & Gravity.START) != 0 ) {
+        if ((absGravity & Gravity.LEFT) != 0 ) {
             // This child is a left-edge drawer
             return true;
         }
-        if ((absGravity & Gravity.END) != 0) {
+        if ((absGravity & Gravity.RIGHT) != 0) {
             // This child is a right-edge drawer
             return true;
         }

@@ -97,5 +97,6 @@
     <dimen name="sidebar_close_hint_text_size">12sp</dimen>
     <dimen name="sidebar_left_header_height">72dp</dimen>
     <dimen name="sidebar_right_avatar_top_bottom_margin">40dp</dimen>
+    <dimen name="sidebar_listview_top_bottom_padding">8dp</dimen>
 
 </resources>

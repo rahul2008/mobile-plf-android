@@ -81,7 +81,9 @@
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
                 android:layout_below="@id/sidebar_left_header_container"
-                android:layout_above="@id/sidebar_left_footer_container"/>
+                android:layout_above="@id/sidebar_left_footer_container"
+                android:paddingTop="@dimen/sidebar_listview_top_bottom_padding"
+                android:paddingBottom="@dimen/sidebar_listview_top_bottom_padding"/>
 
         </RelativeLayout>
 
@@ -121,10 +123,16 @@
                             android:dividerHeight="@dimen/uid_divider_Height"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:choiceMode="singleChoice"/>
+                            android:choiceMode="singleChoice"
+                            android:paddingTop="@dimen/sidebar_listview_top_bottom_padding"/>
 
-                        <include
-                            layout="@layout/uid_horizontal_separator"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/sidebar_listview_top_bottom_padding">
+                            <include
+                                layout="@layout/uid_horizontal_separator" />
+                        </LinearLayout>
 
                     </LinearLayout>
 
