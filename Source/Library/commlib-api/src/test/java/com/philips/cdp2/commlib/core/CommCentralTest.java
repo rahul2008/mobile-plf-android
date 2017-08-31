@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.core;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -23,6 +24,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,6 +52,9 @@ public class CommCentralTest {
     @Mock
     private DiscoveryStrategy anotherDiscoveryStrategyMock;
 
+    @Mock
+    private Context contextMock;
+
     private CommCentral commCentral;
     private Set<String> emptyDeviceTypes = Collections.emptySet();
     private Set<String> emptyModelIds = Collections.emptySet();
@@ -64,6 +69,8 @@ public class CommCentralTest {
 
         when(someTransportContextMock.getDiscoveryStrategy()).thenReturn(someDiscoveryStrategyMock);
         when(anotherTransportContextMock.getDiscoveryStrategy()).thenReturn(anotherDiscoveryStrategyMock);
+
+        setTestingContext(contextMock);
 
         commCentral = new CommCentral(applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
     }

@@ -7,6 +7,10 @@ Version {next}
 ### Functionality Delivered
 * CommLib - \#65109 Removed connection state machine from DiscoveryManager.
 	* Including the `LanDiscoveryStrategy`, `CombinedCommunicationStrategy` and `CloudCommunicationStrategy`.
+* CommLib - \#65428 Persistent NetworkNode Storage.
+	* Store an Appliance by calling `ApplianceManager.storeAppliance(appliance)`
+	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
+	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`.
 
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
@@ -15,14 +19,17 @@ Version {next}
 * To be filled in at release
 
 ### Breaking Changes
-* CommLib - `NetworkNode` and `Applaince` no longer has a `(get/set)ConnectionState`. In return `Appliances`, `CommunicationStrategies` and `TransportContexts` now got an `isAvailable()` method to tell about the availablity of a connection.
-* CommLib - `enableCommunication` for any `CommunicationStrategy` doesn't have any parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
+* CommLib - `NetworkNode` and `Appliance` no longer have a `(get/set)ConnectionState`. In return `Appliance`, `CommunicationStrategy` and `TransportContext` now have an `isAvailable()` method to inform about the availablity of a connection.
+* CommLib - `enableCommunication` for any `CommunicationStrategy` doesn't have parameters anymore. `SubscriptionEventListener` can be added with the `addSubscriptionEventListener` call.
+* CommLib - `ApplianceFactory` and `ApplianceDatabase` are no longer typed.
 * CommLib - The following classes are moved to a new package:
 	* `CurrentApplianceManager` -> `com.philips.cdp2.commlib.core.appliance`
 	* `ApplianceFactory` -> `com.philips.cdp2.commlib.core.appliance`
+	* `ApplianceDatabase` -> `com.philips.cdp2.commlib.core.store`
 	
 * CommLib - The following classes are renamed:
-	* DICommApplianceFactory -> ApplianceFactory 
+	* `DICommApplianceFactory` -> `ApplianceFactory`
+	* `DICommApplianceDatabase` -> `ApplianceDatabase` 
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called

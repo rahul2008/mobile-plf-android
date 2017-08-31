@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V. 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,6 +12,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+
+import java.lang.ref.WeakReference;
 
 /**
  * The type ContextProvider.
@@ -23,13 +26,26 @@ import android.support.annotation.Nullable;
 public class ContextProvider extends ContentProvider {
 
     private static ContextProvider INSTANCE;
+    @Nullable
+    private static WeakReference<Context> TESTING_CONTEXT;
 
     public ContextProvider() {
         INSTANCE = this;
     }
 
     public static Context get() {
+        if (TESTING_CONTEXT != null) {
+            Context testContext = TESTING_CONTEXT.get();
+            if (testContext != null) {
+                return testContext;
+            }
+        }
         return INSTANCE.getContext();
+    }
+
+    @VisibleForTesting
+    public static void setTestingContext(@NonNull final Context context) {
+        TESTING_CONTEXT = new WeakReference<>(context);
     }
 
     @Override

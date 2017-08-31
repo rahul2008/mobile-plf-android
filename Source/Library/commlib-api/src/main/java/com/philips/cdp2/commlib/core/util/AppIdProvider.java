@@ -13,8 +13,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Holds the AppId.
- *
+ * <p>
  * The AppId is a unique identifier for the app within the DiComm protocol.
+ *
+ * @publicApi
  */
 public class AppIdProvider {
 

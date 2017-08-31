@@ -7,12 +7,19 @@ package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+import com.philips.cdp2.commlib.core.store.NullApplianceDatabase;
 import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,11 +40,31 @@ import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
  */
 public class ApplianceManager {
 
+    /**
+     * Listen to {@link Appliance}s being found or lost.
+     *
+     * @param <A> Type of {@link Appliance} to listen for.
+     */
     public interface ApplianceListener<A extends Appliance> {
+        /**
+         * Called when an {@link Appliance} is found.
+         *
+         * @param foundAppliance
+         */
         void onApplianceFound(@NonNull A foundAppliance);
 
+        /**
+         * Called when an {@link Appliance} is updated due to new information from Discovery.
+         *
+         * @param updatedAppliance
+         */
         void onApplianceUpdated(@NonNull A updatedAppliance);
 
+        /**
+         * Called when an {@link Appliance} is lost.
+         *
+         * @param lostAppliance
+         */
         void onApplianceLost(@NonNull A lostAppliance);
     }
 
@@ -47,7 +74,12 @@ public class ApplianceManager {
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
     private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
 
+    @NonNull
     private final Handler handler = createHandler();
+    @NonNull
+    private final NetworkNodeDatabase networkNodeDatabase;
+    @NonNull
+    private final ApplianceDatabase applianceDatabase;
 
     private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
         @Override
@@ -75,20 +107,7 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            final String cppId = networkNode.getCppId();
-            if (availableAppliances.containsKey(cppId)) {
-                onNetworkNodeUpdated(networkNode);
-            } else if (allAppliances.containsKey(cppId)) {
-                Appliance foundAppliance = allAppliances.get(cppId);
-                availableAppliances.put(cppId, foundAppliance);
-                notifyApplianceFound(foundAppliance);
-            } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
-                final Appliance appliance = (Appliance) applianceFactory.createApplianceForNode(networkNode);
-                appliance.addAvailabilityListener(applianceAvailabilityListener);
-                allAppliances.put(cppId, appliance);
-                availableAppliances.put(cppId, appliance);
-                notifyApplianceFound(appliance);
-            }
+            processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
         }
 
         @Override
@@ -121,7 +140,18 @@ public class ApplianceManager {
      * @param discoveryStrategies the discovery strategies
      * @param applianceFactory    the appliance factory
      */
-    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies, @NonNull ApplianceFactory applianceFactory) {
+    public ApplianceManager(@NonNull Set<DiscoveryStrategy> discoveryStrategies,
+                            @NonNull ApplianceFactory applianceFactory,
+                            @NonNull NetworkNodeDatabase networkNodeDatabase,
+                            @Nullable ApplianceDatabase applianceDatabase) {
+        this.networkNodeDatabase = networkNodeDatabase;
+
+        if (applianceDatabase == null) {
+            this.applianceDatabase = new NullApplianceDatabase();
+        } else {
+            this.applianceDatabase = applianceDatabase;
+        }
+
         if (discoveryStrategies.isEmpty()) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one discovery strategy.");
         }
@@ -130,43 +160,100 @@ public class ApplianceManager {
         }
         this.applianceFactory = applianceFactory;
 
-        loadAppliancesFromPersistentStorage();
+        loadAllAddedAppliancesFromDatabase();
+    }
+
+    @Nullable
+    private Appliance processNewlyDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
+        final String cppId = networkNode.getCppId();
+        if (availableAppliances.containsKey(cppId)) {
+            discoveryListener.onNetworkNodeUpdated(networkNode);
+            return availableAppliances.get(cppId);
+        } else if (allAppliances.containsKey(cppId)) {
+            final Appliance appliance = allAppliances.get(cppId);
+            availableAppliances.put(cppId, appliance);
+            notifyApplianceFound(appliance);
+            return appliance;
+        } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
+            final Appliance appliance = applianceFactory.createApplianceForNode(networkNode);
+            appliance.addAvailabilityListener(applianceAvailabilityListener);
+            allAppliances.put(cppId, appliance);
+            availableAppliances.put(cppId, appliance);
+            notifyApplianceFound(appliance);
+            return appliance;
+        }
+        return null;
     }
 
     /**
-     * Gets available appliances.
+     * Gets all available {@link Appliance}s.
      *
      * @return The currently available appliances
      */
+    @NonNull
     public Set<Appliance> getAvailableAppliances() {
         return new CopyOnWriteArraySet<>(availableAppliances.values());
     }
 
     /**
-     * Find appliance by cpp id.
+     * Gets all {@link Appliance}s that this manager has found, even if no longer available.
      *
-     * @param cppId the cpp id
-     * @return the appliance
+     * @return All known appliances.
      */
-    public Appliance findApplianceByCppId(final String cppId) {
-        return availableAppliances.get(cppId);
+    @NonNull
+    public Set<Appliance> getAllAppliances() {
+        return new CopyOnWriteArraySet<>(allAppliances.values());
     }
 
     /**
-     * Store an appliance.
+     * Find appliance by cpp id.
+     *
+     * @param cppId the cpp id.
+     * @return the appliance or <code>null</code> if it can't be found.
+     */
+    @Nullable
+    public Appliance findApplianceByCppId(final String cppId) {
+        return allAppliances.get(cppId);
+    }
+
+    /**
+     * Store an {@link Appliance}.
      *
      * @param appliance the appliance
+     * @return <code>true</code> if the {@link Appliance} was stored.
      */
-    public void storeAppliance(@NonNull Appliance appliance) {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented yet.");
+    public boolean storeAppliance(@NonNull final Appliance appliance) {
+        long rowId = networkNodeDatabase.save(appliance.getNetworkNode());
+        applianceDatabase.save(appliance);
+
+        return rowId != -1L;
+    }
+
+    /**
+     * No longer persist a previously stored {@link Appliance}.
+     * <p>
+     * After calling this, the {@link Appliance} will no longer be stored. If the {@link Appliance}
+     * is available you will still be able to communicate with it.
+     *
+     * @param appliance {@link Appliance} to forget.
+     * @return <code>true</code> if an {@link Appliance} was removed from storage.
+     */
+    public boolean forgetStoredAppliance(@NonNull final Appliance appliance) {
+        int rowsDeleted = networkNodeDatabase.delete(appliance.getNetworkNode());
+        if (rowsDeleted > 0) {
+            applianceDatabase.delete(appliance);
+            applianceAvailabilityListener.onAvailabilityChanged(appliance);
+        }
+
+        return rowsDeleted > 0;
     }
 
     /**
      * Add an appliance listener.
      *
-     * @param applianceListener the listener
-     * @return true, if the listener didn't exist yet and was therefore added
+     * @param applianceListener the listener.
+     * @return <code>true</code> if the listener didn't exist yet and was therefore added.
+     * @see ApplianceListener
      */
     public boolean addApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.add(applianceListener);
@@ -175,15 +262,30 @@ public class ApplianceManager {
     /**
      * Remove an appliance listener.
      *
-     * @param applianceListener the listener
-     * @return true, if the listener was present and therefore removed
+     * @param applianceListener the listener.
+     * @return <code>true</code> if the listener was present and therefore removed.
+     * @see ApplianceListener
      */
     public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
     }
 
-    private void loadAppliancesFromPersistentStorage() {
-        // TODO
+    private void loadAllAddedAppliancesFromDatabase() {
+        List<NetworkNode> networkNodes = networkNodeDatabase.getAll();
+
+        for (final NetworkNode networkNode : networkNodes) {
+            final Appliance appliance = processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
+            if (appliance == null) continue;
+
+            applianceDatabase.loadDataForAppliance(appliance);
+            networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+                    networkNodeDatabase.save(networkNode);
+                }
+            });
+        }
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {

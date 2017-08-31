@@ -18,6 +18,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.fragment.appliance.LanApplianceFragment;
+import com.philips.cdp2.demouapp.fragment.appliance.PersistApplianceFragment;
 import com.philips.cdp2.demouapp.fragment.port.AirPortFragment;
 import com.philips.cdp2.demouapp.fragment.port.DevicePortFragment;
 import com.philips.cdp2.demouapp.fragment.port.FirmwareUpgradeFragment;
@@ -36,6 +37,7 @@ public class ApplianceFragment extends Fragment {
 
         addFragment(new LanApplianceFragment());
         addFragment(new DevicePortFragment());
+        addFragment(new PersistApplianceFragment());
 
         if (currentAppliance instanceof AirPurifier) {
             addFragment(new PairingFragment());

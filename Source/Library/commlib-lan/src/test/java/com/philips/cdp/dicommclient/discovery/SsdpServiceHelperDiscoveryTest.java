@@ -431,7 +431,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         Assert.assertEquals("cppId_2", onlineCppIds.get(1));
     }
 
-    private static class TestApplianceFactory implements ApplianceFactory<TestAppliance> {
+    private static class TestApplianceFactory implements ApplianceFactory {
 
         @Override
         public boolean canCreateApplianceForNode(NetworkNode networkNode) {
@@ -439,7 +439,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         }
 
         @Override
-        public TestAppliance createApplianceForNode(NetworkNode networkNode) {
+        public Appliance createApplianceForNode(NetworkNode networkNode) {
             return new TestAppliance(networkNode);
         }
 

@@ -9,35 +9,37 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-public final class BleReferenceApplianceFactory implements ApplianceFactory<BleReferenceAppliance> {
+import static java.util.Objects.requireNonNull;
+
+public final class BleReferenceApplianceFactory implements ApplianceFactory {
     @NonNull
     private final BleTransportContext bleTransportContext;
 
     public BleReferenceApplianceFactory(@NonNull BleTransportContext bleTransportContext) {
+        requireNonNull(bleTransportContext);
         this.bleTransportContext = bleTransportContext;
     }
 
     @Override
-    public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+    public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
         return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
     }
 
     @Override
-    public BleReferenceAppliance createApplianceForNode(NetworkNode networkNode) {
-        if (canCreateApplianceForNode(networkNode)) {
-
-            switch (networkNode.getDeviceType()) {
-                case BleReferenceAppliance.DEVICETYPE:
-                    final CommunicationStrategy bleCommunicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
-                    return new BleReferenceAppliance(networkNode, bleCommunicationStrategy);
-            }
+    public Appliance createApplianceForNode(@NonNull NetworkNode networkNode) {
+        if (canCreateApplianceForNode(networkNode) &&
+                Objects.equals(networkNode.getDeviceType(), BleReferenceAppliance.DEVICETYPE)) {
+            final CommunicationStrategy bleCommunicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
+            return new BleReferenceAppliance(networkNode, bleCommunicationStrategy);
         }
         return null;
     }

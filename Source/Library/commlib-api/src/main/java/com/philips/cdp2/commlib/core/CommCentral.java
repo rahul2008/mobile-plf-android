@@ -6,6 +6,7 @@
 package com.philips.cdp2.commlib.core;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -15,6 +16,8 @@ import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
+import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
 
 import java.util.Collections;
@@ -33,18 +36,32 @@ public final class CommCentral {
 
     private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
-    private final ApplianceFactory<?> applianceFactory;
+    @NonNull
+    private final ApplianceFactory applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
+    @NonNull
     private final ApplianceManager applianceManager;
 
     /**
      * Create a CommCentral. You should only ever create one CommCentral!
      *
-     * @param applianceFactory  The ApplianceFactory used to create {@link Appliance}s
+     * @param applianceFactory  The ApplianceFactory used to create {@link Appliance}s.
      * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
      *                          provide {@link DiscoveryStrategy}s. You will need at least one!
      */
     public CommCentral(@NonNull ApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
+        this(applianceFactory, null, transportContexts);
+    }
+
+    /**
+     * Create a CommCentral. You should only ever create one CommCentral!
+     *
+     * @param applianceFactory  The ApplianceFactory used to create {@link Appliance}s.
+     * @param applianceDatabase The ApplianceDatabase used to persist {@link Appliance} state.
+     * @param transportContexts TransportContexts that will be used by the {@link Appliance}s and
+     *                          provide {@link DiscoveryStrategy}s. You will need at least one!
+     */
+    public CommCentral(@NonNull ApplianceFactory applianceFactory, @Nullable ApplianceDatabase applianceDatabase, @NonNull final TransportContext... transportContexts) {
         this.applianceFactory = requireNonNull(applianceFactory);
 
         // Setup transport contexts
@@ -61,7 +78,7 @@ public final class CommCentral {
         }
 
         // Setup ApplianceManager
-        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory);
+        this.applianceManager = new ApplianceManager(discoveryStrategies, applianceFactory, new NetworkNodeDatabase(), applianceDatabase);
     }
 
     public void startDiscovery() throws MissingPermissionException, TransportUnavailableException {

@@ -46,6 +46,7 @@ import cucumber.api.java.en.When;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy.MANUFACTURER_PREAMBLE;
+import static com.philips.cdp2.commlib.core.util.ContextProvider.setTestingContext;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -77,6 +78,9 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Mock
     private BleScanRecord bleScanRecordMock;
+
+    @Mock
+    private Context contextMock;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -142,6 +146,8 @@ public class BleDiscoveryStrategyTestSteps {
                 return new HashSet<>(applianceTypes);
             }
         };
+        setTestingContext(contextMock);
+
         commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
     }
 
