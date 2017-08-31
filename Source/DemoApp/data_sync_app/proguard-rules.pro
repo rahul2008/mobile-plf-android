@@ -129,13 +129,16 @@ public static <fields>;
 ##--------------- ORMLite  ----------
 
 # Keep ORMLite specifics
+-keep public class com.j256.ormlite.** {*;}
+-keep class com.j256.ormlite.** { *; }
+-keep interface com.j256.ormlite.** { *; }
+-dontwarn com.j256.ormlite.**
 -keep class com.j256.**
 -keepclassmembers class com.j256.** { *; }
 -keep enum com.j256.**
 -keepclassmembers enum com.j256.** { *; }
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
-
 -keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
 
@@ -323,3 +326,14 @@ public static <fields>;
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
 
 #-----------------------------Dataservices ends here------------------------------
+
+#sqlcipher
+-keep class net.sqlcipher.** {*;}
+-keep interface net.sqlcipher.** { *; }
+-keep class net.sqlcipher.database.** {*;}
+-keep interface net.sqlcipher.database.** { *; }
+-keep enum net.sqlcipher.**
+-keepclassmembers enum net.sqlcipher.** { *; }
+
+#Secure DB
+-keep public class com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper.**{ public *;}
