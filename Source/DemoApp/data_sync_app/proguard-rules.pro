@@ -1,40 +1,4 @@
-#Android support library
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
--keep class android.support.v8.renderscript.** { *; }
-
 -verbose
-
-#Gson
--keep class sun.misc.Unsafe { *; }
-
-#Hockey
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
-
-#Registration
--keep class com.philips.cdp.registration.** {*;}
-
--keep public class javax.net.ssl.**
--keepclassmembers public class javax.net.ssl.** {*;}
--keepclassmembers public class org.apache.http.** {*;}
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
-
-#GMS (Registration)
--keep  class com.google.android.gms.* { public *; }
-
-#Webkit (Registration)
--keep  class android.net.http.SslError
--keep  class android.webkit.WebViewClient
-
-
-#Janrain (Registration)
--keep public class com.janrain.android.** {*;}
--keep  class com.janrain.android.Jump$* {*;}
--keep class com.philips.cdp.registration.User$*{*;}
--keep  class com.janrain.android.capture.Capture$* {*;}
 
 -keep public class * extends android.view.View {
 public <init>(android.content.Context);
@@ -56,6 +20,10 @@ public <init>(android.content.Context, android.util.AttributeSet);
 public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
 #Enumeration
 -keepclassmembers enum * {
 public static **[] values();
@@ -67,15 +35,20 @@ public static ** valueOf(java.lang.String);
 public static <fields>;
 }
 
-
--dontwarn com.google.gson.**
-
--dontwarn com.squareup.okhttp.**
--dontwarn java.nio.file.**
--dontwarn okio.**
-
+#Android support library
 -dontwarn android.support.**
 -dontwarn android.support.v8.**
+-keep class android.support.v4.** { *; }
+-keep interface android.support.v4.** { *; }
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+-keep class android.support.v8.renderscript.** { *; }
+
+#Hockey
+-keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+
+#User Registration starts here
+#Registration
 -dontwarn com.philips.cdp.registration.**
 -dontwarn com.philips.cdp.platform.**
 -dontwarn org.apache.**
@@ -83,27 +56,13 @@ public static <fields>;
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
-
-#notification (Registration)
+-dontwarn com.squareup.okhttp.**
+-dontwarn java.nio.file.**
 -dontwarn android.app.Notification
-
-#Ormlite
--dontwarn org.slf4j.**
--dontwarn org.apache.log4j.**
--dontwarn org.apache.commons.logging.**
--dontwarn org.apache.commons.codec.binary.**
--dontwarn javax.persistence.**
--dontwarn javax.lang.**
--dontwarn javax.annotation.**
--dontwarn javax.tools.**
-
--keepclasseswithmembernames class * {
-    native <methods>;
-}
+-dontwarn okio.**
 
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-
 
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
@@ -112,68 +71,29 @@ public static <fields>;
 -keepattributes *Annotation*
 -keepattributes Signature
 
+-keep class com.philips.cdp.registration.** {*;}
+
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+
+#Network
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+
+#GMS (Registration)
+-keep  class com.google.android.gms.* { public *; }
+
 #WeChat (Registration)
 -keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
 -keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
 -keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
 
-
-
-# Gson specific classes
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.** {*;}
--keep class com.philips.cdp.prxclient.** {*;}
--keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
--keep class com.google.gson.examples.android.model.** { *; }
-
-##--------------- ORMLite  ----------
-
-# Keep ORMLite specifics
--keep public class com.j256.ormlite.** {*;}
--keep class com.j256.ormlite.** { *; }
--keep interface com.j256.ormlite.** { *; }
--dontwarn com.j256.ormlite.**
--keep class com.j256.**
--keepclassmembers class com.j256.** { *; }
--keep enum com.j256.**
--keepclassmembers enum com.j256.** { *; }
--keep interface com.j256.**
--keepclassmembers interface com.j256.** { *; }
--keep @com.j256.ormlite.table.DatabaseTable class * { *; }
-
-
-##--------------- Eventbus  ----------
-
-    -keepclassmembers class ** {
-        !private void onEvent*(**);}
-    -keep enum org.greenrobot.eventbus.ThreadMode { *; }
-    -keep class de.greenrobot.event.** { *; }
-    -keep class de.greenrobot.** { *; }
-
-
-##--------------- Jodatime  ----------
-
--dontwarn org.joda.convert.**
--dontwarn org.joda.time.**
--keep class org.joda.time.** { *; }
--keep interface org.joda.time.** { *; }
-
-##-------------- Retrofit -------------
-
--keep class com.squareup.** { *; }
--keep interface com.squareup.** { *; }
--keep class retrofit.** { *; }
--keep interface retrofit.** { *;}
-
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
--dontwarn com.squareup.okhttp.**
--dontwarn retrofit.**
--dontwarn okio.**
--dontwarn rx.**
--dontwarn android.app.Notification
+#Webkit (Registration)
+-keep  class android.net.http.SslError
+-keep  class android.webkit.WebViewClient
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
@@ -181,11 +101,19 @@ public static <fields>;
 -keep  class com.fasterxml.jackson.core.** {*;}
 -keep  class com.fasterxml.jackson.databind.** {*;}
 
-#Network
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
+#Janrain (Registration)
+-keep public class com.janrain.android.** {*;}
+-keep  class com.janrain.android.Jump$* {*;}
+-keep class com.philips.cdp.registration.User$*{*;}
+-keep  class com.janrain.android.capture.Capture$* {*;}
 
-#UIKit
+#User Registration ends here
+
+#Prx client
+-keep class com.philips.cdp.prxclient.** {*;}
+-keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
+
+#UIKit starts here
 -keep class com.shamanland.** {*;}
 -keep class uk.co.chrisjenx.** {*;}
 
@@ -236,9 +164,9 @@ public static <fields>;
 -keepclassmembers class *{
   @android.webkit.JavascriptInterface <methods>;
 }
+#UIKit ends here
 
-
-#--------------------------AppInfra starts here-----------
+#App Infra Starts here
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
@@ -283,13 +211,15 @@ public static <fields>;
 
 -keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
 
-#-----------------------------app infra ends here-----------------------------------
+#App Infra Ends here
 
-#-----------------------------Dataservices starts here------------------------------
+#Dataservices starts here
+
 #Data-Services exposed class to access api
 -keep class com.philips.platform.core.trackers.DataServicesManager { *; }
 
 #Pojo classes required by Retorfit to reflect the response
+
 #Data-Services Moments
 -keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
 -keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
@@ -325,7 +255,61 @@ public static <fields>;
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
 
-#-----------------------------Dataservices ends here------------------------------
+#Data Services ends here
+
+#Green Robot
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class de.greenrobot.event.** { *; }
+-keep class de.greenrobot.** { *; }
+-keepclassmembers class ** {!private void onEvent*(**);}
+
+#Jodatime
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
+
+#Retrofit
+-dontwarn com.squareup.okhttp.**
+-dontwarn retrofit.**
+-dontwarn okio.**
+-dontwarn rx.**
+-keep class com.squareup.** { *; }
+-keep interface com.squareup.** { *; }
+-keep class retrofit.** { *; }
+-keep interface retrofit.** { *;}
+
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+
+#Gson
+-dontwarn com.google.gson.**
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.** {*;}
+-keep class com.google.gson.examples.android.model.** { *; }
+
+#Ormlite
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.binary.**
+-dontwarn javax.persistence.**
+-dontwarn javax.lang.**
+-dontwarn javax.annotation.**
+-dontwarn javax.tools.**
+
+-keep public class com.j256.ormlite.** {*;}
+-keep class com.j256.ormlite.** { *; }
+-keep interface com.j256.ormlite.** { *; }
+-dontwarn com.j256.ormlite.**
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+-keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
 #sqlcipher
 -keep class net.sqlcipher.** {*;}
