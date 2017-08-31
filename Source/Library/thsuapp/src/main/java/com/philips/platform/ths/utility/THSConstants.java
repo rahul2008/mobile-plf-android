@@ -58,4 +58,6 @@ public class THSConstants {
 
     public static final String THS_SAVE_UPLOAD_IMAGE_KEY = "ths_upload_image_key";
 
+    public static final String THS_SEARCH_PHARMACY_SELECTED = "selectedPharmacy";
+    public static final String THS_MAP_FRAGMENT_TAG = "mapFragment";
 }

@@ -158,7 +158,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             thsBaseView.showToast("Success with Document name"+documentRecord.getName());
             ((THSSymptomsFragment)thsBaseView).updateDocumentRecordList(documentRecord);
         } else {
-            thsBaseView.showToast("upload failed with sdk error");
+            thsBaseView.showToast("upload failed with sdk error"+sdkError.getMessage());
         }
 
     }

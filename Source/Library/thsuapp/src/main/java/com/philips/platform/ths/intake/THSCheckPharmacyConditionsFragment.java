@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -109,8 +108,8 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     private LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            Log.v("Location", "Lon : " + location.getLongitude() + "::::Lat : " + location.getLatitude());
             updatedLocation = location;
+            mLocationManager.removeUpdates(locationListener);
             mLocationManager = null;
             callPharmacyListFragment(location);
 
@@ -176,7 +175,6 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         }
     }
 
-
     /**
      * Location services code below. Checking if google play services is installed/latest/supported version?
      *
@@ -218,23 +216,19 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
-        thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
     }
 
     private void showPharmacySearch() {
         getActivity().getSupportFragmentManager().popBackStack();
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
         getActivity().getSupportFragmentManager().popBackStack();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
-        thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-        thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
     }
 
