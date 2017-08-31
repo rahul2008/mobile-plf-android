@@ -286,7 +286,7 @@ public static <fields>;
 #-----------------------------app infra ends here-----------------------------------
 
 #-----------------------------Dataservices starts here------------------------------
-#Data-Services exposed class
+#Data-Services exposed class to access api
 -keep class com.philips.platform.core.trackers.DataServicesManager { *; }
 
 #Pojo classes required by Retorfit to reflect the response
