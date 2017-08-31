@@ -1,5 +1,4 @@
 #!/usr/bin/env groovy																											
-// Test comment
 BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
