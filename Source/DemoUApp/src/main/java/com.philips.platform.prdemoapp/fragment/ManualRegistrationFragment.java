@@ -209,8 +209,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
 
             @Override
             public void onError(ERRORVALUES errorvalues, String errDescription) {
-                Toast.makeText(getActivity(), errDescription, Toast.LENGTH_SHORT).show();
-                return;
+                Toast.makeText(fragmentActivity, errDescription, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -222,7 +221,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         PRLaunchInput prLaunchInput;
         if (!isActivity) {
            FragmentLauncher fragLauncher = new FragmentLauncher(
-                    fragmentActivity, R.id.parent_layout, new ActionBarListener() {
+                    fragmentActivity, R.id.mainContainer, new ActionBarListener() {
                 @Override
                 public void updateActionBar(@StringRes final int i, final boolean b) {
                     MainActivity mainActivity = (MainActivity) fragmentActivity;
@@ -241,7 +240,9 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
                 prLaunchInput = new PRLaunchInput(products, false);
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
-           // new PRInterface().launch(fragLauncher, prLaunchInput);
+            PRInterface prInterface = new PRInterface();
+            prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
+            prInterface.launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
 
