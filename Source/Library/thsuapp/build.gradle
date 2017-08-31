@@ -232,11 +232,12 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
-    }
+    }   
 
     compile 'com.android.support:support-fragment:25.3.1'
     
-    compile(name:'awsdk', ext:'aar')
+    //compile(name:'awsdk', ext:'aar')
+    compile 'com.philips.platform.ths:awsdk:3.1.1@aar'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile ('org.robolectric:robolectric:3.4-rc2'){
