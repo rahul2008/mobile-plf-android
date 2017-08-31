@@ -86,7 +86,6 @@ public class AppFlowParserTest extends TestCase {
         try {
             assertTrue(appFlowParser.getFileInputStream("test") != null);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

@@ -64,7 +64,6 @@ class AppFlowParser {
                     throw new JsonFileNotFoundException();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return appFlow;
@@ -86,7 +85,6 @@ class AppFlowParser {
                     throw new JsonFileNotFoundException();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return appFlow;

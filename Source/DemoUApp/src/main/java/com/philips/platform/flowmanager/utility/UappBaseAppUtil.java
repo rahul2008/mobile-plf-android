@@ -22,7 +22,6 @@ public class UappBaseAppUtil {
                 try {
                     ret = jsonFile.createNewFile();
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }

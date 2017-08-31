@@ -324,7 +324,6 @@ public abstract class BaseFlowManager {
             try {
                 nextState = getStateForEventID(true, BACK, appFlowEvents);
             } catch (NoEventFoundException e) {
-                e.printStackTrace();
             }
             if (nextState != null) {
                 if (flowManagerStack.contains(nextState)) {

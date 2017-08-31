@@ -102,7 +102,6 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             TimeUnit.SECONDS.sleep(seconds);
         } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
