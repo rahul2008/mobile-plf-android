@@ -22,8 +22,8 @@ public class AppInfraLogging implements LoggingInterface {
 
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
-    String mComponentID;
-    String mComponentVersion;
+    String mComponentID="";
+    String mComponentVersion="";
 
     public AppInfraLogging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -45,7 +45,7 @@ public class AppInfraLogging implements LoggingInterface {
     public void log(LogLevel level, String eventId, String message) {
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger("");
+            createLogger("","");
         }
         if (null != mJavaLogger) {
             switch (level) {
@@ -83,7 +83,7 @@ public class AppInfraLogging implements LoggingInterface {
 
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
-            createLogger("");
+            createLogger("","");
         }
         if (null != mJavaLogger) {
             params[0]=message;
@@ -113,35 +113,16 @@ public class AppInfraLogging implements LoggingInterface {
         return new Object[2];
     }
 
-    void createLogger(String pComponentId) {
-        final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra, pComponentId, mComponentVersion);
+    void createLogger(String pComponentId, String pComponentVersion) {
+        final LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra, pComponentId, pComponentVersion);
         final HashMap<String, Object> loggingProperty = loggingConfiguration.getLoggingProperties(mAppInfra);
         if (null != loggingProperty) {
-            final String logLevel = loggingConfiguration.getLogLevel(loggingProperty);
-            final Boolean isConsoleLogEnabled = loggingConfiguration.isConsoleLogEnabled(loggingProperty);
-            final Boolean isFileLogEnabled = loggingConfiguration.isFileLogEnabled(loggingProperty);
-
-            if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
-                mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
-                getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
-                final Boolean isComponentLevelLogEnabled = loggingConfiguration.isComponentLevelLogEnabled(loggingProperty);
-                if (isComponentLevelLogEnabled) { // if component level filter enabled
-                    loggingConfiguration.configureComponentLevelLogging(pComponentId, loggingProperty, logLevel, isConsoleLogEnabled, isFileLogEnabled);
-                } else { // no component level filter
-                    loggingConfiguration.activateLogger();
-                    loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
-                    getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
-                }
-
-            } else { // Turning logging level off
-                mJavaLogger = loggingConfiguration.getLogger(pComponentId);
-                getJavaLogger().setLevel(Level.OFF);
-            }
-
+            mJavaLogger = loggingConfiguration.getLoggerBasedOnConfig(pComponentId, loggingProperty);
+            getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         } else {
                  /* added just to make unit test cases pass */
             mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
-            mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
+            getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         }
     }
 

@@ -77,7 +77,6 @@ public class TimeSyncTest extends AppInfraInstrumentation {
                         String testJson = ConfigValues.testJson();
                         result = new JSONObject(testJson);
                     } catch (Exception e) {
-                        e.printStackTrace();
                     }
                     return result;
                 }
@@ -93,7 +92,6 @@ public class TimeSyncTest extends AppInfraInstrumentation {
                     ("TIMESYNC.NTP.HOSTS", "APPINFRA", configError));
 
         } catch (IllegalArgumentException exception) {
-            exception.printStackTrace();
         }
 
     }

@@ -197,8 +197,7 @@ public class TimeSyncSntpClient implements TimeInterface {
                     }
                 }
             } catch (IllegalArgumentException exception) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,
-                        exception.toString());
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,"illegal argument when getting T-sync config pool");
             }
         }
         return null;
@@ -213,7 +212,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             date = new Date(getOffset() + System.currentTimeMillis());
             return date;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "TimeSyncError" + e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error get U-time");
         }
         return null;
     }
@@ -230,8 +229,7 @@ public class TimeSyncSntpClient implements TimeInterface {
                             refreshOffset();
                         } catch (IllegalArgumentException e) {
                             if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null)
-                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "TimeSyncError" +
-                                        e.getMessage());
+                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error refresh time");
                         }
                     }
                 }).start();

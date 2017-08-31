@@ -69,7 +69,6 @@ public class ABTestClientTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 return result;
             }

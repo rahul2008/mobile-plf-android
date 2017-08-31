@@ -3,11 +3,11 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
@@ -27,8 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager
-		.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 
 /**
  * ServiceDiscovery Test class.
@@ -81,7 +80,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 
 		try {
@@ -98,7 +96,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			aisdResponse.setPlatformURLs(platformService);
 			assertNotNull(aisdResponse);
 		} catch (Exception exception) {
-			exception.printStackTrace();
 		}
 
 	}
@@ -113,7 +110,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 					String testJson = ConfigValues.testJson();
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 				return result;
 			}
@@ -133,7 +129,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			URL url = new URL("https://d1lqe9temigv1p.cloudfront.net");
 			assertNotNull(mServiceDiscoveryManager.applyURLParameters(url, parameters));
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -143,7 +138,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -155,7 +149,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.invoke(mServiceDiscoveryManager, "CN");
 			mServiceDiscoveryInterface.setHomeCountry("CN");
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -172,7 +165,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.invoke(mServiceDiscoveryManager, "COUNTRY");
 			method.invoke(mServiceDiscoveryManager, "COUNTRY_SOURCE");
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -209,7 +201,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			});
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 
 		mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(mServiceId,
@@ -753,7 +744,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 		try {
 			jsonObject = new JSONObject(resJson);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
 		mServiceDiscoveryManager.getServiceLocaleWithCountryPreference(mServiceId,
@@ -784,7 +774,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			aisdResponse.setPropositionURLs(propostionService);
 			aisdResponse.setPlatformURLs(platformService);
 		} catch (Exception exception) {
-			exception.printStackTrace();
 		}
 
 	}
@@ -882,7 +871,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -892,7 +880,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -905,7 +892,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager, url, service, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -920,7 +906,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			String urlProposition = (String) method.invoke(mServiceDiscoveryManager, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
 			//  assertNotNull(urlProposition);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -938,7 +923,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			assertSame("stg.philips.com", baseUrlstaging);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -964,7 +948,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			String urlaccp = (String) method.invoke(mServiceDiscoveryManager, "ACCEPTANCE");
 			assertSame("apps%2b%2benv%2bprod", urlaccp);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -985,7 +968,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				}
 			});
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1001,7 +983,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				}
 			});
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1012,7 +993,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			String countryCode = (String) method.invoke(mServiceDiscoveryManager);
 			//  assertNotNull(countryCode);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1023,7 +1003,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			boolean value = (boolean) method.invoke(mServiceDiscoveryManager);
 			//  assertTrue(value);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1069,7 +1048,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}, parameters);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1115,7 +1093,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				}
 			}, parameters);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1142,7 +1119,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 				}
 			}, parameters);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1172,7 +1148,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			}, parameters);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1198,7 +1173,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			});
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1223,7 +1197,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			});
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1237,7 +1210,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			jsonObject = new JSONObject(ConfigValues.getMultipleConfigJson());
 			sdPlatformObj = new JSONObject(ConfigValues.getsdUrlPlatformjson());
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e("error"," while parsing json");
 		}
 		serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
 		serviceDiscovery.parseResponse(context ,mAppInfra ,sdPlatformObj);

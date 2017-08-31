@@ -87,7 +87,7 @@ public class LogFormatter extends Formatter {
                 try {
                     dictionary = (Map<String, Object>) params[1];
                 } catch (Exception e) {
-                    mappInfra.getLogging().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
+                    mappInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
                 }
             }
         }

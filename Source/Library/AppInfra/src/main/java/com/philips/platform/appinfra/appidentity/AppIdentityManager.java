@@ -59,7 +59,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 					"validate AppVersion"+mAppVersion);
 			//mAppVersion = BuildConfig.VERSION_NAME;
 		} catch (PackageManager.NameNotFoundException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_IDENTITY,"Error in validate AppVersion "+e.getMessage());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_IDENTITY,"Error in validate AppVersion ");
 		}
 		if (mAppVersion != null && !mAppVersion.isEmpty()) {
 			if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
