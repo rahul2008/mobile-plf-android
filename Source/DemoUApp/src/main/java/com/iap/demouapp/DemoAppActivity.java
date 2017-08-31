@@ -217,7 +217,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             ignorelistedRetailer.add("John Lewis ");
 
 
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, ignorelistedRetailer);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
             try {
                 mIapInterface.launch(new ActivityLauncher
                                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
