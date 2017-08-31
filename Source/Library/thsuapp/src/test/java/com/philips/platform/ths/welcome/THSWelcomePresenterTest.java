@@ -41,6 +41,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -460,11 +461,12 @@ public class THSWelcomePresenterTest {
 
     @Test
     public void checkIserExisitsSuccessException() {
-
+        THSManager.getInstance().setAwsdk(awsdk);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        ConsumerManager con = awsdk.getConsumerManager();
 
-        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
+        doThrow(AWSDKInstantiationException.class).when(con).checkConsumerExists(eq("1234"),any(SDKCallback.class));
 
         when(userMock.getHsdpUUID()).thenReturn("1234");
         when(userMock.getHsdpAccessToken()).thenReturn("1234");
@@ -475,7 +477,7 @@ public class THSWelcomePresenterTest {
                 anyString(), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(object);
         pthWelcomePresenter.launchInput = 1;
         pthWelcomePresenter.onEvent(R.id.appointments);
-        verify(consumerManagerMock).checkConsumerExists(anyString(), any(SDKCallback.class));
+        verify(con).checkConsumerExists(eq("1234"), any(SDKCallback.class));
     }
 
     @Test
