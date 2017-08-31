@@ -7,7 +7,6 @@ package com.philips.cdp2.demouapp.fragment.appliance;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.demouapp.CommlibUapp;
 
-import static android.support.design.widget.Snackbar.LENGTH_SHORT;
 import static com.philips.cdp2.commlib.demouapp.R.id.cml_buttonForget;
 import static com.philips.cdp2.commlib.demouapp.R.id.cml_buttonPersist;
 import static com.philips.cdp2.commlib.demouapp.R.layout.cml_fragment_persistence;
@@ -26,6 +24,8 @@ import static com.philips.cdp2.commlib.demouapp.R.string.cml_forget_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_forget_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_persist_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_persist_success;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
+import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
 public class PersistApplianceFragment extends Fragment {
 
@@ -44,9 +44,9 @@ public class PersistApplianceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (manager.storeAppliance(currentAppliance)) {
-                    Snackbar.make(activityRoot, cml_persist_success, LENGTH_SHORT).show();
+                    showMessage(getActivity(), activityRoot, getString(cml_persist_success));
                 } else {
-                    Snackbar.make(activityRoot, cml_persist_failed, LENGTH_SHORT).show();
+                    showIndefiniteMessage(getActivity(), activityRoot, getString(cml_persist_failed));
                 }
             }
         });
@@ -55,9 +55,9 @@ public class PersistApplianceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (manager.forgetStoredAppliance(currentAppliance)) {
-                    Snackbar.make(activityRoot, cml_forget_success, LENGTH_SHORT).show();
+                    showMessage(getActivity(), activityRoot, getString(cml_forget_success));
                 } else {
-                    Snackbar.make(activityRoot, cml_forget_failed, LENGTH_SHORT).show();
+                    showIndefiniteMessage(getActivity(), activityRoot, getString(cml_forget_failed));
                 }
             }
         });

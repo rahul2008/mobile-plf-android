@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
@@ -40,11 +39,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_no_firmware_directory_found;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_select_a_firmware_image;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
+
 public class FirmwareUpgradeFragment extends Fragment {
     private static final String TAG = "FirmwareUpgradeFragment";
 
     private static final long DEFAULT_TIMEOUT_MILLIS = 30000L;
 
+    private View rootView;
     private ProgressBar firmwareUploadProgressBar;
     private ListView firmwareImagesListView;
     private TextView firmwareSearchLocationTextView;
@@ -55,6 +59,7 @@ public class FirmwareUpgradeFragment extends Fragment {
     private Button btnUpload;
     private Button btnDeploy;
     private Button btnCancel;
+
     private ArrayAdapter<File> fwImageAdapter;
 
     private ReferenceAppliance currentAppliance;
@@ -184,29 +189,29 @@ public class FirmwareUpgradeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
+        rootView = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
-        firmwareSearchLocationTextView = (TextView) rootview.findViewById(R.id.cml_tvFirmwareSearchLocation);
+        firmwareSearchLocationTextView = (TextView) rootView.findViewById(R.id.cml_tvFirmwareSearchLocation);
 
-        btnUpload = (Button) rootview.findViewById(R.id.cml_btnUploadFirmware);
-        btnDeploy = (Button) rootview.findViewById(R.id.cml_btnDeployFirmware);
-        btnCancel = (Button) rootview.findViewById(R.id.cml_btnCancelFirmware);
+        btnUpload = (Button) rootView.findViewById(R.id.cml_btnUploadFirmware);
+        btnDeploy = (Button) rootView.findViewById(R.id.cml_btnDeployFirmware);
+        btnCancel = (Button) rootView.findViewById(R.id.cml_btnCancelFirmware);
 
-        stateTextView = (TextView) rootview.findViewById(R.id.cml_txtFirmwareState);
-        versionTextView = (TextView) rootview.findViewById(R.id.cml_txtFirmwareVersion);
-        statusTextView = (TextView) rootview.findViewById(R.id.cml_txtFirmwareStatusMsg);
-        timeoutEditText = (EditText) rootview.findViewById(R.id.cml_timeoutEditText);
+        stateTextView = (TextView) rootView.findViewById(R.id.cml_txtFirmwareState);
+        versionTextView = (TextView) rootView.findViewById(R.id.cml_txtFirmwareVersion);
+        statusTextView = (TextView) rootView.findViewById(R.id.cml_txtFirmwareStatusMsg);
+        timeoutEditText = (EditText) rootView.findViewById(R.id.cml_timeoutEditText);
 
         btnUpload.setOnClickListener(clickListener);
         btnDeploy.setOnClickListener(clickListener);
         btnCancel.setOnClickListener(clickListener);
         updateButtons(true, false, false);
 
-        firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.cml_progressUploadFirmware);
+        firmwareUploadProgressBar = (ProgressBar) rootView.findViewById(R.id.cml_progressUploadFirmware);
         firmwareUploadProgressBar.setProgress(0);
-        firmwareImagesListView = (ListView) rootview.findViewById(R.id.cml_lvFirmwareImages);
+        firmwareImagesListView = (ListView) rootView.findViewById(R.id.cml_lvFirmwareImages);
 
-        return rootview;
+        return rootView;
     }
 
 
@@ -289,7 +294,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         final File[] files = externalFilesDir.listFiles(upgradeFilesFilter);
 
         if (files == null) {
-            Toast.makeText(getActivity(), R.string.cml_no_firmware_directory_found, Toast.LENGTH_SHORT).show();
+            showIndefiniteMessage(getActivity(), rootView, getString(cml_no_firmware_directory_found));
         } else {
             fwImageAdapter = new ArrayAdapter<File>(getActivity(), android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull
@@ -313,7 +318,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         final int selectedItemPosition = firmwareImagesListView.getCheckedItemPosition();
 
         if (selectedItemPosition == ListView.INVALID_POSITION) {
-            showToast(getString(R.string.cml_select_a_firmware_image));
+            showIndefiniteMessage(getActivity(), rootView, getString(cml_select_a_firmware_image));
         } else {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
@@ -347,14 +352,5 @@ public class FirmwareUpgradeFragment extends Fragment {
     private long getTimeoutInMillisFromUi() {
         final String timeoutText = timeoutEditText.getText().toString();
         return TextUtils.isEmpty(timeoutText) ? DEFAULT_TIMEOUT_MILLIS : Long.parseLong(timeoutText);
-    }
-
-    private void showToast(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

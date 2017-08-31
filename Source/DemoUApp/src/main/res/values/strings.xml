@@ -40,6 +40,7 @@
     <string name="cml_device_port">Device Port</string>
     <string name="cml_firmware_upgrade_port">Firmware Upgrade Port</string>
     <string name="cml_n_a">N/A</string>
+    <string name="cml_dismiss_indefinite_message">OK</string>
     <string name="cml_pairing_port">Pairing Port</string>
     <string name="cml_air_port">Air Port</string>
     <string name="cml_time_port">Time Port</string>

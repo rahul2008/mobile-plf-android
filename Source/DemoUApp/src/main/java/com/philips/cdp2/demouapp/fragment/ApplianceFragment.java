@@ -18,6 +18,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
+import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
 import com.philips.cdp2.demouapp.fragment.appliance.BleApplianceFragment;
 import com.philips.cdp2.demouapp.fragment.appliance.PersistApplianceFragment;
 import com.philips.cdp2.demouapp.fragment.port.AirPortFragment;
@@ -48,10 +49,6 @@ public class ApplianceFragment extends Fragment {
             return;
         }
 
-        if (currentAppliance instanceof BleReferenceAppliance) {
-            addFragment(new BleApplianceFragment());
-        }
-
         addFragment(new DevicePortFragment());
         addFragment(new PersistApplianceFragment());
 
@@ -60,8 +57,15 @@ public class ApplianceFragment extends Fragment {
             addFragment(new AirPortFragment());
         }
 
-        if (currentAppliance instanceof ReferenceAppliance) {
+        if (currentAppliance instanceof BleReferenceAppliance) {
+            addFragment(new BleApplianceFragment());
+        }
+
+        if (currentAppliance instanceof WifiReferenceAppliance) {
             addFragment(new PairingPortFragment());
+        }
+
+        if (currentAppliance instanceof ReferenceAppliance) {
             addFragment(new TimePortFragment());
             addFragment(new FirmwareUpgradeFragment());
         }

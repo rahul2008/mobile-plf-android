@@ -13,26 +13,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
+import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
 public class PairingFragment extends Fragment {
     private static final String TAG = "PairingFragment";
+
     private EditText editTextUserId;
     private EditText editTextUserToken;
     private AirPurifier currentAppliance;
 
+    private ApplianceManager applianceManager;
+    private View rootview;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.cml_fragment_pairing, container, false);
+        rootview = inflater.inflate(R.layout.cml_fragment_pairing, container, false);
+
+        applianceManager = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager();
 
         editTextUserId = (EditText) rootview.findViewById(R.id.cml_userId);
         editTextUserToken = (EditText) rootview.findViewById(R.id.cml_userToken);
@@ -63,15 +72,16 @@ public class PairingFragment extends Fragment {
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                // TODO: Store appliance into database
+                applianceManager.storeAppliance(appliance);
 
-                showToast("Pairing successful");
+                showMessage(getActivity(), rootview, "Pairing successful");
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showToast("Pairing failed");
+
+                showIndefiniteMessage(getActivity(), rootview, "Pairing failed");
             }
         }, getCloudController());
 
@@ -91,27 +101,19 @@ public class PairingFragment extends Fragment {
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                // TODO: Store appliance into database
+                applianceManager.storeAppliance(appliance);
 
-                showToast("Unpaired successfully");
+                showMessage(getActivity(), rootview, "Unpaired successfully");
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
-                showToast("Pairing failed");
+
+                showIndefiniteMessage(getActivity(), rootview, "Pairing failed");
             }
         }, getCloudController());
 
         pairingHandler.initializeRelationshipRemoval();
-    }
-
-    private void showToast(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
