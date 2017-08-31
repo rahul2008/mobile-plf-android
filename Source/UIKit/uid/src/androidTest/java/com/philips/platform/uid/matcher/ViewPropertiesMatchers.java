@@ -8,11 +8,14 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
 import org.hamcrest.Matcher;
 
 @SuppressWarnings("ReturnOfInnerClass")
@@ -269,6 +272,41 @@ public class ViewPropertiesMatchers {
                     DrawerLayout drawerLayout = (DrawerLayout) view;
                     setValues(drawerLayout.getDrawerElevation(), elevation);
                     return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isDrawerFollowMaxWidth(final float maxWidth) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof FrameLayout) {
+                    DrawerLayout drawerLayout = (DrawerLayout) view;
+                    if(drawerLayout.getWidth() <= maxWidth)
+                        return true;
+                    else
+                        return false;
+                }
+                return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> isDrawerClosedByDefault(final int gravityCompat) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof DrawerLayout) {
+                    DrawerLayout drawerLayout = (DrawerLayout) view;
+                    drawerLayout.openDrawer(gravityCompat);
+                    /*try {
+                        wait(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }*/
+                    return !(drawerLayout.isDrawerOpen(gravityCompat));
                 }
                 return false;
             }

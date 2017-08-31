@@ -164,5 +164,6 @@
 
     <!--Sidebar dimens -->
     <dimen name="sidebar_elevation">5dp</dimen>
+    <dimen name="sidebar_max_width">320dp</dimen>
 
 </resources>
