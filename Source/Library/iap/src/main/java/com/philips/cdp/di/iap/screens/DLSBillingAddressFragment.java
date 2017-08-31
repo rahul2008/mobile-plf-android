@@ -233,12 +233,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     @Override
     public void onSalutationSelect(View view, String salutation) {
-
+            mEtSalutationBilling.setText(salutation);
+            mEtSalutationBilling.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
     }
 
     @Override
     public void onStateSelect(View view, String state) {
-
+        mEtStateBilling.setText(state);
     }
 
     @Override
@@ -318,7 +319,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         }
 
     }
-
+    protected boolean mIgnoreTextChangeListener = false;
     private class IAPTextWatcherPhoneBilling implements TextWatcher {
         private EditText mEditText;
         private boolean isInAfterTextChanged;
@@ -331,13 +332,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mEditText != mEtPhone1Billing) {
+            if (mEditText != mEtPhone1Billing && !mIgnoreTextChangeListener) {
                 validate(mEditText, false);
             }
         }
 
         public synchronized void afterTextChanged(Editable text) {
-            if (mEditText == mEtPhone1Billing) {
+            if (mEditText == mEtPhone1Billing && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
                 validate(mEditText, false);
                 isInAfterTextChanged = false;

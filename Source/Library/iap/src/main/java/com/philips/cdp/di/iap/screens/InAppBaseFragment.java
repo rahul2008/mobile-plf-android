@@ -37,6 +37,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     protected IAPListener mIapListener;
     private ProgressDialog mProgressDialog = null;
 
+    private AddressButtonListner addressButtonListner;
     String mTitle = "";
 
     protected IAPCartListener mProductCountListener = new IAPCartListener() {
@@ -226,5 +227,11 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
                 addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             }
         }
+    }
+
+    private interface AddressButtonListner {
+        void addressButtonEnable(boolean isEnable);
+
+        void addressButtonDisable(boolean isEnable);
     }
 }
