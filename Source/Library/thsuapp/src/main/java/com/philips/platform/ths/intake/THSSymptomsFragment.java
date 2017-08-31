@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.google.gson.Gson;
@@ -85,6 +86,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private THSFileUtils thsFileUtils;
     private EditText additional_comments_edittext;
     private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
+    private Provider mProvider;
 
     @Nullable
     @Override
@@ -93,6 +95,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         Bundle bundle = getArguments();
         if (bundle != null) {
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
+            mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
         }
         selectedImagePojoList = new ArrayList<>();
@@ -146,7 +149,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, BIG);
             mContinue.setEnabled(false);
-            if (mThsProviderInfo != null) {
+            if (mThsProviderInfo != null || mProvider!=null) {
                 thsSymptomsPresenter.getVisitContext();
             } else {
                 try {
@@ -426,5 +429,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             }
         }
         return false;
+    }
+
+    protected Provider getProvider() {
+        return mProvider;
     }
 }

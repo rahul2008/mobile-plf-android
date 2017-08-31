@@ -86,6 +86,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             THSConsumer.setConsumer(viewInterface.getConsumerInfo());
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
+            bundle.putParcelable(THSConstants.THS_PROVIDER,viewInterface.getProvider());
             THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
             thsSymptomsFragment.setConsumerObject(THSConsumer);
             thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
