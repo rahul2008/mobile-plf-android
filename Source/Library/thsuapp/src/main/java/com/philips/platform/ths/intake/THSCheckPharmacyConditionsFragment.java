@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -88,7 +89,20 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     public void getLocation() {
         if (isProviderAvailable() && (provider != null)) {
             fetchCurrentLocation();
+        } else {
+            if (checkForPermission()) return;
+            Toast.makeText(getActivity(), "GPS not enables: getting the last known location", Toast.LENGTH_SHORT).show();
+            Location location = mLocationManager.getLastKnownLocation(provider);
+            callPharmacyListFragment(location);
         }
+    }
+
+    public boolean checkForPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -96,9 +110,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      */
     private void fetchCurrentLocation() {
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+        if (checkForPermission()) return;
         Location location = mLocationManager.getLastKnownLocation(provider);
         long minTime = 5000;// ms
         float minDist = 5.0f;// meter
@@ -148,18 +160,14 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         criteria.setPowerRequirement(Criteria.POWER_LOW);
 
         provider = mLocationManager.getBestProvider(criteria, true);
-        if (mLocationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            provider = LocationManager.NETWORK_PROVIDER;
-            return true;
-        }
 
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             provider = LocationManager.GPS_PROVIDER;
             return true;
         }
-
-        return provider != null;
+        else {
+            return false;
+        }
     }
 
     @Override
