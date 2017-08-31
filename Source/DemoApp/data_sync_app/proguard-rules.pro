@@ -215,10 +215,6 @@ public static <fields>;
 #App Infra Ends here
 
 #Dataservices starts here
-
-#Data-Services exposed class to access api
--keep class com.philips.platform.core.trackers.DataServicesManager { *; }
-
 #Pojo classes required by Retorfit to reflect the response
 
 #Data-Services Moments
@@ -262,7 +258,10 @@ public static <fields>;
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 -keep class de.greenrobot.event.** { *; }
 -keep class de.greenrobot.** { *; }
--keepclassmembers class ** {!private void onEvent*(**);}
+-keepclassmembers class ** {
+    public void onEvent(**);
+}
+-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
 
 #Jodatime
 -dontwarn org.joda.convert.**
