@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
@@ -31,8 +30,8 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class TestFragmentTest extends TestCase implements TestConfigManager.TestConfigCallback{
     private HamburgerActivity hamburgerActivity = null;
     private TestFragment testFragment;
@@ -73,7 +72,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
-        assertEquals(2,chapterAdapter.getItemCount());
+        assertEquals(3,chapterAdapter.getItemCount());
     }
 
     @Test
@@ -96,7 +95,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
         ChapterAdapter.ChapterViewHolder viewHolder = chapterAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
         chapterAdapter.onBindViewHolder(viewHolder,0);
-        assertEquals("Mobile Frontend",viewHolder.chapterTextView.getText().toString());
+        assertEquals("Chapter Mobile",viewHolder.chapterTextView.getText().toString());
     }
 
     protected static  Chapter createChapterObject() {

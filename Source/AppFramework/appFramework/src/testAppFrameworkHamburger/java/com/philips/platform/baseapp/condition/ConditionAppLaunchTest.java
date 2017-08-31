@@ -8,9 +8,12 @@ package com.philips.platform.baseapp.condition;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+
 import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
