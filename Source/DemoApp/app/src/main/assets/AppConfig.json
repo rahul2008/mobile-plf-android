@@ -43,6 +43,7 @@
       "consoleLogEnabled":true,
       "componentLevelLogEnabled":true,
       "componentIds": [
+        "usr",
         "DemoAppInfra",
         "Registration"
       ]
@@ -54,9 +55,9 @@
       "logLevel":"Info",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
-
+        "usr",
         "DemoAppInfra",
         "Registration","component1"
       ]

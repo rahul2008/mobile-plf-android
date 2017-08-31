@@ -29,7 +29,7 @@ import com.philips.cdp.registration.coppa.base.CoppaStatus;
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaConstants;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -46,7 +46,7 @@ import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class RegistrationCoppaFragment extends Fragment implements NetworStateListener,
+public class RegistrationCoppaFragment extends Fragment implements NetworkStateListener,
         OnClickListener, BackEventListener {
 
     private NetworkUtility networkUtility;
@@ -320,7 +320,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         final View view = inflater.inflate(R.layout.reg_fragment_registration, container, false);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onCreateView");
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaFragment  Register: NetworStateListener");
+        RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaFragment  Register: NetworkStateListener");
         mFragmentManager = getChildFragmentManager();
         if (mFragmentManager.getBackStackEntryCount() < 1) {
             loadFirstFragment();
@@ -369,7 +369,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationCoppaFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationCoppaFragment Unregister: " +
-                "NetworStateListener,Context");
+                "NetworkStateListener,Context");
         mFragmentManager = null;
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;

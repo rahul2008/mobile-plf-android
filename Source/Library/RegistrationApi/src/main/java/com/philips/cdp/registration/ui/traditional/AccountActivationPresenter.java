@@ -13,7 +13,7 @@ import javax.inject.*;
  * Created by philips on 22/06/17.
  */
 
-public class AccountActivationPresenter implements NetworStateListener, TraditionalLoginHandler  {
+public class AccountActivationPresenter implements NetworkStateListener, TraditionalLoginHandler  {
 
     private final AccountActivationContract accountActivationContract;
 

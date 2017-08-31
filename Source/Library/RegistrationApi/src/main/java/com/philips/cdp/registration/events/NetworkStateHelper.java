@@ -24,13 +24,13 @@ public class NetworkStateHelper {
 	/**
 	 * copy on write array list
 	 */
-	private CopyOnWriteArrayList<NetworStateListener> networStateListeners;
+	private CopyOnWriteArrayList<NetworkStateListener> networStateListeners;
 
 	/**
 	 * Class constructor
 	 */
 	private NetworkStateHelper() {
-		networStateListeners = new CopyOnWriteArrayList<NetworStateListener>();
+		networStateListeners = new CopyOnWriteArrayList<NetworkStateListener>();
 	}
 
 	/**
@@ -48,11 +48,11 @@ public class NetworkStateHelper {
 	 * {@code registerEventNotification} method to register event notification
 	 * @param observer network state listener
      */
-	public synchronized void registerEventNotification(NetworStateListener observer) {
+	public synchronized void registerEventNotification(NetworkStateListener observer) {
 		synchronized (networStateListeners) {
 			if (networStateListeners != null && observer != null) {
 				for (int i = 0; i < networStateListeners.size(); i++) {
-					NetworStateListener tmp = networStateListeners.get(i);
+					NetworkStateListener tmp = networStateListeners.get(i);
 					if (tmp.getClass() == observer.getClass()) {
 						networStateListeners.remove(tmp);
 					}
@@ -66,11 +66,11 @@ public class NetworkStateHelper {
 	 * {@code unregisterEventNotification} method to unregister event notification
 	 * @param observer network state listener
      */
-	public synchronized void unregisterEventNotification(NetworStateListener observer) {
+	public synchronized void unregisterEventNotification(NetworkStateListener observer) {
 		synchronized (networStateListeners) {
 			if (networStateListeners != null && observer != null) {
 				for (int i = 0; i < networStateListeners.size(); i++) {
-					NetworStateListener tmp = networStateListeners.get(i);
+					NetworkStateListener tmp = networStateListeners.get(i);
 					if (tmp.getClass() == observer.getClass()) {
 						networStateListeners.remove(tmp);
 					}
@@ -86,7 +86,7 @@ public class NetworkStateHelper {
 	public synchronized void notifyEventOccurred(boolean isOnline) {
 		synchronized (networStateListeners) {
 			if (networStateListeners != null) {
-				for (NetworStateListener eventListener : networStateListeners) {
+				for (NetworkStateListener eventListener : networStateListeners) {
 					if (eventListener != null) {
 						eventListener.onNetWorkStateReceived(isOnline);
 					}

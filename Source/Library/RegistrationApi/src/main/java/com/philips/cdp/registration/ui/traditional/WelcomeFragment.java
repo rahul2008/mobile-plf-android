@@ -19,7 +19,7 @@ import android.widget.*;
 
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -27,7 +27,7 @@ import com.philips.cdp.registration.ui.utils.*;
 
 import javax.inject.Inject;
 
-public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener, NetworStateListener, LogoutHandler {
+public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener, NetworkStateListener, LogoutHandler {
 
     @Inject
     NetworkUtility networkUtility;

@@ -8,51 +8,58 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.*;
+import android.app.ProgressDialog;
 import android.content.*;
 import android.content.res.Configuration;
-import android.os.*;
+import android.os.Bundle;
+import android.support.constraint.*;
 import android.support.v4.content.*;
 import android.text.*;
-import android.text.method.*;
+import android.text.method.LinkMovementMethod;
 import android.text.style.*;
 import android.view.*;
-import android.view.View.*;
+import android.view.View.OnClickListener;
 import android.widget.*;
 
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.*;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.customviews.countrypicker.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.wechat.*;
-import com.philips.platform.appinfra.servicediscovery.*;
-import com.tencent.mm.sdk.modelbase.*;
-import com.tencent.mm.sdk.modelmsg.*;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.*;
 
 import org.json.*;
 
 import java.util.*;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.*;
-import io.reactivex.disposables.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
+import butterknife.*;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
-        NetworStateListener, SocialProviderLoginHandler, EventListener {
+        NetworkStateListener, SocialProviderLoginHandler, EventListener {
+
+    public static final String WECHAT = "wechat";
+    private static final int AUTHENTICATION_FAILED = -30;
+    private static final int LOGIN_FAILURE = -1;
 
     @Inject
     NetworkUtility networkUtility;
@@ -68,40 +75,58 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private final CompositeDisposable disposable = new CompositeDisposable();
 
-    public static final String WECHAT = "wechat";
-    private static final int AUTHENTICATION_FAILED = -30;
-    private static final int LOGIN_FAILURE = -1;
-    private Button mBtnCreateAccount;
-    private XProviderButton mBtnMyPhilips;
-    private TextView mTvWelcome;
-    private TextView mTvWelcomeDesc;
-    private TextView mTvTermsAndConditionDesc;
-    private TextView mTvWelcomeNeedAccount;
-    private LinearLayout mLlCreateBtnContainer;
-    private LinearLayout mLlLoginBtnContainer;
-    private LinearLayout mLlSocialProviderBtnContainer;
-    private RelativeLayout mCountrySelectionContainer;
-    private XRegError mRegError;
-    private User mUser;
-    private String mProvider;
-    private ProgressBar mPbJanrainInit;
-    private Context mContext;
-    private ScrollView mSvRootLayout;
-    private ProgressDialog mProgressDialog;
-    private XTextView mCountryDisplay;
-    private boolean isWechatAppRegistred;
-    private String mWeChatAppId;
-    private String mWeChatAppSecret;
-    private IWXAPI mWeChatApi;
-    private String mWeChatCode;
-    private String mShowCountrySelection;
-    private String mLocale;
+    @BindView(R2.id.usr_startScreen_createAccount_Button)
+    Button mBtnCreateAccount;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreate");
-        super.onCreate(savedInstanceState);
-    }
+    @BindView(R2.id.usr_startScreen_Login_Button)
+    Button mBtnMyPhilips;
+
+    @BindView(R2.id.usr_startScreen_title_label)
+    TextView mTvWelcome;
+
+    @BindView(R2.id.usr_startScreen_valueAdd_label)
+    TextView mTvWelcomeDesc;
+
+    TextView mTvWelcomeNeedAccount;
+
+    @BindView(R2.id.usr_startScreen_Social_Container)
+    LinearLayout mLlSocialProviderBtnContainer;
+
+    @BindView(R2.id.reg_error_msg)
+    XRegError mRegError;
+
+    User mUser;
+    String mProvider;
+
+    @BindView(R2.id.usr_startScreen_progressBar)
+    ProgressBar mPbJanrainInit;
+    Context mContext;
+    ScrollView mSvRootLayout;
+    ProgressDialog mProgressDialog;
+
+    @BindView(R2.id.usr_StartScreen_country_label)
+    TextView mCountryDisplay;
+
+    @BindView(R2.id.usr_StartScreen_privacyNotice_label)
+    TextView privacyPolicy;
+
+    @BindView(R2.id.usr_StartScreen_Skip_Button)
+    Button skipRegistration;
+
+    @BindView(R2.id.usr_startScreen_baseLayout_ConstraintLayout)
+    ConstraintLayout usr_startScreen_baseLayout_ConstraintLayout;
+
+    @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
+    LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
+
+
+    boolean isWeChatAppRegistered;
+    String mWeChatAppId;
+    String mWeChatAppSecret;
+    IWXAPI mWeChatApi;
+    String mWeChatCode;
+    String mShowCountrySelection;
+    String mLocale;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,14 +141,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .registerEventNotification(RegConstants.WECHAT_AUTH, this);
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS,
-                "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+                "HomeFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         View view;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
         } else {
             view = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
         }
-
+        ButterKnife.bind(this, view);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         if (mProgressDialog == null)
             mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
@@ -133,28 +158,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleOrientation(view);
         registerWeChatApp();
         return view;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onStart");
     }
 
     @Override
@@ -202,28 +205,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         hideProgressDialog();
                         mRegError.setError(mContext.
                                 getString(R.string.reg_JanRain_Server_Connection_Failed));
-                        scrollViewAutomatically(mRegError, mSvRootLayout);
+//                        scrollViewAutomatically(mRegError, mSvRootLayout);
                     }
                 });
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDestroyView");
     }
 
     @Override
@@ -239,15 +223,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
         RLog.i(RLog.EVENT_LISTENERS,
-                "HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+                "HomeFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         super.onDestroy();
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDetach");
     }
 
     private void handleSocialProviders(final String countryCode) {
@@ -277,63 +254,64 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         try {
             String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";
+
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
 
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
-            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMarginStart(16);
+            params.setMarginEnd(16);
+
+            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId), params);
         } catch (Exception e) {
             RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
         }
     }
 
-    private XProviderButton getProviderBtn(final String providerName, int providerNameStringId,
-                                           int providerLogoDrawableId) {
-        final XProviderButton providerBtn = new XProviderButton(mContext);
-        providerBtn.setProviderName(providerNameStringId);
-        providerBtn.setProviderLogoID(providerLogoDrawableId);
-        providerBtn.setTag(providerName);
+    private Button getProviderBtn(final String providerName, int providerNameStringId,
+                                  int providerLogoDrawableId) {
+        final Button socialButton = (com.philips.platform.uid.view.widget.Button) getActivity().getLayoutInflater().inflate(R.layout.social_button, null);
+        FontLoader.getInstance().setTypeface(socialButton, RegConstants.PUIICON_TTF);
+        socialButton.setText(providerLogoDrawableId);
 
-        providerBtn.setEnabled(true);
+        socialButton.setEnabled(true);
         if (networkUtility.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            providerBtn.setEnabled(true);
+            socialButton.setEnabled(true);
         } else {
-            providerBtn.setEnabled(false);
+            socialButton.setEnabled(false);
         }
-        providerBtn.setOnClickListener(new OnClickListener() {
+        socialButton.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            trackPage(AppTaggingPages.CREATE_ACCOUNT);
 
-                trackPage(AppTaggingPages.CREATE_ACCOUNT);
-
-                RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
-                if (mRegError.isShown()) mRegError.hideError();
-                if (networkUtility.isNetworkAvailable()) {
-                    mFlowId = 3;
-                    mProvider = providerName;
-                    if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                        if (!providerName.equalsIgnoreCase(WECHAT)) {
-                            providerBtn.showProgressBar();
-                        } else {
-                            providerBtn.setClickable(false);
-                        }
-                        callSocialProvider(providerName);
+            RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
+            if (mRegError.isShown()) mRegError.hideError();
+            if (networkUtility.isNetworkAvailable()) {
+                mFlowId = 3;
+                mProvider = providerName;
+                if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                    if (!providerName.equalsIgnoreCase(WECHAT)) {
+//                            providerBtn.showProgressBar();
                     } else {
-                        showProgressDialog();
-                        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+                        socialButton.setClickable(false);
                     }
-
+                    callSocialProvider(providerName);
                 } else {
-                    scrollViewAutomatically(mRegError, mSvRootLayout);
-                    enableControls(false);
-                    mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+                    showProgressDialog();
+                    RegistrationHelper.getInstance().initializeUserRegistration(mContext);
                 }
+
+            } else {
+//                scrollViewAutomatically(mRegError, mSvRootLayout);
+                enableControls(false);
+                mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             }
         });
-        return providerBtn;
+        return socialButton;
     }
 
     @Override
@@ -345,46 +323,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void initUI(View view) {
         consumeTouch(view);
-        mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
-        mTvWelcome.setText(getString(R.string.reg_Welcome_Welcome_lbltxt));
-        mTvTermsAndConditionDesc = (TextView) view.findViewById(R.id.tv_reg_legal_notice);
-        int minAgeLimit = RegistrationConfiguration.getInstance().
-                getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
-        String termsAndCondition = getString(R.string.reg_AgeLimitText);
-        termsAndCondition = String.format(termsAndCondition, minAgeLimit);
-        mTvTermsAndConditionDesc.setText(termsAndCondition);
-        if (minAgeLimit > 0) {
-            mTvTermsAndConditionDesc.setVisibility(View.VISIBLE);
-        } else {
-            mTvTermsAndConditionDesc.setVisibility(View.GONE);
-        }
-        mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_terms_and_condition);
-        mLlCreateBtnContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_container);
-        mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
-        mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
+        mTvWelcome.setText(getString(R.string.lets_get_started));
         mBtnCreateAccount.setOnClickListener(this);
-        mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
+        skipRegistration.setOnClickListener(this);
         mBtnMyPhilips.setOnClickListener(this);
-        mCountryDisplay = (XTextView) view.findViewById(R.id.tv_country_displat);
-        mCountryDisplay.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
-        mCountryDisplay.setOnClickListener(this);
+        updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
 
-        mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
-        if (mTvWelcomeNeedAccount.getText().toString().trim().length() > 0) {
-            mTvWelcomeNeedAccount.setVisibility(View.VISIBLE);
-        } else {
-            mTvWelcomeNeedAccount.setVisibility(View.GONE);
-        }
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mPbJanrainInit = (ProgressBar) view.findViewById(R.id.pb_reg_janrain_init);
         mPbJanrainInit.setClickable(false);
         mPbJanrainInit.setEnabled(false);
-        mLlSocialProviderBtnContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_social_provider_container);
-        mCountrySelectionContainer = (RelativeLayout) view.findViewById(R.id.reg_country_selection);
+
         mUser = new User(mContext);
-        linkifyTermAndPolicy(mTvWelcomeDesc);
+        linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
         handleUiState();
         initServiceDiscovery();
         showCountrySelection();
@@ -416,8 +365,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void updateHomeCountryandLabel(String selectedCountryCode) {
         serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
-        mCountryDisplay.setText(new Locale("",
-                selectedCountryCode).getDisplayCountry());
+        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
+    }
+
+    private void updateCountryText(String text) {
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.usr_country_prefix), text));
+        linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
     }
 
     private void showCountrySelection() {
@@ -425,7 +378,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
         if (mShowCountrySelection != null) {
             if (mShowCountrySelection.equalsIgnoreCase("false")) {
-                mCountrySelectionContainer.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -437,17 +389,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          * :http://tools.android.com/tips/non-constant-fields
          */
         if (mRegError.isShown()) mRegError.hideError();
-        if (v.getId() == R.id.btn_reg_create_account) {
+        if (v.getId() == R.id.usr_startScreen_createAccount_Button) {
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
             trackMultipleActionsRegistration();
             launchCreateAccountFragment();
-        } else if (v.getId() == R.id.btn_reg_my_philips) {
+        } else if (v.getId() == R.id.usr_startScreen_Login_Button) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
-        } else if (v.getId() == R.id.tv_country_displat) {
-
-            handleCountrySelection();
+        } else if(v.getId() == R.id.usr_StartScreen_Skip_Button) {
+            if (getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
+                getRegistrationFragment().getUserRegistrationUIEventListener().
+                        onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
+            }
         }
     }
 
@@ -532,7 +486,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
                         hideProgressDialog();
                         mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-                        scrollViewAutomatically(mRegError, mSvRootLayout);
+//                        scrollViewAutomatically(mRegError, mSvRootLayout);
 
                     }
                 });
@@ -546,8 +500,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-        mCountryDisplay.setText(countryName);
-       // hideProgressDialog();
+        updateCountryText(countryName);
+        //hideProgressDialog();
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
@@ -640,7 +594,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     , Toast.LENGTH_SHORT).show();
             return false;
         }
-        return isWechatAppRegistred;
+        return isWeChatAppRegistered;
     }
 
     private void startWeChatAuthentication() {
@@ -652,13 +606,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mTvWelcome, width);
-        applyParams(config, mTvWelcomeDesc, width);
-        applyParams(config, mTvWelcomeDesc, width);
-        applyParams(config, mLlCreateBtnContainer, width);
-        applyParams(config, mLlLoginBtnContainer, width);
-        applyParams(config, mTvTermsAndConditionDesc, width);
-        applyParams(config, mTvWelcomeNeedAccount, width);
+        applyParams(config, usr_startScreen_baseLayout_ConstraintLayout, width);
+        applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
     }
 
     @Override
@@ -668,7 +617,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.getting_started;
     }
 
     @Override
@@ -725,7 +674,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             enableControls(false);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -741,10 +690,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         enableSocialProviders(state);
         mBtnMyPhilips.setEnabled(state);
         if (state) {
-            mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_enable_color);
+//            mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_enable_color);
             return;
         }
-        mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_disabled_color);
+//        mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_disabled_color);
     }
 
     private void enableSocialProviders(boolean enableState) {
@@ -755,7 +704,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
         if (!RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            linifyPrivercyPolicyOnly(pTvPrivacyPolicy);
+//            linkifyPrivacyPolicy(pTvPrivacyPolicy);
         } else {
             linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
         }
@@ -820,25 +769,24 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     };
 
-    private void linifyPrivercyPolicyOnly(TextView pTvPrivacyPolicy) {
-        String privacyPolicyText = getString(R.string.LegalNoticeForPrivacy);
-        privacyPolicyText = String.format(privacyPolicyText,
-                getString(R.string.reg_PrivacyNoticeText));
-        mTvWelcomeDesc.setText(privacyPolicyText);
+    private ClickableSpan countryClickListener = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            if (mRegError.isShown()) mRegError.hideError();
+            handleCountrySelection();
+        }
+    };
 
-        String privacy = mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
-        SpannableString spanableString = new SpannableString(privacyPolicyText);
+    private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy, ClickableSpan span) {
+        String privacy = pTvPrivacyPolicy.getText().toString();
+        SpannableString spannableString = new SpannableString(privacy);
 
-        int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
-                privacy.toLowerCase());
-
-        spanableString.setSpan(privacyClickListener, privacyStartIndex,
-                privacyStartIndex + privacy.length(),
+        spannableString.setSpan(span, 0, privacy.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        removeUnderlineFromLink(spanableString);
+        removeUnderlineFromLink(spannableString);
 
-        pTvPrivacyPolicy.setText(spanableString);
+        pTvPrivacyPolicy.setText(spannableString);
         pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
                 R.color.reg_hyperlink_highlight_color));
@@ -971,10 +919,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         //Temp fix need to be changed
         if (userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED) {
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         } else {
             mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+//            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -1120,7 +1068,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mWeChatApi = WXAPIFactory.createWXAPI(getRegistrationFragment().getParentActivity(),
                     mWeChatAppId, false);
             mWeChatApi.registerApp(mWeChatAppSecret);
-            isWechatAppRegistred = mWeChatApi.registerApp(mWeChatAppId);
+            isWeChatAppRegistered = mWeChatApi.registerApp(mWeChatAppId);
             LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
                     new IntentFilter(RegConstants.WE_CHAT_AUTH));
         }

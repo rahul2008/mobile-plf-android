@@ -9,164 +9,84 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.content.res.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
 
+import com.jakewharton.rxbinding2.widget.*;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
-import com.philips.cdp.registration.ui.customviews.PasswordView;
-import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.traditional.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener,
-        OnUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
-        OnClickListener {
+import butterknife.*;
+
+public class MergeAccountFragment extends RegistrationBaseFragment implements MergeAccountContract {
 
     @Inject
     NetworkUtility networkUtility;
 
-    private TextView mTvAccountMergeSignIn;
+    @BindView(R2.id.reg_error_msg)
+    XRegError mRegError;
 
-    private LinearLayout mLlUsedEMailAddressContainer;
+    @BindView(R2.id.usr_mergeScreen_used_email_label)
+    Label mTvUsedEmail;
 
-    private LinearLayout mLlCreateAccountFields;
+    @BindView(R2.id.usr_mergeScreen_rootLayout_scrollView)
+    ScrollView mSvRootLayout;
 
-    private RelativeLayout mRlSingInOptions;
+    @BindView(R2.id.usr_mergeScreen_merge_button)
+    ProgressBarButton mBtnMerge;
 
-    private XRegError mRegError;
+    @BindView(R2.id.usr_mergeScreen_password_inputLayout)
+    InputValidationLayout mEtPassword;
 
-    private XButton mBtnMerge;
 
-    private XButton mBtnForgotPassword;
+    @BindView(R2.id.usr_mergeScreen_password_textField)
+    ValidationEditText passwordValidationEditText;
+
+    @BindView(R2.id.usr_mergeScreen_baseLayout_LinearLayout)
+    LinearLayout usr_mergeScreen_baseLayout_LinearLayout;
+
+    private MergeAccountPresenter mergeAccountPresenter;
 
     private String mEmailId;
 
-    private PasswordView mEtPassword;
-
-    private ProgressBar mPbMergeSpinner;
-
-    private ProgressBar mPbForgotPaswwordSpinner;
-
     private String mMergeToken;
 
-    private User mUser;
-
-    private Context mContext;
-
-    private TextView mTvUsedEmail;
-
-    private ScrollView mSvRootLayout;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreate");
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreateView");
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-        mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
-        RLog.i(RLog.EVENT_LISTENERS,
-                "MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
-        mUser = new User(mContext);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        ButterKnife.bind(this, view);
         initUI(view);
-        handleUiErrorState();
+        connectionStatus(networkUtility.isNetworkAvailable());
         handleOrientation(view);
+        mergeAccountPresenter = new MergeAccountPresenter(this);
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onActivityCreated");
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDestroyView");
+    private void enableMergeButton() {
+        RxTextView.textChanges(passwordValidationEditText)
+                .map(password -> (password.toString().length() > 0 && networkUtility.isNetworkAvailable()))
+                .subscribe(enabled -> mBtnMerge.setEnabled(enabled));
     }
 
     @Override
     public void onDestroy() {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-                this);
-        RLog.i(RLog.EVENT_LISTENERS,
-                "MergeAccountFragment unregister: JANRAIN_INIT_SUCCESS,NetworStateListener");
+        mergeAccountPresenter.cleanUp();
         super.onDestroy();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDetach");
-    }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -178,70 +98,43 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     private void initUI(View view) {
         consumeTouch(view);
         Bundle bundle = this.getArguments();
-        mBtnMerge = (XButton) view.findViewById(R.id.btn_reg_merg);
-        mBtnMerge.setOnClickListener(this);
 
         mEmailId = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
-
-        mBtnForgotPassword = (XButton) view.findViewById(R.id.btn_reg_forgot_password);
-        mBtnForgotPassword.setOnClickListener(this);
-        mTvAccountMergeSignIn = (TextView) view.findViewById(R.id.tv_reg_account_merge_sign_in);
-        mLlUsedEMailAddressContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_account_merge_container);
-
-        mLlCreateAccountFields = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_fields);
-
-        mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_container);
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
-        ((RegistrationFragment) getParentFragment()).showKeyBoard();
-        mEtPassword.requestFocus();
-        mEtPassword.setOnUpdateListener(this);
-        mEtPassword.isValidatePassword(false);
-
-        mPbMergeSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_merge_sign_in_spinner);
-        mPbMergeSpinner.setClickable(false);
-        mPbMergeSpinner.setEnabled(true);
-
-        mPbForgotPaswwordSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_forgot_spinner);
-        mPbForgotPaswwordSpinner.setClickable(false);
-        mPbForgotPaswwordSpinner.setEnabled(true);
-
-        mTvUsedEmail = (TextView) view.findViewById(R.id.tv_reg_used_email);
-
         mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 
-        mEtPassword.setHint(mContext.getResources().getString(R.string.reg_Account_Merge_EnterPassword_Placeholder_txtFiled));
+        ((RegistrationFragment) getParentFragment()).showKeyBoard();
+        mEtPassword.requestFocus();
+        mEtPassword.setValidator(password -> password.length() > 0);
+        mEtPassword.setErrorMessage(getString(R.string.reg_EmptyField_ErrorMsg));
+
 
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
-
         String usedEmail = getString(R.string.reg_Account_Merge_UsedEmail_Error_lbltxt);
         usedEmail = String.format(usedEmail, mEmailId);
         mTvUsedEmail.setText(usedEmail);
+        enableMergeButton();
     }
 
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btn_reg_merg) {
-            RLog.d(RLog.ONCLICK, "MergeAccountFragment : Merge");
-            if (mEtPassword.hasFocus()) {
-                mEtPassword.clearFocus();
-            }
-            getView().requestFocus();
-            mergeAccount();
-
-        } else if (v.getId() == R.id.btn_reg_forgot_password) {
-            RLog.d(RLog.ONCLICK, "MergeAccountFragment : Forgot Password");
-            resetPassword();
+    @OnClick(R2.id.usr_mergeScreen_merge_button)
+    public void mergeButtonClick() {
+        if (mEtPassword.hasFocus()) {
+            mEtPassword.clearFocus();
         }
+        getView().requestFocus();
+        mergeAccount();
+    }
+
+    @OnClick(R2.id.usr_mergeScreen_forgotPassword_button)
+    public void forgotButtonClick() {
+        resetPassword();
     }
 
     private void mergeAccount() {
         if (networkUtility.isNetworkAvailable()) {
-            mUser.mergeToTraditionalAccount(mEmailId, mEtPassword.getPassword(), mMergeToken, this);
+            mergeAccountPresenter.mergeToTraditionalAccount(mEmailId, passwordValidationEditText.getText().toString(), mMergeToken);
+            mEtPassword.hideError();
             showMergeSpinner();
         } else {
             mRegError.setError(getString(R.string.reg_JanRain_Error_Check_Internet));
@@ -250,16 +143,10 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     private void resetPassword() {
         boolean validatorResult = FieldsValidator.isValidEmail(mEmailId);
-        if (!validatorResult) {
-        } else {
+        if (validatorResult) {
             if (networkUtility.isNetworkAvailable()) {
-                if (mUser != null) {
-                    showForgotPasswordSpinner();
-                    mEtPassword.clearFocus();
-                    mBtnMerge.setEnabled(false);
-                    mUser.forgotPassword(mEmailId.toString(), this);
-                }
-
+                getRegistrationFragment().addResetPasswordFragment();
+                trackPage(AppTaggingPages.FORGOT_PASSWORD);
             } else {
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
@@ -267,27 +154,18 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     private void showMergeSpinner() {
-        mPbMergeSpinner.setVisibility(View.VISIBLE);
+        mBtnMerge.showProgressIndicator();
         mBtnMerge.setEnabled(false);
     }
 
     private void hideMergeSpinner() {
-        mPbMergeSpinner.setVisibility(View.INVISIBLE);
+        mBtnMerge.hideProgressIndicator();
         mBtnMerge.setEnabled(true);
     }
 
-    private void showForgotPasswordSpinner() {
-        mPbForgotPaswwordSpinner.setVisibility(View.VISIBLE);
-        mBtnForgotPassword.setEnabled(false);
-    }
-
-    private void hideForgotPasswordSpinner() {
-        mPbForgotPaswwordSpinner.setVisibility(View.INVISIBLE);
-        mBtnForgotPassword.setEnabled(true);
-    }
-
-    private void handleUiErrorState() {
-        if (networkUtility.isNetworkAvailable()) {
+    @Override
+    public void connectionStatus(boolean isOnline) {
+        if (isOnline) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
@@ -299,34 +177,19 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         }
     }
 
-    private void updateUiStatus() {
-        RLog.i("MergeAccountFragment", "updateUiStatus");
-        if (mEtPassword.isValidPassword()
-                && networkUtility.isNetworkAvailable()
-                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-            mBtnMerge.setEnabled(true);
-            mBtnForgotPassword.setEnabled(true);
-            mRegError.hideError();
-        } else {
-            mBtnMerge.setEnabled(false);
-        }
+
+    private void enableMerge() {
+        mBtnMerge.setEnabled(true);
     }
 
-    @Override
-    public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "MergeAccountFragment :onCounterEventReceived is : " + event);
-        if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUiStatus();
-        }
+    private void disableMerge() {
+        mBtnMerge.setEnabled(false);
     }
+
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mTvAccountMergeSignIn, width);
-        applyParams(config, mLlUsedEMailAddressContainer, width);
-        applyParams(config, mLlCreateAccountFields, width);
-        applyParams(config, mRlSingInOptions, width);
-        applyParams(config, mRegError, width);
+        applyParams(config, usr_mergeScreen_baseLayout_LinearLayout, width);
     }
 
     @Override
@@ -335,23 +198,18 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     @Override
-    public void onUpdate() {
-        updateUiStatus();
-    }
-
-    @Override
     public int getTitleResourceId() {
         return R.string.reg_SigIn_TitleTxt;
     }
 
     @Override
-    public void onLoginSuccess() {
-        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginSuccess");
+    public void mergeSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         hideMergeSpinner();
         launchWelcomeFragment();
     }
+
 
     private void launchAlmostDoneScreen() {
         getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
@@ -359,7 +217,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     private void launchWelcomeFragment() {
-        if (!mUser.getReceiveMarketingEmail()) {
+        if (!mergeAccountPresenter.getReceiveMarketingEmail()) {
             launchAlmostDoneScreen();
             return;
         }
@@ -367,63 +225,29 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         trackPage(AppTaggingPages.WELCOME);
     }
 
+
     @Override
-    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleLoginFailed(userRegistrationFailureInfo);
+    public void mergeFailuer(String reason) {
+        hideMergeSpinner();
+        mEtPassword.setErrorMessage(reason);
+        mEtPassword.showError();
     }
 
-    private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginFailedWithError");
+    @Override
+    public void mergePasswordFailuer() {
         hideMergeSpinner();
-        scrollViewAutomatically(mRegError, mSvRootLayout);
-        if(userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE){
-            mRegError.setError(mContext.getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
+        mEtPassword.setErrorMessage(getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
+        mEtPassword.showError();
+    }
+
+
+    @Override
+    public void mergeStatus(boolean isOnline) {
+        if (isOnline && passwordValidationEditText.getText().toString().length() > 0) {
+            mEtPassword.hideError();
+            enableMerge();
             return;
         }
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+        disableMerge();
     }
-
-
-    @Override
-    public void onSendForgotPasswordSuccess() {
-        handleSendForgetPasswordSuccess();
-    }
-
-    private void handleSendForgetPasswordSuccess() {
-
-        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
-                mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
-                AppTagingConstants.RESET_PASSWORD_SUCCESS);
-        hideForgotPasswordSpinner();
-        mRegError.hideError();
-    }
-
-    @Override
-    public void onSendForgotPasswordFailedWithError(final
-                                                    UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordFailedWithError");
-        hideForgotPasswordSpinner();
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-        scrollViewAutomatically(mRegError, mSvRootLayout);
-        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-    }
-
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "MergeAccountFragment :onNetWorkStateReceived state :"
-                + isOnline);
-        handleUiErrorState();
-        updateUiStatus();
-    }
-
-    private OnClickListener mContinueBtnClick = new OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            RegAlertDialog.dismissDialog();
-        }
-    };
 }

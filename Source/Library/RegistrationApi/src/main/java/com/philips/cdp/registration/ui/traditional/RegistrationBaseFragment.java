@@ -8,17 +8,17 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.res.Configuration;
+import android.content.res.*;
 import android.os.*;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.*;
 import android.view.*;
-import android.view.View.OnTouchListener;
+import android.view.View.*;
 import android.widget.*;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.LinearLayout.*;
 
-import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.*;
 
 import java.util.*;
 
@@ -34,7 +34,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     public abstract int getTitleResourceId();
 
-    public String getTitleResourceText(){
+    public String getTitleResourceText() {
         return null;
     }
 
@@ -47,7 +47,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-      //  mPrevTitleResourceId = getRegistrationFragment().getResourceID();
+        //  mPrevTitleResourceId = getRegistrationFragment().getResourceID();
         super.onCreate(savedInstanceState);
         setCustomLocale();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onCreate");
@@ -122,13 +122,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 && mPrevTitleResourceId != -99) {
             if (fragment.getFragmentCount() > 2) {
                 fragment.getUpdateTitleListener().updateActionBar(
-                        mPrevTitleResourceId,true);
+                        mPrevTitleResourceId, true);
                /* fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
                         mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             } else {
                 fragment.getUpdateTitleListener().updateActionBar(
-                        mPrevTitleResourceId,false);
+                        mPrevTitleResourceId, false);
              /*   fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);*/
                 fragment.setCurrentTitleResource(mPrevTitleResourceId);
             }
@@ -156,18 +156,18 @@ public abstract class RegistrationBaseFragment extends Fragment {
             mPrevTitleResourceId = fragment.getResourceID();
         }
 
-        if(null != fragment) {
+        if (null != fragment) {
             if (fragment.getFragmentCount() > 1) {
                 if ((this instanceof WelcomeFragment)
-                        && null!=fragment.getUpdateTitleListener()) {
+                        && null != fragment.getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(),false);
+                            getTitleResourceId(), false);
                   /*  fragment.getUpdateTitleListener().
                             updateRegistrationTitleWithOutBack(getTitleResourceId());*/
-                } else if (this instanceof HomeFragment && null!=fragment.
+                } else if (this instanceof HomeFragment && null != fragment.
                         getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(),false);
+                            getTitleResourceId(), false);
                    /* fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());*/
                 } else {
                     if (null != fragment.getUpdateTitleListener()) {
@@ -182,7 +182,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
                             getTitleResourceId());*/
                 }
             } else {
-                if(null!=fragment.getUpdateTitleListener()) {
+                if (null != fragment.getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(), false);
                     String titleText = getTitleResourceText();
@@ -219,22 +219,27 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
 
     protected void applyParams(Configuration config, View view, int width) {
-
-        LinearLayout.LayoutParams mParams = (LayoutParams) view.getLayoutParams();
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (getResources().getBoolean(R.bool.isTablet)) {
-                mParams.leftMargin = mParams.rightMargin = width / 5;
-            } else {
-                mParams.leftMargin = mParams.rightMargin = 0;
-            }
+        if (width < dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648))) {
+            applyDefaultMargin(view);
         } else {
-            if (getResources().getBoolean(R.bool.isTablet)) {
-                mParams.leftMargin = mParams.rightMargin = (int) (((width / 6) * (1.75)));
-            } else {
-                mParams.leftMargin = mParams.rightMargin =  ((width) / 6);
-            }
+            setMaxWidth(view);
         }
+    }
+
+    private void setMaxWidth(View view) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = dpToPx((int) getResources().getInteger(R.integer.reg_layout_max_width_648));
+        view.setLayoutParams(params);
+    }
+
+    private void applyDefaultMargin(View view) {
+        ViewGroup.MarginLayoutParams mParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        mParams.leftMargin = mParams.rightMargin = dpToPx((int) getResources().getInteger(R.integer.reg_layout_margin_16));
         view.setLayoutParams(mParams);
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     protected void trackPage(String currPage) {
@@ -280,7 +285,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 @SuppressWarnings("deprecation")
                 @Override
                 public void onGlobalLayout() {
-                    if(isAdded()) {
+                    if (isAdded()) {
                         Configuration config = getResources().getConfiguration();
                         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                             mWidth = view.getWidth();
@@ -300,7 +305,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 }
             });
         } else {
-            if(isAdded()) {
+            if (isAdded()) {
                 Configuration config = getResources().getConfiguration();
                 if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                     setViewParams(getResources().getConfiguration(), mWidth);

@@ -50,6 +50,11 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.usr_marketingScreen_philipsNews_label)
     Label receivePhilipsNewsLabel;
 
+    @BindView(R2.id.usr_marketingScreen_rootContainer_linearLayout)
+    LinearLayout usr_marketingScreen_rootContainer_linearLayout;
+
+
+
     private ProgressDialog mProgressDialog;
 
     private User mUser;
@@ -154,6 +159,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
+        applyParams(config,usr_marketingScreen_rootContainer_linearLayout,width);
     }
 
     @Override

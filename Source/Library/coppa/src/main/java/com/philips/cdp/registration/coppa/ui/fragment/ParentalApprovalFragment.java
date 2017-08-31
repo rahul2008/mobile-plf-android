@@ -27,14 +27,14 @@ import com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmen
 import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
 import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements
-        NetworStateListener {
+        NetworkStateListener {
 
     private NetworkUtility networkUtility;
 

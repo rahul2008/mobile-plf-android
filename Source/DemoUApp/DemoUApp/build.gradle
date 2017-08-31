@@ -166,18 +166,29 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:design:25.3.1'
 	
-	def dp = project.ext.has('useprojectdependencies')
+    def dp = project.ext.has('useprojectdependencies')
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
-	compile(dp ? project(':ufw') : ufwModule) 
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
+    compile(dp ? project(':ufw') : ufwModule) 
 
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':ail') : ailModule) 
+    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+    compile(dp ? project(':ail') : ailModule) 
 		
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
 	
-	compile(dp ? project(':usr') : project(':RegistrationApi')) 	
+    compile(dp ? project(':usr') : project(':RegistrationApi')) 	
+
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+    compile(dp ? project(':uid') : uidModule) 
+    {
+	transitive = true
+    }
+
+    compile("com.jakewharton:butterknife:7.0.1") {
+        exclude module: "com.android.support"
+    }
+    compile "org.greenrobot:eventbus:3.0.0"
 }
 
 

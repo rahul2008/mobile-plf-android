@@ -20,7 +20,7 @@ import io.reactivex.disposables.*;
 import static com.philips.cdp.registration.HttpClientService.*;
 import static com.philips.cdp.registration.ui.utils.RegConstants.*;
 
-public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.Listener, NetworStateListener {
+public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.Listener, NetworkStateListener {
 
     private static final int SMS_ACTIVATION_REQUEST_CODE = 100;
 

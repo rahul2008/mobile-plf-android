@@ -29,7 +29,7 @@ public class NetworkStateHelperTest extends RegistrationApiInstrumentationBase {
     public void testGetInstance() throws Exception {
         assertNotNull(mNetworkStateHelper);
         mNetworkStateHelper.getInstance();
-        NetworStateListener observer = new NetworStateListener() {
+        NetworkStateListener observer = new NetworkStateListener() {
             @Override
             public void onNetWorkStateReceived(boolean isOnline) {
 

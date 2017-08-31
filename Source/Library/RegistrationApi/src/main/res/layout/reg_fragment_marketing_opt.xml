@@ -1,11 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:reglib="http://reg.lib/schema"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/reg_layout_bg"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="?attr/uidContentPrimaryBackgroundColor"
+              android:focusable="true"
+              android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/usr_marketingScreen_rootLayout_scrollView"
@@ -16,11 +15,12 @@
 
         <LinearLayout
             android:id="@+id/usr_marketingScreen_rootContainer_linearLayout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/reg_layout_margin_16dp"
-            android:layout_marginStart="@dimen/reg_layout_margin_16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/reg_margin_24"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/reg_layout_margin_12dp"
             android:weightSum="1">
 
             <com.philips.platform.uid.view.widget.Label
@@ -28,11 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:layout_marginTop="@dimen/reg_margin_top_24"
                 android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
                 android:textSize="@dimen/reg_error_alert_size"
-                android:textStyle="bold"
-                reglib:fontAssetName="CentraleSans-Book.OTF" />
+                android:textStyle="bold"/>
 
 
             <com.philips.platform.uid.view.widget.Label
@@ -42,8 +40,7 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Opt_In_Special_Offers"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="@dimen/reg_button_text_size"
-                reglib:fontAssetName="CentraleSans-Book.OTF" />
+                android:textSize="@dimen/reg_button_text_size"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_marketingScreen_joinNow_Label"
@@ -53,8 +50,7 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Opt_In_Join_Now"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                android:textSize="@dimen/reg_button_text_size"
-                reglib:fontAssetName="CentraleSans-Book.OTF" />
+                android:textSize="@dimen/reg_button_text_size"/>
 
             <LinearLayout
                 android:id="@+id/usr_marketingScreen_newsContainer_linearlayout"
@@ -62,18 +58,16 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/uidContentTertiaryBackgroundColor"
                 android:orientation="vertical"
-                android:paddingEnd="@dimen/reg_layout_padding_16dp"
-                android:paddingStart="@dimen/reg_layout_padding_16dp">
+                >
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_marketingScreen_philipsNews_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                    android:layout_marginTop="@dimen/text_size_12"
+                    android:layout_marginTop="@dimen/reg_text_size_12"
                     android:text="@string/reg_Receive_Philips_News_lbltxt"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"/>
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
@@ -81,35 +75,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
-                android:layout_marginTop="@dimen/reg_margin_top_24"
+                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
                 android:enabled="false"
                 android:textStyle="normal"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonText="@string/reg_Opt_In_Count_Me_In" />
+                app:uidProgressIndicatorButtonText="@string/reg_Opt_In_Count_Me_In"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_marketingScreen_maybeLater_button"
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_reg_singin_options"
-                android:layout_marginBottom="@dimen/reg_margin_bottom_24"
+                android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16"
                 android:text="@string/reg_Opt_In_May_Be_later"
                 android:textStyle="normal"
-                app:uidComponentType="Secondary" />
+                app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_marketingScreen_error_regerror"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_reg_activate_acct"
                 android:layout_marginTop="@dimen/reg_margin_bottom"
-                android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" />
+                />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_scroll_margin" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
