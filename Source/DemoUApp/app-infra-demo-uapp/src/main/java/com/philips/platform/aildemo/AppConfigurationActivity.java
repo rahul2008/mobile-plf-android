@@ -70,7 +70,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                 showValue.setText(null);
                 String cocokey = getGroupKeyET.getText().toString();
                 String key = getKeyET.getText().toString();
-                if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty()) {
+                if (cocokey.isEmpty() || key.isEmpty()) {
                     Toast.makeText(AppConfigurationActivity.this, "Please enter Coco name and key", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -83,6 +83,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         }
                         int y = 10;
                     } catch (IllegalArgumentException e) {
+                        Log.e(getClass() + "", " Illegal argument exception ");
                     }
                     if (null != configError.getErrorCode() && AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
@@ -112,7 +113,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                 showValueDef.setText(null);
                 String cocokey = getGroupKeyETDef.getText().toString();
                 String key = getKeyETDef.getText().toString();
-                if (null == cocokey || null == key || cocokey.isEmpty() || key.isEmpty()) {
+                if (cocokey.isEmpty() || key.isEmpty()) {
                     Toast.makeText(AppConfigurationActivity.this, "Please enter Coco name and key", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -121,6 +122,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     try {
                         object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(), configError);
                     } catch (IllegalArgumentException e) {
+                        Log.e(getClass() + "", " Illegal argument exception ");
                     }
                     if (null != configError.getErrorCode() && AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
@@ -216,6 +218,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         try {
                             success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(), value, configError);
                         } catch (IllegalArgumentException e) {
+                            Log.e(getClass() + "", " Illegal argument exception ");
                         }
                         if (null != configError.getErrorCode()) {
                             Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();

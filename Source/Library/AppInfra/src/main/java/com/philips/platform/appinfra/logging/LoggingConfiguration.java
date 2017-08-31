@@ -338,7 +338,7 @@ class LoggingConfiguration {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
         } catch (Exception e) {
-            Log.e(AppInfraLogEventID.AI_LOGGING, "FileHandler exception", e);
+            Log.e(AppInfraLogEventID.AI_LOGGING, "FileHandler exception");
         }
 
         return fileHandler;

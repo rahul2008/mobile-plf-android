@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -189,10 +190,12 @@ public class ConfigValues {
 			String testJson = ConfigValues.testJson();
 			result = new JSONObject(testJson);
 		} catch (Exception e) {
+			Log.e("error"," while parsing json");
 		}
 		try {
 			return (HashMap) ConfigValues.jsonToMap(result);
 		} catch (JSONException e) {
+			Log.e("error"," while parsing json");
 		}
 		return null;
 	}

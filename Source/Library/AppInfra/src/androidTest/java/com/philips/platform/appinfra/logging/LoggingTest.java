@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
@@ -298,6 +299,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, false);
             method.invoke(loggingInterface, false);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " Illegal argument exception ");
         }
 
     }
@@ -311,6 +313,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, false);
             method.invoke(loggingInterface, false);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " Invocation target / Illegal access exception ");
         }
     }
 
@@ -326,6 +329,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,map);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " NoSuchMethod / Illegal access exception ");
         }
     }
 
@@ -338,6 +342,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " Invocation target / Illegal access exception ");
         }
     }
 
@@ -352,6 +357,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,map);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " NoSuchMethod / Illegal access exception ");
         }
     }
 
@@ -363,6 +369,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " NoSuchMethod / Illegal access exception ");
         }
     }
     public void testGetFileHandler() {
@@ -373,6 +380,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(appInfraLogging);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " NoSuchMethod / Illegal access exception ");
         }
 
     }
@@ -389,6 +397,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             logger.addHandler(fileHandler);
             method.invoke(appInfraLogging, logger);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " NoSuchMethod / Illegal access exception ");
         }
     }
 
@@ -402,6 +411,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             logger.addHandler(consoleHandler);
             method.invoke(appInfraLogging, logger);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass() + "", " NoSuchMethod / Illegal access exception ");
         }
     }
 

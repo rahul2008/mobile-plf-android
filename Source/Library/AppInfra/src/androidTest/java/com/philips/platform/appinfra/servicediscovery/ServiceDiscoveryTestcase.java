@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
@@ -1209,6 +1210,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 			jsonObject = new JSONObject(ConfigValues.getMultipleConfigJson());
 			sdPlatformObj = new JSONObject(ConfigValues.getsdUrlPlatformjson());
 		} catch (JSONException e) {
+			Log.e("error"," while parsing json");
 		}
 		serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
 		serviceDiscovery.parseResponse(context ,mAppInfra ,sdPlatformObj);

@@ -741,7 +741,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
             return countryCode;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery URL error"+e.toString());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery URL error");
         }
         return countryCode;
     }
@@ -871,7 +871,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } catch (IllegalArgumentException exception) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                         "ServiceDiscovery-getServiceDiscoveryCountryMapping",
-                        exception.toString());
+                        "illegal argument");
             }
         }
         return null;

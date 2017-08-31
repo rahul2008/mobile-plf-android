@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
@@ -51,7 +52,9 @@ public class AppInfraTest extends AppInfraInstrumentation {
 				    String testJson = ConfigValues.testJsonforIntilization();
 				    result = new JSONObject(testJson);
 			    } catch (Exception e) {
-			    }
+					Log.e(getClass()+""," error while testing initialization");
+
+				}
 			    return result;
 		    }
 	    };
@@ -83,7 +86,9 @@ public class AppInfraTest extends AppInfraInstrumentation {
 				    String testJson = ConfigValues.testJson();
 				    result = new JSONObject(testJson);
 			    } catch (Exception e) {
-			    }
+					Log.e(getClass()+""," error while request r-time");
+
+				}
 			    return result;
 		    }
 	    };
