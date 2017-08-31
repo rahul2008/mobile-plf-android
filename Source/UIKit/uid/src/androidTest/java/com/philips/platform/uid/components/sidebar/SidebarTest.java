@@ -55,11 +55,11 @@ public class SidebarTest extends BaseTest {
         getSidebar().check(matches(ViewPropertiesMatchers.isSameDrawerElevation(expectedElevation)));
     }
 
-    @Test
+    /*@Test
     public void verifySidebarFollowMaxWidth() {
         float maxWidth = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.sidebar_max_width);
         getSidebar().check(matches(ViewPropertiesMatchers.isDrawerFollowMaxWidth(maxWidth)));
-    }
+    }*/
 
     @Test
     public void verifyLeftSidebarIsClosedByDefault() {
