@@ -45,11 +45,11 @@ class IAPHandler {
 
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
-        initIAPRequisite();
+       // initIAPRequisite();
     }
 
-    private void initIAPRequisite() {
-        initControllerFactory();
+    void initIAPRequisite() {
+//        initControllerFactory();
         initHybrisDelegate();
     }
 

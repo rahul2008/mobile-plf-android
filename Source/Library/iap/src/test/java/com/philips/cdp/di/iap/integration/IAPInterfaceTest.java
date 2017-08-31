@@ -59,9 +59,9 @@ public class IAPInterfaceTest {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
         ArrayList<String> blackListedRetailer = new ArrayList<>();
-        IAPFlowInput input = new IAPFlowInput("HX9043/64", blackListedRetailer);
+        IAPFlowInput input = new IAPFlowInput("HX9043/64");
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input);
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input, blackListedRetailer);
         mIAPSettings.setUseLocalData(true);
         mIapInterface.init(mIAPDependencies, mIAPSettings);
         mIapInterface.launch(new FragmentLauncher(activity, R.id.cart_container, Mockito.mock(ActionBarListener.class)), iapLaunchInput);
