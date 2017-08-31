@@ -155,7 +155,6 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					exception.printStackTrace();
 				}
 			}
 			else {
@@ -174,7 +173,6 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					exception.printStackTrace();
 				}
 			}
 		}

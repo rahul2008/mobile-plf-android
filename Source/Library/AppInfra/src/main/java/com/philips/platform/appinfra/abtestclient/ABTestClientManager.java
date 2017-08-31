@@ -416,7 +416,6 @@ public class ABTestClientManager implements ABTestClientInterface {
             // done.await(10, TimeUnit.SECONDS);
             done.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         return mExperience;
     }

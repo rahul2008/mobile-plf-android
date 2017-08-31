@@ -61,7 +61,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 return result;
             }
@@ -144,7 +143,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
             }, null, null, null);
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
@@ -168,7 +166,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
 
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
         if (null != imageRequest) {
             mRestInterface.getRequestQueue().add(imageRequest);
@@ -198,7 +195,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
 
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
 
         // mStringRequest.setShouldCache(false); // set false to disable cache
@@ -235,7 +231,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
             });
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
@@ -263,7 +258,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
             });
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
         if (null != imageRequest) {
             mRestInterface.getRequestQueue().add(imageRequest);
@@ -334,7 +328,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
                     try {
                         jobj = new JSONObject(response);
                     } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                     accessToken = jobj.optString("access_token");
                     if (null != accessToken) {

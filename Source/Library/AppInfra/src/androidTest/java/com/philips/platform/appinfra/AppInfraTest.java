@@ -1,9 +1,7 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 
-import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
@@ -53,7 +51,6 @@ public class AppInfraTest extends AppInfraInstrumentation {
 				    String testJson = ConfigValues.testJsonforIntilization();
 				    result = new JSONObject(testJson);
 			    } catch (Exception e) {
-				    e.printStackTrace();
 			    }
 			    return result;
 		    }
@@ -86,7 +83,6 @@ public class AppInfraTest extends AppInfraInstrumentation {
 				    String testJson = ConfigValues.testJson();
 				    result = new JSONObject(testJson);
 			    } catch (Exception e) {
-				    e.printStackTrace();
 			    }
 			    return result;
 		    }

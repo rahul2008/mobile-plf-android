@@ -126,7 +126,6 @@ class SecureStorageHelper {
         try {
             return java.net.URLDecoder.decode(data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
         return null;
     }

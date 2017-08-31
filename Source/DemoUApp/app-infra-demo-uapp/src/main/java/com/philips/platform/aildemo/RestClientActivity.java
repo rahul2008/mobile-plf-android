@@ -245,7 +245,6 @@ public class RestClientActivity extends AppCompatActivity {
                             try {
                                 jobj = new JSONObject(response);
                             } catch (JSONException e) {
-                                e.printStackTrace();
                             }
                             accessToken = jobj.optString("access_token");
                             if (null != accessToken) {

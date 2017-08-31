@@ -298,7 +298,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, false);
             method.invoke(loggingInterface, false);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
 
     }
@@ -312,7 +311,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, false);
             method.invoke(loggingInterface, false);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -328,7 +326,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,map);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -341,7 +338,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -356,7 +352,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,map);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -368,7 +363,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
     public void testGetFileHandler() {
@@ -379,7 +373,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             method.invoke(appInfraLogging);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
 
     }
@@ -396,7 +389,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             logger.addHandler(fileHandler);
             method.invoke(appInfraLogging, logger);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -410,7 +402,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             logger.addHandler(consoleHandler);
             method.invoke(appInfraLogging, logger);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 

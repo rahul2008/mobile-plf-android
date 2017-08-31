@@ -505,7 +505,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 dynamicConfigJsonCache = null;
                 oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
             } catch (JSONException e) {
-                e.printStackTrace();
             }
             if (oldDynamicConfigJson != null) {
                 final Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();

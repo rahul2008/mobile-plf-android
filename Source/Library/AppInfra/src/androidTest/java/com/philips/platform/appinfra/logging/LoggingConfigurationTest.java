@@ -134,7 +134,6 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(logManager).addLogger(logger);
             verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
         } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
@@ -190,7 +189,6 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(logger).addHandler(consoleHandler);
             verify(consoleHandler).setLevel(Level.FINE);
         } catch (JSONException e){
-            e.printStackTrace();
         }
     }
 
@@ -241,7 +239,6 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(logger).addHandler(fileHandler);
             verify(fileHandler).setLevel(Level.FINE);
         } catch (JSONException e){
-            e.printStackTrace();
         }
     }
 

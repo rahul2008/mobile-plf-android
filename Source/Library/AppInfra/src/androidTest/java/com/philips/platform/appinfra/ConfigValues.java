@@ -189,12 +189,10 @@ public class ConfigValues {
 			String testJson = ConfigValues.testJson();
 			result = new JSONObject(testJson);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		try {
 			return (HashMap) ConfigValues.jsonToMap(result);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

@@ -83,7 +83,6 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         }
                         int y = 10;
                     } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
                     }
                     if (null != configError.getErrorCode() && AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
@@ -122,7 +121,6 @@ public class AppConfigurationActivity extends AppCompatActivity {
                     try {
                         object = mConfigInterface.getDefaultPropertyForKey(getKeyETDef.getText().toString(), getGroupKeyETDef.getText().toString(), configError);
                     } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
                     }
                     if (null != configError.getErrorCode() && AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError != configError.getErrorCode()) {
                         Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
@@ -218,7 +216,6 @@ public class AppConfigurationActivity extends AppCompatActivity {
                         try {
                             success = mConfigInterface.setPropertyForKey(setKeyET.getText().toString(), setGroupKeyET.getText().toString(), value, configError);
                         } catch (IllegalArgumentException e) {
-                            e.printStackTrace();
                         }
                         if (null != configError.getErrorCode()) {
                             Toast.makeText(AppConfigurationActivity.this, configError.getErrorCode().toString(), Toast.LENGTH_SHORT).show();
