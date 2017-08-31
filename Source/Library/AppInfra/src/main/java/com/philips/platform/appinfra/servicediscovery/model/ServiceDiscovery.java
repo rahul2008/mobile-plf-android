@@ -220,7 +220,6 @@ public class ServiceDiscovery {
 			}
 		} catch (JSONException e) {
 			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "Parse Error");
-			e.printStackTrace();
 		}
 		return null;
 	}

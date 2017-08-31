@@ -53,7 +53,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 					String testJson = ConfigValues.testJson();
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 				return result;
 			}
@@ -135,7 +134,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			}
 			assertEquals(null, configError.getErrorCode()); // success
 		} catch (IllegalArgumentException exception) {
-			exception.printStackTrace();
 		}
 
 	}
@@ -200,7 +198,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			assertEquals(null, configError.getErrorCode());
 
 		} catch (IllegalArgumentException exception) {
-			exception.printStackTrace();
 		}
 	}
 
@@ -405,7 +402,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			assertEquals(null, configError.getErrorCode()); // success
 
 		} catch (IllegalArgumentException exception) {
-			exception.printStackTrace();
 		}
 
 	}
@@ -456,7 +452,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 		try {
 			oldData = new JSONObject(testJsonOld());
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		// set the previos file to old data with duplicate values
 		sse = new SecureStorageInterface.SecureStorageError();
@@ -472,7 +467,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 		try {
 			newJSON = new JSONObject(newDynamicValue);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		if ((testJsonNew().toString()).equalsIgnoreCase(newJSON.toString())) {
 			Log.v("MIGRATION", "SUCCESS");
@@ -551,7 +545,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 		try {
 			obj = new JSONObject(testJsonString);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		return obj;
 	}
@@ -578,7 +571,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			method.invoke(appConfigurationManager, listener);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -602,7 +594,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			};
 			method.invoke(appConfigurationManager, "url", listener);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -615,7 +606,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			JSONObject jObject = new JSONObject();
 			method.invoke(appConfigurationManager, jObject, "url");
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -627,7 +617,6 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(appConfigurationManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 

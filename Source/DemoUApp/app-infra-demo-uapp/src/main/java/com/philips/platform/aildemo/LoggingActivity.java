@@ -111,7 +111,7 @@ public class LoggingActivity extends AppCompatActivity {
                         try {
                             totalLogCount = Integer.parseInt(logCount.getText().toString());
                         } catch (NumberFormatException nfe) {
-                            Log.i("LoggingActivity","Could not parse log count"+ nfe);
+                            Log.e("LoggingActivity","Could not parse log count");
                         }
 
                         for (int logcount = 1; logcount <= totalLogCount; logcount++) {

@@ -49,7 +49,6 @@ public class AppupdateTest extends AppInfraInstrumentation {
 					String testJson = ConfigValues.testJson();
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 				return result;
 			}
@@ -65,7 +64,6 @@ public class AppupdateTest extends AppInfraInstrumentation {
 						URL url = new URL(APPUPDATE_URL);
 						listener.onSuccess(url);
 					} catch (MalformedURLException e) {
-						e.printStackTrace();
 					}
 				} else {
 					listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");

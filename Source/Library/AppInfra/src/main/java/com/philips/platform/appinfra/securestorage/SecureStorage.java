@@ -9,7 +9,6 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -99,7 +98,7 @@ public class SecureStorage implements SecureStorageInterface {
             } catch (Exception e) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
                 returnResult = false;
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage" + e.getMessage());
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage");
                 //Log.e("SecureStorage", Log.getStackTraceString(e));
             }
 
@@ -114,7 +113,7 @@ public class SecureStorage implements SecureStorageInterface {
     private void postLog(long startTime, String message) {
         long endTime = System.currentTimeMillis();
         long methodDuration = (endTime - startTime);
-        Log.d(AppInfraLogEventID.AI_SECURE_STORAGE, getClass() + ""+message + methodDuration);
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, getClass() + "" + message + methodDuration);
     }
 
     @Override
@@ -140,7 +139,7 @@ public class SecureStorage implements SecureStorageInterface {
                 final Key key = secureStorageHelper.fetchKey(encryptedAESString, secureStorageError);
                 decryptedString = secureStorageHelper.encodeDecodeData(Cipher.DECRYPT_MODE, key, encryptedString);
             } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage" + e.getMessage());
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage");
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
                 decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
             }
@@ -183,7 +182,7 @@ public class SecureStorage implements SecureStorageInterface {
         } catch (Exception e) {
             error.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
             returnResult = false;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage  SqlCipher Data Key "+e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage  SqlCipher Data Key ");
             //Log.e("SecureStorage", Log.getStackTraceString(e));
         } finally {
             writeLock.unlock();
@@ -207,7 +206,7 @@ public class SecureStorage implements SecureStorageInterface {
         try {
             decryptedKey = secureStorageHelper.fetchKey(encryptedAESString, error);
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error SecureStorage SqlCipher Data Key"+e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error SecureStorage SqlCipher Data Key");
             error.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
             decryptedKey = null; // if exception is thrown at:  decryptedString = new String(decText);
         }
@@ -243,7 +242,7 @@ public class SecureStorage implements SecureStorageInterface {
             encryptedBytes = encryptCipher.doFinal(dataToBeEncrypted); // encrypt data using AES
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "EncryptionError"+e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "EncryptionError");
         }
         return encryptedBytes;
     }
@@ -263,7 +262,7 @@ public class SecureStorage implements SecureStorageInterface {
             decryptedBytes = decryptCipher.doFinal(dataToBeDecrypted); // decrypt data using AES
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "DecryptionError"+e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "DecryptionError");
         }
         return decryptedBytes;
     }
@@ -287,7 +286,7 @@ public class SecureStorage implements SecureStorageInterface {
             }
 
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE,"getCipher error"+e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE,"getCipher error");
         }
         return cipher;
     }

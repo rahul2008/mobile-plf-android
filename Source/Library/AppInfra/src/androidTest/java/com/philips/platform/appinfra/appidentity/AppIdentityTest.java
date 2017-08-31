@@ -53,7 +53,6 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 				return result;
 			}
@@ -235,7 +234,6 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 			}
 
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
 		}
 	}
 

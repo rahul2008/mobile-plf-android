@@ -186,7 +186,6 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 return result;
             }
@@ -285,7 +284,6 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                         String articleId = contentItem.getId();
                         Log.i("CL Ariticle", "" + articleId + "  TAGs ");
                     } catch (InstantiationException | IllegalAccessException e) {
-                        e.printStackTrace();
                     }
                 }
 

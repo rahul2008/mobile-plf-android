@@ -130,11 +130,10 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             HashMap<String, Object> loggingProperty = new HashMap<>();
             loggingProperty.put("componentIds", releaseConfig.getJSONArray("componentIds"));
             String logLevel = releaseConfig.getString("logLevel");
-            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, releaseConfig.getBoolean("consoleLogEnabled"), releaseConfig.getBoolean("fileLogEnabled"));
+            loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
             verify(logManager).addLogger(logger);
             verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
         } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
@@ -180,16 +179,16 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             HashMap<String, Object> loggingProperty = new HashMap<>();
             loggingProperty.put("componentIds", releaseConfig.getJSONArray("componentIds"));
             String logLevel = releaseConfig.getString("logLevel");
-            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, false, releaseConfig.getBoolean("fileLogEnabled"));
-            verify(consoleHandler1).close();
-            verify(logger).removeHandler(consoleHandler1);
+            loggingProperty.put("logLevel",logLevel);
+            loggingProperty.put("fileLogEnabled",false);
+            loggingProperty.put("consoleLogEnabled",true);
+            loggingProperty.put("componentLevelLogEnabled",true);
 
-            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, releaseConfig.getBoolean("consoleLogEnabled"), releaseConfig.getBoolean("fileLogEnabled"));
+            loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
             verify(consoleHandler).setFormatter(logFormatter);
             verify(logger).addHandler(consoleHandler);
             verify(consoleHandler).setLevel(Level.FINE);
         } catch (JSONException e){
-            e.printStackTrace();
         }
     }
 
@@ -229,19 +228,17 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             when(logger.getHandlers()).thenReturn(handlers);
             JSONObject jsonObject = new JSONObject(config);
             JSONObject releaseConfig = jsonObject.getJSONObject("LOGGING.RELEASECONFIG");
+            String logLevel = releaseConfig.getString("logLevel");
             HashMap<String, Object> loggingProperty = new HashMap<>();
             loggingProperty.put("componentIds", releaseConfig.getJSONArray("componentIds"));
-            String logLevel = releaseConfig.getString("logLevel");
-            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, jsonObject.getBoolean("consoleLogEnabled"), false);
-            verify(fileHandler1).close();
-            verify(logger).removeHandler(fileHandler1);
-
-            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, releaseConfig.getBoolean("consoleLogEnabled"), releaseConfig.getBoolean("fileLogEnabled"));
+            loggingProperty.put("logLevel",logLevel);
+            loggingProperty.put("fileLogEnabled",true);
+            loggingProperty.put("componentLevelLogEnabled",true);
+            loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
             verify(fileHandler).setFormatter(logFormatter);
             verify(logger).addHandler(fileHandler);
             verify(fileHandler).setLevel(Level.FINE);
         } catch (JSONException e){
-            e.printStackTrace();
         }
     }
 
