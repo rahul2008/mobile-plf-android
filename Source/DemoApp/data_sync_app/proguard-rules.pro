@@ -1,3 +1,4 @@
+#General
 -verbose
 
 -keep public class * extends android.view.View {
