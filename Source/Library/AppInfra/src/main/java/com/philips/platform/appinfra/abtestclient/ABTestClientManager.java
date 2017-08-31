@@ -145,28 +145,26 @@ public class ABTestClientManager implements ABTestClientInterface {
     /**
      * Method to fetch testValue from memory cache/ persistent cache / server.
      *
-     * @param testName     name of the test for which the value is to be provided
+     * @param requestNameKey     name of the test for which the value is to be provided
      * @param defaultValue value to use if no cached value is available
      * @param updateType   ValueType.
      * @param parameters   Parameters
      * @return String  testValue.
      */
     @Override
-    public String getTestValue(final String testName, final String defaultValue,
+    public String getTestValue(final String requestNameKey, final String defaultValue,
                                final UPDATETYPES updateType, Map<String, Object> parameters) {
 
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "testName " + testName);
-        final String requestName=mappedRequestName(testName);
+                "testName " + requestNameKey);
+        String requestName=mappedRequestName(requestNameKey);
         String testValue = getTestValueFromMemoryCache(requestName);
-
         if (testValue == null) {
             if (getCachefromPreference() != null && updateType.name().equals
                     (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
                 final HashMap<String, CacheModel.ValueModel> model = getCachefromPreference().getTestValues();
-
-                if (model != null && model.get(testName) != null && model.get(testName).getTestValue() != null) {
-                    testValue = model.get(testName).getTestValue();
+                if (model != null && model.get(requestName) != null && model.get(requestName).getTestValue() != null) {
+                    testValue = model.get(requestName).getTestValue();
                 } else {
                     testValue = defaultValue;
                 }
@@ -176,7 +174,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         }
 
 
-        updateMemorycacheForTestName(testName, testValue, updateType);
+        updateMemorycacheForTestName(requestName, testValue, updateType);
         if (updateType.name().equals
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
             saveCachetoPreference(mCacheModel);
@@ -509,7 +507,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     public String mappedRequestName(String requestNameKey){
          String requestName=requestNameKey;
-         final HashMap<String,Object> mappConfig= getAbtestMapConfig(mAppInfra.getConfigInterface(), mAppInfra);
+         HashMap<String,Object> mappConfig= getAbtestMapConfig(mAppInfra.getConfigInterface(), mAppInfra);
          if(mappConfig!=null && mappConfig instanceof HashMap<?,?>){
              String mappedRequestName=(String) mappConfig.get(requestNameKey);
              if(mappedRequestName!=null && !mappedRequestName.isEmpty()){

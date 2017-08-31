@@ -64,11 +64,11 @@ public interface ABTestClientInterface {
      * Provides value for a given test. If no value is available in cache,
      * the default value will be returned and stored in cache.
      *
-     * @param testName     name of the test for which the value is to be provided
+     * @param requestNameKey     name of the test for which the value is to be provided
      * @param defaultValue value to use if no cached value is available
      * @return experience value for the requested test.
      */
-    String getTestValue(String testName, String defaultValue, UPDATETYPES updateType,
+    String getTestValue(String requestNameKey, String defaultValue, UPDATETYPES updateType,
                         Map<String, Object> parameters);
 
     /**
