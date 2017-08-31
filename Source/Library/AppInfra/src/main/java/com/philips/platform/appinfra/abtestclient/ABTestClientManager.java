@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.adobe.mobile.Config;
 import com.adobe.mobile.Target;
@@ -17,7 +18,6 @@ import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
@@ -283,7 +283,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         } catch (IllegalArgumentException exception) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                   "Error in isAppUpdated "+exception.getMessage());
+                   "Error in isAppUpdated ");
         }
 
         return false;
@@ -416,6 +416,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             // done.await(10, TimeUnit.SECONDS);
             done.await();
         } catch (InterruptedException e) {
+            Log.e(" ABCM - interrupted "," while test Value from server");
         }
         return mExperience;
     }
@@ -428,7 +429,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         } catch (IllegalArgumentException exception) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Error in getAppVersion "+exception.getMessage());
+                    "Error in getAppVersion ");
         }
         return null;
     }
@@ -500,8 +501,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
         } catch (IllegalArgumentException exception) {
             ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config "
-                            +exception.toString());
+                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config ");
         }
         return null;
     }
