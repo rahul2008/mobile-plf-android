@@ -92,14 +92,15 @@ class LoggingConfiguration {
                 }
 
             } else {
-                // on provided componentId not in configured component ids
+                // if component id is not present in configuration file, we enable logs considering it
+                // as application logs. Any component which do not create instance will fall back to this place
                 getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
                 enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
             }
 
         } else {
             // Turning logging level off
-            getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
+            getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created but log level is turned off in the log"); //R-AI-LOG-6
             getJavaLogger().setLevel(Level.OFF);
         }
         return mJavaLogger;
