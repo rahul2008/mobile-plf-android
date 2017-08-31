@@ -130,7 +130,7 @@ public class GroomHelper {
 
             ServiceDiscoveryService serviceDiscoveryService = map.get(key.concat(".kindex"));
             if (serviceDiscoveryService != null) {
-                validateGroom(entry, aikmService, serviceDiscoveryService);
+                validateGroom(entry.getKey(), aikmService, serviceDiscoveryService);
             } else {
                 aikmService.setMapError(AIKMService.MapError.NO_SERVICE_FOUND);
             }
@@ -138,10 +138,11 @@ public class GroomHelper {
         }
     }
 
-    private void validateGroom(Map.Entry<String, ServiceDiscoveryService> entry, AIKMService aikmService, ServiceDiscoveryService serviceDiscoveryService) {
-        String groomIndex = getGroomIndex(serviceDiscoveryService.getConfigUrls());
-        if (groomIndex != null) {
-            mapAndValidateGroom(aikmService, entry.getKey(), groomIndex);
+    private void validateGroom(String key, AIKMService aikmService, ServiceDiscoveryService serviceDiscoveryService) {
+        String configUrls = serviceDiscoveryService.getConfigUrls();
+        if (!TextUtils.isEmpty(configUrls)) {
+            String groomIndex = getGroomIndex(configUrls);
+            mapAndValidateGroom(aikmService, key, groomIndex);
         } else {
             aikmService.setMapError(AIKMService.MapError.EMPTY_ARGUMENT_URL);
         }
