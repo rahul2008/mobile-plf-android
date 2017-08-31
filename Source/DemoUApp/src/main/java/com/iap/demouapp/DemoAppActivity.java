@@ -133,7 +133,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
-        ignorelistedRetailer.add("TN");
+        ignorelistedRetailer.add("TMALL");
         //ignorelistedRetailer.add("John Lewis ");
     }
 
