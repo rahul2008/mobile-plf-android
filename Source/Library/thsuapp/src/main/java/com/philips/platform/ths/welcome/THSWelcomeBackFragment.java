@@ -86,7 +86,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         }
     }
 
-    public PracticeInfo getmPracticeInfo() {
+    public PracticeInfo getPracticeInfo() {
         return mPracticeInfo;
     }
 

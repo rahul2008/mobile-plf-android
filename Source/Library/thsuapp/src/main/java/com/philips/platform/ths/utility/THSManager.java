@@ -1248,7 +1248,11 @@ public class THSManager {
                 URConfigurationConstants.UR, configError));
         if(propertyForKey instanceof Map){
             HashMap map = (HashMap) propertyForKey;
-            return map.get("default").toString();
+            if (map.get("default") != null) {
+                return map.get("default").toString();
+            }else {
+                return " ";
+            }
         }
         return propertyForKey.toString();
     }

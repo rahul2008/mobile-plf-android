@@ -11,6 +11,7 @@ import android.net.Uri;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.UploadAttachment;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -32,15 +33,15 @@ import java.util.Map;
 
 public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
     protected THSBaseFragment thsBaseView;
-    protected THSProviderInfo THSProviderInfo;
+    protected THSProviderInfo mThsProviderInfo;
     protected THSVisitContext THSVisitContext;
     private THSFileUtils fileUtils;
     private UploadAttachment uploadAttachment;
 
 
-    THSSymptomsPresenter(THSBaseFragment uiBaseView, THSProviderInfo THSProviderInfo) {
+    THSSymptomsPresenter(THSBaseFragment uiBaseView, THSProviderInfo mThsProviderInfo) {
         this.thsBaseView = uiBaseView;
-        this.THSProviderInfo = THSProviderInfo;
+        this.mThsProviderInfo = mThsProviderInfo;
         fileUtils = new THSFileUtils();
     }
 
@@ -102,9 +103,14 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     }
 
     void getVisitContext() {
-
+        if(mThsProviderInfo == null){
+            final Provider provider = ((THSSymptomsFragment) thsBaseView).getProvider();
+            THSProviderInfo thsProviderInfo = new THSProviderInfo();
+            thsProviderInfo.setTHSProviderInfo(provider);
+            mThsProviderInfo = thsProviderInfo;
+        }
         try {
-            THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), THSProviderInfo, this);
+            THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), mThsProviderInfo, this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
