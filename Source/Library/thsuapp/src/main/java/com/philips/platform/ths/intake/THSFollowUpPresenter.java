@@ -83,7 +83,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         if (checkIfDODFlow()) {
             //TODO: Add DOD flow here
         } else {
-            mTHSFollowUpFragment.addFragment(new THSCheckPharmacyConditionsFragmentNew(), THSCheckPharmacyConditionsFragmentNew.TAG, null);
+            mTHSFollowUpFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
         }
         //update singleton THSManager THSConsumer member
         THSManager.getInstance().setPTHConsumer(thsConsumer);
