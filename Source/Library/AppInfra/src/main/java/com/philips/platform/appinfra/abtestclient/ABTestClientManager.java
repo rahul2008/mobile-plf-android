@@ -501,7 +501,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             return mbox;
 
         } catch (IllegalArgumentException exception) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config "
                             +exception.toString());
         }
@@ -532,7 +532,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                     ("abtest.mapping", "appinfra", configError);
 
         } catch (IllegalArgumentException exception) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config "
                             +exception.toString());
         }
