@@ -18,7 +18,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-public class ShippingAddressFragmentTest {
+public class ShippingDLSAddressFragmentTest {
     private Context mContext;
     ShippingAddressFragment shippingAddressFragment;
 

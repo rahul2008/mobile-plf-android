@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.philips.cdp.uikit.customviews.UIKitRadioButton
@@ -31,6 +32,7 @@
         android:layout_below="@id/tv_card_name"
         android:layout_marginStart="@dimen/iap_selection_address_margin_left"
         android:layout_marginTop="@dimen/iap_selection_address_margin_top"
+        android:text="abcd ef gh ijklman op qrs"
         android:includeFontPadding="false"
         android:textColor="@color/iap_address_text_color"
         android:textSize="@dimen/iap_selection_address_text_size" />
@@ -54,19 +56,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_card_validity"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_use_payment_method"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
             android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
             android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-            android:text="@string/iap_use_payment_method" />
+            android:text="@string/iap_use_payment_method"
+            app:uidComponentType="Primary"
+            android:enabled="true"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_add_new_payment"
+            android:visibility="gone"
             style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

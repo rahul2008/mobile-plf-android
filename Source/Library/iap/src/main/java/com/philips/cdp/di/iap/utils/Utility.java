@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -20,12 +21,14 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 
@@ -201,4 +204,15 @@ public class Utility {
         }
     }
 
+    public static InputValidator getValidator(Pattern valid_regex_pattern) {
+        return new InputValidator(valid_regex_pattern);
+    }
+
+    public static Drawable getImageArrow(Context mContext) {
+        Drawable imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
+        int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
+        imageArrow.setBounds(0, 0, width, height);
+        return imageArrow;
+    }
 }
