@@ -40,7 +40,6 @@ import com.philips.platform.dscdemo.registration.UserRegistrationInterfaceImpl;
 import java.sql.SQLException;
 
 
-
 public class DemoAppManager {
 
     public DatabaseHelper databaseHelper;
@@ -50,9 +49,9 @@ public class DemoAppManager {
     private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
     UserRegistrationInterfaceImpl userRegImple;
-    final String AI = "appinfra";
     private static DemoAppManager sDemoAppManager;
-    private DemoAppManager(){
+
+    private DemoAppManager() {
 
     }
 
@@ -62,6 +61,7 @@ public class DemoAppManager {
         }
         return sDemoAppManager;
     }
+
     public AppInfraInterface getAppInfra() {
         return mAppInfra;
     }
@@ -142,11 +142,11 @@ public class DemoAppManager {
     }
 
     public void initPreRequisite(Context context, AppInfraInterface appInfra) {
-        this.mContext=context;
-        this.mAppInfra =appInfra;
+        this.mContext = context;
+        this.mAppInfra = appInfra;
         configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        databaseHelper=DatabaseHelper.getInstance(context,new UuidGenerator());
+        databaseHelper = DatabaseHelper.getInstance(context, mAppInfra);
         initAppInfra(mAppInfra);
         init();
     }

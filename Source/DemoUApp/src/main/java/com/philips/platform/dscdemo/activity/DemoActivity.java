@@ -16,10 +16,10 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.dscdemo.utility.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,6 +29,8 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+
+import java.sql.SQLException;
 
 public class DemoActivity extends AppCompatActivity
         implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
@@ -47,8 +49,11 @@ public class DemoActivity extends AppCompatActivity
             if (user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
                 showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
-                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext(), new UuidGenerator());
-                databaseHelper.getWritableDatabase();
+                DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
+                try {
+                    databaseHelper.getWriteDbPermission();
+                } catch (SQLException e) {
+                }
             } else {
                 startRegistrationFragment();
             }

@@ -26,7 +26,6 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.database.EmptyForeignCollection;
@@ -36,6 +35,7 @@ import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
+import com.philips.platform.dscdemo.utility.DemoAppManager;
 
 import org.joda.time.DateTime;
 
@@ -68,7 +68,7 @@ public class TemperaturePresenter {
         mMomentType = momentType;
         mContext = context;
         this.dbRequestListener = dbRequestListener;
-        databaseHelper = DatabaseHelper.getInstance(mContext, new UuidGenerator());
+        databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {

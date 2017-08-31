@@ -7,12 +7,11 @@
 package com.philips.platform.dscdemo.database;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
@@ -41,6 +40,9 @@ import com.philips.platform.dscdemo.database.table.OrmMomentDetailType;
 import com.philips.platform.dscdemo.database.table.OrmMomentType;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
+import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -51,11 +53,12 @@ import java.util.List;
  *
  * @author kevingalligan
  */
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final String DATABASE_NAME = "DataService.db";
     private static final int DATABASE_VERSION = 2;
-    private final UuidGenerator uuidGenerator;
+    private static final String DATABASE_PASSWORD_KEY = "dataservices";
+
     private Dao<OrmMoment, Integer> momentDao;
     private Dao<OrmMomentType, Integer> momentTypeDao;
     private Dao<OrmMomentDetail, Integer> momentDetailDao;
@@ -78,14 +81,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static DatabaseHelper sDatabaseHelper;
 
-    private DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.uuidGenerator = uuidGenerator;
+    private DatabaseHelper(Context context, AppInfraInterface appInfraInterface) {
+        super(context, appInfraInterface, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
     }
 
-    public static synchronized DatabaseHelper getInstance(Context context, final UuidGenerator uuidGenerator) {
+    public static synchronized DatabaseHelper getInstance(Context context, AppInfraInterface appInfraInterface) {
         if (sDatabaseHelper == null) {
-            return sDatabaseHelper = new DatabaseHelper(context, uuidGenerator);
+            return sDatabaseHelper = new DatabaseHelper(context, appInfraInterface);
         }
         return sDatabaseHelper;
     }
@@ -242,7 +244,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     MomentDetailType.getDescriptionFromID(54));
             if (OrmMoment.NO_ID.equals(moment.getAnalyticsId())) {
                 OrmMomentDetail detail = new OrmMomentDetail(detailType, moment);
-                detail.setValue(uuidGenerator.generateRandomUUID());
+                detail.setValue(new UuidGenerator().generateRandomUUID());
                 moment.addMomentDetail(detail);
                 moment.setSynced(false);
                 ormMomentDao.update(moment);
