@@ -13,12 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-
+import android.view.*;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
@@ -26,18 +23,10 @@ import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.UIDHelper;
-
+import com.philips.platform.uid.thememanager.*;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class ThemeSettingsFragment extends BaseFragment {
 
@@ -82,7 +71,7 @@ public class ThemeSettingsFragment extends BaseFragment {
         view.setVisibility(View.GONE);
         ButterKnife.bind(this, view);
         themeColorHelper = new ThemeColorHelper();
-        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
+        themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()), getContext());
 
         if (savedInstanceState != null) {
             colorRangeSelectedPosition = savedInstanceState.getInt(UIDHelper.COLOR_RANGE, getColorRangeAdapter().getSelectedPosition());

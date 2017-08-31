@@ -2,7 +2,7 @@ package com.philips.platform.uid.components.alert;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import com.philips.platform.uid.DialogTestFragment;
+import com.philips.platform.uid.activity.AlertDialogTestFragment;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
@@ -23,7 +23,7 @@ public class AlertNoTitleTest extends BaseTest {
     public void setUp() {
         activity = mActivityTestRule.launchActivity(getLaunchIntent(0));
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
-        activity.switchFragment(DialogTestFragment.create());
+        activity.switchFragment(AlertDialogTestFragment.create());
     }
 
     @Test

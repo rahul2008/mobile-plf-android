@@ -102,6 +102,9 @@ public class MainActivity extends UIDActivity {
             "Profile item 4"
     };
 
+    boolean isAppLevelThemeApplied;
+
+
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
         String camelCaseString = "";
@@ -119,8 +122,12 @@ public class MainActivity extends UIDActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isAppLevelThemeApplied = ((CatalogApplication) getApplication()).shouldApplyAppLevelTheme();
 
-        initTheme();
+        if (!isAppLevelThemeApplied) {
+            initTheme();
+        }
+
         if (BuildConfig.DEBUG) {
             Log.d(MainActivity.class.getName(), String.format("Theme config Tonal Range :%s, Color Range :%s , Navigation Color : %s",
                     contentColor, colorRange, navigationColor));
@@ -348,6 +355,9 @@ public class MainActivity extends UIDActivity {
     }
 
     void restartActivity() {
+        if(isAppLevelThemeApplied) {
+            ((CatalogApplication) getApplicationContext()).injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
+        }
         Intent intent = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
         startActivity(intent);
@@ -378,7 +388,9 @@ public class MainActivity extends UIDActivity {
                 navigationController.loadThemeSettingsPage();
                 break;
             case R.id.menu_set_theme_settings:
-                saveThemeSettings();
+                if (!isAppLevelThemeApplied) {
+                    saveThemeSettings();
+                }
                 restartActivity();
                 break;
             /*case android.R.id.home:
@@ -414,7 +426,7 @@ public class MainActivity extends UIDActivity {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences);
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences, this);
         colorRange = themeHelper.initColorRange();
         navigationColor = themeHelper.initNavigationRange();
         contentColor = themeHelper.initContentTonalRange();

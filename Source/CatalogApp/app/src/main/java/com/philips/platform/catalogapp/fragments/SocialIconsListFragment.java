@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.philips.platform.catalogapp.BR;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSocialiconListBinding;
@@ -82,7 +81,7 @@ public class SocialIconsListFragment extends BaseFragment {
     }
 
     public boolean supportsWhiteSocialIcons() {
-        final ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()));
+        final ThemeHelper themeHelper = new ThemeHelper(PreferenceManager.getDefaultSharedPreferences(getContext()), getContext());
         final ContentColor contentColor = themeHelper.initContentTonalRange();
 
         return !(contentColor == ContentColor.ULTRA_LIGHT || contentColor == ContentColor.VERY_LIGHT);

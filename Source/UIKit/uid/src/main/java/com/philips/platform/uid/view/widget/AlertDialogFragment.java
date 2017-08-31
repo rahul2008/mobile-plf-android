@@ -10,47 +10,71 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.*;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.NestedScrollView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.utils.MaxHeightScrollView;
 import com.philips.platform.uid.utils.UIDLog;
 import com.philips.platform.uid.utils.UIDUtils;
+
+/**
+ * UID AlertDialogFragment.
+ * <p>
+ * <P>UID AlertDialogFragment is an extension of DialogFragment which supports two variants.
+ * <BR>{@link DialogConstants#TYPE_ALERT}
+ * <BR>{@link DialogConstants#TYPE_DIALOG}
+ * <p>
+ * <P> AlertDialogFragment supports the below features which can be used in combination to convey critical information, take user inputs, or carry out multiple tasks.
+ * <BR> > Alert  vs Dialog {@link AlertDialogFragment.Builder#setDialogType(int)}
+ * <BR> > Modeless vs modal {@link AlertDialogFragment.Builder#setCancelable(boolean)}
+ * <BR> > Subtle DIM Layer  vs Strong DIM Layer {@link AlertDialogFragment.Builder#setDimLayer(int)}
+ * <BR> > With Dividers vs Without Dividers {@link AlertDialogFragment.Builder#setDividers(boolean)}
+ * <p>
+ * <p> It is recommended to use these features in a certain combination to adhere to DLS guidelines. For example, if using {@link DialogConstants#TYPE_DIALOG} and setting
+ * <p> {@link AlertDialogFragment.Builder#setDialogLayout(int)} with a list. Top and bottom dividers should be set by calling {@link AlertDialogFragment.Builder#setDividers(boolean)}
+ * <p>
+ * <P> For usage of Dialog as per DLS recommendations, please refer to the DLS Catalog app or the confluence page below
+ * <p>
+ * @see <a href="https://confluence.atlas.philips.com/display/UIT/Dialog">https://confluence.atlas.philips.com/display/UIT/Dialog</a>
+ */
 
 public class AlertDialogFragment extends DialogFragment {
 
     private AlertDialogController.DialogParams dialogParams;
     private TextView titleTextView;
     private MaxHeightScrollView messageContainer;
+    private NestedScrollView dialogContainer;
     private Button negativeButton;
     private Button positiveButton;
+    private Button alternateButton;
+    private View top_divider;
+    private View bottom_divider;
 
+    private LinearLayout buttonLayout;
     private ViewGroup decorView;
     private View dimView;
     private FrameLayout dimViewContainer;
     private int animDuration = 300;
-
     private int dimColor = Color.BLACK;
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
     }
 
-    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int themee) {
+    private static AlertDialogFragment create(@NonNull final AlertDialogController.DialogParams dialogParams, final int theme) {
         final AlertDialogFragment alertDialogFragment = new AlertDialogFragment();
         alertDialogFragment.setDialogParams(dialogParams);
-        alertDialogFragment.setStyle(themee, R.style.UIDAlertDialog);
+        alertDialogFragment.setStyle(theme, R.style.UIDAlertDialog);
         return alertDialogFragment;
     }
 
@@ -58,40 +82,86 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
-        final View view = layoutInflater.inflate(R.layout.uid_alert_dialog, container, false);
 
         if (savedInstanceState != null) {
-            dialogParams.setMessage(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY));
-            dialogParams.setTitle(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY));
-            dialogParams.setIconId(savedInstanceState.getInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, -1));
-            dialogParams.setPositiveButtonText(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, null));
-            dialogParams.setNegativeButtonText(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, null));
+            dialogParams.setMessage(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_MESSAGE_KEY));
+            dialogParams.setTitle(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_TITLE_KEY));
+            dialogParams.setIconId(savedInstanceState.getInt(DialogConstants.UID_ALERT_DIALOG_TITLE_ICON_KEY, -1));
+            dialogParams.setPositiveButtonText(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_POSITIVE_BUTTON_TEXT_KEY, null));
+            dialogParams.setNegativeButtonText(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_NEGATIVE_BUTTON_TEXT_KEY, null));
+            dialogParams.setAlternateButtonText(savedInstanceState.getString(DialogConstants.UID_ALERT_DIALOG_ALTERNATE_BUTTON_TEXT_KEY, null));
+            dialogParams.setContainerLayout(savedInstanceState.getInt(DialogConstants.UID_ALERT_DIALOG_CONTAINER_ITEM_KEY, -1));
+            dialogParams.setShowDividers(savedInstanceState.getBoolean(DialogConstants.UID_ALERT_DIALOG_SHOW_DIVIDER_KEY));
+            dialogParams.setDialogType(savedInstanceState.getInt(DialogConstants.UID_ALERT_DIALOG_TYPE_KEY));
+            dialogParams.setDimLayer(savedInstanceState.getInt(DialogConstants.UID_ALERT_DIALOG_DIM_LAYER_KEY));
         }
-        positiveButton = (Button) view.findViewById(R.id.uid_alert_positive_button);
-        negativeButton = (Button) view.findViewById(R.id.uid_alert_negative_button);
-        final TextView messageContent = (TextView) view.findViewById(R.id.uid_alert_message);
-        messageContent.setText(dialogParams.getMessage());
 
-        messageContainer = (MaxHeightScrollView) view.findViewById(R.id.uid_alert_message_scroll_container);
+        View view;
 
-        titleTextView = (TextView) view.findViewById(R.id.uid_alert_title);
+        if (dialogParams.getDialogType() == DialogConstants.TYPE_ALERT) {
+            view = layoutInflater.inflate(R.layout.uid_alert_dialog, container, false);
+            final TextView messageContent = (TextView) view.findViewById(R.id.uid_alert_message);
+            messageContent.setText(dialogParams.getMessage());
+            messageContainer = (MaxHeightScrollView) view.findViewById(R.id.uid_alert_message_scroll_container);
+        } else {
+            view = layoutInflater.inflate(R.layout.uid_dialog, container, false);
+            alternateButton = (Button) view.findViewById(R.id.uid_dialog_alternate_button);
+            dialogContainer = (NestedScrollView) view.findViewById(R.id.uid_dialog_container);
+            top_divider = view.findViewById(R.id.uid_dialog_top_divider);
+            bottom_divider = view.findViewById(R.id.uid_dialog_bottom_divider);
+            setAlternateButtonProperties();
+            handleDividers();
+            layoutInflater.inflate(dialogParams.getContainerLayout(), dialogContainer);
+        }
+
+        positiveButton = (Button) view.findViewById(R.id.uid_dialog_positive_button);
+        negativeButton = (Button) view.findViewById(R.id.uid_dialog_negative_button);
+        titleTextView = (TextView) view.findViewById(R.id.uid_dialog_title);
+        buttonLayout = (LinearLayout) view.findViewById(R.id.uid_dialog_control_area);
         titleTextView.setText(dialogParams.getTitle());
-        final ViewGroup headerView = (ViewGroup) view.findViewById(R.id.uid_alert_dialog_header);
-        setTitleIcon((ImageView) view.findViewById(R.id.uid_alert_icon), headerView);
-
+        final ViewGroup headerView = (ViewGroup) view.findViewById(R.id.uid_dialog_header);
+        setTitleIcon((ImageView) view.findViewById(R.id.uid_dialog_icon), headerView);
         setPositiveButtonProperties();
         setNegativeButtonProperties();
         setCancelable(dialogParams.isCancelable());
 
+        handleButtonLayout();
         handlePositiveOnlyButton();
-        //initialize container view
         setDimLayer();
 
         return view;
     }
 
+    private void handleDividers() {
+        if(dialogParams.isShowDividers() && !isViewVisible(top_divider) && !isViewVisible(bottom_divider)){
+            top_divider.setVisibility(View.VISIBLE);
+            bottom_divider.setVisibility(View.VISIBLE);
+        }else if(!dialogParams.isShowDividers()){
+            top_divider.setVisibility(View.GONE);
+            bottom_divider.setVisibility(View.GONE);
+        }
+    }
+
+    private void handleButtonLayout() {
+
+        int buttonMargin = getResources().getDimensionPixelSize(R.dimen.uid_dialog_button_margin);
+        if (isViewVisible(alternateButton) && isViewVisible(negativeButton) && isViewVisible(positiveButton)) {
+            buttonLayout.setOrientation(LinearLayout.VERTICAL);
+            buttonLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            ViewGroup.MarginLayoutParams positiveButtonLayoutParams = (ViewGroup.MarginLayoutParams) positiveButton.getLayoutParams();
+            positiveButtonLayoutParams.setMargins(positiveButtonLayoutParams.getMarginStart(), buttonMargin, positiveButtonLayoutParams.getMarginEnd(), positiveButtonLayoutParams.bottomMargin);
+
+            ViewGroup.MarginLayoutParams negativeButtonLayoutParams = (ViewGroup.MarginLayoutParams) negativeButton.getLayoutParams();
+            negativeButtonLayoutParams.setMargins(negativeButtonLayoutParams.getMarginStart(), buttonMargin, negativeButtonLayoutParams.getMarginEnd(), negativeButtonLayoutParams.bottomMargin);
+        } else {
+            ViewGroup.MarginLayoutParams positiveButtonLayoutParams = (ViewGroup.MarginLayoutParams) positiveButton.getLayoutParams();
+            positiveButtonLayoutParams.setMargins(buttonMargin, positiveButtonLayoutParams.topMargin, positiveButtonLayoutParams.getMarginEnd(), positiveButtonLayoutParams.bottomMargin);
+        }
+    }
+
     private void handlePositiveOnlyButton() {
-        if (!isViewVisible(negativeButton) && isViewVisible(positiveButton)) {
+        if (!isViewVisible(negativeButton) && !isViewVisible(alternateButton) && isViewVisible(positiveButton)) {
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
             int marginStartEnd = getContext().getResources().getDimensionPixelSize(R.dimen.uid_alert_dialog_positive_button_margin_end);
@@ -107,7 +177,9 @@ public class AlertDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         try {
             getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
-            setAlertWidth();
+            if (dialogParams.getDialogType() == DialogConstants.TYPE_ALERT) {
+                setAlertWidth();
+            }
         } catch (NullPointerException e) {
             UIDLog.e(e.toString(), e.getMessage());
         }
@@ -126,11 +198,16 @@ public class AlertDialogFragment extends DialogFragment {
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY, dialogParams.getMessage());
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_TITLE_KEY, dialogParams.getTitle());
-        outState.putInt(AlertDialogController.UID_ALERT_DAILOG_TITLE_ICON_KEY, dialogParams.getIconId());
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY, dialogParams.getPositiveButtonText());
-        outState.putString(AlertDialogController.UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY, dialogParams.getNegativeButtonText());
+        outState.putString(DialogConstants.UID_ALERT_DIALOG_MESSAGE_KEY, dialogParams.getMessage());
+        outState.putString(DialogConstants.UID_ALERT_DIALOG_TITLE_KEY, dialogParams.getTitle());
+        outState.putInt(DialogConstants.UID_ALERT_DIALOG_TITLE_ICON_KEY, dialogParams.getIconId());
+        outState.putString(DialogConstants.UID_ALERT_DIALOG_POSITIVE_BUTTON_TEXT_KEY, dialogParams.getPositiveButtonText());
+        outState.putString(DialogConstants.UID_ALERT_DIALOG_NEGATIVE_BUTTON_TEXT_KEY, dialogParams.getNegativeButtonText());
+        outState.putString(DialogConstants.UID_ALERT_DIALOG_ALTERNATE_BUTTON_TEXT_KEY, dialogParams.getAlternateButtonText());
+        outState.putInt(DialogConstants.UID_ALERT_DIALOG_CONTAINER_ITEM_KEY, dialogParams.getContainerLayout());
+        outState.putBoolean(DialogConstants.UID_ALERT_DIALOG_SHOW_DIVIDER_KEY, dialogParams.isShowDividers());
+        outState.putInt(DialogConstants.UID_ALERT_DIALOG_TYPE_KEY, dialogParams.getDialogType());
+        outState.putInt(DialogConstants.UID_ALERT_DIALOG_DIM_LAYER_KEY, dialogParams.getDimLayer());
         super.onSaveInstanceState(outState);
     }
 
@@ -142,6 +219,7 @@ public class AlertDialogFragment extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        decorView.removeView(dimViewContainer);
         startExitAnimation();
         super.onDismiss(dialog);
     }
@@ -164,6 +242,15 @@ public class AlertDialogFragment extends DialogFragment {
         }
     }
 
+    private void setAlternateButtonProperties() {
+        if (dialogParams.getAlternateButtonText() != null) {
+            alternateButton.setText(dialogParams.getAlternateButtonText());
+            alternateButton.setOnClickListener(dialogParams.getAlternateButtonListener());
+        } else {
+            alternateButton.setVisibility(View.GONE);
+        }
+    }
+
     private void setTitleIcon(final ImageView mIconView, final ViewGroup headerView) {
 
         if (mIconView != null) {
@@ -182,7 +269,7 @@ public class AlertDialogFragment extends DialogFragment {
     /**
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
-     * @param color           Color of background
+     * @param color Color of background
      */
     public void setDimColor(int color) {
         dimColor = color;
@@ -196,7 +283,6 @@ public class AlertDialogFragment extends DialogFragment {
         UIDUtils.animateAlpha(dimView, 0f, animDuration, new Runnable() {
             @Override
             public void run() {
-                decorView.removeView(dimViewContainer);
                 decorView = null;
                 dimView = null;
                 dimViewContainer = null;
@@ -212,20 +298,15 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void setDimColors() {
         TypedArray array = getActivity().obtainStyledAttributes(R.styleable.PhilipsUID);
-        int bgColor = array.getColor(R.styleable.PhilipsUID_uidDimLayerStrongBackgroundColor, dimColor);
+        int bgColor = dialogParams.getDimLayer() == DialogConstants.DIM_SUBTLE ? array.getColor(R.styleable.PhilipsUID_uidDimLayerSubtleBackgroundColor, dimColor) : array.getColor(R.styleable.PhilipsUID_uidDimLayerStrongBackgroundColor, dimColor);
         setDimColor(bgColor);
         array.recycle();
     }
 
     private void setDimContainer() {
-        Rect visibleFrame = new Rect();
         decorView = (ViewGroup) getActivity().getWindow().getDecorView();
-        decorView.getWindowVisibleDisplayFrame(visibleFrame);
-
         dimViewContainer = new FrameLayout(getActivity());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(visibleFrame.right - visibleFrame.left,
-                visibleFrame.bottom - visibleFrame.top);
-        params.setMargins(visibleFrame.left, visibleFrame.top, 0, 0);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dimViewContainer.setLayoutParams(params);
     }
 
@@ -234,7 +315,14 @@ public class AlertDialogFragment extends DialogFragment {
         dimView.setBackgroundColor(dimColor);
         dimView.setAlpha(0f);
         dimViewContainer.addView(dimView);
-        decorView.addView(dimViewContainer);
+        decorView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (decorView != null) {
+                    decorView.addView(dimViewContainer);
+                }
+            }
+        });
     }
 
     private void setTitle(final ViewGroup headerView) {
@@ -244,9 +332,9 @@ public class AlertDialogFragment extends DialogFragment {
         } else {
             headerView.setVisibility(View.GONE);
             titleTextView.setVisibility(View.GONE);
-            final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) messageContainer.getLayoutParams();
-            final int margintop = (int) getResources().getDimension(R.dimen.uid_alert_dialog_message_top_margin_no_title);
-            layoutParams.setMargins(layoutParams.leftMargin, margintop, layoutParams.rightMargin, layoutParams.bottomMargin);
+            final int marginTop = (int) getResources().getDimension(R.dimen.uid_alert_dialog_message_top_margin_no_title);
+            final ViewGroup.MarginLayoutParams layoutParams = dialogParams.getDialogType() == DialogConstants.TYPE_ALERT ? (ViewGroup.MarginLayoutParams) messageContainer.getLayoutParams() : (ViewGroup.MarginLayoutParams) dialogContainer.getLayoutParams();
+            layoutParams.setMargins(layoutParams.leftMargin, marginTop, layoutParams.rightMargin, layoutParams.bottomMargin);
         }
     }
 
@@ -275,6 +363,18 @@ public class AlertDialogFragment extends DialogFragment {
         dialogParams.setNegativeButtonListener(listener);
         if (negativeButton != null) {
             negativeButton.setOnClickListener(listener);
+        }
+    }
+
+    /**
+     * sets the listener to receive callback on click of alternate button
+     *
+     * @param listener Listener for alternate button
+     */
+    public void setAlternateButtonListener(@NonNull final View.OnClickListener listener) {
+        dialogParams.setAlternateButtonListener(listener);
+        if (alternateButton != null) {
+            alternateButton.setOnClickListener(listener);
         }
     }
 
@@ -426,6 +526,76 @@ public class AlertDialogFragment extends DialogFragment {
          */
         public AlertDialogFragment.Builder setCancelable(boolean cancelable) {
             params.setCancelable(cancelable);
+            return this;
+        }
+
+        /**
+         * Set the type of dialog to show, there are two variants available Dialog and AlertDialog.
+         *
+         * @param dialogType   Can be one of two options: DialogConstants.TYPE_DIALOG or DialogConstants.TYPE_ALERT
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setDialogType(int dialogType) {
+            params.setDialogType(dialogType);
+            return this;
+        }
+
+        /**
+         * Set whether the background dim layer on dialog layout should be set to subtle or strong
+         *
+         * @param dimLayer   Can be one of two options: DialogConstants.DIM_SUBTLE or DialogConstants.DIM_STRONG
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setDimLayer(int dimLayer) {
+            params.setDimLayer(dimLayer);
+            return this;
+        }
+
+        /**
+         * Set the layout that should be shown on the dialog.
+         *
+         * @param layout   ResID of the layout to be set to the dialog.
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setDialogLayout(@LayoutRes int layout) {
+            params.setContainerLayout(layout);
+            return this;
+        }
+
+        /**
+         * Set a listener to be invoked when the alternate button of the dialog is pressed.
+         *
+         * @param text     The text to display in the alternate button
+         * @param listener The {@link View.OnClickListener} to use.
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setAlternateButton(CharSequence text, final View.OnClickListener listener) {
+            params.setAlternateButtonText(text.toString());
+            params.setAlternateButtonListener(listener);
+            return this;
+        }
+
+        /**
+         * Set a listener to be invoked when the alternate button of the dialog is pressed.
+         *
+         * @param textId     String to display in the alternate button
+         * @param listener The {@link View.OnClickListener} to use.
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setAlternateButton(@StringRes int textId, final View.OnClickListener listener) {
+            params.setAlternateButtonText(params.getContext().getString(textId));
+            params.setAlternateButtonListener(listener);
+            return this;
+        }
+
+        /**
+         * Set whether top and bottom dividers should be shown on the dialog layout, should be used in case of lists
+         *
+         * @param showDividers   boolean to set if dividers should be shown.
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setDividers(boolean showDividers) {
+            params.setShowDividers(showDividers);
             return this;
         }
 

@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.UIDTestUtils;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

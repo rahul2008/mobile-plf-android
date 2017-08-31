@@ -14,6 +14,7 @@
     <string name="alternate_primary_label">Alternate Primary Button</string>
     <string name="secondary_button_label">Secondary Button</string>
     <string name="accent_button_label">Accent Button</string>
+    <string name="multi_line_input">Multi-line label check item. Lorem ipsum dolor sit amet consectetur adipiscing </string>
 
     <!--Buttons layout page-->
     <string name="with_icon">With icon</string>
@@ -40,7 +41,7 @@
     <string name="page_title_buttons">Buttons</string>
     <string name="page_title_textbox">TextBox</string>
     <string name="page_title_toggle_switch">Toggle Switch</string>
-    <string name="page_title_alertDialog">Alert</string>
+    <string name="page_title_alertDialog">Dialog</string>
 
     <string name="hint_text">Frits Philips</string>
     <string name="hamburger_menu">Hamburger</string>
@@ -59,19 +60,30 @@
     <string name="switch_text">Switch</string>
     <string name="switch_disabled_on">Disabled Switch(On)</string>
     <string name="switch_disabled_off">Disabled Switch(Off)</string>
-    <string name="dialog_screen_text_short_content">Short contents</string>
-    <string name="dialog_screen_text_long_content">Long contents</string>
-    <string name="dialog_screen_text_with_title">With title</string>
-    <string name="dialog_screen_text_title_with_icon">Title with icon</string>
-    <string name="dialog_screen_text_dialogs">Dialogs</string>
-    <string name="dialog_screen_button_text_dialog_with_text">Dialog with text</string>
-    <string name="dialog_screen_button_text_dialog_with_list">Dialog with list</string>
-    <string name="dialog_screen_short_content_text">This app would like to use phone\'s location to show personalized contents.</string>
-    <string name="dialog_screen_long_content_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-        and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
-    <string name="dialog_screen_title_text">Allow access to your location</string>
-    <string name="dialog_screen_positive_button_text">OK</string>
-    <string name="dialog_screen_negative_button_text">Cancel</string>
+
+
+    <!-- AlertDialog -->
+    <string name="dim_layer_header">Dimlayer Options</string>
+    <string name="dialog_subtle">Subtle</string>
+    <string name="dialog_strong">Strong</string>
+    <string name="dialog_screen_alert_checkbox_text">With icon and title</string>
+    <string name="dialog_screen_dialog_checkbox_text">With scrollable list</string>
+    <string name="dialog_header_text">Dialog</string>
+    <string name="alert_header_text">Alert</string>
+    <string name="dialog_screen_button_text_dialog">Show dialog</string>
+    <string name="dialog_screen_button_text_alert">Show alert</string>
+    <string name="alert_short_content_text">Delete this record?</string>
+    <string name="alert_long_content_text">Joe Doe will be removed from the patient list and all records related to this patient will be deleted.</string>
+    <string name="alert_title_text">Are you sure you want to delete?</string>
+    <string name="alert_positive_button_text">Delete</string>
+    <string name="alert_negative_button_text">Cancel</string>
+    <string name="dialog_title_text">People list</string>
+    <string name="dialog_with_list_title_text">Select state(s)</string>
+    <string name="dialog_content_text">This list includes contacts, friends and anyone you\'ve messaged on. People you know will be added here.</string>
+    <string name="dialog_positive_button_text">OK</string>
+    <string name="dialog_negative_button_text">Learn more</string>
+    <string name="dialog_with_list_positive_button_text">Select</string>
+    <string name="dialog_with_list_negative_button_text">Cancel</string>
 
     <!--Settings page for ProgressBar-->
     <string name="progress_bar_linear_subtitle">Linear progress indicators</string>
@@ -109,7 +121,7 @@
     <string name="checkbox_check_item_1">Check item 1</string>
     <string name="checkbox_check_item_2">Check item 2</string>
     <string name="checkbox_check_item_3">Check item 3</string>
-    <string name="checkbox_check_item_4">Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscingMulti-line label check item lorem ipsum dolor sit amet consectetur adipiscing </string>
+    <string name="checkbox_check_item_4">Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscing. Multi-line label check item lorem ipsum dolor sit amet consectetur adipiscing </string>
 
     <string name="page_title_social_icon">Social icons</string>
 

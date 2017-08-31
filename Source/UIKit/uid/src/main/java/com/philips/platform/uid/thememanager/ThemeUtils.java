@@ -22,12 +22,18 @@ import com.philips.platform.uid.utils.UIDContextWrapper;
 public final class ThemeUtils {
 
     //    private static final String TAG = "ThemeUtils";
-    private static final String NO_COLOR_RANGE = "";
-    static final String ACCENT = "Accent";
-    private static final String THEME_ULTRA_LIGHT = "Theme.DLS.%s.UltraLight";
-    private static final String NAVIGTION_TOP = "Navigation%s%sTopTheme";
-    private static final String TR_VD = "VeryDark";
+
+    //Tonal ranges
+    private static final String TR_UL = "UltraLight";
+    private static final String TR_VL = "VeryLight";
     private static final String TR_B = "Bright";
+    private static final String TR_VD = "VeryDark";
+
+    private static final String NO_COLOR_RANGE = "";
+    static final String ACCENT = "Accent%s.%s";
+    private static final String THEME_ULTRA_LIGHT = "Theme.DLS.%s.UltraLight";
+    private static final String NAVIGATION = "UIDNavigationbar%s";
+    private static final String NAVIGATION_TOP = "Navigation%s%sTopTheme";
 
     /**
      * Build themed list as per the context.
@@ -61,6 +67,7 @@ public final class ThemeUtils {
         if (resourceId == 0) {
             return context.getTheme();
         }
+
         final Resources.Theme theme = context.getResources().newTheme();
         theme.setTo(context.getTheme());
         theme.applyStyle(resourceId, true);
@@ -68,24 +75,60 @@ public final class ThemeUtils {
         return theme;
     }
 
-    static int getAccentResourceID(@NonNull Context context) {
+    public static int getAccentResourceID(@NonNull Context context) {
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
         String accentRange = themeArray.getString(R.styleable.PhilipsUID_uidAccentRange);
         String tonalRange = themeArray.getString(R.styleable.PhilipsUID_uidTonalRange);
-        String accentThemeName = String.format("%s%s.%s", ACCENT, accentRange, tonalRange);
+        String accentThemeName = String.format(ACCENT, accentRange, tonalRange);
         themeArray.recycle();
 
         return context.getResources().getIdentifier(accentThemeName, "style", context.getPackageName());
+    }
+
+    public static void restoreAccentAndNavigation(@NonNull Context context) {
+        TypedArray appThemeArray = context.getApplicationContext().getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
+        String colorRange = appThemeArray.getString(R.styleable.PhilipsUID_uidColorRange);
+        String tonalRange = appThemeArray.getString(R.styleable.PhilipsUID_uidTonalRange);
+        String navigationRange = appThemeArray.getString(R.styleable.PhilipsUID_uidNavigationRange);
+        String accentRange = appThemeArray.getString(R.styleable.PhilipsUID_uidAccentRange);
+
+        String navigationTheme = String.format(NAVIGATION, navigationRange);
+        String navigationTopColorTheme = String.format(NAVIGATION_TOP, colorRange, navigationRange);
+        String accentTheme = String.format(ACCENT, accentRange, tonalRange);
+        appThemeArray.recycle();
+
+        String packageName = context.getPackageName();
+        Resources.Theme activityTheme = context.getTheme();
+
+        int statusBarID = isLightStatusBar(navigationRange) ? R.style.UIDStatusBarLight:R.style.UIDStatusBarDark;
+        int navID = context.getResources().getIdentifier(navigationTheme, "style", packageName);
+        int navTopID = context.getResources().getIdentifier(navigationTopColorTheme, "style", packageName);
+        int accentID = context.getResources().getIdentifier(accentTheme, "style", packageName);
+
+        activityTheme.applyStyle(statusBarID, true);
+        activityTheme.applyStyle(navID, true);
+        activityTheme.applyStyle(navTopID, true);
+        activityTheme.applyStyle(accentID, true);
+
     }
 
     static int getNavigationTopResourceID(@NonNull Context context) {
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
         String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
         String navigationRange = themeArray.getString(R.styleable.PhilipsUID_uidNavigationRange);
-        String navigationTopColorTheme = String.format(NAVIGTION_TOP, colorRange, navigationRange);
+        String navigationTopColorTheme = String.format(NAVIGATION_TOP, colorRange, navigationRange);
         themeArray.recycle();
 
         return context.getResources().getIdentifier(navigationTopColorTheme, "style", context.getPackageName());
+    }
+
+    public static int getThemeResourceID(@NonNull Context context) {
+        TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
+        String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
+        String tonalRange = themeArray.getString(R.styleable.PhilipsUID_uidTonalRange);
+        String themeName = String.format("Theme.DLS.%s.%s", colorRange, tonalRange);
+        themeArray.recycle();
+        return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
     }
 
     private static int getResourceIdBasedComponentType(@NonNull final TypedArray typedArray) {
@@ -128,5 +171,9 @@ public final class ThemeUtils {
         String colorRange = getColorRangeName(context);
         String themeName = String.format(THEME_ULTRA_LIGHT, colorRange);
         return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
+    }
+
+    private static boolean isLightStatusBar(String tonalRange) {
+        return TR_UL.equals(tonalRange) || TR_VL.equals(tonalRange);
     }
 }

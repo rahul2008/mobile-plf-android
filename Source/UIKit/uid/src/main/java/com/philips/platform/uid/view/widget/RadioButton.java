@@ -48,16 +48,14 @@ public class RadioButton extends AppCompatRadioButton{
     }
 
     private void setTextColorFromResourceID(@NonNull Context themedContext, @NonNull View view, @NonNull final AttributeSet attr) {
-        if (view instanceof TextView) {
             TypedArray textColorArray = themedContext.obtainStyledAttributes(attr, new int[]{android.R.attr.textColor});
             int resourceId = textColorArray.getResourceId(0, -1);
             if (resourceId != -1) {
-                ((TextView) view).setTextColor(resourceId);
+                setTextColor(resourceId);
             } else{
                 setTextColor(ThemeUtils.buildColorStateList(themedContext, R.color.uid_radiobutton_text_selector));
             }
             textColorArray.recycle();
-        }
     }
 
     @Override

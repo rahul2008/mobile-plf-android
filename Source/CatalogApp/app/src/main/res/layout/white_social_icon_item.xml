@@ -16,7 +16,7 @@
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/whiteSocialIcon"
-            style="@style/UIDSocialIconWhite"
+            style="@style/UIDSocialIconWhiteOutline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

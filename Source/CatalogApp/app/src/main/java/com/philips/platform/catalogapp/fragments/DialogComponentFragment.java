@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentDialogBinding;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import static java.lang.Boolean.TRUE;
@@ -18,9 +19,9 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
 
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
-    public ObservableBoolean withLongContent = new ObservableBoolean(TRUE);
-    public ObservableBoolean withTitle = new ObservableBoolean(TRUE);
-    public ObservableBoolean withIcon = new ObservableBoolean(TRUE);
+    public ObservableBoolean isSubtle = new ObservableBoolean(TRUE);
+    public ObservableBoolean isAlertWithTitle = new ObservableBoolean(TRUE);
+    public ObservableBoolean isDialogWithList = new ObservableBoolean(TRUE);
 
     private AlertDialogFragment alertDialogFragment;
     private FragmentDialogBinding fragmentDialogBinding;
@@ -42,56 +43,61 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
         if (alertDialogFragment != null) {
             alertDialogFragment.setPositiveButtonListener(this);
             alertDialogFragment.setNegativeButtonListener(this);
+            alertDialogFragment.setAlternateButtonListener(this);
         }
     }
 
-    public void onDialogWithTextClicked() {
-        showDialog(isLargeContent(), isWithTitle(), isWithIcon());
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean("isSubtle", isSubtle.get());
+        outState.putBoolean("isAlertWithTitle", isAlertWithTitle.get());
+        outState.putBoolean("isDialogWithList", isDialogWithList.get());
+        super.onSaveInstanceState(outState);
     }
 
-    private void showDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+    @Override
+    public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            setIsSubtle(savedInstanceState.getBoolean("isSubtle"));
+            setIsAlertWithTitle(savedInstanceState.getBoolean("isAlertWithTitle"));
+            setIsDialogWithList(savedInstanceState.getBoolean("isDialogWithList"));
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    public void showDialog() {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setMessage(showLargeContent ? R.string.dialog_screen_long_content_text : R.string.dialog_screen_short_content_text).
-                        setPositiveButton(R.string.dialog_screen_positive_button_text, this).
-                        setNegativeButton(R.string.dialog_screen_negative_button_text, this);
-        if (isWithTitle) {
-            builder.setTitle(R.string.dialog_screen_title_text);
-            if (showIcon) {
-                builder.setIcon(R.drawable.alert_dialog_icon);
-            }
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDialogLayout(isDialogWithList.get()? R.layout.dialog_check_box_list : R.layout.dialog_label)
+                .setPositiveButton((isDialogWithList.get() ? R.string.dialog_with_list_positive_button_text : R.string.dialog_positive_button_text), this)
+                .setNegativeButton((isDialogWithList.get() ? R.string.dialog_with_list_negative_button_text : R.string.dialog_negative_button_text), this)
+                .setDimLayer(isSubtle.get() ? DialogConstants.DIM_SUBTLE : DialogConstants.DIM_STRONG)
+                .setDividers(isDialogWithList.get())
+                .setTitle(isDialogWithList.get() ? R.string.dialog_with_list_title_text : R.string.dialog_title_text)
+                .setCancelable(false);
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
+    }
+
+    public void showAlert() {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setMessage(isAlertWithTitle.get() ? R.string.alert_long_content_text : R.string.alert_short_content_text)
+                .setPositiveButton(R.string.alert_positive_button_text, this)
+                .setNegativeButton(R.string.alert_negative_button_text, this)
+                .setDimLayer(isSubtle.get() ? DialogConstants.DIM_SUBTLE : DialogConstants.DIM_STRONG)
+                .setCancelable(false);
+        if (isAlertWithTitle.get()) {
+            builder.setTitle(R.string.alert_title_text)
+                    .setIcon(R.drawable.ic_delete_trash);
         }
-        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
     }
 
     @Override
     public int getPageTitle() {
         return R.string.page_title_alertDialog;
-    }
-
-    public boolean isWithTitle() {
-        return withTitle.get();
-    }
-
-    public boolean isWithIcon() {
-        return withIcon.get();
-    }
-
-    public boolean isLargeContent() {
-        return withLongContent.get() ? true : false;
-    }
-
-    public void setWithTitle(boolean withtitle) {
-        this.withTitle.set(withtitle);
-        fragmentDialogBinding.checkboxTitleWithIcon.setEnabled(withTitle.get());
-    }
-
-    public void setWithIcon(boolean withIcon) {
-        this.withIcon.set(withIcon);
-    }
-
-    public void setWithLongContent(boolean withIcon) {
-        this.withLongContent.set(withIcon);
     }
 
     @Override
@@ -102,5 +108,17 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
             final AlertDialogFragment wtf = (AlertDialogFragment) getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
             wtf.dismiss();
         }
+    }
+
+    public void setIsSubtle(boolean isSubtle) {
+        this.isSubtle.set(isSubtle);
+    }
+
+    public void setIsAlertWithTitle(boolean isAlertWithTitle) {
+        this.isAlertWithTitle.set(isAlertWithTitle);
+    }
+
+    public void setIsDialogWithList(boolean isDialogWithList) {
+        this.isDialogWithList.set(isDialogWithList);
     }
 }

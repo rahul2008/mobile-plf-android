@@ -7,7 +7,6 @@
 package com.philips.platform.uid.thememanager;
 
 import android.content.res.Resources;
-
 import com.philips.platform.uid.R;
 
 /**
@@ -29,11 +28,21 @@ public enum ColorRange implements ThemeConfig {
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_GroupBlue, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "GroupBlue";
+        }
     },
     BLUE {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Blue, true);
+        }
+
+        @Override
+        public String getThemeName() {
+            return "Blue";
         }
     },
     AQUA {
@@ -41,11 +50,21 @@ public enum ColorRange implements ThemeConfig {
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Aqua, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "Aqua";
+        }
     },
     GREEN {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Green, true);
+        }
+
+        @Override
+        public String getThemeName() {
+            return "Green";
         }
     },
     ORANGE {
@@ -53,11 +72,21 @@ public enum ColorRange implements ThemeConfig {
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Orange, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "Orange";
+        }
     },
     PINK {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Pink, true);
+        }
+
+        @Override
+        public String getThemeName() {
+            return "Pink";
         }
     },
     PURPLE {
@@ -65,14 +94,26 @@ public enum ColorRange implements ThemeConfig {
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Purple, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "Purple";
+        }
     },
     GRAY {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             theme.applyStyle(R.style.Theme_DLS_Gray, true);
         }
+
+        @Override
+        public String getThemeName() {
+            return "Gray";
+        }
     };
 
     @Override
     abstract public void injectStyle(final Resources.Theme theme);
+
+    abstract public String getThemeName();
 }
