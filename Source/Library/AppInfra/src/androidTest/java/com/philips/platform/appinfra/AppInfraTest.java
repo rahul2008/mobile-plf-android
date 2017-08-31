@@ -38,7 +38,7 @@ public class AppInfraTest extends AppInfraInstrumentation {
 
     public void testComponentID(){
         assertNotNull(mAppInfra.getComponentId());
-        String appInfraID = "ail:";
+        String appInfraID = "ail";
         assertEquals(appInfraID,mAppInfra.getComponentId()); // ail = AppInfra Language
     }
 
