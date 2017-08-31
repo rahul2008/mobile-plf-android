@@ -76,6 +76,9 @@ allprojects {
         }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 
@@ -233,7 +236,9 @@ dependencies {
 
     compile 'com.android.support:support-fragment:25.3.1'
 
-    compile project(':awsdk')
+   // compile project(':awsdk')
+    //compile files('libs/libammsdk.jar')
+    compile(name:'awsdk', ext:'aar')
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile ('org.robolectric:robolectric:3.4-rc2'){

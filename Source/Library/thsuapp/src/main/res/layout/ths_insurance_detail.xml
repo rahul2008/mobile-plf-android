@@ -42,7 +42,7 @@
             android:drawableRight="@mipmap/right_arrow_icon"
             android:focusable="false"
             android:hint="Please select"
-            android:textColor="@color/awsdk_color_black"
+            android:textColor="@color/uidColorBlack"
 
             >
 
@@ -103,7 +103,7 @@
                 android:drawableRight="@mipmap/right_arrow_icon"
                 android:focusable="false"
                 android:hint="Choose Relationship"
-                android:textColor="@color/awsdk_color_black"></com.philips.platform.uid.view.widget.EditText>
+                android:textColor="@color/uidColorBlack"></com.philips.platform.uid.view.widget.EditText>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_insurance_detail_provider_relation_label"

@@ -66,6 +66,9 @@ allprojects {
         }
         maven {url "https://clojars.org/repo/"}
         group = 'com.philips.cdp'
+        flatDir {
+            dirs project(':thsuapp').file('libs')
+        }
     }
 }
 
