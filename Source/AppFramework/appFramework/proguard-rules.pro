@@ -161,15 +161,24 @@
 -dontwarn javax.annotation.**
 -dontwarn javax.tools.**
 
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
 
-##--------------- Eventbus  ----------
+-dontwarn com.squareup.okhttp.**
+-dontwarn retrofit.**
+-dontwarn okio.**
+-dontwarn rx.**
+-dontwarn android.app.Notification
 
--keepclassmembers class ** {
-    !private void onEvent*(**);}
+#-----------------Green Robot Eventbus-----------------------
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 -keep class de.greenrobot.event.** { *; }
 -keep class de.greenrobot.** { *; }
-
+-keepclassmembers class ** {
+    public void onEvent(**);
+}
+-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
 
 ##--------------- Jodatime  ----------
 
@@ -185,21 +194,21 @@
 -keep class retrofit.** { *; }
 -keep interface retrofit.** { *;}
 
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
+#---------------- Sqlcipher -------------------------
+-keep class net.sqlcipher.** {*;}
+-keep interface net.sqlcipher.** { *; }
+-keep class net.sqlcipher.database.** {*;}
+-keep interface net.sqlcipher.database.** { *; }
+-keep enum net.sqlcipher.**
+-keepclassmembers enum net.sqlcipher.** { *; }
 
--dontwarn com.squareup.okhttp.**
--dontwarn retrofit.**
--dontwarn okio.**
--dontwarn rx.**
--dontwarn android.app.Notification
+#-----------------------------Secure DB--------------------------------
+-keep public class com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper.**{ public *;}
 
-#Data-Services
--keep class com.philips.platform.core.** {*;}
--keep interface com.philips.platform.core.** {*;}
+#-------------------Dataservices starts here-----------------------------------------
+#Pojo classes required by Retorfit to reflect the response
 
-##----------------- Gson -------------------
+#Data-Services Moments
 -keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
 -keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
@@ -207,28 +216,34 @@
 -keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
 -keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
+
+#Data-Services Consent
 -keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
+
+#Data-Services Characteristics
 -keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
 -keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
+
+#Data-Services Settings
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
-#Insight
+
+#Data-Services Insight
 -keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
 -keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
 
-#Push notification
+#Data-Services Push notification
 -keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
 
-#Device pairing
+#Data-Services Device pairing
 -keep class com.philips.platform.datasync.devicePairing.UCoreDevicePair { *; }
 
-#Subject Profile
+#Data-Services Subject Profile
 -keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest { *; }
 -keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileResponse { *; }
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
 
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppUserCharacteristics { *; }
--keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppCharacteristics { *; }
+#------------------Data Services ends here----------------------------------------------------
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
@@ -391,7 +406,7 @@ public void set*(...);
 #Enumeration
 -keepclassmembers enum * {
 public static **[] values();
-public static ** valueOf(java.lang.String);
+public static ** valueOf(java.lang.String);A
 }
 
 #Static
