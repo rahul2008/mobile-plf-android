@@ -105,18 +105,6 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
         return new PowerSleepConnectivityPresenter(this);
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateActionBar();
-    }
-
-    protected void updateActionBar() {
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
-    }
-
-
     @Override
     public void onClick(final View v) {
         ConnectivityUtils.hideSoftKeyboard(getActivity());
@@ -181,9 +169,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
 
     private void fetchData(BleReferenceAppliance bleRefAppliance) {
         showProgressBar();
-        //bleRefAppliance.getSensorDataPort().reloadProperties();
         bleRefAppliance.getSessionDataPort().reloadProperties();
-        //bleRefAppliance.getSessionInfoPort().reloadProperties();
     }
 
     /**
