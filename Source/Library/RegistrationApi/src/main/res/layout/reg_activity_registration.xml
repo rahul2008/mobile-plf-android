@@ -31,7 +31,7 @@
             android:textColor="?attr/uidNavigationPrimaryTextColor"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
     </RelativeLayout>
-    
+
 
     <FrameLayout
         android:id="@+id/fl_reg_fragment_container"
