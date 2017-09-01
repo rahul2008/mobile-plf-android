@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
+import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -27,6 +28,8 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -36,23 +39,25 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     private UserRegistrationOnBoardingState userRegistrationOnBoardingState;
     private IAPState iapState;
     private LanguagePackInterface languagePackInterface;
+
     @Test
     public void shouldPass() {
         assertTrue(true);
     }
-
 
     @Override
     protected void attachBaseContext(Context base) {
         try {
             super.attachBaseContext(base);
         } catch (RuntimeException ignored) {
-            RALog.e("TestAppFrameworkApplication", " multidex exception with Roboelectric");        }
+            RALog.e("TestAppFrameworkApplication", " multidex exception with Roboelectric");
+        }
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {
@@ -65,12 +70,19 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
             }
         });
 
-        appInfra = Mockito.mock(AppInfra.class);
+
+        appInfra = mock(AppInfra.class);
 
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
 
+    }
+
+    @Override
+    public void initDataServiceState() {
+        DemoDataServicesState mockDSState = mock(DemoDataServicesState.class);
+        doNothing().when(mockDSState).init(mock(Context.class));
     }
 
     public IAPState getIap() {
@@ -93,8 +105,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Test
     public void testLanguagePack() {
-        appInfra = Mockito.mock(AppInfra.class);
-        languagePackInterface = Mockito.mock(LanguagePackInterface.class);
+        appInfra = mock(AppInfra.class);
+        languagePackInterface = mock(LanguagePackInterface.class);
         Mockito.when(appInfra.getLanguagePack()).thenReturn(languagePackInterface);
         languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
             @Override
