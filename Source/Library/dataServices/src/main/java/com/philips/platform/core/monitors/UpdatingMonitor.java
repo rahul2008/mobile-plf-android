@@ -87,7 +87,7 @@ public class UpdatingMonitor extends EventMonitor {
             dbUpdatingInterface.updateMoment(moment, dbRequestListener);
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, dbRequestListener);
-            e.printStackTrace();
+            //Debug Log
         }
     }
 
@@ -100,7 +100,7 @@ public class UpdatingMonitor extends EventMonitor {
             dbUpdatingInterface.updateMoments(moments, dbRequestListener);
         } catch (SQLException e) {
             dbUpdatingInterface.updateFailed(e, dbRequestListener);
-            e.printStackTrace();
+            //Debug Log
         }
     }
 
@@ -116,7 +116,7 @@ public class UpdatingMonitor extends EventMonitor {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
     }
 

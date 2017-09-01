@@ -1,8 +1,8 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.datasync.moments;
 
@@ -26,12 +26,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/*
- * *
- *  * (C) Koninklijke Philips N.V., 2015.
- *  * All rights reserved.
- *
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MomentsConverter {
 
@@ -50,11 +44,11 @@ public class MomentsConverter {
         try {
             for (UCoreMoment uCoreMoment : uCoreMoments) {
                 Moment moment = createMoment(uCoreMoment);
-                if(moment==null)return null;
+                if (moment == null) return null;
                 momentList.add(moment);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return momentList;
     }
@@ -65,7 +59,7 @@ public class MomentsConverter {
         Moment moment = baseAppDataCreater.createMoment(uCoreMoment.getCreatorId(), uCoreMoment.getSubjectId(),
                 uCoreMoment.getType(), expirationDate == null ? null : DateTime.parse(expirationDate));
 
-        if(moment==null){
+        if (moment == null) {
             return null;
         }
 
@@ -199,7 +193,7 @@ public class MomentsConverter {
             }
             setVersion(uCoreMoment, moment.getSynchronisationData());
         } catch (Exception e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return uCoreMoment;
     }

@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.consent;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
@@ -29,7 +30,7 @@ public class ConsentsSegregator {
         try {
             consentList = (List<? extends ConsentDetail>) dbFetchingInterface.fetchNonSyncConsentDetails();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         dataToSync.put(ConsentDetail.class, consentList);
         return dataToSync;

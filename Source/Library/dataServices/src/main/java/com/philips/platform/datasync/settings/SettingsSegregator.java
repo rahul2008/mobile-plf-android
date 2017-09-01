@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.datatypes.Settings;
@@ -10,10 +15,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-/**
- * Created by 310218660 on 1/10/2017.
- */
-
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class SettingsSegregator {
 
@@ -24,12 +25,12 @@ public class SettingsSegregator {
         DataServicesManager.getInstance().getAppComponant().injectSettingsSegregator(this);
     }
 
-    public Map<Class, List<?>> putSettingsForSync(Map<Class, List<?>> dataToSync){
+    public Map<Class, List<?>> putSettingsForSync(Map<Class, List<?>> dataToSync) {
         List<? extends Settings> settingsList = null;
         try {
             settingsList = (List<? extends Settings>) dbFetchingInterface.fetchNonSyncSettings();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         dataToSync.put(Settings.class, settingsList);
         return dataToSync;

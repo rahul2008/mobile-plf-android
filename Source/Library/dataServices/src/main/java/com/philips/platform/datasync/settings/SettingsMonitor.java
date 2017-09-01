@@ -39,7 +39,6 @@ public class SettingsMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendSaveRequest event) {
         settingsDataSender.sendSettingsToBackend(event.getSettings());
-        System.out.println("In onEventAsync(SettingsBackendSaveRequest event) ");
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
