@@ -13,18 +13,16 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/checkout_steps"
             android:id="@+id/tv_checkout_header_steps"
-            />
+            layout="@layout/checkout_steps" />
 
         <fragment
-            android:name="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
             android:id="@+id/fragment_shipping_address"
+            android:name="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
-            android:layout_marginStart="@dimen/border16_margin_left_right"
-            />
+            android:layout_marginStart="@dimen/border16_margin_left_right" />
 
         <com.philips.platform.uid.view.widget.CheckBox
             android:id="@+id/use_this_address_checkbox"
@@ -37,13 +35,12 @@
             android:text="Use this address as my billing address" />
 
         <fragment
-            android:name="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
             android:id="@+id/fragment_billing_address"
+            android:name="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
-            android:layout_marginStart="@dimen/border16_margin_left_right"
-            >
+            android:layout_marginStart="@dimen/border16_margin_left_right">
 
         </fragment>
 
@@ -64,9 +61,9 @@
             style="@style/iapCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/border12_margin"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:layout_marginStart="@dimen/border16_margin_left_right"
-            android:layout_marginBottom="@dimen/border12_margin"
             android:layout_marginTop="@dimen/border8_margin"
             android:text="@string/iap_cancel"
             app:uidComponentType="Secondary" />

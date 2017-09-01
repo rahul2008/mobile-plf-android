@@ -202,13 +202,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             }
         });
 
-        if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
-            billingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
-            CartModelContainer.getInstance().setSwitchToBillingAddress(false);
-            disableAllFields();
-            prePopulateShippingAddress();
-            mParentFragment.mBtnContinue.setEnabled(true);
-        }
+//        if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
+//            billingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
+//            CartModelContainer.getInstance().setSwitchToBillingAddress(false);
+//            disableAllFields();
+//            prePopulateShippingAddress();
+//            mParentFragment.mBtnContinue.setEnabled(true);
+//        }
 
     }
 

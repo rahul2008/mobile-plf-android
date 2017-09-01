@@ -223,8 +223,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
             Bundle bundle=new Bundle();
             bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS,true);
-            addFragment(ShippingAddressFragment.createInstance(bundle, AnimationType.NONE),
-                    ShippingAddressFragment.TAG);
+            addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
+                    DLSAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -254,8 +254,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             if (mDeliveryMode != null)
                 args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
-            addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE),
-                    ShippingAddressFragment.TAG);
+            addFragment(DLSAddressFragment.createInstance(args, AnimationType.NONE),
+                    DLSAddressFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
             if (!isProgressDialogShowing()) {
                 showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
@@ -318,8 +318,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         if (mDeliveryMode != null)
             extras.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
-        addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE),
-                ShippingAddressFragment.TAG);
+        addFragment(DLSAddressFragment.createInstance(extras, AnimationType.NONE),
+                DLSAddressFragment.TAG);
     }
 
     private Addresses retrieveSelectedAddress() {
