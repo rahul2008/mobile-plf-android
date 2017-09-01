@@ -20,28 +20,15 @@ import static android.content.ContentValues.TAG;
 public class AppInfraApplication extends Application {
     private AppInfraInterface gAppInfra;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        AppInfra.Builder builder = new AppInfra.Builder();
-        gAppInfra = builder.build(getApplicationContext());
-        initServiceDiscovery((AppInfra) gAppInfra,builder);
-        gAppInfra = builder.build(getApplicationContext());
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
-        registerActivityLifecycleCallbacks(handler);
-        registerComponentCallbacks(handler);
-    }
-
-    public AppInfraInterface getAppInfra() {
-        return gAppInfra;
-    }
-
-    private void initServiceDiscovery(AppInfra mAppInfra,AppInfra.Builder builder) {
         ServiceDiscoveryManagerCSV sdmCSV = new ServiceDiscoveryManagerCSV();
-        builder.setServiceDiscovery(sdmCSV);
-        sdmCSV.init(mAppInfra);
+
+        AppInfra.Builder builder = new AppInfra.Builder();
+        gAppInfra = builder.setServiceDiscovery(sdmCSV).build(getApplicationContext());
+        sdmCSV.init((AppInfra) gAppInfra);
         sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onSuccess() {
@@ -53,5 +40,12 @@ public class AppInfraApplication extends Application {
                 Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
             }
         });
+        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
+        registerActivityLifecycleCallbacks(handler);
+        registerComponentCallbacks(handler);
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return gAppInfra;
     }
 }
