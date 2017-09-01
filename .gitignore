@@ -9,3 +9,6 @@ Source/Library/build/
 *.iml
 Source/Library/uAppFwLib/local.properties
 Source/Library/local.properties
+Source/DemoApp/.gradle/
+Source/DemoApp/build/
+Source/DemoUApp/build/

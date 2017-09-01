@@ -1,2 +1,1 @@
-rootProject.setName 'uAppFwLib'
 include 'uAppFwLib'

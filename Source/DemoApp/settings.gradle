@@ -1,4 +1,3 @@
-rootProject.setName 'uAppFwLib'
 include ':app'//, ':samplemicroapp'
 include 'uAppFwLib'
 project(':uAppFwLib').projectDir = new File('../Library/uAppFwLib')
