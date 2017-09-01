@@ -1,5 +1,3 @@
-rootProject.setName 'UserRegistration'
-
 include ':app'
 
 include 'DemoUApp'
