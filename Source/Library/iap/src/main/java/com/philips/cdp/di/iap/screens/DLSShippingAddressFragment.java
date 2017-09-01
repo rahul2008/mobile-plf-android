@@ -37,9 +37,8 @@ import java.util.HashMap;
 import static com.philips.cdp.di.iap.utils.Utility.getValidator;
 
 public class DLSShippingAddressFragment extends InAppBaseFragment
-        implements View.OnClickListener,
-        SalutationDropDown.SalutationListener,
-        StateDropDown.StateListener, View.OnFocusChangeListener {
+        implements SalutationDropDown.SalutationListener,
+        StateDropDown.StateListener {
 
     private PhoneNumberUtil phoneNumberUtil;
     private Context mContext;
@@ -225,16 +224,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-
     }
 
     @Override

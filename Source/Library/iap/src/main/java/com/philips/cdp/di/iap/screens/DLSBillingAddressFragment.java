@@ -33,9 +33,8 @@ import java.util.regex.Pattern;
  */
 
 public class DLSBillingAddressFragment extends InAppBaseFragment
-        implements View.OnClickListener,
-        SalutationDropDown.SalutationListener,
-        StateDropDown.StateListener, View.OnFocusChangeListener {
+        implements SalutationDropDown.SalutationListener,
+        StateDropDown.StateListener {
 
     private Context mContext;
     private InputValidationLayout mLlFirstNameBilling;
@@ -76,7 +75,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private StateDropDown mStateDropDownBilling;
     private Validator mValidator;
     private DLSAddressFragment mParentFragment;
-     AddressFields billingAddressFields;
+    AddressFields billingAddressFields;
     private String mRegionIsoCode;
 
     @Override
@@ -218,10 +217,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mContext = context;
     }
 
-    InputValidator getValidator(Pattern valid_regex_pattern) {
-        return new InputValidator(valid_regex_pattern);
-    }
-
     private void showUSRegions() {
         if (mEtCountryBilling.getText().toString().equals("US")) {
             mlLStateBilling.setVisibility(View.VISIBLE);
@@ -230,17 +225,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mlLStateBilling.setVisibility(View.GONE);
             CartModelContainer.getInstance().setAddessStateVisible(false);
         }
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-
     }
 
     @Override
@@ -284,7 +268,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 isInAfterTextChanged = false;
             }
         }
-
     }
 
     protected boolean mIgnoreTextChangeListener = false;
@@ -313,7 +296,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 isInAfterTextChanged = false;
             }
         }
-
     }
 
 
@@ -456,7 +438,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         billingAddressFields.setEmail(mEtEmailBilling.getText().toString());
 
 
-        //  if (this instanceof BillingAddressFragment) {
         if (mlLStateBilling.getVisibility() == View.VISIBLE) {
             billingAddressFields.setRegionIsoCode(mRegionIsoCode);
             billingAddressFields.setRegionName(mEtStateBilling.getText().toString());
@@ -477,7 +458,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtTownBilling.setText("");
         mEtPostalCodeBilling.setText("");
         mEtPhone1Billing.setText("");
-//        mEtPhone2.setText("");
         mEtStateBilling.setText("");
         if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
             mlLStateBilling.setVisibility(View.VISIBLE);
@@ -487,7 +467,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mIgnoreTextChangeListener = false;
         enableAllFields();
         enableFocus();
-        //removeErrorInAllFields();
     }
 
     private void enableAllFields() {
@@ -495,7 +474,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     }
 
     void disableAllFields() {
-        // removeErrorInAllFields();
         setFieldsEnabled(false);
         disableFocus();
     }
@@ -520,7 +498,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mEtStateBilling.setEnabled(enable);
         }
         mEtPhone1Billing.setEnabled(enable);
-        //mEtPhone2.setEnabled(enable);
     }
 
     private void setFieldsFocusable(boolean focusable) {
@@ -535,7 +512,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mEtStateBilling.setFocusable(focusable);
         }
         mEtPhone1Billing.setFocusable(focusable);
-        //  mEtPhone2.setFocusable(focusable);
 
         if (focusable) {
             mEtFirstNameBilling.setFocusableInTouchMode(true);
@@ -549,7 +525,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 mEtStateBilling.setFocusableInTouchMode(true);
             }
             mEtPhone1Billing.setFocusableInTouchMode(true);
-            // mEtPhone2.setFocusableInTouchMode(true);
         }
 
         mEtCountryBilling.setFocusable(false);
@@ -583,7 +558,10 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             }
             mIgnoreTextChangeListener = false;
             mEtPhone1Billing.setText(billingAddressFields.getPhone1());
-            // mEtPhone2.setText(mBillingAddressFields.getPhone2());
         }
+    }
+
+    InputValidator getValidator(Pattern valid_regex_pattern) {
+        return new InputValidator(valid_regex_pattern);
     }
 }
