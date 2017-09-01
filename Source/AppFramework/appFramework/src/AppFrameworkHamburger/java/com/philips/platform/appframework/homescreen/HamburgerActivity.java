@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,6 +66,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     //    private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
     Handler handler = new Handler();
+
    /* private ImageView cartIcon;
     private TextView cartCount;
     private boolean isCartVisible = true;*/

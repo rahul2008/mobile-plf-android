@@ -75,11 +75,6 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
         return (AppFrameworkApplication) fragmentView.getFragmentActivity().getApplicationContext();
     }
 
-    @NonNull
-    protected ArrayList<String> getCtnList() {
-        return new ArrayList<>(Arrays.asList(fragmentView.getFragmentActivity().getResources().getStringArray(R.array.iap_productselection_ctnlist)));
-    }
-
     protected FragmentLauncher getFragmentLauncher() {
         fragmentLauncher = new FragmentLauncher(fragmentView.getFragmentActivity(), fragmentView.getContainerId(), fragmentView.getActionBarListener());
         return fragmentLauncher;
@@ -102,14 +97,10 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
             // Commented as part of Plan A removal.
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
-            case MENU_OPTION_DATA_SYNC:
-                return HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
                 return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
                 return HOME_COCO_VERSION_INFO;
-            case MENU_OPTION_DEVICE_PAIRING:
-                return HOME_DEVICE_PAIRING;
             case MENU_OPTION_DEBUG:
                 return HOME_DEBUG;
             case MENU_OPTION_TEST_MICROAPP:

@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
@@ -18,18 +17,14 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
-
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +39,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
         super.setUp();
         fragmentViewMock = mock(FragmentView.class);
         Resources resourcesMock = mock(Resources.class);
-        when(resourcesMock.getStringArray(R.array.productselection_ctnlist)).thenReturn(new String[]{"abcd"});
         fragmentActivityMock = mock(FragmentActivity.class);
         ActionBarListener actionBarListenerMock = mock(ActionBarListener.class);
         when(fragmentActivityMock.getResources()).thenReturn(resourcesMock);
@@ -57,13 +51,6 @@ public class HamburgerActivityPresenterTest extends TestCase {
                 super.setState(AppStates.HAMBURGER_HOME);
             }
 
-            @NonNull
-            @Override
-            protected ArrayList<String> getCtnList() {
-                ArrayList<String> ctnList = new ArrayList<>();
-                ctnList.add("HX6064/33");
-                return ctnList;
-            }
         };
     }
 
@@ -119,10 +106,10 @@ public class HamburgerActivityPresenterTest extends TestCase {
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
-    public void testDataServicesLaunch() {
+    /*public void testDataServicesLaunch() {
         final UIStateData uiStateData = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
-        final DataServicesState dataSyncStateMock = mock(DataServicesState.class);
+        final DemoDataServicesState dataSyncStateMock = mock(DemoDataServicesState.class);
         final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
@@ -160,5 +147,5 @@ public class HamburgerActivityPresenterTest extends TestCase {
         }
         hamburgerActivityPresenter.onEvent(5);
         verify(dataSyncStateMock, times(1)).navigate(fragmentLauncherMock);
-    }
+    }*/
 }

@@ -6,8 +6,8 @@
 
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 
 import org.junit.After;
@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -26,8 +25,8 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by 310207283 on 7/31/2017.
  */
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class WelcomeAdapterTest {
 
     private WelcomePagerAdapter welcomePagerAdapter;
