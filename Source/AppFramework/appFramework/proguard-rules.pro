@@ -403,7 +403,7 @@ public void set*(...);
 #Enumeration
 -keepclassmembers enum * {
 public static **[] values();
-public static ** valueOf(java.lang.String);A
+public static ** valueOf(java.lang.String);
 }
 
 #Static
