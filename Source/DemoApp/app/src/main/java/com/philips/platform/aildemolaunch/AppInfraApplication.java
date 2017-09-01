@@ -18,18 +18,17 @@ import com.squareup.leakcanary.LeakCanary;
 import static android.content.ContentValues.TAG;
 
 public class AppInfraApplication extends Application {
-
     private AppInfraInterface gAppInfra;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
         AppInfra.Builder builder = new AppInfra.Builder();
-        ServiceDiscoveryManagerCSV sdmCSV = new ServiceDiscoveryManagerCSV();
-        builder.setServiceDiscovery(sdmCSV);
         gAppInfra = builder.build(getApplicationContext());
-        initServiceDiscovery((AppInfra) gAppInfra, sdmCSV);
+        initServiceDiscovery((AppInfra) gAppInfra,builder);
+        gAppInfra = builder.build(getApplicationContext());
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
@@ -39,7 +38,9 @@ public class AppInfraApplication extends Application {
         return gAppInfra;
     }
 
-    private void initServiceDiscovery(AppInfra mAppInfra, ServiceDiscoveryManagerCSV sdmCSV) {
+    private void initServiceDiscovery(AppInfra mAppInfra,AppInfra.Builder builder) {
+        ServiceDiscoveryManagerCSV sdmCSV = new ServiceDiscoveryManagerCSV();
+        builder.setServiceDiscovery(sdmCSV);
         sdmCSV.init(mAppInfra);
         sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
@@ -53,5 +54,4 @@ public class AppInfraApplication extends Application {
             }
         });
     }
-
 }
