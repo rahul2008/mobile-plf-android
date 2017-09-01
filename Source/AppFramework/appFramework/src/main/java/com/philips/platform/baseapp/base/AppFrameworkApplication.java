@@ -270,7 +270,6 @@ public class AppFrameworkApplication extends Application {
 
         appInfra = createAppInfraInstance();
         loggingInterface = appInfra.getLogging();
-        loggingInterface.createInstanceForComponent("rap",BuildConfig.VERSION_NAME);
         RALog.init(appInfra);
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
