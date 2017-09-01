@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -49,7 +50,6 @@ public class DemoDevicePairingStateTest extends TestCase {
         UIStateData devicePairingStateData = new UIStateData();
         devicePairingStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         demoDevicePairingState.setUiStateData(devicePairingStateData);
-
         activityController = Robolectric.buildActivity(TestActivity.class);
         hamburgerActivity = activityController.create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
@@ -57,6 +57,7 @@ public class DemoDevicePairingStateTest extends TestCase {
 
     @Test(expected = UnsatisfiedLinkError.class)
     public void launchDevicePairingState() {
+        new DemoDataServicesState().init(RuntimeEnvironment.application);
         demoDevicePairingState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
