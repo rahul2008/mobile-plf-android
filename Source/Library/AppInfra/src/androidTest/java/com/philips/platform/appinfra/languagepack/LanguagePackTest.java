@@ -60,7 +60,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 return result;
             }
@@ -78,7 +77,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                         URL url = new URL(LANGUAGE_PACK_OVERVIEW_URL);
                         listener.onSuccess(url);
                     } catch (MalformedURLException e) {
-                        e.printStackTrace();
                     }
                 } else {
                     listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");
@@ -115,7 +113,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                     assertEquals(expectedURL, url);
                 } catch (MalformedURLException e) {
                     fail();
-                    e.printStackTrace();
                 }
             }
 
@@ -150,7 +147,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             mLanguagePackInterface.refresh(listener);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -200,7 +196,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(mLanguagePackManager, listener, result);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -224,7 +219,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(mLanguagePackManager, listener, result, "errorMessage");
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -245,7 +239,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             };
             method.invoke(mLanguagePackInterface, listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -265,7 +258,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             JSONObject jobj = new JSONObject(getOverviewJSON());
             method.invoke(mLanguagePackManager, jobj, listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | JSONException e) {
-            e.printStackTrace();
         }
     }
 
@@ -298,7 +290,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(mLanguagePackManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -337,9 +328,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(languagePackUtil, list.getLanguages().get(0));
             languagePackUtil.saveLocaleMetaData(list.getLanguages().get(0));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         } catch (Exception exception) {
-            exception.printStackTrace();
         }
     }
 
@@ -349,7 +338,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(languagePackUtil);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -360,7 +348,6 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(mLanguagePackManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 

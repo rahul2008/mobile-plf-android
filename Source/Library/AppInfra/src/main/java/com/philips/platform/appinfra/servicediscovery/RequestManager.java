@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.LocaleList;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -68,13 +69,13 @@ public class RequestManager {
 			final Throwable error = e.getCause();
 			ServiceDiscovery.Error volleyError=null;
 			if (error instanceof TimeoutError) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+error.toString());
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error");
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
 			} else if (error instanceof NoConnectionError) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+error.toString());
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error");
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "NoConnectionError");
 			} else if (error instanceof AuthFailureError) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+error.toString());
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error");
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "AuthFailureError");
 			} else if (error instanceof ServerError) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+
@@ -85,10 +86,10 @@ public class RequestManager {
 						error.toString());
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "NetworkError");
 			} else if (error instanceof ParseError) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error"+error.toString());
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
 				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
 			} else {
-				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, e.getMessage());
+				volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "error while execute");
 			}
 			result.setError(volleyError);
 		}
@@ -155,7 +156,7 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					exception.printStackTrace();
+					Log.e("error"," while getting cached data");
 				}
 			}
 			else {
@@ -174,7 +175,7 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					exception.printStackTrace();
+					Log.e("error"," while getting cached data");
 				}
 			}
 		}
@@ -239,7 +240,7 @@ public class RequestManager {
 			   }
 		   }
 		} catch (IllegalArgumentException illegalArgumentException) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "IllegalArgumentException :"+illegalArgumentException.toString());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "IllegalArgumentException while getPropositionEnabled");
 		}
 		return false;
 	}

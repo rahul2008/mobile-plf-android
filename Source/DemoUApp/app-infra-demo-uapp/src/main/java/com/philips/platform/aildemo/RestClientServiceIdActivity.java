@@ -141,7 +141,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                     } catch (Exception e) {
                         Log.e("LOG REST SD", e.toString());
-                        e.printStackTrace();
                     }
                     if (mStringRequest.getCacheEntry() != null) {
                         String cachedResponse = new String(mStringRequest.getCacheEntry().data);
@@ -179,7 +178,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                         });
                     } catch (Exception e) {
                         Log.e("LOG REST SD", e.toString());
-                        e.printStackTrace();
                     }
                     if (null != jsonRequest) {
                         //  urlFired.setText(mStringRequest.getUrl());
@@ -209,7 +207,6 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                         });
                     } catch (Exception e) {
                         Log.e("LOG REST SD", e.toString());
-                        e.printStackTrace();
                     }
                     if (null != imageRequest) {
                         mRestInterface.getRequestQueue().add(imageRequest);

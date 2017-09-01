@@ -61,7 +61,8 @@ public class RestManagerTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e(getClass()+""," error while testing config");
+
                 }
                 return result;
             }
@@ -115,7 +116,8 @@ public class RestManagerTest extends AppInfraInstrumentation {
                 }
             }, null, null, null);
         } catch (Exception e) {
-            Log.i("LOG", "" + e.toString());
+            Log.e(getClass()+""," error while testing string request");
+
         }
         if (null != mStringRequest) {
             mRestInterface.getRequestQueue().add(mStringRequest);
@@ -143,8 +145,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
                 }
             }, null, null, null);
         } catch (Exception e) {
-            Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
+            Log.e(getClass()+"","LOG REST SD");
         }
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
@@ -167,8 +168,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
             }, null, null, null);
 
         } catch (Exception e) {
-            Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
+            Log.e(getClass()+"","LOG REST SD");
         }
         if (null != imageRequest) {
             mRestInterface.getRequestQueue().add(imageRequest);
@@ -197,8 +197,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
             });
 
         } catch (Exception e) {
-            Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
+            Log.e(getClass()+"","LOG REST SD");
         }
 
         // mStringRequest.setShouldCache(false); // set false to disable cache
@@ -235,7 +234,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
             });
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
@@ -263,7 +261,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
             });
         } catch (Exception e) {
             Log.e("LOG REST SD", e.toString());
-            e.printStackTrace();
         }
         if (null != imageRequest) {
             mRestInterface.getRequestQueue().add(imageRequest);
@@ -287,7 +284,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
                 }
             }, null, null, null);
         } catch (Exception e) {
-            Log.e("LOG REST SD", e.toString());
+            Log.e("LOG REST SD", "error doing app infra request");
         }
 
         if (null != request) {
@@ -334,7 +331,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
                     try {
                         jobj = new JSONObject(response);
                     } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                     accessToken = jobj.optString("access_token");
                     if (null != accessToken) {

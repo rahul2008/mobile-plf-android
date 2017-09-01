@@ -162,7 +162,6 @@ public class RestClientActivity extends AppCompatActivity {
 
                         };
                     } catch (Exception e) {
-                        Log.i("LOG", "" + e.toString());
                         showAlertDialog("HttpForbiddenException", e.toString());
                     }
                     if (null != putRequest) {
@@ -204,7 +203,6 @@ public class RestClientActivity extends AppCompatActivity {
                             }
                         };
                     } catch (Exception e) {
-                        Log.i("LOG", "" + e.toString());
                         showAlertDialog("HttpForbiddenException", e.toString());
                     }
                     if (mStringRequest.getCacheEntry() != null) {
@@ -245,7 +243,7 @@ public class RestClientActivity extends AppCompatActivity {
                             try {
                                 jobj = new JSONObject(response);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                Log.e(getClass()+"","error parsing json");
                             }
                             accessToken = jobj.optString("access_token");
                             if (null != accessToken) {
@@ -273,7 +271,7 @@ public class RestClientActivity extends AppCompatActivity {
                         }
                     };
                 } catch (Exception e) {
-                    Log.i("LOG", "" + e.toString());
+                    Log.i("LOG", "" +" error while making string request");
                     showAlertDialog("HttpForbiddenException", e.toString());
                 }
                 mStringRequest.setShouldCache(false); // set false to disable cache , by default its true
@@ -342,7 +340,6 @@ public class RestClientActivity extends AppCompatActivity {
                         }
                     };
                 } catch (Exception e) {
-                    Log.i("LOG", "" + e.toString());
                     showAlertDialog("HttpForbiddenException", e.toString());
                 }
                 if (null != mStringRequest) {

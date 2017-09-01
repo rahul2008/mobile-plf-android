@@ -20,7 +20,7 @@ public class LoggingWrapper extends AppInfraLogging {
         mComponentID = componentId;
         mComponentVersion = componentVersion;
 
-        createLogger(mComponentID);
+        createLogger(mComponentID, mComponentVersion);
 
     }
 

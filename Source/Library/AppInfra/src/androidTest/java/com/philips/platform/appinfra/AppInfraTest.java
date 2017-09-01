@@ -1,9 +1,8 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
+import android.util.Log;
 
-import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
@@ -40,7 +39,7 @@ public class AppInfraTest extends AppInfraInstrumentation {
 
     public void testComponentID(){
         assertNotNull(mAppInfra.getComponentId());
-        String appInfraID = "ail:";
+        String appInfraID = "ail";
         assertEquals(appInfraID,mAppInfra.getComponentId()); // ail = AppInfra Language
     }
 
@@ -53,8 +52,9 @@ public class AppInfraTest extends AppInfraInstrumentation {
 				    String testJson = ConfigValues.testJsonforIntilization();
 				    result = new JSONObject(testJson);
 			    } catch (Exception e) {
-				    e.printStackTrace();
-			    }
+					Log.e(getClass()+""," error while testing initialization");
+
+				}
 			    return result;
 		    }
 	    };
@@ -86,8 +86,9 @@ public class AppInfraTest extends AppInfraInstrumentation {
 				    String testJson = ConfigValues.testJson();
 				    result = new JSONObject(testJson);
 			    } catch (Exception e) {
-				    e.printStackTrace();
-			    }
+					Log.e(getClass()+""," error while request r-time");
+
+				}
 			    return result;
 		    }
 	    };

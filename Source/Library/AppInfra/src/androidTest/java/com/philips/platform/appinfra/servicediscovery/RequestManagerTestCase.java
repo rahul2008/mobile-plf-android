@@ -61,8 +61,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             urls.put("userreg.janrain.api", "https://philips.janraincapture.com");
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         JSONObject tagsObject = new JSONObject();
@@ -72,7 +70,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             tagsObject.put("name", "prod");
             tagsObject.put("key", "apps++env+prod");
         } catch (JSONException e) {
-            e.printStackTrace();
         }
         JSONArray tags = new JSONArray();
 
@@ -85,8 +82,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             Config.put("tags", tags);
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
 
@@ -100,8 +95,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             resultObject.put("configs", ConfigArray);
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
 
@@ -122,8 +115,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             MatchbyLangauge.put("results", results);
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         JSONObject playLoad = new JSONObject();
@@ -133,8 +124,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             playLoad.put("matchByCountry", MatchbyLangauge);
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         JSONObject MainObj = new JSONObject();
@@ -149,8 +138,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             MainObj.put("httpStatus", "OK");
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
 
@@ -177,7 +164,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
             method.invoke(mRequestItemManager, "http://www.philips.com/api/v1/discovery/b2c/77000?locale=nl_NL&tags=apps%2b%2benv%2bprod&country=CN",ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 

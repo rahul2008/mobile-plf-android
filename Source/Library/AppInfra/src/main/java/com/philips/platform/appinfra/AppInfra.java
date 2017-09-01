@@ -218,8 +218,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     @Override
     public String getComponentId() {
-        final String appInfraComponentID = "ail:";
-        return appInfraComponentID;
+        return "ail";
     }
 
     @Override

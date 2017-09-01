@@ -165,7 +165,6 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                 String articleId = contentItem.getId();
                                 Log.i("CL Ariticle", "" + articleId + "  TAGs ");
                             } catch (InstantiationException | IllegalAccessException e) {
-                                e.printStackTrace();
                             }
                         }
                     }
