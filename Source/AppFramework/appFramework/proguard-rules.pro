@@ -149,9 +149,6 @@
 
 -keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
-
-
-
 -dontwarn org.slf4j.**
 -dontwarn org.apache.log4j.**
 -dontwarn org.apache.commons.logging.**
