@@ -7,7 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,6 +133,23 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         pr_fragment_b.setOnClickListener(this);
         mPurchaseDate.setOnClickListener(this);
         toggleButton.setOnClickListener(this);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    Log.e("gif--","fragment back key is clicked");
+                    getActivity().getSupportFragmentManager().popBackStack("ManualRegistrationFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

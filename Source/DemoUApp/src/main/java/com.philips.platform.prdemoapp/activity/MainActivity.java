@@ -34,7 +34,6 @@ import com.philips.platform.prdemoapp.theme.events.NavigationColorChangedEvent;
 import com.philips.platform.prdemoapp.theme.events.OptionMenuClickedEvent;
 import com.philips.platform.prdemoapp.theme.themesettings.ThemeHelper;
 import com.philips.platform.prdemoapplibrary.R;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -281,13 +280,17 @@ public class MainActivity extends UIDActivity {
         boolean backState = false;
         Fragment currentFrag = fragmentManager
                 .findFragmentById(R.id.parent_layout);
-        if (currentFrag != null && currentFrag instanceof BackEventListener) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-        }
+        if (fragmentManager.getBackStackEntryCount() ==1) {
+            finish();
+        }/*else {
+            if (currentFrag != null && currentFrag instanceof BackEventListener) {
+                backState = ((BackEventListener) currentFrag).handleBackEvent();
+            }
 
-        if (!backState) {
-            super.onBackPressed();
-        }
+            if (!backState) {
+                super.onBackPressed();
+            }
+        }*/
 
         if (navigationController.updateStack()) {
             super.onBackPressed();
