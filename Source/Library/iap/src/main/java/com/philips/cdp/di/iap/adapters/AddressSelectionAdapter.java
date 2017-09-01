@@ -82,6 +82,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             setToggleStatus(addressSelectionHolder.toggle, position);
             bindToggleButton(addressSelectionHolder, addressSelectionHolder.toggle);
             bindDeliverToThisAddress(addressSelectionHolder.deliverToThisAddress);
+
+            if(mAddresses.size()==1)addressSelectionHolder.delete.setEnabled(false);
             addressSelectionHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
