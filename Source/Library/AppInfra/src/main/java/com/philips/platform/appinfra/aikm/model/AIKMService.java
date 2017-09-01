@@ -44,23 +44,17 @@ public class AIKMService extends ServiceDiscoveryService {
 
     public enum MapError {
 
-        INVALID_INDEX_URL(1, "Invalid index url found from service discovery"),
-        BEYOND_BOUND_ERROR(2, "Beyond bounds exception"),
-        INVALID_JSON(3, "AIKeyBag.json is an invalid JSON"),
-        NO_SERVICE_FOUND(4, "No Service Found From ServiceDiscovery"),
-        EMPTY_ARGUMENT_URL(5, "Empty URL argument"),
-        DECODE_ERROR(6, "Error while decoding the value");
+        INVALID_INDEX_URL("Invalid index url found from service discovery"),
+        BEYOND_BOUND_ERROR("Beyond bounds exception"),
+        INVALID_JSON("AIKeyBag.json is an invalid JSON"),
+        NO_SERVICE_FOUND("No Service Found From ServiceDiscovery"),
+        EMPTY_ARGUMENT_URL("Empty URL argument"),
+        DECODE_ERROR("Error while decoding the value");
 
-        private final int id;
         private final String description;
 
-        MapError(final int id, final String description) {
-            this.id = id;
+        MapError(final String description) {
             this.description = description;
-        }
-
-        public int getCode() {
-            return id;
         }
 
         public String getDescription() {
