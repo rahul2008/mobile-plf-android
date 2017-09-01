@@ -43,10 +43,10 @@ public class SidebarTest extends BaseTest {
     }
 
     private ViewInteraction getSidebar() {
-        //return onView(withId(com.philips.platform.uid.test.R.id.test_sidebar));
-        waitFor(resources, 500);
-        SideBar sideBar = activity.getSidebar();
-        return onView(withId(sideBar.getId()));
+        return onView(withId(com.philips.platform.uid.test.R.id.test_sidebar));
+//        waitFor(resources, 500);
+//        SideBar sideBar = activity.getSidebar();
+//        return onView(withId(sideBar));
     }
 
     @Test

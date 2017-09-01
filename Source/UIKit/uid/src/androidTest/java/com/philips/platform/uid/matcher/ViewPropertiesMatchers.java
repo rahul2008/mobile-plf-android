@@ -282,12 +282,10 @@ public class ViewPropertiesMatchers {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
-                if (view instanceof FrameLayout) {
+                if (view instanceof DrawerLayout) {
                     DrawerLayout drawerLayout = (DrawerLayout) view;
-                    if(drawerLayout.getWidth() <= maxWidth)
-                        return true;
-                    else
-                        return false;
+                    setValues(drawerLayout.getWidth(),maxWidth);
+                    return areEqual();
                 }
                 return false;
             }
