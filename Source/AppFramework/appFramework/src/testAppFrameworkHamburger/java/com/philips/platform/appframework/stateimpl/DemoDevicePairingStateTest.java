@@ -50,7 +50,6 @@ public class DemoDevicePairingStateTest extends TestCase {
         UIStateData devicePairingStateData = new UIStateData();
         devicePairingStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         demoDevicePairingState.setUiStateData(devicePairingStateData);
-
         activityController = Robolectric.buildActivity(TestActivity.class);
         hamburgerActivity = activityController.create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
