@@ -25,7 +25,6 @@ import com.philips.platform.appframework.ConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
-import com.philips.platform.appframework.connectivity.ConnectivityFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -38,7 +37,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View {
-    public static final String TAG = ConnectivityFragment.class.getSimpleName();
+    public static final String TAG = PowerSleepConnectivityFragment.class.getSimpleName();
     private ProgressDialog dialog = null;
     private Handler handler = new Handler();
     private WeakReference<PowerSleepConnectivityFragment> connectivityFragmentWeakReference;
@@ -133,6 +132,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
 
     private BleReferenceAppliance bleReferenceAppliance = null;
 
+
     /**
      * Start scanning nearby devices using given strategy
      */
@@ -152,6 +152,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
                         bleScanDialogFragment = new BLEScanDialogFragment();
                         bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
                         bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                        bleScanDialogFragment.setCancelable(false);
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
                             public void onDeviceSelected(final BleReferenceAppliance bleRefAppliance) {
@@ -180,9 +181,9 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
 
     private void fetchData(BleReferenceAppliance bleRefAppliance) {
         showProgressBar();
-        bleRefAppliance.getSensorDataPort().reloadProperties();
+        //bleRefAppliance.getSensorDataPort().reloadProperties();
         bleRefAppliance.getSessionDataPort().reloadProperties();
-        bleRefAppliance.getSessionInfoPort().reloadProperties();
+        //bleRefAppliance.getSessionInfoPort().reloadProperties();
     }
 
     /**
@@ -258,5 +259,4 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     protected void removeApplianceListener() {
         mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
     }
-
 }

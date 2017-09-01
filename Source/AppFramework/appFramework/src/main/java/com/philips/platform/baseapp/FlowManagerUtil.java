@@ -23,7 +23,6 @@ import com.philips.platform.baseapp.screens.termsandconditions.TermsAndCondition
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
 
 import java.util.Map;
@@ -45,7 +44,7 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.TERMSANDCONITIONSSTATE,new TermsAndConditionsState());
-        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
+        uiStateMap.put(AppStates.CONNECTIVITY, new PowerSleepConnectivityFragmentState());
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
         uiStateMap.put(AppStates.DEVICE_PAIRING, new DevicePairingState());
     }

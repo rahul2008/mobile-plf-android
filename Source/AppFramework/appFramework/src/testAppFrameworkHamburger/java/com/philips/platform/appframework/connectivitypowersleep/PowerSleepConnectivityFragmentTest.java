@@ -94,7 +94,7 @@ public class PowerSleepConnectivityFragmentTest {
     }
 
     @Test
-    public void testStartDiscoveryClick() {
+    public void testBluetoothActivityLaunched() {
         connectivityFragment.getView().findViewById(R.id.powersleep_sync).performClick();
         Mockito.when(bluetoothAdapter.isEnabled()).thenReturn(false);
         assertNotNull(shadowOf(testActivity).getNextStartedActivity());
@@ -152,6 +152,8 @@ public class PowerSleepConnectivityFragmentTest {
     public void tearDown() {
         activityController.pause().stop().destroy();
         connectivityFragment = null;
+        testActivity = null;
+        activityController = null;
     }
 
 }

@@ -8,16 +8,21 @@ package com.philips.platform.appframework.connectivitypowersleep;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -35,7 +40,7 @@ public class PowerSleepConnectivityPresenterTest {
     PowerSleepConnectivityPresenter powerSleepConnectivityPresenter;
 
     @Captor
-    private ArgumentCaptor<DICommPortListener<SessionDataPort>> captor;
+    private ArgumentCaptor<DICommPortListener<SessionDataPort>> portListenerArgumentCaptor;
 
     @Mock
     private BleReferenceAppliance bleReferenceAppliance;
@@ -46,7 +51,10 @@ public class PowerSleepConnectivityPresenterTest {
     @Mock
     private SessionDataPortProperties sessionDataPortProperties;
 
-    DICommPortListener<SessionDataPort> value;
+    DICommPortListener<SessionDataPort> portListener;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
 
     @Before
@@ -55,35 +63,42 @@ public class PowerSleepConnectivityPresenterTest {
         when(bleReferenceAppliance.getSessionDataPort()).thenReturn(sessionDataPort);
         when(sessionDataPort.getPortProperties()).thenReturn(sessionDataPortProperties);
         powerSleepConnectivityPresenter.setUpApplicance(bleReferenceAppliance);
-        verify(sessionDataPort).addPortListener(captor.capture());
-        value= captor.getValue();
+        verify(sessionDataPort).addPortListener(portListenerArgumentCaptor.capture());
+        portListener = portListenerArgumentCaptor.getValue();
 
 
     }
 
     @Test
-    public void onPortUpdateTest() throws Exception {
-        value.onPortUpdate(sessionDataPort);
+    public void onPortUpdateTest() {
+        portListener.onPortUpdate(sessionDataPort);
         verify(view).updateSessionData(anyLong(), anyLong(), anyLong());
     }
     @Test
-    public void onPortErrorTest() throws Exception {
-        value.onPortError(sessionDataPort, Error.CANNOT_CONNECT, "");
+    public void onPortErrorTest() {
+        portListener.onPortError(sessionDataPort, Error.CANNOT_CONNECT, "");
         verify(view).showError(Error.CANNOT_CONNECT, "");
     }
 
     @Test
     public void removeSessionPortListenerTest() {
         powerSleepConnectivityPresenter.removeSessionPortListener(bleReferenceAppliance);
-        verify(sessionDataPort).removePortListener(value);
+        verify(sessionDataPort).removePortListener(portListener);
+    }
+
+    @Test
+    public void setUpApplicanceWithNullValueTest() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(equalTo("Cannot create bleReferenceAppliance for provided NetworkNode."));
+        powerSleepConnectivityPresenter.setUpApplicance(null);
     }
 
     @After
     public void tearDown() {
         view = null;
         powerSleepConnectivityPresenter = null;
-        captor = null;
-        value = null;
+        portListenerArgumentCaptor = null;
+        portListener = null;
         bleReferenceAppliance = null;
         sessionDataPort = null;
         sessionDataPortProperties = null;

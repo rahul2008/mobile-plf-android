@@ -34,15 +34,15 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
         this.bleTransportContext = bleTransportContext;
         this.deviceType = deviceType;
 
-        RALog.d(TAG, "device type : "+deviceType);
+        RALog.d(TAG, "device type : " + deviceType);
     }
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        RALog.d(TAG," To check if appliance for node be created ");
+        RALog.d(TAG, " To check if appliance for node be created ");
         switch (deviceType) {
             case POWER_SLEEP:
-            return getSupportedDeviceTypes().contains(networkNode.getModelId());
+                return getSupportedDeviceTypes().contains(networkNode.getModelId());
             default:
                 return BleReferenceAppliance.MODELNAME.equals(networkNode.getDeviceType());
         }
@@ -62,7 +62,8 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
     public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(BleReferenceAppliance.MODELNAME);
-            add(BleReferenceAppliance.MODEL_NAME_1);
+            add(BleReferenceAppliance.MODEL_NAME_HH1600);
+            add(BleReferenceAppliance.MODEL_NAME_HHS);
         }});
     }
 }

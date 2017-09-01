@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 
 public class PowerSleepConnectivityPresenter implements ConnectivityPowerSleepContract.UserActionsListener {
     public static final String TAG = PowerSleepConnectivityPresenter.class.getSimpleName();

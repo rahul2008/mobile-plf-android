@@ -52,7 +52,7 @@ public class SleepScoreProgressView extends View {
     public SleepScoreProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray customTypedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SleepScoreProgressView);
+        TypedArray customTypedArray = context.obtainStyledAttributes(attrs, R.styleable.SleepScoreProgressView);
         float referenceCircleSize = customTypedArray.getDimensionPixelSize(R.styleable.SleepScoreProgressView_ap_reference_circle_size, DEFAULT_REFERENCE_CIRCLE_SIZE);
         colorRegular = customTypedArray.getColor(R.styleable.SleepScoreProgressView_ap_regular_stroke_color, Color.WHITE);
         float strokeSize = customTypedArray.getDimensionPixelSize(R.styleable.SleepScoreProgressView_ap_stroke_size, DEFAULT_STROKE_SIZE);
@@ -77,17 +77,6 @@ public class SleepScoreProgressView extends View {
     public void setScoreAngle(float scoreAngle){
         this.angleScore = scoreAngle;
         RALog.d("SCORE", "boostScore:"+ scoreAngle+ ", angleScore:"+ angleScore);
-        invalidate();
-    }
-
-    public float getBoostAngle(){
-        return angleBoost;
-    }
-
-    /* Score from 0 to 100 */
-    public void setBoostAngle(float boostAngle){
-        this.angleBoost = boostAngle;
-        RALog.d("SCORE", "boostAngle:"+ boostAngle+ ", angleBoost:"+ angleBoost);
         invalidate();
     }
 

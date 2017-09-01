@@ -4,20 +4,21 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.appframework.connectivitypowersleep;
+package com.philips.platform.appframework.connectivitypowersleep.datamodels;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-public class HypnogramDataPort extends GenericPort<HypnogramDataPortProperties> {
+public class SessionDataPort extends GenericPort<SessionDataPortProperties> {
+
     private long sessionNumber;
 
-    public HypnogramDataPort(CommunicationStrategy communicationStrategy, String name, int productId, Class<HypnogramDataPortProperties> propertiesClass) {
-        super(communicationStrategy, name, productId, propertiesClass);
+    public SessionDataPort(final CommunicationStrategy communicationStrategy, String name, int productID, Class<SessionDataPortProperties> propertiesClass) {
+        super(communicationStrategy, name, productID, propertiesClass);
     }
 
     @Override
     public String getDICommPortName() {
-        return String.format(name, sessionNumber);
+        return name + "/" + sessionNumber;
     }
 
     public void setSpecificSession(long sessionnum) {

@@ -4,7 +4,7 @@
  * consent of the copyright holder.
 */
 
-package com.philips.platform.appframework.connectivitypowersleep;
+package com.philips.platform.appframework.connectivitypowersleep.datamodels;
 
 import android.support.annotation.VisibleForTesting;
 
