@@ -168,7 +168,7 @@ dependencies {
     }
 	
 	def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':dsc') : dscModule) 	
+	compile(dp ? project(':dscUApp') : dscModule) 	
 	{
         exclude group: 'com.android.support'
         exclude group: 'joda-time', module: 'joda-time'
