@@ -167,7 +167,7 @@ public class MomentsSegregator {
                 dbSavingInterface.saveMoment(moment, dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e, dbRequestListener);
-                e.printStackTrace();
+                //Debug Log
             }
         }
     }
@@ -177,7 +177,7 @@ public class MomentsSegregator {
         try {
             ormMomentList = (List<? extends Moment>) dbFetchingInterface.fetchNonSynchronizedMoments();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         dataToSync.put(Moment.class, ormMomentList);
         return dataToSync;

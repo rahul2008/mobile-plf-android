@@ -120,7 +120,7 @@ public class UCoreAdapter {
                 versionName = versionName.substring(0, indexOf);
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            //Debug Log
         }
 
         return String.format(APP_AGENT_HEADER_VALUE, versionName, buildType, getBuildTime());

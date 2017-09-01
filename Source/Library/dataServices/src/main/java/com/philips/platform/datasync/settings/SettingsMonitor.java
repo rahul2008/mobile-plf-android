@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.settings;
 
 import android.support.annotation.NonNull;
@@ -13,10 +18,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SettingsMonitor extends EventMonitor {
 
     @Inject
@@ -39,14 +40,10 @@ public class SettingsMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendSaveRequest event) {
         settingsDataSender.sendSettingsToBackend(event.getSettings());
-        System.out.println("In onEventAsync(SettingsBackendSaveRequest event) ");
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(SettingsBackendGetRequest event) {
         settingsDataFetcher.getSettings();
     }
-
-
-
 }

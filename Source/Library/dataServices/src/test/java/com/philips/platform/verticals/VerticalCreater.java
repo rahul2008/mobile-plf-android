@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.verticals;
 
 import android.support.annotation.NonNull;
@@ -40,14 +45,13 @@ import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
 
-public class VerticalCreater implements BaseAppDataCreator{
+public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public OrmMoment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type, DateTime expirationDate) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
         return new OrmMoment(creatorId, subjectId, ormMomentType, expirationDate);
     }
-
 
     @NonNull
     @Override
@@ -56,7 +60,7 @@ public class VerticalCreater implements BaseAppDataCreator{
             OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
             return new OrmMomentDetail(ormMomentDetailType, OrmTypeCheckingMock.checkOrmType(moment, OrmMoment.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -70,7 +74,7 @@ public class VerticalCreater implements BaseAppDataCreator{
 
             return new OrmMeasurement(ormMeasurementType, OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -82,7 +86,7 @@ public class VerticalCreater implements BaseAppDataCreator{
         try {
             return new OrmMeasurementDetail(ormMeasurementDetailType, OrmTypeCheckingMock.checkOrmType(measurement, OrmMeasurement.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -93,7 +97,7 @@ public class VerticalCreater implements BaseAppDataCreator{
         try {
             return new OrmMeasurementGroup(OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -104,7 +108,7 @@ public class VerticalCreater implements BaseAppDataCreator{
         try {
             return new OrmMeasurementGroup(OrmTypeCheckingMock.checkOrmType(moment, OrmMoment.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -116,7 +120,7 @@ public class VerticalCreater implements BaseAppDataCreator{
         try {
             return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -145,7 +149,7 @@ public class VerticalCreater implements BaseAppDataCreator{
         try {
             return new OrmCharacteristics(type, value, OrmTypeCheckingMock.checkOrmType(characteristics, OrmCharacteristics.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }
@@ -168,7 +172,7 @@ public class VerticalCreater implements BaseAppDataCreator{
         try {
             return new OrmInsightMetaData(key, value, OrmTypeCheckingMock.checkOrmType(insight, OrmInsight.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         return null;
     }

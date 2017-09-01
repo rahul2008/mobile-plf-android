@@ -76,7 +76,7 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug log
             dataToSync.put(Characteristics.class, null);
         }
         dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
@@ -125,7 +125,7 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
     }
 

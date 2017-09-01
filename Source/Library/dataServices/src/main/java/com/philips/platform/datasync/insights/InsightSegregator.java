@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.insights;
 
 import com.philips.platform.core.BaseAppDataCreator;
@@ -121,7 +122,7 @@ public class InsightSegregator {
             mDBDeletingInterface.deleteInsights(insightsToDelete, dbRequestListener);
             mDBSavingInterface.saveInsights(insights, dbRequestListener);
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
     }
 
@@ -130,7 +131,7 @@ public class InsightSegregator {
         try {
             insights = (List<? extends Insight>) mDBFetchingInterface.fetchNonSynchronizedInsights();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Debug Log
         }
         dataToSync.put(Insight.class, insights);
         return dataToSync;

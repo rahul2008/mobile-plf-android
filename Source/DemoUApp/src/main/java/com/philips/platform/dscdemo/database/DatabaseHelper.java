@@ -50,8 +50,6 @@ import java.util.List;
 
 /**
  * Database helper which creates and upgrades the database and provides the DAOs for the app.
- *
- * @author kevingalligan
  */
 public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
