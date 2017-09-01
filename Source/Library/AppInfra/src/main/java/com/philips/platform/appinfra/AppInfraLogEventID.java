@@ -25,6 +25,4 @@ public class AppInfraLogEventID {
     public static final String AI_SERVICE_DISCOVERY = "AIServiceDiscovery ";
     public static final String AI_TAGGING = "AITagging ";
     public static final String AI_TIME_SYNC = "AITimeSync" ;
-    public static final String AI_KEY_BAG = "AIKeyBag" ;
-
 }

@@ -46,7 +46,7 @@ public class AIKMService extends ServiceDiscoveryService {
 
         INVALID_INDEX_URL("Invalid index url found from service discovery"),
         BEYOND_BOUND_ERROR("Beyond bounds exception"),
-        INVALID_JSON("AIKeyBag.json is an invalid JSON"),
+        INVALID_JSON("AIKMap.json is an invalid JSON"),
         NO_SERVICE_FOUND("No Service Found From ServiceDiscovery"),
         EMPTY_ARGUMENT_URL("Empty URL argument"),
         DECODE_ERROR("Error while decoding the value");

@@ -36,7 +36,7 @@ public class AIKManager implements AIKMInterface {
                                          Map<String, String> replacement,
                                          @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException {
 
-        InputStream inputStream = getInputStream(appInfra.getAppInfraContext(), "AIKeyBag.json");
+        InputStream inputStream = getInputStream(appInfra.getAppInfraContext(), "AIKMap.json");
         getGroomHelper().init(appInfra, inputStream);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);

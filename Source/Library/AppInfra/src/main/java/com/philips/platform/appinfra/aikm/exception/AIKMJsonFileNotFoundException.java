@@ -6,6 +6,6 @@ import java.io.FileNotFoundException;
 public class AIKMJsonFileNotFoundException extends FileNotFoundException {
 
     public AIKMJsonFileNotFoundException() {
-        super("AIKeyBag.json file not found in assets folder");
+        super("AIKMap.json file not found in assets folder");
     }
 }
