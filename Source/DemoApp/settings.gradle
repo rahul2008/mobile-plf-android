@@ -1,4 +1,3 @@
-rootProject.setName 'digitalCare'
 include ':launchDigitalCare'
 include 'digitalCare'
 include 'DemoUApp'
