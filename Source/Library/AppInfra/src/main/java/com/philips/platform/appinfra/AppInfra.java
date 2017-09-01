@@ -226,11 +226,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         return BuildConfig.VERSION_NAME;
     }
 
-    public AIKMInterface getAikmInterface() {
+    public AIKMInterface getAiKmInterface() {
         return aikmInterface;
     }
 
-    public void setAikmInterface(AIKMInterface aikmInterface) {
+    public void setAiKmInterface(AIKMInterface aikmInterface) {
         this.aikmInterface = aikmInterface;
     }
 
@@ -457,7 +457,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 public void run() {
                     final AIKManager aikManager;
                     aikManager = new AIKManager(ai);
-                    ai.setAikmInterface(aikmInterface == null ? aikManager : aikmInterface);
+                    ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
                 }
             }).start();
 
