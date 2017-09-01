@@ -233,20 +233,7 @@ public class PushNotificationManagerTest {
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
         pushNotificationManager.registerForPayload(handleNotificationPayloadInterface);
 
-//        String data = "{\n" +
-//                "  \"isSilent\": true,\n" +
-//                "  \"platform\": {\n" +
-//                "    \"dsc\": {\n" +
-//                "      \"dataSync\": \"OBJECT_TYPE\"\n" +
-//                "   }\n" +
-//                "  }\n" +
-//                "}";
-
-        String data = "{\n" +
-                "    \"dsc\":true,\n" +
-                "    \"platform\":\"{ \\\"dsc\\\": { \\\"dataSync\\\": \\\"moment\\\" } }\",\n" +
-                "    \"app\":\"{ \\\"somekey\\\": \\\"someValue\\\" }\"\n" +
-                "}";
+        String data = "{ \"dsc\": { \"dataSync\": \"moment\" } }";
         Bundle bundle = new Bundle();
         bundle.putCharSequence(PushNotificationConstants.PLATFORM_KEY, data);
         PNLog.disablePNLogging();
