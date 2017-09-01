@@ -32,7 +32,7 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_recovery_title"
                 android:textStyle="bold"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"/>
 
             <com.philips.platform.uid.view.widget.Label

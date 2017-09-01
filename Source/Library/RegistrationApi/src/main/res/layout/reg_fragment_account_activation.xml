@@ -17,9 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="@dimen/reg_layout_margin_end_16"
             android:layout_marginTop="@dimen/reg_layout_margin_top_24"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/reg_layout_margin_end_16">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_activation_title_label"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_VerifyEmail_VerifyEmail_lbltxt"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"/>
 
@@ -37,21 +37,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_VerifyEmail_EmailSentto_lbltxt"
-                android:textColor="@color/uid_gray_level_90"/>
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_VerifyEmail_ActivateInfo_lbltxt"
-                android:textColor="@color/uid_gray_level_90"/>
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                />
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/Activation_explain_value_to_user"
-                android:textColor="@color/uid_gray_level_90"/>
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                />
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:id="@+id/usr_activation_emailVerified_button"

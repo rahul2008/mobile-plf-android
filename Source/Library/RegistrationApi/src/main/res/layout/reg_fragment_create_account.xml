@@ -25,7 +25,8 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="First name"/>
+                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:text="@string/reg_firstname"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_firstName_inputValidation"
@@ -43,12 +44,12 @@
                     app:uidInputTextWithClearButton="true"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 
-
             <com.philips.platform.uid.view.widget.Label
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Last name"/>
+                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:text="@string/reg_lastname"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_lastName_inputValidation"
@@ -68,10 +69,12 @@
 
 
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_createscreen_emailormobile_label"
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
+                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
                 android:layout_height="wrap_content"
-                android:text="Email"/>
+                android:text="@string/reg_email"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createscreen_emailormobile_inputValidationLayout"
@@ -93,7 +96,8 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"/>
+                android:textColor="?attr/uidLabelDescriptorNormalTextColor"
+                android:text="@string/reg_password"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_password_inputValidationField"

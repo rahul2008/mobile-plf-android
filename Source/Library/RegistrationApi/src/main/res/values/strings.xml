@@ -341,9 +341,19 @@
     <string name="reg_verify_mobile_title">Confirm your phone number</string>
     <string name="reg_verify_mobile_desc1">We\'ve just sent an SMS with a six digit code to your phone number %s</string>
     <string name="reg_verify_mobile_desc2">Please enter the code to activate your account.</string>
+    <string name="reg_verify_mobile_verify_button">Verify code</string>
 
     <string name="reg_recovery_title">Recovery email</string>
     <string name="reg_recovery_desc_one">In case we need to reach you about unusual activity on your account or to reset your password if you get locked out. Please add your email here.</string>
     <string name="reg_recovery_button1">Add my recovery email</string>
+
+    <string name="reg_email">Email</string>
+    <string name="reg_phone_number">Phone number</string>
+    <string name="reg_firstname">First name</string>
+    <string name="reg_lastname">Last name</string>
+    <string name="reg_password">Password</string>
+    <string name="reg_password_strength_weak">Weak</string>
+    <string name="reg_password_strength_strong">Strong</string>
+    <string name="reg_password_strength_medium">Medium</string>
 
 </resources>

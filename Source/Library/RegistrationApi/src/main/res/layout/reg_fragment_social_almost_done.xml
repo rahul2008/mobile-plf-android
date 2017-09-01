@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Social_SignIn_AlmostDone_lbltxt"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"/>
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
                 android:text="@string/reg_almost_description2"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -46,8 +46,8 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
-                android:textColor="@color/uid_gray_level_90"
+                android:text="@string/reg_email"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"
                 android:visibility="gone"/>
 

@@ -270,9 +270,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                     int timeRemaining = (int)(timeLeft / 1000);
             usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(
                     ((60 - timeRemaining)*100)/60);
-            String userName = Integer.toString(timeRemaining);
+            String timeRemainingAsString = Integer.toString(timeRemaining);
             usr_mobileverification_resendsmstimer_progress.setText(
-                    String.format(getString(R.string.no_sms_timer), userName));
+                    String.format(getString(R.string.no_sms_timer), timeRemainingAsString));
             disableResendButton();
         }
     }

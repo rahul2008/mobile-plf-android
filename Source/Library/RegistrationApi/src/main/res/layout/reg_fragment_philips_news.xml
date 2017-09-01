@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_margin_24"
                 android:text="@string/reg_Receive_Philips_News_Meaning_lbltxt"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"
                 reglib:fontPath="fonts/centralesansbook.ttf"/>
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_philips_communication_content1"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontPath="fonts/centralesansbook.ttf"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_philips_communication_content2"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontPath="fonts/centralesansbook.ttf"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_philips_communication_content4"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontPath="fonts/centralesansbook.ttf"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_philips_communication_content6"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontPath="fonts/centralesansbook.ttf"/>
             <View
                 android:layout_width="wrap_content"

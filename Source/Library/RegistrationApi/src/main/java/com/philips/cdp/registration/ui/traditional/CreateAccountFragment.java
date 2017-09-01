@@ -101,6 +101,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @BindView(R2.id.usr_createScreen_baseLayout_LinearLayout)
     LinearLayout usr_createScreen_baseLayout_LinearLayout;
 
+    @BindView(R2.id.usr_createscreen_emailormobile_label)
+    Label usr_createscreen_emailormobile_label;
+
     private User user;
 
     private Context context;
@@ -201,17 +204,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
-            passwordUiUpdate(RegConstants.PASSWORD_STRENGTH_STRONG, strengthMeterStrong, true, R.color.uid_green_level_30,
+            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
             return 0;
         } else if (strength == strengthStrong) {
-            passwordUiUpdate(RegConstants.PASSWORD_STRENGTH_MEDIUIM, strengthMeterMedium, true, R.color.uid_pink_level_30,
+            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(RegConstants.PASSWORD_STRENGTH_WEAK, strengthMeterWeak, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(RegConstants.PASSWORD_STRENGTH_WEAK, stringthMeterNone, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         }
         return 0;
@@ -271,6 +274,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RegUtility.linkifyPhilipsNews(usr_createscreen_marketingmails_checkbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
+            usr_createscreen_emailormobile_label.setText(R.string.reg_phone_number);
+            usr_createscreen_emailormobile_textfield.setInputType(InputType.TYPE_CLASS_PHONE);
+        }
+
         usr_createscreen_create_button.setEnabled(false);
         usr_createscreen_termsandconditions_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

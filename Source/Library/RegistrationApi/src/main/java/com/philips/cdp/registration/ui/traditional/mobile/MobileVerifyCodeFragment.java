@@ -51,26 +51,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.reg_error_msg)
     XRegError errorMessage;
 
-    @BindView(R2.id.usr_forgotpassword_inputId_textField6)
-    ValidationEditText usr_forgotpassword_inputId_textField6;
-
-    @BindView(R2.id.usr_forgotpassword_inputId_textField1)
-    ValidationEditText usr_forgotpassword_inputId_textField1;
-
-    @BindView(R2.id.usr_forgotpassword_inputId_textField2)
-    ValidationEditText usr_forgotpassword_inputId_textField2;
-
-    @BindView(R2.id.usr_forgotpassword_inputId_textField3)
-    ValidationEditText usr_forgotpassword_inputId_textField3;
-
-    @BindView(R2.id.usr_forgotpassword_inputId_textField4)
-    ValidationEditText usr_forgotpassword_inputId_textField4;
-
-    @BindView(R2.id.usr_forgotpassword_inputId_textField5)
-    ValidationEditText usr_forgotpassword_inputId_textField5;
-
     @BindView(R2.id.reg_verify_mobile_desc1)
     Label reg_verify_mobile_desc1;
+
+    @BindViews({R2.id.usr_forgotpassword_inputId_textField1, R2.id.usr_forgotpassword_inputId_textField2,
+            R2.id.usr_forgotpassword_inputId_textField3, R2.id.usr_forgotpassword_inputId_textField4,
+            R2.id.usr_forgotpassword_inputId_textField5,R2.id.usr_forgotpassword_inputId_textField6})
+    List<ValidationEditText> verificationCodeValidationEditText;
 
     private Context context;
 
@@ -112,35 +99,35 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private void handleVerificationCode() {
 
-        Observable<String> obs1 = RxTextView.textChanges(usr_forgotpassword_inputId_textField1)
+        Observable<String> obs1 = RxTextView.textChanges(verificationCodeValidationEditText.get(0))
                 .map(charSeq -> {
-                    usr_forgotpassword_inputId_textField2.requestFocus();
+                    verificationCodeValidationEditText.get(1).requestFocus();
                     return charSeq.toString();
                 });
 
-        Observable<String> obs2 = RxTextView.textChanges(usr_forgotpassword_inputId_textField2)
+        Observable<String> obs2 = RxTextView.textChanges(verificationCodeValidationEditText.get(1))
                 .map(charSeq -> {
-                    usr_forgotpassword_inputId_textField3.requestFocus();
+                    verificationCodeValidationEditText.get(2).requestFocus();
                     return charSeq.toString();
                 });
-        Observable<String> obs3 = RxTextView.textChanges(usr_forgotpassword_inputId_textField3)
+        Observable<String> obs3 = RxTextView.textChanges(verificationCodeValidationEditText.get(2))
                 .map(charSeq -> {
-                    usr_forgotpassword_inputId_textField4.requestFocus();
+                    verificationCodeValidationEditText.get(3).requestFocus();
                     return charSeq.toString();
                 });
-        Observable<String> obs4 = RxTextView.textChanges(usr_forgotpassword_inputId_textField4)
+        Observable<String> obs4 = RxTextView.textChanges(verificationCodeValidationEditText.get(3))
                 .map(charSeq -> {
-                    usr_forgotpassword_inputId_textField5.requestFocus();
+                    verificationCodeValidationEditText.get(4).requestFocus();
                     return charSeq.toString();
                 });
-        Observable<String> obs5 = RxTextView.textChanges(usr_forgotpassword_inputId_textField5)
+        Observable<String> obs5 = RxTextView.textChanges(verificationCodeValidationEditText.get(4))
                 .map(charSeq -> {
-                    usr_forgotpassword_inputId_textField6.requestFocus();
+                    verificationCodeValidationEditText.get(5).requestFocus();
                     return charSeq.toString();
                 });
-        Observable<String> obs6 = RxTextView.textChanges(usr_forgotpassword_inputId_textField6)
+        Observable<String> obs6 = RxTextView.textChanges(verificationCodeValidationEditText.get(5))
                 .map(charSeq -> {
-                    usr_forgotpassword_inputId_textField1.requestFocus();
+                    verificationCodeValidationEditText.get(1).requestFocus();
                     return charSeq.toString();
                 });
         getCompleteVerificationCode(obs1, obs2, obs3, obs4, obs5, obs6);

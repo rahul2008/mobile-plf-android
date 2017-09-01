@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="Email needs to be verified"
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="Please click on the link in the email we've sent you."
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="The email may not arrive immediately but it is on its way."
-                android:textColor="@color/uid_gray_level_90"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
             <com.philips.platform.uid.view.widget.Button
