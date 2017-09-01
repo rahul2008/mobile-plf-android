@@ -25,6 +25,7 @@ public class OverlayDialogFragment extends DialogFragment {
     int drawableId = 0;
     private static final String DESCRIPTION_TEXT =  "descriptionText";
     private static final String DRAWABLE_ID=  "drawableId";
+    private final int OVERLAY_ALPHA_VALUE = 110;
 
     public static OverlayDialogFragment newInstance(String stringRes, int drawableResId) {
         OverlayDialogFragment overlayDialogFragment = new OverlayDialogFragment();
@@ -55,7 +56,7 @@ public class OverlayDialogFragment extends DialogFragment {
         windowManager.getDefaultDisplay().getSize(size);
         dialog.getWindow().setLayout(size.x, size.y);
         ColorDrawable colorDrawable =new ColorDrawable(getResources().getColor(R.color.overlay_background));
-        colorDrawable.setAlpha(110);
+        colorDrawable.setAlpha(OVERLAY_ALPHA_VALUE);
         dialog.getWindow().setBackgroundDrawable(colorDrawable);
         try {
             dialog.findViewById(R.id.imageHelp).setBackgroundResource(drawableId);
