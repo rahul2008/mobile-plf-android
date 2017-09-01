@@ -154,15 +154,6 @@
             ]
           },
           {
-            "eventId": "data_sync",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "data_sync"
-              }
-            ]
-          },
-          {
             "eventId": "connectivity",
             "nextStates": [
               {
@@ -195,15 +186,6 @@
               {
                 "condition": [],
                 "nextState": "debug"
-              }
-            ]
-          },
-          {
-            "eventId": "device_pairing",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "device_pairing"
               }
             ]
           }
@@ -336,11 +318,20 @@
             ]
           },
           {
-            "eventId": "TestAppInfraEvent",
+            "eventId": "AppInfra",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "demoAppInfra"
+                "nextState": "AppInfra"
+              }
+            ]
+          },
+          {
+            "eventId": "DLS",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "DLS"
               }
             ]
           },
@@ -395,6 +386,15 @@
               {
                 "condition": [],
                 "nextState": "demoBlueLib"
+              }
+            ]
+          },
+          {
+            "eventId": "device_pairing",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "device_pairing"
               }
             ]
           }

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import com.google.android.gms.iid.InstanceID;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
@@ -39,9 +40,11 @@ import org.robolectric.android.controller.ServiceController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * @author Ritesh.jha@philips.com
@@ -49,9 +52,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
  * Test cases for PushNotificationManager.java
  */
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(CustomRobolectricRunner.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
-@Config(constants = BuildConfig.class)
 @PrepareForTest({PreferenceManager.class, TextUtils.class})
 public class PushNotificationManagerTest {
     private static final String TAG = "PushNotificationTest";
@@ -128,6 +130,7 @@ public class PushNotificationManagerTest {
         PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
         PowerMockito.when(textUtils.isEmpty("")).thenReturn(true);
         PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+
         pushNotificationManager.startPushNotificationRegistration(context);
 
         ServiceController<TestService> controller;

@@ -1,37 +1,53 @@
 {
   "chapters": [
     {
-      "chapterName": "Mobile Frontend",
+      "chapterName": "Chapter Mobile",
       "commonComponents": [
         {
-          "coconame": "User Registration(Standard)"
+          "coconame": "Test User Registration Demo"
         },
         {
-          "coconame": "Product Registration"
+          "coconame": "Test Product Registration Demo"
         },
         {
-          "coconame": "In App Purchase"
+          "coconame": "Test In App Purchase Demo"
         },
         {
-          "coconame": "Consumer Care"
+          "coconame": "Test Consumer Care Demo"
         },
+        {
+          "coconame": "Test App Infra Demo"
+        },
+        {
+          "coconame": "Test DLS Demo"
+        },
+        {
+          "coconame": "Test uApp Demo"
+        }/*,
         {
           "coconame": "Data Services"
-        },
-        {
-          "coconame": "Micro App Framework"
-        }
-
+        }*/
       ]
     },
     {
-      "chapterName":"Connectivity",
+      "chapterName":"Chapter OneBackend",
       "commonComponents":[
-        /*{
-          "coconame":"Blue Lib"
-        },*/
         {
-          "coconame":"Comm Lib"
+          "coconame":"Test Device Pairing Demo"
+        },
+        {
+          "coconame": "Test Data Services Demo"
+        }
+      ]
+    },
+    {
+      "chapterName":"Chapter Connectivity",
+      "commonComponents":[
+        {
+          "coconame":"Test ConArtist Demo"
+        },
+        {
+          "coconame":"Test ShineLib Demo"
         }
       ]
     }

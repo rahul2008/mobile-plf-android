@@ -6,9 +6,12 @@
 package com.philips.platform.baseapp.condition;
 
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+
 import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
