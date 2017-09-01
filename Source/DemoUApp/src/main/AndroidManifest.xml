@@ -5,7 +5,7 @@
     <application
         android:supportsRtl="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
-        tools:replace="android:label,android:supportsRtl,android:allowBackup,android:theme">
+        tools:replace="android:supportsRtl,android:theme">
         <activity
             android:name="com.philips.platform.devicepair.ui.DevicePairingLaunchActivity"
             android:screenOrientation="portrait"

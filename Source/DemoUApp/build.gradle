@@ -167,7 +167,7 @@ dependencies {
 		transitive true 
     }
 	
-	def dscModule = module(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dsc') : dscModule) 	
 	{
         exclude group: 'com.android.support'
