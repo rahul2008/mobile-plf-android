@@ -22,7 +22,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
     }
@@ -58,7 +58,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-def libVersionNumber = new File('../../VERSION_HSDP').text.trim()
+def libVersionNumber = new File("${projectDir}/../../../VERSION_HSDP").text.trim()
 if(objcdp.getWorkingBranch().startsWith('master')) {
     libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
 } else if(objcdp.getWorkingBranch().startsWith('release')) {
@@ -123,7 +123,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25
-        versionName "1.0.5"
+        versionName version
         testApplicationId "com.philips.dhpclient.test"
 
         multiDexEnabled true

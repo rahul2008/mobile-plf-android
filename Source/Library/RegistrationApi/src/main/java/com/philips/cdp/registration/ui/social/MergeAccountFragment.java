@@ -227,7 +227,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
 
     @Override
-    public void mergeFailuer(String reason) {
+    public void mergeFailure(String reason) {
         hideMergeSpinner();
         mEtPassword.setErrorMessage(reason);
         mEtPassword.showError();
