@@ -161,7 +161,7 @@ public class GroomHelper {
                 Object propertiesForKey = getAilGroomProperties(serviceId);
                 if (propertiesForKey instanceof JSONArray) {
                     JSONArray jsonArray = (JSONArray) propertiesForKey;
-                    JSONObject jsonObject = null;
+                    JSONObject jsonObject;
                     try {
                         jsonObject = (JSONObject) jsonArray.get(index);
                     } catch (JSONException e) {
