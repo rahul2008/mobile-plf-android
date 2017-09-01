@@ -142,10 +142,10 @@ public class ProgressBarButton extends LinearLayout {
         int progress = typedArray.getInt(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgress, 0);
         setProgress(progress);
 
-        String buttonText = typedArray.getString(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonText);
+        CharSequence buttonText = typedArray.getText(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonText);
         setText(buttonText);
 
-        String progressText = typedArray.getString(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressText);
+        CharSequence progressText = typedArray.getText(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressText);
         setProgressText(progressText);
     }
 
@@ -244,7 +244,7 @@ public class ProgressBarButton extends LinearLayout {
      *
      * @param text that will shown on the button
      */
-    public void setProgressText(String text) {
+    public void setProgressText(CharSequence text) {
         progressTextView.setText(text);
         setVisibilityOfProgressButtonElements(isProgressDisplaying);
     }
@@ -281,7 +281,7 @@ public class ProgressBarButton extends LinearLayout {
      *
      * @param text that will be shown on the button
      */
-    public void setText(String text) {
+    public void setText(CharSequence text) {
         if (!TextUtils.isEmpty(text)) {
             button.setText(text);
         }

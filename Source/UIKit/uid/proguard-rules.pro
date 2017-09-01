@@ -15,4 +15,4 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-#-keep class com.philips.platform.uid.view.widget.** { *; }
+-keep class com.philips.platform.uid.view.widget.** { *; }
