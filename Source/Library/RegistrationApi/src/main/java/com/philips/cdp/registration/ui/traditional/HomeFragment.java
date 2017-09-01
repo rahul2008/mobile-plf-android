@@ -87,8 +87,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @BindView(R2.id.usr_startScreen_valueAdd_label)
     TextView mTvWelcomeDesc;
 
-    TextView mTvWelcomeNeedAccount;
-
     @BindView(R2.id.usr_startScreen_Social_Container)
     LinearLayout mLlSocialProviderBtnContainer;
 
@@ -98,8 +96,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     User mUser;
     String mProvider;
 
-    @BindView(R2.id.usr_startScreen_progressBar)
-    ProgressBar mPbJanrainInit;
+
     Context mContext;
     ScrollView mSvRootLayout;
     ProgressDialog mProgressDialog;
@@ -329,8 +326,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnMyPhilips.setOnClickListener(this);
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
 
-        mPbJanrainInit.setClickable(false);
-        mPbJanrainInit.setEnabled(false);
 
         mUser = new User(mContext);
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);

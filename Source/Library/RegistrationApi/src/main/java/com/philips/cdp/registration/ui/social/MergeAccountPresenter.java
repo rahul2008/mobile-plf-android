@@ -50,7 +50,7 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
             mergeAccountContract.mergePasswordFailuer();
             return;
         }
-        mergeAccountContract.mergeFailuer(userRegistrationFailureInfo.getErrorDescription());
+        mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription());
     }
 
 

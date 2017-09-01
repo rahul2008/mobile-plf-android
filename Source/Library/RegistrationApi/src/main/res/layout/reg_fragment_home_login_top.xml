@@ -176,20 +176,16 @@
             android:text="Country: United States"/>
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/ll_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/reg_social_to_social_ui_blocker_bg"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:gravity="center"
         android:visibility="invisible">
 
-        <ProgressBar
-            android:id="@+id/usr_startScreen_progressBar"
-            android:layout_width="@dimen/reg_btn_height"
-            android:layout_height="@dimen/reg_btn_height"
-            android:layout_gravity="center"/>
+        <com.philips.platform.uid.view.widget.ProgressBar
+            style="@style/UIDProgressBarCircularIndeterminateMiddle"
+            />
     </LinearLayout>
-
 </RelativeLayout>
