@@ -80,7 +80,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             url = new URL(indexData);
             assertEquals(groomHelper.getGroomIndex(url.toString()), "0");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.e("error "," while fetching url");
         }
 
         indexData = "https://www.philips.com/22";
@@ -104,7 +104,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         try {
             groomHelper.init(mAppInfraMock, inputStream);
         } catch (AIKMJsonFileNotFoundException e) {
-            e.printStackTrace();
+            Log.e("error "," aibag.json file not found");
             assertEquals(e.getMessage(), "AIKeyBag.json file not found in assets folder");
         }
     }
@@ -190,7 +190,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             assertTrue(aikmService.getMap() != null);
             assertEquals(aikmService.getMap().get("clientId"), "test");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("error "," in json structure");
         }
     }
 
