@@ -99,5 +99,5 @@ public interface AppInfraInterface {
      */
     AppUpdateInterface getAppUpdate();
 
-    AIKMInterface getAikmInterface();
+    AIKMInterface getAiKmInterface();
 }

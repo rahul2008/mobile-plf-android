@@ -226,6 +226,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         return BuildConfig.VERSION_NAME;
     }
 
+    @Override
     public AIKMInterface getAiKmInterface() {
         return aikmInterface;
     }
