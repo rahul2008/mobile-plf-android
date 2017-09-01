@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -47,13 +46,13 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppoi
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"appoint response");
         mThsScheduledVisitsFragment.updateList(appointments);
-        mThsScheduledVisitsFragment.hideProgressBar();
+        setProgressBarVisibility(false);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
         AmwellLog.i(AmwellLog.LOG,"appoint throwable");
-        mThsScheduledVisitsFragment.hideProgressBar();
+        setProgressBarVisibility(false);
     }
 
     @Override
@@ -63,6 +62,13 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppoi
 
     @Override
     public void onInitializationFailure(Throwable var1) {
-        mThsScheduledVisitsFragment.hideProgressBar();
+        setProgressBarVisibility(false);
+    }
+
+    public void setProgressBarVisibility(boolean isVisible){
+
+        if(!isVisible){
+            mThsScheduledVisitsFragment.hideProgressBar();
+        }
     }
 }
