@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
     }
 }
 
@@ -37,7 +37,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "UserRegistrationApp"
 
 allprojects {
     repositories {
@@ -61,7 +61,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -177,7 +177,7 @@ android {
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName objcdp.getVersionWithHash()
+            versionName version +  "(" + objcdp.getCommitHash() + ")"
         }
     }
 }
@@ -198,7 +198,7 @@ if (propFile.canRead()){
         android.buildTypes.release.signingConfig = null
     }
 }else {
-    println 'signing.properties not found'
+    println 'usr signing.properties not found'
     android.buildTypes.release.signingConfig = null
 }
 repositories { flatDir { dirs 'libs' } }
