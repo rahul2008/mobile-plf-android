@@ -2,27 +2,29 @@ BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
 
-Version {next}
+Version 3.1.0
 -------------
 
 ### Functionality Delivered
-* \#37438: component now exposes its version and tla via BuildConfig
+* Component now exposes its version and tla via BuildConfig
 
 ### Backwards Compatibility
 * NA
 
 ### Features not covered
-* To be filled in at release
-
-### Breaking Changes
-See backwards compatibility
+* NA
 
 ### Defects solved
 * \#56444 Fix firmware upgrade maxchunksize.
 * \#52917 Fixed ConcurrentModificationException in logger
 
 ### Residual anomalies
-* To be filled in at release
+* Bug 18932: Android] After Unpairing Moonshine and Pairing it back to same User is failing.
+* Bug 18942:[Android] Engineering Issue: DiCommChannel is not resilient against leading garbage
+* Bug 18963:[Android] Thermometer stays in searching status itself if turn off bluetooth while pairing and even if turn ON bluetooth pairing never continues
+* Bug 18940:[Android] Engineering Issue: NPE when calling readRssi()
+* Bug 18941:[Android] Engineering Issue: NullPointerException in BlueLib ExampleApp
+* Bug 14440:Bug 49686:[Android] Exception logged - "exceeded expected execution time of 50 ms"
 
 ### Risks and mitigations
 * NA
@@ -79,10 +81,10 @@ Version 2.3.2
 Version 2.0.3
 -------------
 ### New features
-* The dafault implementation of SHNDevice interface does not ignore connect calls: 
+* The dafault implementation of SHNDevice interface does not ignore connect calls:
 	- In state Connected onStateUpdated callback will be issued.
 	- In state Connecting no callback.
-	- In state Disconnecting onFailedToConnect callback will be issued. 
+	- In state Disconnecting onFailedToConnect callback will be issued.
 	- In state Disconnected onStateUpdated callback will be issued.
 
 ### Known issues
@@ -169,7 +171,7 @@ Version 0.7.1
 Version 0.7.0
 -------------
 ### New features
-* [BG-150] Added new SHNDataType: ExtendedWeight 
+* [BG-150] Added new SHNDataType: ExtendedWeight
 
 ### Known issues
 * [BL-234] Google backup might restore previously associated devices
@@ -182,4 +184,3 @@ Version 0.6.0
 
 ### Known issues
 * [BL-234] Google backup might restore previously associated devices
-
