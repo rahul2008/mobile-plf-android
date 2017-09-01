@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -46,6 +47,7 @@ public class URDemoApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+        UIDHelper.injectCalligraphyFonts();
     }
 
     @Override
