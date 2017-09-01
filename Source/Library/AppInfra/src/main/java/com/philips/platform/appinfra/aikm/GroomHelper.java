@@ -161,8 +161,13 @@ public class GroomHelper {
                 Object propertiesForKey = getAilGroomProperties(serviceId);
                 if (propertiesForKey instanceof JSONArray) {
                     JSONArray jsonArray = (JSONArray) propertiesForKey;
-
-                    JSONObject jsonObject = (JSONObject) jsonArray.get(index);
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = (JSONObject) jsonArray.get(index);
+                    } catch (JSONException e) {
+                        aikmService.setMapError(AIKMService.MapError.BEYOND_BOUND_ERROR);
+                        return;
+                    }
                     Map map = mapData(jsonObject, index, serviceId);
                     aikmService.setMap(map);
 
@@ -171,9 +176,9 @@ public class GroomHelper {
                 }
             } catch (Exception e) {
                 if (e instanceof JSONException)
-                    aikmService.setMapError(AIKMService.MapError.BEYOND_BOUND_ERROR);
+                    aikmService.setMapError(AIKMService.MapError.INVALID_JSON);
                 else
-                    aikmService.setMapError(AIKMService.MapError.DECODE_ERROR);
+                    aikmService.setMapError(AIKMService.MapError.CONVERT_ERROR);
             }
         } else {
             aikmService.setMapError(AIKMService.MapError.NO_SERVICE_FOUND);
