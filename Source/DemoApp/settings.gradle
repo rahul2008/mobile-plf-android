@@ -1,4 +1,4 @@
-include ':app', ':PhilipsDevTools'
+include ':app'
 include ':AppInfra'
 project(':AppInfra').projectDir =new File('../Library/AppInfra')
 include ':DemoUApp'
