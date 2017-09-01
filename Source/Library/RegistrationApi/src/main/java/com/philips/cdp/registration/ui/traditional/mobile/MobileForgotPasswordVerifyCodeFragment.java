@@ -290,7 +290,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     public void onRefreshUserSuccess() {
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
         hideSpinner();
-        getRegistrationFragment().addFragment(new WelcomeFragment());
+        getRegistrationFragment().userRegistrationComplete();
     }
 
     @Override

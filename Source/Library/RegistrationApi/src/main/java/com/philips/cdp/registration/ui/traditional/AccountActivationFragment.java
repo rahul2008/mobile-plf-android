@@ -188,11 +188,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mBtnActivate.showProgressIndicator();
     }
 
-    private void launchWelcomeFragment() {
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
-        trackPage(AppTaggingPages.WELCOME);
-    }
-
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, usr_activation_root_layout, width);
@@ -243,8 +238,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mEMailVerifiedError.hideError();
             trackActionStatus(AppTagingConstants.SEND_DATA,
                     AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
-            launchWelcomeFragment();
-
+            getRegistrationFragment().userRegistrationComplete();
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(AppTagingConstants.EMAIL_VERIFICATION);

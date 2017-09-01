@@ -33,7 +33,7 @@ public class AddSecureEmailPresenter implements NetworkStateListener {
     }
 
     public void maybeLaterClicked() {
-        addSecureEmailContract.showWelcomeScreen();
+        addSecureEmailContract.registrationComplete();
     }
 
     public void addEmailClicked(String emailId) {

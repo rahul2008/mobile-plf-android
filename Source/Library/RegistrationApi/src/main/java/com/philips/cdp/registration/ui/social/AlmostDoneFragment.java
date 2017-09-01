@@ -363,7 +363,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void handleAcceptTermsTrue() {
         almostDonePresenter.storeEmailOrMobileInPreference();
         trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-        launchWelcomeFragment();
+        completeRegistration();
     }
 
     @Override
@@ -447,7 +447,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                 if (almostDonePresenter.isEmailVerificationStatus()) {
-                    launchWelcomeFragment();
+                    completeRegistration();
                 } else {
                     launchAccountActivateFragment();
                 }
@@ -459,7 +459,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             case FLOW_C:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                 if (almostDonePresenter.isEmailVerificationStatus()) {
-                    launchWelcomeFragment();
+                    completeRegistration();
                 } else {
                     launchAccountActivateFragment();
                 }
@@ -490,12 +490,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }
     }
 
-    public void launchWelcomeFragment() {
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
-        trackPage(AppTaggingPages.WELCOME);
+    @Override
+    public void completeRegistration() {
+        getRegistrationFragment().userRegistrationComplete();
     }
-
-
 
     @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -515,7 +513,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         errorMessage.hideError();
         almostDonePresenter.updateUser(marketingOptCheck.isChecked());
     }
-
 
 
     @Override

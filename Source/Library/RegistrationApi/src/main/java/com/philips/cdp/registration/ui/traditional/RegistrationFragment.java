@@ -8,33 +8,36 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.support.v4.app.*;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.*;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
+import android.view.View.*;
+import android.view.inputmethod.*;
 
-import com.janrain.android.Jump;
+import com.janrain.android.*;
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.listener.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.social.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.*;
 
-import org.json.JSONObject;
+import org.json.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 
 public class RegistrationFragment extends Fragment implements NetworkStateListener,
-        OnClickListener, BackEventListener, CounterListener{
+        OnClickListener, BackEventListener, CounterListener {
 
     @Inject
     NetworkUtility networkUtility;
@@ -48,8 +51,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
     RegistrationContentConfiguration registrationContentConfiguration;
-    Intent msgIntent ;
-    private static long RESEND_DISABLED_DURATION=60*1000;
+    Intent msgIntent;
+    private static long RESEND_DISABLED_DURATION = 60 * 1000;
     private static final long INTERVAL = 1 * 1000;
     static public MyCountDownTimer myCountDownTimer;
 
@@ -186,16 +189,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 return true;
             }
             Fragment fragment = mFragmentManager.getFragments().get(count);
-            if (fragment instanceof WelcomeFragment) {
-                navigateToHome();
-                trackPage(AppTaggingPages.HOME);
-            } else {
-                if (fragment instanceof AlmostDoneFragment) {
-                    ((AlmostDoneFragment) (fragment)).clearUserData();
-                }
-                trackHandler();
-                mFragmentManager.popBackStack();
+            if (fragment instanceof AlmostDoneFragment) {
+                ((AlmostDoneFragment) (fragment)).clearUserData();
             }
+            trackHandler();
+            mFragmentManager.popBackStack();
             if (fragment instanceof AccountActivationFragment) {
                 RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
             }
@@ -235,9 +233,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         } else if (fragment instanceof AccountActivationFragment) {
             return AppTaggingPages.ACCOUNT_ACTIVATION;
 
-        } else if (fragment instanceof WelcomeFragment) {
-            return AppTaggingPages.WELCOME;
-
         } else if (fragment instanceof AlmostDoneFragment) {
             return AppTaggingPages.ALMOST_DONE;
 
@@ -256,10 +251,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                     "RegistrationFragment :FragmentTransaction Exception occured in loadFirstFragment  :"
                             + e.getMessage());
         }
-    }
-
-    public Fragment getWelcomeFragment() {
-        return mFragmentManager.findFragmentByTag(AppTaggingPages.WELCOME);
     }
 
     private void handleUserLoginStateFragments() {
@@ -297,17 +288,22 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             replaceWithHomeFragment();
         } else {
             if (isUserSignIn && isEmailVerified) {
-                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                replaceWithWelcomeFragment();
+                userRegistrationComplete();
                 return;
             }
             if (isUserSignIn && !isEmailVerificationRequired) {
-                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                replaceWithWelcomeFragment();
+                userRegistrationComplete();
                 return;
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
+        }
+    }
+
+    public void userRegistrationComplete() {
+        if (getUserRegistrationUIEventListener() != null) {
+            getUserRegistrationUIEventListener().
+                    onUserRegistrationComplete(getParentActivity());
         }
     }
 
@@ -350,19 +346,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
-    public void replaceWelcomeFragmentOnLogin(Fragment fragment) {
-        navigateToHome();
-        try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, AppTaggingPages.WELCOME);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-        hideKeyBoard();
-    }
+
 
     public void navigateToHome() {
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -376,11 +360,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
-    public void addWelcomeFragmentOnVerification() {
-        navigateToHome();
-        WelcomeFragment welcomeFragment = new WelcomeFragment();
-        replaceFragment(welcomeFragment, AppTaggingPages.WELCOME);
-    }
 
     public void replaceFragment(Fragment fragment, String fragmentTag) {
         try {
@@ -395,19 +374,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
-    private void replaceWithWelcomeFragment() {
-        try {
-            WelcomeFragment welcomeFragment = new WelcomeFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment,
-                    AppTaggingPages.WELCOME);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
 
     private void replaceWithLogoutFragment() {
         try {
@@ -531,7 +497,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
                 !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
-           RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
+            RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
                     .initializeUserRegistration(mActivity
                             .getApplicationContext());
@@ -589,7 +555,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
 
-
     private void setCounterState(boolean isCounting) {
         this.isCounterRunning = isCounting;
     }
@@ -609,7 +574,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         myCountDownTimer.start();
     }
 
-    public void stopCountDownTimer(){
+    public void stopCountDownTimer() {
         myCountDownTimer.onFinish();
         myCountDownTimer.cancel();
     }
@@ -630,14 +595,16 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
         @Override
         public void onTick(long timeLeft) {
-            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_TICK,timeLeft);
+            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_TICK, timeLeft);
         }
 
         @Override
         public void onFinish() {
-            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_FINISH,0);
+            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_FINISH, 0);
             setCounterState(false);
         }
-    };
+    }
+
+    ;
 
 }

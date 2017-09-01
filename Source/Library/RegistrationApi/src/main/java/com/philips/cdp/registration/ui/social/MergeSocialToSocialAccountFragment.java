@@ -301,7 +301,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         return R.string.reg_SigIn_TitleTxt;
     }
 
-    private void launchWelcomeFragment() {
+    private void completeRegistration() {
         String emailorMobile;
         if (FieldsValidator.isValidEmail(mUser.getEmail())) {
             emailorMobile = mUser.getEmail();
@@ -314,8 +314,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             return;
         }
 
-        trackPage(AppTaggingPages.WELCOME);
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
+        getRegistrationFragment().userRegistrationComplete();
     }
 
     private void launchAlmostDoneForTermsAcceptanceFragment() {
@@ -337,7 +336,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         hideMergeSpinner();
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
-        launchWelcomeFragment();
+        completeRegistration();
 
 
     }
@@ -381,7 +380,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     public void onContinueSocialProviderLoginSuccess() {
         RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginSuccess");
         hideMergeSpinner();
-        launchWelcomeFragment();
+        completeRegistration();
     }
 
     @Override

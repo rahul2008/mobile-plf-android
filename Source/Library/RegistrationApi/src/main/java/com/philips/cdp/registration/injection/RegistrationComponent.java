@@ -76,8 +76,6 @@ public interface RegistrationComponent {
 
     void inject(SignInAccountFragment signInAccountFragment);
 
-    void inject(WelcomeFragment welcomeFragment);
-
     void inject(HSDPConfiguration hsdpConfiguration);
 
     void inject(RegistrationConfiguration registrationConfiguration);

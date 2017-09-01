@@ -335,7 +335,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
                 almostDoneContract.showTermsAndConditionError();
             }
         } else {
-            almostDoneContract.launchWelcomeFragment();
+            almostDoneContract.completeRegistration();
         }
     }
 

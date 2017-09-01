@@ -207,9 +207,9 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
                 launchMobileVerifyCodeFragment();
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            launchWelcomeFragment();
+            getRegistrationFragment().userRegistrationComplete();
         } else {
-            launchWelcomeFragment();
+            getRegistrationFragment().userRegistrationComplete();
         }
         if (mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0) {
             mTrackCreateAccountTime = (System.currentTimeMillis() - RegUtility.
@@ -229,11 +229,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private void launchMobileVerifyCodeFragment() {
         getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
         trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
-    }
-
-    private void launchWelcomeFragment() {
-        getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
-        trackPage(AppTaggingPages.WELCOME);
     }
 
     @Override

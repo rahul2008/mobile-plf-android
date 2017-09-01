@@ -146,7 +146,7 @@ public class AccountActivationFragmentTest extends RegistrationApiInstrumentatio
     public void testLaunchWelcomeFragment(){
         Method method = null;
         try {
-            method =AccountActivationFragment.class.getDeclaredMethod("launchWelcomeFragment");;
+            method =AccountActivationFragment.class.getDeclaredMethod("completeRegistration");;
             method.setAccessible(true);
             method.invoke(accountActivationFragment);
         } catch (NoSuchMethodException e) {

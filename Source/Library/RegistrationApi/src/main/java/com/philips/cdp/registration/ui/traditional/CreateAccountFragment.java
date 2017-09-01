@@ -433,9 +433,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
-    public void launchWelcomeFragment() {
-        getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
-        trackPage(AppTaggingPages.WELCOME);
+    public void completeRegistration() {
+        getRegistrationFragment().userRegistrationComplete();
     }
 
 

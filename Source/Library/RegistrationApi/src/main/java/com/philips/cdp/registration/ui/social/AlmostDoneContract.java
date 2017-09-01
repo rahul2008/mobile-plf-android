@@ -68,7 +68,7 @@ public interface AlmostDoneContract {
 
     void handleAcceptTermsTrue();
 
-    void launchWelcomeFragment();
+    void completeRegistration();
 
     void showTermsAndConditionError();
 

@@ -158,13 +158,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
         if (null != fragment) {
             if (fragment.getFragmentCount() > 1) {
-                if ((this instanceof WelcomeFragment)
-                        && null != fragment.getUpdateTitleListener()) {
-                    fragment.getUpdateTitleListener().updateActionBar(
-                            getTitleResourceId(), false);
-                  /*  fragment.getUpdateTitleListener().
-                            updateRegistrationTitleWithOutBack(getTitleResourceId());*/
-                } else if (this instanceof HomeFragment && null != fragment.
+                 if (this instanceof HomeFragment && null != fragment.
                         getUpdateTitleListener()) {
                     fragment.getUpdateTitleListener().updateActionBar(
                             getTitleResourceId(), false);
