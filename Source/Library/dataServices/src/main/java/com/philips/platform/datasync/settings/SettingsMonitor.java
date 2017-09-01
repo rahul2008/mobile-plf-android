@@ -13,10 +13,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SettingsMonitor extends EventMonitor {
 
     @Inject
@@ -45,7 +41,4 @@ public class SettingsMonitor extends EventMonitor {
     public void onEventAsync(SettingsBackendGetRequest event) {
         settingsDataFetcher.getSettings();
     }
-
-
-
 }
