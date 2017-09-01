@@ -1,2 +1,1 @@
-rootProject.setName 'prx'
 include ':app', ':prx'
