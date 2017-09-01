@@ -424,8 +424,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 && (!mEtSalutationBilling.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLStateBilling.getVisibility() == View.GONE || (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().equalsIgnoreCase("")))) {
 
-            //mBillingAddressFields = setAddressFields(mBillingAddressFields);
-            setAddressFields();
+            //mBillingAddressFields = setBillingAddressFields(mBillingAddressFields);
+            setBillingAddressFields();
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
             mParentFragment.mBtnContinue.setEnabled(true);
         } else {
@@ -433,7 +433,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         }
     }
 
-    protected AddressFields setAddressFields() {
+    protected AddressFields setBillingAddressFields() {
         if (billingAddressFields == null) billingAddressFields = new AddressFields();
         billingAddressFields.setFirstName(mEtFirstNameBilling.getText().toString());
         billingAddressFields.setLastName(mEtLastNameBilling.getText().toString());

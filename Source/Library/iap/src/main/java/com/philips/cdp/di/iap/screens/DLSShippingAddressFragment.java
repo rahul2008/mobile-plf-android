@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -17,11 +18,14 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
@@ -69,7 +73,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private ValidationEditText mEtTown;
     private ValidationEditText mEtPostalCode;
     private ValidationEditText mEtCountry;
-    private ValidationEditText mEtState;
+    public ValidationEditText mEtState;
     private ValidationEditText mEtEmail;
     private ValidationEditText mEtPhone1;
     private Validator mValidator;
@@ -442,10 +446,11 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
+            setAddressFields(shippingAddressFields);
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
             if (mParentFragment.checkBox.isChecked()) {
                 mParentFragment.mBtnContinue.setEnabled(true);
-                getArguments().putSerializable(IAPConstant.IAP_SHIPING_ADDRESS, setAddressFields());
+                mParentFragment.setShippingAddressFields(shippingAddressFields);
             } else {
                 mParentFragment.mBtnContinue.setEnabled(false);
             }
@@ -454,7 +459,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         }
     }
 
-    protected AddressFields setAddressFields() {
+    protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
         if (shippingAddressFields == null) shippingAddressFields = new AddressFields();
         shippingAddressFields.setFirstName(mEtFirstName.getText().toString());
         shippingAddressFields.setLastName(mEtLastName.getText().toString());
@@ -517,4 +522,46 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 //        }
     }
 
+    public void handleError(Message msg) {
+        IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+        if (null != iapNetworkError.getServerError()) {
+            for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
+                Error error = iapNetworkError.getServerError().getErrors().get(i);
+                showErrorFromServer(error);
+            }
+        }
+    }
+
+    private void showErrorFromServer(Error error) {
+
+        if (error != null) {
+            if (error.getSubject() != null) {
+                if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+                    mLlCountry.setValidator(inputValidatorCountry);
+                    mLlCountry.setErrorMessage(R.string.iap_country_error);
+                    mLlCountry.showError();
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
+                    mLlPostalCode.setValidator(inputValidatorPostalCode);
+                    mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
+                    mLlPostalCode.showError();
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
+                    mLlPhone1.setValidator(inputValidatorPhone);
+                    mLlPhone1.setErrorMessage(R.string.iap_phone_error);
+                    mLlPhone1.showError();
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
+                    mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
+                    mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
+                    mLlAddressLineOne.showError();
+                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+                    mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+                    mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
+                    mLlAddressLineTwo.showError();
+                }
+                NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                        getString(R.string.iap_ok), getString(R.string.iap_server_error),
+                        error.getMessage());
+                mParentFragment.mBtnContinue.setEnabled(false);
+            }
+        }
+    }
 }
