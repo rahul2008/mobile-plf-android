@@ -148,4 +148,21 @@ public class AddressFields implements Serializable, Cloneable {
         newFields.regionName = regionName;
         return newFields;
     }
+
+    @Override
+    public String toString() {
+        return "titleCode " + titleCode
+                + "first name = " + firstName
+                + "lastName = " + lastName
+                + "countryIsocode = " + countryIsocode
+                + "email = " + email
+                + "line1 = " + line1
+                + "line2 = " + line2
+                + "postalCode = " + postalCode
+                + "town = " + town
+                + "phone1 = " + phone1
+                + "phone2 = " + phone2
+                + "regionIsoCode = " + regionIsoCode
+                + "regionName = " + regionName;
+    }
 }

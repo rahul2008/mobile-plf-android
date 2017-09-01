@@ -38,6 +38,7 @@ public class CartModelContainer {
     private String country;
 
     private AppInfraInterface appInfraInstance;
+    private boolean addessStateVisible;
 
     private CartModelContainer() {
         mPRXSummaryObjects = new HashMap<>();
@@ -198,9 +199,18 @@ public class CartModelContainer {
     public void setAppInfraInstance(AppInfraInterface appInfraInstance) {
         this.appInfraInstance = appInfraInstance;
     }
+
     public void resetApplicationFields() {
         mBillingAddress = null;
         mShippingAddressFields = null;
         mOrderNumber = null;
+    }
+
+    public void setAddessStateVisible(boolean addessStateVisible) {
+        this.addessStateVisible = addessStateVisible;
+    }
+
+    public boolean isAddessStateVisible() {
+        return addessStateVisible;
     }
 }

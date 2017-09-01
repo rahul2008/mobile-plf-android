@@ -2,9 +2,9 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +13,20 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.CheckBox;
 
-public class DLSAddressFragment extends InAppBaseFragment implements View.OnClickListener {
+import java.util.HashMap;
+import java.util.Locale;
+
+public class DLSAddressFragment extends InAppBaseFragment implements View.OnClickListener, AddressController.AddressListener {
 
     public static final String TAG = DLSAddressFragment.class.getSimpleName();
     private Context mContext;
@@ -26,12 +35,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     protected CheckBox checkBox;
     protected Button mBtnContinue;
     protected Button mBtnCancel;
+    private AddressController mAddressController;
+    private PaymentController mPaymentController;
+    private HashMap<String, String> mShippingAddressHashMap;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +60,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
+
+        mAddressController = new AddressController(mContext, this);
+        // mPaymentController = new PaymentController(mContext, this);
+
         checkBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
         setFragmentVisibility(billingFragment, false);
 
@@ -109,7 +120,99 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         Utility.hideKeypad(mContext);
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
+            //Edit and save address
+            if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
+                if (!isProgressDialogShowing()) {
+                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                    final AddressFields shippingAddress = (AddressFields) getArguments().getSerializable(IAPConstant.IAP_SHIPING_ADDRESS);
+                    HashMap<String, String> addressHashMap = addressPayload(shippingAddress);
 
+                    mAddressController.updateAddress(addressHashMap);
+                }
+            } else {//Add new address
+//                if (!isProgressDialogShowing()) {
+//                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
+//                    if (mlLState.getVisibility() == View.GONE)
+//                        mShippingAddressFields.setRegionIsoCode(null);
+//                    if (CartModelContainer.getInstance().getAddressId() != null) {
+//                        HashMap<String, String> updateAddressPayload = addressPayload();
+//                        if (mlLState.getVisibility() == View.VISIBLE && CartModelContainer.getInstance().getRegionIsoCode() != null)
+//                            updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
+//                        updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+//                        mAddressController.updateAddress(updateAddressPayload);
+//                    } else {
+//                        mAddressController.createAddress(mShippingAddressFields);
+//                    }
+//                }
+            }
+        } else if (v == mBtnCancel) {
+            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+            if (fragment != null) {
+                moveToVerticalAppByClearingStack();
+            } else {
+                getFragmentManager().popBackStackImmediate();
+            }
         }
+    }
+
+    private HashMap<String, String> addressPayload(AddressFields pAddressFields) {
+        mShippingAddressHashMap.put(ModelConstants.FIRST_NAME, pAddressFields.getFirstName());
+        mShippingAddressHashMap.put(ModelConstants.LAST_NAME, pAddressFields.getLastName());
+        mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
+        mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
+        mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
+        mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
+        mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
+        mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());
+//        if (mAddressFieldsHashmap != null)
+//            mShippingAddressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
+        final String addressId = CartModelContainer.getInstance().getAddressId();
+        if (addressId != null) {
+            mShippingAddressHashMap.put(ModelConstants.ADDRESS_ID, addressId);
+        }
+        mShippingAddressHashMap.put(ModelConstants.PHONE_1, pAddressFields.getPhone1().replaceAll(" ", ""));
+        mShippingAddressHashMap.put(ModelConstants.PHONE_2, pAddressFields.getPhone1().replaceAll(" ", ""));
+        mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
+        if (!CartModelContainer.getInstance().isAddessStateVisible()) {
+            mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, null);
+        }
+
+        return mShippingAddressHashMap;
+    }
+
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+
     }
 }

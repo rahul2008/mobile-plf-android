@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -11,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -19,9 +17,8 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.AddressController;
-import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -31,15 +28,12 @@ import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
+import java.util.HashMap;
+
 import static com.philips.cdp.di.iap.utils.Utility.getValidator;
 
-/**
- * Created by philips on 8/31/17.
- */
-
 public class DLSShippingAddressFragment extends InAppBaseFragment
-        implements View.OnClickListener, AddressController.AddressListener,
-        PaymentController.PaymentListener,
+        implements View.OnClickListener,
         SalutationDropDown.SalutationListener,
         StateDropDown.StateListener, View.OnFocusChangeListener {
 
@@ -81,7 +75,8 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private Validator mValidator;
     private SalutationDropDown mSalutationDropDown;
     private StateDropDown mStateDropDown;
-    private AddressFields addressFields;
+
+    private AddressFields shippingAddressFields;
     private String mRegionIsoCode;
     private DLSAddressFragment mParentFragment;
 
@@ -95,7 +90,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private void initializeViews(View rootView) {
 
         mParentFragment = (DLSAddressFragment) DLSShippingAddressFragment.this.getParentFragment();
-
+        shippingAddressFields = new AddressFields();
 
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
@@ -171,23 +166,12 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtSalutation.setKeyListener(null);
         mEtState.setKeyListener(null);
 
-
-/*
-        mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
-        mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
-
-        mBtnContinue.setOnClickListener(this);
-        mBtnCancel.setOnClickListener(this);*/
-
-
         mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
         mEtEmail.setEnabled(false);
-
 
         mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
         mEtCountry.setEnabled(false);
         showUSRegions();
-
 
         mValidator = new Validator();
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
@@ -227,7 +211,10 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             }
         });
 
-
+        Bundle bundle = getArguments();
+        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+            updateFields();
+        }
     }
 
     @Override
@@ -261,7 +248,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     public void stateRegionCode(String regionCode) {
 
         mRegionIsoCode = regionCode;
-        addressFields.setRegionIsoCode(regionCode);
+        shippingAddressFields.setRegionIsoCode(regionCode);
        /* if (addressHashMap != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
         }*/
@@ -270,51 +257,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
       /*  if (!mUseThisAddressCheckBox.isChecked()) {
             CartModelContainer.getInstance().setRegionIsoCode(regionCode);
         }*/
-    }
-
-    @Override
-    public void onGetPaymentDetails(Message msg) {
-
-    }
-
-    @Override
-    public void onSetPaymentDetails(Message msg) {
-
-    }
-
-    @Override
-    public void onGetRegions(Message msg) {
-
-    }
-
-    @Override
-    public void onGetUser(Message msg) {
-
-    }
-
-    @Override
-    public void onCreateAddress(Message msg) {
-
-    }
-
-    @Override
-    public void onGetAddress(Message msg) {
-
-    }
-
-    @Override
-    public void onSetDeliveryAddress(Message msg) {
-
-    }
-
-    @Override
-    public void onGetDeliveryModes(Message msg) {
-
-    }
-
-    @Override
-    public void onSetDeliveryMode(Message msg) {
-
     }
 
 
@@ -392,8 +334,10 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private void showUSRegions() {
         if (mEtCountry.getText().toString().equals("US")) {
             mlLState.setVisibility(View.VISIBLE);
+            CartModelContainer.getInstance().setAddessStateVisible(true);
         } else {
             mlLState.setVisibility(View.GONE);
+            CartModelContainer.getInstance().setAddessStateVisible(false);
         }
     }
 
@@ -489,7 +433,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
 
-        addressFields = new AddressFields();
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
@@ -499,10 +442,10 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
 
-            setAddressFields();
-
+            IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
             if (mParentFragment.checkBox.isChecked()) {
                 mParentFragment.mBtnContinue.setEnabled(true);
+                getArguments().putSerializable(IAPConstant.IAP_SHIPING_ADDRESS, setAddressFields());
             } else {
                 mParentFragment.mBtnContinue.setEnabled(false);
             }
@@ -512,30 +455,66 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     }
 
     protected AddressFields setAddressFields() {
-        if (addressFields == null) addressFields = new AddressFields();
-        addressFields.setFirstName(mEtFirstName.getText().toString());
-        addressFields.setLastName(mEtLastName.getText().toString());
-        addressFields.setTitleCode(mEtSalutation.getText().toString());
-        addressFields.setCountryIsocode(mEtCountry.getText().toString());
-        addressFields.setLine1(mEtAddressLineOne.getText().toString());
-        addressFields.setLine2(mEtAddressLineTwo.getText().toString());
-        addressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
-        addressFields.setTown(mEtTown.getText().toString());
-        addressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
-        addressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));
-        addressFields.setEmail(mEtEmail.getText().toString());
+        if (shippingAddressFields == null) shippingAddressFields = new AddressFields();
+        shippingAddressFields.setFirstName(mEtFirstName.getText().toString());
+        shippingAddressFields.setLastName(mEtLastName.getText().toString());
+        shippingAddressFields.setTitleCode(mEtSalutation.getText().toString());
+        shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString());
+        shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString());
+        shippingAddressFields.setLine2(mEtAddressLineTwo.getText().toString());
+        shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setTown(mEtTown.getText().toString());
+        shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setEmail(mEtEmail.getText().toString());
 
 
         //  if (this instanceof BillingAddressFragment) {
         if (mlLState.getVisibility() == View.VISIBLE) {
-            addressFields.setRegionIsoCode(mRegionIsoCode);
-            addressFields.setRegionName(mEtState.getText().toString());
+            shippingAddressFields.setRegionIsoCode(mRegionIsoCode);
+            shippingAddressFields.setRegionName(mEtState.getText().toString());
         } else {
-            addressFields.setRegionIsoCode(null);
-            addressFields.setRegionName(null);
+            shippingAddressFields.setRegionIsoCode(null);
+            shippingAddressFields.setRegionName(null);
         }
-        return addressFields;
+        return shippingAddressFields;
     }
 
+    private void updateFields() {
+
+        Bundle bundle = getArguments();
+        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        if (null == mAddressFieldsHashmap) {
+            return;
+        }
+        mParentFragment.mBtnContinue.setText(getString(R.string.iap_save));
+
+        mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
+        mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
+        mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
+        mEtAddressLineOne.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_1));
+        mEtAddressLineTwo.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_2));
+        mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
+        mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
+        mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
+        mEtPhone1.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_1));
+        mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
+
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
+            String stateCode = code.substring(code.length() - 2);
+            mEtState.setText(stateCode);
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
+
+//        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+//                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+//            addressHashMap.put(ModelConstants.REGION_ISOCODE,
+//                    mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
+//        }
+    }
 
 }
