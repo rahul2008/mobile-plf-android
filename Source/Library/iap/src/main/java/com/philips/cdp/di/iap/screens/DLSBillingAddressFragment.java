@@ -76,7 +76,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private StateDropDown mStateDropDownBilling;
     private Validator mValidator;
     private DLSAddressFragment mParentFragment;
-    private AddressFields billingAddressFields;
+     AddressFields billingAddressFields;
     private String mRegionIsoCode;
 
     @Override
@@ -201,6 +201,14 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 return false;
             }
         });
+
+        if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
+            billingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
+            CartModelContainer.getInstance().setSwitchToBillingAddress(false);
+            disableAllFields();
+            prePopulateShippingAddress();
+            mParentFragment.mBtnContinue.setEnabled(true);
+        }
 
     }
 
@@ -457,5 +465,125 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             billingAddressFields.setRegionName(null);
         }
         return billingAddressFields;
+    }
+
+    void clearAllFields() {
+        mIgnoreTextChangeListener = true;
+        mEtFirstNameBilling.setText("");
+        mEtLastNameBilling.setText("");
+        mEtSalutationBilling.setText("");
+        mEtAddressLineOneBilling.setText("");
+        mEtAddressLineTwoBilling.setText("");
+        mEtTownBilling.setText("");
+        mEtPostalCodeBilling.setText("");
+        mEtPhone1Billing.setText("");
+//        mEtPhone2.setText("");
+        mEtStateBilling.setText("");
+        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+            mlLStateBilling.setVisibility(View.VISIBLE);
+        } else {
+            mlLStateBilling.setVisibility(View.GONE);
+        }
+        mIgnoreTextChangeListener = false;
+        enableAllFields();
+        enableFocus();
+        //removeErrorInAllFields();
+    }
+
+    private void enableAllFields() {
+        setFieldsEnabled(true);
+    }
+
+    void disableAllFields() {
+        // removeErrorInAllFields();
+        setFieldsEnabled(false);
+        disableFocus();
+    }
+
+    private void enableFocus() {
+        setFieldsFocusable(true);
+    }
+
+    private void disableFocus() {
+        setFieldsFocusable(false);
+    }
+
+    private void setFieldsEnabled(boolean enable) {
+        mEtFirstNameBilling.setEnabled(enable);
+        mEtLastNameBilling.setEnabled(enable);
+        mEtSalutationBilling.setEnabled(enable);
+        mEtAddressLineOneBilling.setEnabled(enable);
+        mEtAddressLineTwoBilling.setEnabled(enable);
+        mEtTownBilling.setEnabled(enable);
+        mEtPostalCodeBilling.setEnabled(enable);
+        if (mlLStateBilling.getVisibility() == View.VISIBLE) {
+            mEtStateBilling.setEnabled(enable);
+        }
+        mEtPhone1Billing.setEnabled(enable);
+        //mEtPhone2.setEnabled(enable);
+    }
+
+    private void setFieldsFocusable(boolean focusable) {
+        mEtFirstNameBilling.setFocusable(focusable);
+        mEtLastNameBilling.setFocusable(focusable);
+        mEtSalutationBilling.setFocusable(focusable);
+        mEtAddressLineOneBilling.setFocusable(focusable);
+        mEtAddressLineTwoBilling.setFocusable(focusable);
+        mEtTownBilling.setFocusable(focusable);
+        mEtPostalCodeBilling.setFocusable(focusable);
+        if (mlLStateBilling.getVisibility() == View.VISIBLE) {
+            mEtStateBilling.setFocusable(focusable);
+        }
+        mEtPhone1Billing.setFocusable(focusable);
+        //  mEtPhone2.setFocusable(focusable);
+
+        if (focusable) {
+            mEtFirstNameBilling.setFocusableInTouchMode(true);
+            mEtLastNameBilling.setFocusableInTouchMode(true);
+            mEtSalutationBilling.setFocusableInTouchMode(true);
+            mEtAddressLineOneBilling.setFocusableInTouchMode(true);
+            mEtAddressLineTwoBilling.setFocusableInTouchMode(true);
+            mEtTownBilling.setFocusableInTouchMode(true);
+            mEtPostalCodeBilling.setFocusableInTouchMode(true);
+            if (mlLStateBilling.getVisibility() == View.VISIBLE) {
+                mEtStateBilling.setFocusableInTouchMode(true);
+            }
+            mEtPhone1Billing.setFocusableInTouchMode(true);
+            // mEtPhone2.setFocusableInTouchMode(true);
+        }
+
+        mEtCountryBilling.setFocusable(false);
+        mEtCountryBilling.setFocusableInTouchMode(false);
+        mEtEmailBilling.setFocusableInTouchMode(false);
+        mEtEmailBilling.setFocusable(false);
+        mEtEmailBilling.setEnabled(false);
+        mEtCountryBilling.setEnabled(false);
+    }
+
+    void prePopulateShippingAddress() {
+        mIgnoreTextChangeListener = true;
+
+        if (billingAddressFields != null) {
+            mEtFirstNameBilling.setText(billingAddressFields.getFirstName());
+            mEtLastNameBilling.setText(billingAddressFields.getLastName());
+            mEtSalutationBilling.setText(billingAddressFields.getTitleCode());
+            mEtAddressLineOneBilling.setText(billingAddressFields.getLine1());
+            mEtAddressLineTwoBilling.setText(billingAddressFields.getLine2());
+            mEtTownBilling.setText(billingAddressFields.getTown());
+            mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
+            mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+
+            if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
+                    billingAddressFields.getRegionName() != null) {
+                mEtStateBilling.setText(billingAddressFields.getRegionName());
+                mlLStateBilling.setVisibility(View.VISIBLE);
+            } else {
+                mlLStateBilling.setVisibility(View.GONE);
+            }
+            mIgnoreTextChangeListener = false;
+            mEtPhone1Billing.setText(billingAddressFields.getPhone1());
+            // mEtPhone2.setText(mBillingAddressFields.getPhone2());
+        }
     }
 }

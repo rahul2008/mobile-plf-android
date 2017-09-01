@@ -82,11 +82,16 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
                 if (isChecked) {
                     setFragmentVisibility(billingFragment, false);
+                    ((DLSBillingAddressFragment) shippingFragment).disableAllFields();
+                    ((DLSBillingAddressFragment) shippingFragment).prePopulateShippingAddress();
+                    mBtnContinue.setEnabled(true);
                 } else {
                     setFragmentVisibility(billingFragment, true);
+                    ((DLSBillingAddressFragment) shippingFragment).clearAllFields();
+                    mBtnContinue.setEnabled(true);
                 }
             }
         });
@@ -134,16 +139,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
-                if (!isProgressDialogShowing()) {
-                    showProgressDialog(mContext, getString(R.string.iap_please_wait));
-                    HashMap<String, String> addressHashMap = addressPayload(shippingAddressFields);
-                    mAddressController.updateAddress(addressHashMap);
-                }
+                saveShippingAddressToBackend();
             } else if (!isProgressDialogShowing()) { //Add new Address
 
                 showProgressDialog(mContext, getString(R.string.iap_please_wait));
                 if (!CartModelContainer.getInstance().isAddessStateVisible()) {
-
                     shippingAddressFields.setRegionIsoCode(null);
                 }
 
@@ -156,15 +156,34 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 } else {
                     mAddressController.createAddress(shippingAddressFields);
                 }
-            }
 
-        } else if (v == mBtnCancel) {
+
+            }
+        } else if (v == mBtnCancel)
+
+        {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
                 moveToVerticalAppByClearingStack();
             } else {
                 getFragmentManager().popBackStackImmediate();
             }
+        }
+
+    }
+
+    private void setBillingAddressAndOpenOrderSummary() {
+        // billingFragment = setAddressFields(billingFragment);
+        CartModelContainer.getInstance().setBillingAddress(((DLSBillingAddressFragment) billingFragment).billingAddressFields);
+        addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
+                OrderSummaryFragment.TAG);
+    }
+
+    private void saveShippingAddressToBackend() {
+        if (!isProgressDialogShowing()) {
+            showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            HashMap<String, String> addressHashMap = addressPayload(shippingAddressFields);
+            mAddressController.updateAddress(addressHashMap);
         }
     }
 
@@ -287,7 +306,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
-             CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
+            CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
