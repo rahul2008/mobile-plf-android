@@ -52,7 +52,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @BindView(R2.id.usr_mergeScreen_used_social_again_label)
     Label usr_mergeScreen_used_social_again_label;
 
-
     @BindView(R2.id.usr_mergeScreen_rootLayout_scrollView)
     ScrollView usr_mergeScreen_rootLayout_scrollView;
 
@@ -70,7 +69,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
@@ -83,7 +81,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(this);
         return view;
     }
-
 
     @Override
     public void onDestroy() {
@@ -238,7 +235,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     @Override
-    public void mergeFailuer(String errorDescription) {
+    public void mergeFailure(String errorDescription) {
         hideMergeSpinner();
         if (null != errorDescription) {
             mRegError.setError(errorDescription);

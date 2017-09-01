@@ -15,6 +15,7 @@ import javax.inject.*;
 public class MergeSocialToSocialAccountPresenter implements NetworkStateListener, SocialProviderLoginHandler {
 
     private MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract;
+
     @Inject
     User mUser;
 
@@ -43,7 +44,7 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
 
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        mergeSocialToSocialAccountContract.mergeFailuer(userRegistrationFailureInfo.getErrorDescription());
+        mergeSocialToSocialAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription());
     }
 
     @Override
