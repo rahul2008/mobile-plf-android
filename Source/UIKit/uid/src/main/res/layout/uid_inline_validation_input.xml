@@ -3,7 +3,6 @@
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:gravity="center_vertical"
               android:orientation="horizontal"
               android:visibility="gone">
 
@@ -18,6 +17,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@id/uid_inline_validation_text"
         style="@style/UIDLabelInlineValidation"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>

@@ -100,7 +100,7 @@ public final class ThemeUtils {
         String packageName = context.getPackageName();
         Resources.Theme activityTheme = context.getTheme();
 
-        int statusBarID = isLightStatusBar(tonalRange) ? R.style.UIDStatusBarLight:R.style.UIDStatusBarDark;
+        int statusBarID = isLightStatusBar(navigationRange) ? R.style.UIDStatusBarLight:R.style.UIDStatusBarDark;
         int navID = context.getResources().getIdentifier(navigationTheme, "style", packageName);
         int navTopID = context.getResources().getIdentifier(navigationTopColorTheme, "style", packageName);
         int accentID = context.getResources().getIdentifier(accentTheme, "style", packageName);

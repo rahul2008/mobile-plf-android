@@ -13,6 +13,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -78,7 +79,7 @@ public class InputValidationLayout extends LinearLayout {
     private ValidationEditText validationEditText;
     private boolean isShowingError;
     private int errorDrawableID;
-    private int errorMessageID;
+    private CharSequence errorMessage;
     private Validator validator;
     private OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
         @Override
@@ -117,7 +118,7 @@ public class InputValidationLayout extends LinearLayout {
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, new int[]{R.attr.uidTextBoxValidationErrorDrawable, R.attr.uidTextBoxValidationErrorText});
         errorDrawableID = typedArray.getResourceId(0, -1);
-        errorMessageID = typedArray.getResourceId(1, -1);
+        errorMessage = typedArray.getText(1);
         typedArray.recycle();
     }
 
@@ -229,8 +230,8 @@ public class InputValidationLayout extends LinearLayout {
         if (errorLayout == null) {
             errorLayout = (ViewGroup) View.inflate(getContext(), R.layout.uid_inline_validation_input, null);
             errorLabel = (Label) errorLayout.findViewById(R.id.uid_inline_validation_text);
-            if (errorMessageID != -1) {
-                errorLabel.setText(errorMessageID);
+            if (!TextUtils.isEmpty(errorMessage)) {
+                errorLabel.setText(errorMessage);
                 errorLabel.setVisibility(VISIBLE);
             }
 

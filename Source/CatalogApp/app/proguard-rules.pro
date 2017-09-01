@@ -52,7 +52,9 @@
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewBinder { *; }
--keep class com.philips.platform.uid.view.widget.** { *; }
+
+#Get UID as consumerProguardFiles 
+#-keep class com.philips.platform.uid.view.widget.** { *; }
 
 -keepclasseswithmembernames class * {
     @butterknife.* <fields>;
