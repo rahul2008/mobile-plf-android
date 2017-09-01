@@ -13,7 +13,7 @@ interface MergeSocialToSocialAccountContract {
 
     void mergeFailure(String errorDescription);
 
-    void mergeFailuerIgnored();
+    void mergeFailureIgnored();
 
     Activity getActivityContext();
 }

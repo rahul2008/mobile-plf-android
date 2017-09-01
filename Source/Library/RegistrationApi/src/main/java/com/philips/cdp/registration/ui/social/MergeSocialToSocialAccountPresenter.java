@@ -49,12 +49,12 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
 
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-        mergeSocialToSocialAccountContract.mergeFailuerIgnored();
+        mergeSocialToSocialAccountContract.mergeFailureIgnored();
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-        mergeSocialToSocialAccountContract.mergeFailuerIgnored();
+        mergeSocialToSocialAccountContract.mergeFailureIgnored();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
 
     @Override
     public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        mergeSocialToSocialAccountContract.mergeFailuerIgnored();
+        mergeSocialToSocialAccountContract.mergeFailureIgnored();
     }
 
     public void logout() {

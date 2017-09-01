@@ -244,7 +244,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     }
 
     @Override
-    public void mergeFailuerIgnored() {
+    public void mergeFailureIgnored() {
         hideMergeSpinner();
     }
 
