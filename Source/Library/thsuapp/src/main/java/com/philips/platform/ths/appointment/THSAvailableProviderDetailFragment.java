@@ -8,6 +8,7 @@ package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
@@ -37,6 +39,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     private THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
     private int position;
     private RemindOptions remindOptions;
+    private SwipeRefreshLayout swipeProviderLayout;
     private String reminderTime;
 
     @Nullable
@@ -44,6 +47,9 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
         mRelativelayout = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
+        swipeProviderLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
+        swipeProviderLayout.setEnabled(false);
+        swipeProviderLayout.setRefreshing(false);
 
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_pick_time), true);
@@ -117,7 +123,6 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
 
-
     @Override
     public void onPostData(Object o) {
         if(null != o){
@@ -147,6 +152,12 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
 
         }
     }
+
+    @Override
+    public void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost) {
+        thsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
+    }
+
 
     public RemindOptions getReminderOptions(){
         return remindOptions;
