@@ -42,7 +42,7 @@ import java.io.Serializable;
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
  */
-public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Serializable {
+public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serializable {
 
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;

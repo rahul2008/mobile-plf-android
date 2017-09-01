@@ -192,8 +192,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
 
 }
