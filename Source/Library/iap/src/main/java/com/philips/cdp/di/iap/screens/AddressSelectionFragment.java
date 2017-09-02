@@ -38,7 +38,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -132,8 +131,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     public void registerEvents() {
-        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
-        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_EDIT, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_DELETE, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
@@ -301,7 +300,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         addressHashMap.put(ModelConstants.PHONE_2, address.getPhone1());
 
         if (address.getRegion() != null) {
-            addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getIsocodeShort());
             addressHashMap.put(ModelConstants.REGION_CODE, address.getRegion().getIsocode());
         }
 
@@ -346,8 +345,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     public void unregisterEvents() {
-        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
-        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_EDIT, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_DELETE, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
     }

@@ -21,7 +21,6 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
 import com.philips.cdp.di.iap.utils.ModelConstants;
@@ -214,10 +213,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             }
         });
 
-        Bundle bundle = getArguments();
-        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateFields();
-        }
+
     }
 
     @Override
@@ -463,7 +459,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         shippingAddressFields.setEmail(mEtEmail.getText().toString());
 
 
-        //  if (this instanceof BillingAddressFragment) {
+        //  if (this instanceof BillingAddressFragment)
         if (mlLState.getVisibility() == View.VISIBLE) {
             shippingAddressFields.setRegionIsoCode(mRegionIsoCode);
             shippingAddressFields.setRegionName(mEtState.getText().toString());
@@ -474,13 +470,14 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         return shippingAddressFields;
     }
 
-    private void updateFields() {
+    void updateFields(HashMap<String, String> mAddressFieldsHashmap) {
 
-        Bundle bundle = getArguments();
-        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-        if (null == mAddressFieldsHashmap) {
-            return;
-        }
+        if (mAddressFieldsHashmap == null) return;
+//        Bundle bundle = getArguments();
+//        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+//        if (null == mAddressFieldsHashmap) {
+//            return;
+//        }
         mParentFragment.mBtnContinue.setText(getString(R.string.iap_save));
 
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
