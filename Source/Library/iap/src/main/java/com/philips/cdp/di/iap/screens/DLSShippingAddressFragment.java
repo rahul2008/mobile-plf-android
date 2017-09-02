@@ -409,6 +409,12 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
             checkFields();
         }
 
+        if (!result) {
+            mParentFragment.mBtnContinue.setEnabled(false);
+        } else {
+            checkFields();
+        }
+
     }
 
     public void checkFields() {
@@ -479,6 +485,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 //            return;
 //        }
         mParentFragment.mBtnContinue.setText(getString(R.string.iap_save));
+        CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
 
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
