@@ -30,38 +30,43 @@ class AppIdentityManagerHelper {
     private final List<String> mServiceDiscoveryEnvList = Arrays.asList("STAGING", "PRODUCTION");
     private final List<String> mAppStateValuesList = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
     private AppInfra mAppInfra;
-    private Context context;
+    private Context mContext;
     private AppConfigurationInterface.AppConfigurationError configError;
 
 
-    AppIdentityManagerHelper(AppInfra aAppInfra, Context context, AppConfigurationInterface.AppConfigurationError configError) {
+    AppIdentityManagerHelper(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-        this.context = context;
+        AppConfigurationInterface.AppConfigurationError configError =
+                new AppConfigurationInterface
+                        .AppConfigurationError();
+        this.mContext = aAppInfra.getAppInfraContext();
         this.configError = configError;
     }
 
-    String validateAppVersion() {
-        PackageInfo pInfo;
-        String appVersion = null;
+    boolean isValidAppVersion(String appVersion) {
+        return appVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?");
+    }
+
+    String getAppVersion() {
         try {
-            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            appVersion = String.valueOf(pInfo.versionName);
+            PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+            String appVersion = String.valueOf(pInfo.versionName);
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
                     "validate AppVersion" + appVersion);
+            if (appVersion != null && !appVersion.isEmpty()) {
+                boolean isValid = isValidAppVersion(appVersion);
+                if (!isValid)
+                    throw new IllegalArgumentException("AppVersion should in this format " +
+                            "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
+            } else {
+                throw new IllegalArgumentException("Appversion cannot be null");
+            }
+            return appVersion;
         } catch (PackageManager.NameNotFoundException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY, "Error in validate AppVersion " + e.getMessage());
         }
-        if (appVersion != null && !appVersion.isEmpty()) {
-            if (!appVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
-                throw new IllegalArgumentException("AppVersion should in this format " +
-                        "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
-            }
-        } else {
-            throw new IllegalArgumentException("Appversion cannot be null");
-        }
-        return appVersion;
+        return null;
     }
-
 
     private String validateAppState() {
         String appState = null;
@@ -117,7 +122,7 @@ class AppIdentityManagerHelper {
         set.addAll(mSectorValuesList);
         if (sector != null && !sector.isEmpty()) {
             if (!set.contains(sector)) {
-               // sector = null;
+                // sector = null;
                 throw new IllegalArgumentException("\"Sector in AppConfig.json  file" +
                         " must match one of the following values\" +\n" +
                         " \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
@@ -147,7 +152,7 @@ class AppIdentityManagerHelper {
 
 
     String getApplicationName() {
-        final String appName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
+        final String appName = mContext.getApplicationInfo().loadLabel(mContext.getPackageManager()).toString();
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
                 , "get AppName" + appName);
         return appName;
@@ -217,7 +222,7 @@ class AppIdentityManagerHelper {
 
 
     String getLocalizedApplicationName() {
-        final String mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
+        final String mLocalizedAppName = mContext.getResources().getString(R.string.localized_commercial_app_name);
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
                 "Localized AppName " + mLocalizedAppName);
         return mLocalizedAppName;

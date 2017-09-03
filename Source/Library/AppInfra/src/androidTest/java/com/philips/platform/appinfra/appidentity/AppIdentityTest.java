@@ -3,7 +3,9 @@ package com.philips.platform.appinfra.appidentity;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
@@ -11,13 +13,13 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -41,11 +43,12 @@ public class AppIdentityTest extends AppInfraInstrumentation {
     private HashMap<String, String> map;
     private AppIdentityInterface appIdentityInterface;
     JSONObject result = null;
+    Context context;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Context context = getInstrumentation().getContext();
+        context = getInstrumentation().getContext();
         assertNotNull(context);
 
         mAppInfra = new AppInfra.Builder().build(context);
@@ -118,22 +121,20 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 
     public void testAppState() {
         map = new HashMap<>();
-        map.put("appidentity.appState", "TESTING");
-        AppIdentityInterface.AppState appState = appIdentityInterface.getAppState();
-        try {
-            JSONObject appinfra = result.getJSONObject("APPINFRA");
-            appinfra.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
-            assertNotSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
-
-            appinfra.put("APPIDENTITY.APPSTATE","TEST");
-            assertNotSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
-
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Map<String, Object> retMap = new Gson().fromJson(
+                String.valueOf(result), new TypeToken<HashMap<String, Object>>() {
+                }.getType()
+        );
+        mConfigInterface.resetConfig();
+        LinkedTreeMap<String,String> lmap = (LinkedTreeMap) retMap.get("APPINFRA");
+        lmap.put("APPIDENTITY.APPSTATE", "TEST");
+        assertNotSame("TESTING", mAppIdentityManager.getAppState().toString());
+        lmap.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
+        assertNotSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
+        lmap.put("APPIDENTITY.APPSTATE", "ACCEPTANCE");
+        assertNotSame("ACCEPTANCE", mAppIdentityManager.getAppState().toString());
+        lmap.put("APPIDENTITY.APPSTATE", "PRODUCTION");
+        assertNotSame("PRODUCTION", mAppIdentityManager.getAppState().toString());
     }
 
     public void testGetAppVersionRegularExpression() {
@@ -151,7 +152,32 @@ public class AppIdentityTest extends AppInfraInstrumentation {
                 ("appidentity.appState", "appinfra", configError);
         assertNotNull(defAppState);
         assertEquals("Appstate is staging", defAppState, "Staging");
+        assertNotSame("AppState is Staging","Testing","Staging");
     }
+
+    public void testapp() {
+        JSONObject appinfra = null;
+        try {
+            appinfra = result.getJSONObject("APPINFRA");
+            appinfra.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
+            overrideAppConfigValues(result);
+            assertSame("DEVELOPMENT",mAppIdentityManager.getAppState());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void overrideAppConfigValues(final JSONObject appConfig) {
+        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                return appConfig;
+            }
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+        mConfigInterface.resetConfig();
+    }
+
 
     public void testValidateAppStateThrowException() {
         String appState;
@@ -329,6 +355,18 @@ public class AppIdentityTest extends AppInfraInstrumentation {
                     Log.getStackTraceString(error));
 
         }
+    }
+
+    public void testValidAppVersion() {
+        AppIdentityManagerHelper appIdentityManagerHelper = new AppIdentityManagerHelper(mAppInfra);
+        assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3"));
+        assertFalse(appIdentityManagerHelper.isValidAppVersion("1"));
+        assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3ds"));
+        assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3.6$"));
+        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5"));
+        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3_rc1"));
+        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3-rc1"));
+        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5.5"));
     }
 
 }
