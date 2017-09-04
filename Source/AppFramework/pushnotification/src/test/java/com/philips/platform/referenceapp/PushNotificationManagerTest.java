@@ -5,7 +5,6 @@
 */
 package com.philips.platform.referenceapp;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,10 +13,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.google.android.gms.iid.InstanceID;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
 import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
@@ -40,20 +37,15 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ServiceController;
-import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * @author Ritesh.jha@philips.com
@@ -91,15 +83,7 @@ public class PushNotificationManagerTest {
 
         PNLog.disablePNLogging();
 
-        context = PowerMockito.mock(Context.class);
-        appInfraInterface = PowerMockito.mock(AppInfraInterface.class);
-        appInfra = PowerMockito.mock(AppInfra.class);
-        sharedPreferences = PowerMockito.mock(SharedPreferences.class);
-        preferenceManager = PowerMockito.mock(PreferenceManager.class);
-        textUtils = PowerMockito.mock(TextUtils.class);
-        editor = PowerMockito.mock(SharedPreferences.Editor.class);
-        pnUserRegistrationInterface = PowerMockito.mock(PushNotificationUserRegistationWrapperInterface.class);
-        pushNotificationTokenRegistrationInterface = PowerMockito.mock(PushNotificationTokenRegistrationInterface.class);
+        initialMocking();
 
         /*  Whitebox -> Various utilities for accessing internals of a class.
          *  invokeConstructor -> Invoke a constructor. Useful for testing classes with a private constructor.
@@ -111,6 +95,18 @@ public class PushNotificationManagerTest {
         }
 
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(context)).thenReturn(sharedPreferences);
+    }
+
+    private void initialMocking() {
+        context = PowerMockito.mock(Context.class);
+        appInfraInterface = PowerMockito.mock(AppInfraInterface.class);
+        appInfra = PowerMockito.mock(AppInfra.class);
+        sharedPreferences = PowerMockito.mock(SharedPreferences.class);
+        preferenceManager = PowerMockito.mock(PreferenceManager.class);
+        textUtils = PowerMockito.mock(TextUtils.class);
+        editor = PowerMockito.mock(SharedPreferences.Editor.class);
+        pnUserRegistrationInterface = PowerMockito.mock(PushNotificationUserRegistationWrapperInterface.class);
+        pushNotificationTokenRegistrationInterface = PowerMockito.mock(PushNotificationTokenRegistrationInterface.class);
     }
 
     @Test
@@ -133,9 +129,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testStartPushNotificationRegistrationWhenTokenEmpty() throws Exception {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
-        PowerMockito.when(textUtils.isEmpty("")).thenReturn(true);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+        setExpectationTrueWhenPreferenceIsEmpty();
 
         pushNotificationManager.startPushNotificationRegistration(context);
 
@@ -147,12 +141,16 @@ public class PushNotificationManagerTest {
         assertEquals(TestService.class.getName(), intent.getComponent().getClassName());
     }
 
+    private void setExpectationTrueWhenPreferenceIsEmpty() {
+        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
+        PowerMockito.when(textUtils.isEmpty("")).thenReturn(true);
+        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+    }
+
     @Test
     public void testStartPushNotificationRegistrationRegisterToken() throws Exception {
-        RestInterface restInterface = PowerMockito.mock(RestInterface.class);
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
-        PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+        setExpectationFalseWhenPreferenceIsEmpty();
+        MockInternetReacheablity();
 
         PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface =
                 new PushNotificationUserRegistationWrapperInterface() {
@@ -162,8 +160,6 @@ public class PushNotificationManagerTest {
                     }
                 };
 
-        PowerMockito.when(appInfra.getRestClient()).thenReturn(restInterface);
-        PowerMockito.when(restInterface.isInternetReachable()).thenReturn(true);
         pushNotificationManager.init(appInfra, pushNotificationUserRegistationWrapperInterface);
         PNLog.disablePNLogging();
 
@@ -256,9 +252,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testRegisterTokenWithBackendWhenTokenRegistrationIsTrue() throws Exception {
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
-        PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+        setExpectationFalseWhenPreferenceIsEmpty();
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
@@ -299,11 +293,15 @@ public class PushNotificationManagerTest {
         assertTrue(isResponseSuccess[0]);
     }
 
-    @Test
-    public void testRegisterTokenWithBackendWhenTokenRegistrationErrorCondition() throws Exception {
+    private void setExpectationFalseWhenPreferenceIsEmpty() {
         PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
         PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
         PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+    }
+
+    @Test
+    public void testRegisterTokenWithBackendWhenTokenRegistrationErrorCondition() throws Exception {
+        setExpectationFalseWhenPreferenceIsEmpty();
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
@@ -347,13 +345,9 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testDegisterTokenWithBackend() throws Exception {
-        RestInterface restInterface = PowerMockito.mock(RestInterface.class);
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
-        PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
+        setExpectationFalseWhenPreferenceIsEmpty();
+        MockInternetReacheablity();
 
-        PowerMockito.when(appInfra.getRestClient()).thenReturn(restInterface);
-        PowerMockito.when(restInterface.isInternetReachable()).thenReturn(true);
         pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
         PNLog.disablePNLogging();
 
@@ -399,13 +393,8 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testDegisterTokenWithBackendForErrorCondition() throws Exception {
-        RestInterface restInterface = PowerMockito.mock(RestInterface.class);
-        PowerMockito.when(sharedPreferences.getString(anyString(), anyString())).thenReturn("");
-        PowerMockito.when(textUtils.isEmpty("")).thenReturn(false);
-        PowerMockito.when(sharedPreferences.edit()).thenReturn(editor);
-
-        PowerMockito.when(appInfra.getRestClient()).thenReturn(restInterface);
-        PowerMockito.when(restInterface.isInternetReachable()).thenReturn(true);
+        setExpectationFalseWhenPreferenceIsEmpty();
+        MockInternetReacheablity();
         pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
         PNLog.disablePNLogging();
 
@@ -447,6 +436,12 @@ public class PushNotificationManagerTest {
 
         assertTrue(isDeregisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
+    }
+
+    private void MockInternetReacheablity() {
+        RestInterface restInterface = PowerMockito.mock(RestInterface.class);
+        PowerMockito.when(appInfra.getRestClient()).thenReturn(restInterface);
+        PowerMockito.when(restInterface.isInternetReachable()).thenReturn(true);
     }
 
     @After
