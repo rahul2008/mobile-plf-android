@@ -1,11 +1,10 @@
 package com.philips.platform.appinfra.appidentity;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
@@ -16,357 +15,232 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 /**
  * AppIdentity Test class.
  */
 public class AppIdentityTest extends AppInfraInstrumentation {
 
-    private AppIdentityInterface mAppIdentityManager = null;
-    // Context context = Mockito.mock(Context.class);
+	private AppIdentityInterface mAppIdentityManager = null;
 
-    private AppInfra mAppInfra;
+	private AppInfra mAppInfra;
 
-    private List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING",
-            "ACCEPTANCE", "PRODUCTION");
-    private List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
+	private AppConfigurationInterface.AppConfigurationError configError;
+	private AppConfigurationManager mConfigInterface;
+	private AppIdentityInterface appIdentityInterface;
+	private JSONObject result = null;
+	private Context context;
 
-    private AppIdentityManager appIdentity;
-    private AppConfigurationInterface.AppConfigurationError configError;
-    private AppConfigurationManager mConfigInterface;
-    private HashMap<String, String> map;
-    private AppIdentityInterface appIdentityInterface;
-    JSONObject result = null;
-    Context context;
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		context = getInstrumentation().getContext();
+		assertNotNull(context);
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        context = getInstrumentation().getContext();
-        assertNotNull(context);
+		mAppInfra = new AppInfra.Builder().build(context);
+		assertNotNull(mAppInfra);
 
-        mAppInfra = new AppInfra.Builder().build(context);
-        assertNotNull(mAppInfra);
+		mConfigInterface = new AppConfigurationManager(mAppInfra) {
+			@Override
+			protected JSONObject getMasterConfigFromApp() {
+				try {
+					String testJson = ConfigValues.testJson();
+					result = new JSONObject(testJson);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                try {
-                    String testJson = ConfigValues.testJson();
-                    result = new JSONObject(testJson);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+				return result;
+			}
+		};
+		mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
 
-                return result;
-            }
-        };
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+		mAppIdentityManager = new AppIdentityManager(mAppInfra);
+		assertNotNull(mAppIdentityManager);
+		configError = new AppConfigurationInterface
+				.AppConfigurationError();
 
-        mAppIdentityManager = new AppIdentityManager(mAppInfra);
-        assertNotNull(mAppIdentityManager);
-        configError = new AppConfigurationInterface
-                .AppConfigurationError();
-
-        assertNotNull(configError);
-        appIdentityInterface = mAppInfra.getAppIdentity();
-    }
+		assertNotNull(configError);
+		appIdentityInterface = mAppInfra.getAppIdentity();
+	}
 
 
-    public void testGetLocalizedAppName() {
-        assertNotNull(mAppIdentityManager.getLocalizedAppName());
-    }
+	public void testGetLocalizedAppName() {
+		assertNotNull(mAppIdentityManager.getLocalizedAppName());
+	}
 
-    public void testGetAppName() {
-        try {
-            assertNotNull(mAppIdentityManager.getAppName());
-        } catch (IllegalArgumentException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
-        }
-    }
+	public void testGetAppName() {
+		try {
+			assertNotNull(mAppIdentityManager.getAppName());
+		} catch (IllegalArgumentException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+		}
+	}
 
-    public void testGetAppVersion() {
-        assertNotNull(appIdentityInterface.getAppVersion());
-    }
+	public void testGetAppVersion() {
+		PackageInfo pInfo ;
+		try {
+//			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+//			String appVersion = String.valueOf(pInfo.versionName);
+//			assertNotNull(appVersion);
+			assertNotNull(appIdentityInterface.getAppVersion());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 
-    public void testGetMicrositeId() {
-        assertNotNull(mAppIdentityManager.getMicrositeId());
-        assertEquals("77000", mAppIdentityManager.getMicrositeId());
-        assertNotSame("3200", mAppIdentityManager.getMicrositeId());
-    }
+	}
 
-    public void testGetSector() {
-        assertNotNull(mAppIdentityManager.getSector());
-        assertEquals("B2C", mAppIdentityManager.getSector());
-        assertNotSame("test", mAppIdentityManager.getSector());
-    }
+	public void testGetMicrositeId() {
+		assertNotNull(mAppIdentityManager.getMicrositeId());
+		assertEquals("77000", mAppIdentityManager.getMicrositeId());
+		assertNotSame("3200", mAppIdentityManager.getMicrositeId());
+	}
 
-    public void testGetServiceDiscoveryEnvironment() {
-        assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
-        assertEquals("STAGING", mAppIdentityManager.getServiceDiscoveryEnvironment());
-        assertNotSame("development", mAppIdentityManager.getServiceDiscoveryEnvironment());
-    }
+	public void testGetSector() {
+		assertNotNull(mAppIdentityManager.getSector());
+		assertEquals("B2C", mAppIdentityManager.getSector());
+		assertNotSame("test", mAppIdentityManager.getSector());
+	}
 
-    public void testGetAppState() {
-        assertNotNull(mAppIdentityManager.getAppState());
-        assertEquals("STAGING", mAppIdentityManager.getAppState().toString());
-        assertNotSame("NewState", mAppIdentityManager.getAppState().toString());
-    }
+	public void testGetServiceDiscoveryEnvironment() {
+		assertNotNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
+		assertEquals("STAGING", mAppIdentityManager.getServiceDiscoveryEnvironment());
+		assertNotSame("development", mAppIdentityManager.getServiceDiscoveryEnvironment());
+	}
 
-    public void testAppState() {
-        map = new HashMap<>();
-        Map<String, Object> retMap = new Gson().fromJson(
-                String.valueOf(result), new TypeToken<HashMap<String, Object>>() {
-                }.getType()
-        );
-        mConfigInterface.resetConfig();
-        LinkedTreeMap<String,String> lmap = (LinkedTreeMap) retMap.get("APPINFRA");
-        lmap.put("APPIDENTITY.APPSTATE", "TEST");
-        assertNotSame("TESTING", mAppIdentityManager.getAppState().toString());
-        lmap.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
-        assertNotSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
-        lmap.put("APPIDENTITY.APPSTATE", "ACCEPTANCE");
-        assertNotSame("ACCEPTANCE", mAppIdentityManager.getAppState().toString());
-        lmap.put("APPIDENTITY.APPSTATE", "PRODUCTION");
-        assertNotSame("PRODUCTION", mAppIdentityManager.getAppState().toString());
-    }
+	public void testGetAppState() {
+		assertNotNull(mAppIdentityManager.getAppState());
+		assertEquals("STAGING", mAppIdentityManager.getAppState().toString());
+		assertNotSame("NewState", mAppIdentityManager.getAppState().toString());
+	}
 
-    public void testGetAppVersionRegularExpression() {
-        try {
-            assertNotSame("Appversion is not in proper format", mAppIdentityManager.getAppVersion(), "!!2.0");
-        } catch (IllegalArgumentException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
-        }
-    }
+	public void testGetAppVersionRegularExpression() {
+		try {
+			assertNotSame("Appversion is not in proper format", mAppIdentityManager.getAppVersion(), "!!2.0");
+		} catch (IllegalArgumentException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+		}
+	}
 
-    public void testValidateAppState() {
-        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
-                "Staging", configError);
-        String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                ("appidentity.appState", "appinfra", configError);
-        assertNotNull(defAppState);
-        assertEquals("Appstate is staging", defAppState, "Staging");
-        assertNotSame("AppState is Staging","Testing","Staging");
-    }
+	public void testAppState() {
+		mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
+				"Staging", configError);
+		String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
+				("appidentity.appState", "appinfra", configError);
+		assertNotNull(defAppState);
+		assertEquals("Appstate is staging", defAppState, "Staging");
+		assertNotSame("AppState is Staging", "Testing", "Staging");
+	}
 
-    public void testapp() {
-        JSONObject appinfra = null;
-        try {
-            appinfra = result.getJSONObject("APPINFRA");
-            appinfra.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
-            overrideAppConfigValues(result);
-            assertSame("DEVELOPMENT",mAppIdentityManager.getAppState());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+	public void testValidateAppState() {
+		JSONObject appinfra;
+		try {
+			appinfra = result.getJSONObject("APPINFRA");
+			appinfra.put("APPIDENTITY.APPSTATE", "DEVELOPMENT");
+			overrideAppConfigValues(result);
+			assertSame("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
+			assertEquals("DEVELOPMENT", mAppIdentityManager.getAppState().toString());
+			appinfra.put("APPIDENTITY.APPSTATE","TEST");
+			assertEquals("TEST", mAppIdentityManager.getAppState().toString());
+			appinfra.put("APPIDENTITY.APPSTATE","ACCEPTANCE");
+			assertEquals("ACCEPTANCE", mAppIdentityManager.getAppState().toString());
+			appinfra.put("APPIDENTITY.APPSTATE","PRODUCTION");
+			assertEquals("PRODUCTION", mAppIdentityManager.getAppState().toString());
+			appinfra.put("APPIDENTITY.APPSTATE","XYZ");
+			assertNull(mAppIdentityManager.getAppState().toString());
+			appinfra.put("APPIDENTITY.APPSTATE","");
+			assertNull(mAppIdentityManager.getAppState().toString());
+		} catch (JSONException|IllegalArgumentException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+		}
+	}
 
-    private void overrideAppConfigValues(final JSONObject appConfig) {
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                return appConfig;
-            }
-        };
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
-        mConfigInterface.resetConfig();
-    }
-
-
-    public void testValidateAppStateThrowException() {
-        String appState;
-
-        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
-                "Staging", configError);
-        String defAppState = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                ("appidentity.appState", "appinfra", configError);
-        if (defAppState.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
-            appState = defAppState;
-        else {
-            Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
-            if (dynAppState != null)
-                appState = dynAppState.toString();
-            else
-                appState = defAppState;
-        }
-        assertNotNull(appState);
-
-        Set<String> set;
-
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (mAppIdentityManager.getAppState() != null &&
-                    !mAppIdentityManager.getAppState().toString().isEmpty()) {
-                set.addAll(mAppStateValues);
-                if (!set.contains(mAppIdentityManager.getAppState().toString())) {
-//                    appState = defAppState;
-                    throw new IllegalArgumentException("\"App State in appIdentityConfig  file must" +
-                            " match one of the following values \\\\n TEST,\\\\n DEVELOPMENT,\\\\n " +
-                            "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
-                }
-            } else {
-                throw new IllegalArgumentException("AppState cannot be empty in appIdentityConfig json file");
-            }
-
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
-        }
-    }
+	private void overrideAppConfigValues(final JSONObject appConfig) {
+		mConfigInterface = new AppConfigurationManager(mAppInfra) {
+			@Override
+			protected JSONObject getMasterConfigFromApp() {
+				return appConfig;
+			}
+		};
+		mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+		mConfigInterface.resetConfig();
+		mAppIdentityManager = mAppInfra.getAppIdentity();
+	}
 
 
-    public void testValidateServiceDiscoveryEnv() {
-        String servicediscoveryEnv;
+	public void testValidateServiceDiscoveryEnv() {
+		JSONObject appinfra;
+		try {
+			appinfra = result.getJSONObject("APPINFRA");
+			appinfra.put("APPIDENTITY.SERVICEDISCOVERYENVIRONMENT", "PRODUCTION");
+			overrideAppConfigValues(result);
+			assertSame("PRODUCTION", mAppIdentityManager.getServiceDiscoveryEnvironment());
+			appinfra.put("APPIDENTITY.SERVICEDISCOVERYENVIRONMENT","TEST");
+			assertNull(mAppIdentityManager.getServiceDiscoveryEnvironment());
+			appinfra.put("APPIDENTITY.SERVICEDISCOVERYENVIRONMENT","");
+			assertNull(mAppIdentityManager.getAppState().toString());
+		} catch (JSONException|IllegalArgumentException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+		}
+	}
 
-        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra",
-                "Staging", configError);
+	public void testValidServiceDiscoveryEnv() {
 
-        String defSevicediscoveryEnv = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-                ("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
+		assertTrue(mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("PRODUCTION") ||
+				mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("STAGING"));
+	}
 
-        assertNotNull(defSevicediscoveryEnv);
-        assertEquals("Appstate is staging", defSevicediscoveryEnv, "Staging");
+	public void testInvalidServiceDiscoveryEnv() {
+		assertFalse(mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("xyz") ||
+				mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("fdf"));
+	}
 
-        if (defSevicediscoveryEnv.equalsIgnoreCase("production")) // allow manual override only if static appstate != production
-            servicediscoveryEnv = defSevicediscoveryEnv;
-        else {
-            Object dynServiceDiscoveryEnvironment = mAppInfra.getConfigInterface()
-                    .getPropertyForKey("appidentity.serviceDiscoveryEnvironment", "appinfra", configError);
-            if (dynServiceDiscoveryEnvironment != null)
-                servicediscoveryEnv = dynServiceDiscoveryEnvironment.toString();
-            else
-                servicediscoveryEnv = defSevicediscoveryEnv;
-        }
 
-        assertNotNull(servicediscoveryEnv);
-    }
+	public void testValidateMicroSiteId() {
+		JSONObject appinfra;
+		try {
+			appinfra = result.getJSONObject("APPINFRA");
+			appinfra.put("APPIDENTITY.MICROSITEID", "77001");
+			overrideAppConfigValues(result);
+			assertSame("77001", mAppIdentityManager.getMicrositeId());
+			appinfra.put("APPIDENTITY.MICROSITEID","dsa$");
+			assertNull(mAppIdentityManager.getMicrositeId());
+			appinfra.put("APPIDENTITY.MICROSITEID","");
+			assertNull(mAppIdentityManager.getMicrositeId());
+		} catch (JSONException|IllegalArgumentException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+		}
+	}
 
-    public void testValidServiceDiscoveryEnv() {
+	public void testValidateSector() {
+		JSONObject appinfra;
+		try {
+			appinfra = result.getJSONObject("APPINFRA");
+			appinfra.put("APPIDENTITY.SECTOR", "b2b");
+			overrideAppConfigValues(result);
+			assertSame("b2b", mAppIdentityManager.getSector());
+			appinfra.put("APPIDENTITY.SECTOR","b2b_Li");
+			assertSame("b2b_Li", mAppIdentityManager.getSector());
+			appinfra.put("APPIDENTITY.SECTOR","b2b_HC");
+			assertSame("b2b_HC", mAppIdentityManager.getSector());
+			appinfra.put("APPIDENTITY.SECTOR","xyz");
+			assertNull(mAppIdentityManager.getSector());
+			appinfra.put("APPIDENTITY.SECTOR","");
+			assertNull(mAppIdentityManager.getSector());
+		} catch (JSONException|IllegalArgumentException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+		}
+	}
 
-        assertTrue(mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("PRODUCTION") ||
-                mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("STAGING"));
-    }
-
-    public void testInvalidServiceDiscoveryEnv() {
-        assertFalse(mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("xyz") ||
-                mAppIdentityManager.getServiceDiscoveryEnvironment().equalsIgnoreCase("fdf"));
-    }
-
-    public void testValidateServiceDiscoveryValidList() {
-        Set<String> set;
-        List<String> mServiceDiscoveryEnv = Arrays.asList("STAGING", "PRODUCTION");
-
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (mAppIdentityManager.getServiceDiscoveryEnvironment() != null &&
-                    !mAppIdentityManager.getServiceDiscoveryEnvironment().isEmpty()) {
-                set.addAll(mServiceDiscoveryEnv);
-                if (!set.contains(mAppIdentityManager.getServiceDiscoveryEnvironment())) {
-                    throw new IllegalArgumentException("\"servicediscoveryENV in AppConfig.json  file must match \" +\n" +
-                            "                            \"one of the following values \\n STAGING, \\n PRODUCTION\"");
-                }
-            } else {
-                throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty in AppConfig.json file");
-            }
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
-        }
-    }
-
-    public void testValidateServiceDiscoveryInvalidList() {
-        Set<String> set;
-        List<String> mServiceDiscoveryEnv = Arrays.asList("STAGING", "XYS", "TEST");
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (mAppIdentityManager.getServiceDiscoveryEnvironment() != null &&
-                    !mAppIdentityManager.getServiceDiscoveryEnvironment().isEmpty()) {
-                set.addAll(mServiceDiscoveryEnv);
-                if (!set.contains(mAppIdentityManager.getServiceDiscoveryEnvironment())) {
-                    throw new IllegalArgumentException("\"ServicediscoveryENV in AppConfig.json  file must match \" +\n" +
-                            "                            \"one of the following values \\n STAGING, \\n PRODUCTION\"");
-                }
-            } else {
-                throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty in AppConfig.json file");
-            }
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
-        }
-    }
-
-    public void testAppversion() {
-        try {
-            if (mAppIdentityManager.getAppVersion() != null && !mAppIdentityManager.getAppVersion()
-                    .isEmpty()) {
-                if (!mAppIdentityManager.getAppVersion().matches("[0-9]+\\.[0-9]+\\.[0-9]+([_-].*)?")) {
-                    throw new IllegalArgumentException("AppVersion should in this format \" [0-9]+\\\\.[0-9]+\\\\.[0-9]+([_-].*)?]\" ");
-                }
-            } else {
-                throw new IllegalArgumentException("Appversion cannot be null");
-            }
-
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testValidateMicroSiteId() {
-        try {
-            if (mAppIdentityManager.getMicrositeId() != null && !mAppIdentityManager.getMicrositeId().isEmpty()) {
-                if (!mAppIdentityManager.getMicrositeId().matches("[a-zA-Z0-9_.-]+")) {
-                    throw new IllegalArgumentException("\"micrositeId must not contain special charectors in appIdentityConfig json file\"");
-                }
-            } else {
-                throw new IllegalArgumentException("micrositeId cannot be empty in appIdentityConfig  file");
-            }
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
-        }
-    }
-
-    public void testValidateSector() {
-        Set<String> set;
-//        String sector = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
-//                ("sector", "appinfra_appidentity", configError);
-//        assertNotNull(sector);
-
-        try {
-            set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-            if (mAppIdentityManager.getSector() != null && !mAppIdentityManager.getSector().isEmpty()) {
-                set.addAll(mSectorValues);
-                if (!set.contains(mAppIdentityManager.getSector())) {
-                    throw new IllegalArgumentException("\"Sector in appIdentityConfig  file must match one of the following values\" +\n" +
-                            "                            \" \\\\n b2b,\\\\n b2c,\\\\n b2b_Li, \\\\n b2b_HC\"");
-                }
-            } else {
-                throw new IllegalArgumentException("\"App Sector cannot be empty in appIdentityConfig json file\"");
-            }
-
-        } catch (IllegalArgumentException error) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
-                    Log.getStackTraceString(error));
-
-        }
-    }
-
-    public void testValidAppVersion() {
-        AppIdentityManagerHelper appIdentityManagerHelper = new AppIdentityManagerHelper(mAppInfra);
-        assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3"));
-        assertFalse(appIdentityManagerHelper.isValidAppVersion("1"));
-        assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3ds"));
-        assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3.6$"));
-        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5"));
-        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3_rc1"));
-        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3-rc1"));
-        assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5.5"));
-    }
+	public void testValidAppVersion() {
+		AppIdentityManagerHelper appIdentityManagerHelper = new AppIdentityManagerHelper(mAppInfra);
+		assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3"));
+		assertFalse(appIdentityManagerHelper.isValidAppVersion("1"));
+		assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3ds"));
+		assertFalse(appIdentityManagerHelper.isValidAppVersion("1.3.6$"));
+		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5"));
+		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3_rc1"));
+		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3-rc1"));
+		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5.5"));
+	}
 
 }
