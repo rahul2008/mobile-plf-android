@@ -19,8 +19,6 @@ import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.providerdetails.THSProviderEntity;
-import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -54,12 +52,11 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_appointments),true);
         }
-        getAppointments();
+        refreshList();
     }
 
     private void getAppointments() {
         try {
-            createCustomProgressBar(mRelativeLayout,BIG);
             mThsSchedulesVisitsPresenter.getAppointmentsSince(null);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();

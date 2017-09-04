@@ -6,18 +6,23 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
@@ -26,21 +31,86 @@ import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
 import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
 import com.philips.platform.ths.utility.THSManager;
 
-public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implements THSCheckPharmacyConditonsView {
+import static com.google.android.gms.location.LocationServices.FusedLocationApi;
+
+public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implements THSCheckPharmacyConditonsView, LocationListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     public static String TAG = THSCheckPharmacyConditionsFragment.class.getSimpleName();
 
     private int REQUEST_LOCATION = 1001;
-    private LocationManager mLocationManager = null;
-    private String provider = null;
-    protected Location updatedLocation = null;
     private THSCheckPharmacyConditionsPresenter thscheckPharmacyConditionsPresenter;
-    ;
+
+    private static final long INTERVAL = 1000 * 10;
+    private static final long FASTEST_INTERVAL = 1000 * 5;
+
+    LocationRequest mLocationRequest;
+    GoogleApiClient mGoogleApiClient;
+    Location mCurrentLocation;
+
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isGooglePlayServicesAvailable()) {
+            getActivity().finish();
+        }
+        createLocationRequest();
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
         thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this);
-        checkIfPharmacyRequired();
+    }
+
+    private boolean isGooglePlayServicesAvailable() {
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
+        if (ConnectionResult.SUCCESS == status) {
+            return true;
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(status, getActivity(), 0).show();
+            return false;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart fired ..............");
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop fired ..............");
+        mGoogleApiClient.disconnect();
+        Log.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    protected void stopLocationUpdates() {
+        FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+        Log.d(TAG, "Location update stopped .......................");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLocationUpdate();
     }
 
     private void checkIfPharmacyRequired() {
@@ -61,9 +131,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     public void displayPharmacy() {
-        if (checkGooglePlayServices()) {
-            checkPermission();
-        }
+        checkPermission();
     }
 
     /**
@@ -71,144 +139,15 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
      */
     public void checkPermission() {
         if (ActivityCompat.checkSelfPermission(getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getContext(),
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION);
         } else {
-            getLocation();
+            startLocationUpdates();
         }
-    }
-
-    /**
-     * This methos checks is the proivider is enabled to fetch the location
-     */
-    public void getLocation() {
-        if (isProviderAvailable() && (provider != null)) {
-            fetchCurrentLocation();
-        }
-    }
-
-    /**
-     * Calls the location fetch method of the location manager
-     */
-    private void fetchCurrentLocation() {
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        Location location = mLocationManager.getLastKnownLocation(provider);
-        long minTime = 5000;// ms
-        float minDist = 5.0f;// meter
-        mLocationManager.requestLocationUpdates(provider, minTime, minDist, locationListener);
-    }
-
-    private LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            updatedLocation = location;
-            mLocationManager.removeUpdates(locationListener);
-            mLocationManager = null;
-            callPharmacyListFragment(location);
-
-
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
-    /**
-     * checks is provider is available
-     *
-     * @return
-     */
-    private boolean isProviderAvailable() {
-        mLocationManager = (LocationManager) getActivity().getSystemService(
-                Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-
-        provider = mLocationManager.getBestProvider(criteria, true);
-        if (mLocationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            provider = LocationManager.NETWORK_PROVIDER;
-            return true;
-        }
-
-        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            provider = LocationManager.GPS_PROVIDER;
-            return true;
-        }
-
-        return provider != null;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLocation();
-            } else {
-                showPharmacySearch();
-                showToast("Permission denied : Going to search");
-            }
-        }
-    }
-
-    /**
-     * Location services code below. Checking if google play services is installed/latest/supported version?
-     *
-     * @return
-     */
-    private boolean checkGooglePlayServices() {
-        int result = GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(getActivity());
-        switch (result) {
-            case ConnectionResult.SUCCESS:
-                return true;
-
-            case ConnectionResult.SERVICE_INVALID:
-                GooglePlayServicesUtil.getErrorDialog(
-                        ConnectionResult.SERVICE_INVALID, getActivity(), 0).show();
-                break;
-
-            case ConnectionResult.SERVICE_MISSING:
-                GooglePlayServicesUtil.getErrorDialog(
-                        ConnectionResult.SERVICE_MISSING, getActivity(), 0).show();
-                break;
-
-            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-                GooglePlayServicesUtil.getErrorDialog(
-                        ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
-                        getActivity(), 0).show();
-                break;
-
-            case ConnectionResult.SERVICE_DISABLED:
-                GooglePlayServicesUtil.getErrorDialog(
-                        ConnectionResult.SERVICE_DISABLED, getActivity(), 0).show();
-                break;
-        }
-        return false;
     }
 
     private void callPharmacyListFragment(Location location) {
@@ -231,5 +170,90 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
         addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        Log.d(TAG, "Firing onLocationChanged...... ::: Lat: " + location.getLatitude() + "Log:::: " + location.getLongitude());
+        mCurrentLocation = location;
+        callPharmacyListFragment(location);
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.d(TAG, "onConnected - isConnected ........: " + mGoogleApiClient.isConnected());
+        checkIfPharmacyRequired();
+    }
+
+    protected void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        if (checkIfGPSProviderAvailable()) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+        } else {
+            Toast.makeText(getActivity(), "GPS not enables: getting the last known location", Toast.LENGTH_SHORT).show();
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            callPharmacyListFragment(location);
+        }
+
+
+        // mGoogleApiClient, mLocationRequest, this);
+        Log.d(TAG, "Location update started ..............: ");
+    }
+
+    private boolean checkIfGPSProviderAvailable() {
+
+        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(
+                Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+
+        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "Connection failed: " + connectionResult.toString());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocationUpdate();
+            } else {
+                showPharmacySearch();
+                showToast("Permission denied : Going to search");
+            }
+        }
+    }
+
+    private void getLocationUpdate() {
+        if (mGoogleApiClient.isConnected()) {
+            checkIfPharmacyRequired();
+            Log.d(TAG, "Location update resumed .....................");
+        }
+    }
+
 
 }

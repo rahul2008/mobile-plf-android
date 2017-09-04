@@ -42,6 +42,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private Provider mProvider;
     private ProviderInfo mProviderInfo;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,7 +56,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
-        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
 
         final Bundle arguments = getArguments();
         if(arguments!=null) {

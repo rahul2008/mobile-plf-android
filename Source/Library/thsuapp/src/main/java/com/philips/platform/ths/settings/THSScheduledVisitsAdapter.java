@@ -22,7 +22,6 @@ import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsPresenter;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -146,6 +145,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             public void onClick(View view) {
                 THSScheduledVisitsPresenter presenter = new THSScheduledVisitsPresenter(mThsScheduledVisitsFragment);
                 presenter.cancelAppointment(appointment);
+                presenter.setProgressBarVisibility(false);
                 alertDialogFragment.dismiss();
             }
         };
