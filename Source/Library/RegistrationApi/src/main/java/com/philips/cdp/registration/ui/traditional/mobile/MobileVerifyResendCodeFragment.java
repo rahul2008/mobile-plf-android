@@ -9,73 +9,36 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.*;
+import android.content.res.*;
+import android.os.*;
+import android.text.*;
+import android.view.*;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.R2;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.events.CounterListener;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
-import com.philips.cdp.registration.ui.customviews.XEditText;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.traditional.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
 
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener{
 
-    @BindView(R2.id.ll_reg_create_account_fields)
-    LinearLayout phoneNumberEditTextContainer;
-
-    @BindView(R2.id.rl_reg_singin_options)
-    RelativeLayout verifyButtonContainer;
-
-    @BindView(R2.id.btn_reg_resend_update)
-    Button resendSMSButton;
+   @BindView(R2.id.btn_reg_resend_update)
+    ProgressBarButton resendSMSButton;
 
     @BindView(R2.id.btn_reg_code_received)
     Button smsReceivedButton;
@@ -84,7 +47,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     XRegError errorMessage;
 
     @BindView(R2.id.rl_reg_number_field)
-    XEditText phoneNumberEditText;
+    ValidationEditText phoneNumberEditText;
+
+    @BindView(R2.id.usr_mobileverification_resendsmstimer_progress)
+    ProgressBarWithLabel usr_mobileverification_resendsmstimer_progress;
 
     private Context context;
 
@@ -93,8 +59,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     private MobileVerifyResendCodePresenter mobileVerifyResendCodePresenter;
 
     private Handler handler;
-
-    private ProgressDialog mProgressDialog;
 
     private static final String UPDATE_PHONENUMBER = "Update PhoneNumber";
 
@@ -118,14 +82,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         phoneNumberEditText.setText(user.getMobile());
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         if(!getRegistrationFragment().getCounterState()){
-            resendSMSButton.setEnabled(true);
+            enableResendButton();
         }
+        disableResendButton();
         phoneNumberChange();
-        if (mProgressDialog == null)
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mProgressDialog.setCancelable(false);
-
         CounterHelper.getInstance()
                 .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
         CounterHelper.getInstance()
@@ -144,6 +104,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!user.getMobile().equals(s.toString())) {
                     resendSMSButton.setText(UPDATE_PHONENUMBER);
+                    resendSMSButton.setProgressText(UPDATE_PHONENUMBER);
                     if (FieldsValidator.isValidMobileNumber(s.toString())) {
                         enableUpdateButton();
                     } else {
@@ -151,6 +112,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
                     }
                 } else {
                     resendSMSButton.setText(RESEND_SMS);
+                    resendSMSButton.setProgressText(RESEND_SMS);
                     enableResendButton();
                 }
                 errorMessage.hideError();
@@ -165,12 +127,12 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
 
     private void showProgressDialog() {
-        if (!(getActivity().isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
+        if (!getActivity().isFinishing()) resendSMSButton.showProgressIndicator();
     }
 
     private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
+        if ( resendSMSButton.isShown()) {
+            resendSMSButton.hideProgressIndicator();
         }
     }
     @Override
@@ -190,8 +152,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, phoneNumberEditTextContainer, width);
-        applyParams(config, verifyButtonContainer, width);
         applyParams(config, errorMessage, width);
     }
 
@@ -255,6 +215,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
         showProgressDialog();
+        getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
@@ -271,7 +232,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
 
-    @OnClick(R2.id.btn_reg_code_received)
+   @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
         getRegistrationFragment().onBackPressed();
     }
@@ -294,6 +255,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableResendButton() {
         resendSMSButton.setText(RESEND_SMS);
+        resendSMSButton.setProgressText(RESEND_SMS);
         if(networkUtility.isNetworkAvailable())
             resendSMSButton.setEnabled(true);
     }
@@ -305,12 +267,15 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     }
 
-    @Override
     public void updateResendTime(long timeLeft) {
         if (user.getMobile().equals(phoneNumberEditText.getText().toString())) {
                     int timeRemaining = (int)(timeLeft / 1000);
-                        resendSMSButton.setText(RESEND_SMS + " (" + timeRemaining + "s)");
-                        disableResendButton();
+            usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(
+                    ((60 - timeRemaining)*100)/60);
+            String timeRemainingAsString = Integer.toString(timeRemaining);
+            usr_mobileverification_resendsmstimer_progress.setText(
+                    String.format(getString(R.string.no_sms_timer), timeRemainingAsString));
+            disableResendButton();
         }
     }
 
@@ -375,7 +340,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
+        int progress =100;
         if(event.equals(RegConstants.COUNTER_FINISH)){
+            usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(progress);
+            usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.no_sms_yet));
             enableResendButton();
         }else{
             updateResendTime(timeLeft);

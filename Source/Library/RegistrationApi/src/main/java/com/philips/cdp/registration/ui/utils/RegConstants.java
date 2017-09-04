@@ -187,9 +187,4 @@ public class RegConstants {
     public final static String COUNTER_TICK = "COUNTER_TICK";
     public final static String COUNTER_FINISH = "COUNTER_FINISH";
 
-    public final static String PASSWORD_STRENGTH_WEAK="Weak";
-
-    public final static String PASSWORD_STRENGTH_STRONG="Strong";
-
-    public final static String PASSWORD_STRENGTH_MEDIUIM="Medium";
 }

@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_error_alert_size"
                 android:textStyle="bold"/>
 
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Opt_In_Special_Offers"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_button_text_size"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -49,7 +50,7 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Opt_In_Join_Now"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_button_text_size"/>
 
             <LinearLayout
@@ -57,8 +58,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/uidContentTertiaryBackgroundColor"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_marketingScreen_philipsNews_label"

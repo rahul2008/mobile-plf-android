@@ -1,48 +1,40 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.res.*;
+import android.os.*;
+import android.text.*;
+import android.view.*;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.R2;
-import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
-import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.traditional.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
+import static android.view.View.*;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
 
 
 public class AddSecureEmailFragment extends RegistrationBaseFragment implements AddSecureEmailContract {
 
     @BindView(R2.id.btn_reg_secure_data_email)
-    Button addRecoveryEmailButton;
+    ProgressBarButton addRecoveryEmailButton;
 
     @BindView(R2.id.btn_reg_secure_data_email_later)
     Button maybeLaterButton;
 
     @BindView(R2.id.rl_reg_securedata_email_field)
-    LoginIdEditText recoveryEmail;
+    ValidationEditText recoveryEmail;
+
+   @BindView(R2.id.rl_reg_securedata_email_field_inputValidation)
+    InputValidationLayout rl_reg_securedata_email_field_inputValidation;
 
     @BindView(R2.id.reg_error_msg)
     XRegError recoveryErrorTextView;
-
-    @BindView(R2.id.add_email_progress)
-    ProgressBar addEmailProgress;
 
     private AddSecureEmailPresenter addSecureEmailPresenter;
 
@@ -59,7 +51,6 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     private void setUpRecoveryEmail() {
         recoveryEmail.setInputType(InputType.TYPE_CLASS_TEXT);
-        recoveryEmail.setHint(getString(R.string.reg_EmailAddPlaceHolder_txtField));
     }
 
     @Override
@@ -81,7 +72,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @OnClick(R2.id.btn_reg_secure_data_email)
     public void addEmailButtonClicked() {
         recoveryErrorTextView.setVisibility(GONE);
-        addSecureEmailPresenter.addEmailClicked(recoveryEmail.getEmailId());
+        addSecureEmailPresenter.addEmailClicked(recoveryEmail.getText().toString());
     }
 
     @OnClick(R2.id.btn_reg_secure_data_email_later)
@@ -96,8 +87,9 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void showInvalidEmailError() {
-        recoveryEmail.setErrDescription(getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
-        recoveryEmail.showInvalidAlert();
+        rl_reg_securedata_email_field_inputValidation.setErrorMessage(
+                getString(R.string.reg_InvalidEmailAdddress_ErrorMsg));
+        rl_reg_securedata_email_field_inputValidation.showError();
     }
 
     @Override
@@ -150,16 +142,19 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void showProgress() {
-        addEmailProgress.setVisibility(VISIBLE);
+        addRecoveryEmailButton.showProgressIndicator();
+        maybeLaterButton.setEnabled(false);
     }
 
     @Override
     public void hideProgress() {
-        addEmailProgress.setVisibility(GONE);
+        addRecoveryEmailButton.hideProgressIndicator();
+        maybeLaterButton.setEnabled(true);
     }
 
     @Override
     public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), emailOrMobileNumber, true);
+        RegPreferenceUtility.storePreference(
+                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
     }
 }

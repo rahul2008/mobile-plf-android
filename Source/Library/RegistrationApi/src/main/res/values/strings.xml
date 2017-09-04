@@ -253,6 +253,7 @@
     <string name="reg_Update_MobileNumber_Title">Did not receive an SMS?</string>
     <string name="reg_Update_MobileNumber_Description_One">It may take some time for the SMS with the code to arrive.</string>
     <string name="reg_Update_MobileNumber_Description_Two">Check if your phone number is correct and press the resend button.</string>
+    <string name="reg_Update_MobileNumber_Description_two">Check if your phone number is correct and press the resend button when the timer ends.</string>
     <string name="reg_Update_MobileNumber_Thanks_Got_It">Thanks, I got it.</string>
     <string name="reg_Update_MobileNumber_Verification_SMS_Sent">Verification SMS sent</string>
     <string name="reg_Update_MobileNumber_Verification_SMS_Description">It may take some time for the SMS with the verification code to arrive.</string>
@@ -334,5 +335,25 @@
     <string name="getting_started">Getting started</string>
     <string name="start_screen_value_add">Set up your account or log in to get the most from your connected product.</string>
     <string name="lets_get_started">Let\'s get started</string>
+    <string name="no_sms_yet">No SMS yet? Press resend!</string>
+
+    <string name="no_sms_timer">"Please wait %s more seconds"</string>
+    <string name="reg_verify_mobile_title">Confirm your phone number</string>
+    <string name="reg_verify_mobile_desc1">We\'ve just sent an SMS with a six digit code to your phone number </string>
+    <string name="reg_verify_mobile_desc2">Please enter the code to activate your account.</string>
+    <string name="reg_verify_mobile_verify_button">Verify code</string>
+
+    <string name="reg_recovery_title">Recovery email</string>
+    <string name="reg_recovery_desc_one">In case we need to reach you about unusual activity on your account or to reset your password if you get locked out. Please add your email here.</string>
+    <string name="reg_recovery_button1">Add my recovery email</string>
+
+    <string name="reg_email">Email</string>
+    <string name="reg_phone_number">Phone number</string>
+    <string name="reg_firstname">First name</string>
+    <string name="reg_lastname">Last name</string>
+    <string name="reg_password">Password</string>
+    <string name="reg_password_strength_weak">Weak</string>
+    <string name="reg_password_strength_strong">Strong</string>
+    <string name="reg_password_strength_medium">Medium</string>
 
 </resources>

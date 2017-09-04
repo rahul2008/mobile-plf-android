@@ -17,8 +17,6 @@ public interface MobileVerifyResendCodeContract {
 
     void enableUpdateButton();
 
-    void updateResendTime(long timeRemaining);
-
     void netWorkStateOnlineUiHandle();
     void hideProgressSpinner();
 

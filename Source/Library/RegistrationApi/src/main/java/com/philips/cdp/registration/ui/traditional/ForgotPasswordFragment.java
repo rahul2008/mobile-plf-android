@@ -285,7 +285,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void addFragment(Fragment fragment) {
-        addFragment(fragment);
+        getRegistrationFragment().addFragment(fragment);
     }
 
     @Override
