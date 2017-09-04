@@ -110,7 +110,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         try {
             parameters = (HashMap<String, String>) jsonToMap(json);
         } catch (JSONException e) {
-            e.printStackTrace();
         }
 
         getUrl.setOnClickListener(new View.OnClickListener() {
@@ -270,7 +269,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             resultView.setText("" + url);
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

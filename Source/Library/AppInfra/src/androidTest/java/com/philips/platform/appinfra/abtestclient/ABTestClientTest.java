@@ -69,7 +69,6 @@ public class ABTestClientTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 return result;
             }
@@ -97,6 +96,14 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         assertNotNull(exp);
     }
 
+    public void testMappedRequestName(){
+        String requestName=abTestClienTestManager.mappedRequestName("philipsmobileappabtest1content");
+        assertNotNull(requestName);
+        final String exp = mAbTestClientInterface.getTestValue(requestName, "defaultValue",
+                ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
+        assertNotNull(exp);
+
+    }
 
     public void testUpdateCache() {
         assertNotNull(mAbTestClientInterface);

@@ -26,6 +26,9 @@
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId", "language"] ,
     "abtest.precache":["DOT-ReceiveMarketingOptIn"],
+    "abtest.mapping":{
+      "usr.login":"DOT-ReceiveMarketingOptIn"
+     },
     "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"77000",
     "servicediscovery.platformEnvironment":"production",

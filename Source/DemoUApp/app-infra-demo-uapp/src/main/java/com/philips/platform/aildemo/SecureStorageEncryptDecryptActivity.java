@@ -50,7 +50,6 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                 try {
                     plainByte= text.getBytes("UTF-8");
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
                 }
                 SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
                 encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
@@ -62,7 +61,6 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                         String encBytesString = new String(encryptedByte, "UTF-8");
                         textViewEncrypt.setText(encBytesString);
                     } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
                     }
 
                 }
@@ -87,7 +85,6 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
                         String decBytesString = new String(plainByte, "UTF-8");
                         textViewDecrypted.setText(decBytesString);
                     } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
                     }
 
                 }
