@@ -8,6 +8,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.*;
 import android.provider.Settings;
@@ -24,7 +25,9 @@ import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.*;
-import com.philips.platform.uid.thememanager.*;
+import com.philips.platform.uid.thememanager.UIDHelper;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {
@@ -109,6 +112,12 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         }
 
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+
     }
 
     @Override
