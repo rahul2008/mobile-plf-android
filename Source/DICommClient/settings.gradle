@@ -1,4 +1,3 @@
-rootProject.setName 'dicommClientLib'
 include ':dicommClientLib'
 
 def commonDir = '../common'
