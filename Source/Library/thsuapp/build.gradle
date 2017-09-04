@@ -235,9 +235,11 @@ dependencies {
         transitive = true
     }
 
+    compile(group: 'com.philips.cdp', name: 'awsdk', version: '3.1.1', ext: 'aar')
+
     compile 'com.android.support:support-fragment:25.3.1'
 
-    compile(name:'awsdk', ext:'aar')
+   // compile(name:'awsdk', ext:'aar')
   //  compile 'com.americanwell.sdk:awsdk:3.1.1@aar'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
