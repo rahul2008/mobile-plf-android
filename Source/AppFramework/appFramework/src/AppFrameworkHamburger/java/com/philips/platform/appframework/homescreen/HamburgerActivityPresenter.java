@@ -97,12 +97,6 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
             // Commented as part of Plan A removal.
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
-            case MENU_OPTION_CONNECTIVITY:
-                return HOME_CONNECTIVITY;
-            case MENU_OPTION_COCOVERSION:
-                return HOME_COCO_VERSION_INFO;
-            case MENU_OPTION_DEBUG:
-                return HOME_DEBUG;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
             case MENU_OPTION_PR:

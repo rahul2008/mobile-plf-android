@@ -84,6 +84,8 @@ public class WelcomeFragmentPresenter extends AbstractUIBasePresenter {
                 return WELCOME_DONE;
             case MENU_OPTION_HOME:
                 return WELCOME_HOME;
+            case R.id.environment_selection:
+                return HOME_DEBUG;
         }
         return WELCOME_HOME;
     }

@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.uikit.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
@@ -69,37 +68,44 @@ public class CocoVersionFragment extends AbstractAppFrameworkBaseFragment {
 
     public void getCOCOVersion() {
         CocoVersionItem ai = new CocoVersionItem();
-        ai.title = getResources().getString(R.string.RA_COCO_AppInfra);
-        ai.version = (com.philips.platform.appinfra.BuildConfig.VERSION_NAME);
+        ai.setTitle(getResources().getString(R.string.RA_COCO_AppInfra));
+        ai.setDescription(getResources().getString(R.string.RA_COCO_AppInfra_desc));
+        ai.setVersion(com.philips.platform.appinfra.BuildConfig.VERSION_NAME);
 
         CocoVersionItem UserReg = new CocoVersionItem();
-        UserReg.title = getResources().getString(R.string.RA_COCO_UR);
-        UserReg.version = com.philips.cdp.registration.BuildConfig.VERSION_NAME;
+        UserReg.setTitle(getResources().getString(R.string.RA_COCO_UR));
+        UserReg.setDescription(getResources().getString(R.string.RA_COCO_UR_desc));
+        UserReg.setVersion(com.philips.cdp.registration.BuildConfig.VERSION_NAME);
 
         CocoVersionItem uikit = new CocoVersionItem();
-
-        uikit.title = getResources().getString(R.string.RA_COCO_UIKIT);
-        uikit.version = (BuildConfig.VERSION_NAME);
+        uikit.setTitle(getResources().getString(R.string.RA_COCO_UIKIT));
+        uikit.setDescription(getResources().getString(R.string.RA_COCO_UIKIT_desc));
+        uikit.setVersion(com.philips.cdp.uikit.BuildConfig.VERSION_NAME);
 
         CocoVersionItem connectivity = new CocoVersionItem();
-        connectivity.title = getResources().getString(R.string.RA_COCO_Connectivity);
-        connectivity.version = com.philips.cdp.dicommclient.BuildConfig.VERSION_NAME;
+        connectivity.setTitle(getResources().getString(R.string.RA_COCO_Connectivity));
+        connectivity.setDescription(getResources().getString(R.string.RA_COCO_Connectivity_desc));
+        connectivity.setVersion(com.philips.cdp.dicommclient.BuildConfig.VERSION_NAME);
 
         CocoVersionItem iap = new CocoVersionItem();
-        iap.title = getResources().getString(R.string.RA_COCO_IAP);
-        iap.version = com.philips.cdp.di.iap.BuildConfig.VERSION_NAME;
+        iap.setTitle(getResources().getString(R.string.RA_COCO_IAP));
+        iap.setDescription(getResources().getString(R.string.RA_COCO_IAP_desc));
+        iap.setVersion(com.philips.cdp.di.iap.BuildConfig.VERSION_NAME);
 
         CocoVersionItem digitalCare = new CocoVersionItem();
-        digitalCare.title = getResources().getString(R.string.RA_COCO_CC);
-        digitalCare.version = com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME;
+        digitalCare.setTitle(getResources().getString(R.string.RA_COCO_CC));
+        digitalCare.setDescription(getResources().getString(R.string.RA_COCO_CC_desc));
+        digitalCare.setVersion(com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
 
         CocoVersionItem prodReg = new CocoVersionItem();
-        prodReg.title = getResources().getString(R.string.RA_COCO_PR);
-        prodReg.version = com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME;
+        prodReg.setTitle(getResources().getString(R.string.RA_COCO_PR));
+        prodReg.setDescription(getResources().getString(R.string.RA_COCO_PR_desc));
+        prodReg.setVersion(com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
 
         CocoVersionItem dataService = new CocoVersionItem();
-        dataService.title = getResources().getString(R.string.RA_COCO_DS);
-        dataService.version = com.philips.platform.dataservices.BuildConfig.VERSION_NAME;
+        dataService.setTitle(getResources().getString(R.string.RA_COCO_DS));
+        dataService.setDescription(getResources().getString(R.string.RA_COCO_DS_desc));
+        dataService.setVersion(com.philips.platform.dataservices.BuildConfig.VERSION_NAME);
 
 
         cocoVersionItemList.add(ai);

@@ -54,7 +54,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(getString(R.string.RA_DebugScreen_Title), true);
     }
 
     @Nullable
