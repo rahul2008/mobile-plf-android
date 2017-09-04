@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.bluelib.plugindefinition.ReferenceNodeDeviceDefinitionInfo;
@@ -17,6 +18,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib_ble.BuildConfig;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
@@ -68,11 +70,15 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) {
         this.deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
         try {
-            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
+
+        if (BuildConfig.DEBUG) {
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        }
+
         this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         this.shnCentral.registerShnCentralListener(shnCentralListener);
 
@@ -112,7 +118,8 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         }
     }
 
-    private SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+    @VisibleForTesting
+    SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
