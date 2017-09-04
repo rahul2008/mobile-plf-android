@@ -106,7 +106,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             } else {
                 dismissProgressDialog();
                 addFragment(
-                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), ShippingAddressFragment.TAG);
+                        DLSAddressFragment.createInstance(new Bundle(), AnimationType.NONE), DLSAddressFragment.TAG);
             }
         }
     }
