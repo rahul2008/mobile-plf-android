@@ -68,6 +68,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST,availableProviders);
                         bundle.putSerializable(THSConstants.THS_DATE,date);
+                        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
                         THSAvailableProviderListBasedOnDateFragment thsAvailableProviderListBasedOnDateFragment = new THSAvailableProviderListBasedOnDateFragment();
                         mThsBaseFragment.addFragment(thsAvailableProviderListBasedOnDateFragment,THSAvailableProviderListBasedOnDateFragment.TAG,bundle);
                     }
