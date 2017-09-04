@@ -232,6 +232,8 @@ public static <fields>;
 #Data-Services Characteristics
 -keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
 -keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
+-keep class com.philips.platform.dscdemo.pojo.AppCharacteristics { *; }
+-keep class com.philips.platform.dscdemo.pojo.AppUserCharacteristics { *; }
 
 #Data-Services Settings
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
