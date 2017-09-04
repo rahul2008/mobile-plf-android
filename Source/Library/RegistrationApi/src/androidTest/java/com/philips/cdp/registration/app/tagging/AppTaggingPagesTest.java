@@ -37,10 +37,7 @@ public class AppTaggingPagesTest extends RegistrationApiInstrumentationBase {
     public void testAccountActivaton() throws Exception {
         assertEquals("registration:accountactivation",AppTaggingPages.ACCOUNT_ACTIVATION);
     }
-    @Test
-    public void testWelcomes() throws Exception {
-        assertEquals("registration:welcome",AppTaggingPages.WELCOME);
-    }
+
     @Test
     public void testAlomastDone() throws Exception {
         assertEquals("registration:almostdone",AppTaggingPages.ALMOST_DONE);

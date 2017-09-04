@@ -129,7 +129,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
                 createAccountContract.launchMobileVerifyCodeFragment();
             }
         } else {
-            createAccountContract.launchWelcomeFragment();
+            createAccountContract.completeRegistration();
         }
     }
 

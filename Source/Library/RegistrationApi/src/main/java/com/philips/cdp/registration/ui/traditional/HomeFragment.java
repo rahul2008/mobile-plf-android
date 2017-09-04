@@ -842,7 +842,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
 
         if ((mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            launchWelcomeFragment();
+            completeRegistation();
         } else {
             if (isEmailAvailable) {
                 launchAccountActivationFragment();
@@ -861,7 +861,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         getRegistrationFragment().launchAccountActivationFragmentForLogin();
     }
 
-    private void launchWelcomeFragment() {
+    private void completeRegistation() {
         String emailorMobile;
         if (FieldsValidator.isValidEmail(mUser.getEmail())) {
             emailorMobile = mUser.getEmail();
@@ -874,8 +874,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
-        trackPage(AppTaggingPages.WELCOME);
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
+        getRegistrationFragment().userRegistrationComplete();
     }
 
 
@@ -975,7 +974,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onContinueSocialProviderLoginSuccess() {
 
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
-        launchWelcomeFragment();
+        completeRegistation();
         hideProviderProgress();
         enableControls(true);
     }

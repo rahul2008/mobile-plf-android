@@ -207,7 +207,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
         hideMergeSpinner();
-        launchWelcomeFragment();
+        completeRegistration();
     }
 
 
@@ -216,13 +216,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 
-    private void launchWelcomeFragment() {
+    private void completeRegistration() {
         if (!mergeAccountPresenter.getReceiveMarketingEmail()) {
             launchAlmostDoneScreen();
             return;
         }
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
-        trackPage(AppTaggingPages.WELCOME);
+        getRegistrationFragment().userRegistrationComplete();
     }
 
 

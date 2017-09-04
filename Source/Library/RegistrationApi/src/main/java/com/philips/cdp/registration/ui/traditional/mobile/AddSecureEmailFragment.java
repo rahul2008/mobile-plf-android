@@ -15,7 +15,6 @@ import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
@@ -91,8 +90,8 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     }
 
     @Override
-    public void showWelcomeScreen() {
-        getRegistrationFragment().addFragment(new WelcomeFragment());
+    public void registrationComplete() {
+        getRegistrationFragment().userRegistrationComplete();
     }
 
     @Override

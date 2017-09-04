@@ -14,7 +14,7 @@ public interface CreateAccountContract {
 
     void launchAccountActivateFragment();
 
-    void launchWelcomeFragment();
+    void completeRegistration();
 
     void emailError(int errorDescID);
 

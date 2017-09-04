@@ -199,15 +199,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         return R.string.reg_SigIn_TitleTxt;
     }
 
-    private void launchWelcomeFragment() {
+    private void completeRegistration() {
         String emailorMobile = mergeSocialToSocialAccountPresenter.getLoginWithDetails();
         if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
                 !RegPreferenceUtility.getStoredState(mContext, emailorMobile) || !mergeSocialToSocialAccountPresenter.getReceiveMarketingEmail()) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
-        trackPage(AppTaggingPages.WELCOME);
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
+        getRegistrationFragment().userRegistrationComplete();
     }
 
     private void launchAlmostDoneForTermsAcceptanceFragment() {
@@ -231,7 +230,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         hideMergeSpinner();
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
-        launchWelcomeFragment();
+        completeRegistration();
     }
 
     @Override

@@ -300,9 +300,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleLoginSuccess();
     }
 
-    private void launchWelcomeFragment() {
-        getRegistrationFragment().addWelcomeFragmentOnVerification();
-        trackPage(AppTaggingPages.WELCOME);
+    private void completeRegistration() {
+        getRegistrationFragment().userRegistrationComplete();
     }
 
     @Override
@@ -522,7 +521,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         if ((mUser.isEmailVerified() || mUser.isMobileVerified()) || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getStoredState(mContext, mEmail) && mUser.getReceiveMarketingEmail()) {
-                launchWelcomeFragment();
+                completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
             } else {
@@ -531,7 +530,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 } else {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.SUCCESS_LOGIN);
-                    launchWelcomeFragment();
+                    completeRegistration();
                 }
             }
         } else {

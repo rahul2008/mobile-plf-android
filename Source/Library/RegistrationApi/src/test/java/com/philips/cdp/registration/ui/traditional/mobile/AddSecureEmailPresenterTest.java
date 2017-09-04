@@ -53,7 +53,7 @@ public class AddSecureEmailPresenterTest {
     @Test
     public void testMaybeLaterClicked() {
         presenter.maybeLaterClicked();
-        verify(contractMock).showWelcomeScreen();
+        verify(contractMock).registrationComplete();
     }
 
     @Test
