@@ -36,8 +36,14 @@
             "eventId": "back",
             "nextStates": [
               {
-                "condition": [],
+                "condition": [
+                  "isLoggedIn"
+                ],
                 "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
               }
             ]
           }
