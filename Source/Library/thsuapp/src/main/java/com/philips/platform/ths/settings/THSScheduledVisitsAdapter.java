@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.Appointment;
@@ -59,6 +60,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
 
         final Appointment appointment = mAppointmentList.get(position);
         final Provider assignedProvider = appointment.getAssignedProvider();
+        final PracticeInfo practiceInfo = appointment.getAssignedProvider().getPracticeInfo();
         final Long scheduledStartTime = appointment.getSchedule().getScheduledStartTime();
         final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
         holder.mLabelAppointmrntDate.setText(date);
@@ -90,7 +92,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putLong(THSConstants.THS_DATE,scheduledStartTime);
-                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,appointment.getAssignedProvider().getPracticeInfo());
+                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practiceInfo);
                 bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
                 mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG,bundle);
             }
@@ -101,6 +103,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
+                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practiceInfo);
                 mThsScheduledVisitsFragment.addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         };

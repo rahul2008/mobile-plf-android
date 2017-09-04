@@ -39,9 +39,9 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
 
     private Practice mPractice;
     private RecyclerView recyclerView;
-    private THSAvailableProviderList mTHSAvailableProviderList;
     private Label mLabelNumberOfAvailableDoctors;
     private Label mLabelDate;
+    private THSAvailableProviderList mThsAvailableProviderList;
 
     @Nullable
     @Override
@@ -62,6 +62,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         Bundle bundle = getArguments();
         mDate = (Date)bundle.getSerializable(THSConstants.THS_DATE);
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
+        mThsAvailableProviderList = bundle.getParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST);
         mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this,this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         mLabelNumberOfAvailableDoctors = (Label)view.findViewById(R.id.number_of_available_doctors);
@@ -69,7 +70,11 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mLabelDate.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        refreshView();
+        if(mThsAvailableProviderList !=null){
+            updateProviderAdapterList(mThsAvailableProviderList);
+        }else {
+            refreshView();
+        }
     }
 
     public Practice getPractice() {
@@ -77,8 +82,6 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     }
 
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
-        mTHSAvailableProviderList = availableProviderses;
-
         if(getContext()!=null){
             mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
 
