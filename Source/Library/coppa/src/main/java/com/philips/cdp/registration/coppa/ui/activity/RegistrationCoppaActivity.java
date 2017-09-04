@@ -8,38 +8,30 @@
 
 package com.philips.cdp.registration.coppa.ui.activity;
 
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.TextView;
+import android.content.pm.*;
+import android.os.*;
+import android.provider.*;
+import android.support.v4.app.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.coppa.R;
-import com.philips.cdp.registration.coppa.utils.CoppaConstants;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
-import com.philips.cdp.registration.coppa.utils.CoppaLaunchInput;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.coppa.*;
+import com.philips.cdp.registration.coppa.utils.*;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uappframework.launcher.*;
+import com.philips.platform.uappframework.listener.*;
+import com.philips.platform.uid.thememanager.*;
+import com.philips.platform.uid.utils.*;
 
 /**
  * Registration Coppa Actitivty handle back navigation and loading all Fragments
  */
-public class RegistrationCoppaActivity extends FragmentActivity implements OnClickListener,
+public class RegistrationCoppaActivity extends UIDActivity implements OnClickListener,
         ActionBarListener {
 
     private UIFlow uiFlow;
@@ -79,6 +71,12 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(RegistrationHelper.getInstance().getThemeConfiguration() != null) {
+            UIDHelper.init(RegistrationHelper.getInstance().getThemeConfiguration());
+        }
+        if(RegistrationHelper.getInstance().getTheme() != 0) {
+            setTheme(RegistrationHelper.getInstance().getTheme());
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         final Bundle bundle = getIntent().getExtras();

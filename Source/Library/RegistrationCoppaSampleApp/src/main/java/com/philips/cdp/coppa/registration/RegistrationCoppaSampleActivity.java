@@ -9,49 +9,28 @@
 
 package com.philips.cdp.coppa.registration;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.Switch;
-import android.widget.Toast;
+import android.app.*;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
-import com.janrain.android.Jump;
-import com.janrain.android.engage.session.JRSession;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
-import com.philips.cdp.registration.coppa.base.CoppaResendError;
-import com.philips.cdp.registration.coppa.base.ResendCoppaEmailConsentHandler;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
-import com.philips.cdp.registration.coppa.utils.CoppaLaunchInput;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.janrain.android.*;
+import com.janrain.android.engage.session.*;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.coppa.base.*;
+import com.philips.cdp.registration.coppa.utils.*;
+import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.hsdp.*;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.appconfiguration.*;
+import com.philips.platform.uappframework.launcher.*;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
         UserRegistrationListener,

@@ -5,6 +5,7 @@
     <application>
         <activity
             android:name=".ui.activity.RegistrationCoppaActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
             android:configChanges="orientation|screenSize"/>
     </application>
 

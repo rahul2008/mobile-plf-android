@@ -22,6 +22,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
+import com.philips.platform.uid.thememanager.*;
 
 public class CoppaInterface extends URInterface {
 
@@ -99,6 +100,13 @@ public class CoppaInterface extends URInterface {
                 RegistrationConfiguration.getInstance().setPrioritisedFunction
                         (registrationFunction);
             }
+
+            ThemeConfiguration themeConfiguration = uiLauncher.getDlsThemeConfiguration();
+            if(themeConfiguration != null) {
+                RegistrationHelper.getInstance().setThemeConfiguration(themeConfiguration);
+            }
+            int themeResId = uiLauncher.getUiKitTheme();
+            RegistrationHelper.getInstance().setTheme(themeResId);
 
             RegistrationCoppaActivity.setUserRegistrationUIEventListener(((CoppaLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
