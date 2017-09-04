@@ -27,7 +27,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
     }
 }
 
@@ -42,7 +42,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "UApp"
+archivesBaseName = "devicepairingUApp"
 
 allprojects {
     repositories {
@@ -65,7 +65,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -124,7 +124,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [
@@ -151,28 +151,40 @@ android {
 }
 
 dependencies {
-    //Coco
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive true
+	//Coco
+
+	def dp = project.ext.has('useprojectdependencies')
+
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':usr') : usrModule)
+	{
+		transitive true 
     }
 
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
+	compile(dp ? project(':ufw') : ufwModule) 
+	{
+		transitive true 
     }
-
-    compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+	
+	def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	compile(dp ? project(':dscUApp') : dscModule) 	
+	{
         exclude group: 'com.android.support'
         exclude group: 'joda-time', module: 'joda-time'
-        transitive = true
+		transitive true 
     }
-
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
+	
+	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	compile(dp ? project(':commlib-all') : commlibAllModule) 
+	{
+		exclude group: 'com.android.support'
+		transitive true 
     }
-
-    compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-
+	
+	def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':cloudcontroller') : cloudcontrollerModule) 
+	
     //Android Support libraries
     compile 'com.android.support:support-fragment:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
