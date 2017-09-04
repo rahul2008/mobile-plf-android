@@ -176,6 +176,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Available provider strings-->
     <string name="ths_available_location_specialists_string">available location specialist(s)</string>
     <string name="ths_available_time_slots_text">Available time slots</string>
+    <string name="ths_provider_fetch_error">Provider fetch error</string>
+    <string name="ths_provider_fetch_error_text">No providers are available for selected practice</string>
+
+
 
     <string name="ths_download_report_privacy_notice_text_body">You can download and share this visit report with anyone you like. Amwell does not control or protect privacy of your report when you share it.</string>
     <string name="ths_download_report_hippa_notice_link_text">Read the %1$s here</string>

@@ -29,6 +29,7 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -36,6 +37,7 @@ import java.util.List;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
+    public static final String DIALOG_TAG = THSProvidersListFragment.class.getSimpleName() + "Dialog";
     private RecyclerView recyclerView;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,6 +49,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     protected Button btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
     private Label seeFirstDoctorLabel;
+    private AlertDialogFragment alertDialogFragment;
 
 
     @Nullable
@@ -163,6 +166,15 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     }
 
     @Override
+    public void showNoProviderErrorDialog() {
+        alertDialogFragment = new AlertDialogFragment.Builder(getActivity()).setTitle(R.string.ths_provider_fetch_error)
+                .setMessage(R.string.ths_provider_fetch_error_text).
+                        setPositiveButton(R.string.ths_insurance_not_verified_confirm_primary_button_text, this).setCancelable(false).create();
+        alertDialogFragment.show(getActivity().getSupportFragmentManager(),DIALOG_TAG);
+
+    }
+
+    @Override
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.getStartedButton) {
@@ -178,6 +190,10 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
             addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle);
+        }
+        else if(i == R.id.uid_dialog_positive_button){
+            alertDialogFragment.dismiss();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
