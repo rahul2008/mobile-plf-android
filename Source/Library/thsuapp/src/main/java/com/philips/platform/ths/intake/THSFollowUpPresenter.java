@@ -26,6 +26,8 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError>
         , THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
     private THSFollowUpFragment mTHSFollowUpFragment;
@@ -100,6 +102,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         //update signleton THSManager THSConsumer member
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step5PhoneNumberAdded");
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         boolean isPharmacyDetailRequired = THSManager.getInstance().getPthVisitContext().getVisitContext().isCanPrescribe();
         isPharmacyDetailRequired=true;// todo this line is to removed when isCanPrescribe() returns correct value

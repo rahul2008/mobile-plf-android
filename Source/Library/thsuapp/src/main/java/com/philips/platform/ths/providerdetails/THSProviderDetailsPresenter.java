@@ -34,6 +34,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback {
 
     private THSProviderDetailsViewInterface viewInterface;
@@ -92,6 +94,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
 
         } else if (componentID == R.id.detailsButtonTwo) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","startSchedulingAnAppointment");
             final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -114,6 +117,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         } else if (componentID == R.id.detailsButtonContinue) {
 
         } else if (componentID == R.id.calendar_container) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","startSchedulingAnAppointment");
             THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {

@@ -17,6 +17,7 @@ import com.americanwell.sdk.entity.visit.Visit;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -26,6 +27,7 @@ import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
+import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;
 
 /**
  * Created by philips on 7/26/17.
@@ -88,6 +90,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Waiting", true);
         }
@@ -146,10 +149,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         if (v.getId() == R.id.ths_waiting_room_cancel_button) ;
         {
             // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
-            if (v.getId() == R.id.uid_alert_negative_button) {
+            if (v.getId() == R.id.uid_dialog_negative_button) {
                 alertDialogFragment.dismiss();
-            } else if (v.getId() == R.id.uid_alert_positive_button) {
-                mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
+            } else if (v.getId() == R.id.uid_dialog_positive_button) {
+                mTHSWaitingRoomPresenter.onEvent(R.id.uid_dialog_positive_button);
 
             } else {
 

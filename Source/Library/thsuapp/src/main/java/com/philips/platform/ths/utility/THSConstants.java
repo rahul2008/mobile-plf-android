@@ -7,6 +7,7 @@
 package com.philips.platform.ths.utility;
 
 public class THSConstants {
+    public static final String THS_APPLICATION_ID = "ths";
     public static final String PTH_BASE_SERVICE_URL = "https://ec2-54-172-152-160.compute-1.amazonaws.com";
     public static final String PTH_API_KEY = "3c0f99bf";
     public static final String WELCOME_FRAGMENT = "Welcome Fragment";
@@ -55,5 +56,63 @@ public class THSConstants {
     public static final String THS_ONE_DAY_REMINDER = "one day";
     public static final String THS_ONE_WEEK_REMINDER = "one week";
     public static final String THS_VISIT_ARGUMENT_KEY = "ths_visit_argument_key";
+
+    // start of tagging constants
+    public static final String THS_SEND_DATA = "sendData";
+    public static final String THS_SPECIAL_EVENT = "specialEvents";
+    public static final String THS_FLOATING_BUTTON = "floatingButton";
+    public static final String THS_USER_ERROR = "userError";
+
+    public static final String THS_START = "start";
+
+
+    public static final String THS_WELCOME = "Welcome";
+    public static final String THS_WELCOME_BACK = " Appointment_start";
+
+
+
+    public static final String THS_PRACTICE_PAGE = "Home_with_practices";
+    public static final String THS_HISTORY_PAGE = "History";
+    public static final String THS_HOW_IT_WORKS = "FAQ";
+
+    public static final String THS_PROVIDER_DETAIL_PAGE = "Provider Detail";
+    public static final String THS_SYMPTOMS_PAGE = "Symptoms";
+    public static final String THS_ADD_VITALS_PAGE = "Add_vitals";
+    public static final String THS_MEDICATION_PAGE = "Medication";
+    public static final String THS_MEDICATION_SEARCH_PAGE = "Medication Search";
+    public static final String THS_CONDITION_PAGE = "Previous_conditions";
+    public static final String THS_FOLLOW_UP_PAGE = "Add_phone_and_confirm";
+    public static final String THS_NOPP_PAGE = "NOPP";
+
+    public static final String THS_SEARCH_PHARMACY = "Search_pharmacy";
+    public static final String THS_PHARMACY_MAP = "Pharmacy_map";
+    public static final String THS_PHARMACY_SUMMARY = "Pharmacy_summary";
+    public static final String THS_CHOSE_PHARMACY = "Choose Pharmacy";
+    public static final String THS_PHARMACY_LIST = "NOPP";
+    public static final String THS_SHIPPING_ADDRESS = "Shipping_address";
+
+    public static final String THS_SCHEDULE_APPOINTMENT = "SchedulingAnAppointment";
+    public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "SchedulingAnAppointmentConfirm";
+
+    public static final String THS_INSURANCE_CONFIRM = "Insurance";
+    public static final String THS_INSURANCE_DETAIL = "Insurance_details";
+    public static final String THS_PAYMENT_METHOD = "Payment_method";
+    public static final String THS_BILLING_ADDRESS = "Billing_address";
+    public static final String THS_COST_SUMMARY = "Cost_summary";
+    public static final String THS_WAITING = "Waiting";
+    public static final String THS_VIDEO_CALL_STARTS = "videoVisitStarted";
+    public static final String THS_VIDEO_CALL = "videoVisit";
+    public static final String THS_VIDEO_CALL_ENDS = "videoVisitCompleted";
+    public static final String THS_RATE_PROVIDER_AND_VISIT = "rateProviderAndVisit";
+    public static final String THS_VISIT_SUMMARY = "Wrap_up_summary";
+    public static final String THS_VISIT_HISTORY= "visitHistory";
+
+
+
+
+
+
+
+    // end of tagging constants
 
 }

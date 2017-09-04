@@ -15,12 +15,15 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioButton;
 import com.philips.platform.uid.view.widget.RadioGroup;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_CONFIRM;
+
 
 public class THSInsuranceConfirmationFragment extends THSBaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     public static final String TAG = THSInsuranceConfirmationFragment.class.getSimpleName();
@@ -58,6 +61,7 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_CONFIRM,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Insurance", true);
         }

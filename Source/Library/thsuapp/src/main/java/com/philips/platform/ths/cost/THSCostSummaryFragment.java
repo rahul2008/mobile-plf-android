@@ -16,11 +16,14 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-import static com.philips.platform.ths.utility.THSConstants.IS_INSURANCE_AVAILABLE_KEY;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY;
+
 
 public class THSCostSummaryFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSCostSummaryFragment.class.getSimpleName();
@@ -109,6 +112,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onStart() {
         super.onStart();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY,null,null);
         mPresenter.fetchExistingSubscription();
         mPresenter.getPaymentMethod();
         mPresenter.createVisit();

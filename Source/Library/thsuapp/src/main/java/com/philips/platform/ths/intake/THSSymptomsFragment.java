@@ -53,6 +53,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
         THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback, View.OnTouchListener {
@@ -186,6 +190,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.continue_btn) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_FLOATING_BUTTON,"symptomContinue");
             mTHSSymptomsPresenter.onEvent(R.id.continue_btn);
         }
         if (i == R.id.camera_click_button) {
@@ -405,5 +410,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             }
         }
         return false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SYMPTOMS_PAGE,null,null);
+
     }
 }

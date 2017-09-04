@@ -22,11 +22,15 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_CONDITION_PAGE;
 
 public class THSMedicalConditionsFragment extends THSBaseFragment implements View.OnClickListener {
     protected THSMedicalConditionsPresenter thsMedicalConditionsPresenter;
@@ -157,4 +161,9 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         this.thsConditionsList = mTHSConditions;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONDITION_PAGE,null,null);
+    }
 }
