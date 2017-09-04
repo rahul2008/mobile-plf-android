@@ -84,12 +84,12 @@
                     android:layout_marginTop="8dip"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/green_tick"
 
-                        android:scaleType="fitXY" />
+                        fontPath="fonts/iconfont.ttf"
+                        android:text="@string/dls_checkmark_xbold"/>
 
                     <com.philips.platform.uid.view.widget.Label
                         style="@style/UIDLabel.RecyclerViewItemDescriptionText"

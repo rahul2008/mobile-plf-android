@@ -42,7 +42,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private List<SummaryModel> mOriginalSet;
     private TextView productNameView;
     private TextView ctnView;
-    private ImageView imageView;
+    //private ImageView imageView;
     private Activity activity;
     private boolean isNoResultFound;
 
@@ -83,7 +83,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         Data data = summaryModel.getData();
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
         productNameView = (TextView) vi.findViewById(R.id.product_name_view);
-        imageView = (ImageView) vi.findViewById(R.id.image);
+        //imageView = (ImageView) vi.findViewById(R.id.image);
         ctnView = (TextView) vi.findViewById(R.id.ctn_view);
 
         String imagepath = data.getImageURL();
