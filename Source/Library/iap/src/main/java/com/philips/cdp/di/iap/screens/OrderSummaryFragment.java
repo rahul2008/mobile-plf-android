@@ -57,7 +57,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         CheckOutHistoryAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
         DeliveryModeDialog.DialogListener, com.philips.cdp.di.iap.utils.AlertListener ,CheckOutHistoryAdapter.OrderSummaryUpdateListner {
 
-    public static final String TAG = ShoppingCartFragment.class.getName();
+    public static final String TAG = OrderSummaryFragment.class.getName();
     private Context mContext;
 
     private Button mPayNowBtn;
