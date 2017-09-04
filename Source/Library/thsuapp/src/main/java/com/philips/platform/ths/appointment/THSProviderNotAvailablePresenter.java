@@ -7,6 +7,7 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
+import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.practice.Practice;
@@ -14,9 +15,9 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Calendar;
@@ -62,10 +63,13 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
                 @Override
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
                     if(availableProviders.getAvailableProvidersList()==null || availableProviders.getAvailableProvidersList().size()==0){
-                        ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
+                        ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails();
                     }else {
-                        final THSBasePresenterHelper thsBasePresenterHelper = new THSBasePresenterHelper();
-                        thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment,thsProviderEntity,date,practice);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST,availableProviders);
+                        bundle.putSerializable(THSConstants.THS_DATE,date);
+                        THSAvailableProviderListBasedOnDateFragment thsAvailableProviderListBasedOnDateFragment = new THSAvailableProviderListBasedOnDateFragment();
+                        mThsBaseFragment.addFragment(thsAvailableProviderListBasedOnDateFragment,THSAvailableProviderListBasedOnDateFragment.TAG,bundle);
                     }
                 }
 

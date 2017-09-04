@@ -70,7 +70,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         this.mProvider = mProvider;
     }
 
-    public void updateProviderDetails(THSAvailableProviderList availableProviders) {
+    public void updateProviderDetails() {
         providerListItemLayoutBasedOnDate.setVisibility(View.VISIBLE);
         View view = getView();
         if(view == null)
@@ -98,7 +98,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         NotificationBadge notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
         notificationBadge.setVisibility(View.VISIBLE);
 
-        notificationBadge.setText("" + availableProviders.getAvailableProvidersList().size());
+        notificationBadge.setText("0");
 
         ImageView imageView = (ImageView) view.findViewById(R.id.providerImage);
 
