@@ -105,8 +105,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
         String conflictSocialProvider = mContext.getResources().getString(conflictSocialProviderId);
-        usr_mergeScreen_used_social_label.setText(String.format(usr_mergeScreen_used_social_label.getText().toString(), conflictSocialProvider));
-        usr_mergeScreen_used_social_again_label.setText(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), conflictSocialProvider));
+
+        usr_mergeScreen_used_social_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_label.getText().toString(),  "<b>" + conflictSocialProvider+"</b>")));
+        usr_mergeScreen_used_social_again_label.setText(RegUtility.fromHtml(String.format(usr_mergeScreen_used_social_again_label.getText().toString(), "<b>" + conflictSocialProvider+"</b>")));
         usr_mergeScreen_login_button.setText(String.format(usr_mergeScreen_login_button.getText(), conflictSocialProvider));
     }
 

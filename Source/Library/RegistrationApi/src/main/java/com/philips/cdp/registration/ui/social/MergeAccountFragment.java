@@ -9,7 +9,7 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.content.res.*;
+import android.content.res.Configuration;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
@@ -18,6 +18,7 @@ import com.jakewharton.rxbinding2.widget.*;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
@@ -110,9 +111,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
-        String usedEmail = getString(R.string.reg_Account_Merge_UsedEmail_Error_lbltxt);
-        usedEmail = String.format(usedEmail, mEmailId);
-        mTvUsedEmail.setText(usedEmail);
+        mTvUsedEmail.setText(RegUtility.fromHtml(String.format(mTvUsedEmail.getText().toString(), "<b>" + mEmailId + "</b>")));
         enableMergeButton();
     }
 
@@ -211,14 +210,16 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     }
 
 
-    private void launchAlmostDoneScreen() {
+    private void launchAlmostDoneForTermsAcceptanceFragment() {
         getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 
     private void completeRegistration() {
-        if (!mergeAccountPresenter.getReceiveMarketingEmail()) {
-            launchAlmostDoneScreen();
+        String emailorMobile = mergeAccountPresenter.getLoginWithDetails();
+        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                (!RegPreferenceUtility.getStoredState(getContext(), emailorMobile) || !mergeAccountPresenter.getReceiveMarketingEmail())) {
+            launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }
         getRegistrationFragment().userRegistrationComplete();
@@ -233,7 +234,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     }
 
     @Override
-    public void mergePasswordFailuer() {
+    public void mergePasswordFailure() {
         hideMergeSpinner();
         mEtPassword.setErrorMessage(getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
         mEtPassword.showError();

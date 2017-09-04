@@ -10,5 +10,5 @@ interface MergeAccountContract {
 
     void mergeFailure(String reason);
 
-    void mergePasswordFailuer();
+    void mergePasswordFailure();
 }

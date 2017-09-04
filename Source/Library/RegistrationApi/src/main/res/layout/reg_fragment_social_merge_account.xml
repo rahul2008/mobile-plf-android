@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
-                android:text="@string/reg_Account_Merge_UsedEmail_Error_lbltxt"/>
+                android:text="You've used %s before to create a Philips account."/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_mergeScreen_merge_account_label"
@@ -90,7 +90,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_Forgot_Password_Title"
+                android:text="Forgot password"
                 app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError

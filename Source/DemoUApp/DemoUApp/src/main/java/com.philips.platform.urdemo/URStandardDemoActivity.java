@@ -11,35 +11,31 @@ package com.philips.platform.urdemo;
 
 import android.app.*;
 import android.content.*;
-import android.content.res.Resources;
-import android.net.Uri;
+import android.content.res.*;
+import android.net.*;
 import android.os.*;
-import android.preference.PreferenceManager;
-import android.support.annotation.StyleRes;
-import android.util.Log;
+import android.preference.*;
+import android.support.annotation.*;
+import android.util.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 
-import com.janrain.android.Jump;
-import com.janrain.android.engage.session.JRSession;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
+import com.janrain.android.*;
+import com.janrain.android.engage.session.*;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.*;
 import com.philips.cdp.registration.listener.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.appinfra.appconfiguration.*;
+import com.philips.platform.uappframework.launcher.*;
 import com.philips.platform.uid.thememanager.*;
-import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.view.widget.*;
+import com.philips.platform.uid.utils.*;
 import com.philips.platform.urdemo.themesettings.*;
 import com.philips.platform.urdemolibrary.R;
 
@@ -508,6 +504,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
+        Toast.makeText(this,"User is logged in ",Toast.LENGTH_SHORT).show();
         activity.finish();
     }
 

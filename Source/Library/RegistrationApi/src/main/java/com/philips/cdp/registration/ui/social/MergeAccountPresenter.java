@@ -39,6 +39,13 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
         return mUser.getReceiveMarketingEmail();
     }
 
+    public String getLoginWithDetails() {
+        if (FieldsValidator.isValidEmail(mUser.getEmail())) {
+            return mUser.getEmail();
+        }
+        return mUser.getMobile();
+    }
+
     @Override
     public void onLoginSuccess() {
         mergeAccountContract.mergeSuccess();
@@ -47,7 +54,7 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-            mergeAccountContract.mergePasswordFailuer();
+            mergeAccountContract.mergePasswordFailure();
             return;
         }
         mergeAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription());
