@@ -33,7 +33,7 @@ public class DialogLayout extends ConstraintLayout {
 
     public DialogLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        layoutMargins = (getResources().getDimensionPixelSize(R.dimen.uid_page_margin_left_right)*2);
+        layoutMargins = (getResources().getDimensionPixelSize(R.dimen.uid_dialog_margins)*2);
     }
 
     @Override
@@ -58,7 +58,8 @@ public class DialogLayout extends ConstraintLayout {
     private int getContentAreaHeight(){
         DisplayMetrics metrics = new DisplayMetrics();
         this.getDisplay().getMetrics(metrics);
-        return metrics.heightPixels - getStatusBarHeight();
+        int totalHeight = getStatusBarHeight() + getActionBarHeight();
+        return metrics.heightPixels - totalHeight;
     }
 
     private int getStatusBarHeight() {
@@ -67,5 +68,15 @@ public class DialogLayout extends ConstraintLayout {
             return getResources().getDimensionPixelSize(resourceId);
         }
         return 0;
+    }
+
+    private int getActionBarHeight() {
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getContext().getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
     }
 }
