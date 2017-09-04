@@ -8,6 +8,9 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
+        flatDir {
+            dirs 'libs'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'

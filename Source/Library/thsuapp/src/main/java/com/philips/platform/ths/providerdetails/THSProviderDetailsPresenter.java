@@ -25,6 +25,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.practice.THSPracticeCallback;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
@@ -143,8 +144,15 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     private void launchAvailableProviderDetailBasedOnAvailibity(final Date date) {
         try {
+            THSProviderInfo thsProviderInfo = viewInterface.getTHSProviderInfo();
+            if(thsProviderInfo == null){
+                final Provider provider = viewInterface.getProvider();
+                THSProviderInfo thsProviderInfo1 = new THSProviderInfo();
+                thsProviderInfo1.setTHSProviderInfo(provider);
+                thsProviderInfo = thsProviderInfo1;
+            }
             THSManager.getInstance().getProviderDetails(mThsBaseFragment.getContext(),
-                    viewInterface.getTHSProviderInfo(), new THSProviderDetailsCallback() {
+                    thsProviderInfo, new THSProviderDetailsCallback() {
                         @Override
                         public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
                             ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);

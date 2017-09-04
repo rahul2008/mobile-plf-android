@@ -318,7 +318,7 @@ public class THSManagerTest {
         verify(THSVisitContextCallBack).onFailure(any(Throwable.class));
     }
 
-    @Test
+/*    @Test
     public void getVitals() throws AWSDKInstantiationException {
         THSManager.setPTHConsumer(THSConsumerMock);
         when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
@@ -331,9 +331,9 @@ public class THSManagerTest {
         value.onResponse(any(Vitals.class), any(SDKError.class));
 
         verify(thsVitalCallBackMock).onResponse(any(THSVitals.class), any(THSSDKError.class));
-    }
+    }*/
 
-    @Test
+ /*   @Test
     public void getVitalsOnFailure() throws AWSDKInstantiationException {
         THSManager.setPTHConsumer(THSConsumerMock);
         when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
@@ -346,7 +346,7 @@ public class THSManagerTest {
         value.onFailure(any(Throwable.class));
 
         verify(thsVitalCallBackMock).onFailure(any(Throwable.class));
-    }
+    }*/
 
     @Test
     public void getConditions() throws AWSDKInstantiationException {

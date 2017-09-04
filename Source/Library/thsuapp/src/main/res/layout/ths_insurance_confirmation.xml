@@ -23,7 +23,7 @@
 
         android:layout_marginTop="25dp"
         android:text="Choose one of these optios:"
-        android:textColor="@color/awsdk_color_black"
+        android:textColor="@color/uidColorBlack"
         android:textSize="@dimen/ths_body_text"
         fontPath="fonts/centralesansbold.ttf"/>
 

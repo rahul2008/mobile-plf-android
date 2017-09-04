@@ -76,6 +76,9 @@ allprojects {
         }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
+        flatDir {
+            dirs 'libs', '../<library_dir>/libs'
+        }
     }
 }
 
@@ -207,7 +210,7 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
+    
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -234,7 +237,8 @@ dependencies {
 
     compile 'com.android.support:support-fragment:25.3.1'
 
-    compile project(':awsdk')
+    compile(name:'awsdk', ext:'aar')
+  //  compile 'com.americanwell.sdk:awsdk:3.1.1@aar'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile ('org.robolectric:robolectric:3.4-rc2'){
