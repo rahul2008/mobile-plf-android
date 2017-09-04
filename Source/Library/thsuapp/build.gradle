@@ -226,7 +226,7 @@ dependencies {
     }
 
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0-SNAPSHOT.20170901053148', ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
 
         transitive = true
