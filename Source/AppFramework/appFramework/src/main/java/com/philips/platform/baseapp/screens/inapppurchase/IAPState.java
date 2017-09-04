@@ -105,7 +105,8 @@ public abstract class IAPState extends BaseState implements IAPListener {
         try {
             ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
-
+            ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).showOverlayDialog(R.string.RA_DLS_Help_Philips_Shop,
+                    R.mipmap.philips_shop_overlay, IAPState.TAG);
         } catch (RuntimeException e) {
             //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors - (Had sent mail to Thiru long time ago. NO response. Will send another one to Bopanna)
             RALog.e(TAG,e.getMessage());

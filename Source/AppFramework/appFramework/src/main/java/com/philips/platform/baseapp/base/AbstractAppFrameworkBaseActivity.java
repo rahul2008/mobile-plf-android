@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.base;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.OverlayDialogFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -194,6 +196,11 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
         }
+    }
+
+    public void showOverlayDialog(@StringRes int overlayTextId, int drawableId, String tag) {
+        OverlayDialogFragment ratingDialogFragment = OverlayDialogFragment.newInstance(getString(overlayTextId), drawableId);
+        ratingDialogFragment.show(getFragmentManager(), tag);
     }
 
     public void showProgressBar() {
