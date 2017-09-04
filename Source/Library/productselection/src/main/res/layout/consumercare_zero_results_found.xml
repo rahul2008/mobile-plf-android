@@ -20,6 +20,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_marginRight="7dp"
+       android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
        android:text="@string/dls_warning"
        fontPath="fonts/iconfont.ttf"/>
 
