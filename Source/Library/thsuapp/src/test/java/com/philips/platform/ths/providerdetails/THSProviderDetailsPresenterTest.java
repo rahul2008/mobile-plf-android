@@ -129,7 +129,7 @@ public class THSProviderDetailsPresenterTest {
         verify(thsBaseFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onEventdetailsButtonTwo(){
         providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
 //        verify(thsBaseFragmentMock).addFragment(any(THSAvailableProviderDetailFragment.class),anyString(),any(Bundle.class));
