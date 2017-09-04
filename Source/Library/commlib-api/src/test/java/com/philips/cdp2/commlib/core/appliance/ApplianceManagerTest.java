@@ -74,7 +74,7 @@ public class ApplianceManagerTest {
     private ApplianceManager managerUnderTest;
     private PropertyChangeListener networkNodeChangeListener;
 
-    private void createDisoveryStrategies() {
+    private void createDiscoveryStrategies() {
         discovery.put(mock(DiscoveryStrategy.class), new HashSet<DiscoveryListener>());
         discovery.put(mock(DiscoveryStrategy.class), new HashSet<DiscoveryListener>());
         discovery.put(mock(DiscoveryStrategy.class), new HashSet<DiscoveryListener>());
@@ -136,7 +136,7 @@ public class ApplianceManagerTest {
             }
         }).when(networkNodeMock).addPropertyChangeListener(isA(PropertyChangeListener.class));
 
-        createDisoveryStrategies();
+        createDiscoveryStrategies();
         setupDiscoveryListeners();
     }
 
@@ -229,14 +229,14 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenStrategyLosesNode_thenApplianceCanNoLongerBeFoundUsingCppId() {
+    public void whenStrategyLosesNode_thenApplianceCanStillBeFoundUsingCppId() {
         managerUnderTest = new ApplianceManager(discovery.keySet(), applianceFactoryMock, networkNodeDatabaseMock, null);
         managerUnderTest.addApplianceListener(applianceListenerMock);
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
         firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
 
-        assertThat(managerUnderTest.findApplianceByCppId(CPPID)).isNull();
+        assertThat(managerUnderTest.findApplianceByCppId(CPPID)).isNotNull();
     }
 
     @Test

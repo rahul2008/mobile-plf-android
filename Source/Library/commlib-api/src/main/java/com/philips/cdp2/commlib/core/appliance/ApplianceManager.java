@@ -40,11 +40,31 @@ import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
  */
 public class ApplianceManager {
 
+    /**
+     * Listen to {@link Appliance}s being found or lost.
+     *
+     * @param <A> Type of {@link Appliance} to listen for.
+     */
     public interface ApplianceListener<A extends Appliance> {
+        /**
+         * Called when an {@link Appliance} is found.
+         *
+         * @param foundAppliance
+         */
         void onApplianceFound(@NonNull A foundAppliance);
 
+        /**
+         * Called when an {@link Appliance} is updated due to new information from Discovery.
+         *
+         * @param updatedAppliance
+         */
         void onApplianceUpdated(@NonNull A updatedAppliance);
 
+        /**
+         * Called when an {@link Appliance} is lost.
+         *
+         * @param lostAppliance
+         */
         void onApplianceLost(@NonNull A lostAppliance);
     }
 
@@ -54,8 +74,8 @@ public class ApplianceManager {
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
     private Map<String, Appliance> allAppliances = new ConcurrentHashMap<>();
 
+    @NonNull
     private final Handler handler = createHandler();
-
     @NonNull
     private final NetworkNodeDatabase networkNodeDatabase;
     @NonNull
@@ -87,7 +107,7 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            processNetworkNode(networkNode);
+            processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
         }
 
         @Override
@@ -144,7 +164,7 @@ public class ApplianceManager {
     }
 
     @Nullable
-    private Appliance processNetworkNode(NetworkNode networkNode) {
+    private Appliance processNewlyDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
         if (availableAppliances.containsKey(cppId)) {
             discoveryListener.onNetworkNodeUpdated(networkNode);
@@ -166,28 +186,41 @@ public class ApplianceManager {
     }
 
     /**
-     * Gets available appliances.
+     * Gets all available {@link Appliance}s.
      *
      * @return The currently available appliances
      */
+    @NonNull
     public Set<Appliance> getAvailableAppliances() {
         return new CopyOnWriteArraySet<>(availableAppliances.values());
     }
 
     /**
-     * Find appliance by cpp id.
+     * Gets all {@link Appliance}s that this manager has found, even if no longer available.
      *
-     * @param cppId the cpp id
-     * @return the appliance
+     * @return All known appliances.
      */
-    public Appliance findApplianceByCppId(final String cppId) {
-        return availableAppliances.get(cppId);
+    @NonNull
+    public Set<Appliance> getAllAppliances() {
+        return new CopyOnWriteArraySet<>(allAppliances.values());
     }
 
     /**
-     * Store an appliance.
+     * Find appliance by cpp id.
+     *
+     * @param cppId the cpp id.
+     * @return the appliance or <code>null</code> if it can't be found.
+     */
+    @Nullable
+    public Appliance findApplianceByCppId(final String cppId) {
+        return allAppliances.get(cppId);
+    }
+
+    /**
+     * Store an {@link Appliance}.
      *
      * @param appliance the appliance
+     * @return <code>true</code> if the {@link Appliance} was stored.
      */
     public boolean storeAppliance(@NonNull final Appliance appliance) {
         long rowId = networkNodeDatabase.save(appliance.getNetworkNode());
@@ -218,8 +251,9 @@ public class ApplianceManager {
     /**
      * Add an appliance listener.
      *
-     * @param applianceListener the listener
-     * @return true, if the listener didn't exist yet and was therefore added
+     * @param applianceListener the listener.
+     * @return <code>true</code> if the listener didn't exist yet and was therefore added.
+     * @see ApplianceListener
      */
     public boolean addApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.add(applianceListener);
@@ -228,8 +262,9 @@ public class ApplianceManager {
     /**
      * Remove an appliance listener.
      *
-     * @param applianceListener the listener
-     * @return true, if the listener was present and therefore removed
+     * @param applianceListener the listener.
+     * @return <code>true</code> if the listener was present and therefore removed.
+     * @see ApplianceListener
      */
     public boolean removeApplianceListener(@NonNull ApplianceListener<Appliance> applianceListener) {
         return applianceListeners.remove(applianceListener);
@@ -239,22 +274,18 @@ public class ApplianceManager {
         List<NetworkNode> networkNodes = networkNodeDatabase.getAll();
 
         for (final NetworkNode networkNode : networkNodes) {
-            final Appliance appliance = processNetworkNode(networkNode);
-            if (appliance != null) {
-                applianceDatabase.loadDataForAppliance(appliance);
-                networkNode.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        onNetworkNodeChanged(evt, appliance, networkNode);
-                    }
-                });
-            }
-        }
-    }
+            final Appliance appliance = processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
+            if (appliance == null) continue;
 
-    private void onNetworkNodeChanged(PropertyChangeEvent propertyChangeEvent, Appliance appliance, NetworkNode networkNode) {
-        DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
-        networkNodeDatabase.save(networkNode);
+            applianceDatabase.loadDataForAppliance(appliance);
+            networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+                    networkNodeDatabase.save(networkNode);
+                }
+            });
+        }
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {

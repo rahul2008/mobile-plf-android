@@ -78,4 +78,7 @@
     <string name="cml_forget_success">Appliance forgotten</string>
     <string name="cml_persist_success">Appliance persisted</string>
     <string name="cml_persist_failed">Appliance not persisted</string>
+    <string name="cml_pairing_failed">Pairing failed</string>
+    <string name="cml_paired_success">Pairing successful</string>
+    <string name="cml_unpair_success">Unpaired successfully</string>
 </resources>

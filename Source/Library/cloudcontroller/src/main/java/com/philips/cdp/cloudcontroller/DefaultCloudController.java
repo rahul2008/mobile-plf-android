@@ -649,10 +649,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             DownloadData downloadData = (DownloadData) icpClient;
             ByteBuffer byteBuffer = downloadData.getBuffer();
             byte[] bufferOriginal = new byte[byteBuffer.capacity()];
-            for (int i = 0; i < byteBuffer.capacity(); i++) {
-                bufferOriginal[i] = byteBuffer.get(i);
-            }
 
+            byteBuffer.rewind();
             byteBuffer.get(bufferOriginal);
 
             byte[] buffer = bufferOriginal.clone();
