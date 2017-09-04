@@ -50,86 +50,23 @@
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
-            <LinearLayout
-                android:id="@+id/verificationcode"
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/usr_forgotpassword_inputId_inputValidationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_24"
-                android:orientation="horizontal"
-                android:weightSum="6">
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/usr_forgotpassword_inputId_textField1"
+                    android:id="@+id/usr_forgotpassword_inputId_ValidationEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="false"/>
-
-                <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/usr_forgotpassword_inputId_textField2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="false"/>
-
-                <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/usr_forgotpassword_inputId_textField3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="false"/>
-
-                <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/usr_forgotpassword_inputId_textField4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="false"/>
-
-                <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/usr_forgotpassword_inputId_textField5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="false"/>
-
-                <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/usr_forgotpassword_inputId_textField6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    app:uidInputTextWithClearButton="false"/>
-            </LinearLayout>
+                    android:imeOptions="flagNoExtractUi"
+                    android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                    android:maxLength="6"
+                    android:inputType="textPassword"
+                    android:maxLines="1"/>
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:id="@+id/btn_reg_Verify"
