@@ -8,30 +8,21 @@
 
 package com.philips.cdp.registration.coppa.ui.fragment;
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.style.ClickableSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.content.*;
+import android.content.res.*;
+import android.os.*;
+import android.text.style.*;
+import android.view.*;
+import android.widget.*;
 
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.coppa.R;
-import com.philips.cdp.registration.coppa.base.CoppaStatus;
-import com.philips.cdp.registration.coppa.ui.controllers.ParentalApprovalFragmentController;
-import com.philips.cdp.registration.coppa.utils.AppTaggingCoppaPages;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
-import com.philips.cdp.registration.coppa.utils.RegCoppaUtility;
-import com.philips.cdp.registration.events.NetworkStateListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.coppa.*;
+import com.philips.cdp.registration.coppa.base.*;
+import com.philips.cdp.registration.coppa.ui.controllers.*;
+import com.philips.cdp.registration.coppa.utils.*;
+import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.utils.*;
 
 public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment implements
         NetworkStateListener {
@@ -152,14 +143,12 @@ public class ParentalApprovalFragment extends RegistrationCoppaBaseFragment impl
                 != null
                 && mParentalApprovalFragmentController.getCoppaExtension().
                 getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConsentPending)) {
-            trackPage(AppTaggingPages.WELCOME);
             return;
         }
         if (mParentalApprovalFragmentController.getCoppaExtension().
                 getCoppaEmailConsentStatus() != null
                 && !mParentalApprovalFragmentController.getCoppaExtension().
                 getCoppaEmailConsentStatus().equals(CoppaStatus.kDICOPPAConfirmationGiven)) {
-            trackPage(AppTaggingPages.WELCOME);
         }
     }
 
