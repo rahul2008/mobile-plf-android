@@ -19,7 +19,7 @@ node('Android') {
     def cucumber_filename = 'cucumber-report-android-commlib.json'
 
     Slack.notify('#conartists') {
-        boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "master")
+        boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME == "master")
 
         stage('Build') {
             sh "$gradle generateJavadocPublicApi saveResDep assemble testDebug"
