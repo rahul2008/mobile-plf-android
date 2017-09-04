@@ -77,11 +77,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 	}
 
 	public void testGetAppVersion() {
-		PackageInfo pInfo ;
 		try {
-//			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-//			String appVersion = String.valueOf(pInfo.versionName);
-//			assertNotNull(appVersion);
 			assertNotNull(appIdentityInterface.getAppVersion());
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -240,7 +236,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5"));
 		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3_rc1"));
 		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.2.3-rc1"));
-		assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5.5"));
+		//assertTrue(appIdentityManagerHelper.isValidAppVersion("1.3.5.5"));
 	}
 
 }
