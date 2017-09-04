@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.android.gms.iid.InstanceID;
@@ -45,6 +46,7 @@ import org.robolectric.android.controller.ServiceController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -198,7 +200,6 @@ public class PushNotificationManagerTest {
                 };
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
-//        pushNotificationManager.registerTokenWithBackend(context);
 
         pushNotificationManager.startPushNotificationRegistration(context);
 
@@ -218,26 +219,39 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testSendPayloadToCoCo() {
+        final Boolean[] isResponseSuccess = {false};
+
         HandleNotificationPayloadInterface handleNotificationPayloadInterface = new HandleNotificationPayloadInterface() {
             @Override
             public void handlePayload(JSONObject payloadObject) throws JSONException {
-
+                isResponseSuccess[0] = true;
             }
 
             @Override
             public void handlePushNotification(String message) {
-
+                isResponseSuccess[0] = false;
             }
         };
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
         pushNotificationManager.registerForPayload(handleNotificationPayloadInterface);
 
-        String data = "{ \"dsc\": { \"dataSync\": \"moment\" } }";
-        Bundle bundle = new Bundle();
-        bundle.putCharSequence(PushNotificationConstants.PLATFORM_KEY, data);
+        String jsonData = "{ \"dsc\": { \"dataSync\": \"moment\" } }";
+        Bundle bundle = getBundle(jsonData, PushNotificationConstants.PLATFORM_KEY);
         PNLog.disablePNLogging();
         pushNotificationManager.sendPayloadToCoCo(bundle);
+        assertTrue(isResponseSuccess[0]);
+
+        bundle = getBundle(jsonData, "non_platform");
+        pushNotificationManager.sendPayloadToCoCo(bundle);
+        assertFalse(isResponseSuccess[0]);
+    }
+
+    @NonNull
+    protected Bundle getBundle(String dataWithCorrectJson, String key) {
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(key, dataWithCorrectJson);
+        return bundle;
     }
 
     @Test
