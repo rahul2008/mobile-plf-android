@@ -88,6 +88,7 @@
     <integer name="uid_alert_dialog_title_max_lines">2</integer>
     <integer name="uid_alert_dialog_anim_duration">300</integer>
     <integer name="uid_alert_dialog_scrollbar_fade_duration">10000</integer>
+    <dimen name="uid_dialog_margins">24dp</dimen>
 
     <!-- Navigation bar properties-->
     <dimen name="uid_navigation_bar_padding_left">16dp</dimen>
