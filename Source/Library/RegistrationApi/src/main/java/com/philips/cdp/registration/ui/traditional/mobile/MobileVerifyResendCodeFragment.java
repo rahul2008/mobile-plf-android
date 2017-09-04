@@ -82,10 +82,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         phoneNumberEditText.setText(user.getMobile());
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         if(!getRegistrationFragment().getCounterState()){
-            resendSMSButton.setEnabled(true);
+            enableResendButton();
         }
+        disableResendButton();
         phoneNumberChange();
-
         CounterHelper.getInstance()
                 .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
         CounterHelper.getInstance()
@@ -215,6 +215,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
         showProgressDialog();
+        getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
@@ -254,6 +255,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableResendButton() {
         resendSMSButton.setText(RESEND_SMS);
+        resendSMSButton.setProgressText(RESEND_SMS);
         if(networkUtility.isNetworkAvailable())
             resendSMSButton.setEnabled(true);
     }

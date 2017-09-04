@@ -339,7 +339,7 @@
 
     <string name="no_sms_timer">"Please wait %s more seconds"</string>
     <string name="reg_verify_mobile_title">Confirm your phone number</string>
-    <string name="reg_verify_mobile_desc1">We\'ve just sent an SMS with a six digit code to your phone number %s</string>
+    <string name="reg_verify_mobile_desc1">We\'ve just sent an SMS with a six digit code to your phone number </string>
     <string name="reg_verify_mobile_desc2">Please enter the code to activate your account.</string>
     <string name="reg_verify_mobile_verify_button">Verify code</string>
 

@@ -147,8 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_Verify_SMS_Did_Not_Receive_SMS"
-                app:uidComponentType="Secondary"
-                />
+                app:uidComponentType="Secondary"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"

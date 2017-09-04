@@ -11,7 +11,10 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.content.*;
 import android.content.res.*;
+import android.graphics.*;
 import android.os.*;
+import android.text.*;
+import android.text.style.*;
 import android.view.*;
 import android.widget.Button;
 
@@ -37,7 +40,6 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
 
 public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener{
-
 
     @Inject
     NetworkUtility networkUtility;
@@ -71,8 +73,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     String verifyCode;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
@@ -93,41 +93,49 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     private void setDescription() {
         String userId =  user.getMobile();
-        reg_verify_mobile_desc1.setText(
-                String.format(getString(R.string.reg_verify_mobile_desc1), userId));
+        String normalText = getString(R.string.reg_verify_mobile_desc1);
+        SpannableString str = new SpannableString(normalText + " "+ userId);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length(), str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        reg_verify_mobile_desc1.setText(str);
     }
 
     private void handleVerificationCode() {
 
         Observable<String> obs1 = RxTextView.textChanges(verificationCodeValidationEditText.get(0))
                 .map(charSeq -> {
+                    if((verificationCodeValidationEditText.get(0).getText().length()>0))
                     verificationCodeValidationEditText.get(1).requestFocus();
                     return charSeq.toString();
                 });
 
         Observable<String> obs2 = RxTextView.textChanges(verificationCodeValidationEditText.get(1))
                 .map(charSeq -> {
-                    verificationCodeValidationEditText.get(2).requestFocus();
+                    if((verificationCodeValidationEditText.get(1).getText().length()>0))
+                        verificationCodeValidationEditText.get(2).requestFocus();
                     return charSeq.toString();
                 });
         Observable<String> obs3 = RxTextView.textChanges(verificationCodeValidationEditText.get(2))
                 .map(charSeq -> {
-                    verificationCodeValidationEditText.get(3).requestFocus();
+                    if((verificationCodeValidationEditText.get(2).getText().length()>0))
+                        verificationCodeValidationEditText.get(3).requestFocus();
                     return charSeq.toString();
                 });
         Observable<String> obs4 = RxTextView.textChanges(verificationCodeValidationEditText.get(3))
                 .map(charSeq -> {
-                    verificationCodeValidationEditText.get(4).requestFocus();
+                    if((verificationCodeValidationEditText.get(3).getText().length()>0))
+                        verificationCodeValidationEditText.get(4).requestFocus();
                     return charSeq.toString();
                 });
         Observable<String> obs5 = RxTextView.textChanges(verificationCodeValidationEditText.get(4))
                 .map(charSeq -> {
-                    verificationCodeValidationEditText.get(5).requestFocus();
+                    if((verificationCodeValidationEditText.get(4).getText().length()>0))
+                        verificationCodeValidationEditText.get(5).requestFocus();
                     return charSeq.toString();
                 });
         Observable<String> obs6 = RxTextView.textChanges(verificationCodeValidationEditText.get(5))
                 .map(charSeq -> {
-                    verificationCodeValidationEditText.get(1).requestFocus();
+                    if((verificationCodeValidationEditText.get(0).getText().length()==0))
+                        verificationCodeValidationEditText.get(0).requestFocus();
                     return charSeq.toString();
                 });
         getCompleteVerificationCode(obs1, obs2, obs3, obs4, obs5, obs6);
@@ -144,8 +152,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 .subscribe(enabled -> verifyButton.setEnabled(enabled && networkUtility.isNetworkAvailable()));
     }
 
-
-
     private void getCompleteVerificationCode(Observable<String> obs1, Observable<String> obs2,
                                              Observable<String> obs3, Observable<String> obs4,
                                              Observable<String> obs5, Observable<String> obs6) {
@@ -154,9 +160,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                         text1 + text2 + text3 + text4 + text5 + text6)
                 .subscribe(code -> verifyCode = code);
     }
-
-
-
 
 
     @Override
@@ -196,7 +199,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         }
     }
 
-
     public void handleUI() {
         updateUiStatus();
     }
@@ -217,7 +219,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
     }
 
-
     @Override
     public void onUpdate() {
         handleUI();
@@ -235,11 +236,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         verifyButton.showProgressIndicator();
-        disableVerifyButton();
+        smsNotReceived.setEnabled(false);
+        getRegistrationFragment().hideKeyBoard();
         mobileVerifyCodePresenter.verifyMobileNumber(user.getJanrainUUID(),
                 verifyCode);
     }
-
 
     @Override
     public void onResume() {
@@ -277,13 +278,17 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         return context.startService(intent);
     }
 
-
     @Override
     public void enableVerifyButton() {
         if ((verifyCode.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) &&
                 networkUtility.isNetworkAvailable()) {
             verifyButton.setEnabled(true);
         }
+    }
+
+    @Override
+    public void disableVerifyButton() {
+        verifyButton.setEnabled(false);
     }
 
     @Override
@@ -296,13 +301,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void disableVerifyButton() {
-        verifyButton.setEnabled(false);
-    }
-
-    @Override
     public void netWorkStateOfflineUiHandle() {
-        verifyButton.setEnabled(false);
+        hideProgressSpinner();
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
         smsNotReceived.setEnabled(false);
     }
@@ -310,6 +310,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void showSmsSendFailedError() {
         errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
+        hideProgressSpinner();
     }
 
     @Override
@@ -322,25 +323,29 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void smsVerificationResponseError() {
         errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+        hideProgressSpinner();
+
     }
 
     @Override
     public void hideProgressSpinner() {
         verifyButton.hideProgressIndicator();
+        smsNotReceived.setEnabled(true);
         enableVerifyButton();
-
     }
 
     @Override
     public void setOtpInvalidErrorMessage() {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
         errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+        hideProgressSpinner();
     }
 
     @Override
     public void setOtpErrorMessageFromJson(String errorDescription) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
         errorMessage.setError(errorDescription);
+        hideProgressSpinner();
     }
 
     @Override
@@ -351,5 +356,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void showOtpInvalidError() {
         errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+        hideProgressSpinner();
     }
 }
