@@ -5,8 +5,8 @@
     android:layout_height="wrap_content">
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/arrow"
-        android:text="@string/iap_add_new_address"
+        android:id="@+id/btn_add_new_payment"
+        android:text="@string/iap_add_payment_method"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/uikit_right_arrow"

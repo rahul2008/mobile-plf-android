@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,8 +16,10 @@ import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 
 import java.util.List;
 
-public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAdapter.PaymentMethodsHolder> {
+public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_FOOTER = 2;
     private Context mContext;
     private List<PaymentMethod> mPaymentMethodList;
     private int mSelectedIndex;
@@ -28,32 +31,50 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
     }
 
     @Override
-    public PaymentMethodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.iap_payment_method_item, null);
-        return new PaymentMethodsHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View view = null;
+        RecyclerView.ViewHolder viewHolder = null;
+        switch (viewType) {
+
+            case TYPE_ITEM:
+                view = View.inflate(parent.getContext(), R.layout.iap_payment_method_item, null);
+                return new PaymentMethodsHolder(view);
+
+            case TYPE_FOOTER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_payment_method_footer, parent, false);
+                return new PaymentMethodsFooterHolder(view);
+
+        }
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(PaymentMethodsHolder holder, int position) {
-        PaymentMethod paymentMethod = mPaymentMethodList.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        holder.cardName.setText(paymentMethod.getCardType().getCode() + " " +paymentMethod.getCardNumber());
-        holder.cardHoldername.setText(paymentMethod.getAccountHolderName());
-        holder.cardValidity.setText((mContext.getResources().getString(R.string.iap_valid_until)) + " " +
-                paymentMethod.getExpiryMonth() + "/" + paymentMethod.getExpiryYear());
+        if(holder instanceof PaymentMethodsHolder) {
 
-        //Update payment options buttons
-        updatePaymentOptionBtnVisibility(holder.paymentOptions, position);
+            PaymentMethodsHolder paymentMethodsHolder=(PaymentMethodsHolder)holder;
+            PaymentMethod paymentMethod = mPaymentMethodList.get(position);
 
-        //bind radio button state
-        setPaymentRadioBtnState(holder.paymentRadioBtn, position);
-        bindPaymentRadioBtn(holder, holder.paymentRadioBtn);
+            paymentMethodsHolder.cardName.setText(paymentMethod.getCardType().getCode() + " " + paymentMethod.getCardNumber());
+            paymentMethodsHolder.cardHoldername.setText(paymentMethod.getAccountHolderName());
+            paymentMethodsHolder.cardValidity.setText((mContext.getResources().getString(R.string.iap_valid_until)) + " " +
+                    paymentMethod.getExpiryMonth() + "/" + paymentMethod.getExpiryYear());
 
-        //bind use payment button
-        bindUsePaymentBtn(holder.usePayment);
+            //Update payment options buttons
+            updatePaymentOptionBtnVisibility(paymentMethodsHolder.paymentOptions, position);
 
-        //bind add new payment button
-        bindAddNewPaymentBtn(holder.addNewPayment);
+            //bind radio button state
+            setPaymentRadioBtnState(paymentMethodsHolder.paymentRadioBtn, position);
+            bindPaymentRadioBtn(paymentMethodsHolder, paymentMethodsHolder.paymentRadioBtn);
+
+            //bind use payment button
+            bindUsePaymentBtn(paymentMethodsHolder.usePayment);
+
+        }else{
+
+        }
     }
 
     private void bindUsePaymentBtn(final Button newPayment) {
@@ -65,18 +86,9 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
         });
     }
 
-    private void bindAddNewPaymentBtn(Button deliver) {
-        deliver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_NEW_PAYMENT);
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
-        return mPaymentMethodList.size();
+        return mPaymentMethodList.size()+1; // +1 for footer
     }
 
     public int getSelectedPosition() {
@@ -109,6 +121,14 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if(position == mPaymentMethodList.size()){
+            return TYPE_FOOTER;
+        }else{
+            return TYPE_ITEM;
+        }
+    }
 
     public class PaymentMethodsHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -117,7 +137,6 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
         TextView cardHoldername;
         TextView cardValidity;
         Button usePayment;
-        Button addNewPayment;
         ViewGroup paymentOptions;
 
         public PaymentMethodsHolder(final View view) {
@@ -127,7 +146,6 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
             cardHoldername = (TextView) view.findViewById(R.id.tv_card_holder_name);
             cardValidity = (TextView)view.findViewById(R.id.tv_card_validity);
             usePayment = (Button) view.findViewById(R.id.btn_use_payment_method);
-            addNewPayment = (Button) view.findViewById(R.id.btn_add_new_payment);
             paymentOptions = (ViewGroup) view.findViewById(R.id.ll_payment_options);
             view.setOnClickListener(this);
         }
@@ -137,6 +155,18 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
             mSelectedIndex = getAdapterPosition();
             setPaymentRadioBtnState(paymentRadioBtn, getAdapterPosition());
             notifyDataSetChanged();
+        }
+    }
+
+    private class PaymentMethodsFooterHolder extends RecyclerView.ViewHolder {
+        public PaymentMethodsFooterHolder(View view) {
+            super(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_NEW_PAYMENT);
+                }
+            });
         }
     }
 }

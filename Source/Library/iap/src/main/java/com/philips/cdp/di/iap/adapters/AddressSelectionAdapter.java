@@ -26,7 +26,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<Addresses> mAddresses;
 
     private int mSelectedIndex=0; //As Oth position is taken by header
-    private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
@@ -44,11 +43,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         View view = null;
         RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {
-
-            case TYPE_HEADER:
-
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_header, parent, false);
-                return new AddressSelectionHeader(view);
 
             case TYPE_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_item, parent, false);
@@ -205,16 +199,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             return TYPE_FOOTER;
         }
         return TYPE_ITEM;
-    }
-
-    private class AddressSelectionHeader extends RecyclerView.ViewHolder {
-
-        TextView mTvSelectAddressHeader;
-        public AddressSelectionHeader(View view) {
-            super(view);
-            mTvSelectAddressHeader=(TextView)view.findViewById(R.id.tv_select_address);
-            mTvSelectAddressHeader.setText(view.getContext().getString(R.string.iap_selection_select_address));
-        }
     }
 
     private class AddressSelectionFooter extends RecyclerView.ViewHolder {
