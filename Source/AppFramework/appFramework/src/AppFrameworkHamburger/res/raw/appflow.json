@@ -30,26 +30,6 @@
         ]
       },
       {
-        "state": "debug",
-        "events": [
-          {
-            "eventId": "back",
-            "nextStates": [
-              {
-                "condition": [
-                  "isLoggedIn"
-                ],
-                "nextState": "home"
-              },
-              {
-                "condition": [],
-                "nextState": "onBoarding_registration"
-              }
-            ]
-          }
-        ]
-      },
-      {
         "state": "onBoarding_registration",
         "events": [
           {
