@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
-                android:text="Merge Accounts"
+                android:text="Merge accounts"
                 android:textSize="@dimen/reg_title_text_size"
                 android:textStyle="bold"/>
 
