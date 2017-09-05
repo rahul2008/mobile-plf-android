@@ -95,7 +95,7 @@ public class CocoVersionAdapter extends RecyclerView.Adapter<CocoVersionAdapter.
         }
         return 0;
     }
-    public class CocoInfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected class CocoInfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView CocoName;
         public TextView CocoVersion;
         public TextView cocoDescription;

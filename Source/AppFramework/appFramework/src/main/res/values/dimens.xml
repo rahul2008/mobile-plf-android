@@ -28,4 +28,7 @@
     <dimen name="margin_forty_eight">48dip</dimen>
     <dimen name="welcome_video_height">204dip</dimen>
     <dimen name="margin_eight">8dp</dimen>
+    <dimen name="coco_description_background_border_width">2dp</dimen>
+    <dimen name="coco_description_background_stroke_width">1dp</dimen>
+    <dimen name="coco_description_background_radius">5dp</dimen>
 </resources>

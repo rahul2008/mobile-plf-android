@@ -32,6 +32,8 @@ public class TestFragment extends AbstractAppFrameworkBaseFragment implements Te
 
     private TestPresenter testPresenter;
 
+    private final String APP_INFO_CHAPTER = "App Info";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,20 +74,20 @@ public class TestFragment extends AbstractAppFrameworkBaseFragment implements Te
 
     @Override
     public void showCoCoList(Chapter chapter) {
-        AbstractAppFrameworkBaseFragment fragment;
+        AbstractAppFrameworkBaseFragment baseFragment;
 
         switch (chapter.getChapterName()) {
-            case "App Info":
-                fragment = new CocoVersionFragment();
+            case APP_INFO_CHAPTER:
+                baseFragment = new CocoVersionFragment();
                 break;
             default:
                 Bundle bundle=new Bundle();
                 bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,chapter);
-                fragment = new COCOListFragment();
-                fragment.setArguments(bundle);
+                baseFragment = new COCOListFragment();
+                baseFragment.setArguments(bundle);
                 break;
         }
-        ((AbstractAppFrameworkBaseActivity)getActivity()).addFragment(fragment,"CoCoListFragment");
+        ((AbstractAppFrameworkBaseActivity)getActivity()).addFragment(baseFragment, baseFragment.getClass().getSimpleName());
     }
 
 }

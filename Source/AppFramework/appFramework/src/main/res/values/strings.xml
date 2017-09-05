@@ -193,9 +193,6 @@
         <item>@string/RA_Philips_Shop_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
-        <!--<item>@string/RA_ConnectivityScreen_Menu_Title</item>-->
-        <!--<item>@string/RA_Coco_Version</item>-->
-        <!--<item>@string/RA_DebugScreen_Title</item>-->
         <item>@string/RA_Demo_Menu_Title</item>
     </string-array>
 
