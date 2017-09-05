@@ -54,6 +54,10 @@ public class DigitalCareConstants {
     public static final String SERVICE_ID_CC_PRODUCTREVIEWURL = "cc.productreviewurl";
     public static final String SERVICE_ID_CC_ATOS = "cc.atos";
 
+    public static final String SERVICE_ID_CC_TWITTER = "cc.twitterurl";
+    public static final String SERVICE_ID_CC_FB = "cc.facebookurl";
+    public static final String SERVICE_ID_CC_LIVECHAT = "cc.livechaturl";
+
     public static final String KEY_PRODUCT_SECTOR = "productSector";
     public static final String KEY_PRODUCT_CATALOG = "productCatalog";
     public static final String KEY_PRODUCT_CATEGORY = "productCategory";

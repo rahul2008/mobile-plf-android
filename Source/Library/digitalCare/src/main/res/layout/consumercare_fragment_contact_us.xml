@@ -65,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/live_chat"
+                android:visibility="gone"
                 app:uidComponentType="Secondary"/>
 
         </LinearLayout>

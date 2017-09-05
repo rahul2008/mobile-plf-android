@@ -47,10 +47,12 @@
         <item>@string/icon_dls_facebook</item>
     </string-array>
 
+    <!--TODO: Supporting Facebook for backward compatibility. Need to remove later-->
     <!-- Facebook product support page -->
-    <string name="facebook_product_page">PhilipsHomeLiving</string>
+    <!--<string name="facebook_product_page">PhilipsHomeLiving</string>-->
     <string name="facebook_product_pageID">177538492375159</string>
 
+    <!--TODO: Supporting twitter for backward compatibility. Need to remove later-->
     <!-- Twitter product support page -->
     <string name="twitter_page">PhilipsCare</string>
 
