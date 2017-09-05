@@ -41,7 +41,7 @@ import java.util.Locale;
 
 public class DLSAddressFragment extends InAppBaseFragment implements View.OnClickListener, AddressController.AddressListener, PaymentController.PaymentListener {
 
-    public static final String TAG = DLSAddressFragment.class.getSimpleName();
+    public static final String TAG = DLSAddressFragment.class.getName();
     private Context mContext;
     protected Fragment shippingFragment;
     protected Fragment billingFragment;
@@ -67,6 +67,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "2"));
 
         shippingFragment = getFragmentByID(R.id.fragment_shipping_address);
+
         billingFragment = getFragmentByID(R.id.fragment_billing_address);
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
@@ -133,10 +134,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (isVisible) {
             fm.beginTransaction()
                     .show(fragment)
+                    .addToBackStack(fragment.getClass().getName())
                     .commit();
         } else {
             fm.beginTransaction()
                     .hide(fragment)
+                    .addToBackStack(fragment.getClass().getName())
                     .commit();
         }
 
@@ -183,7 +186,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             shippingAddressFields.setRegionIsoCode(null);
         }
 
-        HashMap<String, String> updateAddressPayload = addressPayload(shippingAddressFields);
+        HashMap<String, String> updateAddressPayload;
+        if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
+            updateAddressPayload = addressPayload(shippingAddressFields);
+        else
+            updateAddressPayload = addressPayload(billingAddressFields);
+
         if (CartModelContainer.getInstance().getAddressId() != null) {
             if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null)
                 updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
@@ -268,13 +276,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 dismissProgressDialog();
                 ((DLSShippingAddressFragment) shippingFragment).handleError(msg);
             } else {
-                if (CartModelContainer.getInstance().getAddressId() != null) {
+                if (CartModelContainer.getInstance().getAddressId() == null) {
                     dismissProgressDialog();
                     getFragmentManager().popBackStackImmediate();
+                } else {
+                    mAddressController.setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
                 }
-//                else {
-//                    mAddressController.setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
-//                }
             }
         }
     }

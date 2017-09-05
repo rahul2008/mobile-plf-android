@@ -20,6 +20,7 @@
             android:id="@+id/fragment_shipping_address"
             android:name="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
             android:layout_width="match_parent"
+            android:tag="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:layout_marginStart="@dimen/border16_margin_left_right" />
@@ -39,6 +40,7 @@
             android:name="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:layout_marginStart="@dimen/border16_margin_left_right">
 

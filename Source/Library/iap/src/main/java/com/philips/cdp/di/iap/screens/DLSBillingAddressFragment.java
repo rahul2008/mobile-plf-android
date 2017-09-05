@@ -460,7 +460,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 && (!mEtSalutationBilling.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLStateBilling.getVisibility() == View.GONE || (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().equalsIgnoreCase("")))) {
 
-            //mBillingAddressFields = setBillingAddressFields(mBillingAddressFields);
             setBillingAddressFields(billingAddressFields);
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
             mParentFragment.setBillingAddressFields(billingAddressFields);

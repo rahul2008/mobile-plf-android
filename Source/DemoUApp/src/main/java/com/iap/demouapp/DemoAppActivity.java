@@ -353,8 +353,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             URLaunchInput urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
-            urLaunchInput.setAccountSettings(false);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
             URInterface urInterface = new URInterface();
             urInterface.launch(new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
