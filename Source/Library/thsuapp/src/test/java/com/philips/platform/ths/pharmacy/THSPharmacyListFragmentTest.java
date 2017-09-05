@@ -32,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class) @Config(shadows = THSShadowMapFragment.class)
-public class THSPharmacyListTest {
+public class THSPharmacyListFragmentTest {
 
     @Mock
     AWSDK awsdkMock;
@@ -71,7 +71,7 @@ public class THSPharmacyListTest {
     @Mock
     FragmentActivity activityMock;
 
-    THSPharmacyListFragment thsPharmacyListFragmentl;
+    THSPharmacyListFragment thsPharmacyListFragment;
 
     @Before
     public void setUp() throws Exception {
@@ -87,15 +87,15 @@ public class THSPharmacyListTest {
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer,address);
         thsShippingAddressFragment.setFragmentLauncher(fragmentLauncherMock);
 
-        thsPharmacyListFragmentl = new THSPharmacyListFragment();
-        thsPharmacyListFragmentl.setActionBarListener(actionBarListenerMock);
-        thsPharmacyListFragmentl.setFragmentLauncher(fragmentLauncherMock);
+        thsPharmacyListFragment = new THSPharmacyListFragment();
+        thsPharmacyListFragment.setActionBarListener(actionBarListenerMock);
+        thsPharmacyListFragment.setFragmentLauncher(fragmentLauncherMock);
 
     }
 
     @Test
     public void launchPharmacyListFragment(){
-        SupportFragmentTestUtil.startFragment(thsPharmacyListFragmentl);
+        SupportFragmentTestUtil.startFragment(thsPharmacyListFragment);
     }
 
     @Test
