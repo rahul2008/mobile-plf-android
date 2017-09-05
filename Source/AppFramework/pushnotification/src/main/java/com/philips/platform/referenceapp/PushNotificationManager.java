@@ -39,6 +39,7 @@ public class PushNotificationManager {
     private PushNotificationTokenRegistrationInterface tokenRegistrationListener;
     private PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface;
     private AppInfraInterface appInfra;
+    private RegistrationCallbacks.RegisterCallbackListener registerCallbackListener = null;
 
     public interface DeregisterTokenListener {
         void onSuccess();
@@ -88,8 +89,22 @@ public class PushNotificationManager {
      * Register common component for payload
      * @param pushNotificationTokenRegistrationInterface
      */
-    public void registerForTokenRegistration(PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface){
+    public void registerForTokenRegistration(PushNotificationTokenRegistrationInterface
+                                                     pushNotificationTokenRegistrationInterface){
         tokenRegistrationListener=pushNotificationTokenRegistrationInterface;
+        PNLog.d(TAG,"Registering component for token registration with backend");
+    }
+
+    /**
+     * TESTING API. Dont use for production.
+     * Register common component for payload
+     * @param pushNotificationTokenRegistrationInterface
+     */
+    public void registerForTokenRegistration(PushNotificationTokenRegistrationInterface
+                                                     pushNotificationTokenRegistrationInterface,
+                                             RegistrationCallbacks.RegisterCallbackListener registerCallbackListener){
+        tokenRegistrationListener=pushNotificationTokenRegistrationInterface;
+        this.registerCallbackListener = registerCallbackListener;
         PNLog.d(TAG,"Registering component for token registration with backend");
     }
 
@@ -151,11 +166,17 @@ public class PushNotificationManager {
                 public void onResponse(boolean isRegistered) {
                     PNLog.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
                     saveTokenRegistrationState(applicationContext, isRegistered);
+                    if(registerCallbackListener != null) {
+                        registerCallbackListener.onResponse(isRegistered);
+                    }
                 }
 
                 @Override
                 public void onError(int errorCode, String errorMessage) {
                     PNLog.d(TAG, "Register token error: code::" + errorCode + "message::" +errorMessage);
+                    if(registerCallbackListener != null) {
+                        registerCallbackListener.onError(errorCode, errorMessage);
+                    }
                 }
             });
         }else{
