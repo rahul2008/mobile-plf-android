@@ -101,7 +101,7 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
