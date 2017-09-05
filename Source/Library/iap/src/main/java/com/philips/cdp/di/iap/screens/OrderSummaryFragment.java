@@ -171,15 +171,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
         if (!isNetworkConnected()) return;
         if (v == mPayNowBtn) {
-            showCvvDialog(getFragmentManager());
-            if (mPaymentMethod != null)
+           if (mPaymentMethod != null)
                 showCvvDialog(getFragmentManager());
             else {
                 placeOrder(null);
             }
         } else if (v == mCancelBtn) {
-            addFragment(PaymentConfirmationFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            //doOnCancelOrder();
+            doOnCancelOrder();
         }
     }
 
