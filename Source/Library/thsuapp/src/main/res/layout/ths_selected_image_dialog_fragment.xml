@@ -12,7 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="12dp"
         android:layout_marginTop="24dp"
-        android:src="@mipmap/cross_icon" />
+        android:padding="@dimen/ths_32dp"
+        android:src="@mipmap/dls_cross_bold" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:id="@+id/ths_selected_image_scroll_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/left_arrow_icon"
+            android:src="@mipmap/dls_navigation_left"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="31dp" />
@@ -39,7 +40,7 @@
             android:id="@+id/ths_selected_image_scroll_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/right_arrow_icon"
+            android:src="@mipmap/dls_navigation_right"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/selected_image_pager"
             android:layout_marginStart="25dp" />
