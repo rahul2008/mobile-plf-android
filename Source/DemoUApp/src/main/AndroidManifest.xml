@@ -3,9 +3,8 @@
     package="com.philips.platform.dscdemo">
 
     <application
-        android:allowBackup="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
-        tools:replace="android:theme,android:allowBackup">
+        tools:replace="android:theme">
         <activity
             android:name="com.philips.platform.dscdemo.activity.DemoActivity"
             android:screenOrientation="portrait"
