@@ -113,17 +113,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     String verificationSmsCodeURL;
 
-    private String mEmail;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreate");
-        super.onCreate(savedInstanceState);
-    }
+    private String mEmailOrMobile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
@@ -150,6 +143,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onDestroyView() {
+        getActivity().getWindow().setSoftInputMode(mode);
         super.onDestroyView();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroyView");
         compositeDisposable.dispose();
@@ -219,35 +213,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         getRegistrationFragment().launchAccountActivationFragmentForLogin();
     }
 
-    public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
-        @Override
-        public int isValid(boolean valid) {
-            return 0;
-        }
-
-        @Override
-        public int isEmpty(boolean emptyField) {
-            if (emptyField) {
-                mEtEmail.setErrorMessage(
-                        R.string.reg_EmptyField_ErrorMsg);
-            } else {
-                if (RegistrationHelper.getInstance().isMobileFlow()) {
-                    mEtEmail.setErrorMessage(
-                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
-                } else {
-                    mEtEmail.setErrorMessage(
-                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
-                }
-            }
-            return 0;
-        }
-    });
     private void initUI(View view) {
         consumeTouch(view);
         mBtnSignInAccount.setOnClickListener(this);
 
-        mEtEmail.setOnClickListener(this);
-        mEtEmail.setValidator(loginIdValidator);
+        mEtEmail.setValidator(email -> emailStatus(email.toString()));
         mEtEmail.setFocusable(true);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
@@ -266,6 +236,25 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         registrationSettingsURL = new RegistrationSettingsURL();
     }
 
+   private boolean emailStatus(String emailOrMobile){
+       if(emailOrMobile.isEmpty()) {
+           mEtEmail.setErrorMessage(
+                   R.string.reg_EmptyField_ErrorMsg);
+           return false;
+       }
+
+       if(RegistrationHelper.getInstance().isMobileFlow()) {
+           mEtEmail.setErrorMessage(
+                   R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+           return FieldsValidator.isValidMobileNumber(emailOrMobile.toString());
+       }else{
+           mEtEmail.setErrorMessage(
+                   R.string.reg_InvalidEmailAdddress_ErrorMsg);
+           return FieldsValidator.isValidEmail(emailOrMobile.toString());
+       }
+   }
+
+
     private void underlineResetPassword() {
         SpannableString content = new SpannableString(resetPasswordLabel.getText());
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -281,7 +270,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Observable<Boolean> getLoginIdObservable() {
         return RxTextView.textChanges(loginValidationEditText)
-                .map(email -> loginIdValidator.validate(email.toString()));
+                .map(email -> emailStatus(email.toString()));
     }
 
     private Observable<Boolean> getPasswordObservable() {
@@ -306,13 +295,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             showSignInSpinner();
         }
         if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
-            mEmail = loginValidationEditText.getText().toString();
+            mEmailOrMobile = loginValidationEditText.getText().toString();
         }
         else {
-            mEmail = FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString());
+            mEmailOrMobile = FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString());
         }
 
-        mUser.loginUsingTraditional(mEmail, passwordValidationEditText.getText().toString(), this);
+        mUser.loginUsingTraditional(mEmailOrMobile, passwordValidationEditText.getText().toString(), this);
     }
 
     private void handleUiState() {
@@ -499,6 +488,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         updateUiStatus();
         mBtnSignInAccount.setEnabled(isOnline);
     }
+    private int mode;
+    @Override
+    public void onResume() {
+        int mode = getActivity().getWindow().getAttributes().softInputMode;
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        super.onResume();
+    }
+
+
 
     @Override
     public void onResendVerificationEmailSuccess() {
@@ -549,7 +547,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
         if ((mUser.isEmailVerified() || mUser.isMobileVerified()) || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            if (RegPreferenceUtility.getStoredState(mContext, mEmail) && mUser.getReceiveMarketingEmail()) {
+            if (RegPreferenceUtility.getStoredState(mContext, mEmailOrMobile) && mUser.getReceiveMarketingEmail()) {
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
