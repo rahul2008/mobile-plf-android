@@ -8,8 +8,11 @@ package com.philips.platform.appinfra.aikm;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -22,6 +25,7 @@ public class AIKManager implements AIKMInterface {
 
     private final AppInfra appInfra;
     private final GroomHelper groomHelper;
+    private static String IS_AIKM_SERVICE_ENABLED ="aiKmService.enabled";
 
     public AIKManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
@@ -77,5 +81,19 @@ public class AIKManager implements AIKMInterface {
                 onGetServicesListener.onError(error, message);
             }
         };
+    }
+
+    public static boolean isAiKmServiceEnabled(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
+        try {
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
+            Object propertyForKey = appConfigurationManager.getPropertyForKey
+                    (IS_AIKM_SERVICE_ENABLED, "APPINFRA", configError);
+            return propertyForKey != null && (boolean) propertyForKey;
+        } catch (IllegalArgumentException exception) {
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    AppInfraLogEventID.AI_APPINFRA, "Error in reading aikm service config ");
+        }
+        return false;
     }
 }

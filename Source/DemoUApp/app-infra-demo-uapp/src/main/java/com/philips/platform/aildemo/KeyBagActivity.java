@@ -58,30 +58,34 @@ public class KeyBagActivity extends AppCompatActivity {
 	}
 
 	public void onClick(View view) {
-		final AIKMInterface serviceInterface = AILDemouAppInterface.getInstance().getAppInfra().getAiKmInterface();
+		final AIKMInterface aiKmInterface = AILDemouAppInterface.getInstance().getAppInfra().getAiKmInterface();
 
-		String serviceIdsFromEditText = serviceIdEditText.getText().toString();
-		if(!TextUtils.isEmpty(serviceIdsFromEditText)) {
-			String[] serviceIds = serviceIdsFromEditText.split(",");
+		if (aiKmInterface != null) {
 
-			try {
-				serviceInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
-					@Override
-					public void onSuccess(List<AIKMService> aikmServices) {
-						updateView(aikmServices);
-					}
+			String serviceIdsFromEditText = serviceIdEditText.getText().toString();
+			if (!TextUtils.isEmpty(serviceIdsFromEditText)) {
+				String[] serviceIds = serviceIdsFromEditText.split(",");
 
-					@Override
-					public void onError(ERRORVALUES error, String message) {
-						Log.e(getClass().getSimpleName(), message);
-						Toast.makeText(KeyBagActivity.this, message, Toast.LENGTH_SHORT).show();
-					}
-				});
-			} catch (AIKMJsonFileNotFoundException e) {
-				Log.e("error "," Json file not found ");
-			}
+				try {
+					aiKmInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
+						@Override
+						public void onSuccess(List<AIKMService> aikmServices) {
+							updateView(aikmServices);
+						}
+
+						@Override
+						public void onError(ERRORVALUES error, String message) {
+							Log.e(getClass().getSimpleName(), message);
+							Toast.makeText(KeyBagActivity.this, message, Toast.LENGTH_SHORT).show();
+						}
+					});
+				} catch (AIKMJsonFileNotFoundException e) {
+					Log.e("error ", " Json file not found ");
+				}
+			} else
+				Toast.makeText(KeyBagActivity.this, "Please enter service id", Toast.LENGTH_SHORT).show();
 		} else
-			Toast.makeText(KeyBagActivity.this,"Please enter service id",Toast.LENGTH_SHORT).show();
+			Toast.makeText(KeyBagActivity.this, "Aikm service disabled or not found in AppConfig.json", Toast.LENGTH_SHORT).show();
 	}
 
 	private void updateView(List<AIKMService> aikmServiceList) {

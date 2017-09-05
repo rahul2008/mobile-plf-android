@@ -38,7 +38,8 @@
     "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
     "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
     "appUpdate.serviceId":"appinfra.testing.version",
-    "appUpdate.autoRefresh":true,
+    "aiKmService.enabled": false,
+    "appUpdate.autoRefresh": true,
     "logging.releaseConfig":{
       "fileName":"AppInfraLog",
       "numberOfFiles":5,

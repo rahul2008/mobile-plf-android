@@ -462,14 +462,16 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final AIKManager aikManager;
-                    aikManager = new AIKManager(ai);
-                    ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
-                }
-            }).start();
+            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final AIKManager aikManager;
+                        aikManager = new AIKManager(ai);
+                        ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
+                    }
+                }).start();
+            }
 
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai, startTime, "App-infra initialization ends with ");

@@ -77,16 +77,16 @@ public class GroomHelper {
 
     String getAilGroomInHex(String data) throws NoSuchAlgorithmException {
         if (!TextUtils.isEmpty(data)) {
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                md.update(data.getBytes());
-                byte byteArray[] = md.digest();
-                StringBuilder hexString = new StringBuilder();
-                for (byte byteData : byteArray) {
-                    String hex = Integer.toHexString(0xff & byteData);
-                    if (hex.length() == 1) hexString.append('0');
-                    hexString.append(hex);
-                }
-                return hexString.toString();
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(data.getBytes());
+            byte byteArray[] = md.digest();
+            StringBuilder hexString = new StringBuilder();
+            for (byte byteData : byteArray) {
+                String hex = Integer.toHexString(0xff & byteData);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
         }
         return null;
     }
