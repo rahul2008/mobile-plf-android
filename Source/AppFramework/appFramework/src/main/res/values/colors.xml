@@ -6,4 +6,6 @@
 
     <!--This 'transparent' is required, bcz consumer care is using this keywork-->
     <color name="transparent">@android:color/transparent</color>
+    <color name="overlay_background">#343434</color>
+    <color name="overlay_got_it_button_bg">#696969</color>
 </resources>

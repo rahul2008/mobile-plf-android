@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:id="@+id/dialogBackground">
+
+    <ImageView
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/textView_overlay_subText"
+        android:id="@+id/imageHelp"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/Overlay.Description"
+        android:paddingRight="64dp"
+        android:paddingLeft="64dp"
+        android:layout_marginBottom="@dimen/margin_forty_eight"
+        android:layout_centerInParent="true"
+        android:id="@+id/textView_overlay_subText"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/overlay_got_it"
+        style="@style/Overlay.GotItButton"
+        android:text="@string/RA_DLS_overlay_got_it"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        app:uidButtonBackgroundColorList="@color/overlay_got_it_selector"
+        android:layout_marginBottom="@dimen/margin_ninty_six"
+        android:padding="10dp"
+        android:layout_marginRight="@dimen/margin_sixteen"
+        android:layout_marginLeft="@dimen/margin_sixteen"
+        android:clickable="false"/>
+
+</RelativeLayout>

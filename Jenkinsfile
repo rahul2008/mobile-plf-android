@@ -66,7 +66,7 @@ node ('android&&docker') {
                 sh '''#!/bin/bash -l       
                     chmod -R 775 . 
                     cd ./Source/AppFramework 
-                    ./gradlew -PenvCode=${JENKINS_ENV} :appFramework:saveResDep :appFramework:saveAllResolvedDependencies :appFramework:saveAllResolvedDependenciesGradleFormat
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 ''' 
             }
             stage('Trigger E2E Test'){
