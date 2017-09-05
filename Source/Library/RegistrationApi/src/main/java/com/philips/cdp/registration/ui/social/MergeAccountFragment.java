@@ -127,7 +127,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @OnClick(R2.id.usr_mergeScreen_forgotPassword_button)
     public void forgotButtonClick() {
-        resetPassword();
+        performAction();
     }
 
     private void mergeAccount() {
@@ -140,16 +140,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         }
     }
 
-    private void resetPassword() {
-        boolean validatorResult = FieldsValidator.isValidEmail(mEmailId);
-        if (validatorResult) {
-            if (networkUtility.isNetworkAvailable()) {
-                getRegistrationFragment().addResetPasswordFragment();
-                trackPage(AppTaggingPages.FORGOT_PASSWORD);
-            } else {
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            }
-        }
+    private void performAction() {
+        getRegistrationFragment().addResetPasswordFragment();
+        trackPage(AppTaggingPages.FORGOT_PASSWORD);
     }
 
     private void showMergeSpinner() {

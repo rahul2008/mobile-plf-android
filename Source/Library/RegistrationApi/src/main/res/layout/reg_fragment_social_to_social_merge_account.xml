@@ -30,8 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:text="Merge accounts"
-                android:textSize="@dimen/reg_title_text_size"
+                android:textSize="@dimen/reg_text_size_20"
                 android:textStyle="bold"/>
 
             <com.philips.platform.uid.view.widget.Label
