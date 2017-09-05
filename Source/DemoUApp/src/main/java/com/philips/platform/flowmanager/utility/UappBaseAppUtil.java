@@ -22,6 +22,7 @@ public class UappBaseAppUtil {
                 try {
                     ret = jsonFile.createNewFile();
                 } catch (IOException e) {
+                    Log.e("IO-Exception"," while creating new file ");
                 }
             }
         }

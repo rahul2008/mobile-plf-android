@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RawRes;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -64,6 +65,7 @@ class AppFlowParser {
                     throw new JsonFileNotFoundException();
                 }
             } catch (IOException e) {
+                Log.e("IO-Exception", " error while reading appflow.json");
             }
         }
         return appFlow;
@@ -85,6 +87,7 @@ class AppFlowParser {
                     throw new JsonFileNotFoundException();
                 }
             } catch (IOException e) {
+                Log.e("IO-Exception", " error while reading appflow.json");
             }
         }
         return appFlow;

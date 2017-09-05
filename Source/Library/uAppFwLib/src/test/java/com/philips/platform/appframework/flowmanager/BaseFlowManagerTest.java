@@ -4,6 +4,7 @@ package com.philips.platform.appframework.flowmanager;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -102,6 +103,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             TimeUnit.SECONDS.sleep(seconds);
         } catch (InterruptedException e) {
+            Log.e("interrupted exception", " while sleeping");
         }
     }
 
