@@ -153,12 +153,7 @@ public class PushNotificationManagerTest {
         MockInternetReacheablity();
 
         PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface =
-                new PushNotificationUserRegistationWrapperInterface() {
-                    @Override
-                    public boolean isUserSignedIn(Context appContext) {
-                        return true;
-                    }
-                };
+                getPushNotificationUserRegistationWrapperInterface();
 
         pushNotificationManager.init(appInfra, pushNotificationUserRegistationWrapperInterface);
         PNLog.disablePNLogging();
@@ -166,34 +161,11 @@ public class PushNotificationManagerTest {
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
         PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface =
-                new PushNotificationTokenRegistrationInterface() {
-                    @Override
-                    public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
-                        isRegisterTokenApiInvoked[0] = true;
-                        registerCallbackListener.onResponse(true);
-                    }
-
-                    @Override
-                    public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
-                        isRegisterTokenApiInvoked[0] = false;
-                        dergisterCallbackListener.onResponse(false);
-                    }
-                };
+                getRegistrationInterfaceRegisterToken(isRegisterTokenApiInvoked);
 
         final Boolean[] isResponseSuccess = {false};
 
-        RegistrationCallbacks.RegisterCallbackListener registerCallbackListener =
-                new RegistrationCallbacks.RegisterCallbackListener() {
-                    @Override
-                    public void onResponse(boolean isRegistered) {
-                        isResponseSuccess[0] = true;
-                    }
-
-                    @Override
-                    public void onError(int errorCode, String errorMessage) {
-                        isResponseSuccess[0] = false;
-                    }
-                };
+        RegistrationCallbacks.RegisterCallbackListener registerCallbackListener = getRegisterCallbackListener(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
 
@@ -201,6 +173,31 @@ public class PushNotificationManagerTest {
 
         assertTrue(isRegisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
+    }
+
+    @NonNull
+    private PushNotificationUserRegistationWrapperInterface getPushNotificationUserRegistationWrapperInterface() {
+        return new PushNotificationUserRegistationWrapperInterface() {
+            @Override
+            public boolean isUserSignedIn(Context appContext) {
+                return true;
+            }
+        };
+    }
+
+    @NonNull
+    private RegistrationCallbacks.RegisterCallbackListener getRegisterCallbackListener(final Boolean[] isResponseSuccess) {
+        return new RegistrationCallbacks.RegisterCallbackListener() {
+            @Override
+            public void onResponse(boolean isRegistered) {
+                isResponseSuccess[0] = true;
+            }
+
+            @Override
+            public void onError(int errorCode, String errorMessage) {
+                isResponseSuccess[0] = false;
+            }
+        };
     }
 
     @Test
@@ -217,22 +214,13 @@ public class PushNotificationManagerTest {
     public void testSendPayloadToCoCo() {
         final Boolean[] isResponseSuccess = {false};
 
-        HandleNotificationPayloadInterface handleNotificationPayloadInterface = new HandleNotificationPayloadInterface() {
-            @Override
-            public void handlePayload(JSONObject payloadObject) throws JSONException {
-                isResponseSuccess[0] = true;
-            }
-
-            @Override
-            public void handlePushNotification(String message) {
-                isResponseSuccess[0] = false;
-            }
-        };
+        HandleNotificationPayloadInterface handleNotificationPayloadInterface =
+                handleNotificationPayloadInterfaceForSuccess(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
         pushNotificationManager.registerForPayload(handleNotificationPayloadInterface);
 
-        String jsonData = "{ \"dsc\": { \"dataSync\": \"moment\" } }";
+        String jsonData = getJsonString();
         Bundle bundle = getBundle(jsonData, PushNotificationConstants.PLATFORM_KEY);
         PNLog.disablePNLogging();
         pushNotificationManager.sendPayloadToCoCo(bundle);
@@ -241,6 +229,26 @@ public class PushNotificationManagerTest {
         bundle = getBundle(jsonData, "non_platform");
         pushNotificationManager.sendPayloadToCoCo(bundle);
         assertFalse(isResponseSuccess[0]);
+    }
+
+    @NonNull
+    private HandleNotificationPayloadInterface handleNotificationPayloadInterfaceForSuccess(final Boolean[] isResponseSuccess) {
+        return new HandleNotificationPayloadInterface() {
+                @Override
+                public void handlePayload(JSONObject payloadObject) throws JSONException {
+                    isResponseSuccess[0] = true;
+                }
+
+                @Override
+                public void handlePushNotification(String message) {
+                    isResponseSuccess[0] = false;
+                }
+            };
+    }
+
+    @NonNull
+    private String getJsonString() {
+        return "{ \"dsc\": { \"dataSync\": \"moment\" } }";
     }
 
     @NonNull
@@ -257,7 +265,23 @@ public class PushNotificationManagerTest {
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
         PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface =
-                new PushNotificationTokenRegistrationInterface() {
+                getRegistrationInterfaceRegisterToken(isRegisterTokenApiInvoked);
+
+        final Boolean[] isResponseSuccess = {false};
+
+        RegistrationCallbacks.RegisterCallbackListener registerCallbackListener =
+                getRegisterCallbackListener(isResponseSuccess);
+
+        pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
+        pushNotificationManager.registerTokenWithBackend(context);
+
+        assertTrue(isRegisterTokenApiInvoked[0]);
+        assertTrue(isResponseSuccess[0]);
+    }
+
+    @NonNull
+    private PushNotificationTokenRegistrationInterface getRegistrationInterfaceRegisterToken(final Boolean[] isRegisterTokenApiInvoked) {
+        return new PushNotificationTokenRegistrationInterface() {
             @Override
             public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
                 isRegisterTokenApiInvoked[0] = true;
@@ -270,27 +294,6 @@ public class PushNotificationManagerTest {
                 dergisterCallbackListener.onResponse(false);
             }
         };
-
-        final Boolean[] isResponseSuccess = {false};
-
-        RegistrationCallbacks.RegisterCallbackListener registerCallbackListener =
-                new RegistrationCallbacks.RegisterCallbackListener() {
-                    @Override
-                    public void onResponse(boolean isRegistered) {
-                        isResponseSuccess[0] = true;
-                    }
-
-                    @Override
-                    public void onError(int errorCode, String errorMessage) {
-                        isResponseSuccess[0] = false;
-                    }
-                };
-
-        pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
-        pushNotificationManager.registerTokenWithBackend(context);
-
-        assertTrue(isRegisterTokenApiInvoked[0]);
-        assertTrue(isResponseSuccess[0]);
     }
 
     private void setExpectationFalseWhenPreferenceIsEmpty() {
@@ -305,42 +308,51 @@ public class PushNotificationManagerTest {
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
-
         PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface =
-                new PushNotificationTokenRegistrationInterface() {
-                    @Override
-                    public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
-                        isRegisterTokenApiInvoked[0] = true;
-                        registerCallbackListener.onError(1, "dummy");
-                    }
-
-                    @Override
-                    public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
-                        isRegisterTokenApiInvoked[0] = false;
-                        dergisterCallbackListener.onResponse(false);
-                    }
-                };
+                getRegistrationInterfaceRegisterTokenErrorCondition(isRegisterTokenApiInvoked);
 
         final Boolean[] isResponseSuccess = {false};
 
         RegistrationCallbacks.RegisterCallbackListener registerCallbackListener =
-                new RegistrationCallbacks.RegisterCallbackListener() {
-                    @Override
-                    public void onResponse(boolean isRegistered) {
-                        isResponseSuccess[0] = false;
-                    }
-
-                    @Override
-                    public void onError(int errorCode, String errorMessage) {
-                        isResponseSuccess[0] = true;
-                    }
-                };
+                getRegisterCallbackListenerErrorCondition(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface, registerCallbackListener);
         pushNotificationManager.registerTokenWithBackend(context);
 
         assertTrue(isRegisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
+    }
+
+    @NonNull
+    private RegistrationCallbacks.RegisterCallbackListener getRegisterCallbackListenerErrorCondition(final Boolean[] isResponseSuccess) {
+        return new RegistrationCallbacks.RegisterCallbackListener() {
+            @Override
+            public void onResponse(boolean isRegistered) {
+                isResponseSuccess[0] = false;
+            }
+
+            @Override
+            public void onError(int errorCode, String errorMessage) {
+                isResponseSuccess[0] = true;
+            }
+        };
+    }
+
+    @NonNull
+    private PushNotificationTokenRegistrationInterface getRegistrationInterfaceRegisterTokenErrorCondition(final Boolean[] isRegisterTokenApiInvoked) {
+        return new PushNotificationTokenRegistrationInterface() {
+            @Override
+            public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
+                isRegisterTokenApiInvoked[0] = true;
+                registerCallbackListener.onError(1, "dummy");
+            }
+
+            @Override
+            public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
+                isRegisterTokenApiInvoked[0] = false;
+                dergisterCallbackListener.onResponse(false);
+            }
+        };
     }
 
     @Test
@@ -354,41 +366,51 @@ public class PushNotificationManagerTest {
         final Boolean[] isDeregisterTokenApiInvoked = {false};
 
         PushNotificationTokenRegistrationInterface pushNotificationTokenRegistrationInterface =
-                new PushNotificationTokenRegistrationInterface() {
-                    @Override
-                    public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
-                        isDeregisterTokenApiInvoked[0] = false;
-                        registerCallbackListener.onResponse(false);
-                    }
-
-                    @Override
-                    public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
-                        isDeregisterTokenApiInvoked[0] = true;
-                        dergisterCallbackListener.onResponse(true);
-                    }
-                };
+                getDeregistrationInterfaceRegisterToken(isDeregisterTokenApiInvoked);
 
         final Boolean[] isResponseSuccess = {false};
 
-        PushNotificationManager.DeregisterTokenListener deregisterTokenListener = new
-                PushNotificationManager.DeregisterTokenListener() {
-                    @Override
-                    public void onSuccess() {
-                        isResponseSuccess[0] = true;
-                    }
-
-                    @Override
-                    public void onError() {
-                        isResponseSuccess[0] = false;
-                    }
-                };
-
+        PushNotificationManager.DeregisterTokenListener deregisterTokenListener =
+                getDeregisterTokenListener(isResponseSuccess);
 
         pushNotificationManager.registerForTokenRegistration(pushNotificationTokenRegistrationInterface);
         pushNotificationManager.deregisterTokenWithBackend(context, deregisterTokenListener);
 
         assertTrue(isDeregisterTokenApiInvoked[0]);
         assertTrue(isResponseSuccess[0]);
+    }
+
+    @NonNull
+    private PushNotificationManager.DeregisterTokenListener getDeregisterTokenListener(final Boolean[] isResponseSuccess) {
+        return new
+                    PushNotificationManager.DeregisterTokenListener() {
+                        @Override
+                        public void onSuccess() {
+                            isResponseSuccess[0] = true;
+                        }
+
+                        @Override
+                        public void onError() {
+                            isResponseSuccess[0] = false;
+                        }
+                    };
+    }
+
+    @NonNull
+    private PushNotificationTokenRegistrationInterface getDeregistrationInterfaceRegisterToken(final Boolean[] isDeregisterTokenApiInvoked) {
+        return new PushNotificationTokenRegistrationInterface() {
+            @Override
+            public void registerToken(String deviceToken, String appVariant, String protocolProvider, RegistrationCallbacks.RegisterCallbackListener registerCallbackListener) {
+                isDeregisterTokenApiInvoked[0] = false;
+                registerCallbackListener.onResponse(false);
+            }
+
+            @Override
+            public void deregisterToken(String appToken, String appVariant, RegistrationCallbacks.DergisterCallbackListener dergisterCallbackListener) {
+                isDeregisterTokenApiInvoked[0] = true;
+                dergisterCallbackListener.onResponse(true);
+            }
+        };
     }
 
     @Test
