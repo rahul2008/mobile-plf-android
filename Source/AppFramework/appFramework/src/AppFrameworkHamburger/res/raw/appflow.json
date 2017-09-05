@@ -154,11 +154,11 @@
             ]
           },
           {
-            "eventId": "ths",
+            "eventId": "telehealthservices",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "ths"
+                "nextState": "telehealthservices"
               }
             ]
           },

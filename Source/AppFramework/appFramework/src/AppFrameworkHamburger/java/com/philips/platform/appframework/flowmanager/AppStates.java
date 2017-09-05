@@ -38,5 +38,5 @@ public class AppStates {
     public static final String TESTDLS="DLS";
     public static final String TESTCONARTIST="demoConnectvityState";
     public static final String TESTBLUELIB="demoBlueLib";
-    public static final String THS="ths";
+    public static final String TELEHEALTHSERVICES ="telehealthservices";
 }
