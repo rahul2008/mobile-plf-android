@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -241,8 +242,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onEventReceived(final String event) {
-        addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG);
-        /*if (!TextUtils.isEmpty(event)) {
+        if (!TextUtils.isEmpty(event)) {
             if (IAPConstant.ADDRESS_SELECTION_EVENT_EDIT.equals(event)) {
                 int pos = mAdapter.getOptionsClickPosition();
                 Addresses address = mAddresses.get(pos);
@@ -266,7 +266,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
 
             }
-        }*/
+        }
     }
 
     public void checkPaymentDetails() {
