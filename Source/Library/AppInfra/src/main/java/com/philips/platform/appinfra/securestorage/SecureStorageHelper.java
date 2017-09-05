@@ -127,7 +127,8 @@ class SecureStorageHelper {
         try {
             return java.net.URLDecoder.decode(data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            Log.e(getClass() + "", " Unsupported encoding exception ");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    AppInfraLogEventID.AI_SECURE_STORAGE,"Unsupported encoding exception ");
         }
         return null;
     }
@@ -194,7 +195,6 @@ class SecureStorageHelper {
                 editor.remove(key);
                 deleteResult = editor.commit();
             }
-
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting e-data");
             deleteResult = false;

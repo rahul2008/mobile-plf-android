@@ -48,7 +48,8 @@ public class TimeSyncSntpClient implements TimeInterface {
     private long mOffset;
     private Calendar mNextRefreshTime;
     private boolean isSynchronized = false;
-    final Handler responseHandler = new Handler(Looper.getMainLooper()) {
+
+    private final Handler responseHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             isSynchronized = (boolean) msg.obj;
@@ -97,6 +98,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         editor.putLong(OFFSET, pOffset);
         editor.apply();
         Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,"illegal argument when getting T-sync config pool");
     }
 
     private long getOffset() {
@@ -261,7 +263,8 @@ public class TimeSyncSntpClient implements TimeInterface {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-                Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        AppInfraLogEventID.AI_TIME_SYNC,"Network connectivity not found");
                 isSynchronized = false;
             } else {
                 refreshTime();

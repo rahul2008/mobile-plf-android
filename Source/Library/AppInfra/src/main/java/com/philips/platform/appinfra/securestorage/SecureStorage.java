@@ -37,8 +37,6 @@ import static com.philips.platform.appinfra.securestorage.SecureStorageHelper.AE
  */
 public class SecureStorage implements SecureStorageInterface {
 
-
-
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
@@ -60,7 +58,6 @@ public class SecureStorage implements SecureStorageInterface {
         writeLock = reentrantReadWriteLock.writeLock();
         readLock = reentrantReadWriteLock.readLock();
         secureStorageHelper = new SecureStorageHelper(mAppInfra);
-
     }
 
     @Override

@@ -156,7 +156,8 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					Log.e("error"," while getting cached data");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data");
 				}
 			}
 			else {
@@ -175,7 +176,8 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					Log.e("error"," while getting cached data");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data");
 				}
 			}
 		}

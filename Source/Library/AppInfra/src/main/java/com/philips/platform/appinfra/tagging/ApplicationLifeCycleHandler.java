@@ -30,14 +30,14 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING,"ApplicationLifeCycleHandler Created");
 
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING,"ApplicationLifeCycleHandler Started");
 
     }
@@ -47,7 +47,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
         if (isInBackground) {
 
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_TAGGING,"ApplicationLifeCycleHandler Resumed");
         mAppTaggingInterface.trackActionWithInfo("sendData", "appStatus", "ForeGround");
             isInBackground = false;
@@ -56,34 +56,34 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivityPaused(Activity activity) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING,"ApplicationLifeCycleHandler Paused");
 
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Stopped");
 
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler SaveInstanceState");
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Destroyed");
 
     }
 
     @Override
     public void onConfigurationChanged(Configuration configuration) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler ConfigurationChanged");
 //        Intent i = mAppInfra.getAppInfraContext().getApplicationContext().getPackageManager().getLaunchIntentForPackage(mAppInfra.getAppInfraContext().getPackageName());
 //        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -92,14 +92,14 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onLowMemory() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING,"ApplicationLifeCycleHandler onLowMemory");
     }
 
     @Override
     public void onTrimMemory(int i) {
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_TAGGING,"ApplicationLifeCycleHandler Background");
 
             mAppTaggingInterface.trackActionWithInfo("sendData","appStatus", "Background");
