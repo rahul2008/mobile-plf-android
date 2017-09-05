@@ -1,9 +1,8 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
-
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.ths;
 
 import android.support.v4.app.FragmentManager;
@@ -14,9 +13,9 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 import junit.framework.TestCase;
 
@@ -24,34 +23,43 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.assertEquals;
-
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
-public class TeleHealthServicesStateTest {
-
+public class TeleHealthServicesStateTest extends TestCase {
     private TeleHealthServicesState teleHealthServicesState;
-
-    @Mock
-    FragmentLauncher fragmentLauncher;
-
+    private FragmentLauncher fragmentLauncher;
+    private HamburgerActivity hamburgerActivity;
+    private ActivityController<TestActivity> activityController;
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        super.setUp();
         teleHealthServicesState = new TeleHealthServicesState();
+
+        UIStateData devicePairingStateData = new UIStateData();
+        devicePairingStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+        teleHealthServicesState.setUiStateData(devicePairingStateData);
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity = activityController.create().start().get();
+        fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void launchDevicePairingState() {
+        teleHealthServicesState.init(RuntimeEnvironment.application);
+        teleHealthServicesState.navigate(fragmentLauncher);
+        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
+        int fragmentCount = fragmentManager.getBackStackEntryCount();
+        assertEquals(1, fragmentCount);
     }
 
     @Test
-    public void launchDevicePairingState() {
-        new TeleHealthServicesState().init(RuntimeEnvironment.application);
-        teleHealthServicesState.navigate(fragmentLauncher);
+    public void updateDataModelsTest(){
+        teleHealthServicesState.updateDataModel();
     }
 }
