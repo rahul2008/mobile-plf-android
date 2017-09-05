@@ -470,7 +470,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     }
 
     protected AddressFields setBillingAddressFields(AddressFields billingAddressFields) {
-        if (this.billingAddressFields == null) this.billingAddressFields = new AddressFields();
         billingAddressFields.setFirstName(mEtFirstNameBilling.getText().toString());
         billingAddressFields.setLastName(mEtLastNameBilling.getText().toString());
         billingAddressFields.setTitleCode(mEtSalutationBilling.getText().toString());

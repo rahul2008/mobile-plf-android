@@ -135,12 +135,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (isVisible) {
             fm.beginTransaction()
                     .show(fragment)
-                    .addToBackStack(fragment.getClass().getName())
                     .commit();
         } else {
             fm.beginTransaction()
                     .hide(fragment)
-                    .addToBackStack(fragment.getClass().getName())
                     .commit();
         }
 
@@ -193,9 +191,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         HashMap<String, String> updateAddressPayload;
         if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
             updateAddressPayload = addressPayload(shippingAddressFields);
-        else
+        else {
+            billingAddressFields = shippingAddressFields;
             updateAddressPayload = addressPayload(billingAddressFields);
-
+        }
         if (CartModelContainer.getInstance().getAddressId() != null) {
             if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null)
                 updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
@@ -354,7 +353,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 //                setFragmentVisibility(billingFragment, true);
 //            } else {
 
-            if (billingAddressFields.toString() == null) {
+            if (billingAddressFields == null) {
                 //set Billing Address same as Shipping Address
                 CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
             } else {
@@ -384,12 +383,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         //NOP
     }
 
-    public void removeStaticFragments(Fragment currentFrag)
-    {
+    public void removeStaticFragments(Fragment currentFrag) {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         String fragName = "NONE";
 
-        if (currentFrag!=null)
+        if (currentFrag != null)
             fragName = currentFrag.getClass().getSimpleName();
 
 
