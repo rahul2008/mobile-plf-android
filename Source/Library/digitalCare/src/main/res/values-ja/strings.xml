@@ -145,4 +145,37 @@
     <string name="NO_SUPPORT_KEY">利用可能なサポートなし</string>
     <string name="FAQ_KEY_TABLET">よく寄せられるご質問
 </string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">またはメッセージを送信</string>
+    <string name="dcc_get_in_touch">チームに問い合わせる</string>
+    <string name="dcc_help_and_Answer">ご質問がございましたらいつでもお問い合わせください。</string>
+    <string name="dcc_send_email">メールでのお問い合わせ</string>
+    <string name="dcc_call_number">電話でのお問い合わせ</string>
+    <string name="dcc_chat_to_us">チャットでのお問い合わせ</string>
+    <string name="dcc_chat_desc">製品担当者が 24 時間いつでもライブチャットでお答えいたします（英語のみ）。 </string>
+    <string name="dcc_remove_photo">写真の削除</string>
+    <string name="dcc_continue">続行</string>
+    <string name="dcc_characters_left">入力可能文字数</string>
+    <string name="dcc_your_message">メッセージ</string>
+    <string name="dcc_tellUs_header">あなたの体験を共有しませんか</string>
+    <string name="dcc_tellUs_sub_header">このアプリに関するお客様の貴重なフィードバックをお寄せください。</string>
+    <string name="dcc_write_review">レビューを送信する</string>
+    <string name="dcc_rate_this_app">このアプリを評価する</string>
+    <string name="dcc_productDownloadManual">マニュアルをダウンロード</string>
+    <string name="dcc_productInformationOnWebsite">製品 Web サイトにアクセス</string>
+    <string name="dcc_show_all">すべて表示</string>
+    <string name="dcc_show_less">表示件数を減らす</string>
+    <string name="dcc_Call_not_Supported">電話によるサポートには対応しておりません</string>
+    <string name="dcc_Turn_On_Location_Service">再有効化するには、［設定］でこのアプリの［位置サービス］を有効にしてください。</string>
+    <string name="dcc_No_Service_Url">サービス URL 利用不可</string>
+    <string name="dcc_No_Product_Information">このモデルの製品情報は参照できません</string>
+    <string name="dcc_Allow_Acess_Twitter">アプリでのお客様の Twitter アカウントの使用を許可する</string>
+    <string name="dcc_No_Facebook_Key">Facebook アカウントがありません</string>
+    <string name="dcc_About_App">このアプリについて</string>
+    <string name="dcc_Help_Support">ヘルプとサポート</string>
+    <string name="dcc_Call">通話</string>
+    <string name="dcc_Opening_Hours">営業時間</string>
+
 </resources>

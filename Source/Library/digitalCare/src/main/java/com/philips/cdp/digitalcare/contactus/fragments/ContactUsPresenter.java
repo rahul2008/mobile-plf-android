@@ -68,7 +68,7 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
                         .append(phoneModel.getOpeningHoursSunday())
                         .append(phoneModel.getOptionalData1())
                         .append(phoneModel.getOptionalData2())
-                        .append("\n" + phoneModel.getmPhoneTariff() + "\n");
+                        .append(phoneModel.getmPhoneTariff());
                 contract.enableBottomText();
                 contract.setTextCallPhilipsBtn(mCdlsParsedResponse.getPhone().getPhoneNumber());
                 contract.updateFirstRowSharePreference(stringBuilder,mCdlsParsedResponse.getPhone()

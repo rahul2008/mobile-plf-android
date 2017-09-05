@@ -151,4 +151,36 @@
     <string name="download_error">Download-Fehler</string>
     <string name="PdfWarningMessage">Bitte installieren Sie den Adobe Reader, um die PDF-Anleitung zu sehen.</string>
 
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Oder senden Sie eine Nachricht</string>
+    <string name="dcc_get_in_touch">Sprechen Sie mit unserem Team</string>
+    <string name="dcc_help_and_Answer">Wir helfen Ihnen gerne weiter und beantworten Ihnen Ihre Fragen.</string>
+    <string name="dcc_send_email">E-Mail</string>
+    <string name="dcc_call_number">Rufen Sie uns an</string>
+    <string name="dcc_chat_to_us">Chatten Sie mit uns</string>
+    <string name="dcc_chat_desc">Wir bieten rund um die Uhr einen Live-Chat auf Englisch mit einem unserer Produktspezialisten an. </string>
+    <string name="dcc_remove_photo">Foto entfernen</string>
+    <string name="dcc_continue">Weiter</string>
+    <string name="dcc_characters_left">Zeichen übrig</string>
+    <string name="dcc_your_message">Ihre Nachricht</string>
+    <string name="dcc_tellUs_header">Teilen Sie Ihre Erfahrungen</string>
+    <string name="dcc_tellUs_sub_header">Verfassen Sie eine Rezension, oder bewerten Sie diese App. Ihr Feedback ist wichtig.</string>
+    <string name="dcc_write_review">Rezension verfassen</string>
+    <string name="dcc_rate_this_app">App bewerten</string>
+    <string name="dcc_productDownloadManual">Anleitung herunterladen</string>
+    <string name="dcc_productInformationOnWebsite">Produktseite besuchen</string>
+    <string name="dcc_show_all">Alle anzeigen</string>
+    <string name="dcc_show_less">Weniger anzeigen</string>
+    <string name="dcc_Call_not_Supported">Anruf wird nicht unterstützt</string>
+    <string name="dcc_Turn_On_Location_Service">Um die Funktion wieder zu aktivieren, navigieren Sie zu den Einstellungen, und aktivieren Sie die Standortdienste für diese App.</string>
+    <string name="dcc_No_Service_Url">Keine Service-URL verfügbar</string>
+    <string name="dcc_No_Product_Information">Für dieses Modell sind keine Produktinformationen verfügbar.</string>
+    <string name="dcc_Allow_Acess_Twitter">App-Benutzer Zugriff auf Ihr Twitter-Konto gewähren</string>
+    <string name="dcc_No_Facebook_Key">Keine Facebook-Konten</string>
+    <string name="dcc_About_App">Anwendungsinfo</string>
+    <string name="dcc_Help_Support">Hilfe und Support</string>
+    <string name="dcc_Call">Anruf</string>
+    <string name="dcc_Opening_Hours">Öffnungszeiten</string>
+
 </resources>

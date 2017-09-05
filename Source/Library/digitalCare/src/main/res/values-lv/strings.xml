@@ -146,4 +146,36 @@
     <string name="FAQ_KEY_TABLET">Bieži uzdotie jautājumi
 </string>
 
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Vai sūtīt ziņojumu</string>
+    <string name="dcc_get_in_touch">Runājiet ar kādu no komandas</string>
+    <string name="dcc_help_and_Answer">Mēs esam šeit, lai palīdzētu un atbildētu uz jautājumiem.</string>
+    <string name="dcc_send_email">E-pasts</string>
+    <string name="dcc_call_number">Piezvaniet mums</string>
+    <string name="dcc_chat_to_us">Tērzējiet ar mums</string>
+    <string name="dcc_chat_desc">Tērzējiet visu diennakti katru dienu ar kādu no mūsu produktu speciālistiem (angļu valodā). </string>
+    <string name="dcc_remove_photo">Noņemt fotoattēlu</string>
+    <string name="dcc_continue">Turpināt</string>
+    <string name="dcc_characters_left">rakstzīmes atlikušas</string>
+    <string name="dcc_your_message">Jūsu ziņa</string>
+    <string name="dcc_tellUs_header">Dalieties pieredzē</string>
+    <string name="dcc_tellUs_sub_header">Uzrakstiet atsauksmi vai novērtējiet šo aplikāciju. Jūsu atsauksmes ir svarīgas.</string>
+    <string name="dcc_write_review">Rakstīt atsauksmi</string>
+    <string name="dcc_rate_this_app">Novērtēt šo aplikāciju</string>
+    <string name="dcc_productDownloadManual">Lejupielādēt instrukciju</string>
+    <string name="dcc_productInformationOnWebsite">Apmeklēt produkta vietni</string>
+    <string name="dcc_show_all">Rādīt visu</string>
+    <string name="dcc_show_less">Rādīt mazāk</string>
+    <string name="dcc_Call_not_Supported">Zvanīšana nav atbalstīta</string>
+    <string name="dcc_Turn_On_Location_Service">Lai to iespējotu, atveriet sadaļu Iestatījumi un ieslēdziet šai aplikācijai atrašanās vietas pakalpojumu.</string>
+    <string name="dcc_No_Service_Url">Nav pieejams pakalpojuma vietrādis URL</string>
+    <string name="dcc_No_Product_Information">Šim modelim nav pieejama produkta informācija</string>
+    <string name="dcc_Allow_Acess_Twitter">Atļaut piekļuvi aplikācijas lietotājiem, lai izmantotu Twitter kontu</string>
+    <string name="dcc_No_Facebook_Key">Nav Facebook kontu</string>
+    <string name="dcc_About_App">Par šo lietojumprogrammu</string>
+    <string name="dcc_Help_Support">Palīdzība un atbalsts</string>
+    <string name="dcc_Call">Zvanīt</string>
+    <string name="dcc_Opening_Hours">Darba laiks</string>
+
 </resources>

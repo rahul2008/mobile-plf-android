@@ -146,4 +146,36 @@
     <string name="FAQ_KEY_TABLET">Foire aux questions
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Ou envoyer un message</string>
+    <string name="dcc_get_in_touch">Contacter un membre de l\'équipe</string>
+    <string name="dcc_help_and_Answer">Nous sommes là pour vous aider et répondre à vos questions.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Contactez-nous</string>
+    <string name="dcc_chat_to_us">Discuter avec nous</string>
+    <string name="dcc_chat_desc">Dialoguez en direct 24 h/24 et 7 j/7 en anglais avec un de nos spécialistes produit. </string>
+    <string name="dcc_remove_photo">Supprimer la photo</string>
+    <string name="dcc_continue">Continuer</string>
+    <string name="dcc_characters_left">caractères restants</string>
+    <string name="dcc_your_message">Votre message</string>
+    <string name="dcc_tellUs_header">Partager vos expériences</string>
+    <string name="dcc_tellUs_sub_header">Rédigez un avis ou notez cette application. Votre opinion est importante.</string>
+    <string name="dcc_write_review">Rédiger un avis</string>
+    <string name="dcc_rate_this_app">Notez cette application</string>
+    <string name="dcc_productDownloadManual">Télécharger le manuel</string>
+    <string name="dcc_productInformationOnWebsite">Visiter le site Web du produit</string>
+    <string name="dcc_show_all">Tout afficher</string>
+    <string name="dcc_show_less">Réduire</string>
+    <string name="dcc_Call_not_Supported">Appel non pris en charge</string>
+    <string name="dcc_Turn_On_Location_Service">Pour la réactiver, rendez-vous dans Paramètres et activez le service de géolocalisation pour cette application.</string>
+    <string name="dcc_No_Service_Url">Aucune URL de service disponible</string>
+    <string name="dcc_No_Product_Information">Aucune information produit disponible pour ce modèle</string>
+    <string name="dcc_Allow_Acess_Twitter">Autoriser l\'accès utilisateur à l\'application pour accéder à votre compte Twitter</string>
+    <string name="dcc_No_Facebook_Key">Aucun compte Facebook</string>
+    <string name="dcc_About_App">À propos de cette application</string>
+    <string name="dcc_Help_Support">Aide et assistance</string>
+    <string name="dcc_Call">Appeler</string>
+    <string name="dcc_Opening_Hours">Horaires d\'ouverture</string>
+
 </resources>

@@ -147,4 +147,36 @@
     <string name="FAQ_KEY_TABLET">Sıkça sorulan sorular
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Veya mesaj gönderin</string>
+    <string name="dcc_get_in_touch">Ekipten biriyle iletişime geçin</string>
+    <string name="dcc_help_and_Answer">Yardımcı olmak ve sorularınızı yanıtlamak için buradayız.</string>
+    <string name="dcc_send_email">E-posta</string>
+    <string name="dcc_call_number">Bizi arayın</string>
+    <string name="dcc_chat_to_us">Bizimle sohbet edin</string>
+    <string name="dcc_chat_desc">Ürün uzmanlarımızdan biriyle 7/24, İngilizce dilinde canlı sohbet gerçekleştirebilirsiniz. </string>
+    <string name="dcc_remove_photo">Fotoğrafı kaldır</string>
+    <string name="dcc_continue">Devam et</string>
+    <string name="dcc_characters_left">karakter kaldı</string>
+    <string name="dcc_your_message">Mesajınız</string>
+    <string name="dcc_tellUs_header">Deneyimlerinizi paylaşın</string>
+    <string name="dcc_tellUs_sub_header">Değerlendirme yazın veya bu uygulamayı derecelendirin. Geri bildiriminiz önemlidir.</string>
+    <string name="dcc_write_review">Değerlendirme yazın</string>
+    <string name="dcc_rate_this_app">Bu uygulamayı derecelendirin</string>
+    <string name="dcc_productDownloadManual">Kılavuzu indir</string>
+    <string name="dcc_productInformationOnWebsite">Ürün web sitesine gidin</string>
+    <string name="dcc_show_all">Tümünü göster</string>
+    <string name="dcc_show_less">Daha azını göster</string>
+    <string name="dcc_Call_not_Supported">Arama desteklenmemektedir</string>
+    <string name="dcc_Turn_On_Location_Service">Yeniden etkinleştirmek için lütfen Ayarlar\'a gidip bu uygulama için Konum Hizmetleri\'ni açın.</string>
+    <string name="dcc_No_Service_Url">Hizmet url\'si bulunmamaktadır</string>
+    <string name="dcc_No_Product_Information">Bu model için ürün bilgileri bulunmamaktadır</string>
+    <string name="dcc_Allow_Acess_Twitter">Uygulama kullanıcılarının Twitter hesabınızı kullanmasına izin verin</string>
+    <string name="dcc_No_Facebook_Key">Facebook Hesabı Yok</string>
+    <string name="dcc_About_App">Uygulama hakkında</string>
+    <string name="dcc_Help_Support">Yardım ve destek</string>
+    <string name="dcc_Call">Arama</string>
+    <string name="dcc_Opening_Hours">Açılış saatleri</string>
+
 </resources>

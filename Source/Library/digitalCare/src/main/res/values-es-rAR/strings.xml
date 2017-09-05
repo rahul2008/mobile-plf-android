@@ -145,4 +145,37 @@
     <string name="NO_SUPPORT_KEY">No hay asistencia disponible</string>
     <string name="FAQ_KEY_TABLET">Preguntas frecuentes
 </string>
+
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">O enviá un mensaje</string>
+    <string name="dcc_get_in_touch">Hablá con alguna persona del equipo</string>
+    <string name="dcc_help_and_Answer">Estamos aquí para ayudarte y responder cualquier duda que tengas.</string>
+    <string name="dcc_send_email">Correo electrónico</string>
+    <string name="dcc_call_number">Llamanos</string>
+    <string name="dcc_chat_to_us">Chateá con nosotros</string>
+    <string name="dcc_chat_desc">Chateá en vivo y en inglés con uno de nuestros especialistas de productos todos los días y a cualquier hora. </string>
+    <string name="dcc_remove_photo">Eliminar foto</string>
+    <string name="dcc_continue">Continuar</string>
+    <string name="dcc_characters_left">caracteres restantes</string>
+    <string name="dcc_your_message">Mensaje</string>
+    <string name="dcc_tellUs_header">Compartí tus experiencias</string>
+    <string name="dcc_tellUs_sub_header">Escribí tu opinión o calificá esta aplicación. Tus comentarios son importantes.</string>
+    <string name="dcc_write_review">Escribí una opinión</string>
+    <string name="dcc_rate_this_app">Calificar esta aplicación</string>
+    <string name="dcc_productDownloadManual">Descargue el manual</string>
+    <string name="dcc_productInformationOnWebsite">Visitá el sitio web del producto</string>
+    <string name="dcc_show_all">Mostrar todo</string>
+    <string name="dcc_show_less">Mostrar menos</string>
+    <string name="dcc_Call_not_Supported">No se admiten llamadas</string>
+    <string name="dcc_Turn_On_Location_Service">Para volver a habilitar, ve a Configuración y activá Servicios de ubicación para esta aplicación.</string>
+    <string name="dcc_No_Service_Url">No hay url de servicio disponible</string>
+    <string name="dcc_No_Product_Information">No hay información de producto disponible para este modelo</string>
+    <string name="dcc_Allow_Acess_Twitter">Permitir a los usuarios de la aplicación a que accedan a su cuenta de Twitter</string>
+    <string name="dcc_No_Facebook_Key">No hay cuentas de Facebook</string>
+    <string name="dcc_About_App">Acerca de esta aplicación</string>
+    <string name="dcc_Help_Support">Ayuda y soporte</string>
+    <string name="dcc_Call">Llamar</string>
+    <string name="dcc_Opening_Hours">Horario de atención</string>
+
 </resources>

@@ -110,9 +110,9 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                 CommonRecyclerViewAdapter questingListAdapter = new CommonRecyclerViewAdapter<Item>(getQuestionItems(groupName, false), R.layout.consumercare_icon_right_button) {
                     @Override
                     public void bindData(RecyclerView.ViewHolder holder, Item question) {
-                        Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text);
-                        ImageView readMore = (ImageView) holder.itemView.findViewById(R.id.icon_button_icon);
-                        readMore.setImageResource(R.drawable.consumercare_viewproduct_videorightarrow);
+                        Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text1);
+                        ImageView readMore = (ImageView) holder.itemView.findViewById(R.id.icon_button_icon1);
+                        readMore.setImageResource(R.drawable.consumercare_list_right_arrow);
                         title.setText(question.getHead());
                         holder.itemView.setOnClickListener(fragment);
                         holder.itemView.setTag(question.getAsset());
@@ -165,11 +165,11 @@ public class FaqListFragment extends DigitalCareBaseFragment {
         if (id == R.id.faq_list_item_header_show_more_less) {
             TextView showAllOrLess = (TextView) view;
             String groupName = (String) view.getTag();
-            if (showAllOrLess.getText().toString().equals(getResources().getString(R.string.show_all))) {
-                showAllOrLess.setText(R.string.show_less);
+            if (showAllOrLess.getText().toString().equals(getResources().getString(R.string.dcc_show_all))) {
+                showAllOrLess.setText(R.string.dcc_show_less);
                 updateGroup(groupName, true);
             } else {
-                showAllOrLess.setText(R.string.show_all);
+                showAllOrLess.setText(R.string.dcc_show_all);
                 updateGroup(groupName, false);
             }
             makeTextViewHyperlink(showAllOrLess);

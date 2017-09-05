@@ -147,4 +147,36 @@
     <string name="FAQ_KEY_TABLET">Perguntas frequentes
 </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Ou envie uma mensagem</string>
+    <string name="dcc_get_in_touch">Falar com alguém da equipe</string>
+    <string name="dcc_help_and_Answer">Estamos aqui para ajudá-lo e para responder suas perguntas.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Entre em contato conosco</string>
+    <string name="dcc_chat_to_us">Fale conosco</string>
+    <string name="dcc_chat_desc">Bate-papo ao vivo o dia inteiro, todos os dias da semana com um de nossos especialistas de produto. </string>
+    <string name="dcc_remove_photo">Excluir foto</string>
+    <string name="dcc_continue">Continuar</string>
+    <string name="dcc_characters_left">caracteres restantes</string>
+    <string name="dcc_your_message">Sua mensagem</string>
+    <string name="dcc_tellUs_header">Compartilhe suas experiências</string>
+    <string name="dcc_tellUs_sub_header">Escreva uma análise ou avalie esse aplicativo. Seu feedback é importante.</string>
+    <string name="dcc_write_review">Escreva uma avaliação</string>
+    <string name="dcc_rate_this_app">Avalie esse aplicativo</string>
+    <string name="dcc_productDownloadManual">Baixe o manual</string>
+    <string name="dcc_productInformationOnWebsite">Visite o site do produto</string>
+    <string name="dcc_show_all">Exibir tudo</string>
+    <string name="dcc_show_less">Exibir menos</string>
+    <string name="dcc_Call_not_Supported">Não há suporte para essa ligação</string>
+    <string name="dcc_Turn_On_Location_Service">Para habilitá-la, acesse Configurações e ative o Serviços de localização para esse aplicativo.</string>
+    <string name="dcc_No_Service_Url">Nenhuma URL de serviço disponível</string>
+    <string name="dcc_No_Product_Information">Nenhuma informação de produto disponível sobre este modelo</string>
+    <string name="dcc_Allow_Acess_Twitter">Permite que o usuário do aplicativo acesse sua conta do Twitter</string>
+    <string name="dcc_No_Facebook_Key">Nenhuma conta do Facebook</string>
+    <string name="dcc_About_App">Sobre o aplicativo</string>
+    <string name="dcc_Help_Support">Ajuda e suporte</string>
+    <string name="dcc_Call">Chamada</string>
+    <string name="dcc_Opening_Hours">Horário de funcionamento</string>
+
 </resources>

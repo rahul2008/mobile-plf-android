@@ -147,5 +147,36 @@
 </string>
     <string name="PdfWarningMessage">Please install Adobe Reader to view the PDF manual.</string>
 
+    <string name="dcc_twitter">„twitter“</string>
+    <string name="dcc_facebook">„Facebook“</string>
+    <string name="dcc_send_us_message">Arba siųskite žinutę</string>
+    <string name="dcc_get_in_touch">Pasikalbėkite su komandos nariu</string>
+    <string name="dcc_help_and_Answer">Esame čia tam, kad padėtume ir atsakytume į bet kokius turimus klausimus.</string>
+    <string name="dcc_send_email">El. paštas</string>
+    <string name="dcc_call_number">Skambinkite mums</string>
+    <string name="dcc_chat_to_us">Pasikalbėkite su mumis</string>
+    <string name="dcc_chat_desc">Tiesioginis pokalbis 24/7 anglų kalba su vienu iš mūsų produktų specialistų. </string>
+    <string name="dcc_remove_photo">Pašalinti nuotrauką</string>
+    <string name="dcc_continue">Tęsti</string>
+    <string name="dcc_characters_left">simb. liko</string>
+    <string name="dcc_your_message">Jūsų žinutė</string>
+    <string name="dcc_tellUs_header">Pasidalinkite savo patirtimi</string>
+    <string name="dcc_tellUs_sub_header">Parašykite atsiliepimą arba įvertinkite programą. Jūsų atsiliepimas yra svarbus.</string>
+    <string name="dcc_write_review">Rašyti atsiliepimą</string>
+    <string name="dcc_rate_this_app">Įvertinkite šią programą</string>
+    <string name="dcc_productDownloadManual">Atsisiuntimų vadovas</string>
+    <string name="dcc_productInformationOnWebsite">Apsilankykite produktų internetiniame puslapyje</string>
+    <string name="dcc_show_all">Rodyti viską</string>
+    <string name="dcc_show_less">Rodyti mažiau</string>
+    <string name="dcc_Call_not_Supported">Skambutis nepalaikomas</string>
+    <string name="dcc_Turn_On_Location_Service">Norėdami įjungti iš naujo, eikite į „Nustatymai“ ir įjunkite šios programos vietos nustatymo paslaugą.</string>
+    <string name="dcc_No_Service_Url">Nėra informacijos apie paslaugos url</string>
+    <string name="dcc_No_Product_Information">Nėra šio modelio produkto informacijos</string>
+    <string name="dcc_Allow_Acess_Twitter">Leiskite programos naudotojui prisijungti ir naudoti jūsų „twitter“ paskyrą</string>
+    <string name="dcc_No_Facebook_Key">„Facebook“ paskyrų nėra</string>
+    <string name="dcc_About_App">Apie šią programą</string>
+    <string name="dcc_Help_Support">Žinynas ir palaikymas</string>
+    <string name="dcc_Call">Skambinti</string>
+    <string name="dcc_Opening_Hours">Darbo valandos</string>
 
 </resources>

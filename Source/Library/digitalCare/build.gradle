@@ -28,7 +28,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
     }
 }
 
@@ -42,7 +42,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name
+archivesBaseName = "digitalCare"
 
 allprojects {
     repositories {
@@ -73,7 +73,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -146,7 +146,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
@@ -221,19 +221,27 @@ configurations.all {
 dependencies {
     compile 'com.google.code.gson:gson:2.2.2'
     testCompile 'junit:junit:4.12'
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+	
+	def dp = project.ext.has('useprojectdependencies')
 
-        compile(group: 'com.philips.cdp', name: 'productselection', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-                {
-                    transitive = true
-                }
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	compile(dp ? project(':uit') : uitModule) 
+	{
+		transitive = true
+	}
+	
+	def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':pse') : pseModule) 
+	{
+		transitive = true
+	}
+	
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	compile(dp ? project(':uid') : uidModule) 
+	{
+		transitive = true
+	}
+	
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'

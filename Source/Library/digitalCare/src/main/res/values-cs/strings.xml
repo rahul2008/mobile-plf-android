@@ -143,6 +143,40 @@
     <string name="QUESTION_KEY">Otázka a odpověď</string>
     <string name="NO_PRODUCT_KEY">Výrobky nejsou k dispozici</string>
     <string name="NO_SUPPORT_KEY">Podpora není k dispozici</string>
-    <string name="FAQ_KEY_TABLET">Často kladené dotazy
-</string>
+    <string name="FAQ_KEY_TABLET">Často kladené dotazy</string>
+
+    <!--DLS-->
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Nebo nám napište zprávu</string>
+    <string name="dcc_get_in_touch">Zavolejte členovi týmu</string>
+    <string name="dcc_help_and_Answer">Jsme tady, abychom vám pomohli a zodpověděli jakékoli vaše dotazy.</string>
+    <string name="dcc_send_email">E-mail</string>
+    <string name="dcc_call_number">Zavolejte nám</string>
+    <string name="dcc_chat_to_us">Chatujte s námi</string>
+    <string name="dcc_chat_desc">Chatujte naživo 24 hodin denně anglicky s odborníkem na naše výrobky. </string>
+    <string name="dcc_remove_photo">Odstranit fotografii</string>
+    <string name="dcc_continue">Pokračovat</string>
+    <string name="dcc_characters_left">zbývá znaků</string>
+    <string name="dcc_your_message">Vaše zpráva</string>
+    <string name="dcc_tellUs_header">Sdílejte své zážitky</string>
+    <string name="dcc_tellUs_sub_header">Napište recenzi nebo tuto aplikaci ohodnoťte. Vaše zpětná vazba je důležitá.</string>
+    <string name="dcc_write_review">Napsat recenzi</string>
+    <string name="dcc_rate_this_app">Ohodnoťte tuto aplikaci</string>
+    <string name="dcc_productDownloadManual">Stáhnout příručku</string>
+    <string name="dcc_productInformationOnWebsite">Navštivte webovou stránku produktu</string>
+    <string name="dcc_show_all">Ukázat vše</string>
+    <string name="dcc_show_less">Zobrazit méně</string>
+    <string name="dcc_Call_not_Supported">Hovor není podporován</string>
+    <string name="dcc_Turn_On_Location_Service">Pro opětovné povolení přejděte, prosím, do nastavení a povolte pro tuto aplikaci funkci zjišťování polohy.</string>
+    <string name="dcc_No_Service_Url">Nedostupné url</string>
+    <string name="dcc_No_Product_Information">Pro tento model nejsou k dispozici žádné informace o výrobku.</string>
+    <string name="dcc_Allow_Acess_Twitter">Povolte uživatelům aplikace přístup k vašemu účtu Twitter</string>
+    <string name="dcc_No_Facebook_Key">Žádné účty na Facebooku</string>
+    <string name="dcc_About_App">Informace o aplikaci</string>
+    <string name="dcc_Help_Support">Nápověda a podpora</string>
+    <string name="dcc_Call">Hovor</string>
+    <string name="dcc_Opening_Hours">Otevírací hodiny</string>
+
 </resources>

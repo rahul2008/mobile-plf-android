@@ -87,7 +87,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 
         LatLng start = new LatLng(addressModel.getCurrentLat(), addressModel.getCurrentLng());
         LatLng end = new LatLng(lat, lng);
-        holder.txtDistance.setText(getDistance(start,end));
+        holder.txtDistance.setText(getDistance(start,end)+" km");
         holder.txtTitle.setText(resultModel.getTitle());
         holder.txtAddress.setText(addressModel.getCityState());
        /* if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))

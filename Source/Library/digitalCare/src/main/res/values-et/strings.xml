@@ -144,4 +144,37 @@
     <string name="NO_SUPPORT_KEY">Tugi puudub</string>
     <string name="FAQ_KEY_TABLET">Korduma kippuvad küsimused
 </string>
+
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_send_us_message">Või saada sõnum</string>
+    <string name="dcc_get_in_touch">Räägi meeskonna liikmega</string>
+    <string name="dcc_help_and_Answer">Oleme valmis aitama ja teie võimalikele küsimustele vastama.</string>
+    <string name="dcc_send_email">E-post</string>
+    <string name="dcc_call_number">Helistage meile</string>
+    <string name="dcc_chat_to_us">Vestelge meiega</string>
+    <string name="dcc_chat_desc">Reaalajas vestlus 24/7 inglise keeles ühe meie tootespetsialistiga. </string>
+    <string name="dcc_remove_photo">Eemalda foto</string>
+    <string name="dcc_continue">Jätka</string>
+    <string name="dcc_characters_left">järelejäänud tähemärki</string>
+    <string name="dcc_your_message">Teie sõnum</string>
+    <string name="dcc_tellUs_header">Jagage oma kogemusi</string>
+    <string name="dcc_tellUs_sub_header">Kirjutage arvustus või hinnake seda rakendust. Teie tagasiside on oluline.</string>
+    <string name="dcc_write_review">Kirjuta arvustus</string>
+    <string name="dcc_rate_this_app">Hinnake seda rakendust</string>
+    <string name="dcc_productDownloadManual">Laadige alla kasutusjuhend</string>
+    <string name="dcc_productInformationOnWebsite">Külastage toote veebisaiti</string>
+    <string name="dcc_show_all">Näita kõiki</string>
+    <string name="dcc_show_less">Näita vähem</string>
+    <string name="dcc_Call_not_Supported">Helistamist ei toetata</string>
+    <string name="dcc_Turn_On_Location_Service">Taasaktiveerimiseks avage Seaded ja lülitage selle rakenduse puhul asukohateenus sisse.</string>
+    <string name="dcc_No_Service_Url">Teenuse internetiaadressi ei saa kasutada</string>
+    <string name="dcc_No_Product_Information">Selle mudeli kohta ei ole tooteandmed kättesaadavad</string>
+    <string name="dcc_Allow_Acess_Twitter">Andke rakenduse kasutajale juurdepääs teie Twitteri konto kasutamiseks</string>
+    <string name="dcc_No_Facebook_Key">Facebooki kontod puuduvad</string>
+    <string name="dcc_About_App">Selle rakenduse kohta</string>
+    <string name="dcc_Help_Support">Kasutusjuhend ja tugi</string>
+    <string name="dcc_Call">Helistamine</string>
+    <string name="dcc_Opening_Hours">Tööajad</string>
+
 </resources>

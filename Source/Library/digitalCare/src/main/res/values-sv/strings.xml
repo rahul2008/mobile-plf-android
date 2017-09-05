@@ -146,4 +146,36 @@
     <string name="NO_SUPPORT_KEY">Ingen support tillgänglig</string>
     <string name="FAQ_KEY_TABLET">Vanliga frågor </string>
 
+    <string name="dcc_twitter">twitter</string>
+    <string name="dcc_facebook">Facebook</string>
+    <string name="dcc_send_us_message">Eller skicka ett meddelande</string>
+    <string name="dcc_get_in_touch">Prata med någon i teamet</string>
+    <string name="dcc_help_and_Answer">Vi finns här för att hjälpa dig och svara på eventuella frågor som du kan ha.</string>
+    <string name="dcc_send_email">E-post</string>
+    <string name="dcc_call_number">Ring oss</string>
+    <string name="dcc_chat_to_us">Chatta med oss</string>
+    <string name="dcc_chat_desc">Livechatt dygnet runt på engelska med en av våra produktspecialister. </string>
+    <string name="dcc_remove_photo">Ta bort foto</string>
+    <string name="dcc_continue">Fortsätt</string>
+    <string name="dcc_characters_left">tecken kvar</string>
+    <string name="dcc_your_message">Ditt meddelande</string>
+    <string name="dcc_tellUs_header">Dela med dig av dina erfarenheter</string>
+    <string name="dcc_tellUs_sub_header">Skriv en recension och betygsätt den här appen. Dina synpunkter är viktiga.</string>
+    <string name="dcc_write_review">Skriv en recension</string>
+    <string name="dcc_rate_this_app">Betygsätt appen</string>
+    <string name="dcc_productDownloadManual">Ladda ned handbok</string>
+    <string name="dcc_productInformationOnWebsite">Besök produktwebbplatsen</string>
+    <string name="dcc_show_all">Visa alla</string>
+    <string name="dcc_show_less">Visa mindre</string>
+    <string name="dcc_Call_not_Supported">Det går inte att ringa</string>
+    <string name="dcc_Turn_On_Location_Service">Återaktivera genom att gå till Inställningar och slå på Platstjänst för den här appen.</string>
+    <string name="dcc_No_Service_Url">Tjänst-URL saknas</string>
+    <string name="dcc_No_Product_Information">Produktinformation för modellen saknas</string>
+    <string name="dcc_Allow_Acess_Twitter">Låt appanvändaren få tillgång till ditt twitter-konto</string>
+    <string name="dcc_No_Facebook_Key">Inga Facebook-konton</string>
+    <string name="dcc_About_App">Om den här appen</string>
+    <string name="dcc_Help_Support">Hjälp och support</string>
+    <string name="dcc_Call">Ring</string>
+    <string name="dcc_Opening_Hours">Öppettider</string>
+
 </resources>
