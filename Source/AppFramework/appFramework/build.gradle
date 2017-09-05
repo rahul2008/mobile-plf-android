@@ -67,6 +67,7 @@ allprojects {
         }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
+        maven {url "https://clojars.org/repo/"}
     }
 }
 
@@ -388,6 +389,11 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
+
+    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2.1.0'+ objcdp.getVersionSuffix(), ext: 'aar')
+
+    compile(group: 'com.philips.cdp', name: 'awsdk', version: '3.1.1', ext: 'aar')
+
     compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
