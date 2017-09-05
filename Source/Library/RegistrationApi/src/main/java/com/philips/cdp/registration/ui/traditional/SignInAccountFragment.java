@@ -85,6 +85,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_rootLayout_LinearLayout)
     LinearLayout usr_loginScreen_rootLayout_LinearLayout;
 
+    @BindView(R2.id.usr_loginScreen_email_label)
+    Label usr_loginScreen_email_label;
+
 
     private User mUser;
 
@@ -120,6 +123,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
@@ -215,13 +219,35 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         getRegistrationFragment().launchAccountActivationFragmentForLogin();
     }
 
+    public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
+        @Override
+        public int isValid(boolean valid) {
+            return 0;
+        }
+
+        @Override
+        public int isEmpty(boolean emptyField) {
+            if (emptyField) {
+                mEtEmail.setErrorMessage(
+                        R.string.reg_EmptyField_ErrorMsg);
+            } else {
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
+                    mEtEmail.setErrorMessage(
+                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                } else {
+                    mEtEmail.setErrorMessage(
+                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                }
+            }
+            return 0;
+        }
+    });
     private void initUI(View view) {
         consumeTouch(view);
         mBtnSignInAccount.setOnClickListener(this);
 
         mEtEmail.setOnClickListener(this);
-        mEtEmail.setValidator(email -> FieldsValidator.isValidEmail(email.toString()));
-        mEtEmail.setErrorMessage(getString(R.string.usr_email_invalid));
+        mEtEmail.setValidator(loginIdValidator);
         mEtEmail.setFocusable(true);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
@@ -233,6 +259,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mRegError = (XRegError) view.findViewById(R.id.usr_loginScreen_error_view);
         handleUiState();
 
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
+            usr_loginScreen_email_label.setText(R.string.reg_forgotpassword_input);
+        }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
     }
@@ -252,7 +281,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Observable<Boolean> getLoginIdObservable() {
         return RxTextView.textChanges(loginValidationEditText)
-                .map(email -> FieldsValidator.isValidEmail(email.toString()));
+                .map(email -> loginIdValidator.validate(email.toString()));
     }
 
     private Observable<Boolean> getPasswordObservable() {
