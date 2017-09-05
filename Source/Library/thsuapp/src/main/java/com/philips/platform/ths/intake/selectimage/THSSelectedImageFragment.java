@@ -42,6 +42,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     private CustomPagerAdapter pagerAdapter;
     private ViewPager imageViewPager;
     private Button deleteImageButton;
+    private ImageView ths_selected_image_close_icon;
     private THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback;
     private THSSelectedImageFragmentPresenter thsSelectedImageFragmentPresenter;
     private List<DocumentRecord> documentRecordList;
@@ -54,6 +55,8 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         thsSelectedImageFragmentPresenter = new THSSelectedImageFragmentPresenter(this);
         pagerAdapter = new CustomPagerAdapter(getActivity());
         deleteImageButton = (Button) view.findViewById(R.id.ths_delete_selected_image_button);
+        ths_selected_image_close_icon = (ImageView) view.findViewById(R.id.ths_selected_image_close_icon);
+        ths_selected_image_close_icon.setOnClickListener(this);
         deleteImageButton.setOnClickListener(this);
         imageViewPager = (ViewPager) view.findViewById(R.id.selected_image_pager);
         imageViewPager.setAdapter(pagerAdapter);
@@ -71,6 +74,9 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     public void onClick(View v) {
         if (v.getId() == R.id.ths_delete_selected_image_button) {
             deletePhoto();
+        }
+        if(v.getId() == R.id.ths_selected_image_close_icon){
+            dismiss();
         }
     }
 
