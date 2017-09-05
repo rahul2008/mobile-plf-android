@@ -68,6 +68,11 @@ public class HybrisHandlerTest {
             public void onFailure(int errorCode) {
 
             }
+
+            @Override
+            public void cartAndOrderHistoryVisibility(boolean visible) {
+
+            }
         };
     }
 

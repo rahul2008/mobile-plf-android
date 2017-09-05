@@ -287,4 +287,9 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     public void onFailure(final int errorCode) {
         assertFalse(false);
     }
+
+    @Override
+    public void cartAndOrderHistoryVisibility(boolean visible) {
+
+    }
 }

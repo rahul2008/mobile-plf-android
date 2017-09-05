@@ -148,6 +148,37 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
+    public boolean getCartVisiblityByConfigUrl(final IAPListener listener) {
+
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
+                Collection<ServiceDiscoveryService> collection = map.values();
+
+                List<ServiceDiscoveryService> list = new ArrayList<>();
+                list.addAll(collection);
+                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+                if (configUrls == null) {
+                    mIAPSettings.setUseLocalData(true);
+                    listener.cartAndOrderHistoryVisibility(false);
+                } else {
+                    mIAPSettings.setUseLocalData(false);
+                    listener.cartAndOrderHistoryVisibility(true);
+                }
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+            }
+        };
+        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
+        return false;
+    }
+
 //    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener, final String entry) {
 //        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
 //        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();

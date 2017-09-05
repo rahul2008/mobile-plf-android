@@ -36,4 +36,8 @@ public class MockIAPInterface extends IAPInterface {
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
     }
+
+    @Override
+    public void isCartVisible(IAPListener iapListener) {
+    }
 }

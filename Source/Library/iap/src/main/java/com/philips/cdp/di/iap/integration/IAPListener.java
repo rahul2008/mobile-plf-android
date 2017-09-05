@@ -20,4 +20,6 @@ public interface IAPListener {
     void onSuccess();
 
     void onFailure(final int errorCode);
+
+    void cartAndOrderHistoryVisibility (boolean visible);
 }

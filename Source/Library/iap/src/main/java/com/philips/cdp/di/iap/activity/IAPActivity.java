@@ -306,6 +306,12 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         dismissProgressDialog();
     }
 
+
+    @Override
+    public void cartAndOrderHistoryVisibility(boolean visible) {
+        //NOP
+    }
+
 //    private void addActionBar() {
 //        ActionBar mActionBar = getSupportActionBar();
 //        if (mActionBar == null) return;

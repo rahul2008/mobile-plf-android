@@ -53,6 +53,11 @@ public class LocalHandlerTest {
         public void onFailure(int errorCode) {
 
         }
+
+        @Override
+        public void cartAndOrderHistoryVisibility(boolean visible) {
+
+        }
     };
 
     @Before

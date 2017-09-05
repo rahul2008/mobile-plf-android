@@ -54,4 +54,10 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
         } else throw new RuntimeException("User is not logged in.");
     }
+
+    @Override
+    public void isCartVisible(IAPListener iapListener) {
+        mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener);
+
+    }
 }

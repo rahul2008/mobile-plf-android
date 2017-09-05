@@ -28,9 +28,7 @@ import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -87,6 +85,11 @@ public class IAPHandlerTest {
 
             @Override
             public void onFailure(int errorCode) {
+
+            }
+
+            @Override
+            public void cartAndOrderHistoryVisibility(boolean visible) {
 
             }
         };

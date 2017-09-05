@@ -36,4 +36,9 @@ public class MockIAPListener implements IAPListener {
     public void onFailure(int errorCode) {
 
     }
+
+    @Override
+    public void cartAndOrderHistoryVisibility(boolean visible) {
+
+    }
 }
