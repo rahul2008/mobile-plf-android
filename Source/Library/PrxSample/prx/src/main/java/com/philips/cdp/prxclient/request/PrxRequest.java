@@ -1,10 +1,9 @@
 package com.philips.cdp.prxclient.request;
 
-import android.util.Log;
-
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
@@ -96,13 +95,13 @@ public abstract class PrxRequest {
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onSuccess(URL url) {
-                        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+url);
+                        appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+url);
                         listener.onSuccess(url.toString());
                     }
 
                     @Override
                     public void onError(ERRORVALUES error, String message) {
-                        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
+                        appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
                         listener.onError(error, message);
                     }
                 }, replaceUrl);

@@ -8,34 +8,91 @@
     "PILConfiguration.MicrositeID": "77000",
     "PILConfiguration.CampaignID": "CL20150501_PC_TB_COPPA",
     "PILConfiguration.RegistrationEnvironment": "PRODUCTION",
-    "Flow.EmailVerificationRequired" : true,
-    "Flow.TermsAndConditionsAcceptanceRequired" : true,
-    "Flow.MinimumAgeLimit" : { "NL":12 ,"GB":0,"default": 16},
-    "SigninProviders.default": ["facebook","googleplus"],
-    "SigninProviders.NL": ["facebook","googleplus"]
+    "Flow.EmailVerificationRequired": true,
+    "Flow.TermsAndConditionsAcceptanceRequired": true,
+    "Flow.MinimumAgeLimit": {
+      "NL": 12,
+      "GB": 0,
+      "default": 16
+    },
+    "SigninProviders.default": [
+      "facebook",
+      "googleplus"
+    ],
+    "SigninProviders.NL": [
+      "facebook",
+      "googleplus"
+    ]
   },
-   "IAP": {
+  "IAP": {
     "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
-  "appinfra":{
+  "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
     "appidentity.appState": "development",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
-    "tagging.sensitiveData": ["bundleId, language"] ,
-    "abtest.precache":["philipsmobileappabtest1content","philipsmobileappabtest1success"],
-    "contentLoader.limitSize":100,
-    "servicediscovery.platformMicrositeId":"70000",
-    "servicediscovery.platformEnvironment":"production",
-    "servicediscovery.propositionEnabled":true,
-    "appconfig.cloudServiceId":"appinfra.appconfigdownload",
-    "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
-    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack"
-
+    "tagging.sensitiveData": [
+      "bundleId, language"
+    ],
+    "abtest.precache": [
+      "philipsmobileappabtest1content",
+      "philipsmobileappabtest1success"
+    ],
+    "abtest.mapping": {
+      "usr.login": "DOT-ReceiveMarketingOptIn"
+    },
+    "contentLoader.limitSize": 100,
+    "servicediscovery.platformMicrositeId": "70000",
+    "servicediscovery.platformEnvironment": "production",
+    "servicediscovery.propositionEnabled": true,
+    "appconfig.cloudServiceId": "appinfra.appconfigdownload",
+    "timesync.ntp.hosts": [
+      "0.pool.ntp.org",
+      "1.pool.ntp.org",
+      "2.pool.ntp.org",
+      "3.pool.ntp.org",
+      "0.cn.pool.ntp.org"
+    ],
+    "LANGUAGEPACK.SERVICEID": "appinfra.languagepack",
+    "servicediscovery.countryMapping": {
+      "LU": "BE",
+      "MO": "HK"
+    },
+    "appUpdate.serviceId": "appinfra.testing.version",
+    "appUpdate.autoRefresh": true,
+    "logging.releaseConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "Off",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": false,
+      "componentIds": [
+        "PRX",
+        "PhilipsRegistration"
+      ]
+    },
+    "logging.debugConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "All",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": false,
+      "componentIds": [
+        "PRX",
+        "PhilipsRegistration",
+        "component1"
+      ]
+    }
   }
 }
+
 
 
 

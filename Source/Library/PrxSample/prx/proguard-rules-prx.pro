@@ -11,35 +11,29 @@
 -keepattributes InnerClasses,Exceptions
 
 
-
-#GSM
--keep  class com.google.android.gms.* { public *; }
+#GMS
+-keep  class com.google.android.gms.**{ public *;}
 -dontwarn com.google.android.gms.**
 
 
 #gson
 -keep interface com.google.gson.** { *; }
--keep class * implements com.google.gson.TypeAdapterFactory
+-keep  class com.google.gson.** { *; }
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
 
 
-#prxclient
--keep public class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
+#prxclient model class
+-keep class com.philips.cdp.prxclient.datamodels.** { *; }
+
+##prxclient Request
+#-keep class com.philips.cdp.prxclient.RequestManager.**{ public *;}
+#-keep class com.philips.cdp.prxclient.request.** { *; }
+#
+##prxclient Response
+#-keep class com.philips.cdp.prxclient.response.** { *; }
 
 
-#appinfra
--keep public class com.philips.platform.appinfra.AppInfra.** {*;}
--keep public interface com.philips.platform.appinfra.AppInfraInterface.** {*;}
--keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** {*;}
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** {*;}
--keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** {*;}
-
-
-#volley
--keep class com.android.volley.** { *; }
--keep interface com.android.volley.** { *; }
 
 
 
