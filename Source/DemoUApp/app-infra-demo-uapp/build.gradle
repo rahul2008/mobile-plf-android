@@ -144,8 +144,11 @@ android {
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
 
         compile 'com.google.code.gson:gson:2.3.1'
-        compile project(':AppInfra')
+ 
 
+		def dp = project.ext.has('useprojectdependencies')
+        
+        compile(dp ? project(':ail') : project(':AppInfra'))
     }
 }
 
