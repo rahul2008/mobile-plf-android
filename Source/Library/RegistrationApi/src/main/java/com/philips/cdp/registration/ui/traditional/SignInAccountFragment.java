@@ -217,7 +217,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         consumeTouch(view);
         mBtnSignInAccount.setOnClickListener(this);
 
-        mEtEmail.setValidator(email -> emailStatus(email.toString()));
+        mEtEmail.setValidator(email -> emailOrMobileValidator(email.toString()));
         mEtEmail.setFocusable(true);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
@@ -236,7 +236,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         registrationSettingsURL = new RegistrationSettingsURL();
     }
 
-   private boolean emailStatus(String emailOrMobile){
+   private boolean emailOrMobileValidator(String emailOrMobile){
        if(emailOrMobile.isEmpty()) {
            mEtEmail.setErrorMessage(
                    R.string.reg_EmptyField_ErrorMsg);
@@ -270,7 +270,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Observable<Boolean> getLoginIdObservable() {
         return RxTextView.textChanges(loginValidationEditText)
-                .map(email -> emailStatus(email.toString()));
+                .map(email -> emailOrMobileValidator(email.toString()));
     }
 
     private Observable<Boolean> getPasswordObservable() {
