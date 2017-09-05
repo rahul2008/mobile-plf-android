@@ -197,6 +197,7 @@
         <item>@string/RA_Coco_Version</item>
         <item>@string/RA_DebugScreen_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
+        <item>@string/RA_See_a_doctor_Menu_Title</item>
     </string-array>
 
     <string-array name="demo_drawer_items">
@@ -224,6 +225,7 @@
     <string name="RA_About_Menu_Title">About</string>
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
+    <string name="RA_See_a_doctor_Menu_Title">See a doctor</string>
     <string name="RA_Demo_Menu_Title" translatable="false">Test Demo Apps</string>
     <string name="RA_HomeTab_Menu_Title">Home</string>
 
