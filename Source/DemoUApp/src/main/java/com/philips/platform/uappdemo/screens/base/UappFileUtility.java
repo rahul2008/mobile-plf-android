@@ -7,6 +7,7 @@ package com.philips.platform.uappdemo.screens.base;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.philips.platform.flowmanager.utility.UappBaseAppUtil;
 
@@ -30,7 +31,7 @@ public class UappFileUtility {
         try {
             inputStream = context.getAssets().open(context.getString(resId));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IO-Exception", " error while reading appflow.json");
         }
         return inputStream;
     }
@@ -60,7 +61,7 @@ public class UappFileUtility {
             inputStream.close();
             return file;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IO-Exception", " error while closing stream");
         }
 
         return null;
