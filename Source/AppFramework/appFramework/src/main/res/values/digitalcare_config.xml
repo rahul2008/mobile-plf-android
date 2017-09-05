@@ -23,14 +23,14 @@
         &lt;!&ndash; List of main menu image names, please follow naming conventions &ndash;&gt;
     -->
     <array name="main_menu_resources">
-        <item>@string/icon_dls_capture_outline</item>
-        <item>@string/icon_dls_questionmark</item>
-        <item>@string/icon_dls_balloonspeech</item>
-        <item>@string/icon_dls_location</item>
-        <item>@string/icon_dls_conversationspeech</item>
-        <!--<item>@string/icon_dls_rotatecw</item>-->
-        <item>@string/icon_dls_rotatecw</item>
-        <item>@string/icon_dls_rotatecw</item>
+        <item>@string/dls_information</item>
+        <item>@string/dls_questionmark</item>
+        <item>@string/dls_balloonspeech</item>
+        <item>@string/dls_location</item>
+        <item>@string/dls_conversationspeech</item>
+        <!--<item>@string/dls_revise</item>-->
+        <item>@string/dls_revise</item>
+        <item>@string/dls_revise</item>
     </array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
@@ -48,12 +48,11 @@
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources">
-        <item>@string/icon_dls_twitter</item>
-        <item>@string/icon_dls_facebook</item>
+        <item>@string/dls_socialmediatwitter</item>
+        <item>@string/dls_socialmediafacebook</item>
     </string-array>
 
-    <!-- Facebook product support page -->
-    <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
+    <!-- Facebook product support page ID -->
     <string name="facebook_product_pageID" translatable="false">177538492375159</string>
 
     <!-- Twitter product support page -->
