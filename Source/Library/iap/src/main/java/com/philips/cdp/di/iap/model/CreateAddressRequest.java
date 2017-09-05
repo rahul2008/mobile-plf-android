@@ -40,6 +40,7 @@ public class CreateAddressRequest extends AbstractModel {
         payload.put(ModelConstants.LAST_NAME, getValue(ModelConstants.LAST_NAME));
         payload.put(ModelConstants.TITLE_CODE, getValue(ModelConstants.TITLE_CODE));
         payload.put(ModelConstants.COUNTRY_ISOCODE, getValue(ModelConstants.COUNTRY_ISOCODE));
+        payload.put(ModelConstants.HOUSE_NUMBER, "12");
         payload.put(ModelConstants.LINE_1, getValue(ModelConstants.LINE_1));
         payload.put(ModelConstants.LINE_2, getValue(ModelConstants.LINE_2));
         payload.put(ModelConstants.POSTAL_CODE, getValue(ModelConstants.POSTAL_CODE));

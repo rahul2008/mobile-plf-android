@@ -151,6 +151,8 @@ public class AddressFields implements Serializable, Cloneable {
 
     @Override
     public String toString() {
+        if (titleCode == null && firstName == null && lastName == null && countryIsocode == null && email == null && line1 == null && line2 == null && postalCode == null && town == null && phone1 == null && phone2 == null && regionIsoCode == null && regionName == null)
+            return null;
         return "titleCode " + titleCode
                 + "first name = " + firstName
                 + "lastName = " + lastName

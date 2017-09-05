@@ -222,6 +222,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
             Bundle bundle=new Bundle();
             bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS,true);
+            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
+
             addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
                     DLSAddressFragment.TAG);
         } else if ((msg.obj instanceof IAPNetworkError)) {
@@ -242,7 +244,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
             if (IAPConstant.ADDRESS_SELECTION_EVENT_EDIT.equals(event)) {
-                HashMap<String, String> addressHashMap = updateShippingAddress();
+                int pos = mAdapter.getOptionsClickPosition();
+                Addresses address = mAddresses.get(pos);
+                HashMap<String, String> addressHashMap = updateAddress(address);
                 moveToShippingAddressFragment(addressHashMap);
             } else if (IAPConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
                 deleteShippingAddress();
@@ -260,6 +264,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                 mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
                 CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
+
             }
         }
     }
@@ -277,9 +282,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
     }
 
-    private HashMap<String, String> updateShippingAddress() {
-        int pos = mAdapter.getOptionsClickPosition();
-        Addresses address = mAddresses.get(pos);
+    private HashMap<String, String> updateAddress(Addresses address) {
         HashMap<String, String> addressHashMap = new HashMap<>();
 
         String titleCode = address.getTitleCode();

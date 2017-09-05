@@ -20,12 +20,14 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.InputValidator;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -244,6 +246,45 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         billingAddressFields.setRegionIsoCode(regionCode);
     }
 
+    public void updateFields(HashMap<String, String> mAddressFieldsHashmap) {
+        if (mAddressFieldsHashmap == null) return;
+//        Bundle bundle = getArguments();
+//        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+//        if (null == mAddressFieldsHashmap) {
+//            return;
+//        }
+        mParentFragment.mBtnContinue.setText(getString(R.string.iap_continue));
+        mParentFragment.mBtnContinue.setEnabled(true);
+        CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
+
+        mEtFirstNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
+        mEtLastNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
+        mEtSalutationBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
+        mEtAddressLineOneBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_1));
+        mEtAddressLineTwoBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_2));
+        mEtTownBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
+        mEtPostalCodeBilling.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
+        mEtCountryBilling.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
+        mEtPhone1Billing.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_1));
+        mEtEmailBilling.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
+
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
+            String stateCode = code.substring(code.length() - 2);
+            mEtStateBilling.setText(stateCode);
+            mlLStateBilling.setVisibility(View.VISIBLE);
+        } else {
+            mlLStateBilling.setVisibility(View.GONE);
+        }
+
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+            mAddressFieldsHashmap.put(ModelConstants.REGION_ISOCODE,
+                    mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
+        }
+    }
+
     private class IAPTextWatcher implements TextWatcher {
         private EditText mEditText;
         private boolean isInAfterTextChanged;
@@ -390,6 +431,11 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus) {
             checkBillingAddressFields();
         }
+        if (!result) {
+            mParentFragment.mBtnContinue.setEnabled(false);
+        } else {
+            checkBillingAddressFields();
+        }
 
 
     }
@@ -415,16 +461,17 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 && (mlLStateBilling.getVisibility() == View.GONE || (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().equalsIgnoreCase("")))) {
 
             //mBillingAddressFields = setBillingAddressFields(mBillingAddressFields);
-            setBillingAddressFields();
+            setBillingAddressFields(billingAddressFields);
             IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
+            mParentFragment.setBillingAddressFields(billingAddressFields);
             mParentFragment.mBtnContinue.setEnabled(true);
         } else {
             mParentFragment.mBtnContinue.setEnabled(false);
         }
     }
 
-    protected AddressFields setBillingAddressFields() {
-        if (billingAddressFields == null) billingAddressFields = new AddressFields();
+    protected AddressFields setBillingAddressFields(AddressFields billingAddressFields) {
+        if (this.billingAddressFields == null) this.billingAddressFields = new AddressFields();
         billingAddressFields.setFirstName(mEtFirstNameBilling.getText().toString());
         billingAddressFields.setLastName(mEtLastNameBilling.getText().toString());
         billingAddressFields.setTitleCode(mEtSalutationBilling.getText().toString());
@@ -439,13 +486,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
 
         if (mlLStateBilling.getVisibility() == View.VISIBLE) {
-            billingAddressFields.setRegionIsoCode(mRegionIsoCode);
-            billingAddressFields.setRegionName(mEtStateBilling.getText().toString());
+            this.billingAddressFields.setRegionIsoCode(mRegionIsoCode);
+            this.billingAddressFields.setRegionName(mEtStateBilling.getText().toString());
         } else {
-            billingAddressFields.setRegionIsoCode(null);
-            billingAddressFields.setRegionName(null);
+            this.billingAddressFields.setRegionIsoCode(null);
+            this.billingAddressFields.setRegionName(null);
         }
-        return billingAddressFields;
+        return this.billingAddressFields;
     }
 
     void clearAllFields() {

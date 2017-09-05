@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
@@ -34,6 +35,7 @@ public class UpdateAddressRequest extends AbstractModel {
         addressHashMap.put(ModelConstants.LAST_NAME, getValue(ModelConstants.LAST_NAME));
         addressHashMap.put(ModelConstants.TITLE_CODE, getValue(ModelConstants.TITLE_CODE));
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, getValue(ModelConstants.COUNTRY_ISOCODE));
+        addressHashMap.put(ModelConstants.HOUSE_NUMBER, "12");
         addressHashMap.put(ModelConstants.LINE_1, getValue(ModelConstants.LINE_1));
         addressHashMap.put(ModelConstants.LINE_2, getValue(ModelConstants.LINE_2));
         addressHashMap.put(ModelConstants.POSTAL_CODE, getValue(ModelConstants.POSTAL_CODE));
@@ -45,6 +47,7 @@ public class UpdateAddressRequest extends AbstractModel {
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         //}
         addressHashMap.put(ModelConstants.ADDRESS_ID, getValue(ModelConstants.ADDRESS_ID));
+        CartModelContainer.getInstance().setAddressId(getValue(ModelConstants.ADDRESS_ID));
         return addressHashMap;
     }
 

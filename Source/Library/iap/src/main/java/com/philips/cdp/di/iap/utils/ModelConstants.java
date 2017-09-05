@@ -37,4 +37,5 @@ public class ModelConstants {
     public static final String SECURITY_CODE = "securityCode";
 
     public static final String CATEGORY = "category";
+    public static final String HOUSE_NUMBER = "houseNumber";
 }

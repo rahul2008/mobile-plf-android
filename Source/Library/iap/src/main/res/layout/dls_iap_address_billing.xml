@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/border16_margin_left_right"
+    android:layout_marginStart="@dimen/border16_margin_left_right"
     android:layout_marginTop="@dimen/iap_margin_20dp"
     android:orientation="vertical">
 
@@ -13,6 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/iap_billing_address"
+        android:layout_marginTop="@dimen/border24_margin"
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="@dimen/iap_shipping_address_title_size"
         android:textStyle="bold" />
@@ -21,6 +24,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/border24_margin"
         android:text="Personal details" />
 
     <LinearLayout

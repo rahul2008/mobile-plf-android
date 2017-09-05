@@ -121,4 +121,5 @@ public class IAPConstant {
     public static final String EMPTY_BILLING_ADDRESS = "EMPTY_BILLING_ADDRESS";
     public static final String ASK_TO_FILL_EMPTY_BILLING_ADDRESS = "ASK_TO_FILL_EMPTY_BILLING_ADDRESS";
     public static final String IAP_SHIPING_ADDRESS = "IAP_SHIPING_ADDRESS";
+    public static final String UPDATE_BILLING_ADDRESS_KEY = "UPDATE_BILLING_ADDRESS_KEY";
 }
