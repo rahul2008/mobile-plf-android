@@ -186,6 +186,10 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         this.mLanguagePackInterface = languagePackInterface;
     }
 
+    private void setAiKmInterface(AIKMInterface aikmInterface) {
+        this.aikmInterface = aikmInterface;
+    }
+
     private void setRestInterface(RestInterface restInterface) {
         mRestInterface = restInterface;
     }
@@ -229,10 +233,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     @Override
     public AIKMInterface getAiKmInterface() {
         return aikmInterface;
-    }
-
-    public void setAiKmInterface(AIKMInterface aikmInterface) {
-        this.aikmInterface = aikmInterface;
     }
 
     /**
@@ -355,6 +355,15 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         public Builder setTimeSync(TimeInterface timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
             return this;
+        }
+
+        /**
+         * Sets Builder aiKm Service overriding the default implementation.
+         *
+         * @param aikmInterface aiKm service interface
+         */
+        public void setAiKmInterface(AIKMInterface aikmInterface) {
+            this.aikmInterface = aikmInterface;
         }
 
 
