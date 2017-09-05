@@ -42,7 +42,7 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(canBeNull = false)
     private String subjectID;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = true)
     private String moment_id;
 
     @DatabaseField(canBeNull = false)
