@@ -33,7 +33,7 @@
 
 
 #ConsumerCare
--keep class com.philips.cdp.digitalcare.** {*;}
+#-keep class com.philips.cdp.digitalcare.** {*;}
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -102,13 +102,13 @@
 -dontwarn com.google.android.gms.**
 
 -dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
--dontwarn  com.philips.cdp.productselection.R$id
+#-dontwarn  com.philips.cdp.productselection.R$id
 -dontwarn android.view.**
 -dontwarn android.media.session
 -dontwarn android.app.**
 
--dontwarn com.philips.cdp.digitalcare.**
--dontwarn com.philips.cdp.productselection.**
+#-dontwarn com.philips.cdp.digitalcare.**
+#-dontwarn com.philips.cdp.productselection.**
 -dontwarn android.support.**
 -dontwarn com.adobe.mobile.**
 -dontwarn org.apache.**
