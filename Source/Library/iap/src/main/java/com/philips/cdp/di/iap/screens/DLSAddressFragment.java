@@ -93,7 +93,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                     mBtnContinue.setEnabled(true);
                 } else {
                     setFragmentVisibility(billingFragment, true);
-                    ((DLSBillingAddressFragment) billingFragment).clearAllFields();
+                    // ((DLSBillingAddressFragment) billingFragment).clearAllFields();
                     mBtnContinue.setEnabled(false);
                 }
             }
@@ -192,7 +192,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
             updateAddressPayload = addressPayload(shippingAddressFields);
         else {
-            billingAddressFields = shippingAddressFields;
+            if (checkBox.isChecked())
+                billingAddressFields = shippingAddressFields;
             updateAddressPayload = addressPayload(billingAddressFields);
         }
         if (CartModelContainer.getInstance().getAddressId() != null) {
