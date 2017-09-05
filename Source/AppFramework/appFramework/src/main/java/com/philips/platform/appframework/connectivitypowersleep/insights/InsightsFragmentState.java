@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.content.Context;
@@ -29,16 +34,14 @@ public class InsightsFragmentState extends BaseState {
         RALog.d(TAG, " navigate called ");
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new InsightsFragment(), InsightsFragment.TAG, 90);
+                handleFragmentBackStack( new InsightsFragment(), InsightsFragment.TAG, Constants.ADD_FRAGMENT_WITH_BACKSTACK);
     }
 
     @Override
     public void init(Context context) {
-
     }
 
     @Override
     public void updateDataModel() {
-
     }
 }

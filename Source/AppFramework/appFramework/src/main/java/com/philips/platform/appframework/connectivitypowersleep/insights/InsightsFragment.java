@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.os.Bundle;
@@ -47,8 +52,8 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.af_coco_version_information, container, false);
-        recyclerViewInsights = (RecyclerView) view.findViewById(R.id.coco_version_view);
+        View view = inflater.inflate(R.layout.fragment_insights, container, false);
+        recyclerViewInsights = (RecyclerView) view.findViewById(R.id.insights_recycler_view);
         recyclerViewInsights.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         startAppTagging(TAG);
         return view;

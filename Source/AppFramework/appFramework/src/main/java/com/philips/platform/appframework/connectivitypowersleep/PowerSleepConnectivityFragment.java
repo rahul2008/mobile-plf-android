@@ -117,7 +117,6 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
             case R.id.insights:
                 connectivityPresenter.onEvent(R.id.insights);
                 break;
-            default:
         }
     }
 
