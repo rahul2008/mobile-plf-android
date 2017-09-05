@@ -154,6 +154,15 @@
             ]
           },
           {
+            "eventId": "ths",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "ths"
+              }
+            ]
+          },
+          {
             "eventId": "connectivity",
             "nextStates": [
               {

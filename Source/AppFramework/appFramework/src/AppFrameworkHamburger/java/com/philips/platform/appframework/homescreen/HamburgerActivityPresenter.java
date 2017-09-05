@@ -105,8 +105,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_DEBUG;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
-            case MENU_OPTION_PR:
-                return HOME_SUPPORT_PR;
+            case MENU_OPTION_THS:
+                return HOME_THS;
             default:
                 return HOME_FRAGMENT;
         }
