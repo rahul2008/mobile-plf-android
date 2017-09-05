@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <application android:allowBackup="true"
+    <application 
         android:supportsRtl="true"
         android:largeHeap="true">
         <activity android:name="com.philips.platform.uappdemo.screens.introscreen.LaunchActivity" />
