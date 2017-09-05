@@ -9,9 +9,9 @@ package com.philips.platform.baseapp.screens.settingscreen;
 import android.text.Html;
 
 import com.philips.cdp.uikit.customviews.UIKitButton;
+import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -29,8 +28,8 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@RunWith(CustomRobolectricRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class SettingsAdapterTest {
     private SettingsAdapter settingsAdapter = null;
     private HamburgerActivity hamburgerActivity = null;

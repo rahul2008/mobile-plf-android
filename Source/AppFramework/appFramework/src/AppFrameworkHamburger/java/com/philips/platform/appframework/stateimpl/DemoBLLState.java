@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -25,6 +26,7 @@ public class DemoBLLState extends BaseState {
     @Override
     public void init(Context context) {
         this.context = context;
+        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
     }
 
     @Override

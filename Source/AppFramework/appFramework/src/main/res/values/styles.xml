@@ -48,6 +48,22 @@
         <item name="android:lineSpacingExtra">6dip</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+    <style name="Overlay">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+    <style name="Overlay.Description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/welcome_arrow_size</item>
+        <item name="android:lineSpacingExtra">3dip</item>
+    </style>
+    <style name="Overlay.GotItButton">
+        <item name="android:textSize">24sp</item>
+        <item name="android:lineSpacingExtra">3dip</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
 
     <style name="BreakDownRow">
         <item name="android:layout_width">match_parent</item>

@@ -27,8 +27,7 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_COCOVERSION = 6;
     protected static final int MENU_OPTION_DEBUG = 7;
     protected static final int MENU_OPTION_TEST_MICROAPP = 8;
-    protected static final int MENU_OPTION_DEVICE_PAIRING = 9;
-    protected static final int MENU_OPTION_PR = 10;
+    protected static final int MENU_OPTION_PR = 9;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -37,13 +36,11 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_SHOPPING_CART = "shopping_cart";
     protected static final String HOME_ABOUT = "about";
     protected static final String HOME_FRAGMENT = "home_fragment";
-    protected static final String HOME_DATA_SYNC = "data_sync";
     protected static final String HOME_SUPPORT_PR = "pr";
     protected static final String HOME_CONNECTIVITY = "connectivity";
     protected static final String HOME_TEST_MICROAPP = "testmicroapp";
     protected static final String HOME_COCO_VERSION_INFO="coco_version_info";
     protected static final String HOME_DEBUG="debug";
-    protected static final String HOME_DEVICE_PAIRING = "device_pairing";
 
 
     private UIView uiView;
@@ -115,7 +112,7 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData testStateData=new UIStateData();
                 testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return testStateData;
-            case AppStates.DEVICE_PAIRING:
+            case AppStates.TEST_DEVICE_PAIRING:
                 final UIStateData devicePairingStateData = new UIStateData();
                 devicePairingStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return devicePairingStateData;

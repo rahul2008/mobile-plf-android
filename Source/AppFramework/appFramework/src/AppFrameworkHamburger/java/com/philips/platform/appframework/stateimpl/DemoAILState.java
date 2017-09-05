@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -20,6 +21,7 @@ public class DemoAILState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
 //        AILDemouAppDependencies mAIDemoAppDependencies = new AILDemouAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
 //        AILDemouAppSettings aiDemoAppSettings = new AILDemouAppSettings(context.getApplicationContext());
 //        AILDemouAppLaunchInput mAIDemoAppLaunchInput = new AILDemouAppLaunchInput();
