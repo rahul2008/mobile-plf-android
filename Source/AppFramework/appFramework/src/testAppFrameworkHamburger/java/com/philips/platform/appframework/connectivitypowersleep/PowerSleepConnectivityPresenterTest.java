@@ -5,11 +5,23 @@
 */
 package com.philips.platform.appframework.connectivitypowersleep;
 
+import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.platform.TestActivity;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
+import com.philips.platform.appframework.connectivitypowersleep.insights.InsightsFragmentState;
+import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.UIView;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,13 +30,20 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowToast;
 
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,6 +55,11 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Mock
     private ConnectivityPowerSleepContract.View view;
+
+    private Context context;
+
+    @Mock
+    private UIView uiView;
 
     PowerSleepConnectivityPresenter powerSleepConnectivityPresenter;
 
@@ -59,7 +83,8 @@ public class PowerSleepConnectivityPresenterTest {
 
     @Before
     public void setUp() {
-        powerSleepConnectivityPresenter = new PowerSleepConnectivityPresenter(view);
+        context = mock(TestActivity.class);
+        powerSleepConnectivityPresenter = new PowerSleepConnectivityPresenter(context, view, uiView);
         when(bleReferenceAppliance.getSessionDataPort()).thenReturn(sessionDataPort);
         when(sessionDataPort.getPortProperties()).thenReturn(sessionDataPortProperties);
         powerSleepConnectivityPresenter.setUpApplicance(bleReferenceAppliance);
@@ -93,9 +118,23 @@ public class PowerSleepConnectivityPresenterTest {
         powerSleepConnectivityPresenter.setUpApplicance(null);
     }
 
+    @Test
+    public void onEventTest() {
+        final InsightsFragmentState insightsFragmentState = mock(InsightsFragmentState.class);
+        AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
+        FlowManager uiFlowManagerMock = mock(FlowManager.class);
+        when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
+        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
+        when(uiFlowManagerMock.getNextState(uiFlowManagerMock.getState(AppStates.CONNECTIVITY),AppStates.INSIGHTS)).thenReturn(insightsFragmentState);
+        powerSleepConnectivityPresenter.onEvent(R.id.insights);
+        verify(insightsFragmentState).navigate(any(FragmentLauncher.class));
+    }
+
     @After
     public void tearDown() {
         view = null;
+        context = null;
+        uiView = null;
         powerSleepConnectivityPresenter = null;
         portListenerArgumentCaptor = null;
         portListener = null;

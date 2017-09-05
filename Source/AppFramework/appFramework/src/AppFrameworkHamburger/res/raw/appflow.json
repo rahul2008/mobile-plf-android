@@ -30,6 +30,20 @@
         ]
       },
       {
+        "state": "connectivity",
+        "events": [
+          {
+            "eventId": "insights",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "insights"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {

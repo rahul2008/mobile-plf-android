@@ -130,6 +130,12 @@ public class PowerSleepConnectivityFragmentTest {
         assertEquals(testActivity.getString(R.string.RA_DLS_data_fetch_error), ShadowToast.getTextOfLatestToast());
     }
 
+    @Test
+    public void insightsButtonClickTest() {
+        connectivityFragment.getView().findViewById(R.id.insights).performClick();
+        verify(connectivityPresenter).onEvent(R.id.insights);
+    }
+
     public static class ConnectivityFragmentMock extends PowerSleepConnectivityFragment {
 
         @Override
@@ -151,6 +157,7 @@ public class PowerSleepConnectivityFragmentTest {
     @After
     public void tearDown() {
         activityController.pause().stop().destroy();
+        connectivityPresenter = null;
         connectivityFragment = null;
         testActivity = null;
         activityController = null;

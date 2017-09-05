@@ -354,4 +354,14 @@ Receive free product accessories</string>
 
     <string name="RA_DLS_data_fetch_wait">Wait..While we fetch your sleep data from device</string>
     <string name="RA_DLS_data_fetch_error">Not able to fetch data</string>
+
+    <string name="sleep_tip_title_1">Follow a transition routine: </string>
+    <string name="sleep_tip_desc_1">Make a habit of doing something before going to bed that tells your body it\'s time to relax and sleep. It could simply be washing your face, taking a shower, or even brushing your teeth.</string>
+
+    <string name="sleep_tip_title_2">Select the right pillow: </string>
+    <string name="sleep_tip_desc_2">Some studies show that using a neck pillow that comes in a rectangle shape with a depression in the middle can enhance your sleep quality. A pillow with two supported cores will also help you fall asleep.</string>
+
+    <string name="sleep_tip_title_3">Take a hot bath: </string>
+    <string name="sleep_tip_desc_3">Your body will relax quickly if you take a hot bath, but you need to take it at least 90-120 minutes before you go to sleep. Also, make sure the water temperature is around 40 degree Celsius.</string>
+
 </resources>

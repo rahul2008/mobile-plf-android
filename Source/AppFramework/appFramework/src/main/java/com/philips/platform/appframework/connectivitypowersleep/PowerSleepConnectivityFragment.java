@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
@@ -36,7 +38,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View {
+public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
     public static final String TAG = PowerSleepConnectivityFragment.class.getSimpleName();
     private ProgressDialog dialog = null;
     private Handler handler = new Handler();
@@ -102,7 +104,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     }
 
     protected PowerSleepConnectivityPresenter getConnectivityPresenter() {
-        return new PowerSleepConnectivityPresenter(this);
+        return new PowerSleepConnectivityPresenter(getActivity(), this, this);
     }
 
     @Override
@@ -113,6 +115,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
                 launchBlutoothActivity();
                 break;
             case R.id.insights:
+                connectivityPresenter.onEvent(R.id.insights);
                 break;
             default:
         }
@@ -244,5 +247,10 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
 
     protected void removeApplianceListener() {
         mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
     }
 }

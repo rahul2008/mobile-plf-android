@@ -17,7 +17,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;

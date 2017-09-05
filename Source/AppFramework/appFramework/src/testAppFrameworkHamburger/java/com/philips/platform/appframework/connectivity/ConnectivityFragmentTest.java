@@ -17,7 +17,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.ConnectivityBaseFragment;
 import com.philips.platform.appframework.R;
 
