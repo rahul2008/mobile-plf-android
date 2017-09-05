@@ -451,7 +451,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     }
 
     protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
-        if (shippingAddressFields == null) shippingAddressFields = new AddressFields();
         shippingAddressFields.setFirstName(mEtFirstName.getText().toString());
         shippingAddressFields.setLastName(mEtLastName.getText().toString());
         shippingAddressFields.setTitleCode(mEtSalutation.getText().toString());

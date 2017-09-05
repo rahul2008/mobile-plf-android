@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +93,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                     mBtnContinue.setEnabled(true);
                 } else {
                     setFragmentVisibility(billingFragment, true);
-                    ((DLSBillingAddressFragment) billingFragment).clearAllFields();
+                    // ((DLSBillingAddressFragment) billingFragment).clearAllFields();
                     mBtnContinue.setEnabled(false);
                 }
             }
@@ -134,12 +135,10 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (isVisible) {
             fm.beginTransaction()
                     .show(fragment)
-                    .addToBackStack(fragment.getClass().getName())
                     .commit();
         } else {
             fm.beginTransaction()
                     .hide(fragment)
-                    .addToBackStack(fragment.getClass().getName())
                     .commit();
         }
 
@@ -166,6 +165,9 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             if (!isProgressDialogShowing()) { //Add new Address
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
+
+            removeStaticFragments(shippingFragment);
+            removeStaticFragments(billingFragment);
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
@@ -189,9 +191,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         HashMap<String, String> updateAddressPayload;
         if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
             updateAddressPayload = addressPayload(shippingAddressFields);
-        else
+        else {
+            if (checkBox.isChecked())
+                billingAddressFields = shippingAddressFields;
             updateAddressPayload = addressPayload(billingAddressFields);
-
+        }
         if (CartModelContainer.getInstance().getAddressId() != null) {
             if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null)
                 updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
@@ -350,7 +354,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 //                setFragmentVisibility(billingFragment, true);
 //            } else {
 
-            if (billingAddressFields.toString() == null) {
+            if (billingAddressFields == null) {
                 //set Billing Address same as Shipping Address
                 CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
             } else {
@@ -378,5 +382,20 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onSetPaymentDetails(Message msg) {
         //NOP
+    }
+
+    public void removeStaticFragments(Fragment currentFrag) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        String fragName = "NONE";
+
+        if (currentFrag != null)
+            fragName = currentFrag.getClass().getSimpleName();
+
+
+        if (currentFrag != null)
+            transaction.remove(currentFrag);
+
+        transaction.commit();
+
     }
 }

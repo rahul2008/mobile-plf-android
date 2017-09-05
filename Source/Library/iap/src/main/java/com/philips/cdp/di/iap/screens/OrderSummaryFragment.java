@@ -216,10 +216,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
+       /* Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
         if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
-        }
+        }*/
         return false;
     }
 
