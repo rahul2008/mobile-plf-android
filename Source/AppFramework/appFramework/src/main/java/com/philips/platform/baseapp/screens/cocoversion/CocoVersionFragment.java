@@ -83,7 +83,7 @@ public class CocoVersionFragment extends AbstractAppFrameworkBaseFragment {
 
         CocoVersionItem connectivity = new CocoVersionItem();
         connectivity.title = getResources().getString(R.string.RA_COCO_Connectivity);
-        connectivity.version = com.philips.cdp.dicommclient.BuildConfig.VERSION_NAME;
+        connectivity.version = com.philips.cdp2.commlib_all.BuildConfig.VERSION_NAME;
 
         CocoVersionItem iap = new CocoVersionItem();
         iap.title = getResources().getString(R.string.RA_COCO_IAP);
