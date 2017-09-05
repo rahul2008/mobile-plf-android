@@ -221,6 +221,10 @@
 -keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
 -keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
 
+#For Dataservices Demo Micro App
+-keep class com.philips.platform.dscdemo.pojo.AppCharacteristics { *; }
+-keep class com.philips.platform.dscdemo.pojo.AppUserCharacteristics { *; }
+
 #Data-Services Settings
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
 

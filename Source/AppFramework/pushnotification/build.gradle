@@ -27,7 +27,7 @@ buildscript {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
     }
@@ -69,7 +69,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -103,7 +103,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -140,7 +140,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+	
+	def dp = project.ext.has('useprojectdependencies')
+	
+	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	compile(dp ? project(':ail') : ailModule) 
+	{
         exclude group: 'com.android.support'
         transitive = true
     }
@@ -160,6 +165,8 @@ dependencies {
     testCompile "org.powermock:powermock-classloading-xstream:1.6.6"
     testCompile 'org.robolectric:robolectric:3.3.1'
     testCompile 'org.robolectric:robolectric-annotations:3.3.1'
+
+    testCompile 'org.json:json:20170516'
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
