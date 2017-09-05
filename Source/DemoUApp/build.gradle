@@ -180,7 +180,7 @@ dependencies {
 
     provided deps.support.annotations
 
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix())
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uapp_framework + objcdp.getVersionSuffix(), changing: true)
 
     debugCompile project(path: ':commlib', configuration: 'debug')
     releaseCompile project(path: ':commlib', configuration: 'release')
