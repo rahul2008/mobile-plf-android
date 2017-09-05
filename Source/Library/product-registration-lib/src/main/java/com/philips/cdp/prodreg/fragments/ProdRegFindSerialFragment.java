@@ -92,7 +92,6 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         getImageUrl(productMetadataResponseData, new PrxRequest.OnUrlReceived() {
             @Override
             public void onSuccess(String url) {
-                float aspectRatio;
                 setSerialNumberTextView(productMetadataResponseData);
                 Log.d("imageUrl", "imageUrl " + url);
                 final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
