@@ -32,7 +32,9 @@
 #-keep class com.philips.cdp.prxclient.response.** { *; }
 
 
-
+#appinfra
+-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
 
 
