@@ -38,13 +38,12 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Off",
+      "logLevel":"All",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
-        "DemoAppInfra",
-        "Registration"
+        "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
       ]
     },
     "logging.debugConfig":{
@@ -54,11 +53,9 @@
       "logLevel":"All",
       "fileLogEnabled":false,
       "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
-
-        "DemoAppInfra",
-        "Registration","component1"
+        "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
       ]
     }
   },
