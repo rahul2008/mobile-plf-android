@@ -377,78 +377,78 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	def prgModule = module(group: 'com.philips.cdp', name: 'product-registration-lib', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def prgModule = module(group: 'com.philips.cdp', name: 'product-registration-lib', version: versions.prg + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':prg') : prgModule) {
 		transitive = true
 	}
-	def dccModule = module(group: 'com.philips.cdp', name: 'digitalCare', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 	
+	def dccModule = module(group: 'com.philips.cdp', name: 'digitalCare', version: versions.dcc + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 	
 	compile(dp ? project(':dcc') : dccModule) {
 		transitive = true
 	}
 	
-	def iapModule = module(group: 'com.philips.cdp', name: 'iap', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def iapModule = module(group: 'com.philips.cdp', name: 'iap', version: versions.iap + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':iap') : iapModule) {
 		transitive = true
 	}
 	
-	def dscModule = module(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dscModule = module(group: 'com.philips.cdp', name: 'dataServices', version: versions.dsc + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dsc') : dscModule) {
 		exclude group: 'com.android.support'
 		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 
-	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: versions.cba + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':commlib-all') : commlibAllModule) {	
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 	
-	def dccUAppModule = module(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '8.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dccUAppModule = module(group: 'com.philips.cdp', name: 'digitalCareUApp', version: versions.dcc + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dccUApp') : dccUAppModule) {	
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 	
-	def ufwUAppModule = module(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def ufwUAppModule = module(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: versions.uaf + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':ufwUApp') : ufwUAppModule) {	
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 	
-	def iapUAppModule = module(group: 'com.philips.cdp', name: 'iapUApp', version: '6.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def iapUAppModule = module(group: 'com.philips.cdp', name: 'iapUApp', version: versions.iap + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':iapUApp') : iapUAppModule) {	
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 
-	def dscUAppModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dscUAppModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dscUApp') : dscUAppModule) {	
 		exclude group: 'com.android.support'
 		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 	
-	def prgUAppModule = module(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def prgUAppModule = module(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':prgUApp') : prgUAppModule) {		
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 
-	def commlibUAppModule = module(group: 'com.philips.cdp', name: 'DICommClientSampleUApp', version: '7.1.0'+ objcdp.getVersionSuffix(), ext: 'aar')
+	def commlibUAppModule = module(group: 'com.philips.cdp', name: 'DICommClientSampleUApp', version: 'versions.cba + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':commlibUApp') : commlibUAppModule) {		
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 	
-	def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar')
+	def usrUAppModule = module(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: versions.usr + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':usrUApp') : usrUAppModule) {	
 		exclude group: 'com.android.support'
 		exclude group: 'com.philips.cdp', module: 'RegistrationApi'
 		transitive = true
 	}
 	
-	def dprUAppModule = module(group: 'com.philips.cdp', name: 'devicepairingUApp', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dprUAppModule = module(group: 'com.philips.cdp', name: 'devicepairingUApp', version: versions.dpr + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dprUApp') : dprUAppModule) {	
 		exclude group: 'com.android.support'
 		exclude group: 'joda-time', module: 'joda-time'
