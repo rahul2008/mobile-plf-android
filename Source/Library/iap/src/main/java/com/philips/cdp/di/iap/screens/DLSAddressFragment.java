@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,6 +167,9 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             if (!isProgressDialogShowing()) { //Add new Address
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
+
+            removeStaticFragments(shippingFragment);
+            removeStaticFragments(billingFragment);
         } else if (v == mBtnCancel) {
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
@@ -378,5 +382,21 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onSetPaymentDetails(Message msg) {
         //NOP
+    }
+
+    public void removeStaticFragments(Fragment currentFrag)
+    {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        String fragName = "NONE";
+
+        if (currentFrag!=null)
+            fragName = currentFrag.getClass().getSimpleName();
+
+
+        if (currentFrag != null)
+            transaction.remove(currentFrag);
+
+        transaction.commit();
+
     }
 }
