@@ -43,7 +43,7 @@ public class DemoDataServicesStateTest extends TestCase {
         return (AppFrameworkApplication) RuntimeEnvironment.application;
     }
 
-    @Test
+    @Test(expected = UnsatisfiedLinkError.class)
     public void testLaunchDemoDataServicesState() {
         demoDataServicesState.init(getApplicationContext());
         demoDataServicesState.navigate(activityLauncher);
