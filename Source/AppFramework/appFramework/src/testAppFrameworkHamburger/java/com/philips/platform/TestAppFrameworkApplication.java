@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
-import com.philips.platform.baseapp.screens.ths.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -39,16 +38,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public AppInfraInterface appInfra;
     private UserRegistrationOnBoardingState userRegistrationOnBoardingState;
     private IAPState iapState;
-
-    public TeleHealthServicesState getTeleHealthServicesState() {
-        return teleHealthServicesState;
-    }
-
-    public void setTeleHealthServicesState(TeleHealthServicesState teleHealthServicesState) {
-        this.teleHealthServicesState = teleHealthServicesState;
-    }
-
-    private TeleHealthServicesState teleHealthServicesState;
     private LanguagePackInterface languagePackInterface;
 
     @Test

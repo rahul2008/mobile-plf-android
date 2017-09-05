@@ -24,46 +24,34 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import static junit.framework.Assert.assertEquals;
+
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
-public class TeleHealthServicesStateTest extends TestCase {
+public class TeleHealthServicesStateTest {
 
     private TeleHealthServicesState teleHealthServicesState;
-    private FragmentLauncher fragmentLauncher;
-    private HamburgerActivity hamburgerActivity;
-    private ActivityController<TestActivity> activityController;
 
-    @After
-    public void tearDown() {
-        activityController.pause().stop().destroy();
-        teleHealthServicesState = null;
-        hamburgerActivity = null;
-    }
+    @Mock
+    FragmentLauncher fragmentLauncher;
+
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+        MockitoAnnotations.initMocks(this);
         teleHealthServicesState = new TeleHealthServicesState();
-
-        UIStateData uiStateData = new UIStateData();
-        uiStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-        teleHealthServicesState.setUiStateData(uiStateData);
-        activityController = Robolectric.buildActivity(TestActivity.class);
-        hamburgerActivity = activityController.create().start().get();
-        fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
     }
 
-    @Test(expected = UnsatisfiedLinkError.class)
+    @Test
     public void launchDevicePairingState() {
         new TeleHealthServicesState().init(RuntimeEnvironment.application);
         teleHealthServicesState.navigate(fragmentLauncher);
-        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(1, fragmentCount);
     }
 }
