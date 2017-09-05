@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_calender"
-                android:hint="@string/purchase_date_format" />
+                android:hint="@string/PRG_Please_Select" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
     </LinearLayout>
 

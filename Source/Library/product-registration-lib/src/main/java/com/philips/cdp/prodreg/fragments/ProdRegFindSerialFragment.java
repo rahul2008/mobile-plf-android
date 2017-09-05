@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -95,14 +96,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                 setSerialNumberTextView(productMetadataResponseData);
                 Log.d("imageUrl", "imageUrl " + url);
                 final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-                int width = getResources().getDisplayMetrics().widthPixels;
-                if(width > 680) {
-                    aspectRatio = (16/9);
-                    serialNumberImageView.getLayoutParams().height = (int) ((width) / aspectRatio);
-                } else {
-                    aspectRatio = (12/5);
-                    serialNumberImageView.getLayoutParams().height = (int) ((width) / aspectRatio);
-                }
+                ((ProdRegBaseActivity)getActivity()).setImgageviewwithAspectRation(serialNumberImageView);
                 imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView,
                         R.drawable.product_placeholder, R.drawable.product_placeholder));
                 serialNumberImageView.requestLayout();

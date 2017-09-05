@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
@@ -198,6 +199,22 @@ public class ProdRegBaseActivity extends UIDActivity {
     public void onSaveInstanceState(final Bundle outState, final PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putBoolean("retain_state", true);
+    }
+
+    /**
+     *  setting the imageview with aspect ration 16:9
+     */
+    public void setImgageviewwithAspectRation(ImageView imageView) {
+        float aspectRatio;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        if (width > 680) {
+            aspectRatio = (16/9);
+            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
+        } else {
+            aspectRatio = (12/5);
+            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
+        }
+
     }
 
     @Override
