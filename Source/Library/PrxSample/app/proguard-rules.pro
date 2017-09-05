@@ -24,13 +24,6 @@
 #prxclient model class
 -keep class com.philips.cdp.prxclient.datamodels.** { *; }
 
-##prxclient Request
-#-keep class com.philips.cdp.prxclient.RequestManager.**{ public *;}
-#-keep class com.philips.cdp.prxclient.request.** { *; }
-#
-##prxclient Response
-#-keep class com.philips.cdp.prxclient.response.** { *; }
-
 
 #appinfra
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
