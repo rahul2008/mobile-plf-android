@@ -508,7 +508,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         ArrayList<MenuItem> menus = new ArrayList<>();
 
         if (DigitalCareConfigManager.getInstance().getEmailUrl() != null){
-            menus.add(new MenuItem(R.string.icon_dls_questionmark, R.string.dcc_send_email));
+            menus.add(new MenuItem(R.string.dls_message, R.string.dcc_send_email));
         }
 
         if(!Utils.isCountryChina())

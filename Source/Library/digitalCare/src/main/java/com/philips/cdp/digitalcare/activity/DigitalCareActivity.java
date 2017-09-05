@@ -79,7 +79,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         ThemeConfiguration config = DigitalCareConfigManager.getInstance().getThemeConfiguration();
         setTheme(DigitalCareConfigManager.getInstance().getDlsTheme());
         UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+        FontIconTypefaceHolder.init(getAssets(), "fonts/iconfont.ttf");
     }
 
     private int getAnInt(Bundle bundleExtras, String startAnimationId) {

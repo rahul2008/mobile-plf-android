@@ -13,7 +13,7 @@
         android:id="@+id/icon_button_icon"
         android:textSize="18dp"
         android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
-        fontPath="digitalcarefonts/CCIcon.ttf"/>
+        fontPath="fonts/iconfont.ttf"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/icon_button_text"
