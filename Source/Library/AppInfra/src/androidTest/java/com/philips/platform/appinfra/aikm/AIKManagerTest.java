@@ -65,11 +65,6 @@ public class AIKManagerTest extends AppInfraInstrumentation {
                 return groomHelperMock;
             }
 
-            @Override
-            InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
-                return finalInputStream;
-            }
-
             @NonNull
             @Override
             ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(List<String> serviceIds, List<AIKMService> aiKmServices, AISDResponse.AISDPreference aiSdPreference, ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) {
@@ -78,7 +73,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         };
 
         aikManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
-//        verify(groomHelperMock, atLeastOnce()).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
+//        verify(groomHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
     }
 
 

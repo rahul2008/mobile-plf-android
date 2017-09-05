@@ -74,6 +74,7 @@ public class KeyBagActivity extends AppCompatActivity {
 					@Override
 					public void onError(ERRORVALUES error, String message) {
 						Log.e(getClass().getSimpleName(), message);
+						Toast.makeText(KeyBagActivity.this, message, Toast.LENGTH_SHORT).show();
 					}
 				});
 			} catch (AIKMJsonFileNotFoundException e) {

@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.aikm;
 
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -44,25 +45,34 @@ public class GroomHelper {
         this.mAppInfra = appInfra;
     }
 
-    boolean init(AppInfra mAppInfra, InputStream mInputStream) throws AIKMJsonFileNotFoundException {
+    void init(AppInfra mAppInfra) throws AIKMJsonFileNotFoundException {
         this.mAppInfra = mAppInfra;
-        StringBuilder total;
-        try {
-            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
-            total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line).append('\n');
+        if (null == rootJsonObject) {
+            InputStream mInputStream = getInputStream(mAppInfra.getAppInfraContext(), "AIKMap.json");
+            StringBuilder total;
+            try {
+                final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+                total = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    total.append(line).append('\n');
+                }
+                rootJsonObject = new JSONObject(total.toString());
+            } catch (JSONException | IOException e) {
+                if (e instanceof IOException)
+                    throw new AIKMJsonFileNotFoundException();
+                else
+                    Log.e("error", " while mapping local Groom data");
             }
-            rootJsonObject = new JSONObject(total.toString());
-            return true;
-        } catch (JSONException | IOException e) {
-            if (e instanceof IOException)
-                throw new AIKMJsonFileNotFoundException();
-            else
-                Log.e("error"," while mapping local Groom data");
         }
-        return false;
+    }
+
+    InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
+        try {
+            return mContext.getAssets().open(fileName);
+        } catch (IOException e) {
+            throw new AIKMJsonFileNotFoundException();
+        }
     }
 
     String getAilGroomInHex(String data) throws NoSuchAlgorithmException {

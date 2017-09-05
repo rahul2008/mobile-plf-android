@@ -5,7 +5,6 @@
  */
 package com.philips.platform.appinfra.aikm;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -15,8 +14,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,20 +33,10 @@ public class AIKManager implements AIKMInterface {
                                          Map<String, String> replacement,
                                          @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException {
 
-        InputStream inputStream = getInputStream(appInfra.getAppInfraContext(), "AIKMap.json");
-        getGroomHelper().init(appInfra, inputStream);
+        getGroomHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
         getGroomHelper().getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
-    }
-
-
-    InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
-        try {
-            return mContext.getAssets().open(fileName);
-        } catch (IOException e) {
-            throw new AIKMJsonFileNotFoundException();
-        }
     }
 
     @NonNull

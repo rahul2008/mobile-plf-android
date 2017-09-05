@@ -5,6 +5,7 @@
  */
 package com.philips.platform.appinfra.aikm;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -52,13 +53,18 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         when(mAppInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
 
         try {
-            inputStream = getInstrumentation().getContext().getResources().getAssets().open("AIKeyBag.json");
+            inputStream = getInstrumentation().getContext().getResources().getAssets().open("AIKMap.json");
         } catch (IOException e) {
             Log.e("error "," while reading json");
         }
 
-        groomHelper = new GroomHelper(mAppInfraMock);
-        groomHelper.init(mAppInfraMock, inputStream);
+        groomHelper = new GroomHelper(mAppInfraMock) {
+            @Override
+            InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
+                return inputStream;
+            }
+        };
+        groomHelper.init(mAppInfraMock);
     }
 
     public void testGettingSeed() throws NoSuchAlgorithmException {
@@ -102,10 +108,10 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         thrown.expect(AIKMJsonFileNotFoundException.class);
         thrown.expectMessage("AIKeyBag.json file not found in assets folder");
         try {
-            groomHelper.init(mAppInfraMock, inputStream);
+            groomHelper.init(mAppInfraMock);
         } catch (AIKMJsonFileNotFoundException e) {
             Log.e("error "," aibag.json file not found");
-            assertEquals(e.getMessage(), "AIKeyBag.json file not found in assets folder");
+            assertEquals(e.getMessage(), "AIKMap.json file not found in assets folder");
         }
     }
 
@@ -156,8 +162,13 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             Object getAilGroomProperties(String serviceId) {
                 return new JSONArray();
             }
+
+            @Override
+            InputStream getInputStream(Context mContext, String fileName) throws AIKMJsonFileNotFoundException {
+                return inputStream;
+            }
         };
-        groomHelper.init(mAppInfraMock, inputStream);
+        groomHelper.init(mAppInfraMock);
         ServiceDiscoveryService serviceDiscovery = new ServiceDiscoveryService();
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
