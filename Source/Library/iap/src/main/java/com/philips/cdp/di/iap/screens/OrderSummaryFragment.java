@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.CheckOutHistoryAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -262,11 +261,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
-        bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-        bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
-        bundle.putSerializable(IAPConstant.SHOPPING_CART_CODE, shoppingCartData);
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
     }
 
