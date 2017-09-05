@@ -19,8 +19,6 @@
 #gson
 -keep interface com.google.gson.** { *; }
 -keep  class com.google.gson.** { *; }
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
 
 
 #prxclient model class
