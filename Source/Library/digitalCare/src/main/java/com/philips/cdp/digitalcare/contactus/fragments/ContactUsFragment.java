@@ -519,7 +519,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         if(mContactUsUtils.serviceDiscoveryTwitterUrl() == null && getActivity().getString(R.string.twitter_page).trim().length() == 0 ){
             Log.i("sdtest","remove twitter");
             for (int i = 0; i < menus.size(); i++) {
-                if (menus.get(i).mText == R.string.twitter) {
+                if (menus.get(i).mText == R.string.dcc_twitter) {
                     menus.remove(i);
                     break;
                 }
@@ -529,7 +529,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         if(mContactUsUtils.serviceDiscoveryFacebookUrl() == null  && getActivity().getString(R.string.facebook_product_pageID).trim().length() == 0 ){
             Log.i("sdtest","remove facebook");
             for (int i = 0; i < menus.size(); i++) {
-                if (menus.get(i).mText == R.string.facebook) {
+                if (menus.get(i).mText == R.string.dcc_facebook) {
                     menus.remove(i);
                     break;
                 }
