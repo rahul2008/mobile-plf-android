@@ -250,7 +250,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                                 getPreviousName(), getPreviousName());
             }
         } catch (Exception e) {
-            Log.e(TAG, "LocaleMatch Crash Controlled : " + e);
+            DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
         }
     }
 
@@ -623,7 +623,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         if (getActivity() != null) {
             String subCategoryUrl = getSubCategoryURL();
-            DigiCareLogger.i(TAG, "******** Sub Category URL : " + subCategoryUrl);
+            DigiCareLogger.d(TAG, "Sub Category URL : " + subCategoryUrl);
 
             RequestData subCategoryRequest = new RequestData();
 
@@ -835,13 +835,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 ServiceDiscoveryService serviceDiscoveryService = map.get("cc.prx.category");
                 if (serviceDiscoveryService != null) {
                     DigitalCareConfigManager.getInstance().setSubCategoryUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.prx.category' - " + serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.prx.category' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
                 serviceDiscoveryService = map.get("cc.productreviewurl");
                 if (serviceDiscoveryService != null) {
                     DigitalCareConfigManager.getInstance().setProductReviewUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.productreviewurl' - " + serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.productreviewurl' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
                 executeSubcategoryRequest();
@@ -870,13 +870,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             @Override
             public void onSuccess(String s, SOURCE source) {
                 DigitalCareConfigManager.getInstance().setCountry(s);
-                //Log.i("sdlocale","inside ccInterface - getHomeCountry : "+s);
-                DigiCareLogger.v(TAG,"Response from Service Discovery : getHomeCountry() - "+s);
+                DigiCareLogger.v(TAG,"Response from Service Discovery : Home Country - "+s);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                DigiCareLogger.v(TAG,"Error response from Service Discovery : getHomeCountry() - "+s);
+                DigiCareLogger.v(TAG,"Error response from Service Discovery : Home Country - "+s);
             }
         });
     }

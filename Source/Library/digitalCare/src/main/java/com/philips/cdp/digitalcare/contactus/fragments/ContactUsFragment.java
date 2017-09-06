@@ -41,6 +41,7 @@ import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
 import com.philips.cdp.digitalcare.util.ContactUsUtils;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.uid.view.widget.Label;
@@ -395,8 +396,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 + " "
                 + ctn;
 
-        Log.i("sdtest","ContactusFragment - TwitterFeature : "+productInfo);
-
         return productInfo;
     }
 
@@ -517,7 +516,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             }
 
         if(mContactUsUtils.serviceDiscoveryTwitterUrl() == null && getActivity().getString(R.string.twitter_page).trim().length() == 0 ){
-            Log.i("sdtest","remove twitter");
+            DigiCareLogger.d(TAG,"Removed Twitter");
             for (int i = 0; i < menus.size(); i++) {
                 if (menus.get(i).mText == R.string.dcc_twitter) {
                     menus.remove(i);
@@ -527,7 +526,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         }
 
         if(mContactUsUtils.serviceDiscoveryFacebookUrl() == null  && getActivity().getString(R.string.facebook_product_pageID).trim().length() == 0 ){
-            Log.i("sdtest","remove facebook");
+            DigiCareLogger.d(TAG,"Removed Facebook");
             for (int i = 0; i < menus.size(); i++) {
                 if (menus.get(i).mText == R.string.dcc_facebook) {
                     menus.remove(i);

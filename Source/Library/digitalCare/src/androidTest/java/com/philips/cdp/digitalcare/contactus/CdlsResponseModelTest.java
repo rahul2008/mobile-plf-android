@@ -11,6 +11,7 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class CdlsResponseModelTest extends InstrumentationTestCase {
 
@@ -25,7 +26,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Log.d(TAG, "setUp..");
+        DigiCareLogger.d(TAG, "setUp..");
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
@@ -56,7 +57,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsChatModel mChatModel = mCdlsResponseModel.getChat();
-		Log.d(TAG, "Chat Response : " + mChatModel);
+        DigiCareLogger.d(TAG, "Chat Response : " + mChatModel);
 		assertNotNull(mChatModel);
 	}
 
@@ -69,7 +70,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsErrorModel mErrorObject = mCdlsResponseModel.getError();
-		Log.d(TAG, "Model Error : " + mErrorObject);
+        DigiCareLogger.d(TAG, "Model Error : " + mErrorObject);
 		assertNull(mErrorObject);
 	}
 
@@ -82,7 +83,6 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mCdlsResponseModel.getEmail();
-		Log.d("Naveen", "Response:" + response);
 		assertNull(mEmailObject);
 	}
 
@@ -95,7 +95,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsPhoneModel mPhoneObject = mCdlsResponseModel.getPhone();
-		Log.d(TAG, "Phone Response : " + mPhoneObject);
+        DigiCareLogger.d(TAG, "Phone Response : " + mPhoneObject);
 		assertNotNull(mPhoneObject);
 	}
 
@@ -107,7 +107,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		Boolean mResponseKey = mCdlsResponseModel.getSuccess();
-		Log.d(TAG, " Response key : " + mResponseKey);
+        DigiCareLogger.d(TAG, " Response key : " + mResponseKey);
 		assertTrue(mResponseKey);
 	}
 
@@ -119,7 +119,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		mGetCdlsInstance.parseCdlsResponse(response);
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
-		Log.d(TAG, "Response : " + mCdlsResponseModel);
+        DigiCareLogger.d(TAG, "Response : " + mCdlsResponseModel);
 		assertNotNull(mCdlsResponseModel);
 
 	}
@@ -133,7 +133,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsChatModel mChatModel = mCdlsResponseModel.getChat();
-		Log.d(TAG, "Chat Response : " + mChatModel);
+        DigiCareLogger.d(TAG, "Chat Response : " + mChatModel);
 		assertNotNull(mChatModel);
 	}
 
@@ -146,7 +146,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsErrorModel mErrorObject = mCdlsResponseModel.getError();
-		Log.d(TAG, "Model Error : " + mErrorObject);
+        DigiCareLogger.d(TAG, "Model Error : " + mErrorObject);
 		assertNull(mErrorObject);
 	}
 
@@ -159,7 +159,6 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mCdlsResponseModel.getEmail();
-		Log.d("Naveen", "Response:" + response);
 		assertNull(mEmailObject);
 	}
 
@@ -172,7 +171,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsPhoneModel mPhoneObject = mCdlsResponseModel.getPhone();
-		Log.d(TAG, "Phone Response : " + mPhoneObject);
+        DigiCareLogger.d(TAG, "Phone Response : " + mPhoneObject);
 		assertNull(mPhoneObject);
 	}
 
@@ -184,7 +183,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// CdlsResponseModel mResponseModel = null;
 		// mResponseModel = mParser.getCdlsResponseModel();
 		Boolean mResponseKey = mCdlsResponseModel.getSuccess();
-		Log.d(TAG, " Response key : " + mResponseKey);
+        DigiCareLogger.d(TAG, " Response key : " + mResponseKey);
 		assertTrue(mResponseKey);
 	}
 

@@ -20,7 +20,6 @@ public class ContactUsUtils {
         if(serviceDiscoveryUrl == null){
             return null;
         } else {
-            Log.i("sdtest","serviceDiscoveryFacebookUrl - "+serviceDiscoveryUrl);
             return serviceDiscoveryUrl;
         }
     }
@@ -43,8 +42,6 @@ public class ContactUsUtils {
 
         facebookAppURL =  FACEBOOKINAPPURL + facebookPageID;
 
-        Log.i("sdtest","facebooAppUrl : "+facebookAppURL);
-
         return facebookAppURL;
     }
 
@@ -59,7 +56,6 @@ public class ContactUsUtils {
         } else if (configFbPageID != null){
             facebookWebUrl = FACEBOOKURL + context.getString(R.string.facebook_product_pageID);
         }
-        Log.i("sdtest","faceboobWebUrl : "+facebookWebUrl);
 
         return facebookWebUrl;
     }
@@ -71,7 +67,6 @@ public class ContactUsUtils {
         if(serviceDiscoveryUrl == null){
             return null;
         } else {
-            Log.i("sdtest","serviceDiscoveryTwitterUrl : "+serviceDiscoveryUrl);
             return serviceDiscoveryUrl;
         }
     }
@@ -90,7 +85,6 @@ public class ContactUsUtils {
         else if (configTwitterPageName != null ) {
             twitterPageName = configTwitterPageName;
         }
-        Log.i("sdtest","twitterPageName : "+twitterPageName);
 
         return twitterPageName;
 
@@ -114,7 +108,6 @@ public class ContactUsUtils {
             chatLink = liveChatConfigUrl;
         }
 
-        Log.i("sdtest","liveChatUrl : "+chatLink);
         return chatLink;
 
     }

@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.contactus.fragments.ChatNowFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class ChatNowFragmentTest extends
 		InstrumentationTestCase {
@@ -22,7 +23,7 @@ public class ChatNowFragmentTest extends
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
-		Log.d(TAG, "setUp..");
+        DigiCareLogger.d(TAG, "setUp..");
 		mActivity = getInstrumentation().getTargetContext();
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();

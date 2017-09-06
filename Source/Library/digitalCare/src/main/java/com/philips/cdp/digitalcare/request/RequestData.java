@@ -40,7 +40,7 @@ public class RequestData {
 
 
     public void setRequestUrl(final String url) {
-        DigiCareLogger.i(TAG, "url : " + url);
+        DigiCareLogger.d(TAG, "url : " + url);
         mRequestUrl = url;
     }
 

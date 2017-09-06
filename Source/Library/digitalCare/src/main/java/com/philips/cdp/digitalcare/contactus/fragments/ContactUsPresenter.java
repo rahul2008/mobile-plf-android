@@ -8,6 +8,7 @@ import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -26,6 +27,7 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
     private CdlsResponseModel mCdlsParsedResponse = null;
 
     private boolean isFirstTimeCdlsCall = true;
+    private static final String TAG = ContactUsPresenter.class.getSimpleName();
 
     public ContactUsPresenter(ContactUsContract contract) {
         this.contract = contract;
@@ -150,28 +152,33 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
                 ServiceDiscoveryService serviceDiscoveryService = map.get("cc.emailformurl");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.emailformurl' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
                 if(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory() != null && !DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory().isEmpty()) {
                     serviceDiscoveryService = map.get("cc.cdls");
                     if (serviceDiscoveryService != null) {
                         DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
+                        DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.cdls' - " + serviceDiscoveryService.getConfigUrls());
                     }
                 }
 
                 serviceDiscoveryService = map.get("cc.twitterurl");
                 if (serviceDiscoveryService != null) {
                     DigitalCareConfigManager.getInstance().setTwitterUrl(serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.twitterurl' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
                 serviceDiscoveryService = map.get("cc.facebookurl");
                 if (serviceDiscoveryService != null) {
                     DigitalCareConfigManager.getInstance().setFbUrl(serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.facebookurl' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
                serviceDiscoveryService = map.get("cc.livechaturl");
                 if (serviceDiscoveryService != null) {
                     DigitalCareConfigManager.getInstance().setSdLiveChatUrl(serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.livechaturl' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
             }

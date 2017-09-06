@@ -14,6 +14,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
 public class TwitterWebFragment extends DigitalCareBaseFragment {
@@ -24,6 +25,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     private ProgressBar mProgressBar = null;
     private String mTwitterPageName = null;
     private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=@";
+    private static String TAG = TwitterWebFragment.class.getSimpleName();
 
     public TwitterWebFragment() {
 
@@ -54,7 +56,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     private void loadInAppTwitter() {
-        Log.i("sdtest","TwitterWebFragment - getTwitterUrl() :"+getTwitterUrl());
+        DigiCareLogger.d(TAG,"Twitter Url :"+getTwitterUrl());
         Utils.loadWebPageContent(getTwitterUrl(), mTwitterWebView, mProgressBar);
     }
 

@@ -8,6 +8,7 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsEmailModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class CdlsEmailModelTest extends InstrumentationTestCase {
 
@@ -22,7 +23,7 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Log.d(TAG, "setUp..");
+		DigiCareLogger.d(TAG, "setUp..");
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
@@ -42,9 +43,8 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
-			Log.d(TAG, "Chat Email Content .." + received);
+            DigiCareLogger.d(TAG, "Chat Email Content .." + received);
 		}
-		Log.d("Naveen", "Chat Email Content .." + received);
 		assertNull(received);
 	}
 
@@ -57,7 +57,7 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getContentPath().toString();
 		} catch (Exception e) {
-			Log.d(TAG, "Chat Email Content .." + received);
+            DigiCareLogger.d(TAG, "Chat Email Content .." + received);
 		}
 
 		assertNull(received);
@@ -66,7 +66,6 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 	public void testEmailLabel1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
 				context);
-		Log.d("Naveen", response);
 		String received = null;
 		mGetCdlsInstance.parseCdlsResponse(response);
 		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
@@ -99,23 +98,22 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
-			Log.d(TAG, "Chat Email Content .." + received);
+            DigiCareLogger.d(TAG, "Chat Email Content .." + received);
 		}
-		Log.d("Naveen", "Chat Email Content .." + received);
 		assertNull(received);
 	}
 
 	public void testEmailContent2() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		Log.v(TAG, "response emailcontent 2 : " + response);
+        DigiCareLogger.d(TAG, "response emailcontent 2 : " + response);
 		String received = null;
 		mGetCdlsInstance.parseCdlsResponse(response);
 		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
 		try {
 			received = mCdlsObject.getContentPath().toString();
 		} catch (Exception e) {
-			Log.d(TAG, "Chat Email Content .." + received);
+            DigiCareLogger.d(TAG, "Chat Email Content .." + received);
 		}
 
 		assertNull(received);

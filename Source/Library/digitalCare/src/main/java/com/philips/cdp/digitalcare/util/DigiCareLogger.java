@@ -44,7 +44,6 @@ public class DigiCareLogger {
         if (isLoggingEnabled()) {
             DigitalCareConfigManager.getInstance().getLoggerInterface().log(LoggingInterface.
                     LogLevel.INFO, tag, message + "");
-            // Log.i(tag, message);
         }
     }
 

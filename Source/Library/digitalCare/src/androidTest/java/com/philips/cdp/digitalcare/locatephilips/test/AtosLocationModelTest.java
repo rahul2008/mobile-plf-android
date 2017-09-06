@@ -10,6 +10,7 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 
 public class AtosLocationModelTest extends InstrumentationTestCase {
@@ -20,7 +21,7 @@ public class AtosLocationModelTest extends InstrumentationTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		Log.d(TAG, "setUp..");
+        DigiCareLogger.d(TAG, "setUp..");
 		context = getInstrumentation().getContext();
 		atosInstance = new GetAtosInstance(mAtosParsing);
 	}

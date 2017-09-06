@@ -7,6 +7,7 @@ import android.util.Log;
 import com.philips.cdp.digitalcare.contactus.models.CdlsChatModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class CdlsChatModelTest extends InstrumentationTestCase {
 
@@ -22,7 +23,7 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Log.d(TAG, "setUp..");
+        DigiCareLogger.d(TAG, "setUp..");
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
@@ -90,7 +91,7 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		Log.d(TAG, "tearDown..");
+        DigiCareLogger.d(TAG, "tearDown..");
 	}
 
 	// private AtosParsingCallback mAtosParsing = new AtosParsingCallback() {

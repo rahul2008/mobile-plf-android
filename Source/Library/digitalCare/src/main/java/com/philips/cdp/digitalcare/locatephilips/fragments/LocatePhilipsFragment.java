@@ -286,7 +286,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 .getInstance().getConsumerProductInfo();
         if (isConsProdInfoAvailable(consumerProductInfo)) return null;
         String atosUrl = getAtosUrl();
-        DigiCareLogger.i(TAG, "ATOS URL : " + atosUrl);
+        DigiCareLogger.d(TAG, "ATOS URL : " + atosUrl);
         return atosUrl;
 
 

@@ -8,6 +8,7 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsErrorModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class CdlsErrorModelTest extends InstrumentationTestCase {
 
@@ -22,7 +23,7 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Log.d(TAG, "setUp..");
+        DigiCareLogger.d(TAG, "setUp..");
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
@@ -41,7 +42,7 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getErrorCode();
 		} catch (NullPointerException e) {
-			Log.d(TAG, "Error Code response : " + received);
+            DigiCareLogger.d(TAG, "Error Code response : " + received);
 		}
 
 		assertNull(received);
@@ -57,7 +58,7 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getErrorMessage();
 		} catch (NullPointerException e) {
-			Log.d(TAG, "Error Code response : " + received);
+            DigiCareLogger.d(TAG, "Error Code response : " + received);
 		}
 
 		assertNull(received);
@@ -73,7 +74,7 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getErrorCode();
 		} catch (NullPointerException e) {
-			Log.d(TAG, "Error Code response : " + received);
+            DigiCareLogger.d(TAG, "Error Code response : " + received);
 		}
 
 		assertNull(received);
@@ -89,7 +90,7 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		try {
 			received = mCdlsObject.getErrorMessage();
 		} catch (NullPointerException e) {
-			Log.d(TAG, "Error Code response : " + received);
+            DigiCareLogger.d(TAG, "Error Code response : " + received);
 		}
 
 		assertNull(received);

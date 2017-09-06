@@ -24,6 +24,7 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.prxclient.PrxConstants.Sector;
@@ -199,7 +200,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             public void updateList(ArrayList<String> productList) {
                 mList = productList;
                 setAdapter(mList);
-                Log.d(TAG, " Products Size = " + mList.size());
+                DigiCareLogger.d(TAG, " Products Size = " + mList.size());
             }
         });
         dialog.show();
