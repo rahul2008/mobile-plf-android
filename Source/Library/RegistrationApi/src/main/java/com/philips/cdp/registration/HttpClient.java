@@ -72,21 +72,18 @@ public class HttpClient {
             wr.flush();
             wr.close();
             final int responseCode = connection.getResponseCode();
-            Log.i(LOG_TAG, "HTTPsURLConnection  response code: " + responseCode);
             inputResponse = new StringBuilder();
             bufferedReader = getBufferedReader(inputResponse, responseCode,
                     new InputStreamReader(connection.getInputStream()),
                     new InputStreamReader(connection.getErrorStream()));
 
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Error in POST call " + e.getMessage());
             e.printStackTrace();
         } finally {
             try {
                 if (bufferedReader != null)
                     bufferedReader.close();
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Error in POST call " + e.getMessage());
                 e.printStackTrace();
             }
 
@@ -163,8 +160,6 @@ public class HttpClient {
 
 
             int responseCode = connection.getResponseCode();
-            Log.i(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection " +
-                    "response code" + responseCode);
             bufferedReader = getBufferedReader(inputResponse, responseCode,
                     new InputStreamReader(connection.getInputStream()),
                     new InputStreamReader(connection.getErrorStream()));
@@ -173,7 +168,6 @@ public class HttpClient {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection" + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,7 +177,6 @@ public class HttpClient {
                     bufferedReader.close();
                 }
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection" + e.getMessage());
                 e.printStackTrace();
             }
 

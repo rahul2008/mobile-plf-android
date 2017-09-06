@@ -8,23 +8,22 @@
 
 package com.philips.cdp.registration;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import android.app.*;
+import android.content.*;
+import android.support.annotation.*;
 
-import com.janrain.android.Jump;
-import com.janrain.android.capture.Capture.InvalidApidChangeException;
-import com.janrain.android.capture.CaptureRecord;
-import com.janrain.android.engage.session.JRSession;
+import com.janrain.android.*;
+import com.janrain.android.capture.Capture.*;
+import com.janrain.android.capture.*;
+import com.janrain.android.engage.session.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.controller.*;
 import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.hsdp.*;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
 import org.json.*;
@@ -32,9 +31,9 @@ import org.json.*;
 import java.text.*;
 import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getStoredState;
+import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.*;
 
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
@@ -397,9 +396,7 @@ public class User {
                 diUserProfile.setDateOfBirth(date);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " + e);
         } catch (ParseException e) {
-            Log.e(LOG_TAG, "ParseException :" + e);
             e.printStackTrace();
         }
         return diUserProfile;
@@ -425,7 +422,6 @@ public class User {
                 return true;
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "On isEmailVerificationStatus,Caught JSON Exception");
         }
         return false;
     }
@@ -596,7 +592,6 @@ public class User {
                             diConsumerInterest.getTopicValue());
 
                 } catch (JSONException e) {
-                    Log.e(LOG_TAG, "On addConsumerInterest,Caught JSON Exception");
                 }
                 mConsumerInterestArray.put(mConsumerInterestObject);
             }

@@ -9,19 +9,18 @@
 
 package com.philips.cdp.registration.update;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.v4.util.Pair;
-import android.util.Log;
+import android.content.*;
+import android.os.*;
+import android.support.v4.util.*;
 
-import com.janrain.android.Jump;
+import com.janrain.android.*;
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.dao.ConsumerInterest;
+import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONObject;
+import org.json.*;
 
 import java.util.*;
 
@@ -119,11 +118,7 @@ public class ConsumerInterestUpdate {
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-            Log.d(TAG, "URL = " + url);
-            Log.d(TAG, "Param = " + nameValuePairs);
-            Log.d(TAG, "AccessToken = " + accessToken);
             String resultString = httpClient.callPost(url, nameValuePairs, accessToken);
-            Log.i(TAG, "Response = " + resultString);
             return resultString;
         }
 

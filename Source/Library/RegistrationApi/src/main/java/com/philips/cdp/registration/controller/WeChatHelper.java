@@ -1,12 +1,11 @@
 package com.philips.cdp.registration.controller;
 
 
-import android.app.Activity;
+import android.app.*;
 import android.content.*;
-import android.util.Log;
 
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.philips.cdp.registration.ui.utils.*;
+import com.tencent.mm.sdk.modelmsg.*;
 import com.tencent.mm.sdk.openapi.*;
 
 public class WeChatHelper {
@@ -36,9 +35,6 @@ public class WeChatHelper {
 
             String message = intent.getStringExtra(RegConstants.WECHAT_ERR_CODE);
             String code = intent.getStringExtra(RegConstants.WECHAT_CODE);
-            Log.d("receiver", "Got message: " + message+code);
-
-            //Create intentservice for getting secrete and
 
         }
     };

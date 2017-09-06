@@ -1,25 +1,20 @@
 package com.philips.cdp.registration.wxapi;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.support.v4.content.*;
 
-import com.philips.cdp.coppa.registration.RegistrationCoppaApplication;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.philips.cdp.coppa.registration.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.appconfiguration.*;
+import com.tencent.mm.sdk.modelbase.*;
+import com.tencent.mm.sdk.modelmsg.*;
+import com.tencent.mm.sdk.openapi.*;
 
-import java.util.Arrays;
+import java.util.*;
 
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 
 //This class is tightly coupled with package name .Don't modify package or refactor
 //Make sure keep this class in Progaurd
@@ -46,7 +41,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 getConfigInterface().
                 getPropertyForKey("weChatAppId", UR,
                         configError);
-        Log.d("WECHAT", "WechatId from Configuartion" + weChatAppId);
         // Handle any communication from WeChat and then terminate activity. This class must be an activity
         // or the communication will not be received from WeChat.
         api = WXAPIFactory.createWXAPI(this, weChatAppId, false);

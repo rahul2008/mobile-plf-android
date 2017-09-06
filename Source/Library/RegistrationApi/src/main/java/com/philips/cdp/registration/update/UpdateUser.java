@@ -24,8 +24,6 @@ public class UpdateUser implements Capture.CaptureApiRequestCallback {
             try {
                 ((CaptureRecord) updatedUserData).synchronize(this, userData);
             } catch (Capture.InvalidApidChangeException e) {
-                Log.e("User Registration",
-                        "On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
                 mUpdateUserListener.onUserUpdateFailed(-1);
             }
         } else {

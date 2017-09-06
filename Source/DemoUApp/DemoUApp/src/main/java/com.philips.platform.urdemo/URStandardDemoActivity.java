@@ -16,7 +16,6 @@ import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.support.annotation.*;
-import android.util.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
@@ -492,7 +491,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
-                    System.out.println("Message " + message);
                     showToast(message);
                 }
             });
@@ -666,9 +664,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             fos.close();
             return f.getPath();
         } catch (FileNotFoundException e) {
-            Log.e(ThemeSettingsActivity.class.getName(), e.getMessage());
         } catch (IOException e) {
-            Log.e(ThemeSettingsActivity.class.getName(), e.getMessage());
         }
         return null;
     }

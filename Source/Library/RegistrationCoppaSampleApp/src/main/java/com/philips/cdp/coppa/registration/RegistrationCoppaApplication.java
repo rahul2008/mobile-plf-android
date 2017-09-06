@@ -1,26 +1,20 @@
 
 package com.philips.cdp.coppa.registration;
 
-import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.LocaleList;
-import android.support.multidex.MultiDex;
-import android.util.Log;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.support.multidex.*;
 
-import com.philips.cdp.registration.AppIdentityInfo;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.coppa.utils.CoppaInterface;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URDependancies;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URSettings;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.coppa.utils.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.*;
+import com.philips.platform.appinfra.appconfiguration.*;
+import com.philips.platform.appinfra.appidentity.*;
 
-import java.util.Locale;
+import java.util.*;
 
 public class RegistrationCoppaApplication extends Application {
 
@@ -183,13 +177,6 @@ public class RegistrationCoppaApplication extends Application {
         appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
         appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
 
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppLocalizedNAme : " + appIdentityInfo.getAppLocalizedNAme());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity Sector : " + appIdentityInfo.getSector());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity MicrositeId : " + appIdentityInfo.getMicrositeId());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppName : " + appIdentityInfo.getAppName());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppState : " + appIdentityInfo.getAppState().toString());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity AppVersion : " + appIdentityInfo.getAppVersion());
-        Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
     }
 
     public AppInfraInterface getAppInfra() {

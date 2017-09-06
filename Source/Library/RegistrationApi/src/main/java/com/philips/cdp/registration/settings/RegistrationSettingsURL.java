@@ -1,17 +1,15 @@
 package com.philips.cdp.registration.settings;
 
-import android.util.Log;
-
 import com.janrain.android.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.appinfra.servicediscovery.*;
+import com.philips.platform.appinfra.servicediscovery.model.*;
 
 import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 
 public class RegistrationSettingsURL extends RegistrationSettings {
@@ -75,10 +73,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
      */
     @Override
     public void initialiseConfigParameters(final String locale) {
-
-        String LOG_TAG = "RegistrationAPI";
-        Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
-
         jumpConfig = new JumpConfig();
         jumpConfig.captureClientId = mCaptureClientId;
         jumpConfig.captureFlowName = "standard";

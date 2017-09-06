@@ -10,7 +10,6 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.*;
-import android.util.*;
 
 import com.janrain.android.*;
 import com.philips.cdp.registration.R;
@@ -66,7 +65,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             ThreadUtils.postInMainThread(mContext, () ->
                     mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         } catch (Exception e) {
-            Log.e("Exception :", "SignInError :" + e.getMessage());
         }
 
     }
@@ -124,7 +122,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());
                 new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
-                Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
             }
 
             Jump.registerNewUser(newUser, null, this);

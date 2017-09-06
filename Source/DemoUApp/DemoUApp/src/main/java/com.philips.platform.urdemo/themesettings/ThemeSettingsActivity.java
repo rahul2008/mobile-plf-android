@@ -1,17 +1,17 @@
 package com.philips.platform.urdemo.themesettings;
 
-import android.annotation.SuppressLint;
+import android.annotation.*;
 import android.content.*;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.content.res.*;
+import android.os.*;
+import android.preference.*;
 import android.support.annotation.*;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.app.*;
 
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.thememanager.*;
-import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.urdemolibrary.R;
+import com.philips.platform.uid.utils.*;
+import com.philips.platform.urdemolibrary.*;
 
 import org.greenrobot.eventbus.*;
 
@@ -101,9 +101,9 @@ public class ThemeSettingsActivity extends AppCompatActivity {
             fos.close();
             return f.getPath();
         } catch (FileNotFoundException e) {
-            Log.e(ThemeSettingsActivity.class.getName(), e.getMessage());
+            RLog.e(ThemeSettingsActivity.class.getName(), e.getMessage());
         } catch (IOException e) {
-            Log.e(ThemeSettingsActivity.class.getName(), e.getMessage());
+            RLog.e(ThemeSettingsActivity.class.getName(), e.getMessage());
         }
         return null;
     }
