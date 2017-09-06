@@ -1,12 +1,10 @@
 package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
-import  android.database.Cursor;
+import android.database.Cursor;
 
 import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.dao.ObjectCache;
 import com.j256.ormlite.field.SqlType;
-import com.j256.ormlite.logger.Logger;
-import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.misc.SqlExceptionUtil;
 import com.j256.ormlite.stmt.StatementBuilder.StatementType;
 import com.j256.ormlite.support.CompiledStatement;
@@ -27,8 +25,6 @@ import java.util.List;
  *
  */
 public class AndroidCompiledStatement implements CompiledStatement {
-
-	private static Logger logger = LoggerFactory.getLogger(AndroidCompiledStatement.class);
 
 	private static final String[] NO_STRING_ARGS = new String[0];
 	private static final ApiCompatibility apiCompatibility = ApiCompatibilityUtils.getCompatibility();
@@ -193,7 +189,6 @@ public class AndroidCompiledStatement implements CompiledStatement {
 				}
 				cursor = apiCompatibility.rawQuery(db, finalSql, getStringArray(), cancellationHook);
 				cursor.moveToFirst();
-				logger.trace("{}: started rawQuery cursor for: {}", this, finalSql);
 			} catch (android.database.SQLException e) {
 				throw SqlExceptionUtil.create("Problems executing Android query: " + finalSql, e);
 			}
@@ -230,7 +225,6 @@ public class AndroidCompiledStatement implements CompiledStatement {
 				stmt.close();
 			}
 		}
-		logger.trace("executing statement {} changed {} rows: {}", label, result, finalSql);
 		return result;
 	}
 
