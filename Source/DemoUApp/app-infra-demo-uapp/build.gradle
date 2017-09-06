@@ -101,7 +101,7 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-${archivesBaseName}-release.aar")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
