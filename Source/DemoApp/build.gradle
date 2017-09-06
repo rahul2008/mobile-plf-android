@@ -75,7 +75,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile deps.stetho
+    debugCompile deps.stetho
     compile deps.support.appcompatv7
 
     debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
