@@ -30,9 +30,6 @@
 
 #--------------------------------Gson--------------------------------
 -keep class sun.misc.Unsafe { *; }
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
 
 #--------------------------------Tagging--------------------------------
 -keep class com.adobe.mobile.** {*;}
@@ -122,8 +119,6 @@
 # ----------------------------Gson specific classes --------------------------
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.** {*;}
--keep class com.philips.cdp.prxclient.** {*;}
--keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 -dontwarn com.google.gson.**
 
@@ -319,11 +314,6 @@
 -keep class com.philips.cdp.di.iap.session.** {*;}
 -keep interface com.philips.cdp.di.iap.session.** {*;}
 -dontwarn com.philips.cdp.di.iap.analytics.**
-
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
-
 
 #--------------------------AppInfra starts here-----------
 -keep public class javax.net.ssl.**
