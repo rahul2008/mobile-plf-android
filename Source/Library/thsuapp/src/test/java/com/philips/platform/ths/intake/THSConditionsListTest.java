@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class THSConditionsListTest {
-    THSConditions THSConditions;
+    THSCondition THSConditions;
 
     @Mock
     Condition condition;
@@ -18,7 +18,7 @@ public class THSConditionsListTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        THSConditions = new THSConditions();
+        THSConditions = new THSCondition();
         THSConditions.setCondition(condition);
     }
 

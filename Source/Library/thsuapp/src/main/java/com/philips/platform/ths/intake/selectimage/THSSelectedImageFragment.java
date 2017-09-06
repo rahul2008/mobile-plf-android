@@ -9,6 +9,7 @@ package com.philips.platform.ths.intake.selectimage;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -179,14 +180,14 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
             View itemView = mLayoutInflater.inflate(R.layout.ths_selected_image_pager_layout, container, false);
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.ths_selected_image);
-            int width = BitmapFactory.decodeFile(selectedImagePojoList.get(position).getPath()).getWidth();
-            imageView.setMaxHeight(width);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(selectedImagePojoList.get(position).getPath()));
+            //int width = BitmapFactory.decodeFile(selectedImagePojoList.get(position).getPath()).getWidth()imageView.setMaxHeight(width);
+            imageView.setImageBitmap(decodeSampledBitmapFromResource(selectedImagePojoList.get(position).getPath(),200,200));
 
             container.addView(itemView);
 
             return itemView;
         }
+
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
@@ -194,6 +195,45 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         }
     }
 
+    public static Bitmap decodeSampledBitmapFromResource(String resourceFilePath,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        //BitmapFactory.decodeResource(res, resId, options);
+        BitmapFactory.decodeFile(resourceFilePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return  BitmapFactory.decodeFile(resourceFilePath, options);
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) >= reqHeight
+                    && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

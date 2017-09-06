@@ -62,10 +62,10 @@ public class THSConditionsFragmentTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
-    List<THSConditions> pthConditionses;
+    List<THSCondition> pthConditionses;
 
     @Mock
-    THSConditions pthConditionsMock;
+    THSCondition pthConditionsMock;
 
     @Mock
     Condition conditionMock;

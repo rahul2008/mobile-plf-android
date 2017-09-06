@@ -72,7 +72,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_search_layout, container, false);
-        searchListView = (ListView) view.findViewById(R.id.pth_search_listview);
+        searchListView = (ListView) view.findViewById(R.id.ths_search_listview);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
         setAdapter();
         return view;

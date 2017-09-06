@@ -8,7 +8,6 @@ package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,9 +98,6 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
             timeslot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderInfo);
-                    bundle.putSerializable(THSConstants.THS_DATE, gridData);
                     thsGridItemOnClickListener.onGridItemClicked(position);
                 }
             });

@@ -195,9 +195,8 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
         } else {
-            Toast.makeText(getActivity(), "GPS not enables: getting the last known location", Toast.LENGTH_SHORT).show();
-            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            callPharmacyListFragment(location);
+            Toast.makeText(getActivity(), "GPS not enables: going to search pharmacy", Toast.LENGTH_SHORT).show();
+            showPharmacySearch();
         }
 
 

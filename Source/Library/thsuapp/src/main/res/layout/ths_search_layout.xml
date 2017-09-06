@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/ths_fab_margin"
     android:layout_marginRight="@dimen/ths_fab_margin"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
 
     <ListView
-        android:id="@+id/pth_search_listview"
+        android:id="@+id/ths_search_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"/>
