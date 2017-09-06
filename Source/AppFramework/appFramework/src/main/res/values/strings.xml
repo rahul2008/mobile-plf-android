@@ -355,6 +355,7 @@ Receive free product accessories</string>
     <string name="RA_DLS_data_fetch_wait">Wait..While we fetch your sleep data from device</string>
     <string name="RA_DLS_data_fetch_error">Not able to fetch data</string>
 
+    <string name="RA_DLS_ps_tips_title">Tips</string>
     <string name="sleep_tip_title_1">Follow a transition routine: </string>
     <string name="sleep_tip_desc_1">Make a habit of doing something before going to bed that tells your body it\'s time to relax and sleep. It could simply be washing your face, taking a shower, or even brushing your teeth.</string>
 
@@ -364,4 +365,5 @@ Receive free product accessories</string>
     <string name="sleep_tip_title_3">Take a hot bath: </string>
     <string name="sleep_tip_desc_3">Your body will relax quickly if you take a hot bath, but you need to take it at least 90-120 minutes before you go to sleep. Also, make sure the water temperature is around 40 degree Celsius.</string>
 
+    <string name="RA_DLS_enable_bluetooth">Please enable bluetooth</string>
 </resources>

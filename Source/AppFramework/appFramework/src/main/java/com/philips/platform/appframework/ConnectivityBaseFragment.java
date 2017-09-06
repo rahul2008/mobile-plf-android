@@ -79,8 +79,6 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
             RALog.d(TAG, "Device found :" + foundAppliance.getName());
             bleScanDialogFragment.addDevice(foundAppliance);
-            Toast.makeText(context, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
-
         }
 
         @Override
@@ -122,7 +120,7 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
             if (resultCode == Activity.RESULT_OK) {
                 checkForAccessFineLocation();
             }else{
-                Toast.makeText(context,"Please enable bluetooth",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,getString(R.string.RA_DLS_enable_bluetooth), Toast.LENGTH_SHORT).show();
             }
         }
     }

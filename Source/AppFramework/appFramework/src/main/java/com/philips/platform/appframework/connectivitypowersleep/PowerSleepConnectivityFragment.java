@@ -28,7 +28,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -53,6 +52,15 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
      * Presenter object for Connectivity
      */
     private PowerSleepConnectivityPresenter connectivityPresenter;
+
+    private final String BLE_SCAN_DIALOG_TAG = "BleScanDialog";
+    private final int DEVICE_DISCOVERY_TIMEOUT = 30000;
+    private final String SYNCED_DATE_FORMAT = "MMM d, hh:mm a";
+    private final String SLEEP_PROGRESS_VIEW_PROPERTY = "scoreAngle";
+    private final int PROGRESS_SCORE_MAX = 360;
+    private final int PROGRESS_PERCENTAGE_MAX = 100;
+    private final int IDEAL_DEEP_SLEEP_TIME = 120;
+    private final int PROGRESS_DRAW_TIME = 1500;
 
     @Override
     public void onAttach(Context context) {
@@ -141,7 +149,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
                     try {
                         bleScanDialogFragment = new BLEScanDialogFragment();
                         bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
-                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), BLE_SCAN_DIALOG_TAG);
                         bleScanDialogFragment.setCancelable(false);
                         bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
                             @Override
@@ -154,7 +162,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
                         });
 
                         mCommCentral.startDiscovery();
-                        handler.postDelayed(stopDiscoveryRunnable, 30000);
+                        handler.postDelayed(stopDiscoveryRunnable, DEVICE_DISCOVERY_TIMEOUT);
                     } catch (MissingPermissionException e) {
                         RALog.e(TAG, "Permission missing");
                     }
@@ -207,22 +215,22 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     }
 
     private void setLastSyncDate() {
-        SimpleDateFormat syncFormat = new SimpleDateFormat("MMM d, hh:mm a", Locale.ENGLISH);
+        SimpleDateFormat syncFormat = new SimpleDateFormat(SYNCED_DATE_FORMAT, Locale.ENGLISH);
         syncUpdated.setText(getString(R.string.label_last_synced, syncFormat.format(new Date(System.currentTimeMillis()))));
     }
 
     private void setSleepProgressPercentage(long targetScore) {
         int percentage = calculatePercentage(targetScore);
         this.sleepPercentageScore.setText(String.valueOf(percentage));
-        targetScore = (360 * percentage) / 100;
-        final ObjectAnimator scoreAnim = ObjectAnimator.ofFloat(sleepScoreProgressView, "scoreAngle", 0, targetScore);
+        targetScore = (PROGRESS_SCORE_MAX * percentage) / PROGRESS_PERCENTAGE_MAX;
+        final ObjectAnimator scoreAnim = ObjectAnimator.ofFloat(sleepScoreProgressView, SLEEP_PROGRESS_VIEW_PROPERTY, 0, targetScore);
         scoreAnim.setInterpolator(new AccelerateInterpolator());
-        scoreAnim.setDuration(1500);
+        scoreAnim.setDuration(PROGRESS_DRAW_TIME);
         scoreAnim.start();
     }
 
     private int calculatePercentage(long targetScore) {
-        return (int) (targetScore * 100) / 120;
+        return (int) (targetScore * PROGRESS_PERCENTAGE_MAX) / IDEAL_DEEP_SLEEP_TIME;
     }
 
     @Override

@@ -19,11 +19,6 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by philips on 4/18/17.
- */
-
 public class InsightsFragment extends AbstractAppFrameworkBaseFragment {
     public static final String TAG = InsightsFragment.class.getSimpleName();
     private RecyclerView recyclerViewInsights;
@@ -46,7 +41,7 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return "Tips";
+        return getString(R.string.RA_DLS_ps_tips_title);
     }
 
     @Override

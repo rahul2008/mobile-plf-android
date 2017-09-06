@@ -5,7 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.settingscreen;
 /**
- * ConnectivityDeviceType for item type in settings
+ * Enum for item type in settings
  * It can be:
  *
  */

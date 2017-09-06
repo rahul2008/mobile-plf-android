@@ -11,8 +11,6 @@ import android.support.annotation.Nullable;
 import com.google.gson.annotations.SerializedName;
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
-import java.util.Date;
-
 public class SessionDataPortProperties implements PortProperties {
 
     private final String KEY_TST = "tst";

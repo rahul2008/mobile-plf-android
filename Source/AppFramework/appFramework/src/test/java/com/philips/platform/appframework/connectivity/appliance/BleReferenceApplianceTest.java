@@ -4,6 +4,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -32,5 +33,17 @@ public class BleReferenceApplianceTest {
     @Test
     public void getDeviceMeasurement_NotNull(){
         assertNotNull(new BleReferenceAppliance(networkNode,communicationStrategy, ConnectivityDeviceType.REFERENCE_NODE).getDeviceMeasurementPort());
+    }
+
+    @Test
+    public void getSessionDataPortTest() {
+        BleReferenceAppliance bleReferenceAppliance = new BleReferenceAppliance(networkNode, communicationStrategy, ConnectivityDeviceType.POWER_SLEEP);
+        assertNotNull(bleReferenceAppliance.getSessionDataPort());
+    }
+
+    @After
+    public void tearDown() {
+        networkNode = null;
+        communicationStrategy = null;
     }
 }

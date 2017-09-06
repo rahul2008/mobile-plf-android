@@ -29,6 +29,7 @@ public class SleepScoreProgressView extends View {
 
     private static final int START_ANGLE_POINT = 90;
     private static final int DELTA_BOOST_ANGLE = 1;
+    private static final int DEFAULT_WIDTH_MULTIPLIER = 2;
 
     private Paint paintStroke;
     private Paint paintFill;
@@ -96,24 +97,24 @@ public class SleepScoreProgressView extends View {
     }
 
     private void findTotalViewSize(float referenceCircleSize, float strokeSize) {
-        totalViewWidth = (int) (referenceCircleSize + 2 * strokeSize + 2 * dotRadius);
-        totalViewHeight = (int) (referenceCircleSize + 2 * strokeSize + 2 * dotRadius);
+        totalViewWidth = (int) (referenceCircleSize + DEFAULT_WIDTH_MULTIPLIER * strokeSize + DEFAULT_WIDTH_MULTIPLIER * dotRadius);
+        totalViewHeight = (int) (referenceCircleSize + DEFAULT_WIDTH_MULTIPLIER * strokeSize + DEFAULT_WIDTH_MULTIPLIER * dotRadius);
     }
 
     private void initRectangles(float referenceCircleSize, float strokeSize, float startingPointWidth, float startingPointHeight) {
         rectStroke = new RectF(
                 dotRadius,
                 dotRadius,
-                dotRadius + referenceCircleSize + 2 * strokeSize,
-                dotRadius + referenceCircleSize + 2 * strokeSize
+                dotRadius + referenceCircleSize + DEFAULT_WIDTH_MULTIPLIER * strokeSize,
+                dotRadius + referenceCircleSize + DEFAULT_WIDTH_MULTIPLIER * strokeSize
         );
-        rectStroke.inset(strokeSize / 2, strokeSize / 2);
-        strokeRectRadius = rectStroke.width() / 2;
+        rectStroke.inset(strokeSize / DEFAULT_WIDTH_MULTIPLIER, strokeSize / DEFAULT_WIDTH_MULTIPLIER);
+        strokeRectRadius = rectStroke.width() / DEFAULT_WIDTH_MULTIPLIER;
         rectStartingPoint = new RectF(
-                rectStroke.centerX() - startingPointWidth / 2,
-                rectStroke.centerY() + rectStroke.height() / 2 - startingPointHeight / 2,
-                rectStroke.centerY() + startingPointWidth / 2,
-                rectStroke.centerY() + rectStroke.height() / 2 + startingPointHeight / 2
+                rectStroke.centerX() - startingPointWidth / DEFAULT_WIDTH_MULTIPLIER,
+                rectStroke.centerY() + rectStroke.height() / DEFAULT_WIDTH_MULTIPLIER - startingPointHeight / DEFAULT_WIDTH_MULTIPLIER,
+                rectStroke.centerY() + startingPointWidth / DEFAULT_WIDTH_MULTIPLIER,
+                rectStroke.centerY() + rectStroke.height() / DEFAULT_WIDTH_MULTIPLIER + startingPointHeight / DEFAULT_WIDTH_MULTIPLIER
         );
     }
 

@@ -41,7 +41,6 @@ public class BleReferenceAppliance extends Appliance {
         switch (deviceType) {
             case POWER_SLEEP:
                 powerSleepSessionDataPort = new SessionDataPort(communicationStrategy, "session", PRODUCT_ID, SessionDataPortProperties.class);
-
                 addPort(powerSleepSessionDataPort);
                 break;
 
