@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.List;
 
@@ -96,7 +97,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     public void showProgressDialog(Context context, String message) {
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(context));
         mProgressDialog.getWindow().setGravity(Gravity.CENTER);
         mProgressDialog.setCancelable(false);
         //mProgressDialog.setMessage(message + "...");

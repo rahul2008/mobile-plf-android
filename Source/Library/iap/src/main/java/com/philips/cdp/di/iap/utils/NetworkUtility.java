@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.screens.ErrorDialogFragment;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 public class NetworkUtility {
@@ -52,7 +53,7 @@ public class NetworkUtility {
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
         if (!((Activity) context).isFinishing()) {
 
-            showDLSDialog(context, pButtonText, pErrorString, pErrorDescription, pFragmentManager);
+            showDLSDialog(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager);
         }
            /* if (mModalAlertDemoFragment == null) {
                 mModalAlertDemoFragment = new ErrorDialogFragment();
