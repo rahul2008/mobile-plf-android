@@ -50,8 +50,8 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = project.name
-version = objcdp.getVersion()
+archivesBaseName = "commlib-cloud"
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -133,13 +133,16 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
-        buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         buildConfigField "String", "TLA", "\"cml\""
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
+        }
         release {
             consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
 
