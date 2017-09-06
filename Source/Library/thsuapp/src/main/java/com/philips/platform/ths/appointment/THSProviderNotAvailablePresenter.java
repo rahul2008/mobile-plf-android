@@ -62,15 +62,19 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
             THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
                 @Override
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
-                    if(availableProviders.getAvailableProvidersList()==null || availableProviders.getAvailableProvidersList().size()==0){
-                        ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails();
-                    }else {
+                    if (availableProviders.getAvailableProvidersList() == null || availableProviders.getAvailableProvidersList().size() == 0) {
+                        ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails();
+                    } else if (!availableProviders.getAvailableProvidersList().contains(((THSProviderNotAvailableFragment) mThsBaseFragment).getProvider())) {
+                        ((THSProviderNotAvailableFragment) mThsBaseFragment).mThsAvailableProviderList = availableProviders;
+                        ((THSProviderNotAvailableFragment) mThsBaseFragment).refreshList();
+                        ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails();
+                    } else {
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST,availableProviders);
-                        bundle.putSerializable(THSConstants.THS_DATE,date);
-                        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
+                        bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST, availableProviders);
+                        bundle.putSerializable(THSConstants.THS_DATE, date);
+                        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
                         THSAvailableProviderListBasedOnDateFragment thsAvailableProviderListBasedOnDateFragment = new THSAvailableProviderListBasedOnDateFragment();
-                        mThsBaseFragment.addFragment(thsAvailableProviderListBasedOnDateFragment,THSAvailableProviderListBasedOnDateFragment.TAG,bundle);
+                        mThsBaseFragment.addFragment(thsAvailableProviderListBasedOnDateFragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
                     }
                 }
 
