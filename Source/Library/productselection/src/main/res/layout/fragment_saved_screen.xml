@@ -76,7 +76,7 @@
                     android:layout_below="@id/savedscreen_productname"
                     android:textSize="12sp"
                     android:text="hhhhhi"
-                    custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+                    fontPath="fonts/centralesanslight.ttf" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                         android:text="@string/pse_Selected"
                         android:layout_marginBottom="16dp"
                         android:textSize="@dimen/title_text_size_small"
-                        custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+                        fontPath="fonts/centralesanslight.ttf" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -123,7 +123,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/Confirmation_Change_Selection"
                 android:textSize="@dimen/title_text_size_small"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+                fontPath="fonts/centralesanslight.ttf" />
 
             <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDExtraWideButton.Center"
