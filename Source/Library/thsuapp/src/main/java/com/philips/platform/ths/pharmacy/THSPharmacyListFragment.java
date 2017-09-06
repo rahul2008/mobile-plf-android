@@ -276,7 +276,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void showMailOrderView() {
         pharmacy_segment_control_one.setSelected(false);
         pharmacy_segment_control_two.setSelected(true);
-        updateView(filterList(pharmaciesList, PharmacyType.MailOrder));
+        if(null != pharmaciesList) {
+            updateView(filterList(pharmaciesList, PharmacyType.MailOrder));
+        }
     }
 
 
@@ -286,7 +288,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void showRetailView() {
         pharmacy_segment_control_one.setSelected(true);
         pharmacy_segment_control_two.setSelected(false);
-        updateView(filterList(pharmaciesList, PharmacyType.Retail));
+        if(null != pharmaciesList) {
+            updateView(filterList(pharmaciesList, PharmacyType.Retail));
+        }
     }
 
 
