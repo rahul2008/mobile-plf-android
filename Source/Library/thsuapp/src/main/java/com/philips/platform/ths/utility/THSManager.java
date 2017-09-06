@@ -492,10 +492,10 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
                 THSConsumer thsConsumer = new THSConsumer();
                 thsConsumer.setConsumer(consumer);
                 setPTHConsumer(thsConsumer);
+                THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
             }
 
             @Override
