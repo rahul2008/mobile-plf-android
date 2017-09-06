@@ -5,7 +5,6 @@
 */
 package com.philips.cdp.prodreg.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
@@ -27,16 +26,18 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
+import com.philips.platform.uid.view.widget.Button;
 
 import java.util.List;
 
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
+
     public static final String TAG = ProdRegFirstLaunchFragment.class.getName();
     private List<RegisteredProduct> registeredProducts;
     private int resId = 0;
     private Bundle dependencies;
-    private TextView titleTextView, subTitle1, subTitle2;
-    private Button registerLater;
+    private ImageView productImage;
+    private TextView benefitsMessage;
 
     @Override
     public int getActionbarTitleResId() {
@@ -58,34 +59,21 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         return registeredProducts;
     }
 
-    private void setImageBackground() {
-        if (getView() != null && resId != 0) {
-            getView().setBackgroundResource(resId);
-            registerLater.setBackgroundResource(R.drawable.uikit_white_transparent_selector);
-            setWhiteTextColors();
-        }
-    }
-
-    private void setWhiteTextColors() {
-        int whiteColor = Color.WHITE;
-        registerLater.setTextColor(whiteColor);
-        titleTextView.setTextColor(whiteColor);
-        subTitle1.setTextColor(whiteColor);
-        subTitle2.setTextColor(whiteColor);
-    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
-        final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
-        registerLater = (Button) view.findViewById(R.id.no_thanks_button);
-        titleTextView = (TextView) view.findViewById(R.id.conf_action_textview);
-        subTitle1 = (TextView) view.findViewById(R.id.conf_subtext_textview);
-        subTitle2 = (TextView) view.findViewById(R.id.conf_subtext_two_textview);
 
+        View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
+        final Button registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
+        Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);
+        productImage = (ImageView) view.findViewById(R.id.prg_welcomeScreem_product_image);
+        benefitsMessage = (TextView) view.findViewById(R.id.prg_welcomeScreen_benefit_label);
+        benefitsMessage.setText(getString(R.string.PRG_ReceiveUpdates_Lbltxt) + "\n" +
+                getString(R.string.prod_reg_benefits_conf_message));
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
-        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage", "ProductRegistrationOfferScreen");
+        ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage",
+                "ProductRegistrationOfferScreen");
         return view;
     }
 
@@ -97,7 +85,12 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         if (dependencies != null) {
             registeredProducts = (List<RegisteredProduct>) dependencies.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
-            setImageBackground();
+            if (resId != 0) {
+                productImage.setVisibility(View.VISIBLE);
+                ((ProdRegBaseActivity)getActivity()).setImgageviewwithAspectRation(productImage);
+                productImage.setBackground(getResources().getDrawable(resId, getActivity().getTheme()));
+                productImage.requestLayout();
+            }
         }
     }
 

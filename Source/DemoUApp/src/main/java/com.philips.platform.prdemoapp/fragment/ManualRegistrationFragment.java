@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.prdemoapp.activity.MainActivity;
+import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
 import com.philips.platform.prdemoapplibrary.R;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -49,7 +51,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ManualRegistrationFragment extends Fragment implements View.OnClickListener {
+public class ManualRegistrationFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String TAG = ManualRegistrationFragment.class.getName();
     private ToggleButton toggleButton;
@@ -132,6 +134,23 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         mPurchaseDate.setOnClickListener(this);
         toggleButton.setOnClickListener(this);
     }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    Log.e("gif--","fragment back key is clicked");
+                    getActivity().getSupportFragmentManager().popBackStack("ManualRegistrationFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -209,8 +228,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
 
             @Override
             public void onError(ERRORVALUES errorvalues, String errDescription) {
-                Toast.makeText(getActivity(), errDescription, Toast.LENGTH_SHORT).show();
-                return;
+                Toast.makeText(fragmentActivity, errDescription, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -221,8 +239,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
         products.add(product);
         PRLaunchInput prLaunchInput;
         if (!isActivity) {
-            FragmentLauncher fragLauncher = new FragmentLauncher(
-                    fragmentActivity, R.id.parent_layout, new ActionBarListener() {
+           FragmentLauncher fragLauncher = new FragmentLauncher(
+                    fragmentActivity, R.id.mainContainer, new ActionBarListener() {
                 @Override
                 public void updateActionBar(@StringRes final int i, final boolean b) {
                     MainActivity mainActivity = (MainActivity) fragmentActivity;
@@ -241,9 +259,12 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
                 prLaunchInput = new PRLaunchInput(products, false);
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            new PRInterface().launch(fragLauncher, prLaunchInput);
+            PRInterface prInterface = new PRInterface();
+            prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
+            prInterface.launch(fragLauncher, prLaunchInput);
         } else {
-            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
+            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
+
             if (type.equalsIgnoreCase("app_flow")) {
                 prLaunchInput = new PRLaunchInput(products, true);
             } else {
@@ -272,7 +293,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             public void onProdRegFailed(final ProdRegError prodRegError) {
                 ProdRegLogger.v(TAG, prodRegError.getDescription() + "");
                 if (prodRegError == ProdRegError.USER_NOT_SIGNED_IN) {
-                    Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
+                    if(getActivity() != null)
+                        Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -298,5 +320,10 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             inputManager.hideSoftInputFromWindow(view.getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    @Override
+    public int getPageTitle() {
+        return 0;
     }
 }

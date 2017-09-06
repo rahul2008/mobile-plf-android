@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 

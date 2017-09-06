@@ -10,52 +10,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingEnd="@dimen/pr_right_padding_sm"
-        android:paddingStart="@dimen/pr_left_padding_sm">
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        >
 
         <ImageView
             android:id="@+id/device_image"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:src="@drawable/prodreg_placeholder"
-            android:layout_marginTop="@dimen/pr_top_padding_sm"/>
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/product_placeholder"
+            android:layout_marginTop="@dimen/pr_margintop"
+            android:maxWidth="680dp"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/pr_top_padding_sm"
+            android:layout_marginTop="@dimen/pr_margintop"
             android:text="@string/PPR_Find_Serial_Number"
-            android:textColor="?attr/uikit_verydarkBaseColor"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/serial_number_guide_format_text"
-            fontPath="fonts/centralesansbook.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/pr_d_value_sm"
-            android:text="@string/PPR_find_serial_number_help_message"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:id="@+id/serial_number_guide_text"
-            fontPath="fonts/centralesansbook.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/pr_d_value_sm"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="16sp"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textSize="@dimen/pr_title_textsize"
             />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/serial_number_guide_format_text"
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:text="@string/PPR_find_serial_number_help_message"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="@dimen/pr_connect_title_textsize"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/serial_number_guide_text"
+            style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="@dimen/pr_connect_title_textsize"/>
+
+
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ok_found_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/pr_d_value_sm"
-            android:layout_marginTop="@dimen/pr_d_value_sm"
+            android:layout_marginBottom="@dimen/pr_registration_margin_bottom"
+            android:layout_marginTop="@dimen/pr_margintop"
             android:text="@string/PPR_ok_i_found_it"
             android:textAllCaps="false"/>
 

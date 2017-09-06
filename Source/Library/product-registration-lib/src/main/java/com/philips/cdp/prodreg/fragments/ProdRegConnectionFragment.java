@@ -17,8 +17,6 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.EnhancedLinkMovementMethod;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -26,6 +24,8 @@ import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
@@ -71,7 +71,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
                 handleBackEvent();
             }
         });
-        TextView tv = (TextView) view.findViewById(R.id.link_tv);
+        Label tv = (Label) view.findViewById(R.id.link_tv);
         // Linkify the TextView
         Spannable spannable = new SpannableString(Html.fromHtml((String) tv.getText()));
         Linkify.addLinks(spannable, Linkify.WEB_URLS);
@@ -88,7 +88,7 @@ public class ProdRegConnectionFragment extends ProdRegBaseFragment {
 
         // Make sure the TextView supports clicking on Links
         tv.setMovementMethod(EnhancedLinkMovementMethod.getInstance());
-        tv.setText(spannable, TextView.BufferType.SPANNABLE);
+        tv.setText(spannable, Label.BufferType.SPANNABLE);
         ProdRegTagging.getInstance().trackPage("AllProductsRegisteredScreen", "trackPage", "All products registered");
         return view;
     }

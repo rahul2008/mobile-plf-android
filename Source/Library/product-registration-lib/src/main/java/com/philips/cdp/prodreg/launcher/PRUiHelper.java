@@ -41,6 +41,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,9 @@ public class PRUiHelper {
     private AppInfra appInfra;
     private String mCountryCode;
     private String mLocale;
+    ThemeConfiguration themeConfiguration;
+
+    int theme;
 
     /*
      * Initialize everything(resources, variables etc) required for Product Registration.
@@ -108,7 +112,7 @@ public class PRUiHelper {
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prLaunchInput.isAppLaunchFlow());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
-        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
+        intent.putExtra(ProdRegConstants.UI_KIT_THEME,  activityLauncher.getUiKitTheme());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
         context.startActivity(intent);
     }
@@ -196,11 +200,29 @@ public class PRUiHelper {
         this.prodRegUiListener = PRLaunchInput.getProdRegUiListener();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            setThemeConfiguration(((ActivityLauncher) uiLauncher).getDlsThemeConfiguration());
+            setTheme(((ActivityLauncher) uiLauncher).getUiKitTheme());
             invokeProductRegistrationAsActivity(activityLauncher, PRLaunchInput);
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeProductRegistrationAsFragment(fragmentLauncher, PRLaunchInput);
         }
+    }
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
+    }
+
+    public void setThemeConfiguration(ThemeConfiguration themeConfiguration) {
+        this.themeConfiguration = themeConfiguration;
+    }
+
+    public int getTheme() {
+        return theme;
+    }
+
+    public void setTheme(int theme) {
+        this.theme = theme;
     }
 
     public SecureStorageInterface getAppInfraSecureStorageInterface() {
