@@ -20,7 +20,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -29,6 +28,7 @@ import com.philips.platform.appinfra.rest.request.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +61,7 @@ public class RestClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rest_client);
         params = new HashMap<>();
         headers = new HashMap<>();
-        mRestInterface = new AppInfra.Builder().build(getApplicationContext()).getRestClient();
+        mRestInterface = AILDemouAppInterface.getInstance().getAppInfra().getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         initViews();
         urlInput.setText(baseURL);
@@ -130,24 +130,46 @@ public class RestClientActivity extends AppCompatActivity {
             mStringRequest = new StringRequest(methodType, urlInput.getText().toString().trim(), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d("appinfra "," success response ");
                     hideProgressBar();
                     invokeButton.setEnabled(true);
-                    Log.i("LOG", "" + response);
                     showAlertDialog("Success Response", response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.i("LOG", "" + error);
+                    Log.d("appinfra "," error response ");
                     hideProgressBar();
                     invokeButton.setEnabled(true);
                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                     showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
                 }
-            }, null, null, null) {
+            }, null, null, null)
+
+            {
+            @Override
+            protected Map<String, String> getParams() {
+                Log.d("appinfra "," get params ");
+                Map<String, String> paramList = new HashMap<>();
+                for (String key : params.keySet()) {
+                    paramList.put(key, params.get(key));
+                }
+                // paramList.put("name", "Alif");
+                return paramList;
+            }
+
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    Log.d("appinfra "," parseNetworkResponse ");
                     if (response != null && response.data != null) {
+                        if (response.headers == null) {
+                            response = new NetworkResponse(
+                                    response.statusCode,
+                                    response.data,
+                                    Collections.<String, String>emptyMap(), // this is the important line, set an empty but non-null map.
+                                    response.notModified,
+                                    response.networkTimeMs);
+                        }
                         return super.parseNetworkResponse(response);
                     } else {
                         return Response.error(new VolleyError("Response is null"));
@@ -159,13 +181,20 @@ public class RestClientActivity extends AppCompatActivity {
         }
         if (mStringRequest != null && mStringRequest.getCacheEntry() != null) {
             String cachedResponse = new String(mStringRequest.getCacheEntry().data);
-            Log.i("CACHED DATA: ", "" + cachedResponse);
+            Log.i("appinfra CACHED DATA: ", "" + cachedResponse);
         }
         // mStringRequest.setShouldCache(false); // set false to disable cache
         if (mStringRequest != null) {
             String text = mStringRequest.getUrl() != null ? mStringRequest.getUrl() : "";
             urlFired.setText(text);
-            mRestInterface.getRequestQueue().add(mStringRequest);
+            final StringRequest finalMStringRequest = mStringRequest;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mRestInterface.getRequestQueue().add(finalMStringRequest);
+                }
+            }).start();
+
         }
     }
 
@@ -208,6 +237,14 @@ public class RestClientActivity extends AppCompatActivity {
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
                     if (response != null && response.data != null) {
+                        if(response.headers == null) {
+                            response = new NetworkResponse(
+                                    response.statusCode,
+                                    response.data,
+                                    Collections.<String, String>emptyMap(), // this is the important line, set an empty but non-null map.
+                                    response.notModified,
+                                    response.networkTimeMs);
+                        }
                         return super.parseNetworkResponse(response);
                     } else {
                         return Response.error(new VolleyError("Response is null"));
@@ -220,7 +257,16 @@ public class RestClientActivity extends AppCompatActivity {
         }
         if (null != putRequest) {
             urlFired.setText(putRequest.getUrl());
-            mRestInterface.getRequestQueue().add(putRequest);
+
+            final StringRequest finalPutRequest = putRequest;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mRestInterface.getRequestQueue().add(finalPutRequest);
+                }
+            }).start();
+
+
         }
     }
 
@@ -271,7 +317,6 @@ public class RestClientActivity extends AppCompatActivity {
                                 public void onResponse(String response) {
                                     hideProgressBar();
                                     authCheckButton.setEnabled(true);
-                                    Log.i("LOG", "" + response);
                                     //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
                                     showAlertDialog("Success Response", response);
                                 }
@@ -281,7 +326,6 @@ public class RestClientActivity extends AppCompatActivity {
                                 public void onErrorResponse(VolleyError error) {
                                     hideProgressBar();
                                     authCheckButton.setEnabled(true);
-                                    Log.i("LOG", "" + error);
                                     //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                                     String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                                     showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
@@ -292,6 +336,14 @@ public class RestClientActivity extends AppCompatActivity {
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
                             if (response != null && response.data != null) {
+                                if(response.headers == null) {
+                                    response = new NetworkResponse(
+                                            response.statusCode,
+                                            response.data,
+                                            Collections.<String, String>emptyMap(), // this is the important line, set an empty but non-null map.
+                                            response.notModified,
+                                            response.networkTimeMs);
+                                }
                                 return super.parseNetworkResponse(response);
                             } else {
                                 return Response.error(new VolleyError("Response is null"));
@@ -303,7 +355,13 @@ public class RestClientActivity extends AppCompatActivity {
                 }
                 if (null != mStringRequest) {
                     urlFired.setText(mStringRequest.getUrl());
-                    mRestInterface.getRequestQueue().add(mStringRequest);
+                    final StringRequest finalMStringRequest = mStringRequest;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRestInterface.getRequestQueue().add(finalMStringRequest);
+                        }
+                    }).start();
                 }
             }
         };
@@ -323,7 +381,6 @@ public class RestClientActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             hideProgressBar();
                             loginButton.setEnabled(true);
-                            Log.i("LOG", "" + response);
                             //Toast.makeText(RestClientActivity.this, response, Toast.LENGTH_SHORT).show();
                             JSONObject jobj = null;
                             try {
@@ -343,7 +400,6 @@ public class RestClientActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             hideProgressBar();
                             loginButton.setEnabled(true);
-                            Log.i("LOG", "" + error);
                             //Toast.makeText(RestClientActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                             String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
                             showAlertDialog("Volley Error ", "Code:" + errorcode + "\n Message:\n" + error.toString());
@@ -352,6 +408,14 @@ public class RestClientActivity extends AppCompatActivity {
                         @Override
                         protected Response<String> parseNetworkResponse(NetworkResponse response) {
                             if (response != null && response.data != null) {
+                                if(response.headers == null) {
+                                    response = new NetworkResponse(
+                                            response.statusCode,
+                                            response.data,
+                                            Collections.<String, String>emptyMap(), // this is the important line, set an empty but non-null map.
+                                            response.notModified,
+                                            response.networkTimeMs);
+                                }
                                 return super.parseNetworkResponse(response);
                             } else {
                                 return Response.error(new VolleyError("Response is null"));
