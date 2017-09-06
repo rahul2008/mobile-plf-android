@@ -18,6 +18,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.annotation.Config;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
@@ -49,6 +50,11 @@ public class DemoPRGStateTest {
         demoPRGStateMock.init(application);
         demoPRGStateMock.navigate(null);
         verify(uappDemoInterface).launch(any(ActivityLauncher.class),any(UappLaunchInput.class));
+    }
+
+    @Test
+    public void testGetUappInterface(){
+        assertNotNull(new DemoPRGState().getPrDemoAppuAppInterface());
     }
 
     class DemoPRGStateMock extends DemoPRGState{
