@@ -10,6 +10,7 @@ import android.os.Message;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPListener;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
@@ -208,7 +210,10 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Test
     public void testNoProductError() throws Exception {
+        ProductCatalogPresenter.ProductCatalogListener mProductCatalogListener = Mockito.mock(ProductCatalogPresenter.ProductCatalogListener.class);
         mProductCatalogPresenter.onModelDataError(new Message());
+        mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                ("","No product found in your Store."));
     }
 
     @Test
@@ -220,9 +225,12 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Test
     public void testNonIAPNetworkError() throws Exception {
+        ProductCatalogPresenter.ProductCatalogListener mProductCatalogListener = Mockito.mock(ProductCatalogPresenter.ProductCatalogListener.class);
         Message msg = new Message();
         msg.obj = new Error();
-        mProductCatalogPresenter.onModelDataError(msg);
+        mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                ("", mContext.getString(R.string.iap_no_product_available)));
+       // mProductCatalogPresenter.onModelDataError(msg);
     }
 
     @Test

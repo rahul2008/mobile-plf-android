@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/max_width"
-    android:maxWidth="@dimen/max_width"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:layout_height="match_parent">
+    android:maxWidth="@dimen/max_width">
 
     <include
         android:id="@+id/app_actionbar"
@@ -89,6 +89,15 @@
         android:layout_above="@id/btn_launch_product_detail"
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now"
+        android:visibility="gone" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_categorized_shop_now_with_ignore_retailer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_categorized_shop_now"
+        android:layout_marginTop="2dp"
+        android:text="@string/categorized_shop_now_ignore_retailer"
         android:visibility="gone" />
 
     <com.philips.platform.uid.view.widget.Button
