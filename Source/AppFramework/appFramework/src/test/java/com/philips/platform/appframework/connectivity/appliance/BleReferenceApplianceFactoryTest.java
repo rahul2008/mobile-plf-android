@@ -5,6 +5,7 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,5 +65,22 @@ public class BleReferenceApplianceFactoryTest {
     @Test
     public void getSupportedDeviceTypes_Contains_Ble_Model_Name(){
         assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().contains(BleReferenceAppliance.MODELNAME));
+    }
+
+    @Test
+    public void canCreateApplianceForNodeForPowerSleepTest() {
+        bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext, ConnectivityDeviceType.POWER_SLEEP);
+        when(networkNode.getModelId())
+                .thenReturn(BleReferenceAppliance.MODEL_NAME_HH1600);
+        assertTrue(bleReferenceApplianceFactory.canCreateApplianceForNode(networkNode));
+    }
+
+    @After
+    public void tearDown() {
+        bleReferenceApplianceFactory = null;
+        communicationStrategy = null;
+        networkNodeModelNameNull = null;
+        networkNode = null;
+        bleTransportContext = null;
     }
 }
