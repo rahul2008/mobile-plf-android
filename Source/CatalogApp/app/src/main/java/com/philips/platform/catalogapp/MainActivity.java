@@ -206,12 +206,12 @@ public class MainActivity extends UIDActivity {
 
     public void setLeftSidebarBGColor(int color){
         leftSidebarBGColor = color;
-        leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
+//        leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
     }
 
     public void setRightSidebarBGColor(int color){
         rightSidebarBGColor = color;
-        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
+//        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
     }
 
     @Override
