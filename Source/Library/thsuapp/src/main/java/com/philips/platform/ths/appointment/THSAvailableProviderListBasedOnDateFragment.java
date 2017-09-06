@@ -41,7 +41,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     private RecyclerView recyclerView;
     private Label mLabelNumberOfAvailableDoctors;
     private Label mLabelDate;
-    private THSAvailableProviderList mThsAvailableProviderList;
+    protected THSAvailableProviderList mThsAvailableProviderList;
 
     @Nullable
     @Override
@@ -70,6 +70,10 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mLabelDate.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        refreshList();
+    }
+
+    protected void refreshList() {
         if(mThsAvailableProviderList !=null){
             updateProviderAdapterList(mThsAvailableProviderList);
         }else {
