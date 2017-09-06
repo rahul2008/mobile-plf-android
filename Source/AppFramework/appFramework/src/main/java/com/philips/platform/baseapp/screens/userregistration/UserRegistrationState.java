@@ -61,7 +61,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String TAG = UserRegistrationState.class.getSimpleName();
 
     private User userObject;
-    private FragmentLauncher fragmentLauncher;
+    protected FragmentLauncher fragmentLauncher;
     private Context applicationContext;
 
     private static final String PROPOSITION_NAME = "OneBackend";
@@ -337,7 +337,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return AppStateConfiguration.STAGING;
     }
 
-    private AppFrameworkApplication getApplicationContext() {
+    protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }
 
