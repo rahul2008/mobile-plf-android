@@ -31,7 +31,6 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     public static final String TAG = THSAvailableProviderDetailFragment.class.getSimpleName();
 
     private Date mDate;
-
     private THSProviderEntity thsProviderEntity;
     private THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
     private Practice mPractice;
@@ -80,7 +79,6 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         this.position = position;
         thsAvailableDetailProviderPresenter.updateContinueButtonState(true);
     }
-
 
     @Override
     public void onClick(View view) {

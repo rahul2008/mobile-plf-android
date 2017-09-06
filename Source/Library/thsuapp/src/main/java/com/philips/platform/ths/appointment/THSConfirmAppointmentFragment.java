@@ -23,6 +23,7 @@ import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
+import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -41,6 +42,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     private ImageView mImageIsAvailable;
     private String reminderTimeString;
     private Button ok_got_it;
+    private UIDNavigationIconToggler navIconToggler;
 
     @Nullable
     @Override
@@ -50,6 +52,8 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
             getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
         }
         Bundle bundle = getArguments();
+        navIconToggler = new UIDNavigationIconToggler(getActivity());
+        navIconToggler.hideNavigationIcon();
         mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
         mAppointmentDate = (Date) bundle.getSerializable(THSConstants.THS_DATE);
         reminderTimeString = bundle.getString(THSConstants.THS_SET_REMINDER_EXTRA_KEY);
@@ -93,6 +97,11 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        navIconToggler.restoreNavigationIcon();
+    }
     @Override
     public THSProviderInfo getTHSProviderInfo() {
         return mThsProviderInfo;
