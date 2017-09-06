@@ -47,8 +47,8 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name
-version = objcdp.getVersion()
+archivesBaseName = "shinelib"
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 repositories {
     maven {
@@ -137,11 +137,11 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
         }
         release {
             consumerProguardFiles 'proguard-rules.pro'
-            buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersion()}\""
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
 

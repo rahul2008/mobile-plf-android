@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.cdpp.bluelibexampleapp.BlueLibExampleActivity;
+import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -18,15 +20,40 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
 public class BleDemoMicroAppInterface implements UappInterface {
+
     private Context context;
+
+    private BleDemoMicroAppDependencies bleDemoMicroAppDependencies;
+
+    private static BleDemoMicroAppInterface bleDemoMicroAppInterface;
+
+    private SHNDevice mSelectedDevice;
+
+    private BleDemoMicroAppInterface() {
+
+    }
+
+    public static BleDemoMicroAppInterface getInstance() {
+        if (bleDemoMicroAppInterface == null) {
+            bleDemoMicroAppInterface = new BleDemoMicroAppInterface();
+        }
+        return bleDemoMicroAppInterface;
+    }
 
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
      */
+
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        this.context = uappSettings.getContext();
+        if (!(uappDependencies instanceof BleDemoMicroAppDependencies)) {
+            throw new IllegalArgumentException("This Uapp only accepts BleDemoMicroAppDependencies");
+        } else {
+            this.context = uappSettings.getContext();
+            this.bleDemoMicroAppDependencies = (BleDemoMicroAppDependencies) uappDependencies;
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        }
     }
 
     /**
@@ -41,5 +68,17 @@ public class BleDemoMicroAppInterface implements UappInterface {
         } else if (uiLauncher instanceof FragmentLauncher) {
             //TODO:Need to add logic to make implmentation using fragment.
         }
+    }
+
+    public BleDemoMicroAppDependencies getBleDemoMicroAppDependencies() {
+        return bleDemoMicroAppDependencies;
+    }
+
+    public void setSelectedDevice(SHNDevice device) {
+        mSelectedDevice = device;
+    }
+
+    public SHNDevice getSelectedDevice() {
+        return mSelectedDevice;
     }
 }

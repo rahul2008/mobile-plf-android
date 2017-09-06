@@ -3,7 +3,6 @@
  * All rights reserved.
  */
 
-rootProject.setName 'shinelib'
 include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp'
 
 def commonDir = '../common'

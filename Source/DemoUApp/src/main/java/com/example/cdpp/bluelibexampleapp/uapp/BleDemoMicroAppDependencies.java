@@ -4,11 +4,23 @@
  */
 package com.example.cdpp.bluelibexampleapp.uapp;
 
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.pins.shinelib.SHNCentral;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 public class BleDemoMicroAppDependencies extends UappDependencies {
-    public BleDemoMicroAppDependencies(final AppInfraInterface appInfra) {
-        super(appInfra);
+
+    protected SHNCentral shnCentral;
+
+    public BleDemoMicroAppDependencies(SHNCentral shnCentral) {
+        super(null);
+        this.shnCentral = shnCentral;
+    }
+
+    public BleDemoMicroAppDependencies() {
+        super(null);
+    }
+
+    public SHNCentral getShnCentral() {
+        return shnCentral;
     }
 }

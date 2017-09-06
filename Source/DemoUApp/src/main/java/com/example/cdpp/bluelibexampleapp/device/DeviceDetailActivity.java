@@ -15,8 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.example.cdpp.bluelibexampleapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
@@ -87,7 +87,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mDevice = BlueLibExampleApplication.get().getSelectedDevice();
+        mDevice = BleDemoMicroAppInterface.getInstance().getSelectedDevice();
         if (mDevice != null) {
             mDevice.registerSHNDeviceListener(mDeviceListener);
 
