@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.hor_productselection_android.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -58,7 +59,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        Log.i(TAG, " Multiproduct - SampleActivitySelection onCreate");
+        ProductSelectionLogger.i(TAG, " Multiproduct - SampleActivitySelection onCreate");
         setContentView(R.layout.activity_multiproduct_sample);
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 

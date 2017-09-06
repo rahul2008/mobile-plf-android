@@ -93,7 +93,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
                 "&hei=" + imageWidth +
                 "&fit=fit,1";
 
-        ProductSelectionLogger.i(TAG, "Image URL's of the listed Products : " + imagepath);
+        ProductSelectionLogger.d(TAG, "Image URL's of the listed Products : " + imagepath);
 
         final  ImageRequest request = new ImageRequest(imagepath,
                 new Response.Listener<Bitmap>() {

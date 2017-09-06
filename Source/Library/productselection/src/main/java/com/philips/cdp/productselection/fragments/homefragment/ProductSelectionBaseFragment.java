@@ -285,7 +285,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
                     getActivity().getPackageManager().GET_META_DATA);
             appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            ProductSelectionLogger.i(TAG, e.getMessage());
         }
         return appName;
     }
@@ -318,7 +318,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -335,7 +334,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             fragmentTransaction.remove(fragmentDetailsTablet).commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -346,7 +344,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             fragmentTransaction.add(containerViewId, fragment, tag);
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
         }
     }
 

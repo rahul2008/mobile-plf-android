@@ -18,6 +18,7 @@ import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
@@ -115,7 +116,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
             public void updateList(ArrayList<String> productList) {
                 mList = productList;
                 setAdapter(mList);
-                Log.d(TAG, " Products Size = " + mList.size());
+                ProductSelectionLogger.d(TAG, " Products Size = " + mList.size());
             }
         });
         dialog.show();

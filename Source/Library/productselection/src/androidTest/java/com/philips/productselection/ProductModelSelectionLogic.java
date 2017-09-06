@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.philips.cdp.productselection.fragments.detailedscreen.NavigationFragment;
 import com.philips.cdp.productselection.fragments.detailedscreen.adapter.ProductAdapter;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -54,20 +55,19 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
                 reader.close();
             } catch (IOException e) {
-                // log the exception
-                e.printStackTrace();
+                ProductSelectionLogger.i(TAG, "IOException - "+e.getMessage());
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
+            ProductSelectionLogger.d(TAG, "Parsed Data : " + sb.toString());
             mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             AssetModel mAssetModel = new AssetModel();
             ResponseData responseData = mAssetModel.parseJsonResponseData(mJsonObject);
             assertNotNull(responseData);
         } catch (JSONException e) {
-            Log.d(TAG, "JSON : " + e);
+            ProductSelectionLogger.d(TAG, "JSON : " + e);
 
         } catch (Exception e) {
-            Log.d(TAG, "IO " + e);
+            ProductSelectionLogger.d(TAG, "IO " + e);
         }
     }
 
