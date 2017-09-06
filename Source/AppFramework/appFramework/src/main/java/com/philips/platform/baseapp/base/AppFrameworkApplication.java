@@ -200,15 +200,15 @@ public class AppFrameworkApplication extends Application {
     }
 
     public void determineHybrisFlow() {
-        ArrayList listOfServiceId = new ArrayList();
+        ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(IAP_BASE_URL_CONSTANT);
         appInfra.getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             public void onSuccess(Map<String, ServiceDiscoveryService> map) {
                 RALog.d(LOG, " AppFrameworkApplication getServicesWithCountryPreference Map" + map.toString());
-                Collection collection = map.values();
-                ArrayList list = new ArrayList();
+                Collection<ServiceDiscoveryService> collection = map.values();
+                ArrayList<ServiceDiscoveryService> list = new ArrayList<>();
                 list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = (ServiceDiscoveryService)list.get(0);
+                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 if(configUrls != null && !configUrls.isEmpty()) {
                     //set hybris flow

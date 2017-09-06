@@ -45,7 +45,6 @@ public class OverlayDialogFragment extends DialogFragment {
         drawableId = getArguments().getInt(DRAWABLE_ID);
     }
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
