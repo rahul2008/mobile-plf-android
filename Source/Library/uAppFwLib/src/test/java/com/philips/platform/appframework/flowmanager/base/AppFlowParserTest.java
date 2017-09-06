@@ -1,7 +1,6 @@
 package com.philips.platform.appframework.flowmanager.base;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonStructureException;
@@ -87,7 +86,7 @@ public class AppFlowParserTest extends TestCase {
         try {
             assertTrue(appFlowParser.getFileInputStream("test") != null);
         } catch (FileNotFoundException e) {
-            Log.e("File not found "," while testing is Empty");
+            assertEquals("test (No such file or directory)",e.getMessage());
         }
     }
 
