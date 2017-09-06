@@ -8,7 +8,12 @@ import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
 public class CdlsParserUtils {
+
+	private static final String TAG = CdlsParserUtils.class.getSimpleName();
 
 	public static String loadJSONFromAsset(String assetPath, Context context) {
 		String json = null;
@@ -20,7 +25,7 @@ public class CdlsParserUtils {
 			is.close();
 			json = new String(buffer, "UTF-8");
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			DigiCareLogger.e(TAG, ex.getMessage());
 			return null;
 		}
 		return json;
