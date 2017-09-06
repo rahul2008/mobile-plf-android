@@ -168,8 +168,8 @@
     <string name="linkedin">  LinkedIn </string>
     <string name="googleplus">  Google Plus </string>-->
 
-    <string name="dcc_twitter">twitter</string> <!--done-->
-    <string name="dcc_facebook">facebook</string> <!--done-->
+    <string name="dcc_twitter">Twitter</string> <!--done-->
+    <string name="dcc_facebook">Facebook</string> <!--done-->
     <string name="dcc_send_us_message">Or send a message</string> <!--done-->
     <string name="dcc_get_in_touch">Talk to one of the team</string> <!--done-->
     <string name="dcc_help_and_Answer">We\'re here to help and answer any questions you may have.</string> <!--done-->

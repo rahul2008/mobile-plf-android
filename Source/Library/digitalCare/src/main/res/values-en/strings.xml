@@ -153,8 +153,8 @@
 
     <string name="no_call_functionality">No call facility available</string>
 
-    <string name="dcc_twitter">twitter</string>
-    <string name="dcc_facebook">facebook</string>
+    <string name="dcc_twitter">Twitter</string>
+    <string name="dcc_facebook">Facebook</string>
     <string name="dcc_send_us_message">Or send a message</string>
     <string name="dcc_get_in_touch">Talk to one of the team</string>
     <string name="dcc_help_and_Answer">We\'re here to help and answer any questions you may have.</string>
