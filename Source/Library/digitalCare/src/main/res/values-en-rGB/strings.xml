@@ -29,7 +29,7 @@
 
     <!-- ContactUs Screen   null -->
     <string name="leave_us_a_message"> Leave us a message: </string>
-    <string name="contact_us_text"> Contact us: </string>
+    <string name="contact_us_text"> Contact us </string>
     <string name="opening_hours"> Opening hours </string>
     <string name="live_chat"> Live chat </string>
     <string name="send_email"> Send email </string>
