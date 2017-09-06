@@ -267,6 +267,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
+
         appInfra = createAppInfraInstance();
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
