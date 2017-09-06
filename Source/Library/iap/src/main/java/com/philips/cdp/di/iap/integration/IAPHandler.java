@@ -45,11 +45,11 @@ class IAPHandler {
 
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
-        //initIAPRequisite();
+        // initIAPRequisite();
     }
 
     void initIAPRequisite() {
-      //  initControllerFactory();
+//        initControllerFactory();
         initHybrisDelegate();
     }
 
@@ -135,6 +135,8 @@ class IAPHandler {
                 intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
                         pLaunchInput.mIAPFlowInput.getProductCTNs());
             }
+          //  if (pLaunchInput.getIgnoreRetailers() != null)
+                intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
 
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
@@ -142,38 +144,44 @@ class IAPHandler {
     }
 
     protected void launchAsFragment(IAPLaunchInput iapLaunchInput, FragmentLauncher uiLauncher) {
-        InAppBaseFragment target = getFragment(iapLaunchInput.mLandingView, iapLaunchInput.mIAPFlowInput);
+        InAppBaseFragment target = getFragment(iapLaunchInput.mLandingView, iapLaunchInput);
         addFragment(target, uiLauncher, iapLaunchInput.getIapListener());
     }
 
-    protected InAppBaseFragment getFragment(final int screen, final IAPFlowInput iapFlowInput) {
+    protected InAppBaseFragment getFragment(final int screen, final IAPLaunchInput iapLaunchInput) {
         InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
+        final ArrayList<String> ignoreRetailers = iapLaunchInput.getIgnoreRetailers();
         switch (screen) {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                 fragment = new ShoppingCartFragment();
+                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
                 fragment = new PurchaseHistoryFragment();
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW:
                 fragment = new ProductDetailFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapFlowInput.getProductCTN());
+                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapLaunchInput.mIAPFlowInput.getProductCTN());
+                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 fragment.setArguments(bundle);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW:
                 fragment = new BuyDirectFragment();
-                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapFlowInput.getProductCTN());
+                bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, iapLaunchInput.mIAPFlowInput.getProductCTN());
+                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
-                ArrayList<String> CTNs = iapFlowInput.getProductCTNs();
+                ArrayList<String> CTNs = iapLaunchInput.mIAPFlowInput.getProductCTNs();
                 fragment = new ProductCatalogFragment();
                 bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
+                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 fragment.setArguments(bundle);
                 break;
             default:
                 fragment = new ProductCatalogFragment();
                 bundle.putString(IAPConstant.CATEGORISED_PRODUCT_CTNS, null);
+                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 fragment.setArguments(bundle);
                 break;
         }

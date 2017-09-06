@@ -230,6 +230,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
         bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        if (bundle.getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
+            final ArrayList<String> list = bundle.getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
+            bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
+        }
         bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
         bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
         bundle.putSerializable(IAPConstant.SHOPPING_CART_CODE, shoppingCartData);
@@ -281,32 +285,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mCheckoutBtn.setEnabled(true);
         }
     }
-
-//    @Override
-//    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
-//        dismissProgressDialog();
-//        if (getActivity() == null) return;
-//        mData = data;
-//        onOutOfStock(false);
-//        mAdapter = new ShoppingCartAdapter(mContext, mData, this);
-//        if (data.get(0) != null && data.get(0).getDeliveryItemsQuantity() > 0) {
-//            updateCount(data.get(0).getDeliveryItemsQuantity());
-//        }
-//        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.tagProducts();
-//
-//        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
-//        numberOfProducts = String.format(numberOfProducts, mData.size());
-//        mNumberOfProducts.setText(numberOfProducts);
-//        mNumberOfProducts.setVisibility(View.VISIBLE);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(ShoppingCartData data) {
-//        dismissProgressDialog();
-//        IAPLog.d(IAPLog.LOG, data.getCtnNumber());
-//
-//    }
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {

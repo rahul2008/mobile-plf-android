@@ -26,7 +26,7 @@ public class IAPServiceDiscoveryWrapper {
         listOfServiceId.add("iap.baseurl");
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-
+        serviceDiscoveryInterface = appInfra.getServiceDiscovery();
     }
 
     void initializeStoreFromServiceDiscoveryResponse(final IAPHandler iapHandler) {
@@ -153,49 +153,4 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
-//    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener, final String entry) {
-//        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
-//        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-//        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-//
-//            @Override
-//            public void onError(ERRORVALUES errorvalues, String s) {
-//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-//            }
-//
-//            @Override
-//            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-//                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
-//                Collection<ServiceDiscoveryService> collection = map.values();
-//
-//                List<ServiceDiscoveryService> list = new ArrayList<>();
-//                list.addAll(collection);
-//                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-//
-//                String locale = serviceDiscoveryService.getLocale();
-//                String configUrls = serviceDiscoveryService.getConfigUrls();
-//
-//
-//                if (locale != null) {
-//                    setLangAndCountry(locale);
-//                }
-//                if (configUrls == null) {
-//                    mIAPSettings.setUseLocalData(true);
-//                    // pIAPHandler.initIAPRequisite();
-//                } else {
-//                    // TODO Retailer view hence making the userLocalData to true
-//                    mIAPSettings.setUseLocalData(false);
-//                    // pIAPHandler.initIAPRequisite();
-//                    //String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
-//                    mIAPSettings.setHostPort(configUrls + "/");
-//                    mIAPSettings.setProposition(loadConfigParams());
-//                    if (entry.equalsIgnoreCase("completeProductList"))
-//                        pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
-//                    else
-//                        pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
-//                }
-//            }
-//        };
-//        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
-//    }
 }

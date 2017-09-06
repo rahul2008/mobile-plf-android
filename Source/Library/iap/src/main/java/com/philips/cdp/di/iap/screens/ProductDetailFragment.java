@@ -100,6 +100,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private String mProductTitle;
     private ErrorDialogFragment mErrorDialogFragment;
     private boolean mIsFromVertical;
+    private ArrayList<StoreEntity> mUpdtedStoreEntity;
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
         @Override
@@ -433,9 +434,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
             addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG);
         } else {
-            bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, storeEntities);
-            addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
-                    BuyFromRetailersFragment.TAG);
+            final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
+            bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST));
+            bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, removedBlacklistedRetailers);
+            if (removedBlacklistedRetailers.size() == 0) {
+                onRetailerError(NetworkUtility.getInstance().
+                        createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
+            } else {
+                addFragment(BuyFromRetailersFragment.createInstance(bundle, AnimationType.NONE),
+                        BuyFromRetailersFragment.TAG);
+            }
         }
     }
 
@@ -795,6 +803,22 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
         return super.handleBackEvent();
     }
+
+    private ArrayList<StoreEntity> removedBlacklistedRetailers(ArrayList<StoreEntity> pStoreEntity) {
+        final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
+        mUpdtedStoreEntity = new ArrayList<>();
+        mUpdtedStoreEntity.addAll(pStoreEntity);
+        for (StoreEntity storeEntity : pStoreEntity) {
+            final String retailerName = storeEntity.getName().replaceAll("\\s+", "");
+            for (int i = 0; i < (list != null ? list.size() : 0); i++) {
+                if (Utility.indexOfSubString(true, retailerName, list.get(i)) >= 0) {
+                    mUpdtedStoreEntity.remove(storeEntity);
+                }
+            }
+        }
+        return mUpdtedStoreEntity;
+    }
+
 
     @Override
     public void onPositiveBtnClick() {

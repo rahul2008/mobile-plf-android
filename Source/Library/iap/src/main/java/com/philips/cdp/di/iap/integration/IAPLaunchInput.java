@@ -3,14 +3,36 @@ package com.philips.cdp.di.iap.integration;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import java.util.ArrayList;
+
 public class IAPLaunchInput extends UappLaunchInput {
     int mLandingView;
     public IAPFlowInput mIAPFlowInput;
     private IAPListener iapListener;
+    private ArrayList<String> mIgnoreRetailers;
+    private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
+
+    public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput, ArrayList<String> pBlackListedRetailer) {
+        mLandingView = pLandingView;
+        mIAPFlowInput = pIapFlowInput;
+        mIgnoreRetailers = pBlackListedRetailer;
+    }
 
     public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput) {
         mLandingView = pLandingView;
         mIAPFlowInput = pIapFlowInput;
+        mIgnoreRetailers = new ArrayList<>();
+    }
+
+
+    public ArrayList<String> getIgnoreRetailers() {
+        if (mIgnoreRetailers == null || mIgnoreRetailers.size() == 0) return mIgnoreRetailers;
+        for (String str : mIgnoreRetailers) {
+            String[] first = str.split(" ");
+            String firstNameOfRetailer = first[0];
+            mFirstIgnoreRetailers.add(firstNameOfRetailer);
+        }
+        return mFirstIgnoreRetailers;
     }
 
     public IAPListener getIapListener() {

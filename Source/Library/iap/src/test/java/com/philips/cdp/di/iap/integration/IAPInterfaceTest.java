@@ -19,6 +19,8 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
+import java.util.ArrayList;
+
 @RunWith(RobolectricTestRunner.class)
 public class IAPInterfaceTest {
 
@@ -56,9 +58,10 @@ public class IAPInterfaceTest {
     public void testLaunch() {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
+        ArrayList<String> blackListedRetailer = new ArrayList<>();
         IAPFlowInput input = new IAPFlowInput("HX9043/64");
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
-        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input);
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input, blackListedRetailer);
         mIAPSettings.setUseLocalData(true);
         mIapInterface.init(mIAPDependencies, mIAPSettings);
         mIapInterface.launch(new FragmentLauncher(activity, R.id.cart_container, Mockito.mock(ActionBarListener.class)), iapLaunchInput);
