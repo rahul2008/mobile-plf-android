@@ -309,7 +309,8 @@
 
 #-------------------------Consumer Care Ends -------------------------
 
-#InAppPurchase
+#------------------------------InAppPurchase starts here------------------------------------
+#all below classes are model classes
 -keep class com.philips.cdp.di.iap.store.AbstractStore {*;}
 -keep class com.philips.cdp.di.iap.store.HybrisStore {*;}
 -keep class com.philips.cdp.di.iap.store.IAPUser {*;}
@@ -323,6 +324,8 @@
 
 -keep class com.philips.cdp.di.iap.response** {*;}
 -keep interface com.philips.cdp.di.iap.response** {*;}
+
+#------------------------------InAppPurchase ends here------------------------------------
 
 #Prx
 -keep class com.philips.cdp.prxclient.** {*;}
