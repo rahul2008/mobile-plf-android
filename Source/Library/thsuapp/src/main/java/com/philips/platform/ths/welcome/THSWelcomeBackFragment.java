@@ -15,10 +15,11 @@ import android.widget.ImageView;
 
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -27,7 +28,6 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnClickListener {
@@ -40,6 +40,9 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     private PracticeInfo mPracticeInfo;
     private Provider mProvider;
     private RatingBar mRatingBar;
+    private CircularImageView mImageProvider;
+    private Label mLabelProviderName;
+    private Label mLabelPracticeName;
 
     @Nullable
     @Override
@@ -52,6 +55,9 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         mArrow.setVisibility(View.GONE);
         mBtnGetStarted = (Button) view.findViewById(R.id.ths_get_started);
         mBtnGetStarted.setOnClickListener(this);
+        mImageProvider = (CircularImageView) view.findViewById(R.id.ths_providerImage);
+        mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
+        mLabelPracticeName = (Label) view.findViewById(R.id.practiceNameLabel);
 
         mRatingBar = (RatingBar) view.findViewById(R.id.providerRatingValue);
         mRatingBar.setVisibility(View.VISIBLE);
@@ -66,6 +72,22 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
 
         mLabel.setText(text);
         mRatingBar.setRating(mProvider.getRating());
+
+        mLabelProviderName.setText(mProvider.getFullName());
+        mLabelPracticeName.setText(mPracticeInfo.getName());
+
+        if (mProvider.hasImage()) {
+            try {
+                THSManager.getInstance().getAwsdk(mImageProvider.getContext()).
+                        getPracticeProvidersManager().
+                        newImageLoader(mProvider,
+                                mImageProvider, ProviderImageSize.LARGE).placeholder
+                        (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder)).
+                        build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
         return view;
     }
 

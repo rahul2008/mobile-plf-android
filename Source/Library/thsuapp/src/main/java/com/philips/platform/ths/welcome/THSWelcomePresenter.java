@@ -36,11 +36,6 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
     private THSBaseFragment uiBaseView;
     private Consumer consumer;
-    private final int APPOINTMENTS = 1;
-    private final int VISIT_HISTORY = 2;
-    private final int HOW_IT_WORKS = 3;
-    private final int PRACTICES = 4;
-    protected int launchInput = -1;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
         this.uiBaseView = uiBaseView;
@@ -49,17 +44,13 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            launchInput = APPOINTMENTS;
-            checkForUserExisitance();
+            uiBaseView.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
         } else if (componentID == R.id.visit_history) {
-            launchInput = VISIT_HISTORY;
-            checkForUserExisitance();
+            uiBaseView.addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
         } else if (componentID == R.id.how_it_works) {
-            launchInput = HOW_IT_WORKS;
             uiBaseView.showToast("Coming Soon!!!");
         }else if(componentID == R.id.ths_start){
-            launchInput = PRACTICES;
-            checkForUserExisitance();
+            launchPractice();
         }
     }
 
@@ -91,8 +82,8 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        uiBaseView.hideProgressBar();
-        ((THSWelcomeFragment)uiBaseView).updateView();
+    
+        checkForUserExisitance();
     }
 
     @Override
@@ -154,27 +145,10 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
-        switch (launchInput){
-            case APPOINTMENTS:
-                uiBaseView.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
-                break;
-            case VISIT_HISTORY:
-                uiBaseView.addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
-                break;
-            case HOW_IT_WORKS:
-                break;
-            case PRACTICES:
-                launchPractice(consumer);
-                break;
-        }
+        ((THSWelcomeFragment)uiBaseView).updateView();
     }
 
-    private void launchPractice(Consumer consumer) {
-        this.consumer = consumer;
-        //setting PTHconsumer  in singleton THSManager so any presenter/fragment can access it
-        THSConsumer THSConsumer = new THSConsumer();
-        THSConsumer.setConsumer(consumer);
-        THSManager.getInstance().setPTHConsumer(THSConsumer);
+    private void launchPractice() {
         AmwellLog.d("Login","Consumer object received");
         final THSPracticeFragment fragment = new THSPracticeFragment();
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
