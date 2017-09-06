@@ -40,9 +40,8 @@ public class NetworkWrapper {
     }
 
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
-        mPrxLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_NETWORK_WRAPPER,"Custom JSON Request call..");
         if (listener == null) {
-            mPrxLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
+            mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);

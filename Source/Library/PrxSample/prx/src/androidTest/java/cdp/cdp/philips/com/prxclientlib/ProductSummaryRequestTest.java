@@ -61,9 +61,8 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
                 reader.close();
             } catch (IOException e) {
                 // log the exception
-                e.printStackTrace();
+                Log.d(TAG, "Error in Input file ");
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
             JSONObject mJsonObject = new JSONObject(sb.toString());
             //ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             assertNotNull(mJsonObject);
@@ -93,9 +92,8 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
                 reader.close();
             } catch (IOException e) {
                 // log the exception
-                e.printStackTrace();
+                Log.d(TAG, "Error in Input file ");
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
             JSONObject mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             assertNotNull(mResponseData);

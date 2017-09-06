@@ -7,7 +7,6 @@ package com.philips.cdp.prxsample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +39,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.List;
 
@@ -91,6 +91,8 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
         mAppInfra = new AppInfra.Builder().build(this);
         prxDependencies = new PRXDependencies(getApplicationContext(), mAppInfra,"PRX DEMO");
+        prxDependencies.mAppInfraLogging = mAppInfra.getLogging().createInstanceForComponent(String.format("%s /prx Demo", prxDependencies.getParentTLA()), mRequestManager.getLibVersion());
+
         // setting sector spinner
         mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);
         mSector = getResources().getStringArray(R.array.sector_list);
@@ -210,7 +212,6 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
     private void onRequestManagerCalled(PrxRequest prxRequest) {
         mRequestManager.init(prxDependencies);
-        Log.d(TAG, "Positive Request");
         mRequestManager.executeRequest(prxRequest, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -218,7 +219,6 @@ public class PrxLauncherActivity extends AppCompatActivity {
                 if (responseData instanceof SummaryModel) {
                     SummaryModel mSummaryModel = (SummaryModel) responseData;
                     //aiLogging.log(AppInfraLogging.LogLevel.DEBUG,TAG,"Support Response Data AI : " + mSummaryModel.isSuccess());
-                    Log.d(TAG, "Support Response Data : " + mSummaryModel.isSuccess());
                     com.philips.cdp.prxclient.datamodels.summary.Data mData = mSummaryModel.getData();
                     String url = mData.getImageURL();
                     imageView.setVisibility(View.VISIBLE);
@@ -243,14 +243,15 @@ public class PrxLauncherActivity extends AppCompatActivity {
                         subtitelText.setText("SubTitle" + "  " + mData.getSubWOW());
 
 
-                    Log.d(TAG, " SummaryModel Positive Response Data : " + mSummaryModel.isSuccess());
-                    Log.d(TAG, " SummaryModel Positive Response Data Brand: " + mData.getBrand());
-                    Log.d(TAG, " SummaryModel Positive Response Data CTN: " + mData.getCtn());
-                    Log.d(TAG, " SummaryModel Positive Response Data Product Title: " + mData.getProductTitle());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " SummaryModel Positive Response Data :"+ mSummaryModel.isSuccess());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " SummaryModel Positive Response Data Brand: " + mData.getBrand());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " SummaryModel Positive Response Data CTN: " + mData.getCtn());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " SummaryModel Positive Response Data Product Title: " + mData.getProductTitle());
+
 
                 } else if (responseData instanceof AssetModel) {
                     AssetModel mAssetModel = (AssetModel) responseData;
-                    Log.d(TAG, "Support Response Data : " + mAssetModel.isSuccess());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " Support Response Data : " + mAssetModel.isSuccess());
                     com.philips.cdp.prxclient.datamodels.assets.Data myyData = mAssetModel.getData();
                     if (myyData != null) {
                         Assets assets = myyData.getAssets();
@@ -275,15 +276,14 @@ public class PrxLauncherActivity extends AppCompatActivity {
                             listview.setVisibility(View.GONE);
                             descTextView.setText("Asset is null");
                         }
-                        Log.d(TAG, " AssetModel Positive Response Data assets : " + myyData.getAssets());
-
+                        prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " AssetModel Positive Response Data assets : " + myyData.getAssets());
                     }
-                    Log.d(TAG, " AssetModel Positive Response Data : " + mAssetModel.isSuccess());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " AssetModel Positive Response Data : " + mAssetModel.isSuccess());
 
 
                 } else {
                     SupportModel mSupportModel = (SupportModel) responseData;
-                    Log.d(TAG, "Support Response Data : " + mSupportModel.isSuccess());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " Support Response Data : " + mSupportModel.isSuccess());
                     com.philips.cdp.prxclient.datamodels.support.Data msupportData = mSupportModel.getData();
                     if (msupportData != null) {
                         RichTexts text = msupportData.getRichTexts();
@@ -300,7 +300,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
                             listview.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                             listview.setOnItemClickListener(null);
-                            Log.d(TAG, " SupportModel Positive Response Data RichText: " + msupportData.getRichTexts());
+                            prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " SupportModel Positive Response Data RichText: " + msupportData.getRichTexts());
                         } else {
                             descTextView.setVisibility(View.VISIBLE);
                             priceTextView.setVisibility(View.GONE);
@@ -312,13 +312,13 @@ public class PrxLauncherActivity extends AppCompatActivity {
                         }
                     }
 
-                    Log.d(TAG, " SupportModel Positive Response Data : " + mSupportModel.isSuccess());
+                    prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " SupportModel Positive Response Data : " + mSupportModel.isSuccess());
                 }
             }
 
             @Override
             public void onResponseError(PrxError prxError) {
-                Log.d(TAG, "Response Error Message PRX: " + prxError.getDescription());
+                prxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, " Response Error Message PRX: " + prxError.getDescription());
                 descTextView.setVisibility(View.VISIBLE);
                 priceTextView.setVisibility(View.GONE);
                 productTitleText.setVisibility(View.GONE);

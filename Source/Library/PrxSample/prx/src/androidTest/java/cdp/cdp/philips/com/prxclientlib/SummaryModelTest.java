@@ -60,9 +60,8 @@ public class SummaryModelTest extends InstrumentationTestCase {
                 reader.close();
             } catch (IOException e) {
                 // log the exception
-                e.printStackTrace();
+                Log.d(TAG, "Error in Input file ");
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
             JSONObject mJsonObject = new JSONObject(sb.toString());
             //ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
             SummaryModel summaryModel = new SummaryModel();
@@ -94,9 +93,8 @@ public class SummaryModelTest extends InstrumentationTestCase {
                 reader.close();
             } catch (IOException e) {
                 // log the exception
-                e.printStackTrace();
+                Log.d(TAG, "Error in Input file ");
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
             JSONObject mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
            /* SummaryModel summaryModel = new SummaryModel();
@@ -138,9 +136,8 @@ public class SummaryModelTest extends InstrumentationTestCase {
                 reader.close();
             } catch (IOException e) {
                 // log the exception
-                e.printStackTrace();
+                Log.d(TAG, "Error in Input file ");
             }
-            Log.d(TAG, "Parsed Data : " + sb.toString());
             JSONObject mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
            /* SummaryModel summaryModel = new SummaryModel();
