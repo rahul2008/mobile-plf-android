@@ -18,15 +18,18 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib_ble.BuildConfig;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
+
+import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.PRODUCTION;
 
 /**
  * @publicApi
@@ -36,6 +39,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
+    private final AppInfraInterface appInfra;
     private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private boolean isAvailable;
@@ -68,22 +72,23 @@ public class BleTransportContext implements TransportContext<BleTransportContext
      * @throws TransportUnavailableException the transport unavailable exception
      */
     public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) {
-        this.deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
         try {
             this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
         } catch (SHNBluetoothHardwareUnavailableException e) {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
 
-        if (BuildConfig.DEBUG) {
+        appInfra = createAppInfra(context);
+        if (appInfra.getAppIdentity().getAppState() != PRODUCTION) {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         }
 
-        this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
-        this.shnCentral.registerShnCentralListener(shnCentralListener);
+        shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
+        shnCentral.registerShnCentralListener(shnCentralListener);
 
-        this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner());
-        this.isAvailable = shnCentral.isBluetoothAdapterEnabled();
+        deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
+        discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner());
+        isAvailable = shnCentral.isBluetoothAdapterEnabled();
     }
 
     @Override
@@ -124,5 +129,10 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();
+    }
+
+    @VisibleForTesting
+    AppInfraInterface createAppInfra(final Context context) {
+        return new AppInfra.Builder().build(context);
     }
 }

@@ -196,6 +196,8 @@ dependencies {
         }
     }
 
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.app_infra + objcdp.getVersionSuffix())
+
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.powermock_mockito
