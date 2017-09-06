@@ -173,12 +173,15 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+	
+	def dp = project.ext.has('useprojectdependencies')
 
-    compile(group: 'com.philips.cdp', name: 'IconFont', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
-        exclude group: 'com.android.support'
+	def icf = module(group: 'com.philips.cdp', name: 'IconFont', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	compile(dp ? project(':icf') : icfModule) 
+	{
         transitive = true
     }
-
+	
     //test
     androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
         exclude module: "com.android.support"
