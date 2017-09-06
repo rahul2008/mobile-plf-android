@@ -20,8 +20,6 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class TeleHealthServicesState extends BaseState{
     private FragmentLauncher fragmentLauncher;
-    private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
-    private THSMicroAppInterfaceImpl PTHMicroAppInterface;
 
     public TeleHealthServicesState() {
         super(AppStates.TELEHEALTHSERVICES);
@@ -35,11 +33,11 @@ public class TeleHealthServicesState extends BaseState{
 
     private void launchTeleHealthServices() {
 
-        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("");//We are not using this, hence passing empty string
-        PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
-        PTHMicroAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
+        THSMicroAppLaunchInput microAppLaunchInput = new THSMicroAppLaunchInput("");//We are not using this, hence passing empty string
+        THSMicroAppInterfaceImpl microAppInterface = new THSMicroAppInterfaceImpl();
+        microAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
                 fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra()), new THSMicroAppSettings(fragmentLauncher.getFragmentActivity().getApplicationContext()));
-        PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
+        microAppInterface.launch(fragmentLauncher, microAppLaunchInput);
     }
 
     @Override

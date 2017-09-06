@@ -64,8 +64,5 @@
         <item name="android:lineSpacingExtra">3dip</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
-    <style name="ths_theme" parent="Theme.Philips.DarkPurple.NoActionBar">
-        <item name="android:windowBackground">?attr/uidContentPrimaryBackgroundColor</item>
-    </style>
 
 </resources>
