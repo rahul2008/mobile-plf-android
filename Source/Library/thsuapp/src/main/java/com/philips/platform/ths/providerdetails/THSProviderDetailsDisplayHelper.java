@@ -60,6 +60,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     private THSAppointmentGridAdapter itemsAdapter;
     private List<Date> dates;
     private THSSetReminderDialogFragment thsSetReminderDialogFragment;
+    private Label details_isAvailableImage_text;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -85,6 +86,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
+        details_isAvailableImage_text = (Label) view.findViewById(R.id.details_isAvailableImage_text);
         isAvailableImage = (ImageView) view.findViewById(R.id.details_isAvailableImage);
         notificationBadge = (NotificationBadge)view.findViewById(R.id.notification_badge);
         providerRating = (RatingBar) view.findViewById(R.id.providerRatingValue);
@@ -163,6 +165,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
             providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
+            details_isAvailableImage_text.setText(""+provider.getWaitingRoomCount());
         }
 
         if(dates!=null){

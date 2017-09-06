@@ -70,6 +70,7 @@
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin"
         android:layout_width="wrap_content"
+        android:layout_below="@+id/pth_intake_follow_up_nopp_agree_check_box"
         android:layout_height="wrap_content"
         android:autoLink="web"
         android:text="@string/ths_nopp"
