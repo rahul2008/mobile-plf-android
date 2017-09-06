@@ -84,10 +84,6 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
         if (checkIfDODFlow()) {
             THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
-      /*      pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
-            pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
-            pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
-            pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());*/
             mTHSFollowUpFragment.addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
         } else {
             mTHSFollowUpFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
