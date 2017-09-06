@@ -34,7 +34,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     protected LinearLayout checkBoxLinearLayout;
     private Button continueButton;
     private Button skipLabel;
-    protected List<THSConditions> thsConditionsList = null;
+    protected List<THSCondition> thsConditionsList = null;
     private RelativeLayout conditionsRelativeLayout;
     private boolean isMedicalConditionChecked = false;
     private List<CheckBox> checkBoxList;
@@ -94,7 +94,7 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     }
 
 
-    public void setConditions(List<THSConditions> thsConditionses) {
+    public void setConditions(List<THSCondition> thsConditionses) {
         setTHSConditions(thsConditionses);
         List<Condition> conditionList = new ArrayList<>();
         if (thsConditionses == null || thsConditionses.isEmpty()) {
@@ -118,21 +118,17 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
                     checkBox.setChecked(true);
                 }
                 checkBoxLinearLayout.addView(checkBox);
-                checkBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        condition.setCurrent(true);
-                    }
-                });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        condition.setCurrent(isChecked);
                         validateCheckBox();
                     }
                 });
                 checkBoxList.add(checkBox);
                 i++;
             }
+            validateCheckBox();
 
         }
         hideProgressBar();
@@ -149,11 +145,11 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         continueButton.setEnabled(isMedicalConditionChecked);
     }
 
-    public List<THSConditions> getTHSConditions() {
+    public List<THSCondition> getTHSConditions() {
         return thsConditionsList;
     }
 
-    public void setTHSConditions(List<THSConditions> mTHSConditions) {
+    public void setTHSConditions(List<THSCondition> mTHSConditions) {
         this.thsConditionsList = mTHSConditions;
     }
 

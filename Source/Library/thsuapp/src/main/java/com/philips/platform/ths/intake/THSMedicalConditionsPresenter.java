@@ -32,7 +32,6 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
-            launchFollowUpFragment();
 
         } else if (componentID == R.id.conditions_skip) {
             launchFollowUpFragment();
@@ -53,9 +52,9 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     public void onResponse(THSConditionsList thsConditions, THSSDKError THSSDKError) {
         final List<Condition> conditions = thsConditions.getConditions();
 
-        List<THSConditions> THSConditionsList = new ArrayList<>();
+        List<THSCondition> THSConditionsList = new ArrayList<>();
         for (Condition condition : conditions) {
-            THSConditions THSConditions = new THSConditions();
+            THSCondition THSConditions = new THSCondition();
             THSConditions.setCondition(condition);
             THSConditionsList.add(THSConditions);
         }
@@ -75,6 +74,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
         //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
         //On response, as of now no need to handle
         //Keeping this for future use
+        launchFollowUpFragment();
     }
 
     @Override
