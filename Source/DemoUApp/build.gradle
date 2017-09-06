@@ -4,6 +4,8 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 def support_version = '25.3.1'
 buildscript {
+    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven {
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -24,7 +26,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
     }
 }
 
@@ -152,7 +154,7 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: project.ext.versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':uit') : uitModule) {
         exclude group: 'com.android.support'
         transitive = true
