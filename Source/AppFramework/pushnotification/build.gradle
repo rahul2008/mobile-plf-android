@@ -143,7 +143,7 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':ail') : ailModule) 
 	{
         exclude group: 'com.android.support'
