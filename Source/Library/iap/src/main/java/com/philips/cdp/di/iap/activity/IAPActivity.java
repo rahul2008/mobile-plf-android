@@ -12,7 +12,6 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,6 +33,7 @@ import com.philips.cdp.di.iap.screens.ShoppingCartFragment;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -45,8 +45,8 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 
-public class IAPActivity extends AppCompatActivity implements ActionBarListener, IAPListener {
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_VeryDark;
+public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;
