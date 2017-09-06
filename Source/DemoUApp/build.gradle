@@ -50,8 +50,8 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "DemoUApp"
-version = objcdp.getVersion()
+archivesBaseName = "shinelibDemoUApp"
+version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
 
 repositories {
     maven {
@@ -63,6 +63,13 @@ repositories {
     }
     maven {
         url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.stage
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
@@ -149,12 +156,12 @@ android {
         targetSdkVersion versions.target
 
         versionCode 1
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
     }
 
     buildTypes {
         release {
-            consumerProguardFiles 'proguard-rules.pro'
+            consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 

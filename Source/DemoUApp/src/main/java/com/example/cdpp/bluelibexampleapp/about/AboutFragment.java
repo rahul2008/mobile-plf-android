@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.BuildConfig;
 import com.example.cdpp.bluelibexampleapp.R;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.philips.pins.shinelib.SHNCentral;
 
 public class AboutFragment extends DialogFragment {
@@ -36,7 +36,7 @@ public class AboutFragment extends DialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AboutDialog);
 
         // Obtain reference to BlueLib instance
-        mShnCentral = BlueLibExampleApplication.get().getShnCentral();
+        mShnCentral = BleDemoMicroAppInterface.getInstance().getBleDemoMicroAppDependencies().getShnCentral();
 
         // Set dialog title
         getDialog().setTitle(R.string.bll_about_versions_title);

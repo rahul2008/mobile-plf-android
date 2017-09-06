@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cdpp.bluelibexampleapp.BlueLibExampleApplication;
 import com.example.cdpp.bluelibexampleapp.R;
 import com.example.cdpp.bluelibexampleapp.device.BaseDeviceAdapter;
 import com.example.cdpp.bluelibexampleapp.device.DeviceDefinitionAdapter;
 import com.example.cdpp.bluelibexampleapp.device.DeviceDetailActivity;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.example.cdpp.bluelibexampleapp.util.UiUtils;
 import com.philips.pins.shinelib.SHNAssociationProcedure;
 import com.philips.pins.shinelib.SHNCentral;
@@ -84,7 +84,7 @@ public class AssociatedDevicesFragment extends Fragment {
         mView = inflater.inflate(R.layout.bll_fragment_associate, container, false);
 
         // Obtain reference to BlueLib instance
-        SHNCentral shnCentral = BlueLibExampleApplication.get().getShnCentral();
+        SHNCentral shnCentral = BleDemoMicroAppInterface.getInstance().getBleDemoMicroAppDependencies().getShnCentral();
 
         // Setup device association
         mShnDeviceAssociation = shnCentral.getShnDeviceAssociation();
@@ -121,7 +121,7 @@ public class AssociatedDevicesFragment extends Fragment {
             @Override
             public void onItemClick(int position, View itemView) {
                 final SHNDevice device = mAssociatedDeviceAdapter.getItem(position);
-                BlueLibExampleApplication.get().setSelectedDevice(device);
+                BleDemoMicroAppInterface.getInstance().setSelectedDevice(device);
 
                 SHNLogger.i(TAG, "Selected associated device: " + device.getName());
 
