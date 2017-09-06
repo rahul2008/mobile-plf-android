@@ -60,7 +60,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     private static final String TAG = UserRegistrationState.class.getSimpleName();
 
-    private Context activityContext;
     private User userObject;
     private FragmentLauncher fragmentLauncher;
     private Context applicationContext;
@@ -101,7 +100,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        activityContext = getFragmentActivity();
         updateDataModel();
         launchUR();
     }
@@ -252,14 +250,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return userObject;
     }
 
-    /**
-     * Registering for UIStateListener callbacks
-     *
-     * @param uiStateListener
-     */
-    public void registerUIStateListener(URStateListener uiStateListener) {
-    }
-
 
     /**
      * Launch registration fragment
@@ -285,11 +275,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
-    }
-
-    public void unregisterUserRegistrationListener() {
-        RALog.d(TAG," unregisterUserRegistrationListener called ");
-        userObject.unRegisterUserRegistrationListener(this);
     }
 
     @Override
@@ -340,9 +325,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return RegistrationHelper.getRegistrationApiVersion();
     }
 
-    public String getComponentID(Context c) {
-        return c.getResources().getString(R.string.RA_COCO_UR);
-    }
 
     public AppStateConfiguration getConfiguration() {
         if (appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
