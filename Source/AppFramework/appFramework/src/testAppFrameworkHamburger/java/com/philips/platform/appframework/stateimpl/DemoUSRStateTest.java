@@ -44,7 +44,7 @@ public class DemoUSRStateTest {
     }
 
     @Test
-    public void testDemoUFWNavigate(){
+    public void testDemoUSRNavigate(){
         demoUSRStateMock.updateDataModel();
         demoUSRStateMock.init(application);
         demoUSRStateMock.navigate(null);

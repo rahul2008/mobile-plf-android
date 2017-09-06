@@ -44,7 +44,7 @@ public class DemoIAPStateTest {
     }
 
     @Test
-    public void testDemoUFWNavigate(){
+    public void testDemoIAPNavigate(){
         demoIAPStateMock.updateDataModel();
         demoIAPStateMock.init(application);
         demoIAPStateMock.navigate(null);
