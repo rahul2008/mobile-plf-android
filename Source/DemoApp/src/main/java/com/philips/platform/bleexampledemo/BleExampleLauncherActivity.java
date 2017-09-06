@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.platform.bleexampledemo;
 
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppSettings;
 import com.example.cdpp.bluelibexampleapp.uapp.DefaultBleDemoMicroAppDependencies;
-import com.facebook.stetho.Stetho;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 public class BleExampleLauncherActivity extends AppCompatActivity {
@@ -36,10 +36,6 @@ public class BleExampleLauncherActivity extends AppCompatActivity {
             });
         } else {
             launchBleMicroApp();
-        }
-
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
         }
     }
 

@@ -16,8 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup">
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".BlueLibExampleActivity"
