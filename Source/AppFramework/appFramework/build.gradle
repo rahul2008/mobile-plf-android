@@ -339,6 +339,10 @@ android {
             }
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 repositories {
@@ -394,7 +398,6 @@ dependencies {
 	def dscModule = module(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dsc') : dscModule) {
 		exclude group: 'com.android.support'
-		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 
@@ -425,7 +428,6 @@ dependencies {
 	def dscUAppModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dscUApp') : dscUAppModule) {	
 		exclude group: 'com.android.support'
-		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 	
@@ -451,15 +453,12 @@ dependencies {
 	def dprUAppModule = module(group: 'com.philips.cdp', name: 'devicepairingUApp', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dprUApp') : dprUAppModule) {	
 		exclude group: 'com.android.support'
-		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 
 
-    compile 'joda-time:joda-time:2.9.2'
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
-    compile("joda-time:joda-time:2.9.2")
     testCompile 'junit:junit:4.12'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'org.robolectric:robolectric:3.3.1'
