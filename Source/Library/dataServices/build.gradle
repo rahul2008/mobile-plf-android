@@ -146,7 +146,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.dataservices.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
@@ -158,9 +158,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
@@ -202,7 +200,7 @@ android {
             jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
-                outputs.upToDateWhen {false}
+                outputs.upToDateWhen { false }
             }
         }
     }
@@ -216,14 +214,14 @@ configurations.all {
 
 dependencies {
     //Coco
-	
-	def dp = project.ext.has('useprojectdependencies')
 
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':ail') : ailModule) 
-	{
-		transitive true
-    }
+    def dp = project.ext.has('useprojectdependencies')
+
+    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':ail') : ailModule)
+            {
+                transitive true
+            }
 
     //Android Support
     compile 'com.android.support:support-annotations:25.3.1'
