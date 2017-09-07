@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.baseapp.screens.userregistration;
 
 import com.philips.platform.CustomRobolectricRunner;
@@ -12,6 +19,7 @@ import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,9 +36,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by philips on 06/09/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class UserRegistrationSettingsStateTest {
@@ -83,5 +88,9 @@ public class UserRegistrationSettingsStateTest {
         }
     }
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+    }
 
 }

@@ -26,6 +26,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -99,6 +100,11 @@ public class SupportFragmentStateTest {
         supportFragmentStateMock.onMainMenuItemClicked("RA_Product_Registration_Text");
         verify(productRegistrationState).navigate(any(UiLauncher.class));
 
+    }
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
     }
 
     class SupportFragmentStateMock extends SupportFragmentState{

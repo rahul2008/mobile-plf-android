@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.baseapp.screens.userregistration;
 
 import android.content.Intent;
@@ -50,9 +57,6 @@ import static org.mockito.Mockito.when;
 import static org.robolectric.RuntimeEnvironment.application;
 import static org.robolectric.Shadows.shadowOf;
 
-/**
- * Created by philips on 06/09/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class UserRegistrationStateTest {

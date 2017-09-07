@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.referenceapp.wxapi;
 
 import android.content.BroadcastReceiver;
@@ -11,6 +18,7 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +34,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * Test class for
+ * Test class for WXEntryActivity
  */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -63,6 +71,11 @@ public class WXEntryActivityTest {
             }
         }, new IntentFilter(RegConstants.WE_CHAT_AUTH));
         wxEntryActivity.onResp(baseRespMock);
+    }
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
     }
 
 }
