@@ -60,7 +60,9 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         Bundle bundle = getArguments();
-        mDate = (Date)bundle.getSerializable(THSConstants.THS_DATE);
+        if(mDate == null) {
+            mDate = (Date) bundle.getSerializable(THSConstants.THS_DATE);
+        }
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
         mThsAvailableProviderList = bundle.getParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST);
         mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this,this);
