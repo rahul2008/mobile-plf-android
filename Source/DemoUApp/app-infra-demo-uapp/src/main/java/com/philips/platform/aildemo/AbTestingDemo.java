@@ -11,9 +11,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 /**
  * Created by 310243577 on 10/3/2016.
@@ -34,6 +36,9 @@ public class AbTestingDemo extends Activity {
     private EditText testName;
     private EditText defaultValue;
 
+    byte[] plainByte;
+    byte[] encryptedByte;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,10 +54,11 @@ public class AbTestingDemo extends Activity {
         requestType = (Spinner) findViewById(R.id.spinnerRequestType);
         testName = (EditText) findViewById(R.id.tesName);
         defaultValue = (EditText) findViewById(R.id.defaultValue);
-
+        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+        SecureStorageInterface mSecureStorage = appInfra.getSecureStorage();
 
         //abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
-        abTestingInterface = new ABTestClientManager((AppInfra) AILDemouAppInterface.getInstance().getAppInfra());
+        abTestingInterface = new ABTestClientManager((AppInfra) appInfra);
 
        // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");
@@ -73,7 +79,7 @@ public class AbTestingDemo extends Activity {
             }
         });
 
-
+        double enc = 4324332423432432432435425435435346465464547657567.000343242342;
         btValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
