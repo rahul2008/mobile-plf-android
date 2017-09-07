@@ -182,6 +182,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
+        msg.obj = IAPConstant.IAP_SUCCESS;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
@@ -203,6 +204,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryMode(final Message msg) {
+        msg.obj = IAPConstant.IAP_SUCCESS;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             checkPaymentDetails();
         } else {

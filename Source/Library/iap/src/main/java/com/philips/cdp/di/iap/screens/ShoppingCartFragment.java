@@ -196,7 +196,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
-            mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
+            mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
             startProductDetailFragment();
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {

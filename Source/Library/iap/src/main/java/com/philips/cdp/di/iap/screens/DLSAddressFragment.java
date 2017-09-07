@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -192,8 +193,9 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
             updateAddressPayload = addressPayload(shippingAddressFields);
         else {
-            if (checkBox.isChecked())
+            if (checkBox.isChecked() && billingAddressFields == null) {
                 billingAddressFields = shippingAddressFields;
+            }
             updateAddressPayload = addressPayload(billingAddressFields);
         }
         if (CartModelContainer.getInstance().getAddressId() != null) {
@@ -232,8 +234,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
         mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
         mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());
-//        if (mAddressFieldsHashmap != null)
-//            mShippingAddressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         final String addressId = CartModelContainer.getInstance().getAddressId();
         if (addressId != null) {
             mShippingAddressHashMap.put(ModelConstants.ADDRESS_ID, addressId);
@@ -243,6 +243,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
         if (!CartModelContainer.getInstance().isAddessStateVisible()) {
             mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, null);
+        }else{
+            mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
         }
 
         return mShippingAddressHashMap;
@@ -268,7 +270,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             dismissProgressDialog();
-            ((DLSShippingAddressFragment) shippingFragment).handleError(msg);
+            //((DLSShippingAddressFragment) shippingFragment).handleError(msg);
+            showError(msg);
         }
     }
 
@@ -278,7 +281,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
                 dismissProgressDialog();
-                ((DLSShippingAddressFragment) shippingFragment).handleError(msg);
+                //((DLSShippingAddressFragment) shippingFragment).handleError(msg);
+                showError(msg);
             } else {
                 if (CartModelContainer.getInstance().getAddressId() == null) {
                     dismissProgressDialog();
@@ -290,9 +294,24 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         }
     }
 
+    private void showError(Message msg) {
+        IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+        if (null != iapNetworkError.getServerError()) {
+            for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
+                Error error = iapNetworkError.getServerError().getErrors().get(i);
+                NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                        getString(R.string.iap_ok), getString(R.string.iap_server_error),
+                        error.getMessage());
+                mBtnContinue.setEnabled(false);
+            }
+        }
+        mBtnContinue.setEnabled(false);
+    }
+
     @Override
     public void onSetDeliveryAddress(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryAddress", Toast.LENGTH_SHORT).show();
+        msg.obj = IAPConstant.IAP_SUCCESS;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
