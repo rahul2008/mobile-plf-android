@@ -65,6 +65,7 @@ public class WelcomePagerFragment extends AbstractAppFrameworkBaseFragment {
         backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.drawable.onboarding_screen_2);
     }
 
+    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
