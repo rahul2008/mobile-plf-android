@@ -29,20 +29,16 @@ import org.robolectric.annotation.Config;
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class TeleHealthServicesStateTest extends TestCase {
-    private TeleHealthServicesState teleHealthServicesState;
-    private FragmentLauncher fragmentLauncher;
-    private HamburgerActivity hamburgerActivity;
-    private ActivityController<TestActivity> activityController;
 
     @Test(expected = NullPointerException.class)
-    public void launchTelehealthServicesState() {
-        teleHealthServicesState = new TeleHealthServicesState();
+    public void testLaunchTelehealthServicesState() {
+        TeleHealthServicesState teleHealthServicesState  = new TeleHealthServicesState();
         UIStateData uiStateData = new UIStateData();
         uiStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         teleHealthServicesState.setUiStateData(uiStateData);
-        activityController = Robolectric.buildActivity(TestActivity.class);
-        hamburgerActivity = activityController.create().start().get();
-        fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
+        ActivityController<TestActivity> activityController  = Robolectric.buildActivity(TestActivity.class);
+        HamburgerActivity hamburgerActivity  = activityController.create().start().get();
+        FragmentLauncher fragmentLauncher  = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
 
         teleHealthServicesState.init(RuntimeEnvironment.application);
         teleHealthServicesState.navigate(fragmentLauncher);
@@ -53,6 +49,7 @@ public class TeleHealthServicesStateTest extends TestCase {
 
     @Test
     public void updateDataModelsTest(){
+        TeleHealthServicesState teleHealthServicesState  = new TeleHealthServicesState();
         teleHealthServicesState.updateDataModel();
     }
 }
