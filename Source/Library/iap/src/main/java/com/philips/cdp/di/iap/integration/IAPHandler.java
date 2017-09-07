@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -45,6 +46,7 @@ class IAPHandler {
 
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
+        IAPLog.initIAPLog(mIAPDependencies);
         // initIAPRequisite();
     }
 
@@ -135,8 +137,8 @@ class IAPHandler {
                 intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
                         pLaunchInput.mIAPFlowInput.getProductCTNs());
             }
-          //  if (pLaunchInput.getIgnoreRetailers() != null)
-                intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
+            //  if (pLaunchInput.getIgnoreRetailers() != null)
+            intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
 
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
