@@ -50,8 +50,8 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = project.name
-version = objcdp.getVersion()
+archivesBaseName = "commlib-ble"
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -133,13 +133,16 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
-        buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
         buildConfigField "String", "TLA", "\"cba\""
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
+        }
         release {
             consumerProguardFiles 'proguard-rules.pro'
+            buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
 
@@ -196,8 +199,13 @@ dependencies {
         }
     }
 
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.app_infra + objcdp.getVersionSuffix())
+
     testCompile deps.junit
     testCompile deps.mockito
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+    testCompile deps.assertj
 }
 
 pitest {

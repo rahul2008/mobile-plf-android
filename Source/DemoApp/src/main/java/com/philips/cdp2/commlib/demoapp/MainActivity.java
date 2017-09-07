@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.stetho.Stetho;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -43,11 +42,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         commlibUapp = CommlibUapp.get();
-        commlibUapp.init(new DefaultCommlibUappDependencies(), new UappSettings(getApplicationContext()));
-
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
-        }
+        commlibUapp.init(new DefaultCommlibUappDependencies(getApplicationContext()), new UappSettings(getApplicationContext()));
     }
 
     @Override
