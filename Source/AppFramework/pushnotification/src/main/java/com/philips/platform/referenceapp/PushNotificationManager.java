@@ -297,7 +297,7 @@ public class PushNotificationManager {
                     JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
                     Iterator<String> iterator = jsonObject.keys();
                     while (iterator.hasNext()) {
-                        String key = (String) iterator.next();
+                        String key = iterator.next();
                         switch (key) {
                             case PushNotificationConstants.DSC:
                                 JSONObject dscobject = jsonObject.getJSONObject(key);
