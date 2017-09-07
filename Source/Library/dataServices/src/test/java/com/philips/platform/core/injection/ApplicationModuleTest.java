@@ -11,9 +11,6 @@ import org.mockito.Mock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 07/12/16.
- */
 public class ApplicationModuleTest {
 
     @InjectMocks

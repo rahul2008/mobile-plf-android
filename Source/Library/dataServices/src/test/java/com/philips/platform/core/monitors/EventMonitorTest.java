@@ -1,6 +1,5 @@
 package com.philips.platform.core.monitors;
 
-import com.philips.platform.core.Eventing;
 import com.philips.platform.core.utils.EventingImpl;
 
 import org.junit.Before;
@@ -12,10 +11,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class EventMonitorTest {
 
     private class TestEventMonitor extends EventMonitor {

@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by indrajitkumar on 2/2/17.
- */
 public class OrmCharacteristics implements Characteristics {
 
     public static final long serialVersionUID = 11L;

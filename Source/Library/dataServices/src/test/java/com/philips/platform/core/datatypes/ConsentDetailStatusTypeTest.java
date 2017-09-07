@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by indrajitkumar on 07/12/16.
- */
 public class ConsentDetailStatusTypeTest {
 
     @Test
@@ -17,7 +14,7 @@ public class ConsentDetailStatusTypeTest {
     }
 
     @Test
-    public void shouldReturnUnknow_WhenPassedIncorrectId(){
+    public void shouldReturnUnknow_WhenPassedIncorrectId() {
         ConsentDetailStatusType.fromId(-1);
         assertThat(ConsentDetailStatusType.UNKNOWN).isEqualTo(ConsentDetailStatusType.fromId(-1));
     }

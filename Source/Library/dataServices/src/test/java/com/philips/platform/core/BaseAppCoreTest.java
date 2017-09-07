@@ -36,9 +36,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 07/12/16.
- */
 public class BaseAppCoreTest {
     private static final String UUID = "UUID";
     @Mock
@@ -155,7 +152,7 @@ public class BaseAppCoreTest {
     public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() {
         //noinspection ConstantConditions
         Measurement measurement = baseAppCoreCreatorMock.createMeasurement("DURATION", Mockito.mock(MeasurementGroup.class));
-      //  assertThat(measurement.getType()).isEqualTo("DURATION");
+        //  assertThat(measurement.getType()).isEqualTo("DURATION");
     }
 
     @Test(expected = NullPointerException.class)

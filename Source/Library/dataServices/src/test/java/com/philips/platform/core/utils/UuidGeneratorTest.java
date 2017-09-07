@@ -6,9 +6,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by indrajitkumar on 07/12/16.
- */
 public class UuidGeneratorTest {
     @Test
     public void ShouldGenerateUUID_WhenAsked() throws Exception {

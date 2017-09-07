@@ -31,10 +31,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SavingMonitorTest {
 
     public static final String TEST_GUID = "TEST_GUID";
@@ -140,7 +136,7 @@ public class SavingMonitorTest {
         List list = new ArrayList();
         list.add(moment);
         savingMonitor.onEventBackGround(new MomentsSaveRequest(list, dbRequestListener));
-        verify(savingMock).saveMoments(list,dbRequestListener);
+        verify(savingMock).saveMoments(list, dbRequestListener);
     }
 
     @Test
@@ -148,13 +144,13 @@ public class SavingMonitorTest {
         List list = new ArrayList();
         list.add(moment);
         savingMonitor.onEventBackGround(new DatabaseConsentSaveRequest(list, dbRequestListener));
-        verify(savingMock).saveConsentDetails(list,dbRequestListener);
+        verify(savingMock).saveConsentDetails(list, dbRequestListener);
     }
 
     @Test
     public void Test_DatabaseSettingsSaveRequest() throws Exception {
         savingMonitor.onEventBackGround(new DatabaseSettingsSaveRequest(settingsMock, dbRequestListener));
-        verify(savingMock).saveSettings(settingsMock,dbRequestListener);
+        verify(savingMock).saveSettings(settingsMock, dbRequestListener);
     }
 
     @Test
@@ -162,7 +158,7 @@ public class SavingMonitorTest {
         List list = new ArrayList();
         list.add(characteristicsMock);
         savingMonitor.onEventBackGround(new UserCharacteristicsSaveRequest(list, dbRequestListener));
-        verify(savingMock).saveUserCharacteristics(list,dbRequestListener);
+        verify(savingMock).saveUserCharacteristics(list, dbRequestListener);
     }
 
 
