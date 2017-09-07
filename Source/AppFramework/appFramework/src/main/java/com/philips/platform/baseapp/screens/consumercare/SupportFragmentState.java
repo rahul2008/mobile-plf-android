@@ -1,11 +1,12 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
 package com.philips.platform.baseapp.screens.consumercare;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -114,7 +115,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
         productsSelection.setCatalog(PrxConstants.Catalog.CARE);
         productsSelection.setSector(PrxConstants.Sector.B2C);
-        final CcInterface ccInterface = new CcInterface();
+        final CcInterface ccInterface = getCcInterface();
 
         if (ccSettings == null) ccSettings = new CcSettings(activityContext);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
@@ -134,6 +135,11 @@ public class SupportFragmentState extends BaseState implements CcListener {
         }
 
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
+    }
+
+    @NonNull
+    protected CcInterface getCcInterface() {
+        return new CcInterface();
     }
 
 

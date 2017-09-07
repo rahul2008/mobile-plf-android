@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.appframework.stateimpl;
 
 import android.support.annotation.NonNull;
@@ -23,9 +30,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 
-/**
- * Created by philips on 06/09/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class DemoIAPStateTest {
