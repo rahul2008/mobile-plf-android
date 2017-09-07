@@ -119,12 +119,14 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
 
     @Override
     public void onCreateVisitFailure(Throwable var1) {
-        showCostError(true,true,false,mTHSCostSummaryFragment.getFragmentActivity().getResources().getString(R.string.ths_cost_summary_provider_logged_out));
+        mTHSCostSummaryFragment.hideProgressBar();
+        showCostError(true,true,false,var1.toString());
     }
 
     @Override
     public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
-        showCostError(true,true,false,mTHSCostSummaryFragment.getFragmentActivity().getResources().getString(R.string.ths_cost_summary_provider_logged_out));
+        mTHSCostSummaryFragment.hideProgressBar();
+        showCostError(true,true,false,var1.toString());
     }
     // end of createVisit callbacks
 

@@ -207,7 +207,13 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                boolean isDOD = (THSManager.getInstance().getPthVisitContext() != null && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty()) ? true : false;
+                boolean isDOD = false;
+                        if((THSManager.getInstance().getPthVisitContext() != null
+                                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                                && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+
+                            isDOD=true;
+                        }
                 if (isDOD) {
                     detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
@@ -222,7 +228,12 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
             if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
             } else {
-                boolean isDOD = (THSManager.getInstance().getPthVisitContext() != null && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty()) ? true : false;
+                boolean isDOD = false;
+                if((THSManager.getInstance().getPthVisitContext() != null
+                        && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                        && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+                    isDOD=true;
+                }
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
                 if (isDOD) {
