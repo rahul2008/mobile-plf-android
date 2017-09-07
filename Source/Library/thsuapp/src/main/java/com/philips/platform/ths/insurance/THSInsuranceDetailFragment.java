@@ -60,7 +60,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     private THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
     private THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
     protected CheckBox mNotPrimarySubscriberCheckBox;
-    private RelativeLayout mNotPrimarySubscriberRelativeLayout;
+    protected RelativeLayout mNotPrimarySubscriberRelativeLayout;
 
 
     /// editable fields
@@ -172,7 +172,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         } else if (view.getId() == R.id.ths_insurance_detail_skip_button) {
             mPresenter.onEvent(R.id.ths_insurance_detail_skip_button);
         } else if (view.getId() == R.id.ths_insurance_detail_continue_button) {
-            createCustomProgressBar(mRelativeLayoutInsuranceContainer, BIG);
+            //createCustomProgressBar(mRelativeLayoutInsuranceContainer, BIG);
             mPresenter.onEvent(R.id.ths_insurance_detail_continue_button);
 
         } else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext) {

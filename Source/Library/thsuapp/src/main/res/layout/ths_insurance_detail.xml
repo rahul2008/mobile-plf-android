@@ -129,7 +129,7 @@
                 android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
                 android:text="Primary subscriber details"
                 android:textSize="@dimen/ths_body_text"
-                android:textStyle="bold" />
+                fontPath="fonts/centralesansbold.ttf" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_insurance_detail_provider_relation_firstname_label"
