@@ -34,13 +34,13 @@
 -keep enum net.sqlcipher.**
 -keepclassmembers enum net.sqlcipher.** { *; }
 
-#Secure DB
--keep public class com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper.**{ public *;}
-
-
 
 #Demo App
 -keep public class com.philips.platform.database.**{*;}
+
+#appinfra
+-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
 
 

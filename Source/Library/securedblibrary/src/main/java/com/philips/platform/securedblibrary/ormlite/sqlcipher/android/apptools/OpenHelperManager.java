@@ -5,8 +5,6 @@ import android.content.res.Resources;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.logger.Logger;
-import com.j256.ormlite.logger.LoggerFactory;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -37,11 +35,9 @@ import java.lang.reflect.Type;
 public class OpenHelperManager {
 
 	private static final String HELPER_CLASS_RESOURCE_NAME = "open_helper_classname";
-	private static Logger logger = LoggerFactory.getLogger(OpenHelperManager.class);
 
 	private static Class<? extends SecureDbOrmLiteSqliteOpenHelper> helperClass = null;
 	private static volatile SecureDbOrmLiteSqliteOpenHelper helper = null;
-	private static boolean wasClosed = false;
 	private static int instanceCount = 0;
 
 	/**
@@ -129,16 +125,10 @@ public class OpenHelperManager {
 	 */
 	public static synchronized void releaseHelper() {
 		instanceCount--;
-		logger.trace("releasing helper {}, instance count = {}", helper, instanceCount);
 		if (instanceCount <= 0) {
 			if (helper != null) {
-				logger.trace("zero instances, closing helper {}", helper);
 				helper.close();
 				helper = null;
-				wasClosed = true;
-			}
-			if (instanceCount < 0) {
-				logger.error("too many calls to release helper, instance count = {}", instanceCount);
 			}
 		}
 	}
@@ -160,16 +150,11 @@ public class OpenHelperManager {
 
 	private static <T extends SecureDbOrmLiteSqliteOpenHelper> T loadHelper(Context context, Class<T> openHelperClass) {
 		if (helper == null) {
-			if (wasClosed) {
-				// this can happen if you are calling get/release and then get again
-				logger.info("helper was already closed and is being re-opened");
-			}
 			if (context == null) {
 				throw new IllegalArgumentException("context argument is null");
 			}
 			Context appContext = context.getApplicationContext();
 			helper = constructHelper(appContext, openHelperClass);
-			logger.trace("zero instances, created helper {}", helper);
 			/*
 			 * Filipe Leandro and I worked on this bug for like 10 hours straight. It's a doosey.
 			 * 
@@ -198,7 +183,6 @@ public class OpenHelperManager {
 		}
 
 		instanceCount++;
-		logger.trace("returning helper {}, instance count = {} ", helper, instanceCount);
 		@SuppressWarnings("unchecked")
 		T castHelper = (T) helper;
 		return castHelper;

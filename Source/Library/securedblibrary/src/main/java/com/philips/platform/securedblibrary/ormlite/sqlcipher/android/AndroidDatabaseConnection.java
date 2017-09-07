@@ -1,19 +1,11 @@
 package com.philips.platform.securedblibrary.ormlite.sqlcipher.android;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-
-import android.database.Cursor;;
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteStatement;
+import android.database.Cursor;
 
 import com.j256.ormlite.android.AndroidDatabaseResults;
 import com.j256.ormlite.dao.ObjectCache;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.field.SqlType;
-import com.j256.ormlite.logger.Logger;
-import com.j256.ormlite.logger.LoggerFactory;
 import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.misc.SqlExceptionUtil;
 import com.j256.ormlite.misc.VersionUtils;
@@ -22,6 +14,15 @@ import com.j256.ormlite.stmt.StatementBuilder.StatementType;
 import com.j256.ormlite.support.CompiledStatement;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.GeneratedKeyHolder;
+
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteStatement;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Savepoint;
+
+;
 
 
 /**
@@ -32,7 +33,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 
 	private static final String ANDROID_VERSION = "VERSION__5.0-SNAPSHOT__";
 
-	private static Logger logger = LoggerFactory.getLogger(AndroidDatabaseConnection.class);
 	private static final String[] NO_STRING_ARGS = new String[0];
 
 	private final SQLiteDatabase db;
@@ -51,7 +51,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		this.db = db;
 		this.readWrite = readWrite;
 		this.cancelQueriesEnabled = cancelQueriesEnabled;
-		logger.trace("{}: db {} opened, read-write = {}", this, db, readWrite);
 	}
 
 	@Override
@@ -63,7 +62,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 	public boolean isAutoCommit() throws SQLException {
 		try {
 			boolean inTransaction = db.inTransaction();
-			logger.trace("{}: in transaction is {}", this, inTransaction);
 			// You have to explicitly commit your transactions, so this is sort of correct
 			return !inTransaction;
 		} catch (android.database.SQLException e) {
@@ -93,7 +91,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 	public Savepoint setSavePoint(String name) throws SQLException {
 		try {
 			db.beginTransaction();
-			logger.trace("{}: save-point set with name {}", this, name);
 			return new OurSavePoint(name);
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("problems beginning transaction " + name, e);
@@ -112,11 +109,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		try {
 			db.setTransactionSuccessful();
 			db.endTransaction();
-			if (savepoint == null) {
-				logger.trace("{}: transaction is successfully ended", this);
-			} else {
-				logger.trace("{}: transaction {} is successfully ended", this, savepoint.getSavepointName());
-			}
 		} catch (android.database.SQLException e) {
 			if (savepoint == null) {
 				throw SqlExceptionUtil.create("problems committing transaction", e);
@@ -131,11 +123,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		try {
 			// no setTransactionSuccessful() means it is a rollback
 			db.endTransaction();
-			if (savepoint == null) {
-				logger.trace("{}: transaction is ended, unsuccessfully", this);
-			} else {
-				logger.trace("{}: transaction {} is ended, unsuccessfully", this, savepoint.getSavepointName());
-			}
 		} catch (android.database.SQLException e) {
 			if (savepoint == null) {
 				throw SqlExceptionUtil.create("problems rolling back transaction", e);
@@ -155,7 +142,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 											  int resultFlags, boolean cacheStore) {
 		// resultFlags argument is not used in Android-land since the {@link Cursor} is bi-directional.
 		CompiledStatement stmt = new AndroidCompiledStatement(statement, db, type, cancelQueriesEnabled, cacheStore);
-		logger.trace("{}: compiled statement got {}: {}", this, stmt, statement);
 		return stmt;
 	}
 
@@ -175,7 +161,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 			 * it worked (since it didn't throw) so we know that 1 is right.
 			 */
 			int result = 1;
-			logger.trace("{}: insert statement is compiled and executed, changed {}: {}", this, result, statement);
 			return result;
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("inserting to database failed: " + statement, e);
@@ -203,7 +188,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		try {
 			cursor = db.rawQuery(statement, toStrings(args));
 			results = new AndroidDatabaseResults(cursor, objectCache, true);
-			logger.trace("{}: queried for one result: {}", this, statement);
 			if (!results.first()) {
 				return null;
 			} else {
@@ -228,7 +212,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		try {
 			stmt = db.compileStatement(statement);
 			long result = stmt.simpleQueryForLong();
-			logger.trace("{}: query for long simple query returned {}: {}", this, result, statement);
 			return result;
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("queryForLong from database failed: " + statement, e);
@@ -250,7 +233,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 			} else {
 				result = 0L;
 			}
-			logger.trace("{}: query for long raw query returned {}: {}", this, result, statement);
 			return result;
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("queryForLong from database failed: " + statement, e);
@@ -264,7 +246,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 	public void close() throws IOException {
 		try {
 			db.close();
-			logger.trace("{}: db {} closed", this, db);
 		} catch (android.database.SQLException e) {
 			throw new IOException("problems closing the database connection", e);
 		}
@@ -279,7 +260,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 	public boolean isClosed() throws SQLException {
 		try {
 			boolean isOpen = db.isOpen();
-			logger.trace("{}: db {} isOpen returned {}", this, db, isOpen);
 			return !isOpen;
 		} catch (android.database.SQLException e) {
 			throw SqlExceptionUtil.create("problems detecting if the database is closed", e);
@@ -297,7 +277,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 			} else {
 				result = false;
 			}
-			logger.trace("{}: isTableExists '{}' returned {}", this, tableName, result);
 			return result;
 		} finally {
 			cursor.close();
@@ -326,7 +305,6 @@ public class AndroidDatabaseConnection implements DatabaseConnection {
 		} finally {
 			closeQuietly(stmt);
 		}
-		logger.trace("{} statement is compiled and executed, changed {}: {}", label, result, statement);
 		return result;
 	}
 
