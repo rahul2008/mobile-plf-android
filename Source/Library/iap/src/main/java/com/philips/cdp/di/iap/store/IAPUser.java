@@ -86,7 +86,7 @@ public class IAPUser implements UserRegistrationListener {
         try {
             mSemaphore.acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
     }
 

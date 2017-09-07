@@ -784,7 +784,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mErrorDialogFragment.show(getFragmentManager(), "NetworkErrorDialog");
             mErrorDialogFragment.setShowsDialog(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
     }
 

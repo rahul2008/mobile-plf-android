@@ -7,13 +7,14 @@ package com.philips.cdp.di.iap;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkController;
 import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,9 +41,9 @@ public class TestUtils {
             controller.setAccessible(true);
             controller.set(delegate, mockController);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
 
         return delegate;
@@ -73,7 +74,7 @@ public class TestUtils {
 
             return sb.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
 
         } finally {
             try {
@@ -81,7 +82,7 @@ public class TestUtils {
                     br.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                IAPLog.e(IAPLog.LOG, e.getMessage());
             }
         }
         return null;

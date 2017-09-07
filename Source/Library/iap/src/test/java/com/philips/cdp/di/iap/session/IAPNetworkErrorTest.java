@@ -12,6 +12,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 import org.junit.Test;
@@ -115,7 +116,7 @@ public class IAPNetworkErrorTest {
             }
             byteArray = bos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
         return byteArray;
     }

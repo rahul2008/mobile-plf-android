@@ -107,7 +107,7 @@ public class IAPServiceDiscoveryWrapper {
                             try{
                                 pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
                             }catch (Exception e){
-                                e.printStackTrace();
+                                IAPLog.e(IAPLog.LOG, e.getMessage());
                             }
                         else
                             pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);

@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -107,7 +108,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
             mDialog.show(getFragmentManager(), "TwoButtonDialog");
             mDialog.setShowsDialog(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
     }
 

@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 import java.util.ArrayList;
@@ -227,7 +228,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             mErrorDialogFragment.show(getFragmentManager(), "NetworkErrorDialog");
             mErrorDialogFragment.setShowsDialog(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
     }
 

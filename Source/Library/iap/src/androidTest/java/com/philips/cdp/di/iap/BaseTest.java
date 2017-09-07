@@ -8,8 +8,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
 
 import com.philips.cdp.di.iap.utils.IAPConstant;
-
-import org.junit.Before;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.ArrayList;
 
@@ -57,7 +56,7 @@ public class BaseTest {
                 uiDevice.swipe(coordinates, 10);
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
     }
 

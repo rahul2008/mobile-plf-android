@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
@@ -117,7 +118,7 @@ public class OrderControllerTest {
                 try {
                     makePRXData();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    IAPLog.e(IAPLog.LOG, e.getMessage());
                 }
                 assertNotNull(mOrderController.getProductData(detail));
             }

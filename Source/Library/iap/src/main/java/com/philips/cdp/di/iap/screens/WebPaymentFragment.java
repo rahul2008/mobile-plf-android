@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 public class WebPaymentFragment extends WebFragment implements
@@ -142,7 +143,7 @@ public class WebPaymentFragment extends WebFragment implements
             mDialogFragment.show(getFragmentManager(), "TwoButtonDialog");
             mDialogFragment.setShowsDialog(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
     }
 

@@ -439,7 +439,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         try {
             code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
         TextView versionView = (TextView) findViewById(R.id.appversion);
         versionView.setText(String.valueOf(code));
@@ -477,7 +477,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         try{
             mIapInterface.getCompleteProductList(this);
         }catch (Exception e){
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
 
     }

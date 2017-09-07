@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 import org.junit.Before;
@@ -127,7 +128,7 @@ public class OAuthControllerTest {
             }
             byteArray = bos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            IAPLog.e(IAPLog.LOG, e.getMessage());
         }
         return byteArray;
     }
