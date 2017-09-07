@@ -3,17 +3,12 @@ package com.philips.testing.verticals.datatyes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 310218660 on 11/17/2016.
- */
-
 public class MeasurementGroupDetailType {
     public static final String UNKNOWN = "UNKNOWN";
     public static final String TEMP_OF_DAY = "TEMP_OF_DAY";
 
-
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
         switch (description.toUpperCase()) {

@@ -3,11 +3,6 @@ package com.philips.testing.verticals.datatyes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 public class ConsentDetailStatusType {
     public static final String UNKNOWN = "UNKNOWN";
     public static final String ACCEPTED = "ACCEPTED";
@@ -15,7 +10,7 @@ public class ConsentDetailStatusType {
 
 
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
         switch (description.toUpperCase()) {
