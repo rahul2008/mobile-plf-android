@@ -29,10 +29,11 @@ public interface MobileForgotPassVerifyResendCodeContract {
 
     void trackMultipleActionsOnMobileSuccess();
 
-    void trackActionStatus(String state, String key, String value);
+    void trackVerifyActionStatus(String state, String key, String value);
 
-    void showSMSSentNotification();
 
     void showSMSSpecifedError(String errorId);
+
+    void updateToken(String token);
 
 }

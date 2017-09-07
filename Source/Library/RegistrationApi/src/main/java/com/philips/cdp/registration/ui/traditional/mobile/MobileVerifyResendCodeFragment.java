@@ -26,6 +26,8 @@ import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
 
+import org.greenrobot.eventbus.*;
+
 import java.util.*;
 
 import javax.inject.*;
@@ -188,6 +190,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void onRefreshUserSuccess() {
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
+        EventBus.getDefault().post(new UpdateMobile(user.getMobile()));
     }
 
     @Override

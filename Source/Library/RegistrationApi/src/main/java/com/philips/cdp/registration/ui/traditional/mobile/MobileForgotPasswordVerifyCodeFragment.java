@@ -30,9 +30,11 @@ import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.*;
 
+import org.greenrobot.eventbus.*;
+
 import javax.inject.*;
 
-import static com.janrain.android.Jump.getRedirectUri;
+import static com.janrain.android.Jump.*;
 
 public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFragment implements
         View.OnClickListener, OnUpdateListener, NetworkStateListener, EventListener,
@@ -93,6 +95,17 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
     private void setDescription() {
         String userId = mobileNumber;
         String normalText = getString(R.string.reg_verify_mobile_desc1);
@@ -101,11 +114,30 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         tv_reg_verify.setText(str);
     }
 
+    @Subscribe
+    public void onEvent(UpdateVal event){
+        // your implementation
+        Toast.makeText(getActivity(), event.getToken(), Toast.LENGTH_SHORT).show();
+
+        responseToken = event.getToken();
+    }
+
+    @Subscribe
+    public void onEvent(UpdateMobile event){
+
+        mobileNumber = event.getMobileNumber();
+
+        setDescription();
+        // your implementation
+        Toast.makeText(getActivity(), event.getMobileNumber(), Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
+        EventBus.getDefault().unregister(this); // this == your class instance
+
         super.onDestroy();
     }
 

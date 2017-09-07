@@ -75,7 +75,9 @@ public interface RegistrationComponent {
     void inject(MobileForgotPassVerifyResendCodeFragment mobileForgotPasswordVerifyResendCodeFragment);
 
     void inject(MobileForgotPassVerifyResendCodePresenter mobileForgotPasswordVerifyResendCodePresenter);
-    void inject(MobileForgotPasswordVerifyResendCodeFragment mobileForgotPasswordVerifyResendCodePresenter);
+    void inject(MobileForgotPassVerifyCodeFragment mobileForgotPasswordVerifyResendCodePresenter);
+    void inject(MobileForgotPassVerifyCodePresenter mobileForgotPasswordVerifyResendCodePresenter);
+
 
 
     void inject(MobileVerifyCodeFragment mobileVerifyCodeFragment);

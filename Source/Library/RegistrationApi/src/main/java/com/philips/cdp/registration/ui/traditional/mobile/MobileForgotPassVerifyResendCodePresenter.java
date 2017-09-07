@@ -6,7 +6,6 @@ import android.support.annotation.*;
 
 import com.janrain.android.*;
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.infra.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
@@ -47,7 +46,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements
             MobileForgotPassVerifyResendCodeFragment mobileVerifyCodeContract) {
         URInterface.getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+       RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
     public void resendOTPRequest(String serviceUrl,final String mobileNumber) {
@@ -139,18 +138,18 @@ public class MobileForgotPassVerifyResendCodePresenter implements
             e.printStackTrace();
         }
         RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
-        responseToken = token;
+
+                mobileVerifyCodeContract.updateToken(token);
     }
     private void handleResendSMSRespone(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("errorCode").toString().equals("0")) {
-                mobileVerifyCodeContract.showSmsSendFailedError();
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
                 mobileVerifyCodeContract.trackMultipleActionsOnMobileSuccess();
                 handleResendVerificationEmailSuccess();
             } else {
-                mobileVerifyCodeContract.trackActionStatus(
+                mobileVerifyCodeContract.trackVerifyActionStatus(
                         AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
@@ -165,10 +164,10 @@ public class MobileForgotPassVerifyResendCodePresenter implements
     }
 
     private void handleResendVerificationEmailSuccess() {
-        mobileVerifyCodeContract.trackActionStatus(AppTagingConstants.SEND_DATA,
+        mobileVerifyCodeContract.trackVerifyActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
 
-        mobileVerifyCodeContract.showSMSSentNotification();
+    //    mobileVerifyCodeContract.showSMSSentNotification();
         }
 
     @Override

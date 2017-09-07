@@ -26,6 +26,8 @@ import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
 
+import org.greenrobot.eventbus.*;
+
 import java.util.*;
 
 import javax.inject.*;
@@ -177,8 +179,62 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     private void handleResendVerificationEmailSuccess() {
         trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_RESEND_EMAIL_VERIFICATION);
         RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
-                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
+                getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        resendSMSButton.hideProgressIndicator();
         getRegistrationFragment().startCountDownTimer();
+        if(!mobileNumber.equals(phoneNumberEditText.getText().toString())){
+            EventBus.getDefault().post(new UpdateMobile(phoneNumberEditText.getText().toString()));
+        }
+    }
+
+    //Notification Bar : Commented due to background color supports only in White. Need to cross check with DLS team.
+
+//    private PopupWindow popupWindow;
+//
+//    private void createPopUpWindow() {
+//        View view = getNotificationContentView();
+//        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//    }
+//
+//    private View getNotificationContentView() {
+//        View view = View.inflate(getContext(), R.layout.uid_notification_bg_white, null);
+//        ((TextView) view.findViewById(R.id.uid_notification_title)).
+//                setText(context.getResources().getString(R.string.reg_Resend_SMS_title));
+//        ((TextView) view.findViewById(R.id.uid_notification_content))
+//                .setText(context.getResources().getString(R.string.reg_Resend_SMS_Success_Content));
+//        ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setVisibility(View.GONE);
+//        ((TextView) view.findViewById(R.id.uid_notification_btn_2)).setVisibility(View.GONE);
+//        view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
+//        view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
+//
+//        view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
+//        view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alterPopUpState();
+//            }
+//        });
+//        return view;
+//    }
+//
+//    public void alterPopUpState() {
+//        if (popupWindow == null) {
+//            createPopUpWindow();
+//        }
+//        if (popupWindow.isShowing()) {
+//            popupWindow.dismiss();
+//        } else {
+//            popupWindow.showAsDropDown(getActivity().
+//                    findViewById(R.id.ll_reg_root_container));
+//        }
+//    }
+
+
+    @Override
+    public void updateToken(String token) {
+        EventBus.getDefault().post(new UpdateVal(token));
+
     }
 
     public void handleUI() {
@@ -206,16 +262,8 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
 
     @Override
-    public void trackActionStatus(String state, String key, String value) {
+    public void trackVerifyActionStatus(String state, String key, String value) {
         trackActionStatus(state, key, value);
-    }
-
-    @Override
-    public void showSMSSentNotification() {
-        RegAlertDialog.showResetPasswordDialog(
-                getResources().getString(R.string.reg_Resend_SMS_title),
-                getResources().getString(R.string.reg_Resend_SMS_Success_Content),
-                getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
     }
 
     @Override
@@ -224,12 +272,15 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         showSmsResendTechincalError(errorMsg);
     }
 
+
+
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
-        mobileVerifyResendCodePresenter.resendOTPRequest(verificationSmsCodeURL, mobileNumber);
+        mobileVerifyResendCodePresenter.resendOTPRequest(
+                verificationSmsCodeURL, phoneNumberEditText.getText().toString());
         disableResendButton();
     }
 
@@ -258,6 +309,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void enableResendButton() {
         if (networkUtility.isNetworkAvailable())
             resendSMSButton.setEnabled(true);
+            resendSMSButton.hideProgressIndicator();
     }
 
     public void updateResendTime(long timeLeft) {
