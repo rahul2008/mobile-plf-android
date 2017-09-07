@@ -155,7 +155,8 @@ public class KeyBagActivity extends AppCompatActivity {
             }
         }
         responseTextView.setText(stringBuilder.toString());
-        makeRestCall(serviceUrl, testDSKey);
+        if (serviceUrl != null && testDSKey != null)
+            makeRestCall(serviceUrl, testDSKey);
 
     }
 
