@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import static com.philips.cdp2.commlib.demouapp.BuildConfig.LIBRARY_VERSION;
 import static com.philips.cdp2.commlib.demouapp.BuildConfig.VERSION_NAME;
 
@@ -42,8 +44,6 @@ public class AboutFragment extends DialogFragment {
     }
 
     private String getVersionsString() {
-        return getString(R.string.version_micro_app) + "\n" + VERSION_NAME +
-                "\n" + "\n" +
-                getString(R.string.version_commlib) + "\n" + LIBRARY_VERSION;
+        return String.format(Locale.US, getString(R.string.about_versions_string), VERSION_NAME, LIBRARY_VERSION);
     }
 }

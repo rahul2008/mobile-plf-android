@@ -11,6 +11,5 @@
     <string name="launch_uapp_as_activity">Launch uApp as activity</string>
 
     <string name="menu_action_versions">Versions</string>
-    <string name="version_micro_app">"uApp version: "</string>
-    <string name="version_commlib">"CommLib version: "</string>
+    <string name="about_versions_string" formatted="false">uApp version: %s\n\nCommLib version: %s</string>
 </resources>
