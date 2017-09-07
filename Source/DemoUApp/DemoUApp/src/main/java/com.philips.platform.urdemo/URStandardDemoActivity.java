@@ -43,7 +43,7 @@ import java.util.*;
 
 import static android.view.View.*;
 
-public class URStandardDemoActivity extends Activity implements OnClickListener,
+public class URStandardDemoActivity extends UIDActivity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Context mContext;
@@ -60,8 +60,8 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
-        initTheme();
+//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
+//        initTheme();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
@@ -77,6 +77,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
         Button changeThemeButton = (Button) findViewById(R.id.change_theme);
+        changeThemeButton.setVisibility(GONE);
         changeThemeButton.setOnClickListener(this);
 
         final Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
