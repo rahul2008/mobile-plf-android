@@ -132,9 +132,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mIAPSettings = new IAPSettings(this);
         if (mUser.isUserSignIn()) {
-            // setLocalFromServiceDiscovery();
             actionBar();
             initIAP();
+            setLocalFromServiceDiscovery();
+
         } else {
             mRegister.setVisibility(View.VISIBLE);
             Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
@@ -165,38 +166,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private void setLocalFromServiceDiscovery() {
 
         mIapInterface.isCartVisible(this);
-
-//        ServiceDiscoveryInterface serviceDiscovery = IapDemoUAppInterface.mAppInfra.getServiceDiscovery();
-//        ArrayList<String> listOfServiceId = new ArrayList<>();
-//        listOfServiceId.add("iap.baseurl");
-//
-//        serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-//            @Override
-//            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-//                IAPLog.i(IAPLog.LOG, " DemoActivity getServicesWithCountryPreference Map" + map.toString());
-//                Collection<ServiceDiscoveryService> collection = map.values();
-//
-//                List<ServiceDiscoveryService> list = new ArrayList<>();
-//                list.addAll(collection);
-//                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-//                actionBar();
-//                initIAP();
-//                // enableViews();
-//                String configUrls = serviceDiscoveryService.getConfigUrls();
-//                if (configUrls == null || configUrls.isEmpty()) {
-//                    displayFlowViews(false);
-//                } else {
-//                    displayFlowViews(true);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onError(ERRORVALUES errorvalues, String s) {
-//                IAPLog.i(IAPLog.LOG, "DemoActivity ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-//            }
-//        });
     }
 
     private void displayFlowViews(boolean b) {
