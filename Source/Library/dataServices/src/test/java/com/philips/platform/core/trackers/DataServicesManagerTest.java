@@ -379,15 +379,15 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_createsaveUserSettings_called() throws Exception {
-        tracker.saveUserSettings(settingsMock,dbRequestListener);
+        tracker.saveUserSettings(settingsMock, dbRequestListener);
         verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
     }
 
     @Test
     public void Should_createMomentDetail_called() throws Exception {
         tracker.mDataCreater = dataCreatorMock;
-        when(dataCreatorMock.createMomentDetail("Temperature",momentMock)).thenReturn(momentDetailMock);
-        MomentDetail detail = tracker.createMomentDetail("Temperature","23",momentMock);
+        when(dataCreatorMock.createMomentDetail("Temperature", momentMock)).thenReturn(momentDetailMock);
+        MomentDetail detail = tracker.createMomentDetail("Temperature", "23", momentMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(detail).isInstanceOf(MomentDetail.class);
         assertThat(detail).isNotNull();
@@ -396,8 +396,8 @@ public class DataServicesManagerTest {
     @Test
     public void Should_createMeasurement_called() throws Exception {
         tracker.mDataCreater = dataCreatorMock;
-        when(dataCreatorMock.createMeasurement("Temperature",measurementGroupMock)).thenReturn(measurementMock);
-        Measurement measurement = tracker.createMeasurement("Temperature","23","celcius",measurementGroupMock);
+        when(dataCreatorMock.createMeasurement("Temperature", measurementGroupMock)).thenReturn(measurementMock);
+        Measurement measurement = tracker.createMeasurement("Temperature", "23", "celcius", measurementGroupMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurement).isInstanceOf(Measurement.class);
         assertThat(measurement).isNotNull();
@@ -406,8 +406,8 @@ public class DataServicesManagerTest {
     @Test
     public void Should_createMeasurementDetail_called() throws Exception {
         tracker.mDataCreater = dataCreatorMock;
-        when(dataCreatorMock.createMeasurementDetail("Temperature",measurementMock)).thenReturn(measurementDetailMock);
-        MeasurementDetail measurementDetail = tracker.createMeasurementDetail("Temperature","23",measurementMock);
+        when(dataCreatorMock.createMeasurementDetail("Temperature", measurementMock)).thenReturn(measurementDetailMock);
+        MeasurementDetail measurementDetail = tracker.createMeasurementDetail("Temperature", "23", measurementMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurementDetail).isInstanceOf(MeasurementDetail.class);
         assertThat(measurementDetail).isNotNull();
@@ -415,7 +415,7 @@ public class DataServicesManagerTest {
 
     @Test
     public void Should_deleteMoment_called() throws Exception {
-        tracker.deleteMoment(momentMock,dbRequestListener);
+        tracker.deleteMoment(momentMock, dbRequestListener);
         verify(eventingMock).post(any(MomentDeleteRequest.class));
     }
 
@@ -423,7 +423,7 @@ public class DataServicesManagerTest {
     public void Should_deleteMoments_called() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        tracker.deleteMoments(list,dbRequestListener);
+        tracker.deleteMoments(list, dbRequestListener);
         verify(eventingMock).post(any(MomentsDeleteRequest.class));
     }
 
@@ -431,7 +431,7 @@ public class DataServicesManagerTest {
     public void Should_updateMoments_called() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        tracker.updateMoments(list,dbRequestListener);
+        tracker.updateMoments(list, dbRequestListener);
         verify(eventingMock).post(any(MomentsUpdateRequest.class));
     }
 
@@ -444,8 +444,8 @@ public class DataServicesManagerTest {
     @Test
     public void Should_createMeasurementGroupDetail_called() throws Exception {
         tracker.mDataCreater = dataCreatorMock;
-        when(dataCreatorMock.createMeasurementGroupDetail("Temperature",measurementGroupMock)).thenReturn(measurementGroupDetailMock);
-        MeasurementGroupDetail measurementGroupDetail = tracker.createMeasurementGroupDetail("Temperature","23",measurementGroupMock);
+        when(dataCreatorMock.createMeasurementGroupDetail("Temperature", measurementGroupMock)).thenReturn(measurementGroupDetailMock);
+        MeasurementGroupDetail measurementGroupDetail = tracker.createMeasurementGroupDetail("Temperature", "23", measurementGroupMock);
         //verify(eventingMock).post(any(DatabaseSettingsSaveRequest.class));
         assertThat(measurementGroupDetail).isInstanceOf(MeasurementGroupDetail.class);
         assertThat(measurementGroupDetail).isNotNull();
@@ -455,7 +455,7 @@ public class DataServicesManagerTest {
     public void Should_saveUserCharacteristics_called() throws Exception {
         List list = new ArrayList();
         list.add(consentDetailMock);
-        tracker.saveUserCharacteristics(list,dbRequestListener);
+        tracker.saveUserCharacteristics(list, dbRequestListener);
         verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
     }
 
@@ -476,7 +476,7 @@ public class DataServicesManagerTest {
     public void Should_saveMoments_called() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        tracker.saveMoments(list,dbRequestListener);
+        tracker.saveMoments(list, dbRequestListener);
         verify(eventingMock).post(any(UserCharacteristicsSaveRequest.class));
     }
 
@@ -496,7 +496,7 @@ public class DataServicesManagerTest {
     public void Should_deleteInsights_called() throws Exception {
         List list = new ArrayList();
         list.add(insightMock);
-        tracker.deleteInsights(list,dbRequestListener);
+        tracker.deleteInsights(list, dbRequestListener);
         verify(eventingMock).post(any(DeleteInsightFromDB.class));
     }
 

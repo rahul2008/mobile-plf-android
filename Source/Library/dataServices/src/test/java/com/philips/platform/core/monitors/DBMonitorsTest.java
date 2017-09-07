@@ -4,18 +4,13 @@ import com.philips.platform.core.Eventing;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Null;
 
 import java.util.List;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by indrajitkumar on 07/12/16.
- */
 public class DBMonitorsTest {
 
     @Mock

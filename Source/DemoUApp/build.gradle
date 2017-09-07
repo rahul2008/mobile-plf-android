@@ -151,7 +151,6 @@ android {
 
 dependencies {
     //Coco
-	
 	def dp = project.ext.has('useprojectdependencies')
 	
 	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)

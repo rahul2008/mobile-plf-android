@@ -232,8 +232,6 @@ public static <fields>;
 #Data-Services Characteristics
 -keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
 -keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
--keep class com.philips.platform.dscdemo.pojo.AppCharacteristics { *; }
--keep class com.philips.platform.dscdemo.pojo.AppUserCharacteristics { *; }
 
 #Data-Services Settings
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
@@ -255,6 +253,10 @@ public static <fields>;
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
 
 #Data Services ends here
+
+#DS Demo micro app
+-keep class com.philips.platform.dscdemo.pojo.AppCharacteristics { *; }
+-keep class com.philips.platform.dscdemo.pojo.AppUserCharacteristics { *; }
 
 #Green Robot
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }

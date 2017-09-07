@@ -82,7 +82,7 @@ public class ErrorMonitorTest {
     public void ShouldCall_reportErrorUnAuthorized() throws Exception {
         errorMonitor.reportError(401);
         verifyNoMoreInteractions(errorHandlingInterface);
-       // verify(errorHandlingInterface).syncError(-1);
+        // verify(errorHandlingInterface).syncError(-1);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ErrorMonitorTest {
         Response response = new Response("http://localhost", 403, string, headers, typedByteArrayMock);
         when(retrofitError.getResponse()).thenReturn(response);
 
-        errorMonitor.onEventAsync(new BackendResponse(501,retrofitError));
+        errorMonitor.onEventAsync(new BackendResponse(501, retrofitError));
         verify(errorHandlingInterface).syncError(403);
     }
 

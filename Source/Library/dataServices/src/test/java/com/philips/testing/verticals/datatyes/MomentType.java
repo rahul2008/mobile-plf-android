@@ -1,24 +1,15 @@
-/*
- * Copyright (c) 2017. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
-
 package com.philips.testing.verticals.datatyes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MomentType {
-
-
     public static final String UNKNOWN = "UNKNOWN";
     public static final String TREATMENT = "TREATMENT";
     public static final String USER_INFO = "USER_INFO";
     public static final String PHOTO = "PHOTO";
     public static final String NOTE = "NOTE";
     public static final String TEMPERATURE = "TEMPERATURE";
-
 
     public static int getIDFromDescription(String description) {
         if (description == null) {

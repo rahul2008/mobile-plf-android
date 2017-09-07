@@ -117,7 +117,7 @@ public class FetchingMonitorTest {
         fetchingMonitor.momentsSegregator = momentsSegregatorMock;
         fetchingMonitor.consentsSegregator = consentsSegregatorMock;
         fetchingMonitor.settingsSegregator = settingsSegregatorMock;
-        fetchingMonitor.insightSegregator=insightSegregatorMock;
+        fetchingMonitor.insightSegregator = insightSegregatorMock;
         uGrowDateTime = new DateTime();
         fetchingMonitor.start(eventingMock);
     }
@@ -202,9 +202,9 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchLastMoment() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchLastMoment("Temperature",dbFetchRequestListner);
-        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("Temperature",dbFetchRequestListner));
-        verify(fetching).fetchLastMoment("Temperature",dbFetchRequestListner);
+        doThrow(SQLException.class).when(fetching).fetchLastMoment("Temperature", dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadLastMomentRequest("Temperature", dbFetchRequestListner));
+        verify(fetching).fetchLastMoment("Temperature", dbFetchRequestListner);
     }
 
     @Test
@@ -212,7 +212,7 @@ public class FetchingMonitorTest {
         Map<Class, List<?>> dataToSync = new HashMap<>();
         doThrow(SQLException.class).when(fetching).putUserCharacteristicsForSync(dataToSync);
         fetchingMonitor.onEventAsync(new GetNonSynchronizedDataRequest(1));
-       // final Map<Class, List<?>> classListMap = verify(fetching).putUserCharacteristicsForSync(null);
+        // final Map<Class, List<?>> classListMap = verify(fetching).putUserCharacteristicsForSync(null);
     }
 
     @Test
@@ -223,14 +223,14 @@ public class FetchingMonitorTest {
 
     @Test
     public void LoadMomentsRequestTest_hasType() throws SQLException {
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner,"Temperature"));
-        verify(fetching).fetchMoments(dbFetchRequestListner,"Temperature");
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(dbFetchRequestListner, "Temperature"));
+        verify(fetching).fetchMoments(dbFetchRequestListner, "Temperature");
     }
 
     @Test
     public void LoadMomentsRequestTest_hasID() throws SQLException {
-        fetchingMonitor.onEventAsync(new LoadMomentsRequest(1,dbFetchRequestListner));
-        verify(fetching).fetchMomentById(1,dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadMomentsRequest(1, dbFetchRequestListner));
+        verify(fetching).fetchMomentById(1, dbFetchRequestListner);
     }
 
     @Test
@@ -285,7 +285,7 @@ public class FetchingMonitorTest {
 
     @Test
     public void ShouldPostExceptionEvent_When_fetchActiveInsights_success() throws Exception {
-       // doThrow(SQLException.class).when(fetching).fetchActiveInsights(dbFetchRequestListner);
+        // doThrow(SQLException.class).when(fetching).fetchActiveInsights(dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new FetchInsightsFromDB(dbFetchRequestListner));
         verify(fetching).fetchActiveInsights(dbFetchRequestListner);
     }

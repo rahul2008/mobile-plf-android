@@ -18,9 +18,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by sangamesh on 30/11/16.
- */
 public class EventingImplTest {
 
     @Mock

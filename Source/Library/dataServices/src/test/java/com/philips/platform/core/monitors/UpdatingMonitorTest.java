@@ -140,11 +140,11 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenMomentUpdateRequestIsCalled() throws Exception {
-       // when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
+        // when(dbUpdatingInterface.getOrmMoment(momentMock)).thenReturn(momentMock);
         when(momentUpdateRequestmock.getMoment()).thenReturn(momentMock);
         updatingMonitor.onEventBackGround(momentUpdateRequestmock);
         verify(momentMock).setSynced(false);
-        verify(dbUpdatingInterface).updateMoment(momentMock,momentUpdateRequestmock.getDbRequestListener());
+        verify(dbUpdatingInterface).updateMoment(momentMock, momentUpdateRequestmock.getDbRequestListener());
     }
 
     @Test
@@ -178,9 +178,9 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE),null);
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
-        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1),null);
+        verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
     }
 
     @Test
@@ -191,7 +191,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestFailedWithException() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE),null);
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
         doThrow(SQLException.class).when(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Arrays.asList(moment1), dbChangeListener));
         verify(momentsSegregatorMock).processMomentsReceivedFromBackend(Arrays.asList(moment1), null);
@@ -200,14 +200,14 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE),null);
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
         updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(Arrays.asList(moment1), dbChangeListener));
-         verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1),null);
+        verify(momentsSegregatorMock).processCreatedMoment(Arrays.asList(moment1), null);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenConsentBackendSaveResponsePassed() throws Exception {
-        updatingMonitor.onEventBackGround(new ConsentBackendSaveResponse(null, 500,dbRequestListener));
+        updatingMonitor.onEventBackGround(new ConsentBackendSaveResponse(null, 500, dbRequestListener));
         verify(dbFetchingInterface).isSynced(SyncType.CONSENT.getId());
     }
 
@@ -236,51 +236,51 @@ public class UpdatingMonitorTest {
 
     @Test
     public void should_Catch_SqlException_whenMomentUpdateRequestIsCalled() throws Exception {
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
-        updatingMonitor.onEventBackGround(new MomentUpdateRequest(momentMock,dbRequestListener));
-        verify(dbUpdatingInterface).updateMoment(momentMock,dbRequestListener);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateMoment(momentMock, dbRequestListener);
+        updatingMonitor.onEventBackGround(new MomentUpdateRequest(momentMock, dbRequestListener));
+        verify(dbUpdatingInterface).updateMoment(momentMock, dbRequestListener);
     }
 
     @Test
     public void shouldDeleteUpdateAndPostMoment_whenMomentsUpdateRequestIsCalled() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        updatingMonitor.onEventBackGround(new MomentsUpdateRequest(list,null));
-        verify(dbUpdatingInterface).updateMoments(list,null);
+        updatingMonitor.onEventBackGround(new MomentsUpdateRequest(list, null));
+        verify(dbUpdatingInterface).updateMoments(list, null);
     }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateMoments() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateMoments(list,dbRequestListener);
-        updatingMonitor.onEventBackGround(new MomentsUpdateRequest(list,dbRequestListener));
-        verify(dbUpdatingInterface).updateMoments(list,dbRequestListener);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateMoments(list, dbRequestListener);
+        updatingMonitor.onEventBackGround(new MomentsUpdateRequest(list, dbRequestListener));
+        verify(dbUpdatingInterface).updateMoments(list, dbRequestListener);
     }
 
     @Test
     public void test_DatabaseConsentUpdateRequest() throws Exception {
         List list = new ArrayList();
         list.add(consentDetailMock);
-        when(dbUpdatingInterface.updateConsent(list,null)).thenReturn(true);
-        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list,null));
-        verify(dbUpdatingInterface).updateConsent(list,null);
+        when(dbUpdatingInterface.updateConsent(list, null)).thenReturn(true);
+        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list, null));
+        verify(dbUpdatingInterface).updateConsent(list, null);
     }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_updateConsent() throws Exception {
         List list = new ArrayList();
         list.add(momentMock);
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(list,dbRequestListener);
-        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list,dbRequestListener));
-        verify(dbUpdatingInterface).updateConsent(list,dbRequestListener);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(list, dbRequestListener);
+        updatingMonitor.onEventBackGround(new DatabaseConsentUpdateRequest(list, dbRequestListener));
+        verify(dbUpdatingInterface).updateConsent(list, dbRequestListener);
     }
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenUCDBUpdateFromBackendRequestPassed() throws Exception {
         when(userCharacteristicsSegregator.isUCSynced()).thenReturn(true);
         final UCDBUpdateFromBackendRequest consentBackendSaveResponse = new UCDBUpdateFromBackendRequest(null, dbRequestListener);
-       // doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
+        // doThrow(SQLException.class).when(dbUpdatingInterface).updateConsent(consentBackendSaveResponse.getConsentDetailList(), null);
         updatingMonitor.onEventBackGround(consentBackendSaveResponse);
         verify(dbUpdatingInterface).updateCharacteristics(consentBackendSaveResponse.getUserCharacteristics(), null);
     }
@@ -299,23 +299,23 @@ public class UpdatingMonitorTest {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock, null);
         updatingMonitor.onEventBackGround(databaseSettingsUpdateRequestMock);
-        verify(dbSavingInterface).saveSettings(settingsMock,databaseSettingsUpdateRequestMock.getDbRequestListener());
-        verify(dbUpdatingInterface).updateSyncBit(SyncType.SETTINGS.getId(),false);
+        verify(dbSavingInterface).saveSettings(settingsMock, databaseSettingsUpdateRequestMock.getDbRequestListener());
+        verify(dbUpdatingInterface).updateSyncBit(SyncType.SETTINGS.getId(), false);
     }
 
     @Test
     public void shouldUpdateSettings_whenupdateSyncBitFailedWithException() throws Exception {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         doThrow(SQLException.class).when(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
-        updatingMonitor.onEventBackGround(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS,true));
+        updatingMonitor.onEventBackGround(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS, true));
         verify(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
     }
 
     @Test
     public void shouldUpdateSettings_whenupdateSyncBit_success() throws Exception {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
-       // doThrow(SQLException.class).when(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
-        updatingMonitor.onEventBackGround(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS,true));
+        // doThrow(SQLException.class).when(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
+        updatingMonitor.onEventBackGround(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS, true));
         verify(dbUpdatingInterface).updateSyncBit(SyncType.CHARACTERISTICS.getId(), true);
     }
 
@@ -323,7 +323,7 @@ public class UpdatingMonitorTest {
     public void shouldUpdateSettings_whenIsSyncedFailedWithException() throws Exception {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         when(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())).thenReturn(true);
-        doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock,null);
+        doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock, null);
         updatingMonitor.onEventBackGround(new SettingsBackendSaveResponse(settingsMock));
         verify(dbUpdatingInterface).updateSettings(settingsMock, null);
     }
@@ -332,7 +332,7 @@ public class UpdatingMonitorTest {
     public void shouldUpdateSettings_whenIsSyncedSuccess() throws Exception {
         when(databaseSettingsUpdateRequestMock.getSettings()).thenReturn(settingsMock);
         when(dbFetchingInterface.isSynced(SyncType.SETTINGS.getId())).thenReturn(true);
-      //  doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock,null);
+        //  doThrow(SQLException.class).when(dbUpdatingInterface).updateSettings(settingsMock,null);
         updatingMonitor.onEventBackGround(new SettingsBackendSaveResponse(settingsMock));
         verify(dbUpdatingInterface).updateSettings(settingsMock, null);
     }
@@ -341,18 +341,18 @@ public class UpdatingMonitorTest {
     public void shouldUpdateSettings_whenprocessInsightsFailsWithException() throws Exception {
         List<Insight> insights = new ArrayList<>();
         insights.add(insightMock);
-        doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
-        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights,dbRequestListener));
-        verify(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights, dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
+        verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
     }
 
     @Test
     public void shouldUpdateSettings_whenprocessInsightsSuccess() throws Exception {
         List<Insight> insights = new ArrayList<>();
         insights.add(insightMock);
-       // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
-        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights,dbRequestListener));
-        verify(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
+        verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
     }
 
     @Test
@@ -361,7 +361,7 @@ public class UpdatingMonitorTest {
         List<Insight> insights = new ArrayList<>();
         insights.add(insightMock);
         // doThrow(SQLException.class).when(insightSegregatorMock).processInsights(insights,dbRequestListener);
-        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights,dbRequestListener));
-        verify(insightSegregatorMock).processInsights(insights,dbRequestListener);
+        updatingMonitor.onEventBackGround(new FetchInsightsResponse(insights, dbRequestListener));
+        verify(insightSegregatorMock).processInsights(insights, dbRequestListener);
     }
 }
