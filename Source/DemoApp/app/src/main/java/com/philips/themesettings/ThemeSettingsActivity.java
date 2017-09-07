@@ -32,8 +32,6 @@ public class ThemeSettingsActivity extends UIDActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        initTheme();
-//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.theme_settings_activity);
