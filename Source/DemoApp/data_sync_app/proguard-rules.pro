@@ -214,6 +214,46 @@ public static <fields>;
 
 #App Infra Ends here
 
+#Dataservices starts here
+#Pojo classes required by Retorfit to reflect the response
+
+#Data-Services Moments
+-keep class com.philips.platform.datasync.moments.UCoreMoment { *; }
+-keep class com.philips.platform.datasync.moments.UCoreDetail { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMeasurement { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMomentsHistory { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMomentSaveResponse { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMeasurementGroupDetail { *; }
+-keep class com.philips.platform.datasync.moments.UCoreMeasurementGroups { *; }
+
+#Data-Services Consent
+-keep class com.philips.platform.datasync.consent.UCoreConsentDetail { *; }
+
+#Data-Services Characteristics
+-keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
+-keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
+
+#Data-Services Settings
+-keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
+
+#Data-Services Insight
+-keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
+-keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
+
+#Data-Services Push notification
+-keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
+
+#Data-Services Device pairing
+-keep class com.philips.platform.datasync.devicePairing.UCoreDevicePair { *; }
+
+#Data-Services Subject Profile
+-keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest { *; }
+-keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileResponse { *; }
+-keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
+-keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
+
+#Data Services ends here
+
 #DS Demo micro app
 -keep class com.philips.platform.dscdemo.pojo.AppCharacteristics { *; }
 -keep class com.philips.platform.dscdemo.pojo.AppUserCharacteristics { *; }
@@ -283,3 +323,5 @@ public static <fields>;
 -keep enum net.sqlcipher.**
 -keepclassmembers enum net.sqlcipher.** { *; }
 
+#Secure DB
+-keep public class com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper.**{ public *;}
