@@ -41,6 +41,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import com.philips.platform.catalogapp.dataUtils.SidebarListAdapter;
+import com.philips.platform.catalogapp.dataUtils.UIPickerAdapter;
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
@@ -53,6 +56,7 @@ import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
@@ -93,7 +97,7 @@ public class MainActivity extends UIDActivity {
     private int leftSidebarBGColor;
     private int rightSidebarBGColor;
     private RelativeLayout leftSidebarRoot;
-    private NavigationView rightSidebarRoot;
+    //private NavigationView rightSidebarRoot;
 
     private static final String[] RIGHT_MENU_ITEMS = new String[]{
             "Profile item 1",
@@ -144,7 +148,7 @@ public class MainActivity extends UIDActivity {
         sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
         leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
-        rightSidebarRoot = (NavigationView) findViewById(R.id.sidebar_right_root);
+        //rightSidebarRoot = (NavigationView) findViewById(R.id.sidebar_right_root);
         TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
         if (typedArray != null) {
             leftSidebarBGColor = typedArray.getColor(0, Color.WHITE);
@@ -154,7 +158,7 @@ public class MainActivity extends UIDActivity {
 
         drawerToggle = setupDrawerToggle();
 
-        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
+        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(ThemeUtils.getNavigationThemedContext(this));
         leftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_left_recyclerview);
         leftRecyclerView.addItemDecoration(separatorItemDecoration);
         initializeRecyclerView(this);
@@ -164,7 +168,7 @@ public class MainActivity extends UIDActivity {
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
         //ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
         //rightListView.addHeaderView(header, null, false);
-        ImageView sidebarRightImg;sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
+        ImageView sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
         sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(this), 0, 0);
 
         // rightListView.setHeaderDividersEnabled(false);
@@ -227,7 +231,7 @@ public class MainActivity extends UIDActivity {
     }
 
     private void initializeRecyclerView(Context context) {
-        DataHolderView dataHolderView = getIconDataHolderView(context);
+        DataHolderView dataHolderView = getIconDataHolderView(ThemeUtils.getNavigationThemedContext(context));
         leftRecyclerView.setAdapter(new MainActivity.RecyclerViewAdapter(dataHolderView.dataHolders));
     }
 
@@ -252,7 +256,8 @@ public class MainActivity extends UIDActivity {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).cloneInContext(ThemeUtils.getNavigationThemedContext(parent.getContext()))
+                    .inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
             return new MainActivity.RecyclerViewAdapter.BindingHolder(v);
         }
 
@@ -296,10 +301,11 @@ public class MainActivity extends UIDActivity {
 
     private void setRightListItems() {
 
-        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(this);
+        final SeparatorDrawable separatorDrawable = new SeparatorDrawable(ThemeUtils.getNavigationThemedContext(this));
         rightListView.setDivider(separatorDrawable);
         rightListView.setDividerHeight(separatorDrawable.getHeight());
-        rightListView.setAdapter(new ArrayAdapter<>(this, R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS));
+        ArrayAdapter arrayAdapter = new SidebarListAdapter(ThemeUtils.getNavigationThemedContext(this), R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS);
+        rightListView.setAdapter(arrayAdapter);
         rightListView.setItemChecked(0, true);
         rightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -368,10 +374,10 @@ public class MainActivity extends UIDActivity {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
         leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
-        leftSidebarBGColor = savedInstanceState.getInt(LEFT_SIDEBAR_BG);
+        /*leftSidebarBGColor = savedInstanceState.getInt(LEFT_SIDEBAR_BG);
         rightSidebarBGColor = savedInstanceState.getInt(RIGHT_SIDEBAR_BG);
         leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
-        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
+        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);*/
     }
 
     @Override
@@ -421,8 +427,8 @@ public class MainActivity extends UIDActivity {
         navigationController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
         outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
-        outState.putInt(LEFT_SIDEBAR_BG, leftSidebarBGColor);
-        outState.putInt(RIGHT_SIDEBAR_BG, rightSidebarBGColor);
+        /*outState.putInt(LEFT_SIDEBAR_BG, leftSidebarBGColor);
+        outState.putInt(RIGHT_SIDEBAR_BG, rightSidebarBGColor);*/
     }
 
     public ThemeConfiguration getThemeConfig() {

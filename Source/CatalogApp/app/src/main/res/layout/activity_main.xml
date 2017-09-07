@@ -41,57 +41,69 @@
             </LinearLayout>
         </com.philips.platform.uid.view.widget.NavigationContainer>
 
-        <RelativeLayout
-            android:id="@+id/sidebar_left_root"
+
+        <com.philips.platform.uid.utils.SidebarFrameLayoutContainer
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            android:background="?attr/uidContentPrimaryBackgroundColor">
+            app:uidSidebarContextType="Navigation"
+            android:background="?attr/uidNavigationPrimaryBackgroundColor">
 
-            <LinearLayout
-                android:id="@+id/sidebar_left_header_container"
+            <RelativeLayout
+                android:id="@+id/sidebar_left_root"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:layout_alignParentTop="true">
+                android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/sidebar_left_header_layout"
-                    layout="@layout/sidebar_left_header_view"/>
+                <LinearLayout
+                    android:id="@+id/sidebar_left_header_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_alignParentTop="true">
 
-            </LinearLayout>
+                    <include
+                        android:id="@+id/sidebar_left_header_layout"
+                        layout="@layout/sidebar_left_header_view"/>
 
-            <LinearLayout
-                android:id="@+id/sidebar_left_footer_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:layout_alignParentBottom="true">
+                </LinearLayout>
 
-                <include
-                    android:id="@+id/sidebar_left_footer_layout"
-                    layout="@layout/sidebar_footer_view"/>
+                <LinearLayout
+                    android:id="@+id/sidebar_left_footer_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:layout_alignParentBottom="true">
 
-            </LinearLayout>
+                    <include
+                        android:id="@+id/sidebar_left_footer_layout"
+                        layout="@layout/sidebar_footer_view"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/sidebar_left_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:layout_below="@id/sidebar_left_header_container"
-                android:layout_above="@id/sidebar_left_footer_container"/>
+                </LinearLayout>
 
-        </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sidebar_left_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:layout_below="@id/sidebar_left_header_container"
+                    android:layout_above="@id/sidebar_left_footer_container"/>
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/sidebar_right_root"
+            </RelativeLayout>
+
+        </com.philips.platform.uid.utils.SidebarFrameLayoutContainer>
+
+        <com.philips.platform.uid.utils.SidebarNavigationViewContainer
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:fitsSystemWindows="true"
-            android:background="?attr/uidContentPrimaryBackgroundColor">
+            app:uidSidebarContextType="Navigation"
+            android:background="?attr/uidNavigationPrimaryBackgroundColor">
+        <!--<android.support.design.widget.NavigationView
+            android:id="@+id/sidebar_right_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">-->
 
             <ScrollView
                 android:id="@+id/sidebar_right_scroll"
@@ -136,7 +148,8 @@
 
             </ScrollView>
 
-        </android.support.design.widget.NavigationView>
+        <!--</android.support.design.widget.NavigationView>-->
+        </com.philips.platform.uid.utils.SidebarNavigationViewContainer>
 
     </com.philips.platform.uid.view.widget.SideBar>
 

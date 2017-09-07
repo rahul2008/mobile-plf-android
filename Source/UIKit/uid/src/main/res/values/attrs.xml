@@ -19,6 +19,13 @@
     <declare-styleable name="UIDAccentType">
         <attr name="uidAccent" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDSidebarContextType">
+        <attr name="uidSidebarContextType" format="enum">
+            <enum name="Content" value="0"/>
+            <enum name="Navigation" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>
 
 
