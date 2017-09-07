@@ -86,7 +86,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
+                // CartModelContainer.getInstance().setSwitchToBillingAddress(!isChecked);
                 if (isChecked) {
                     setFragmentVisibility(billingFragment, false);
                     ((DLSBillingAddressFragment) billingFragment).disableAllFields();
@@ -100,9 +100,20 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             }
         });
 
+
         Bundle bundle = getArguments();
+
+
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            checkBox.setVisibility(View.GONE);
+
+            if (bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
+                checkBox.setVisibility(View.VISIBLE);
+                checkBox.setChecked(true);
+                setFragmentVisibility(billingFragment, true);
+            } else {
+                checkBox.setVisibility(View.GONE);
+            }
+
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             ((DLSShippingAddressFragment) shippingFragment).updateFields(mAddressFieldsHashmap);
         }
@@ -182,6 +193,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
         if (checkBox.isChecked()) {
+            CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
         }
         showProgressDialog(mContext, getString(R.string.iap_please_wait));
@@ -211,6 +223,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     private void setBillingAddressAndOpenOrderSummary() {
         // billingFragment = setAddressFields(billingFragment);
         //CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
+        dismissProgressDialog();
         addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE),
                 OrderSummaryFragment.TAG);
     }
@@ -243,7 +256,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         mShippingAddressHashMap.put(ModelConstants.EMAIL_ADDRESS, pAddressFields.getEmail());
         if (!CartModelContainer.getInstance().isAddessStateVisible()) {
             mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, null);
-        }else{
+        } else {
             mShippingAddressHashMap.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
         }
 
@@ -335,8 +348,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onSetDeliveryMode(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryMode", Toast.LENGTH_SHORT).show();
+        msg.obj = IAPConstant.IAP_SUCCESS;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            mPaymentController.getPaymentDetails();
+            if (CartModelContainer.getInstance().getBillingAddress() == null)
+                mPaymentController.getPaymentDetails();
+            else
+                setBillingAddressAndOpenOrderSummary();
         } else {
             dismissProgressDialog();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);

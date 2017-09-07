@@ -215,10 +215,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetPaymentDetails(Message msg) {
+        Addresses address = retrieveSelectedAddress();
         dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
 
-            Addresses address = retrieveSelectedAddress();
             AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
@@ -237,6 +237,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG);
         }

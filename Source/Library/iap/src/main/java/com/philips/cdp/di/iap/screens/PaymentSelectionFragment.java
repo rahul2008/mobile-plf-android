@@ -121,6 +121,10 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
+            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY));
+            //Load shipping address from SetDelivery Address with check boxed
+            addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
+                    DLSAddressFragment.TAG);
 //            addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE),
 //                    BillingAddressFragment.TAG);
         }
