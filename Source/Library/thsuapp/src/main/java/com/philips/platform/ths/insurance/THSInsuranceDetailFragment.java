@@ -138,8 +138,12 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
         mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
         mTHSSubscriberRelationshipListAdapter = new THSSubscriberRelationshipListAdapter(getActivity(), mTHSRelationshipList);
-        createCustomProgressBar(mProgressbarContainer, BIG);
+        showProgressbar();
         mPresenter.fetchExistingSubscription();
+    }
+
+    protected void showProgressbar(){
+        createCustomProgressBar(mProgressbarContainer, BIG);
     }
 
     @Override
@@ -187,6 +191,13 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
             public void onClick(DialogInterface dialog, int position) {
                 mHealthPlan = mTHSHealthPlanList.getHealthPlanList().get(position);
                 insuranceEditBox.setText(mHealthPlan.getName());
+                if(mHealthPlan.isUsesSuffix()){
+                    mSuffixLabel.setVisibility(View.VISIBLE);
+                    mSuffixEditText.setVisibility(View.VISIBLE);
+                }else{
+                    mSuffixLabel.setVisibility(View.GONE);
+                    mSuffixEditText.setVisibility(View.GONE);
+                }
                 dialog.dismiss();
             }
         });
