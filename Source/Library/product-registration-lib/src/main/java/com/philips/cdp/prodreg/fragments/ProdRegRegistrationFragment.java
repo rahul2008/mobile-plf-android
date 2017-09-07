@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -521,7 +522,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setVisibility(View.GONE);
         productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
-
+        ((ProdRegBaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((ProdRegBaseActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         productImageView.setVisibility(View.GONE);
         productTitleTextView.setVisibility(View.GONE);
     }
