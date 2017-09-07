@@ -10,21 +10,38 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.*;
 
-import com.philips.cdp.registration.settings.RegistrationSettings;
+import com.janrain.android.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.platform.appinfra.securestorage.*;
+
+import java.util.*;
 
 
 public class RegPreferenceUtility {
 
     public static void storePreference(Context context, String key, boolean value) {
-        SharedPreferences pref = context.getSharedPreferences(RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
+        Jump.getSecureStorageInterface().storeValueForKey(key,String.valueOf(value),new SecureStorageInterface.SecureStorageError());
     }
 
     public static boolean getStoredState(Context context, String key) {
-        SharedPreferences myPrefs = context.getSharedPreferences(
-                RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        return myPrefs.getBoolean(key, false);
+        migrate(context);
+        return Boolean.parseBoolean(Jump.getSecureStorageInterface().fetchValueForKey(key,new SecureStorageInterface.SecureStorageError()));
     }
+
+    private static void migrate(Context context) {
+        SharedPreferences myPrefs = context.getSharedPreferences(
+                 RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
+        Map<String, ?> allEntries = myPrefs.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Jump.getSecureStorageInterface().storeValueForKey(entry.getKey(),String.valueOf(entry.getValue()),new SecureStorageInterface.SecureStorageError());
+        }
+        myPrefs.edit().clear().commit();
+
+
+
+            
+
+    }
+
+
 }
