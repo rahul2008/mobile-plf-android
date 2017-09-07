@@ -34,21 +34,16 @@ public class TeleHealthServicesStateTest extends TestCase {
     private HamburgerActivity hamburgerActivity;
     private ActivityController<TestActivity> activityController;
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    @Test(expected = NullPointerException.class)
+    public void launchTelehealthServicesState() {
         teleHealthServicesState = new TeleHealthServicesState();
-
-        UIStateData devicePairingStateData = new UIStateData();
-        devicePairingStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-        teleHealthServicesState.setUiStateData(devicePairingStateData);
+        UIStateData uiStateData = new UIStateData();
+        uiStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+        teleHealthServicesState.setUiStateData(uiStateData);
         activityController = Robolectric.buildActivity(TestActivity.class);
         hamburgerActivity = activityController.create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
-    }
 
-    @Test(expected = NullPointerException.class)
-    public void launchDevicePairingState() {
         teleHealthServicesState.init(RuntimeEnvironment.application);
         teleHealthServicesState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
