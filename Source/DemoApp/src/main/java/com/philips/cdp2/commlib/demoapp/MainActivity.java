@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         commlibUapp = CommlibUapp.get();
-        commlibUapp.init(new DefaultCommlibUappDependencies(getApplicationContext()), new UappSettings(getApplicationContext()));
+        commlibUapp.init(new DefaultCommlibUappDependencies(), new UappSettings(getApplicationContext()));
     }
 
     @Override
