@@ -80,9 +80,8 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
             final Subscription subscription = thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest().getSubscription();
             subscription.setHealthPlan(((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan);
-            subscription.setSubscriberId(((THSInsuranceDetailFragment) mTHSBaseFragment).subscriptionIDEditBox.getText().toString().trim());
-            //subscription.setSubscriberSuffix(((THSInsuranceDetailFragment) mTHSBaseFragment).mSubscriberSuffix);
-            subscription.setSubscriberSuffix("12");// todo as above
+            subscription.setSubscriberId(((THSInsuranceDetailFragment) mTHSBaseFragment).subscriberIDEditBox.getText().toString().trim());
+            subscription.setSubscriberSuffix(((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.getText().toString().trim());
             Relationship relationship = null;
             if (!((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.isChecked()) {
                 relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mTHSRelationshipList.getRelationShipList().get(0);// primary subscriber by default
@@ -151,7 +150,10 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).insuranceEditBox.setText(subscription.getHealthPlan().getName());
             }
             if (subscription.getSubscriberId() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).subscriptionIDEditBox.setText(subscription.getSubscriberId());
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).subscriberIDEditBox.setText(subscription.getSubscriberId());
+            }
+            if(null!=subscription.getSubscriberSuffix()){
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setText(subscription.getSubscriberSuffix());
             }
             if (subscription.getRelationship() != null) {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship = subscription.getRelationship();

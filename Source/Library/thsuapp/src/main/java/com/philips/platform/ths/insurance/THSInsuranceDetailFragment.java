@@ -29,6 +29,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +44,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     private RelativeLayout mProgressbarContainer;
     private THSInsuranceDetailPresenter mPresenter;
     protected EditText insuranceEditBox;
-    protected EditText subscriptionIDEditBox;
+    protected EditText subscriberIDEditBox;
 
     protected EditText relationshipEditBox;
     protected EditText firstNameEditBox;
@@ -69,6 +70,9 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     protected Relationship mInsuranceRelationship;
     private RelativeLayout mRelativeLayoutInsuranceContainer;
     boolean isLaunchedFromCostSummary = false;
+
+    protected Label mSuffixLabel;
+    protected EditText mSuffixEditText;
 
 
     @Nullable
@@ -96,7 +100,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         relationDOBEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_relation_dob_edittext);
         relationDOBEditBox.setOnClickListener(this);
 
-        subscriptionIDEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_subscription_edit_text);
+        subscriberIDEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_subscriber_edit_text);
 
         detailContinueButton = (Button) view.findViewById(R.id.ths_insurance_detail_continue_button);
         detailContinueButton.setOnClickListener(this);
@@ -116,6 +120,10 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         });
         //mPresenter.getCurrentSubscription();
         mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
+
+        mSuffixLabel = (Label) view.findViewById(R.id.ths_insurance_detail_suffix_edit_text_label);
+        mSuffixEditText = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_suffix_edit_text);
+
         return view;
 
 

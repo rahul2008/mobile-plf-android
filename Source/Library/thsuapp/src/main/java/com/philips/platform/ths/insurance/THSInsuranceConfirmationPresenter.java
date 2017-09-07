@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
+import com.philips.platform.ths.utility.THSManager;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
 
@@ -35,6 +36,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter {
             mTHSInsuranceConfirmationFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
+           // THSManager.getInstance()
             if (mTHSInsuranceConfirmationFragment.isLaunchedFromCostSummary) {
                 mTHSInsuranceConfirmationFragment.getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
             } else {
