@@ -173,10 +173,10 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
         groomHelper.mapAndValidateGroom(aikmService, null, "0");
-        assertEquals(aikmService.getMapError(), AIKMService.MapError.NO_SERVICE_FOUND);
+        assertEquals(aikmService.getAIKMapError(), AIKMService.AIKMapError.NO_SERVICE_FOUND);
 
         groomHelper.mapAndValidateGroom(aikmService, "service_id", "string");
-        assertEquals(AIKMService.MapError.INVALID_INDEX_URL, aikmService.getMapError());
+        assertEquals(AIKMService.AIKMapError.INVALID_INDEX_URL, aikmService.getAIKMapError());
 
         groomHelper = new GroomHelper(mAppInfraMock) {
             @Override
@@ -185,7 +185,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             }
         };
         groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
-        assertEquals(AIKMService.MapError.INVALID_JSON, aikmService.getMapError());
+        assertEquals(AIKMService.AIKMapError.INVALID_JSON, aikmService.getAIKMapError());
 
         JSONObject someJsonObject = new JSONObject();
         try {
@@ -198,8 +198,8 @@ public class GroomHelperTest extends AppInfraInstrumentation {
                 }
             };
             groomHelper.mapAndValidateGroom(aikmService, "service_id", "1");
-            assertTrue(aikmService.getMap() != null);
-            assertEquals(aikmService.getMap().get("clientId"), "test");
+            assertTrue(aikmService.getAIKMap() != null);
+            assertEquals(aikmService.getAIKMap().get("clientId"), "test");
         } catch (JSONException e) {
             Log.e("error "," in json structure");
         }

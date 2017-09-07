@@ -11,6 +11,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
+import com.philips.platform.appinfra.aikm.model.OnGetServicesListener;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -25,7 +26,6 @@ public class AIKManager implements AIKMInterface {
 
     private final AppInfra appInfra;
     private final GroomHelper groomHelper;
-    private static String IS_AIKM_SERVICE_ENABLED ="aiKmService.enabled";
 
     public AIKManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
@@ -35,7 +35,7 @@ public class AIKManager implements AIKMInterface {
     @Override
     public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
                                          Map<String, String> replacement,
-                                         @NonNull final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException {
+                                         @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException {
 
         getGroomHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
@@ -49,7 +49,7 @@ public class AIKManager implements AIKMInterface {
     }
 
     @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingGroomUrlsListener(final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingGroomUrlsListener(final OnGetServicesListener onGetServicesListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
@@ -67,7 +67,7 @@ public class AIKManager implements AIKMInterface {
     @NonNull
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
                                                                                                   final AISDResponse.AISDPreference aiSdPreference,
-                                                                                                  final ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) {
+                                                                                                  final OnGetServicesListener onGetServicesListener) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
@@ -84,6 +84,7 @@ public class AIKManager implements AIKMInterface {
     }
 
     public static boolean isAiKmServiceEnabled(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
+       String IS_AIKM_SERVICE_ENABLED ="aiKmService.enabled";
         try {
             final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                     .AppConfigurationError();

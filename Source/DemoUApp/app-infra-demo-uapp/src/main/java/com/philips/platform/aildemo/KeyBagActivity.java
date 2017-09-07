@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
+import com.philips.platform.appinfra.aikm.model.OnGetServicesListener;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
@@ -67,14 +68,14 @@ public class KeyBagActivity extends AppCompatActivity {
 				String[] serviceIds = serviceIdsFromEditText.split(",");
 
 				try {
-					aiKmInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new ServiceDiscoveryInterface.OnGetServicesListener() {
+					aiKmInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new OnGetServicesListener() {
 						@Override
 						public void onSuccess(List<AIKMService> aikmServices) {
 							updateView(aikmServices);
 						}
 
 						@Override
-						public void onError(ERRORVALUES error, String message) {
+						public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES error, String message) {
 							Log.e(getClass().getSimpleName(), message);
 							Toast.makeText(KeyBagActivity.this, message, Toast.LENGTH_SHORT).show();
 						}
@@ -110,7 +111,7 @@ public class KeyBagActivity extends AppCompatActivity {
 					stringBuilder.append(aikmService.getLocale());
 				}
 				stringBuilder.append(", ");
-				Map keyBag = aikmService.getMap();
+				Map keyBag = aikmService.getAIKMap();
 				if (keyBag != null) {
 					for (Object object : keyBag.entrySet()) {
 						Map.Entry pair = (Map.Entry) object;
@@ -124,7 +125,7 @@ public class KeyBagActivity extends AppCompatActivity {
 						stringBuilder.append("  ");
 					}
 				}
-				AIKMService.MapError keyBagError = aikmService.getMapError();
+				AIKMService.AIKMapError keyBagError = aikmService.getAIKMapError();
 				if (null != keyBagError) {
 					stringBuilder.append("error while fetching key bag -- ");
 					stringBuilder.append(keyBagError.getDescription());

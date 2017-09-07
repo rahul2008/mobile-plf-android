@@ -2,21 +2,18 @@ package com.philips.platform.appinfra.aikm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
+import com.philips.platform.appinfra.aikm.model.OnGetServicesListener;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 import static org.mockito.Mockito.mock;
@@ -45,19 +42,11 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(appInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
-        ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListenerMock = mock(ServiceDiscoveryInterface.OnGetServicesListener.class);
+        OnGetServicesListener onGetServicesListenerMock = mock(OnGetServicesListener.class);
         final ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListenerMock = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
-
-        InputStream inputStream = null;
-        try {
-            inputStream = context.getResources().getAssets().open("AIKeyBag.json");
-        } catch (IOException e) {
-            Log.e("error"," while reading ai.json ");
-        }
         final GroomHelper groomHelperMock = mock(GroomHelper.class);
         ArrayList<String> serviceIds = new ArrayList<>();
         serviceIds.add("service_id");
-        final InputStream finalInputStream = inputStream;
         aikManager = new AIKManager(appInfraMock) {
             @NonNull
             @Override
@@ -65,11 +54,6 @@ public class AIKManagerTest extends AppInfraInstrumentation {
                 return groomHelperMock;
             }
 
-            @NonNull
-            @Override
-            ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(List<String> serviceIds, List<AIKMService> aiKmServices, AISDResponse.AISDPreference aiSdPreference, ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListener) {
-                return serviceUrlMapListenerMock;
-            }
         };
 
         aikManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
@@ -80,7 +64,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
     public void testGettingServiceDiscoveryUrl() {
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ArrayList<String> serviceIds = new ArrayList<>();
-        ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListenerMock = mock(ServiceDiscoveryInterface.OnGetServicesListener.class);
+        OnGetServicesListener onGetServicesListenerMock = mock(OnGetServicesListener.class);
 
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = aikManager.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetServicesListenerMock);
         serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
@@ -88,7 +72,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
     }
 
     public void testFetchGettingKeyBagUrlsListener() {
-        ServiceDiscoveryInterface.OnGetServicesListener onGetServicesListenerMock = mock(ServiceDiscoveryInterface.OnGetServicesListener.class);
+        OnGetServicesListener onGetServicesListenerMock = mock(OnGetServicesListener.class);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         TreeMap<String, ServiceDiscoveryService> urlMap = getStringServiceDiscoveryServiceTreeMap();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = aikManager.fetchGettingGroomUrlsListener(onGetServicesListenerMock, aiKmServices, urlMap);

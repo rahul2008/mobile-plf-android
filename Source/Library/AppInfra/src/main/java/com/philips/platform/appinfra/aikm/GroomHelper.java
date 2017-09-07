@@ -142,7 +142,7 @@ public class GroomHelper {
             if (serviceDiscoveryService != null) {
                 validateGroom(entry.getKey(), aikmService, serviceDiscoveryService);
             } else {
-                aikmService.setMapError(AIKMService.MapError.NO_SERVICE_FOUND);
+                aikmService.setAIKMapError(AIKMService.AIKMapError.NO_SERVICE_FOUND);
             }
             aiKmServices.add(aikmService);
         }
@@ -154,7 +154,7 @@ public class GroomHelper {
             String groomIndex = getGroomIndex(configUrls);
             mapAndValidateGroom(aikmService, key, groomIndex);
         } else {
-            aikmService.setMapError(AIKMService.MapError.EMPTY_ARGUMENT_URL);
+            aikmService.setAIKMapError(AIKMService.AIKMapError.EMPTY_ARGUMENT_URL);
         }
     }
 
@@ -164,7 +164,7 @@ public class GroomHelper {
             try {
                 index = Integer.parseInt(groomIndex);
             } catch (NumberFormatException e) {
-                aikmService.setMapError(AIKMService.MapError.INVALID_INDEX_URL);
+                aikmService.setAIKMapError(AIKMService.AIKMapError.INVALID_INDEX_URL);
                 return;
             }
             try {
@@ -175,23 +175,23 @@ public class GroomHelper {
                     try {
                         jsonObject = (JSONObject) jsonArray.get(index);
                     } catch (JSONException e) {
-                        aikmService.setMapError(AIKMService.MapError.BEYOND_BOUND_ERROR);
+                        aikmService.setAIKMapError(AIKMService.AIKMapError.BEYOND_BOUND_ERROR);
                         return;
                     }
                     Map map = mapData(jsonObject, index, serviceId);
-                    aikmService.setMap(map);
+                    aikmService.setAIKMap(map);
 
                 } else {
-                    aikmService.setMapError(AIKMService.MapError.INVALID_JSON);
+                    aikmService.setAIKMapError(AIKMService.AIKMapError.INVALID_JSON);
                 }
             } catch (Exception e) {
                 if (e instanceof JSONException)
-                    aikmService.setMapError(AIKMService.MapError.INVALID_JSON);
+                    aikmService.setAIKMapError(AIKMService.AIKMapError.INVALID_JSON);
                 else
-                    aikmService.setMapError(AIKMService.MapError.CONVERT_ERROR);
+                    aikmService.setAIKMapError(AIKMService.AIKMapError.CONVERT_ERROR);
             }
         } else {
-            aikmService.setMapError(AIKMService.MapError.NO_SERVICE_FOUND);
+            aikmService.setAIKMapError(AIKMService.AIKMapError.NO_SERVICE_FOUND);
         }
     }
 

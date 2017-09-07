@@ -7,12 +7,10 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.BroadcastReceiver;
 
-import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,15 +59,6 @@ public interface ServiceDiscoveryInterface {
      */
     interface OnGetServiceUrlMapListener extends OnErrorListener {
         void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
-    }
-
-    /**
-     * This is the callback method from getServicesForServiceIds() API.
-     * the call back will have success method for actions completed successfully.
-     * onSuccess returns the successful response
-     */
-    interface OnGetServicesListener extends OnErrorListener {
-        void onSuccess(List<AIKMService> aiKmServices);
     }
 
     /**

@@ -14,16 +14,16 @@ import java.util.Map;
 public class AIKMService extends ServiceDiscoveryService {
 
     private String serviceId;
-    private Map map;
+    private Map aiKMap;
 
-    private MapError mapError;
+    private AIKMapError aiKMapError;
 
-    public Map getMap() {
-        return map;
+    public Map getAIKMap() {
+        return aiKMap;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setAIKMap(Map aikmap) {
+        this.aiKMap = aikmap;
     }
 
     public String getServiceId() {
@@ -34,15 +34,15 @@ public class AIKMService extends ServiceDiscoveryService {
         this.serviceId = serviceId;
     }
 
-    public MapError getMapError() {
-        return mapError;
+    public AIKMapError getAIKMapError() {
+        return aiKMapError;
     }
 
-    public void setMapError(MapError mapError) {
-        this.mapError = mapError;
+    public void setAIKMapError(AIKMapError AIKMapError) {
+        this.aiKMapError = AIKMapError;
     }
 
-    public enum MapError {
+    public enum AIKMapError {
 
         INVALID_INDEX_URL("Invalid index url found from service discovery"),
         BEYOND_BOUND_ERROR("Beyond bounds exception"),
@@ -53,7 +53,7 @@ public class AIKMService extends ServiceDiscoveryService {
 
         private final String description;
 
-        MapError(final String description) {
+        AIKMapError(final String description) {
             this.description = description;
         }
 
