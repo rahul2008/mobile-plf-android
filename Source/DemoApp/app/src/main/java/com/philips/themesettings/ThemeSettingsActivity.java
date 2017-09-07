@@ -117,7 +117,7 @@ public class ThemeSettingsActivity extends UIDActivity {
     }
 
     public void applyTheme() {
-        saveThemeSettings();
+//        saveThemeSettings();
         restartActivity();
     }
 
