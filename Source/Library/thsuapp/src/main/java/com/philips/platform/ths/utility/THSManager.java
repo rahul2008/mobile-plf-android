@@ -73,7 +73,7 @@ import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.insurance.THSInsuranceCallback;
 import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.insurance.THSSubscriptionUpdateRequest;
-import com.philips.platform.ths.intake.THSConditions;
+import com.philips.platform.ths.intake.THSCondition;
 import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSConditionsList;
 import com.philips.platform.ths.intake.THSMedication;
@@ -492,10 +492,10 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
                 THSConsumer thsConsumer = new THSConsumer();
                 thsConsumer.setConsumer(consumer);
                 setPTHConsumer(thsConsumer);
+                THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
             }
 
             @Override
@@ -682,10 +682,10 @@ public class THSManager {
         });
     }
 
-    public void updateConditions(Context context, List<THSConditions> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
+    public void updateConditions(Context context, List<THSCondition> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
 
         List<Condition> conditionList = new ArrayList<>();
-        for (THSConditions pthcondition:pthConditionList
+        for (THSCondition pthcondition:pthConditionList
              ) {
             conditionList.add(pthcondition.getCondition());
         }
