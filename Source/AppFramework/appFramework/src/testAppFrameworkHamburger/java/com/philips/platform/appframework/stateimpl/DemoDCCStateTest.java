@@ -13,6 +13,7 @@ import com.philips.platform.ccdemouapp.CCDemoUAppuAppInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,15 +25,15 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class DemoDCCStateTest {
 
-    DemoDCCStateMock demoUFWStateMock;
+    DemoDCCStateMock demoDCCStateMock;
 
     @Mock
     CCDemoUAppuAppInterface uappDemoInterface;
@@ -43,20 +44,27 @@ public class DemoDCCStateTest {
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
-        demoUFWStateMock = new DemoDCCStateMock();
+        demoDCCStateMock = new DemoDCCStateMock();
     }
 
     @Test
     public void testDemoDCCStateTest(){
-        demoUFWStateMock.updateDataModel();
-        demoUFWStateMock.init(application);
-        demoUFWStateMock.navigate(null);
+        demoDCCStateMock.updateDataModel();
+        demoDCCStateMock.init(application);
+        demoDCCStateMock.navigate(null);
         verify(uappDemoInterface).launch(any(ActivityLauncher.class),any(UappLaunchInput.class));
     }
     @Test
     public void testGetUappInterface(){
         assertNotNull(new DemoDCCState().getCcDemoUAppuAppInterface());
     }
+
+    @After
+    public void tearDown() {
+        demoDCCStateMock = null;
+        uappDemoInterface = null;
+    }
+
     class DemoDCCStateMock extends DemoDCCState{
         @NonNull
         @Override

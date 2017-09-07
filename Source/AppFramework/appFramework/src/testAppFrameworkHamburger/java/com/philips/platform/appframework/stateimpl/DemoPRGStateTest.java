@@ -15,6 +15,7 @@ import com.philips.platform.prdemoapp.PRDemoAppuAppInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,25 +44,31 @@ public class DemoPRGStateTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         demoPRGStateMock = new DemoPRGStateMock();
     }
 
     @Test
-    public void testDemoPRGNavigate(){
+    public void testDemoPRGNavigate() {
         demoPRGStateMock.updateDataModel();
         demoPRGStateMock.init(application);
         demoPRGStateMock.navigate(null);
-        verify(uappDemoInterface).launch(any(ActivityLauncher.class),any(UappLaunchInput.class));
+        verify(uappDemoInterface).launch(any(ActivityLauncher.class), any(UappLaunchInput.class));
     }
 
     @Test
-    public void testGetUappInterface(){
+    public void testGetUappInterface() {
         assertNotNull(new DemoPRGState().getPrDemoAppuAppInterface());
     }
 
-    class DemoPRGStateMock extends DemoPRGState{
+    @After
+    public void tearDown() {
+        demoPRGStateMock = null;
+        uappDemoInterface = null;
+    }
+
+    class DemoPRGStateMock extends DemoPRGState {
         @NonNull
         @Override
         protected PRDemoAppuAppInterface getPrDemoAppuAppInterface() {

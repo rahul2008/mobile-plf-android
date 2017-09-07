@@ -20,6 +20,7 @@ import com.philips.platform.baseapp.screens.termsandconditions.TermsAndCondition
 import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -73,6 +74,16 @@ public class AboutScreenPresenterTest {
     public void loadTermsAndPrivacy() throws Exception {
         aboutScreenPresenterMock.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
         verify(termsAndConditionsState).navigate(any(UiLauncher.class));
+    }
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        aboutScreenPresenterMock=null;
+        view=null;
+        flowManager=null;
+        termsAndConditionsState=null;
+        hamburgerActivity=null;
     }
 
     class AboutScreenPresenterMock extends AboutScreenPresenter {

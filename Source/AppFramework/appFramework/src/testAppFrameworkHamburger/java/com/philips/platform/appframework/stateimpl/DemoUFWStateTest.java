@@ -13,6 +13,7 @@ import com.philips.platform.uappdemo.UappDemoInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,23 +42,31 @@ public class DemoUFWStateTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         demoUFWStateMock = new DemoUFWStateMock();
     }
 
     @Test
-    public void testDemoUFWNavigate(){
+    public void testDemoUFWNavigate() {
         demoUFWStateMock.updateDataModel();
         demoUFWStateMock.init(application);
         demoUFWStateMock.navigate(null);
-        verify(uappDemoInterface).launch(any(ActivityLauncher.class),any(UappLaunchInput.class));
+        verify(uappDemoInterface).launch(any(ActivityLauncher.class), any(UappLaunchInput.class));
     }
+
     @Test
-    public void testGetUappInterface(){
+    public void testGetUappInterface() {
         assertNotNull(new DemoUFWState().getUappDemoInterface());
     }
-    class DemoUFWStateMock extends DemoUFWState{
+
+    @After
+    public void tearDown() {
+        demoUFWStateMock = null;
+        uappDemoInterface = null;
+    }
+
+    class DemoUFWStateMock extends DemoUFWState {
         @NonNull
         @Override
         protected UappDemoInterface getUappDemoInterface() {

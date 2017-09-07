@@ -64,13 +64,9 @@ public class DemoDataServicesStateTest {
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
-    @After
-    public void tearDown() {
-        demoDataServiceStateMock = null;
-    }
 
     @Before
-    public void setUp()  {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         demoDataServiceStateMock = new DemoDataServiceStateMock();
         demoDataServiceStateMock.init(getApplicationContext());
@@ -86,12 +82,12 @@ public class DemoDataServicesStateTest {
     @Test
     public void testLaunchDemoDataServicesState() {
         demoDataServiceStateMock.navigate(activityLauncher);
-        verify(dsDemoAppuAppInterface).launch(any(UiLauncher.class),any(UappLaunchInput.class));
+        verify(dsDemoAppuAppInterface).launch(any(UiLauncher.class), any(UappLaunchInput.class));
     }
 
 
     @Test
-    public void sendNotificationTest(){
+    public void sendNotificationTest() {
         demoDataServiceStateMock.handlePushNotification("This is reference app");
         NotificationManager notificationService = (NotificationManager) application.getSystemService(Context.NOTIFICATION_SERVICE);
         ShadowNotificationManager shadowNotificationManager = shadowOf(notificationService);
@@ -100,15 +96,25 @@ public class DemoDataServicesStateTest {
 
 
     @Test
-    public void getUappDependenciesTest(){
+    public void getUappDependenciesTest() {
         assertNotNull(new DemoDataServicesState().getUappDependencies(application));
     }
 
     @Test
-    public void getDsDemoAppuAppInterface(){
+    public void getDsDemoAppuAppInterface() {
         assertNotNull(new DemoDataServicesState().getDsDemoAppuAppInterface());
     }
-    class DemoDataServiceStateMock extends DemoDataServicesState{
+
+    @After
+    public void tearDown() {
+        activityLauncher = null;
+        demoDataServiceStateMock = null;
+        dsDemoAppuAppDependencies = null;
+        dsDemoAppuAppInterface = null;
+        registerCallbackListener = null;
+    }
+
+    class DemoDataServiceStateMock extends DemoDataServicesState {
 
         @NonNull
         protected DSDemoAppuAppInterface getDsDemoAppuAppInterface() {

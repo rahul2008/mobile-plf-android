@@ -1,3 +1,10 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.baseapp.screens.userregistration;
 
 import android.content.Intent;
@@ -20,6 +27,7 @@ import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,14 +58,9 @@ import static org.mockito.Mockito.when;
 import static org.robolectric.RuntimeEnvironment.application;
 import static org.robolectric.Shadows.shadowOf;
 
-/**
- * Created by philips on 06/09/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class UserRegistrationStateTest {
-
-
 
     private ActivityController<TestActivity> activityController;
 
@@ -122,12 +125,6 @@ public class UserRegistrationStateTest {
 
     @Test
     public void getUserObject_NotNull(){
-//        try {
-//            userRegState.navigate(fragmentLauncher);
-//        }
-//        catch(Exception exception){
-//        }
-//        userRegState.onUserRegistrationComplete(hamburgerActivity);
         assertNotNull(userRegState.getUserObject(application));
     }
 
@@ -140,6 +137,16 @@ public class UserRegistrationStateTest {
         assertEquals(shadowIntent.getIntentClass().getSimpleName(), WebViewActivity.class.getSimpleName());
     }
 
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        hamburgerActivity=null;
+        fragmentLauncher=null;
+        userRegState=null;
+        flowManager=null;
+        appFrameworkApplication=null;
+    }
     class UserRegistrationStateMock extends UserRegistrationState{
 
         private AppStateConfiguration configuration;

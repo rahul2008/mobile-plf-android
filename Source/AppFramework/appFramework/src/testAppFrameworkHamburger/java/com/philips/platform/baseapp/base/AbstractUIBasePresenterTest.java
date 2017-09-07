@@ -9,6 +9,7 @@ package com.philips.platform.baseapp.base;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +48,11 @@ public class AbstractUIBasePresenterTest {
         assertNotNull(concreteUiBasePresenterTest.setStateData(""));
     }
 
+    @After
+    public void tearDown(){
+        uiView=null;
+        concreteUiBasePresenterTest=null;
+    }
     class ConcreteUiBasePresenterTest extends AbstractUIBasePresenter{
 
         public ConcreteUiBasePresenterTest(UIView uiView) {

@@ -15,6 +15,7 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,25 +44,31 @@ public class DemoIAPStateTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         demoIAPStateMock = new DemoIAPStateMock();
     }
 
     @Test
-    public void testDemoIAPNavigate(){
+    public void testDemoIAPNavigate() {
         demoIAPStateMock.updateDataModel();
         demoIAPStateMock.init(application);
         demoIAPStateMock.navigate(null);
-        verify(uappDemoInterface).launch(any(ActivityLauncher.class),any(UappLaunchInput.class));
+        verify(uappDemoInterface).launch(any(ActivityLauncher.class), any(UappLaunchInput.class));
     }
 
     @Test
-    public void testGetUappInterface(){
+    public void testGetUappInterface() {
         assertNotNull(new DemoIAPState().getIapDemoUAppInterface());
     }
 
-    class DemoIAPStateMock extends DemoIAPState{
+    @After
+    public void tearDown() {
+        demoIAPStateMock = null;
+        uappDemoInterface = null;
+    }
+
+    class DemoIAPStateMock extends DemoIAPState {
         @NonNull
         @Override
         protected IapDemoUAppInterface getIapDemoUAppInterface() {

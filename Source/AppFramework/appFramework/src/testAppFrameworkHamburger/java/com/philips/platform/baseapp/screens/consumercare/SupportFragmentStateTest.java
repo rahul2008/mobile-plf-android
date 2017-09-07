@@ -26,6 +26,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -89,6 +90,17 @@ public class SupportFragmentStateTest {
     public void testLaunchCC(){
         supportFragmentStateMock.navigate(fragmentLauncher);
         verify(ccInterface).launch(any(UiLauncher.class),any(UappLaunchInput.class));
+    }
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        hamburgerActivity=null;
+        flowManager=null;
+        ccInterface=null;
+        productRegistrationState=null;
+        appFrameworkApplication=null;
+        fragmentLauncher=null;
     }
 
     @Test
