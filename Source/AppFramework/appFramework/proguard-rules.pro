@@ -46,8 +46,8 @@
 -keepclassmembers public class org.apache.http.** {*;}
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
-
--keep class android.databinding.** { *; }
+#-dontwarn com.philips.platform.urdemolibrary.R$id
+#-dontwarn android.databinding.**
 
 #GMS (Registration)
 -keep  class com.google.android.gms.* { public *; }
