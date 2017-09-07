@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.CheckOutHistoryAdapter;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
@@ -52,9 +53,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderSummaryFragment extends InAppBaseFragment
-        implements View.OnClickListener, PaymentController.MakePaymentListener,EventListener, AddressController.AddressListener,
+        implements View.OnClickListener, PaymentController.MakePaymentListener, EventListener, AddressController.AddressListener,
         CheckOutHistoryAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        DeliveryModeDialog.DialogListener, com.philips.cdp.di.iap.utils.AlertListener ,CheckOutHistoryAdapter.OrderSummaryUpdateListner {
+        DeliveryModeDialog.DialogListener, com.philips.cdp.di.iap.utils.AlertListener, CheckOutHistoryAdapter.OrderSummaryUpdateListner {
 
     public static final String TAG = OrderSummaryFragment.class.getName();
     private Context mContext;
@@ -104,6 +105,20 @@ public class OrderSummaryFragment extends InAppBaseFragment
         bundle = getArguments();
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+            if (mPaymentMethod != null && mPaymentMethod.getBillingAddress() != null) {
+                final Addresses billingAddress = mPaymentMethod.getBillingAddress();
+                final AddressFields billingAddressFields = new AddressFields();
+                billingAddressFields.setFirstName(billingAddress.getFirstName());
+                billingAddressFields.setLastName(billingAddress.getLastName());
+                billingAddressFields.setTitleCode(billingAddress.getTitleCode());
+                billingAddressFields.setCountryIsocode(billingAddress.getCountry().getIsocode());
+                billingAddressFields.setLine1(billingAddress.getLine1());
+                billingAddressFields.setLine2(billingAddress.getLine2());
+                billingAddressFields.setPostalCode(billingAddress.getPostalCode());
+                billingAddressFields.setTown(billingAddress.getTown());
+                billingAddressFields.setRegionName(billingAddress.getRegion().getIsocodeShort());
+                CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
+            }
         }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
@@ -170,7 +185,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
         if (!isNetworkConnected()) return;
         if (v == mPayNowBtn) {
-           if (mPaymentMethod != null)
+            if (mPaymentMethod != null)
                 showCvvDialog(getFragmentManager());
             else {
                 placeOrder(null);
@@ -464,8 +479,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onPlaceOrder(final Message msg) {
-       // launchConfirmationScreen(new PlaceOrder());//need to remove
-        if(msg.obj instanceof PlaceOrder) {
+        // launchConfirmationScreen(new PlaceOrder());//need to remove
+        if (msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
             String orderID = order.getCode();
             updateCount(0);
