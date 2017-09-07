@@ -44,7 +44,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback,THSMatchMakingCallback {
@@ -112,7 +111,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             }
 
         } else if (componentID == R.id.detailsButtonTwo) {
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -134,7 +133,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         } else if (componentID == R.id.detailsButtonContinue) {
 
         } else if (componentID == R.id.calendar_container) {
-            THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override

@@ -98,7 +98,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
             }
         } else if (componentID == R.id.getScheduleAppointmentButton) {
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
