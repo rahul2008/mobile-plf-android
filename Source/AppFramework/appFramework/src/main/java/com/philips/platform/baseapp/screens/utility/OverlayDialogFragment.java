@@ -11,6 +11,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -45,7 +46,6 @@ public class OverlayDialogFragment extends DialogFragment {
         drawableId = getArguments().getInt(DRAWABLE_ID);
     }
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
@@ -55,7 +55,8 @@ public class OverlayDialogFragment extends DialogFragment {
         Point size = new Point();
         windowManager.getDefaultDisplay().getSize(size);
         dialog.getWindow().setLayout(size.x, size.y);
-        ColorDrawable colorDrawable =new ColorDrawable(getResources().getColor(R.color.overlay_background));
+        ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(getActivity(),
+                R.color.overlay_background));
         colorDrawable.setAlpha(OVERLAY_ALPHA_VALUE);
         dialog.getWindow().setBackgroundDrawable(colorDrawable);
         try {
