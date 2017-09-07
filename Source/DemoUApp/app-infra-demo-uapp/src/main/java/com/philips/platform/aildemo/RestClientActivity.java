@@ -20,6 +20,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -191,7 +192,8 @@ public class RestClientActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mRestInterface.getRequestQueue().add(finalMStringRequest);
+//                    mRestInterface.getRequestQueue().add(finalMStringRequest);
+                    Volley.newRequestQueue(RestClientActivity.this).add(finalMStringRequest);
                 }
             }).start();
 
@@ -429,7 +431,14 @@ public class RestClientActivity extends AppCompatActivity {
                 if (null != mStringRequest) {
                     mStringRequest.setShouldCache(false); // set false to disable cache , by default its true
                     urlFired.setText(mStringRequest.getUrl());
-                    mRestInterface.getRequestQueue().add(mStringRequest);
+                    final StringRequest finalMStringRequest = mStringRequest;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRestInterface.getRequestQueue().add(finalMStringRequest);
+                        }
+                    }).start();
+
                 }
 
             }
