@@ -127,53 +127,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     View view;
 
-    private PopupWindow popupWindow;
-
-
-
-    private void createPopUpWindow() {
-        View view = getNotificationContentView();
-        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    }
-
-    private View getNotificationContentView() {
-
-        //((ViewGroup)view).addView(View.inflate(mContext, R.layout.uid_notification_bg_white,null));
-
-         View view = View.inflate(getContext(), R.layout.uid_notification_bg_white, null);
-        ((TextView) view.findViewById(R.id.uid_notification_title)).setText("notification_bar_title");
-        ((TextView) view.findViewById(R.id.uid_notification_content)).setText("notification_bar_content");
-        ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setText("notification_bar_action_1");
-        ((TextView) view.findViewById(R.id.uid_notification_btn_2)).setText("notification_bar_action_2");
-
-        view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.uid_notification_btn_1).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.uid_notification_btn_2).setVisibility(View.VISIBLE);
-
-        view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alterPopUpState();
-            }
-        });
-        return view;
-    }
-
-    public void alterPopUpState() {
-        if (popupWindow == null) {
-            createPopUpWindow();
-        }
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-            mBtnCreateAccount.setText("hello");
-        } else {
-            popupWindow.showAsDropDown(getActivity().findViewById(R.id.usr_startScreen_baseLayout_ConstraintLayout));
-            mBtnCreateAccount.setText("hrlloEotkf");
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
@@ -437,7 +390,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
             trackMultipleActionsRegistration();
             launchCreateAccountFragment();
-//            sampleNotification();
         } else if (v.getId() == R.id.usr_startScreen_Login_Button) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
@@ -449,15 +401,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             }
         }
     }
-
-    private void sampleNotification() {
-//        ((ViewGroup)view).addView(View.inflate(getContext(), R.layout.uid_notification_bg_white,null));
-//
-//        view.findViewById(R.id.uid_notification_btn_1).setVisibility(View.VISIBLE);
-//        ((com.philips.platform.uid.view.widget.Button)view.findViewById(R.id.uid_notification_btn_1)).setText("Hello World");
-        alterPopUpState();
-    }
-
 
     final CountryPicker picker = new CountryPicker();
 
