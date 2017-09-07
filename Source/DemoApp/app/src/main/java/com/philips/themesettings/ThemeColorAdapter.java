@@ -4,7 +4,7 @@
  *
  */
 
-package com.philips.platform.urdemo.themesettings;
+package com.philips.themesettings;
 
 import android.content.Context;
 import android.graphics.*;

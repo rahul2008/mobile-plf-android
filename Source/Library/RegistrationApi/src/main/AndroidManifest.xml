@@ -25,8 +25,7 @@
         <activity
             android:name="com.philips.cdp.registration.ui.traditional.RegistrationActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
+            android:exported="false"/>
 
         <!-- Janrain specific  start -->
         <activity
