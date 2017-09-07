@@ -8,11 +8,11 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.constraint.*;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.*;
 import android.text.*;
 import android.text.method.LinkMovementMethod;
@@ -32,7 +32,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.customviews.countrypicker.*;
+import com.philips.cdp.registration.ui.customviews.countrypicker.CountryPicker;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.wechat.*;
@@ -404,25 +404,22 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleCountrySelection() {
         if (networkUtility.isNetworkAvailable()) {
-            picker.setListener(new CountryChangeListener() {
+            picker.setListener((name, code) -> {
 
-                @Override
-                public void onSelectCountry(String name, String code) {
+                RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
+                changeCountry(name, code.trim().toUpperCase());
+                picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                picker.dismiss();
 
-                    RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
-                    changeCountry(name, code.trim().toUpperCase());
-                    picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                    picker.dismiss();
-
-                }
             });
 
 
-            if (picker != null && picker.getDialog() != null
-                    && picker.getDialog().isShowing()) {
+            if (picker.getDialog() != null && picker.getDialog().isShowing()) {
+                /* NOP */
             } else {
                 try {
                     picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+//                    getRegistrationFragment().addFragment(new CountrySelectionFragment());
                 } catch (Exception e) {
                     //Nop
                 }

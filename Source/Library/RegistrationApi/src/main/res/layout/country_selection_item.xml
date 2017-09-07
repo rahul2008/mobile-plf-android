@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_margin="@dimen/reg_layout_margin_16dp"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:weightSum="100"
+              android:layout_height="50dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/usr_countrySelection_countryName"
+        android:layout_width="0dp"
+        android:layout_weight="100"
+        android:layout_margin="@dimen/reg_layout_margin_10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:text="India"/>
+
+    <ImageView
+        android:id="@+id/usr_countrySelection_countrySelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/reg_layout_margin_16dp"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_transparent_done_icon"/>
+
+</LinearLayout>

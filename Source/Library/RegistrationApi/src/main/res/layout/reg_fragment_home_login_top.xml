@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/usr_StartScreen_privacyNotice_country_LinearLayout"
-        android:background="@android:color/transparent">
+        >
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/usr_startScreen_baseLayout_ConstraintLayout"
@@ -180,7 +180,6 @@
         android:id="@+id/ll_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:gravity="center"
         android:visibility="invisible">
 

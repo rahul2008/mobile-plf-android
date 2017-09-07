@@ -1,15 +1,17 @@
 package com.philips.platform.urdemo;
 
 
-import android.os.*;
-import android.support.v7.app.*;
-import android.view.*;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 
-import com.philips.platform.appinfra.*;
-import com.philips.platform.uappframework.launcher.*;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.urdemo.themesettings.ThemeSettingsActivity;
 
-public class URDemoActivity extends AppCompatActivity {
+public class URDemoActivity extends UIDActivity {
 
     private URDemouAppInterface uAppInterface;
 
@@ -18,6 +20,14 @@ public class URDemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urdemo);
         uAppInterface = new URDemouAppInterface();
+        Button changeTheme = (Button) findViewById(R.id.change_theme);
+        changeTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(URDemoActivity.this, ThemeSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
         AppInfraInterface appInfraInterface = URDemoApplication.getInstance().getAppInfra();
         uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(this.getApplicationContext()));
         setStandardFlow();

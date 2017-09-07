@@ -2,29 +2,21 @@
 package com.philips.platform.urdemo;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SHARED;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 
 public class URDemoApplication extends Application {
 
@@ -35,6 +27,13 @@ public class URDemoApplication extends Application {
     private static URDemoApplication mRegistrationSampleApplication = null;
 
     private AppInfraInterface mAppInfraInterface;
+
+    public ColorRange colorRange = ColorRange.GROUP_BLUE;
+    public ContentColor contentColor = ContentColor.ULTRA_LIGHT;
+    public AccentRange accentRange = AccentRange.ORANGE;
+    public NavigationColor navigationColor = NavigationColor.ULTRA_LIGHT;
+
+    ThemeConfiguration themeConfiguration;
 
     /**
      * @return instance of this class
@@ -47,12 +46,17 @@ public class URDemoApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+
         UIDHelper.injectCalligraphyFonts();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        themeConfiguration = new ThemeConfiguration(this, colorRange, contentColor, navigationColor, accentRange);
+        UIDHelper.init(themeConfiguration);
+
         mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -340,6 +344,25 @@ public class URDemoApplication extends Application {
 
     public AppInfraInterface getAppInfra() {
         return mAppInfraInterface;
+    }
+
+    public void injectNewTheme(ColorRange colorRange, ContentColor contentColor, NavigationColor navigationColor, AccentRange accentRange) {
+        if (colorRange != null) {
+            this.colorRange = colorRange;
+        }
+        if (contentColor != null) {
+            this.contentColor = contentColor;
+        }
+        if (navigationColor != null) {
+            this.navigationColor = navigationColor;
+        }
+        if (accentRange != null) {
+            this.accentRange = accentRange;
+        }
+        String themeName = String.format("Theme.DLS.%s.%s", this.colorRange.getThemeName(), this.contentColor.getThemeName());
+        getTheme().applyStyle(getResources().getIdentifier(themeName, "style", getPackageName()), true);
+        themeConfiguration = new ThemeConfiguration(this, this.colorRange, this.contentColor, this.navigationColor, this.accentRange);
+        UIDHelper.init(themeConfiguration);
     }
 }
 

@@ -1,36 +1,23 @@
 package com.philips.cdp.registration.ui.customviews.countrypicker;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.R.drawable;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
 
 class CountryAdapter extends BaseAdapter {
     private List<Country> countries;
     private LayoutInflater inflater;
 
-    private int getResId(String drawableName) {
-        try {
-            Class<drawable> res = R.drawable.class;
-            Field field = res.getField(drawableName);
-            return field.getInt(null);
-        } catch (Exception e) {
-            RLog.e("COUNTRYPICKER", "Failure to get drawable id."+ e);
-        }
-        return -1;
-    }
-
     CountryAdapter(Context context, List<Country> countries) {
         super();
         this.countries = countries;
-        inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -56,17 +43,20 @@ class CountryAdapter extends BaseAdapter {
 
         if (convertView == null) {
             cell = new Cell();
-            cellView = inflater.inflate(R.layout.reg_country_selection_row, null);
-            cell.textView = (TextView) cellView.findViewById(R.id.reg_row_title);
-            cell.imageView = (ImageView) cellView.findViewById(R.id.reg_row_icon);
+            cellView = inflater.inflate(R.layout.country_selection_item, null);
+            cell.textView = (TextView) cellView.findViewById(R.id.usr_countrySelection_countryName);
+            cell.imageView = (ImageView) cellView.findViewById(R.id.usr_countrySelection_countrySelector);
+            cell.imageView.setVisibility(View.GONE);
             cellView.setTag(cell);
         } else {
             cell = (Cell) cellView.getTag();
         }
         cell.textView.setText(country.getName());
-        String drawableName = "reg_"
-                + country.getCode().toLowerCase(Locale.ENGLISH);
-        cell.imageView.setImageResource(getResId(drawableName));
+        Log.i("COUNTRY", " Selected country : " + RegistrationHelper.getInstance().getCountryCode() + " current Country " + country.getCode());
+        Log.i("COUNTRY", " Are they equal :: " + (RegistrationHelper.getInstance().getCountryCode().equals(country.getCode())));
+        if(position == 0) {
+            cell.imageView.setVisibility(View.VISIBLE);
+        }
         return cellView;
     }
 

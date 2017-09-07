@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/country_list_container"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?attr/uidContentPrimaryBackgroundColor"
+              android:layout_margin="@dimen/reg_layout_margin_16dp"
+              android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/reg_layout_margin_16dp"
+        android:id="@+id/usr_countrySelection_title_label"
+        android:text="Hello"/>
+
+
+    <ListView
+        android:id="@+id/usr_countrySelection_countryList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

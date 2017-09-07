@@ -464,7 +464,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void updateUiStatus() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
-        } else {
         }
     }
 

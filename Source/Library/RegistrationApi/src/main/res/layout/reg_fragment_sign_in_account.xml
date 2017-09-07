@@ -57,6 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
+                        app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                         android:maxLines="1"
                         app:uidInputTextWithClearButton="true"/>
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -80,6 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
+                        app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                         android:inputType="textPassword"
                         android:maxLines="1"/>
                 </com.philips.platform.uid.view.widget.InputValidationLayout>

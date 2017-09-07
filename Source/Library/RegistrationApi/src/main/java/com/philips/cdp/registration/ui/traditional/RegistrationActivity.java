@@ -25,11 +25,11 @@ import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.*;
-import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RegistrationActivity extends FragmentActivity implements OnClickListener,
+public class RegistrationActivity extends UIDActivity implements OnClickListener,
         ActionBarListener {
 
     private TextView ivBack;
@@ -69,10 +69,10 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(RegistrationHelper.getInstance().getThemeConfiguration() != null) {
-            UIDHelper.init(RegistrationHelper.getInstance().getThemeConfiguration());
+//            UIDHelper.init(RegistrationHelper.getInstance().getThemeConfiguration());
         }
         if(RegistrationHelper.getInstance().getTheme() != 0) {
-            setTheme(RegistrationHelper.getInstance().getTheme());
+//            setTheme(RegistrationHelper.getInstance().getTheme());
         }
 //        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
         requestWindowFeature(Window.FEATURE_NO_TITLE);
