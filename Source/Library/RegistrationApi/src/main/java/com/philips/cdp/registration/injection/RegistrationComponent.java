@@ -72,6 +72,12 @@ public interface RegistrationComponent {
 
     void inject(MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment);
 
+    void inject(MobileForgotPassVerifyResendCodeFragment mobileForgotPasswordVerifyResendCodeFragment);
+
+    void inject(MobileForgotPassVerifyResendCodePresenter mobileForgotPasswordVerifyResendCodePresenter);
+    void inject(MobileForgotPasswordVerifyResendCodeFragment mobileForgotPasswordVerifyResendCodePresenter);
+
+
     void inject(MobileVerifyCodeFragment mobileVerifyCodeFragment);
 
     void inject(SignInAccountFragment signInAccountFragment);
@@ -93,10 +99,10 @@ public interface RegistrationComponent {
     void inject(MobileVerifyCodePresenter mobileVerifyCodePresenter);
 
     void inject(MobileVerifyResendCodeFragment mobileVerifyResendCodeFragment);
+
     void inject(MobileVerifyResendCodePresenter mobileVerifyResendCodePresenter);
 
     void inject(RussianConsent russianConsent);
-
 
     void inject(AddSecureEmailPresenter addSecureEmailPresenter);
 
