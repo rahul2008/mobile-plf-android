@@ -24,7 +24,10 @@ ext.versions = [
 		uaf_uAppFwLib              : "1.7.0",
 		uid_uid                    : "0.1.1",
 		uit_uikitLib               : "3.10.0",
-		usr_registrationApi        : "11.0.0"
+		usr_registrationApi        : "11.0.0",
+		usr_jump                   : "7.0.0",
+		usr_hsdp                   : "2.0.0",
+		usr_coppa                  : "2.0.0"
 ]
 
 ext.builddeps = [
