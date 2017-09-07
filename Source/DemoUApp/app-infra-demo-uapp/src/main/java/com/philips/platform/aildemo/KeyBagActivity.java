@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
@@ -28,6 +29,7 @@ import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,12 +39,13 @@ public class KeyBagActivity extends AppCompatActivity {
 	private EditText serviceIdEditText;
 	private TextView responseTextView;
 	private AISDResponse.AISDPreference aikmServiceDiscoveryPreference = AISDResponse.AISDPreference.AISDCountryPreference;
+	private AppInfraInterface appInfra;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
-
+		appInfra = AILDemouAppInterface.getInstance().getAppInfra();
 		serviceIdEditText = (EditText) findViewById(R.id.service_id_edt);
 		responseTextView = (TextView) findViewById(R.id.response_view);
 
@@ -59,7 +62,7 @@ public class KeyBagActivity extends AppCompatActivity {
 	}
 
 	public void onClick(View view) {
-		final AIKMInterface aiKmInterface = AILDemouAppInterface.getInstance().getAppInfra().getAiKmInterface();
+		final AIKMInterface aiKmInterface = appInfra.getAiKmInterface();
 
 		if (aiKmInterface != null) {
 
@@ -91,6 +94,7 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	private void updateView(List<AIKMService> aikmServiceList) {
 		StringBuilder stringBuilder = new StringBuilder();
+		HashMap testDSKey;
 		if (aikmServiceList != null && aikmServiceList.size() != 0) {
 			for (int i = 0; i < aikmServiceList.size(); i++) {
 				stringBuilder.append("ServiceId: ");
@@ -135,5 +139,7 @@ public class KeyBagActivity extends AppCompatActivity {
 			}
 		}
 		responseTextView.setText(stringBuilder.toString());
+//		makeRestCall("appinfra.keybag",);
+
 	}
 }

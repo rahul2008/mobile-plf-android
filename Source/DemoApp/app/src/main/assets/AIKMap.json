@@ -43,5 +43,34 @@
       "new" : "e6e173c5da",
       "clientId" : "b83d533301"
     }
+  ],
+  "appinfra.keybag" : [
+    {
+      "clientId" : "b716849e4213df"
+    },
+    {
+      "key" : "9c8732408862080878f2521e90bf2be7da309e2f"
+    },
+    {
+      "key" : "5dfad536bd4c0771dd51774fef517912a53b00dcc4"
+    },
+    {
+      "key" : "25fe1fa312b223085d3a3bd0631e9b957d2ae2105a"
+    },
+    {
+      "key" : "eef7d199e0d02465d372c3425345d6322bddc9c4"
+    },
+    {
+      "key" : "d0e9569b82020157aae3405a9a0b0c1f49b7d44362"
+    },
+    {
+      "key" : "b4c84ca7fdefe53b8cea42838ea239afed002657"
+    },
+    {
+      "key" : "8a6913e7bcddeefaec056d16588f404ef59add55e5"
+    },
+    {
+      "key" : "22a8e918b8a52b58d68ea73959bc77852b54f32b"
+    }
   ]
 }

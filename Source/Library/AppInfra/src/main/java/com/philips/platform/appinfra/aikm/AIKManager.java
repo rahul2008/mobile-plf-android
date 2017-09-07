@@ -93,7 +93,7 @@ public class AIKManager implements AIKMInterface {
             return propertyForKey != null && (boolean) propertyForKey;
         } catch (IllegalArgumentException exception) {
             ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    AppInfraLogEventID.AI_APPINFRA, "Error in reading aikm service config ");
+                    AppInfraLogEventID.AI_APPINFRA, "Error in reading aiKm service config ");
         }
         return false;
     }

@@ -11,7 +11,7 @@ public class GroomLib {
 
 
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("groom");
     }
 
     public native char[] ailGroom(char[] testString, int testValue);
