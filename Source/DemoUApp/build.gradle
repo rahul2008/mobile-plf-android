@@ -68,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
+version = objcdp.getVersion(project.ext.versions.uaf_uAppFwLib)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
