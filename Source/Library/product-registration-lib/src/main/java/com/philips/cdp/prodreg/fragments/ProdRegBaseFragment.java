@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -233,6 +234,22 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
 
     public DialogOkButtonListener getDialogOkButtonListener() {
         return null;
+    }
+
+    /**
+     *  setting the imageview with aspect ration 16:9
+     */
+    public void setImgageviewwithAspectRation(ImageView imageView) {
+        float aspectRatio;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        if (width > 680) {
+            aspectRatio = (16/9);
+            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
+        } else {
+            aspectRatio = (12/5);
+            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
+        }
+
     }
 }
 
