@@ -198,4 +198,10 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
     <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
+    <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
+    <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
+    <string name="ths_matchmaking_error_text">No provider is available right now</string>
+    <string name="ths_valid_credit_card">Credit card is valid</string>
+    <string name="ths_not_valid_credit_card">Credit card is not valid</string>
+    <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
 </resources>

@@ -21,13 +21,17 @@ import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.payment.THSCreditCardDetailFragment;
 import com.philips.platform.ths.payment.THSPaymentCallback;
 import com.philips.platform.ths.payment.THSPaymentMethod;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 
@@ -57,6 +61,10 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             Bundle bundle = new Bundle();
             bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
             mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle);
+        }else if (componentID == R.id.uid_dialog_positive_button) {
+            // matchmaking failed
+            mTHSCostSummaryFragment.alertDialogFragment.dismiss();
+            mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
         }
 
     }
@@ -111,12 +119,12 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
 
     @Override
     public void onCreateVisitFailure(Throwable var1) {
-
+        showCostError(true,true,false,mTHSCostSummaryFragment.getFragmentActivity().getResources().getString(R.string.ths_cost_summary_provider_logged_out));
     }
 
     @Override
     public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
-
+        showCostError(true,true,false,mTHSCostSummaryFragment.getFragmentActivity().getResources().getString(R.string.ths_cost_summary_provider_logged_out));
     }
     // end of createVisit callbacks
 
@@ -161,7 +169,11 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
             mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.VISIBLE);
 
-            //mTHSCostSummaryFragment.mCardExpirationDate.setText(paymentMethod.);
+            if(paymentMethod.isExpired()){
+                mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_not_valid_credit_card));
+            }else {
+                mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_valid_credit_card));
+            }
         } else {
             // show no payment detail
             mTHSCostSummaryFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
@@ -180,4 +192,18 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
 
     }
     // end of getPayment callbacks
+
+    void showCostError(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon, final String message) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
+                .setMessage(showLargeContent ? message : message).
+                        setPositiveButton(" Ok ", mTHSCostSummaryFragment);
+
+        if (isWithTitle) {
+            builder.setTitle("Error");
+
+        }
+        mTHSCostSummaryFragment.alertDialogFragment = builder.setCancelable(false).create();
+        mTHSCostSummaryFragment.alertDialogFragment.show(mTHSCostSummaryFragment.getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
+
+    }
 }

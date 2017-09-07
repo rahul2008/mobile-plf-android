@@ -60,4 +60,6 @@ public class THSConstants {
 
     public static final String THS_SEARCH_PHARMACY_SELECTED = "selectedPharmacy";
     public static final String THS_MAP_FRAGMENT_TAG = "mapFragment";
+    public static final String THS_PROVIDER_DETAIL_ALERT = "thsProviderDetailAlert";
+    public static final String THS_COST_SUMMARY_ALERT = "thsCostSummaryAlert";
 }

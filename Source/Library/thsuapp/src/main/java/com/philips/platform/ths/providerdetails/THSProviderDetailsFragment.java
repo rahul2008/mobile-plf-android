@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -25,6 +26,13 @@ import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
+
+
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 
 /**
  * This class is used to display the provider details selected by the user.
@@ -36,11 +44,17 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected THSAvailableProvider mThsAvailableProvider;
     protected THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
-    private PracticeInfo mPracticeInfo;
+    protected PracticeInfo mPracticeInfo;
     protected THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
     private Provider mProvider;
     private ProviderInfo mProviderInfo;
+
+    protected Label dodProviderFoundMessage;
+    protected ProgressBarWithLabel mProgressBarWithLabel;
+    protected RelativeLayout mProgressBarWithLabelContainer;
+    AlertDialogFragment alertDialogFragment;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,26 +66,35 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+        mProgressBarWithLabelContainer = (RelativeLayout) view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
+        dodProviderFoundMessage = (Label)view.findViewById(R.id.dodProviderFound);
+        mProgressBarWithLabel = (ProgressBarWithLabel)view.findViewById(R.id.ths_match_making_ProgressBarWithLabel);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
+        boolean isMatchMakingrequired = (THSManager.getInstance().getPthVisitContext()!=null && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())?true:false;
 
-        final Bundle arguments = getArguments();
-        if(arguments!=null) {
-            mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
-            mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
-            mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
-            if(arguments.getParcelable(THSConstants.THS_PRACTICE_INFO)!=null){
+        if(isMatchMakingrequired){ // if provider is not yet selected
+            providerDetailsPresenter.doMatchMaking();
+        }else { // if provider is already selected
+           dodProviderFoundMessage.setVisibility(View.GONE);
+            final Bundle arguments = getArguments();
+            if (arguments != null) {
                 mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+                mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+                mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
+                if (arguments.getParcelable(THSConstants.THS_PRACTICE_INFO) != null) {
+                    mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+                }
+                if (mProviderInfo != null) {
+                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                    thsProviderInfo.setTHSProviderInfo(mProviderInfo);
+                    setTHSProviderEntity(thsProviderInfo);
+                }
             }
-            if(mProviderInfo!=null){
-                THSProviderInfo thsProviderInfo = new THSProviderInfo();
-                thsProviderInfo.setTHSProviderInfo(mProviderInfo);
-                setTHSProviderEntity(thsProviderInfo);
-            }
+            onRefresh();
         }
-        onRefresh();
         return view;
     }
 
@@ -174,6 +197,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
         } else if (i == R.id.detailsButtonTwo) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
+        }else if (i == R.id.uid_dialog_positive_button) {
+            providerDetailsPresenter.onEvent(R.id.uid_dialog_positive_button);
         }
     }
 
@@ -199,5 +224,15 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     public void setProvider(Provider mProvider) {
         this.mProvider = mProvider;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        alertDialogFragment = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_PROVIDER_DETAIL_ALERT);
+        if (alertDialogFragment != null) {
+            alertDialogFragment.setPositiveButtonListener(this);
+
+        }
     }
 }
