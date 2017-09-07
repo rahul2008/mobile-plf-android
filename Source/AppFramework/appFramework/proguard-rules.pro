@@ -30,9 +30,6 @@
 
 #--------------------------------Gson--------------------------------
 -keep class sun.misc.Unsafe { *; }
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
 
 #--------------------------------Tagging--------------------------------
 -keep class com.adobe.mobile.** {*;}
@@ -122,8 +119,6 @@
 # ----------------------------Gson specific classes --------------------------
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.** {*;}
--keep class com.philips.cdp.prxclient.** {*;}
--keep class com.philips.cdp.prxclient.prxdatamodels.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 -dontwarn com.google.gson.**
 
@@ -309,21 +304,23 @@
 
 #-------------------------Consumer Care Ends -------------------------
 
-#InAppPurchase
--keep class com.philips.cdp.di.iap.store** {*;}
--keep interface com.philips.cdp.di.iap.store** {*;}
+#------------------------------InAppPurchase starts here------------------------------------
+#all below classes are model classes
+-keep class com.philips.cdp.di.iap.store.AbstractStore {*;}
+-keep class com.philips.cdp.di.iap.store.HybrisStore {*;}
+-keep class com.philips.cdp.di.iap.store.IAPUser {*;}
+-keep class com.philips.cdp.di.iap.store.LocalStore {*;}
+-keep class com.philips.cdp.di.iap.store.StoreConfiguration {*;}
+-keep class com.philips.cdp.di.iap.store.StoreController {*;}
+-keep interface com.philips.cdp.di.iap.store.StoreListener{*;}
+
 -keep class com.philips.cdp.di.iap.model** {*;}
 -keep interface com.philips.cdp.di.iap.model** {*;}
+
 -keep class com.philips.cdp.di.iap.response** {*;}
 -keep interface com.philips.cdp.di.iap.response** {*;}
--keep class com.philips.cdp.di.iap.session.** {*;}
--keep interface com.philips.cdp.di.iap.session.** {*;}
--dontwarn com.philips.cdp.di.iap.analytics.**
 
-#Prx
--keep class com.philips.cdp.prxclient.** {*;}
--keep interface com.philips.cdp.prxclient.** { *; }
-
+#------------------------------InAppPurchase ends here------------------------------------
 
 #--------------------------AppInfra starts here-----------
 -keep public class javax.net.ssl.**
@@ -346,6 +343,12 @@
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
 #-----------------------------app infra ends here-----------------------------------
+
+#-----------------------------PRX starts here-----------------------------------
+
+-keep class com.philips.cdp.prxclient.datamodels.** { *; }
+
+#-----------------------------PRX ends here-----------------------------------
 
 
 #-----------------------------Apeligent starts here-----------------------------------
