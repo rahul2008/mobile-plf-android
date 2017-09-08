@@ -212,7 +212,7 @@ android {
 }
 
 def Properties props = new Properties()
-def propFile = new File('signing.properties')
+def propFile = new File('${projectDir}/../signing.properties')
 if (propFile.canRead()){
     props.load(new FileInputStream(propFile))
 

@@ -55,7 +55,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-def libVersionNumber = new File('../../VERSION_COPPA').text.trim()
+def libVersionNumber = new File('${projectDir}/../../../VERSION_COPPA').text.trim()
 if(objcdp.getWorkingBranch().startsWith('master')) {
     libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
 } else if(objcdp.getWorkingBranch().startsWith('release')) {
