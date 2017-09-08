@@ -66,21 +66,37 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_provider_select_insurance_edit_text"
             android:layout_marginTop="20dp"
-            android:text="Subscription ID"
+            android:text="Subscriber ID"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/ths_insurance_detail_subscription_edit_text"
+            android:id="@+id/ths_insurance_detail_subscriber_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_insurance_detail_edit_text_label" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_detail_suffix_edit_text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_subscriber_edit_text"
+            android:layout_marginTop="20dp"
+            android:text="Suffix"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/ths_body_text" />
+
+        <com.philips.platform.uid.view.widget.EditText
+            android:id="@+id/ths_insurance_detail_suffix_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_suffix_edit_text_label" />
 
         <com.philips.platform.uid.view.widget.CheckBox
             android:id="@+id/ths_insurance_detail_is_primary_subscriber_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ths_insurance_detail_subscription_edit_text"
+            android:layout_below="@+id/ths_insurance_detail_suffix_edit_text"
 
             android:layout_marginTop="@dimen/ths_margin_top"
             android:checked="false"
@@ -113,7 +129,7 @@
                 android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
                 android:text="Primary subscriber details"
                 android:textSize="@dimen/ths_body_text"
-                android:textStyle="bold" />
+                fontPath="fonts/centralesansbold.ttf" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_insurance_detail_provider_relation_firstname_label"
