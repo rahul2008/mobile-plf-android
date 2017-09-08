@@ -47,15 +47,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         }
     }
 
-    private boolean checkIfDODFlow() {
-        boolean isDOD= false;
-        if (null!=THSManager.getInstance().getPthVisitContext()
-                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty()
-                && !THSManager.getInstance().getPthVisitContext().hasProvider()){
-            isDOD=true;
-        }
-        return isDOD;
-    }
+
 
     private void acceptLegalText() {
         List<LegalText> legalTextList = THSManager.getInstance().getPthVisitContext().getLegalTexts();
@@ -87,7 +79,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
-        if (checkIfDODFlow()) {
+        if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
             THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
             mTHSFollowUpFragment.addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
         } else {

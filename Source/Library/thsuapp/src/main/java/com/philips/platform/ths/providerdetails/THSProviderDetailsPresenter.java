@@ -47,7 +47,7 @@ import java.util.List;
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 
-public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback,THSMatchMakingCallback {
+public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback,THSMatchMakingCallback,THSCancelMatchMakingCallback<Void, THSSDKError>  {
 
     private THSProviderDetailsViewInterface viewInterface;
 
@@ -95,13 +95,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
-            boolean isDOD = false;
-            if((THSManager.getInstance().getPthVisitContext() != null
-                    && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
-                    && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
-                isDOD=true;
-            }
-            if(isDOD){
+            if(THSManager.getInstance().isMatchMakingVisit()){
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
             }else {
@@ -269,6 +263,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     }
     void showMatchMakingProgressbar(){
         ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.VISIBLE);
+        ((THSProviderDetailsFragment) mThsBaseFragment).showProgressbar();
         Resources resources = ((THSProviderDetailsFragment) mThsBaseFragment).getResources();
         String highlightedChildMatchMakingMessage = resources.getString(R.string.ths_matchmaking_progressbar_meesage_child_text);
         String parentMatchmakingString = String.format(resources.getString(R.string.ths_matchmaking_progressbar_meesage_parent_text), highlightedChildMatchMakingMessage);
@@ -282,11 +277,12 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         int startingIndex = parentMatchmakingString.indexOf(highlightedChildMatchMakingMessage);
         int endIndex = startingIndex + highlightedChildMatchMakingMessage.length();
         matchMakingProgrressMessage.setSpan(clickableSpan, startingIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabel.setText(matchMakingProgrressMessage.toString());
+        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarLabel.setText(matchMakingProgrressMessage.toString());
     }
 
     @Override
     public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
+        ((THSProviderDetailsFragment) mThsBaseFragment).hideProgressBar();
         ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
         THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
         ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo  = provider.getPracticeInfo();
@@ -300,6 +296,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     @Override
     public void onMatchMakingProviderListExhausted() {
+        ((THSProviderDetailsFragment) mThsBaseFragment).hideProgressBar();
         showMatchmakingError(true,true,false);
     }
 
@@ -333,4 +330,31 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.show(((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
 
     }
+
+
+    void cancelMatchMaking(){
+        try {
+            THSManager.getInstance().cancelMatchMaking(mThsBaseFragment.getContext(),THSManager.getInstance().getPthVisitContext(),this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // start of cancel MatchMaker callback
+    @Override
+    public void onCancelMatchMakingResponse(Void aVoid, THSSDKError thssdkError) {
+     if(null==thssdkError.getSdkError()){
+         ((THSProviderDetailsFragment) mThsBaseFragment).getActivity().getSupportFragmentManager().popBackStack();
+     }
+
+    }
+
+    @Override
+    public void onCancelMatchMakingFailure(Throwable throwable) {
+        THSManager.getInstance().setMatchMakingVisit(false);
+        ((THSProviderDetailsFragment) mThsBaseFragment).showToast("Error while cancelling match making");
+        ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
+    }
+    // start of cancel MatchMaker callback
 }

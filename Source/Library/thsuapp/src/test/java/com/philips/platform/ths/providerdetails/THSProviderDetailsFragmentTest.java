@@ -46,7 +46,7 @@ import static org.mockito.Mockito.when;
 public class THSProviderDetailsFragmentTest {
 
     private THSLaunchActivity mActivity;
-    private THSProviderDetailsFragment providerDetailsFragment;
+    private THSProviderDetailsFragmentMock providerDetailsFragment;
 
     @Mock
     AWSDK awsdkMock;
@@ -108,7 +108,7 @@ public class THSProviderDetailsFragmentTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
         when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        providerDetailsFragment = new THSProviderDetailsFragment();
+        providerDetailsFragment = new THSProviderDetailsFragmentMock();
         providerDetailsFragment.setConsumerAndPractice(consumerMock, practiceMock);
         providerDetailsFragment.setActionBarListener(actionBarListener);
     }
