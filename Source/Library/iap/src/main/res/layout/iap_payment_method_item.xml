@@ -71,17 +71,6 @@
             android:enabled="true"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/btn_add_new_payment"
-            android:visibility="gone"
-            style="?attr/uikit_outlinedButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/iap_selection_address_layout_margin_bottom"
-            android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
-            android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
-            android:layout_marginTop="@dimen/iap_selection_address_new_margin_top"
-            android:text="@string/iap_add_payment_method" />
     </LinearLayout>
 
     <View

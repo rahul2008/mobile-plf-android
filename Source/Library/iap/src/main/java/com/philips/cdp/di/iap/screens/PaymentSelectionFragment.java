@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.PaymentMethodsAdapter;
@@ -28,26 +29,35 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class PaymentSelectionFragment extends InAppBaseFragment
-        implements View.OnClickListener, EventListener, PaymentController.PaymentListener {
+        implements EventListener, PaymentController.PaymentListener {
     public static final String TAG = PaymentSelectionFragment.class.getName();
     private Context mContext;
     private RecyclerView mPaymentMethodsRecyclerView;
-    private Button mBtnCancel;
     private PaymentMethodsAdapter mPaymentMethodsAdapter;
     private List<PaymentMethod> mPaymentMethodList;
     private PaymentController mPaymentController;
+
+    TextView tvCheckOutSteps;
+    TextView tvSelectHeader;
 
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_payment_method, container, false);
         mPaymentMethodsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_payment_method);
-        mBtnCancel = (Button) view.findViewById(R.id.btn_cancel);
-        mBtnCancel.setOnClickListener(this);
+
+        tvCheckOutSteps=(TextView) view.findViewById(R.id.tv_checkOutSteps);
+        tvCheckOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps),"2"));
+
+        tvSelectHeader=(TextView)view.findViewById(R.id.tv_select_header);
+        tvSelectHeader.setText(getContext().getString(R.string.iap_select_payment_method));
+
 
         Bundle bundle = getArguments();
         if (bundle.containsKey(IAPConstant.PAYMENT_METHOD_LIST)) {
@@ -96,18 +106,6 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == mBtnCancel) {
-            Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-            if (fragment != null) {
-                moveToVerticalAppByClearingStack();
-            } else {
-                showFragment(ShoppingCartFragment.TAG);
-            }
-        }
     }
 
     private PaymentMethod selectedPaymentMethod() {

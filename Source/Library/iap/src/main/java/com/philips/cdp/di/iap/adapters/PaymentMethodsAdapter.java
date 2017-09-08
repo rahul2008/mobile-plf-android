@@ -72,8 +72,6 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             //bind use payment button
             bindUsePaymentBtn(paymentMethodsHolder.usePayment);
 
-        }else{
-
         }
     }
 
@@ -161,6 +159,10 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private class PaymentMethodsFooterHolder extends RecyclerView.ViewHolder {
         public PaymentMethodsFooterHolder(View view) {
             super(view);
+
+            TextView tvSelectHeader=(TextView)view.findViewById(R.id.tv_select_header);
+            tvSelectHeader.setText(mContext.getString(R.string.iap_add_payment_method));
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

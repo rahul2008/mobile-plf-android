@@ -11,7 +11,7 @@
         android:id="@+id/tv_checkout_header_steps"/>
 
     <include
-        layout="@layout/iap_address_selection_header"
+        layout="@layout/iap_header"
         android:id="@+id/iap_address_selection_header"/>
 
     <android.support.v7.widget.RecyclerView
