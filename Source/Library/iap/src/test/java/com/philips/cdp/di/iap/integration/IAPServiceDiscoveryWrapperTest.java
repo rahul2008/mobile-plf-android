@@ -102,7 +102,7 @@ public class IAPServiceDiscoveryWrapperTest {
         map.put("iap.baseurl", discoveryService);
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
-        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class));
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
 
@@ -114,7 +114,7 @@ public class IAPServiceDiscoveryWrapperTest {
         map.put("iap.baseurl", discoveryService);
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
-        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class));
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
     }
 }

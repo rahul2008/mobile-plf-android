@@ -88,10 +88,6 @@ public class IAPHandlerTest {
 
             }
 
-            @Override
-            public void cartAndOrderHistoryVisibility(boolean visible) {
-
-            }
         };
 
     }

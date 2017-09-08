@@ -54,10 +54,6 @@ public class LocalHandlerTest {
 
         }
 
-        @Override
-        public void cartAndOrderHistoryVisibility(boolean visible) {
-
-        }
     };
 
     @Before

@@ -69,10 +69,6 @@ public class HybrisHandlerTest {
 
             }
 
-            @Override
-            public void cartAndOrderHistoryVisibility(boolean visible) {
-
-            }
         };
     }
 
