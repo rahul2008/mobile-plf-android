@@ -6,7 +6,7 @@ JENKINS_ENV = env.JENKINS_ENV
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
         [$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy'],
-        [$class: 'BooleanParameterDefinition', defaultValue: 'false', description: 'Force PSRA build ', name : 'PSRAbuild']
+        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild']
     ]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]
 ])
