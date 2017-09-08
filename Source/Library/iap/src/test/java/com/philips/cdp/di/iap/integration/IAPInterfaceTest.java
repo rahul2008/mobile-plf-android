@@ -82,4 +82,13 @@ public class IAPInterfaceTest {
         Assert.assertNotNull(listener);
     }
 
+
+    @Test
+    public void isCartVisible() {
+        IAPListener listener = Mockito.mock(IAPListener.class);
+        mIapInterface.init(mIAPDependencies, mIAPSettings);
+        mIapInterface.isCartVisible(listener);
+        Assert.assertNotNull(listener);
+    }
+
 }

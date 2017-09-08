@@ -10,4 +10,6 @@ public interface IAPExposedAPI {
     void getProductCartCount(IAPListener iapListener);
 
     void getCompleteProductList(IAPListener iapListener);
+
+    boolean isCartVisible(IAPListener iapListener);
 }

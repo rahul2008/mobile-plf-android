@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -19,6 +20,7 @@ public class IAPServiceDiscoveryWrapper {
     private ArrayList<String> listOfServiceId;
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
+    private boolean isCartVisible;
 
     IAPServiceDiscoveryWrapper(IAPSettings pIAPSettings) {
         mIAPSettings = pIAPSettings;
@@ -26,7 +28,7 @@ public class IAPServiceDiscoveryWrapper {
         listOfServiceId.add("iap.baseurl");
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+
     }
 
     void initializeStoreFromServiceDiscoveryResponse(final IAPHandler iapHandler) {
@@ -146,6 +148,39 @@ public class IAPServiceDiscoveryWrapper {
         CartModelContainer.getInstance().setCountry(localeArray[1]);
         HybrisDelegate.getInstance().getStore().setLangAndCountry(localeArray[0], localeArray[1]);
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
+    }
+
+    public boolean getCartVisiblityByConfigUrl(final IAPListener listener, final IAPHandler iapHandler) {
+
+
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
+                Collection<ServiceDiscoveryService> collection = map.values();
+
+                List<ServiceDiscoveryService> list = new ArrayList<>();
+                list.addAll(collection);
+                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+                if (configUrls == null) {
+                    mIAPSettings.setUseLocalData(true);
+                    isCartVisible = false;
+                } else {
+                    mIAPSettings.setUseLocalData(false);
+                    isCartVisible = true;
+                }
+                iapHandler.initIAPRequisite();
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+                listener.onFailure(IAPConstant.IAP_ERROR_SERVER_ERROR);
+            }
+        };
+        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
+        return isCartVisible;
     }
 
 }
