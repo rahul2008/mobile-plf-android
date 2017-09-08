@@ -97,7 +97,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(OFFSET, pOffset);
         editor.apply();
-        Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
+       // Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,"illegal argument when getting T-sync config pool");
     }
 

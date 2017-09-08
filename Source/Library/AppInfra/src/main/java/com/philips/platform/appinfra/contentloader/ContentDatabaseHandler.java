@@ -70,7 +70,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 + " PRIMARY KEY (" + KEY_ID + " , " + KEY_SERVICE_ID + ") )";
 
         sqLiteDatabase.execSQL(CREATE_CONTENT_TABLE);
-       // Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+" " + CONTENT_TABLE + "DB CREATED");
+       // d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+" " + CONTENT_TABLE + "DB CREATED");
 
         final String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
                 + KEY_SERVICE_ID + " TEXT PRIMARY KEY,"
@@ -78,7 +78,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LAST_UPDATED_TIME + " DATETIME "
                 + ")";
         sqLiteDatabase.execSQL(CREATE_CONTENT_LOADER_TABLE);
-        //Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+"" + CONTENT_LOADER_STATES + "DB CREATED");
+        //d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+"" + CONTENT_LOADER_STATES + "DB CREATED");
     }
 
     @Override
@@ -120,32 +120,32 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                     final long rowId = db.replace(CONTENT_TABLE, null, values);
                     if (rowId == -1) {
                         SQLitetransaction = false;
-                       // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"UPDATE FAIL"+CONTENT_TABLE);
-                    } else {
-                        //Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"UPDATE Success row id " + CONTENT_TABLE + " " + rowId);
-                    }
+                       // e(AppInfraLogEventID.AI_CONTENT_LOADER,"UPDATE FAIL"+CONTENT_TABLE);
+                    }/* else {
+                        //d(AppInfraLogEventID.AI_CONTENT_LOADER,"UPDATE Success row id " + CONTENT_TABLE + " " + rowId);
+                    }*/
                 }
             }
             if (isDownloadComplete) { // last iteration of recursion
                 List<ContentItem>   databaseContentItems = getContentItems(serviceID);
-               // Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"DELEET DB SIZE BEFORE DELETE= " + databaseContentItems.size());
+               // v(AppInfraLogEventID.AI_CONTENT_LOADER,"DELEET DB SIZE BEFORE DELETE= " + databaseContentItems.size());
                 final Date date = new Date(lastUpdatedTime);
                 db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " != " + date.getTime(), new String[]{serviceID});
                 databaseContentItems = getContentItems(serviceID);
-               // Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"DELETE DB SIZE AFTER DELETE= " + databaseContentItems.size());
+               // v(AppInfraLogEventID.AI_CONTENT_LOADER,"DELETE DB SIZE AFTER DELETE= " + databaseContentItems.size());
             }
             if (SQLitetransaction) {
                 updateContentLoaderStateTable(db, lastUpdatedTime, serviceID, expiryDate);
             }
         } catch (Exception e) {
             SQLitetransaction = false;
-           // Log.w(AppInfraLogEventID.AI_CONTENT_LOADER," Error in insertQuery:");
+           // w(AppInfraLogEventID.AI_CONTENT_LOADER," Error in insertQuery:");
         } finally {
             if (db != null && db.isOpen()) {
                 try {
                     db.close();
                 } catch (Exception e) {
-                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"Error in insertQuery");
+                    e(AppInfraLogEventID.AI_CONTENT_LOADER,"Error in insertQuery");
                 }
             }
         }
@@ -167,13 +167,13 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            //Log.w(AppInfraLogEventID.AI_CONTENT_LOADER,"Error in selectQuery:");
+            w(AppInfraLogEventID.AI_CONTENT_LOADER,"Error in selectQuery:");
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                   // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"Content Iteams ");
+                   e(AppInfraLogEventID.AI_CONTENT_LOADER,"Content Iteams ");
                 }
             }
 
@@ -196,13 +196,13 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-           // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getAllIdQuery);
+            e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL ");
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                   // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL");
+                   e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL");
                 }
             }
         }
@@ -229,13 +229,13 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            //Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getContentByIdQuery);
+            e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL getContentByIdQuery");
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                   // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL ");
+                   e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL ");
                 }
             }
 
@@ -269,13 +269,13 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-          //  Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getContentByIdQuery);
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL ");
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                   // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getContentByIdQuery);
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL ");
                 }
             }
         }
@@ -311,11 +311,11 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                   // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"ServiceStateExpiry FAIL");
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"ServiceStateExpiry FAIL");
                 }
             }
         } catch (Exception e) {
-           // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"ServiceStateExpiry FAIL");
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"ServiceStateExpiry FAIL");
         }
         return expiryTime;
     }
@@ -347,7 +347,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     db.close();
                 } catch (Exception e) {
-                   // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"CacheForContent FAIL ");
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"CacheForContent FAIL ");
 
                 }
             }
