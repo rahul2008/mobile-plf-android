@@ -185,6 +185,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @OnClick(R2.id.usr_forgotpassword_sendRequest_button)
     public void sendRequestButton() {
         RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
+        getRegistrationFragment().hideKeyBoard();
         resetPassword();
     }
 
