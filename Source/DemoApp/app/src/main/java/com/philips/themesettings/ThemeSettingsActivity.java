@@ -1,24 +1,25 @@
-package com.philips.platform.urdemo.themesettings;
+package com.philips.themesettings;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
 import android.content.*;
-import android.content.res.*;
-import android.os.*;
-import android.preference.*;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.*;
-import android.support.v7.app.*;
+import android.support.v7.app.AppCompatActivity;
 
-import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.*;
-import com.philips.platform.urdemolibrary.*;
+import com.philips.platform.urdemo.*;
+import com.philips.platform.urdemolibrary.R;
 
 import org.greenrobot.eventbus.*;
 
 import java.io.*;
 
 
-public class ThemeSettingsActivity extends AppCompatActivity {
+public class ThemeSettingsActivity extends UIDActivity {
 
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
 
@@ -31,8 +32,6 @@ public class ThemeSettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        initTheme();
-//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.theme_settings_activity);
@@ -116,7 +115,7 @@ public class ThemeSettingsActivity extends AppCompatActivity {
     }
 
     public void applyTheme() {
-        saveThemeSettings();
+//        saveThemeSettings();
         restartActivity();
     }
 
@@ -125,12 +124,6 @@ public class ThemeSettingsActivity extends AppCompatActivity {
         saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
         saveThemeValues(UIDHelper.ACCENT_RANGE, accentColorRange.name());
-    }
-
-    void restartActivity() {
-        Intent intent = new Intent(this, ThemeSettingsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
-        startActivity(intent);
     }
 
     static String toCamelCase(String s) {
@@ -153,5 +146,12 @@ public class ThemeSettingsActivity extends AppCompatActivity {
         final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
         edit.putString(key, name);
         edit.commit();
+    }
+
+    void restartActivity() {
+        ((URDemoApplication) getApplicationContext()).injectNewTheme(colorRange, contentColor, navigationColor, accentColorRange);
+        Intent intent = new Intent(this, URDemoActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
+        startActivity(intent);
     }
 }

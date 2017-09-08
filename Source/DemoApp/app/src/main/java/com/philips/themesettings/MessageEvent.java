@@ -1,4 +1,4 @@
-package com.philips.platform.urdemo.themesettings;
+package com.philips.themesettings;
 
 public class MessageEvent {
     public MessageEvent(final String message) {
