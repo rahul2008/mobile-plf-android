@@ -3,6 +3,7 @@ package com.philips.platform.urdemo;
 
 import android.app.Application;
 import android.content.*;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 
 import com.philips.cdp.registration.configuration.*;
@@ -11,6 +12,7 @@ import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uid.thememanager.*;
+import com.philips.themesettings.ThemeHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -28,6 +30,7 @@ public class URDemoApplication extends Application {
 
     private AppInfraInterface mAppInfraInterface;
 
+    private SharedPreferences defaultSharedPreferences;
     public ColorRange colorRange = ColorRange.GROUP_BLUE;
     public ContentColor contentColor = ContentColor.ULTRA_LIGHT;
     public AccentRange accentRange = AccentRange.ORANGE;
@@ -53,8 +56,8 @@ public class URDemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        themeConfiguration = new ThemeConfiguration(this, colorRange, contentColor, navigationColor, accentRange);
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        themeConfiguration = getThemeConfig();//new ThemeConfiguration(this, colorRange, contentColor, navigationColor, accentRange);
         UIDHelper.init(themeConfiguration);
 
         mRegistrationSampleApplication = this;
@@ -364,5 +367,12 @@ public class URDemoApplication extends Application {
         themeConfiguration = new ThemeConfiguration(this, this.colorRange, this.contentColor, this.navigationColor, this.accentRange);
         UIDHelper.init(themeConfiguration);
     }
-}
 
+    public ThemeConfiguration getThemeConfig() {
+        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences);
+        colorRange = (themeHelper.initColorRange() == null) ? ColorRange.GROUP_BLUE : themeHelper.initColorRange();
+        navigationColor = (themeHelper.initNavigationRange() == null) ? NavigationColor.ULTRA_LIGHT : themeHelper.initNavigationRange();
+        contentColor = (themeHelper.initContentTonalRange() == null) ? ContentColor.ULTRA_LIGHT : themeHelper.initContentTonalRange();
+        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor);
+    }
+}
