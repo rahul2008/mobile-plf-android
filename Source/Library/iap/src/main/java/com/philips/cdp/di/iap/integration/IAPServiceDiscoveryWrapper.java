@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.integration;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -19,6 +20,7 @@ public class IAPServiceDiscoveryWrapper {
     private ArrayList<String> listOfServiceId;
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
+    private boolean isCartVisible;
 
     IAPServiceDiscoveryWrapper(IAPSettings pIAPSettings) {
         mIAPSettings = pIAPSettings;
@@ -148,7 +150,8 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
-    public boolean getCartVisiblityByConfigUrl(final IAPListener listener) {
+    public boolean getCartVisiblityByConfigUrl(final IAPListener listener, final IAPHandler iapHandler) {
+
 
         serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -162,21 +165,22 @@ public class IAPServiceDiscoveryWrapper {
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 if (configUrls == null) {
                     mIAPSettings.setUseLocalData(true);
-                    listener.cartAndOrderHistoryVisibility(false);
+                    isCartVisible = false;
                 } else {
                     mIAPSettings.setUseLocalData(false);
-                    listener.cartAndOrderHistoryVisibility(true);
+                    isCartVisible = true;
                 }
-
+                iapHandler.initIAPRequisite();
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+                listener.onFailure(IAPConstant.IAP_ERROR_SERVER_ERROR);
             }
         };
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
-        return false;
+        return isCartVisible;
     }
 
 }

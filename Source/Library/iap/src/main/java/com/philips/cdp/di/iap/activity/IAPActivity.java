@@ -312,10 +312,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
 
-    @Override
-    public void cartAndOrderHistoryVisibility(boolean visible) {
-        //NOP
-    }
+
 
 //    private void addActionBar() {
 //        ActionBar mActionBar = getSupportActionBar();

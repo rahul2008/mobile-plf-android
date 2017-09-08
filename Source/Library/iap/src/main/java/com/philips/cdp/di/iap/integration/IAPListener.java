@@ -21,5 +21,4 @@ public interface IAPListener {
 
     void onFailure(final int errorCode);
 
-    void cartAndOrderHistoryVisibility (boolean visible);
 }

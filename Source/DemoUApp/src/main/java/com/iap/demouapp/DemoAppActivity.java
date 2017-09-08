@@ -165,7 +165,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void setLocalFromServiceDiscovery() {
 
-        mIapInterface.isCartVisible(this);
+        boolean cartVisible = mIapInterface.isCartVisible(this);
+        displayFlowViews(cartVisible);
     }
 
     private void displayFlowViews(boolean b) {
@@ -475,12 +476,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onFailure(int errorCode) {
         showToast(errorCode);
-    }
-
-    @Override
-    public void cartAndOrderHistoryVisibility(boolean visible) {
-        displayFlowViews(visible);
-
     }
 
 

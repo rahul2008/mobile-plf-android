@@ -56,8 +56,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     }
 
     @Override
-    public void isCartVisible(IAPListener iapListener) {
-        mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener);
+    public boolean isCartVisible(IAPListener iapListener) {
+        return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
 
     }
 }
