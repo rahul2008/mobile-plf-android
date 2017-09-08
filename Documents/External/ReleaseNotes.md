@@ -2,6 +2,24 @@ BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
 
+Version {next}
+-------------
+
+### Functionality Delivered
+
+### Backwards Compatibility
+
+### Features not covered
+
+### Defects solved
+* \#33811 Battery service now has working notifications.
+
+### Residual anomalies
+
+### Risks and mitigations
+
+
+
 Version 3.1.0
 -------------
 

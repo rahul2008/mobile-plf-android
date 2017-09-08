@@ -46,7 +46,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
 
     private SHNService shnService;
 
-    private SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
+    protected SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
         @Override
         public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) {
             if (shnCharacteristic.getUuid() == SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID) {
@@ -119,6 +119,12 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
         };
 
         shnCharacteristic.setNotification(enabled, resultReporter);
+
+        if (enabled) {
+            shnCharacteristic.setShnCharacteristicChangedListener(shnCharacteristicChangedListener);
+        } else {
+            shnCharacteristic.setShnCharacteristicChangedListener(null);
+        }
     }
 
     @Override
