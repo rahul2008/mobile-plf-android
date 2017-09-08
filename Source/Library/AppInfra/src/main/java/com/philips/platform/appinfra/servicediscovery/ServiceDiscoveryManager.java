@@ -316,7 +316,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else if (country != null) {
                 url += "&country=" + country;
             }
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Build URL in SD"
                     + "Appidentity values are null");

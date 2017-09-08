@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
@@ -80,13 +79,14 @@ public class LanguagePackManager implements LanguagePackInterface {
 			@Override
 			public void onSuccess(URL url) {
 				final String languagePackConfigURL = url.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_LANGUAGE_PACK, "Langauge pack get Service Discovery Listener OnSuccess URL"+url.toString()); // US requirement to show language pack URL
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_LANGUAGE_PACK, "Langauge pack get Service Discovery Listener OnSuccess URL"+url.toString()); // US requirement to show language pack URL
 
 				JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
 						new Response.Listener<JSONObject>() {
 							@Override
 							public void onResponse(final JSONObject response) {
-								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_LANGUAGE_PACK,"onResponse "+response.toString());
+								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+										AppInfraLogEventID.AI_LANGUAGE_PACK,"onResponse "+response.toString());
 								languagePackHandler = getHandler(context);
 								new Thread(new Runnable() {
 									@Override
@@ -115,13 +115,12 @@ public class LanguagePackManager implements LanguagePackInterface {
 				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_LANGUAGE_PACK, "on Error URL"+errMsg);
 				aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
-
 			}
 		};
 	}
 
 
-	Runnable postRefreshSuccess(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult) {
+	private Runnable postRefreshSuccess(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult) {
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_LANGUAGE_PACK, "post Refresh Success");
 		return new Runnable() {
 			@Override
@@ -132,7 +131,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 		};
 	}
 
-	Runnable postRefreshError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
+	private Runnable postRefreshError(final OnRefreshListener aILPRefreshResult, final OnRefreshListener.AILPRefreshResult ailpRefreshResult, final String errorDescription) {
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_LANGUAGE_PACK, "post Refresh Error");
 		return new Runnable() {
 			@Override
@@ -180,7 +179,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return true;
 	}
 
-	Handler getHandler(Context context) {
+	private Handler getHandler(Context context) {
 		return new Handler(context.getMainLooper());
 	}
 
@@ -259,7 +258,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 		final File file = languagePackUtil.getFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		final LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		if (languagePackMetadata != null) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_LANGUAGE_PACK, "Language pack metadata info contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_LANGUAGE_PACK, "Language pack metadata info contains : " + languagePackMetadata.getLocale() + "---" + languagePackMetadata.getUrl() + "-----" + languagePackMetadata.getVersion());
 		}
 
 		languagePackHandler = getHandler(context);
@@ -289,26 +288,20 @@ public class LanguagePackManager implements LanguagePackInterface {
 		return new Runnable() {
 			@Override
 			public void run() {
-				if (onActivateListener != null)
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_LANGUAGE_PACK ,"Language Pack Activated path"+languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
-				onActivateListener.onSuccess(languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+				if (onActivateListener != null) {
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "Language Pack Activated path" + languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED, LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+					onActivateListener.onSuccess(languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED, LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+				}
 			}
 		};
-	}
-
-	private LanguagePackModel getDefaultLocale() {
-		final LanguagePackModel defaultLocale = new LanguagePackModel();
-		defaultLocale.setLocale("en_US"); // developer default language
-		return defaultLocale;
 	}
 
 	public static String getLanguagePackConfig(AppConfigurationInterface appConfigurationManager,AppInfra ai) {
 		try {
 			final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 					.AppConfigurationError();
-			final String languagePackServiceId = (String) appConfigurationManager.getPropertyForKey
+			return (String) appConfigurationManager.getPropertyForKey
 					(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
-			return languagePackServiceId;
 		} catch (IllegalArgumentException exception) {
 			ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 					AppInfraLogEventID.AI_APPINFRA,"Error in reading LanguagePack  Config "
