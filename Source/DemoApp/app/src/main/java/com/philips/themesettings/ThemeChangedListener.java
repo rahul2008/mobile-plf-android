@@ -4,7 +4,7 @@
  *
  */
 
-package com.philips.platform.urdemo.themesettings;
+package com.philips.themesettings;
 
 public interface ThemeChangedListener {
 

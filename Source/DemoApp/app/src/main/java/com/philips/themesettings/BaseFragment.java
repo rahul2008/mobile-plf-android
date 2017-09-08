@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.urdemo.themesettings;
+package com.philips.themesettings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

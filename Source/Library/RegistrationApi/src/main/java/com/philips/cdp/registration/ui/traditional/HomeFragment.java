@@ -8,50 +8,50 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
+import android.os.*;
 import android.support.constraint.*;
 import android.support.v4.content.*;
 import android.text.*;
-import android.text.method.LinkMovementMethod;
+import android.text.method.*;
 import android.text.style.*;
 import android.view.*;
-import android.view.View.OnClickListener;
+import android.view.View.*;
 import android.widget.*;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.app.infra.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.customviews.countrypicker.*;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.wechat.*;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.philips.platform.appinfra.servicediscovery.*;
+import com.tencent.mm.sdk.modelbase.*;
+import com.tencent.mm.sdk.modelmsg.*;
 import com.tencent.mm.sdk.openapi.*;
 
 import org.json.*;
 
 import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import butterknife.*;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.*;
+import io.reactivex.disposables.*;
+import io.reactivex.observers.*;
+import io.reactivex.schedulers.*;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -125,6 +125,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     String mShowCountrySelection;
     String mLocale;
 
+    View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         URInterface.getComponent().inject(this);
@@ -139,12 +141,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
-        View view;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
         } else {
             view = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
         }
+
         ButterKnife.bind(this, view);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         if (mProgressDialog == null)

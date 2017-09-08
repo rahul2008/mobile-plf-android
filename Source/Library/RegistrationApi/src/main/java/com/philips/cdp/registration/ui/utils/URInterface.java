@@ -14,7 +14,6 @@ import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.*;
 import com.philips.platform.uappframework.uappinput.*;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 public class URInterface implements UappInterface {
 
@@ -43,10 +42,6 @@ public class URInterface implements UappInterface {
             Bundle bundle = new Bundle();
 
             RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
-            if(((URLaunchInput) uappLaunchInput).isAccountSettings()){
-                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
-            }
-
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
@@ -61,8 +56,6 @@ public class URInterface implements UappInterface {
 
 
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
-                    uappLaunchInput).isAccountSettings());
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
@@ -102,13 +95,6 @@ public class URInterface implements UappInterface {
                         (registrationFunction);
             }
 
-            ThemeConfiguration themeConfiguration = uiLauncher.getDlsThemeConfiguration();
-            if(themeConfiguration != null) {
-                RegistrationHelper.getInstance().setThemeConfiguration(themeConfiguration);
-            }
-            int themeResId = uiLauncher.getUiKitTheme();
-            RegistrationHelper.getInstance().setTheme(themeResId);
-
             RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
 
@@ -125,10 +111,6 @@ public class URInterface implements UappInterface {
 
             RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
 
-            if(((URLaunchInput) uappLaunchInput).isAccountSettings()){
-                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
-            }
-
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
@@ -136,8 +118,6 @@ public class URInterface implements UappInterface {
             bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
-                    uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
 

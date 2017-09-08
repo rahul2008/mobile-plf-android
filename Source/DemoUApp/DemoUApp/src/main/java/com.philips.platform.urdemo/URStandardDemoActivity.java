@@ -35,7 +35,6 @@ import com.philips.platform.appinfra.appconfiguration.*;
 import com.philips.platform.uappframework.launcher.*;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.*;
-import com.philips.platform.urdemo.themesettings.*;
 import com.philips.platform.urdemolibrary.R;
 
 import java.io.*;
@@ -43,7 +42,7 @@ import java.util.*;
 
 import static android.view.View.*;
 
-public class URStandardDemoActivity extends Activity implements OnClickListener,
+public class URStandardDemoActivity extends UIDActivity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Context mContext;
@@ -60,8 +59,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
-        initTheme();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
@@ -75,9 +72,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         Button mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
-
-        Button changeThemeButton = (Button) findViewById(R.id.change_theme);
-        changeThemeButton.setOnClickListener(this);
 
         final Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
@@ -276,7 +270,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, getThemeConfig(), themeResourceId, null);
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
         URInterface urInterface;
         initCountrySelection();
 
@@ -285,7 +279,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setAccountSettings(true);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_B);
@@ -315,7 +308,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
-            urLaunchInput.setAccountSettings(false);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_C);
@@ -350,7 +342,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setUserRegistrationUIEventListener(this);
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setAccountSettings(false);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
 
@@ -385,9 +376,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             } else {
                 handleDoBUpdate(user.getDateOfBirth());
             }
-        } else if (i == R.id.change_theme) {
-            Intent intent = new Intent(this, ThemeSettingsActivity.class);
-            startActivity(intent);
         }
     }
 
@@ -608,26 +596,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
     NavigationColor navigationColor;
     private AccentRange accentColorRange;
     private int themeResourceId = 0;
-
-    private void initTheme() {
-        final ThemeConfiguration themeConfig = getThemeConfig();
-        themeResourceId = getThemeResourceId(getResources(), getPackageName(), colorRange, contentColor);
-        themeConfig.add(navigationColor);
-        themeConfig.add(accentColorRange);
-        setTheme(themeResourceId);
-        UIDLocaleHelper.getInstance().setFilePath(getCatalogAppJSONAssetPath());
-
-        UIDHelper.init(themeConfig);
-    }
-
-    public ThemeConfiguration getThemeConfig() {
-        final ThemeHelper themeHelper = new ThemeHelper(defaultSharedPreferences);
-        colorRange = themeHelper.initColorRange();
-        navigationColor = themeHelper.initNavigationRange();
-        contentColor = themeHelper.initContentTonalRange();
-        accentColorRange = themeHelper.initAccentRange();
-        return new ThemeConfiguration(this, colorRange, navigationColor, contentColor, accentColorRange);
-    }
 
     @StyleRes
     int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {

@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.urdemo.themesettings;
+package com.philips.themesettings;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;

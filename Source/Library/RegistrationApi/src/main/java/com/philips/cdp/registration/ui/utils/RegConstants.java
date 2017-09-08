@@ -102,7 +102,6 @@ public class RegConstants {
 
     public static final String ORIENTAION = "Orientaion";
 
-    public static final String ACCOUNT_SETTINGS = "ACCOUNT_SETTINGS";
 
     public static final String REGISTRATION_LAUNCH_MODE = "REGISTRATION_LAUNCH_MODE";
 
