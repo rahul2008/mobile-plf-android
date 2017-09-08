@@ -71,7 +71,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullDelegate() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
@@ -84,7 +84,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         makePRXData();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetCurrentCartDetailsSuccessResponse() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
