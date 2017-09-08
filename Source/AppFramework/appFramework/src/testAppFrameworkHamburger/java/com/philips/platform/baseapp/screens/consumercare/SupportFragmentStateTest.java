@@ -113,11 +113,6 @@ public class SupportFragmentStateTest {
 
     }
 
-    @After
-    public void tearDown(){
-        activityController.pause().stop().destroy();
-    }
-
     class SupportFragmentStateMock extends SupportFragmentState{
         @NonNull
         @Override

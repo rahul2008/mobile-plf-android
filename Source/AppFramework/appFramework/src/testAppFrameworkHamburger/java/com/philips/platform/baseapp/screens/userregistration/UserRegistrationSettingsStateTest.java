@@ -99,9 +99,4 @@ public class UserRegistrationSettingsStateTest {
         }
     }
 
-    @After
-    public void tearDown(){
-        activityController.pause().stop().destroy();
-    }
-
 }
