@@ -19,6 +19,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 
 
@@ -53,6 +54,9 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     THSVisit thsVisit;
 
     AlertDialogFragment alertDialogFragment;
+
+    EditText mCouponCodeEdittext;
+    Button mCouponCodeButton;
 
     @Nullable
     @Override
@@ -92,6 +96,10 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
 
         mCostSummaryContinueButtonRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_continue_button_relativelayout);
         mAddPaymentMethodButtonRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_add_payment_method_button_relativelayout);
+
+        mCouponCodeEdittext = (EditText) view.findViewById(R.id.ths_cost_summary_promotion_code_edittext);
+        mCouponCodeButton = (Button) view.findViewById(R.id.ths_cost_summary_promotion_code_apply_button);
+        mCouponCodeButton.setOnClickListener(this);
 
         return view;
     }
@@ -139,6 +147,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
             mPresenter.onEvent(R.id.ths_cost_summary_payment_detail_framelayout);
         }else if (v.getId() == R.id.uid_dialog_positive_button) {
             mPresenter.onEvent(R.id.uid_dialog_positive_button);
+        } else if (v.getId() == R.id.ths_cost_summary_promotion_code_apply_button) {
+            mPresenter.onEvent(R.id.ths_cost_summary_promotion_code_apply_button );
         }
 
     }

@@ -110,6 +110,7 @@
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:text="Apply"
             app:uidComponentType="Secondary"
+            android:enabled="false"
 
             />
 
