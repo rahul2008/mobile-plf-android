@@ -45,11 +45,6 @@ public class CoppaInterface extends URInterface {
             final Bundle bundle = new Bundle();
 
             RegistrationLaunchMode registrationLaunchMode = RegistrationLaunchMode.DEFAULT;
-
-            if (((CoppaLaunchInput) uappLaunchInput).isAccountSettings()) {
-                registrationLaunchMode = RegistrationLaunchMode.ACCOUNT_SETTINGS;
-            }
-
             if (((CoppaLaunchInput) uappLaunchInput).getEndPointScreen() != null) {
                 registrationLaunchMode = ((CoppaLaunchInput)
                         uappLaunchInput).getEndPointScreen();
@@ -117,10 +112,6 @@ public class CoppaInterface extends URInterface {
 
             RegistrationLaunchMode registrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
-            if (((CoppaLaunchInput) uappLaunchInput).isAccountSettings()) {
-                registrationLaunchMode = RegistrationLaunchMode.ACCOUNT_SETTINGS;
-            }
-
             UIFlow uiFlow =((CoppaLaunchInput) uappLaunchInput).getUIflow();
             RegUtility.setUiFlow(uiFlow);
 
@@ -135,8 +126,6 @@ public class CoppaInterface extends URInterface {
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
             bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
 
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((CoppaLaunchInput)
-                    uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
             bundle.putBoolean(CoppaConstants.LAUNCH_PARENTAL_FRAGMENT, ((CoppaLaunchInput)
