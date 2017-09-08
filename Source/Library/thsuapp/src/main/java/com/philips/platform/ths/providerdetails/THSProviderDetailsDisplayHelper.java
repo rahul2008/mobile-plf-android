@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -61,6 +62,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     private List<Date> dates;
     private THSSetReminderDialogFragment thsSetReminderDialogFragment;
     private Label details_isAvailableImage_text;
+    private FrameLayout details_isAvailableImage_layout;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -98,6 +100,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         detailsButtonTwo = (Button) view.findViewById(R.id.detailsButtonTwo);
         detailsButtonContinue = (Button) view.findViewById(R.id.detailsButtonContinue);
         gridView = (THSExpandableHeightGridView) view.findViewById(R.id.grid);
+        details_isAvailableImage_layout = (FrameLayout) view.findViewById(R.id.details_isAvailableImage_layout);
         detailsButtonOne.setVisibility(Button.GONE);
         detailsButtonOne.setEnabled(false);
         detailsButtonOne.setOnClickListener(mOnClickListener);
@@ -177,11 +180,9 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
                     format(((THSAvailableProviderDetailFragment) thsBaseFragment).getDate()));
             setAppointmentsToView(dates);
             isAvailableImage.setVisibility(View.GONE);
+            details_isAvailableImage_layout.setVisibility(View.GONE);
             notificationBadge.setVisibility(View.VISIBLE);
             notificationBadge.setText(String.valueOf(dates.size()));
-
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) isAvailableImage.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.notification_badge);
 
         } else {
             detailsButtonContinue.setVisibility(View.GONE);

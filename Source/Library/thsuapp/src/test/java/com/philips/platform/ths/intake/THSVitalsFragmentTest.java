@@ -26,7 +26,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -67,6 +67,9 @@ public class THSVitalsFragmentTest {
 
     @Mock
     Vitals vitalsMock;
+
+    @Mock
+    THSVitalsFragmentTestMock thsVitalsFragmentMock;
 
     @Before
     public void setUp() throws Exception {
@@ -128,16 +131,6 @@ public class THSVitalsFragmentTest {
         verify(presenterMock).onEvent(R.id.vitals_skip);
     }
 
-    @Test
-    public void setVitalsValues() throws Exception {
-        SupportFragmentTestUtil.startFragment(thsVitalsFragment);
-        thsVitalsFragment.mThsVitalsPresenter = presenterMock;
-        thsVitalsFragment.setVitalsValues();
-        verify(presenterMock).isTextValid(thsVitalsFragment.mSystolic);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mDiastolic);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mWeight);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mTemperature);
-    }
 
     @Test
     public void setVitalsValuesWithValidText() throws Exception {
@@ -151,12 +144,7 @@ public class THSVitalsFragmentTest {
         when(presenterMock.isTextValid(thsVitalsFragment.mDiastolic)).thenReturn(true);
         when(presenterMock.isTextValid(thsVitalsFragment.mWeight)).thenReturn(true);
         when(presenterMock.isTextValid(thsVitalsFragment.mTemperature)).thenReturn(true);
-
-        thsVitalsFragment.setVitalsValues();
-        verify(presenterMock).isTextValid(thsVitalsFragment.mSystolic);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mDiastolic);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mWeight);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mTemperature);
+        thsVitalsFragment.updateVitalsData();
     }
 
     @Test
@@ -164,7 +152,7 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         thsVitalsFragment.updateUI(thsVitalsMock);
-        assertTrue(thsVitalsFragment.mContinue.isEnabled());
+        verify(thsVitalsMock,atLeastOnce()).getDiastolic();
     }
 
     @Test
@@ -179,8 +167,8 @@ public class THSVitalsFragmentTest {
     public void validateIfSystolicValueIsWrong() throws Exception {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
-        thsVitalsFragment.validate();
-        verify(presenterMock).isTextValid(thsVitalsFragment.mSystolic);
+        thsVitalsFragment.validateBloodPressure();
+        verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mSystolic);
     }
 
     @Test
@@ -188,20 +176,10 @@ public class THSVitalsFragmentTest {
         SupportFragmentTestUtil.startFragment(thsVitalsFragment);
         thsVitalsFragment.mThsVitalsPresenter = presenterMock;
         when(presenterMock.isTextValid(thsVitalsFragment.mSystolic)).thenReturn(true);
-        thsVitalsFragment.validate();
-        verify(presenterMock).isTextValid(thsVitalsFragment.mDiastolic);
+        thsVitalsFragmentMock.validateBloodPressure();
+        verify(thsVitalsFragmentMock).validateBloodPressure();
     }
 
-    @Test
-    public void validateIfDiastolicIsHigherThanSystolic() throws Exception {
-        SupportFragmentTestUtil.startFragment(thsVitalsFragment);
-        thsVitalsFragment.mThsVitalsPresenter = presenterMock;
-        when(presenterMock.isTextValid(thsVitalsFragment.mSystolic)).thenReturn(true);
-        when(presenterMock.isTextValid(thsVitalsFragment.mDiastolic)).thenReturn(true);
-        thsVitalsFragment.validate();
-        verify(presenterMock).isTextValid(thsVitalsFragment.mDiastolic);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mSystolic);
-    }
 
     @Test
     public void validateValidationPasses() throws Exception {
@@ -215,8 +193,8 @@ public class THSVitalsFragmentTest {
         when(presenterMock.stringToInteger("20")).thenReturn(20);
         when(presenterMock.stringToInteger("30")).thenReturn(30);
 
-        thsVitalsFragment.validate();
-        verify(presenterMock).isTextValid(thsVitalsFragment.mDiastolic);
-        verify(presenterMock).isTextValid(thsVitalsFragment.mSystolic);
+        thsVitalsFragment.validateBloodPressure();
+        verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mDiastolic);
+        verify(presenterMock).checkIfValueEntered(thsVitalsFragment.mSystolic);
     }
 }

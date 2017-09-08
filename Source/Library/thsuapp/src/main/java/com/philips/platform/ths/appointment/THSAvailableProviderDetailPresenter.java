@@ -52,7 +52,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     public void onEvent(int componentID) {
         if (componentID == R.id.calendar_container) {
 
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
