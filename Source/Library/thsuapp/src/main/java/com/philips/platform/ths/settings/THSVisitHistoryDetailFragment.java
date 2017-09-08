@@ -57,6 +57,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     ImageButton mImageButtonPharmacyEdit;
     ImageButton mImageButtonShippingAddressEdit;
 
+    protected Label medicationShippingLabel;
+    protected RelativeLayout medicationShippingRelativeLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -121,6 +124,10 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 tHSDownloadReportPrivacyNoticeFragment.show(getFragmentManager(),"TAG");
             }
         });
+
+        medicationShippingLabel =  (Label) view.findViewById(R.id.ps_shipped_to_label);
+        medicationShippingRelativeLayout =(RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
+
         return view;
     }
 
@@ -189,6 +196,9 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
             consumerState.setText(address.getState().getCode());
             consumerShippingAddress.setText(address.getAddress1());
             consumerShippingZip.setText(address.getZipCode());
+        }else{
+            medicationShippingLabel.setVisibility(View.GONE);
+            medicationShippingRelativeLayout.setVisibility(View.GONE);
         }
     }
 

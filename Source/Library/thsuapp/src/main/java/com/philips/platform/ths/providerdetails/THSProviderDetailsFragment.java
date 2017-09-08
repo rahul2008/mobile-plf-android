@@ -73,7 +73,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
-        boolean isMatchMakingrequired = (THSManager.getInstance().getPthVisitContext()!=null && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())?true:false;
+        boolean isMatchMakingrequired = false;
+                if((THSManager.getInstance().getPthVisitContext()!=null
+                        && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                        && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+                    isMatchMakingrequired=true;
+                }
 
         if(isMatchMakingrequired){ // if provider is not yet selected
             providerDetailsPresenter.doMatchMaking();

@@ -209,4 +209,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_valid_credit_card">Credit card is valid</string>
     <string name="ths_not_valid_credit_card">Credit card is not valid</string>
     <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
+    <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
+    <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
 </resources>

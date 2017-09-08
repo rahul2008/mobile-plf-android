@@ -68,6 +68,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
+import com.philips.platform.ths.cost.ApplyCouponCallback;
 import com.philips.platform.ths.cost.CreateVisitCallback;
 import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.insurance.THSInsuranceCallback;
@@ -1385,5 +1386,22 @@ public class THSManager {
                 thsMatchMakingCallback.onMatchMakingFailure(throwable);
             }
         });
+    }
+
+    public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getVisitManager().applyCouponCode(thsVisit.getVisit(), couponCode, new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                applyCouponCallback.onApplyCouponResponse(aVoid,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                applyCouponCallback.onApplyCouponFailure(throwable);
+            }
+        });
+
     }
 }

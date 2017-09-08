@@ -94,7 +94,12 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
-            boolean isDOD = (THSManager.getInstance().getPthVisitContext()!=null && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())?true:false;
+            boolean isDOD = false;
+            if((THSManager.getInstance().getPthVisitContext() != null
+                    && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                    && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+                isDOD=true;
+            }
             if(isDOD){
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);

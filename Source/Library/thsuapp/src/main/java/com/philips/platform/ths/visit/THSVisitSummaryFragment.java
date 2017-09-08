@@ -12,7 +12,9 @@ import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
@@ -48,6 +50,10 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     Integer mProviderRating;
     Integer mVisitRating;
 
+    protected Label medicationShippingLabel;
+    protected RelativeLayout medicationShippingRelativeLayout;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +65,9 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         view.findViewById(R.id.isAvailableLayout).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_consumer_shipping_address).setVisibility(View.GONE);
         view.findViewById(R.id.ps_edit_pharmacy).setVisibility(View.GONE);
+
+        medicationShippingLabel =  (Label) view.findViewById(R.id.ps_shipped_to_label);
+        medicationShippingRelativeLayout =(RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
 
         Bundle bundle = getArguments();
         mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
@@ -131,6 +140,8 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     public void onClick(View v) {
         if(v.getId()==R.id.ths_visit_summary_continue_button){
             mTHSVisitSummaryPresenter.onEvent(R.id.ths_visit_summary_continue_button);
+        } else if (v.getId()==R.id.ths_waiting_room_provider_detail_relativelayout){
+            mTHSVisitSummaryPresenter.onEvent(R.id.ths_waiting_room_provider_detail_relativelayout);
         }
 
     }

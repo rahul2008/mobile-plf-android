@@ -5,14 +5,17 @@
     android:layout_height="wrap_content">
 
 
-    <ImageView
-        android:layout_width="@dimen/ths_image_size"
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:id="@+id/pth_practice_logo"
-        android:src="@drawable/dls_information"
-        android:layout_height="@dimen/ths_image_size" />
+       android:text="@string/dls_information"
+        fontPath="fonts/iconfont.ttf"
+        android:textAlignment="center"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:layout_height="wrap_content" />
 
 
 

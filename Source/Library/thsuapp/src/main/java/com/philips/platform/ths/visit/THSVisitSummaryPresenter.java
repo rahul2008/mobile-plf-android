@@ -1,5 +1,6 @@
 package com.philips.platform.ths.visit;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.americanwell.sdk.entity.Address;
@@ -13,8 +14,10 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
@@ -33,7 +36,11 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     @Override
     public void onEvent(int componentID) {
 
-        mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
+        if (componentID == R.id.ths_visit_summary_continue_button) {
+            THSManager.getInstance().setVisitContext(null);
+            mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
+
+        }
 
     }
 
@@ -66,6 +73,9 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
             mTHSVisitSummaryFragment.consumerState.setText(address.getState().getCode());
             mTHSVisitSummaryFragment.consumerShippingAddress.setText(address.getAddress1());
             mTHSVisitSummaryFragment.consumerShippingZip.setText(address.getZipCode());
+        }else{
+            mTHSVisitSummaryFragment.medicationShippingLabel.setVisibility(View.GONE);
+            mTHSVisitSummaryFragment.medicationShippingRelativeLayout.setVisibility(View.GONE);
         }
     }
 

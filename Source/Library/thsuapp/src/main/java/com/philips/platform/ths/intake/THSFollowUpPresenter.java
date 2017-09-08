@@ -48,8 +48,13 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     }
 
     private boolean checkIfDODFlow() {
-        //return !THSManager.getInstance().getPthVisitContext().hasProvider();
-        return (null!=THSManager.getInstance().getPthVisitContext() && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty());
+        boolean isDOD= false;
+        if (null!=THSManager.getInstance().getPthVisitContext()
+                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty()
+                && !THSManager.getInstance().getPthVisitContext().hasProvider()){
+            isDOD=true;
+        }
+        return isDOD;
     }
 
     private void acceptLegalText() {
