@@ -6,7 +6,7 @@
 
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
-public class WelcomeVideoFragmentContract {
+public interface WelcomeVideoFragmentContract {
 
     interface View {
         void setVideoDataSource(String videoUrl);

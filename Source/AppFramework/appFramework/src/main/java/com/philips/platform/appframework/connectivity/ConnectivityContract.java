@@ -9,7 +9,7 @@ import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppl
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ConnectivityContract {
+public interface ConnectivityContract {
 
     interface View {
 
