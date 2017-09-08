@@ -153,19 +153,19 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     }
 
     private boolean validateUserDetails() {
-        if(mEditTextFirstName.getText().toString().length() == 0){
+        if(mEditTextFirstName.getText().toString().isEmpty()){
             showToast(getString(R.string.ths_first_name_validation));
             return false;
-        }else if(mEditTextLastName.getText().toString().length() == 0){
+        }else if(mEditTextLastName.getText().toString().isEmpty()){
             showToast(getString(R.string.ths_last_name_validation));
             return false;
-        }else if(mDateOfBirth.getText().toString().length() == 0){
+        }else if(mDateOfBirth.getText().toString().isEmpty()){
             showToast(getString(R.string.ths_dob_validation));
             return false;
         }else if(radio_group_single_line.getCheckedRadioButtonId() == -1){
             showToast(getString(R.string.ths_gender_validation));
             return false;
-        }else if(mEditTextStateSpinner.getText().toString().length() == 0){
+        }else if(mEditTextStateSpinner.getText().toString().isEmpty()){
             showToast(getString(R.string.ths_state_validation));
             return false;
         }else return true;
