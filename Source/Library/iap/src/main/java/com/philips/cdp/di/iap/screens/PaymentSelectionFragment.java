@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PaymentSelectionFragment extends InAppBaseFragment
@@ -121,7 +122,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY));
+            final HashMap<String,String> value = (HashMap<String, String>)getArguments().getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, value);
             //Load shipping address from SetDelivery Address with check boxed
             addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
                     DLSAddressFragment.TAG);

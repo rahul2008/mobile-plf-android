@@ -510,8 +510,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mlLStateBilling.setVisibility(View.GONE);
         }
         mIgnoreTextChangeListener = false;
-        enableAllFields();
-        enableFocus();
+      // enableAllFields();
+       // enableFocus();
     }
 
     private void enableAllFields() {
