@@ -118,7 +118,12 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
     <string name="ths_your_details">"Your details"</string>
-
+    <string name="ths_male_">Male</string>
+    <string name="ths_first_name_validation">Enter first name</string>
+    <string name="ths_last_name_validation">Enter last name</string>
+    <string name="ths_dob_validation">Enter date of birth</string>
+    <string name="ths_gender_validation">Select a gender</string>
+    <string name="ths_state_validation">Select a state</string>
 
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
     <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>

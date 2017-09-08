@@ -1,6 +1,5 @@
 package com.philips.platform.ths.intake;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 
@@ -14,7 +13,6 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -86,10 +84,13 @@ public class THSVitalsPresenterTest {
     @Mock
     SDKError sdkErrorMock;
 
+    @Mock
+    THSVItalsUIInterface thsvItalsUIInterface;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        thsVitalsPresenter = new THSVitalsPresenter(pTHBaseViewMock);
+        thsVitalsPresenter = new THSVitalsPresenter(thsvItalsUIInterface,pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(pthConsumerMock);
 
@@ -110,7 +111,7 @@ public class THSVitalsPresenterTest {
     @Test
     public void onEventSkipBtn() throws Exception {
         thsVitalsPresenter.onEvent(R.id.vitals_skip);
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsvItalsUIInterface).launchMedicationFragment();
     }
  /*   @Test
     public void onEventInvalidBtn() throws Exception {
@@ -121,17 +122,8 @@ public class THSVitalsPresenterTest {
     @Test
     public void onEventContinueBtnWhenInputIsValidUpdateConditionsThrowsException() throws Exception {
         doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateVitals(any(Consumer.class),any(Vitals.class),any(VisitContext.class),any(SDKValidatedCallback.class));;
-        when(pTHBaseViewMock.getTHSVitals()).thenReturn(thsVitals);
-        when(pTHBaseViewMock.validate()).thenReturn(true);
-        thsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        verify(consumerManagerMock).updateVitals(any(Consumer.class),any(Vitals.class),any(VisitContext.class),any(SDKValidatedCallback.class));
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
-    }
-
-    @Test
-    public void onEventContinueBtnWhenInputIsValid() throws Exception {
-        when(pTHBaseViewMock.getTHSVitals()).thenReturn(thsVitals);
-        when(pTHBaseViewMock.validate()).thenReturn(true);
+        when(thsvItalsUIInterface.getTHSVitals()).thenReturn(thsVitals);
+        when(thsvItalsUIInterface.validate()).thenReturn(true);
         thsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
         verify(consumerManagerMock).updateVitals(any(Consumer.class),any(Vitals.class),any(VisitContext.class),any(SDKValidatedCallback.class));
     }
@@ -144,7 +136,7 @@ public class THSVitalsPresenterTest {
     @Test
     public void onResponse() throws Exception {
         thsVitalsPresenter.onResponse(thsVitals,pthsdkError);
-        verify(pTHBaseViewMock).updateUI(thsVitals);
+        verify(thsvItalsUIInterface).updateUI(thsVitals);
     }
 
     @Test
@@ -183,12 +175,6 @@ public class THSVitalsPresenterTest {
         assert number == 20;
     }
 
-    @Test
-    public void integerToString() throws Exception {
-        String value = thsVitalsPresenter.integerToString(20);
-        assertNotNull(value);
-        assert value.equalsIgnoreCase("20");
-    }
 
     @Test
     public void stringToDouble() throws Exception {
@@ -197,12 +183,6 @@ public class THSVitalsPresenterTest {
         assert  aDouble == 30.5;
     }
 
-    @Test
-    public void doubleToString() throws Exception {
-        String value = thsVitalsPresenter.doubleToString(30.5);
-        assertNotNull(value);
-        assert value.equalsIgnoreCase("30.5");
-    }
 
     @Test
     public void isTextValid() throws Exception {
