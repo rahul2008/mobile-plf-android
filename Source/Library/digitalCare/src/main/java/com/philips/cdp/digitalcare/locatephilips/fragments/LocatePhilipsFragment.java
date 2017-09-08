@@ -100,7 +100,8 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.shamanland.fonticon.FontIconDrawable;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -592,9 +593,50 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createBitmap() {
-        mBitmapMarker = BitmapFactory.decodeResource(
+//        FontIconDrawable icon = new FontIconDrawable(getActivity(),
+//                getActivity().getString(R.string.dls_capture), Typeface.createFromAsset(getActivity().getAssets(), "fonts/iconfont.ttf"));
+//        icon.sizeDp(20);
+
+
+        FontIconDrawable icon = new FontIconDrawable();
+        FontIconTypefaceHolder.init(getActivity().getAssets(),"fonts/iconfont.ttf");
+        TypedArray typedArray = getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uidButtonPrimaryFocusBackgroundColor});
+        int color = typedArray.getColor(0, Color.BLACK);
+        typedArray.recycle();
+        icon.setTextColor(color);
+        icon.setTextSize(32);
+        icon.setText(getActivity().getString(R.string.dls_location));
+
+        mBitmapMarker = drawableToBitmap(icon);
+
+        /*mBitmapMarker = BitmapFactory.decodeResource(
                 getActivity().getResources(), R.drawable.consumercare_marker_shadow).copy(
-                Bitmap.Config.ARGB_8888, true);
+                Bitmap.Config.ARGB_8888, true);*/
+    }
+
+
+    public Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+
+        return bitmap;
     }
 
     public void zoomToOnClick(View v) {
