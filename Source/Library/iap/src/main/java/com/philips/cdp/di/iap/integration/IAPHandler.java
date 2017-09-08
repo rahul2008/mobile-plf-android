@@ -135,8 +135,7 @@ class IAPHandler {
                 intent.putStringArrayListExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS,
                         pLaunchInput.mIAPFlowInput.getProductCTNs());
             }
-          //  if (pLaunchInput.getIgnoreRetailers() != null)
-                intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
+            intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
 
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());

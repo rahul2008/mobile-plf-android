@@ -31,7 +31,7 @@ public class OrderDetailsFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
         orderDetailsFragmentTest = OrderDetailsFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(orderDetailsFragmentTest);
