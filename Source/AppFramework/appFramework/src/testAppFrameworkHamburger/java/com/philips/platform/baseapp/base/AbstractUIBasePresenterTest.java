@@ -7,29 +7,34 @@
 
 package com.philips.platform.baseapp.base;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.homescreen.HamburgerActivityPresenter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AbstractUIBasePresenterTest {
 
-    @Mock
-    FragmentView uiView;
 
-    HamburgerActivityPresenter concreteUiBasePresenterTest;
+    AbstractUIBasePresenter concreteUiBasePresenterTest;
 
     @Before
     public void setUp(){
-        concreteUiBasePresenterTest=new HamburgerActivityPresenter(uiView);
+        concreteUiBasePresenterTest=new AbstractUIBasePresenter(new UIView() {
+            @Override
+            public FragmentActivity getFragmentActivity() {
+                return null;
+            }
+        }) {
+            @Override
+            public void onEvent(int componentID) {
+
+            }
+        };
         concreteUiBasePresenterTest.setState("");
     }
 
@@ -51,7 +56,6 @@ public class AbstractUIBasePresenterTest {
 
     @After
     public void tearDown(){
-        uiView=null;
         concreteUiBasePresenterTest=null;
     }
 
