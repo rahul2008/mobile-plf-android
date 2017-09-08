@@ -46,7 +46,7 @@ node ('android&&docker') {
                 '''
             }
             
-            if (BranchName =~ /master|develop|release.*/) {
+            if (params.PSRAbuild || (BranchName =~ /master|develop|release.*/)) {
                 stage('publish') {
                     echo "publish to artifactory"
                     sh '''#!/bin/bash -l
