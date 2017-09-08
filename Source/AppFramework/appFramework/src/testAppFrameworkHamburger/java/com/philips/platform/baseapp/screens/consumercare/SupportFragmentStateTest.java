@@ -92,6 +92,17 @@ public class SupportFragmentStateTest {
         verify(ccInterface).launch(any(UiLauncher.class),any(UappLaunchInput.class));
     }
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        hamburgerActivity=null;
+        flowManager=null;
+        ccInterface=null;
+        productRegistrationState=null;
+        appFrameworkApplication=null;
+        fragmentLauncher=null;
+    }
+
     @Test
     public void testMainMenuItemClicked(){
         supportFragmentStateMock.navigate(fragmentLauncher);

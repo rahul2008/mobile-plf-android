@@ -27,6 +27,7 @@ import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -60,8 +61,6 @@ import static org.robolectric.Shadows.shadowOf;
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class UserRegistrationStateTest {
-
-
 
     private ActivityController<TestActivity> activityController;
 
@@ -126,12 +125,6 @@ public class UserRegistrationStateTest {
 
     @Test
     public void getUserObject_NotNull(){
-//        try {
-//            userRegState.navigate(fragmentLauncher);
-//        }
-//        catch(Exception exception){
-//        }
-//        userRegState.onUserRegistrationComplete(hamburgerActivity);
         assertNotNull(userRegState.getUserObject(application));
     }
 
@@ -144,6 +137,16 @@ public class UserRegistrationStateTest {
         assertEquals(shadowIntent.getIntentClass().getSimpleName(), WebViewActivity.class.getSimpleName());
     }
 
+
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        hamburgerActivity=null;
+        fragmentLauncher=null;
+        userRegState=null;
+        flowManager=null;
+        appFrameworkApplication=null;
+    }
     class UserRegistrationStateMock extends UserRegistrationState{
 
         private AppStateConfiguration configuration;

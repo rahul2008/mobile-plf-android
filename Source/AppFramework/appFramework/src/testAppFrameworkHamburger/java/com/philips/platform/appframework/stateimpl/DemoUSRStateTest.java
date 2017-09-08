@@ -15,6 +15,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.urdemo.URDemouAppInterface;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -59,6 +60,13 @@ public class DemoUSRStateTest {
     public void testGetUappInterface(){
         assertNotNull(new DemoUSRState().getUrDemouAppInterface());
     }
+
+    @After
+    public void tearDown(){
+        demoUSRStateMock=null;
+        uappDemoInterface=null;
+    }
+
     class DemoUSRStateMock extends DemoUSRState{
         @NonNull
         @Override

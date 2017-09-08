@@ -76,6 +76,9 @@ public class WXEntryActivityTest {
     @After
     public void tearDown(){
         activityController.pause().stop().destroy();
+        wxEntryActivity=null;
+        baseRespMock=null;
+        baseReqMock=null;
     }
 
 }
