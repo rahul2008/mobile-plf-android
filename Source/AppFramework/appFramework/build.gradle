@@ -232,21 +232,14 @@ android {
         jumboMode = false
     }
     buildTypes {
-        def STRING = "string"
         def BOOLEAN = "bool"
         def TRUE = "true"
-        def FALSE = "false"
         def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
-        def AWSDKURL = "awsdkurl"
-        def AWSDKKEY = "awsdkkey"
         debug {
-
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled = true
-            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
-            resValue STRING, AWSDKKEY, "3c0f99bf"
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
@@ -256,8 +249,6 @@ android {
             shrinkResources false
             debuggable true
             signingConfig signingConfigs.debug
-            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
-            resValue STRING, AWSDKKEY, "3c0f99bf"
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         release {
@@ -265,8 +256,6 @@ android {
             shrinkResources true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
-            resValue STRING, AWSDKKEY, "3c0f99bf"
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         psraRelease {
@@ -275,8 +264,6 @@ android {
             debuggable false
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
-            resValue STRING, AWSDKKEY, "3c0f99bf"
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
