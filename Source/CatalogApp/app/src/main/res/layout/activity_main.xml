@@ -41,8 +41,114 @@
             </LinearLayout>
         </com.philips.platform.uid.view.widget.NavigationContainer>
 
+        <LinearLayout
+            android:id="@+id/sidebar_left_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true">
 
-        <com.philips.platform.uid.utils.SidebarFrameLayoutContainer
+            <com.philips.platform.uid.utils.SidebarFrameLayoutContainer
+                android:id="@+id/sidebar_content_themed_left_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:uidSidebarContextType="Content"
+                android:background="?attr/uidContentPrimaryBackgroundColor">
+
+                <include
+
+                layout="@layout/sidebar_left_container" />
+
+            </com.philips.platform.uid.utils.SidebarFrameLayoutContainer>
+
+            <com.philips.platform.uid.utils.SidebarFrameLayoutContainer
+                android:id="@+id/sidebar_navigation_themed_left_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:uidSidebarContextType="Navigation"
+                android:background="?attr/uidNavigationPrimaryBackgroundColor">
+
+                <include
+
+                    layout="@layout/sidebar_navigation_themed_left_container" />
+
+            </com.philips.platform.uid.utils.SidebarFrameLayoutContainer>
+
+            </LinearLayout>
+
+        <!--<com.philips.platform.uid.utils.SidebarFrameLayoutContainer-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="start"-->
+            <!--android:fitsSystemWindows="true">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="vertical">-->
+
+            <!--<include-->
+                <!--android:id="@+id/sidebar_content_themed_left_root"-->
+                <!--layout="@layout/sidebar_left_container"-->
+                <!--app:uidSidebarContextType="Content"-->
+                <!--android:visibility="gone"-->
+                <!--android:background="?attr/uidContentPrimaryBackgroundColor"/>-->
+               <!--&lt;!&ndash; <include-->
+                    <!--android:id="@+id/sidebar_navigation_themed_left_root"-->
+                    <!--layout="@layout/sidebar_left_container"-->
+                    <!--app:uidSidebarContextType="Navigation"-->
+                    <!--android:background="?attr/uidNavigationPrimaryBackgroundColor" />&ndash;&gt;-->
+            <!--</LinearLayout>-->
+
+
+        <!--</com.philips.platform.uid.utils.SidebarFrameLayoutContainer>-->
+
+        <!--<com.philips.platform.uid.utils.SidebarFrameLayoutContainer-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:fitsSystemWindows="true">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="vertical">-->
+
+                <!--&lt;!&ndash;<include-->
+                    <!--android:id="@+id/sidebar_content_themed_left_root"-->
+                    <!--layout="@layout/sidebar_left_container"-->
+                    <!--app:uidSidebarContextType="Content"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:background="?attr/uidContentPrimaryBackgroundColor"/>&ndash;&gt;-->
+                <!--<include-->
+                    <!--android:id="@+id/sidebar_navigation_themed_left_root"-->
+                    <!--layout="@layout/sidebar_left_container"-->
+                    <!--app:uidSidebarContextType="Navigation"-->
+                    <!--android:background="?attr/uidNavigationPrimaryBackgroundColor" />-->
+            <!--</LinearLayout>-->
+
+
+        <!--</com.philips.platform.uid.utils.SidebarFrameLayoutContainer>-->
+
+
+        <!--<com.philips.platform.uid.utils.SidebarFrameLayoutContainer
+            android:id="@+id/sidebar_navigation_themed_left_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:uidSidebarContextType="Navigation"
+            android:visibility="gone"
+            android:background="?attr/uidNavigationPrimaryBackgroundColor">
+
+            <include
+                layout="@layout/sidebar_left_container" />
+
+        </com.philips.platform.uid.utils.SidebarFrameLayoutContainer>-->
+        <!--<com.philips.platform.uid.utils.SidebarFrameLayoutContainer
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -92,7 +198,7 @@
             </RelativeLayout>
 
         </com.philips.platform.uid.utils.SidebarFrameLayoutContainer>
-
+-->
         <com.philips.platform.uid.utils.SidebarNavigationViewContainer
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -23,8 +23,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,11 +37,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.platform.catalogapp.dataUtils.SidebarListAdapter;
-import com.philips.platform.catalogapp.dataUtils.UIPickerAdapter;
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
@@ -58,6 +56,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.SidebarFrameLayoutContainer;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
@@ -88,16 +87,22 @@ public class MainActivity extends UIDActivity {
 
     private SideBar sideBarLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private RecyclerView leftRecyclerView;
+    private RecyclerView contentThemedLeftRecyclerView;
+    private RecyclerView navigationThemedLeftRecyclerView;
     private ListView rightListView;
     public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
+    public static final String IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE";
     public static final String LEFT_SIDEBAR_BG = "LEFT_SIDEBAR_BG";
     public static final String RIGHT_SIDEBAR_BG = "RIGHT_SIDEBAR_BG";
     private int leftRecyclerViewSelectedPosition = 0;
-    private int leftSidebarBGColor;
+    private boolean isNavigationThemedLeftContainerVisible;
+    private LinearLayout sidebarLeftRoot;
+    private SidebarFrameLayoutContainer contentThemedLeftSidebarRoot;
+    private SidebarFrameLayoutContainer navigationThemedLeftSidebarRoot;
+    /*private int leftSidebarBGColor;
     private int rightSidebarBGColor;
     private RelativeLayout leftSidebarRoot;
-    //private NavigationView rightSidebarRoot;
+    private NavigationView rightSidebarRoot;*/
 
     private static final String[] RIGHT_MENU_ITEMS = new String[]{
             "Profile item 1",
@@ -147,23 +152,37 @@ public class MainActivity extends UIDActivity {
         sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
         sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
-        leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
+        sidebarLeftRoot = (LinearLayout) findViewById(R.id.sidebar_left_root);
+        contentThemedLeftSidebarRoot = (SidebarFrameLayoutContainer) findViewById(R.id.sidebar_content_themed_left_root);
+        navigationThemedLeftSidebarRoot = (SidebarFrameLayoutContainer) findViewById(R.id.sidebar_navigation_themed_left_root);
+
+        //leftSidebarRoot = (RelativeLayout) findViewById(R.id.sidebar_left_root);
         //rightSidebarRoot = (NavigationView) findViewById(R.id.sidebar_right_root);
-        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
+        /*TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
         if (typedArray != null) {
             leftSidebarBGColor = typedArray.getColor(0, Color.WHITE);
             rightSidebarBGColor = typedArray.getColor(0, Color.WHITE);
             typedArray.recycle();
-        }
+        }*/
 
         drawerToggle = setupDrawerToggle();
 
-        RecyclerViewSeparatorItemDecoration separatorItemDecoration = new RecyclerViewSeparatorItemDecoration(ThemeUtils.getNavigationThemedContext(this));
-        leftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_left_recyclerview);
-        leftRecyclerView.addItemDecoration(separatorItemDecoration);
-        initializeRecyclerView(this);
+        RecyclerViewSeparatorItemDecoration contentThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
+        RecyclerViewSeparatorItemDecoration navigationThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(ThemeUtils.getNavigationThemedContext(this));
+        DataHolderView contentThemedDataHolderView = getContentThemedIconDataHolderView(this);
+        DataHolderView navigationThemedDataHolderView = getNavigationThemedIconDataHolderView(ThemeUtils.getNavigationThemedContext(this));
 
-        leftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        contentThemedLeftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_content_themed_left_recyclerview);
+        contentThemedLeftRecyclerView.setAdapter(new MainActivity.ContentThemedRecyclerViewAdapter(contentThemedDataHolderView.dataHolders));
+        contentThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        contentThemedLeftRecyclerView.addItemDecoration(contentThemedSeparatorItemDecoration);
+
+        navigationThemedLeftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_navigation_themed_left_recyclerview);
+        navigationThemedLeftRecyclerView.setAdapter(new MainActivity.NavigationThemedRecyclerViewAdapter(navigationThemedDataHolderView.dataHolders));
+        navigationThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        navigationThemedLeftRecyclerView.addItemDecoration(navigationThemedSeparatorItemDecoration);
+
+        initializeRecyclerView(this);
 
         rightListView = (ListView) findViewById(R.id.sidebar_right_listview);
         //ViewGroup header = (ViewGroup)getLayoutInflater().inflate(R.layout.sidebar_right_header_view,rightListView,false);
@@ -208,7 +227,46 @@ public class MainActivity extends UIDActivity {
         return sideBarLayout;
     }
 
-    public void setLeftSidebarBGColor(int color){
+    public void showContentThemedComponents(){
+       // navigationThemedLeftRecyclerView.setVisibility(View.GONE);
+        isNavigationThemedLeftContainerVisible = false;
+        navigationThemedLeftSidebarRoot.setVisibility(View.GONE);
+        //contentThemedLeftRecyclerView.setVisibility(View.VISIBLE);
+        sidebarLeftRoot.setBackgroundColor(getContentMappedBGColor());
+        contentThemedLeftSidebarRoot.setVisibility(View.VISIBLE);
+
+    }
+
+    public void showNavigationThemedComponents(){
+        //contentThemedLeftRecyclerView.setVisibility(View.GONE);
+        isNavigationThemedLeftContainerVisible = true;
+        contentThemedLeftSidebarRoot.setVisibility(View.GONE);
+        //navigationThemedLeftRecyclerView.setVisibility(View.VISIBLE);
+        sidebarLeftRoot.setBackgroundColor(getNavigationMappedBGColor());
+        navigationThemedLeftSidebarRoot.setVisibility(View.VISIBLE);
+    }
+
+    private int getContentMappedBGColor(){
+        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
+        int sidebarBGColor = 0;
+        if (typedArray != null) {
+            sidebarBGColor = typedArray.getColor(0, Color.WHITE);
+            typedArray.recycle();
+        }
+        return sidebarBGColor;
+    }
+
+    private int getNavigationMappedBGColor(){
+        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidNavigationPrimaryBackgroundColor});
+        int sidebarBGColor = 0;
+        if (typedArray != null) {
+            sidebarBGColor = typedArray.getColor(0, Color.WHITE);
+            typedArray.recycle();
+        }
+        return sidebarBGColor;
+    }
+
+    /*public void setLeftSidebarBGColor(int color){
         leftSidebarBGColor = color;
 //        leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
     }
@@ -216,7 +274,7 @@ public class MainActivity extends UIDActivity {
     public void setRightSidebarBGColor(int color){
         rightSidebarBGColor = color;
 //        rightSidebarRoot.setBackgroundColor(rightSidebarBGColor);
-    }
+    }*/
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -231,12 +289,11 @@ public class MainActivity extends UIDActivity {
     }
 
     private void initializeRecyclerView(Context context) {
-        DataHolderView dataHolderView = getIconDataHolderView(ThemeUtils.getNavigationThemedContext(context));
-        leftRecyclerView.setAdapter(new MainActivity.RecyclerViewAdapter(dataHolderView.dataHolders));
+
     }
 
     @NonNull
-    private DataHolderView getIconDataHolderView(Context context) {
+    private DataHolderView getContentThemedIconDataHolderView(Context context) {
         DataHolderView dataHolderView = new DataHolderView();
         dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.menu1, context);
         dataHolderView.addIconItem(R.drawable.ic_home, R.string.menu2, context);
@@ -247,36 +304,112 @@ public class MainActivity extends UIDActivity {
         return dataHolderView;
     }
 
-    private class RecyclerViewAdapter extends RecyclerView.Adapter {
+    @NonNull
+    private DataHolderView getNavigationThemedIconDataHolderView(Context context) {
+        DataHolderView dataHolderView = new DataHolderView();
+        dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.menu1, context);
+        dataHolderView.addIconItem(R.drawable.ic_home, R.string.menu2, context);
+        dataHolderView.addIconItem(R.drawable.ic_lock, R.string.menu3, context);
+        dataHolderView.addIconItem(R.drawable.ic_alarm, R.string.menu4, context);
+        dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.menu5, context);
+        dataHolderView.addIconItem(R.drawable.ic_location, R.string.menu6, context);
+        return dataHolderView;
+    }
+
+    private class ContentThemedRecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
 
-        private RecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
+        private ContentThemedRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
+            this.dataHolders = dataHolders;
+
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
+
+
+            return new MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+            final DataHolder dataHolder = dataHolders.get(position);
+            ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).getBinding().setVariable(1, dataHolder);
+            ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).getBinding().executePendingBindings();
+
+            holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
+            ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    notifyItemChanged(leftRecyclerViewSelectedPosition);
+                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
+                    leftRecyclerViewSelectedPosition = position;
+                    holder.itemView.setSelected(true);
+                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
+                    sideBarLayout.closeDrawer(GravityCompat.START);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataHolders.size();
+        }
+
+        class ContentThemedBindingHolder extends RecyclerView.ViewHolder {
+            private ViewDataBinding binding;
+
+            ContentThemedBindingHolder(@NonNull View rowView) {
+                super(rowView);
+                binding = DataBindingUtil.bind(rowView);
+            }
+
+            public ViewDataBinding getBinding() {
+                return binding;
+            }
+        }
+    }
+
+
+    private class NavigationThemedRecyclerViewAdapter extends RecyclerView.Adapter {
+        private ObservableArrayList<DataHolder> dataHolders;
+
+        private NavigationThemedRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
             this.dataHolders = dataHolders;
         }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             View v = LayoutInflater.from(parent.getContext()).cloneInContext(ThemeUtils.getNavigationThemedContext(parent.getContext()))
-                    .inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
-            return new MainActivity.RecyclerViewAdapter.BindingHolder(v);
+                        .inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
+
+            return new MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
             final DataHolder dataHolder = dataHolders.get(position);
-            ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
-            ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
+            ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
+            ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
 
             holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
-            ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+            ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     notifyItemChanged(leftRecyclerViewSelectedPosition);
+                    contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
                     leftRecyclerViewSelectedPosition = position;
                     holder.itemView.setSelected(true);
+                    contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
                     sideBarLayout.closeDrawer(GravityCompat.START);
                 }
             });
+        }
+
+        private void updateDataHolders(ObservableArrayList<DataHolder> dataList){
+            this.dataHolders = dataHolders;
         }
 
         @Override
@@ -374,6 +507,12 @@ public class MainActivity extends UIDActivity {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
         leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
+        isNavigationThemedLeftContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE);
+        if(isNavigationThemedLeftContainerVisible){
+            showNavigationThemedComponents();
+        } else {
+            showContentThemedComponents();
+        }
         /*leftSidebarBGColor = savedInstanceState.getInt(LEFT_SIDEBAR_BG);
         rightSidebarBGColor = savedInstanceState.getInt(RIGHT_SIDEBAR_BG);
         leftSidebarRoot.setBackgroundColor(leftSidebarBGColor);
@@ -427,6 +566,7 @@ public class MainActivity extends UIDActivity {
         navigationController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
         outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
+        outState.putBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE, isNavigationThemedLeftContainerVisible);
         /*outState.putInt(LEFT_SIDEBAR_BG, leftSidebarBGColor);
         outState.putInt(RIGHT_SIDEBAR_BG, rightSidebarBGColor);*/
     }

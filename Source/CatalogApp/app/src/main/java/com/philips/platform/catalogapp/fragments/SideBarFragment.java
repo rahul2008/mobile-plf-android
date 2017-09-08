@@ -1,3 +1,8 @@
+/*
+ * (C) Koninklijke Philips N.V., 2016.
+ * All rights reserved.
+ *
+ */
 package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
@@ -30,10 +35,6 @@ import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
-/**
- * Created by Kunal on 31/07/17.
- */
-
 public class SideBarFragment extends BaseFragment {
 
     private Context context;
@@ -64,17 +65,17 @@ public class SideBarFragment extends BaseFragment {
 
         if(fragmentSideBarBinding.radiobuttonLeft.isChecked()){
             if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
-                ((MainActivity)getActivity()).setLeftSidebarBGColor(getContentMappedBGColor());
+                ((MainActivity)getActivity()).showContentThemedComponents();
             } else if(fragmentSideBarBinding.radiobuttonMapNavigation.isChecked()){
-                ((MainActivity)getActivity()).setLeftSidebarBGColor(getNavigationMappedBGColor());
+                ((MainActivity)getActivity()).showNavigationThemedComponents();
             }
             ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.START);
         } else if(fragmentSideBarBinding.radiobuttonRight.isChecked()){
-            if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
+            /*if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
                 ((MainActivity)getActivity()).setRightSidebarBGColor(getContentMappedBGColor());
             } else if(fragmentSideBarBinding.radiobuttonMapNavigation.isChecked()){
                 ((MainActivity)getActivity()).setRightSidebarBGColor(getNavigationMappedBGColor());
-            }
+            }*/
             ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.END);
         }
     }
