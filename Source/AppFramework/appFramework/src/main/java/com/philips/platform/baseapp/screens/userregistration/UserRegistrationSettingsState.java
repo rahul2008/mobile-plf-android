@@ -49,7 +49,7 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
         }
     }
 
-    private AppFrameworkApplication getApplicationContext() {
+    protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }
 

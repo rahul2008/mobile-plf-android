@@ -51,7 +51,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
 
     @Override
     public void loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum termsAndPrivacyEnum) {
-        BaseFlowManager targetFlowManager = ((AppFrameworkApplication) context.getApplicationContext()).getTargetFlowManager();
+        BaseFlowManager targetFlowManager = getTargetFlowManager();
         BaseState baseState = null;
         try {
             baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONDITIONS_CLICK);
@@ -66,5 +66,9 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
             baseState.setUiStateData(termsAndPrivacyStateData);
             baseState.navigate(new FragmentLauncher(activity, R.id.frame_container, (ActionBarListener) activity));
         }
+    }
+
+    protected BaseFlowManager getTargetFlowManager() {
+        return ((AppFrameworkApplication) context.getApplicationContext()).getTargetFlowManager();
     }
 }

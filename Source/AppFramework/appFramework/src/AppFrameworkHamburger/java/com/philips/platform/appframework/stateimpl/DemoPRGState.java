@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -25,10 +26,15 @@ public class DemoPRGState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        PRDemoAppuAppInterface uAppInterface = new PRDemoAppuAppInterface();
+        PRDemoAppuAppInterface uAppInterface = getPrDemoAppuAppInterface();
         uAppInterface.init(new PRDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra()), new PRDemoAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
 
+    }
+
+    @NonNull
+    protected PRDemoAppuAppInterface getPrDemoAppuAppInterface() {
+        return new PRDemoAppuAppInterface();
     }
 
     @Override

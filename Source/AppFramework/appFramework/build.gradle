@@ -341,6 +341,10 @@ android {
             }
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 repositories {
@@ -536,7 +540,7 @@ project.afterEvaluate {
             buildTypes.each {
 
                 buildTypeName ->
-                    //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
+                    //sourceName - e.g. freeDebug ,sourcePath - e.g. free/debug
                     def sourceName, sourcePath
                     if (!productFlavorName) {
                         sourceName = sourcePath = "${buildTypeName}"
@@ -544,7 +548,7 @@ project.afterEvaluate {
                         sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
                         sourcePath = "${productFlavorName}/${buildTypeName}"
                     }
-                    // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
+                    // testTaskName -  e.g. testFreeDebugtest task that the coverage task depends on,
                     def testTaskName = "test${sourceName.capitalize()}UnitTest"
                     // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
                     task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
