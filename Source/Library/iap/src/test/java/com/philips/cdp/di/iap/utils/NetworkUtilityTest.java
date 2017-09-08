@@ -57,7 +57,7 @@ public class NetworkUtilityTest extends TestCase {
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = NullPointerException.class)
     public void testShowErrorDialog() {
         UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         NetworkUtility.getInstance().showErrorDialog(mock(Activity.class), mock(FragmentManager.class), "", "", "");
@@ -78,7 +78,7 @@ public class NetworkUtilityTest extends TestCase {
         NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mock(Context.class), mock(IAPNetworkError.class));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = NullPointerException.class)
     public void testIsNetworkAvailable() {
         UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         NetworkUtility.getInstance().isNetworkAvailable(mock(Context.class));

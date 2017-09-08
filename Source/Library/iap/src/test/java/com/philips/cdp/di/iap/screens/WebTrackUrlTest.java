@@ -31,7 +31,8 @@ public class WebTrackUrlTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test
+
+    @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
         webTrackUrl = WebTrackUrl.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(webTrackUrl);

@@ -152,6 +152,10 @@ android {
         abortOnError false
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25

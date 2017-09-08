@@ -35,7 +35,8 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
 
         mWebView = (WebView) group.findViewById(R.id.wv_payment);
-        mProgress = (ProgressBar) group.findViewById(R.id.cl_progress);
+        mProgress = createCustomProgressBar(group,MEDIUM);
+        mProgress.setVisibility(View.GONE);
         mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
         initializeWebView();
         return group;
