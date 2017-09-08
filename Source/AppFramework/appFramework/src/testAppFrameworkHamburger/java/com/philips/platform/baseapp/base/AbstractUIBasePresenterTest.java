@@ -8,6 +8,7 @@
 package com.philips.platform.baseapp.base;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.homescreen.HamburgerActivityPresenter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,13 +23,13 @@ import static junit.framework.Assert.assertNotNull;
 public class AbstractUIBasePresenterTest {
 
     @Mock
-    UIView uiView;
+    FragmentView uiView;
 
-    ConcreteUiBasePresenterTest concreteUiBasePresenterTest;
+    HamburgerActivityPresenter concreteUiBasePresenterTest;
 
     @Before
     public void setUp(){
-        concreteUiBasePresenterTest=new ConcreteUiBasePresenterTest(uiView);
+        concreteUiBasePresenterTest=new HamburgerActivityPresenter(uiView);
         concreteUiBasePresenterTest.setState("");
     }
 
@@ -52,19 +53,6 @@ public class AbstractUIBasePresenterTest {
     public void tearDown(){
         uiView=null;
         concreteUiBasePresenterTest=null;
-    }
-    class ConcreteUiBasePresenterTest extends AbstractUIBasePresenter{
-
-        public ConcreteUiBasePresenterTest(UIView uiView) {
-            super(uiView);
-        }
-
-        @Override
-        public void onEvent(int componentID) {
-
-        }
-
-
     }
 
 }
