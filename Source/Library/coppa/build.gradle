@@ -3,6 +3,8 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -20,7 +22,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
     }
 
 }
@@ -55,15 +57,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-def libVersionNumber = new File('../../VERSION_COPPA').text.trim()
-if(objcdp.getWorkingBranch().startsWith('master')) {
-    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
-} else if(objcdp.getWorkingBranch().startsWith('release')) {
-    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '-rc.' + objcdp.getTimeStamp())
-} else {
-    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '-SNAPSHOT.' + objcdp.getTimeStamp())
-}
-version = libVersionNumber
+version = objcdp.getVersion(project.ext.versions.usr_coppa)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
