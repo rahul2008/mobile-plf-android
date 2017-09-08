@@ -24,8 +24,6 @@ public class URLaunchInput extends UappLaunchInput {
         return isAddToBackStack;
     }
 
-    @Deprecated
-    private boolean isAccountSettings;
 
     /**
      * Enable  add to back stack for current fragment.
@@ -112,16 +110,6 @@ public class URLaunchInput extends UappLaunchInput {
 
     public UIFlow getUIflow() {
         return uiFlow;
-    }
-
-    @Deprecated
-    public void setAccountSettings(boolean isAccountSettings) {
-        this.isAccountSettings = isAccountSettings;
-    }
-
-    @Deprecated
-    public boolean isAccountSettings() {
-        return isAccountSettings;
     }
 
 }

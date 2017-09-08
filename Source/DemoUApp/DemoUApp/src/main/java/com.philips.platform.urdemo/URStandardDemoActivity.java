@@ -279,7 +279,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setAccountSettings(true);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_B);
@@ -309,7 +308,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
-            urLaunchInput.setAccountSettings(false);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setUIFlow(UIFlow.FLOW_C);
@@ -344,7 +342,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             urLaunchInput.setUserRegistrationUIEventListener(this);
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setAccountSettings(false);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
 
