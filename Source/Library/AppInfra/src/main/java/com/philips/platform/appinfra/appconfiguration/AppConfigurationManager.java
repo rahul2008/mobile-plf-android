@@ -505,6 +505,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 dynamicConfigJsonCache = null;
                 oldDynamicConfigJson = makeKeyUppercase(oldDynamicConfigJson); // converting all Group and child key Uppercase
             } catch (JSONException e) {
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"JsonException in Migrate data ");
             }
             if (oldDynamicConfigJson != null) {
                 final Iterator<String> iteratorGroup = oldDynamicConfigJson.keys();
@@ -527,6 +528,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
                     } catch (Exception e) {
                         // Something went wrong!
+                        logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Something went wrong in Migrate data");
                     }
                 }
             }

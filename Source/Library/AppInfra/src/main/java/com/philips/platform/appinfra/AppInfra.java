@@ -7,7 +7,6 @@ package com.philips.platform.appinfra;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
@@ -429,7 +428,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             }).start();
 
 
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");
             return ai;
         }
@@ -448,7 +446,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             appInfraLogStatement.append(ai.getAppIdentity().getAppState());
 
         } catch (IllegalArgumentException e) {
-            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                    AppInfraLogEventID.AI_APPINFRA,"IllegalArgumentException in InitializeLogs ");
         }
         appInfraLogStatement.append("\"");
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
