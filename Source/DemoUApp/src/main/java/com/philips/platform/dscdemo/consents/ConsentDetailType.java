@@ -1,9 +1,5 @@
 package com.philips.platform.dscdemo.consents;
 
-/**
- * Created by sangamesh on 22/11/16.
- */
-
 public class ConsentDetailType {
     public static final String WEIGHT="Weight";
     public static final String HEIGHT="Height";

@@ -25,13 +25,7 @@ import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-/**
- * Created by sangamesh on 08/11/16.
- */
-
-public class ConsentDialogFragment extends Fragment implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener, View.OnClickListener {
+public class ConsentDialogFragment extends Fragment implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private Button mBtnOk;
@@ -50,7 +44,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         View rootView = inflater.inflate(R.layout.dialog_consent, container,
                 false);
 
-        mDataServicesManager= DataServicesManager.getInstance();
+        mDataServicesManager = DataServicesManager.getInstance();
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
@@ -59,10 +53,10 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         mBtnCancel.setOnClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        consentDialogPresenter=new ConsentDialogPresenter(getActivity(), this);
+        consentDialogPresenter = new ConsentDialogPresenter(getActivity(), this);
         mProgressDialog = new ProgressDialog(getActivity());
-        consentDetails=new ArrayList<>();
-        lConsentAdapter = new ConsentDialogAdapter(getActivity(),consentDetails, consentDialogPresenter);
+        consentDetails = new ArrayList<>();
+        lConsentAdapter = new ConsentDialogAdapter(getActivity(), consentDetails, consentDialogPresenter);
         mRecyclerView.setAdapter(lConsentAdapter);
         fetchConsent();
         return rootView;
@@ -84,7 +78,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
@@ -107,7 +101,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         }
     }
 
-    private void dismissConsentDialog(){
+    private void dismissConsentDialog() {
         /*if(dialog!=null && dialog.isShowing()){
             dialog.dismiss();
         }*/
@@ -146,13 +140,13 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     }
 
     private void showProgressDialog() {
-        if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-             mProgressDialog.show();
+        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
+            mProgressDialog.show();
         }
     }
 
     private void dismissProgressDialog() {
-        if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
@@ -164,7 +158,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        if(type!=SyncType.CONSENT)return;
+        if (type != SyncType.CONSENT) return;
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
@@ -174,16 +168,16 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
             @Override
             public void run() {
 
-                Toast.makeText(getActivity(),"Exception :"+e.getMessage() ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
     public void onFetchSuccess(List<? extends ConsentDetail> data) {
-        if(data==null || data.size()==0){
+        if (data == null || data.size() == 0) {
             consentDialogPresenter.saveDefaultConsentDetails();
-        }else{
+        } else {
             refreshUi((ArrayList<OrmConsentDetail>) data);
         }
 
@@ -192,7 +186,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     private void refreshUi(ArrayList<OrmConsentDetail> data) {
         final ArrayList<OrmConsentDetail> ormConsents = data;
 
-        if (getActivity()!=null && ormConsents != null ) {
+        if (getActivity() != null && ormConsents != null) {
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -212,7 +206,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     }
 
     private void refreshOnFailure(final Exception exception) {
-        if(getActivity()!=null) {
+        if (getActivity() != null) {
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override

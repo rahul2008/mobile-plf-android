@@ -15,18 +15,11 @@ import com.philips.platform.dscdemo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private ArrayList<? extends ConsentDetail> consentDetails;
-   // private ConsentDetail mConsent;
+    // private ConsentDetail mConsent;
     private final ConsentDialogPresenter consentDialogPresenter;
 
     public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
@@ -88,7 +81,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setData(ArrayList<? extends ConsentDetail> consentDetails) {
         this.consentDetails = consentDetails; //new ArrayList(consent.getConsentDetails());
-       // this.mConsent = consent;
+        // this.mConsent = consent;
     }
 
 }
