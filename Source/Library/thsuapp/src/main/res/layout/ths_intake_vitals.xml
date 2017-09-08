@@ -25,9 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/vitals_skip"
         android:layout_marginBottom="@dimen/ths_margin_between_buttons"
-        android:layout_marginEnd="@dimen/ths_fab_margin"
         android:layout_marginStart="@dimen/ths_fab_margin"
-        android:enabled="false"
+        android:layout_marginEnd="@dimen/ths_fab_margin"
+        android:enabled="true"
+        android:text="@string/ths_continue_button_text"
         />
 
 
