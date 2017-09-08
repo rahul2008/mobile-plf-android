@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -53,6 +54,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 					String testJson = ConfigValues.testJson();
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+							"Error in appconfiguration test");
 				}
 				return result;
 			}
@@ -402,6 +405,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			assertEquals(null, configError.getErrorCode()); // success
 
 		} catch (IllegalArgumentException exception) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in Default property key");
 		}
 
 	}
@@ -433,8 +438,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			method.invoke(mConfigInterface);
 
 		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfig",
-					e.getMessage());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in Master config");
 		}
 
 	}
@@ -594,6 +599,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			};
 			method.invoke(appConfigurationManager, "url", listener);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in fetch cloud config");
 		}
 	}
 
@@ -617,6 +624,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(appConfigurationManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in clear cloud config");
 		}
 	}
 

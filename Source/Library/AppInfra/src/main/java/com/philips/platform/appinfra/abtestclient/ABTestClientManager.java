@@ -445,7 +445,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             @Override
             public void run() {
                 cacheToPreference= gson.toJson(model);
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         "save Cache to Preference "+cacheToPreference);
                 editor.putString("cacheobject", cacheToPreference);
                 editor.commit();

@@ -40,14 +40,14 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
     public void testApplicationLifeCycleOnActivityCreated() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityCreated(activity, bundle);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Created");
     }
 
     public void testApplicationLifeCycleOnActivityCreatedNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityCreated(null, null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Created");
     }
 
@@ -57,7 +57,7 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
         when(appInfraMock.getTagging()).thenReturn(appTaggingInterfaceMock);
         applicationLifeCycleHandler = new ApplicationLifeCycleHandler(appInfraMock);
         applicationLifeCycleHandler.onActivityResumed(activity);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Resumed");
         verify(appTaggingInterfaceMock).trackActionWithInfo("sendData", "appStatus", "ForeGround");
     }
@@ -68,7 +68,7 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
         when(appInfraMock.getTagging()).thenReturn(appTaggingInterfaceMock);
         applicationLifeCycleHandler = new ApplicationLifeCycleHandler(appInfraMock);
         applicationLifeCycleHandler.onActivityResumed(null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Resumed");
     }
 
@@ -76,28 +76,28 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
     public void testApplicationLifeCycleOnActivityPaused() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityPaused(activity);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Paused");
     }
 
     public void testApplicationLifeCycleOnActivityPausedNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityPaused(null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Paused");
     }
 
     public void testApplicationLifeCycleOnActivitySaveInstanceState() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivitySaveInstanceState(activity, bundle);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler SaveInstanceState");
     }
 
     public void testApplicationLifeCycleOnActivitySaveInstanceStateNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivitySaveInstanceState(null, null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler SaveInstanceState");
     }
 
@@ -105,28 +105,28 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
     public void testApplicationLifeCycleOnActivityStarted() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityStarted(activity);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Started");
     }
 
     public void testApplicationLifeCycleOnActivityStartedeNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityStarted(null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Started");
     }
 
     public void testApplicationLifeCycleOnActivityStopped() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityStopped(activity);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Stopped");
     }
 
     public void testApplicationLifeCycleOnActivityStoppedNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityStopped(null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Stopped");
     }
 
@@ -134,7 +134,7 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
         Configuration mConfiguration = new Configuration();
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onConfigurationChanged(mConfiguration);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler ConfigurationChanged");
     }
 
@@ -142,7 +142,7 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
         Configuration mConfiguration = new Configuration();
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onConfigurationChanged(mConfiguration);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler ConfigurationChanged");
     }
 
@@ -153,7 +153,7 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
         when(appInfraMock.getTagging()).thenReturn(appTaggingInterfaceMock);
         applicationLifeCycleHandler = new ApplicationLifeCycleHandler(appInfraMock);
         applicationLifeCycleHandler.onTrimMemory(i);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Background");
     }
 
@@ -161,14 +161,14 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
     public void testApplicationLifeCycleOnLowMemory() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onLowMemory();
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler onLowMemory");
     }
 
     public void testApplicationLifeCycleOnLowMemoryNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onLowMemory();
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler onLowMemory");
     }
 
@@ -176,14 +176,14 @@ public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
     public void testApplicationLifeCycleOnActivityDestroyed() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityDestroyed(activity);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Destroyed");
     }
 
     public void testApplicationLifeCycleOnActivityDestroyedNullCheck() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         applicationLifeCycleHandler.onActivityDestroyed(null);
-        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE,
+        verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Destroyed");
     }
 

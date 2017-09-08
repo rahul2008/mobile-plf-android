@@ -130,7 +130,7 @@ public class ServiceDiscovery {
 			setHttpStatus(response.optString("httpStatus"));
 			final JSONObject payloadJSONObject = response.getJSONObject("payload");
 			final String country = response.getJSONObject("payload").optString("country");
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery country"+country);
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery country"+country);
 			this.country = country.toUpperCase();
 			parseMatchByCountryJSON(payloadJSONObject.getJSONObject("matchByCountry"));
 			parseMatchByLanguageJSON(payloadJSONObject.getJSONObject("matchByLanguage"));
