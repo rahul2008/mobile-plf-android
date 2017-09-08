@@ -37,7 +37,7 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     private THSGridItemOnClickListener thsGridItemOnClickListener;
     private final ColorStateList colorStateList;
 
-    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo,THSGridItemOnClickListener thsGridItemOnClickListener) {
+    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo, THSGridItemOnClickListener thsGridItemOnClickListener) {
         super(context, 0, cardList);
         this.mContext = context;
         this.gridItemTimeList = (ArrayList<Date>) cardList;
@@ -81,35 +81,41 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        View view = null;
 
         final Date gridData = gridItemTimeList.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            view = layoutInflater.inflate(R.layout.ths_cell, null);
+            final ViewHolder viewHolder = new ViewHolder();
 
-            convertView = layoutInflater.inflate(R.layout.ths_cell, null);
+            viewHolder.buttonDate = (Button) view.findViewById(R.id.date);
+            viewHolder.buttonDate.setTextColor(colorStateList);
 
-            Button timeslot = (Button) convertView.findViewById(R.id.date);
-            timeslot.setTextColor(colorStateList);
+            view.setTag(viewHolder);
+            viewHolder.buttonDate.setTag(gridItemTimeList.get(position));
 
-            if(position == selectedPosition){
-                timeslot.setPressed(true);
+            if (position == selectedPosition) {
+                viewHolder.buttonDate.setPressed(true);
             }
-            timeslot.setOnClickListener(new View.OnClickListener() {
+            viewHolder.buttonDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    viewHolder.buttonDate.setPressed(true);
                     thsGridItemOnClickListener.onGridItemClicked(position);
                 }
             });
 
-            timeslot.setText(getFormatedTime(gridData));
-
-            ViewHolder viewHolder = new ViewHolder(timeslot);
-            convertView.setTag(viewHolder);
+        } else {
+            view = convertView;
+            ((ViewHolder) view.getTag()).buttonDate.setTag(gridItemTimeList.get(position));
         }
 
+        ViewHolder holder = (ViewHolder) view.getTag();
+        holder.buttonDate.setText(getFormatedTime(gridData));
 
-        return convertView;
+        return view;
     }
 
     public void updateGrid(ArrayList<Date> newList) {
@@ -119,14 +125,10 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     }
 
     static class ViewHolder {
-        Button buttonDate;
-
-        public ViewHolder(Button dateButton) {
-            this.buttonDate = dateButton;
-        }
+        protected Button buttonDate;
     }
 
-    public String getFormatedTime(Date date){
+    public String getFormatedTime(Date date) {
         return new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
     }
 }
