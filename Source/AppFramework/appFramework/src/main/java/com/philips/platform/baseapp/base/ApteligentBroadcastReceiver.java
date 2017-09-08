@@ -91,6 +91,6 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
     }
 
     protected Map<String, String> getSerializableExtra(Intent intent) {
-        return (Map) intent.getSerializableExtra(TAGGING_DATA);
+        return (Map<String, String>) intent.getSerializableExtra(TAGGING_DATA);
     }
 }
