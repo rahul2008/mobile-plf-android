@@ -290,11 +290,11 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_LAST_UPDATED_TIME, mLastUpdatedTime);
 
         final long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
-        if (rowId == -1) {
+       /* if (rowId == -1) {
             //Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"Update FAIL "+CONTENT_LOADER_STATES);
         } else {
            // Log.i(AppInfraLogEventID.AI_CONTENT_LOADER,"Update Success row id " + CONTENT_LOADER_STATES + " " + rowId);
-        }
+        }*/
         return rowId != -1;
     }
 
@@ -348,6 +348,7 @@ class ContentDatabaseHandler extends SQLiteOpenHelper {
                     db.close();
                 } catch (Exception e) {
                    // Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"CacheForContent FAIL ");
+
                 }
             }
         }

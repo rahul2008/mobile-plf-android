@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
@@ -134,6 +135,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(logManager).addLogger(logger);
             verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
         } catch (JSONException e) {
+            Log.e(getClass()+"","JsonException in component level logging");
         }
     }
 
@@ -189,6 +191,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(logger).addHandler(consoleHandler);
             verify(consoleHandler).setLevel(Level.FINE);
         } catch (JSONException e){
+            Log.e(getClass()+"","JsonException in console log configuration ");
         }
     }
 
@@ -239,7 +242,9 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(logger).addHandler(fileHandler);
             verify(fileHandler).setLevel(Level.FINE);
         } catch (JSONException e){
+            Log.e(getClass()+"","JsonException in file log configuartion");
         }
+
     }
 
 }
