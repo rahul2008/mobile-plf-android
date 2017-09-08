@@ -26,15 +26,7 @@ import io.reactivex.schedulers.*;
 public class MobileForgotPassVerifyResendCodePresenter implements
         HttpClientServiceReceiver.Listener, NetworkStateListener {
 
-    private static final String VERIFICATION_SMS_CODE_SERVICE_ID =
-            "userreg.urx.verificationsmscode";
-    private static final int RESEND_OTP_REQUEST_CODE = 101;
-    private static final String ERROR_CODE = "errorCode";
-    private static final String OTP_RESEND_SUCCESS = "0";
-    private static final String ERROR_DESC = "error_description";
-    private static final String ERROR_MSG = "message";
     String redirectUri;
-
 
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;

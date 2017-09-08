@@ -137,7 +137,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     @Subscribe
-    public void onEvent(UpdateVal event){
+    public void onEvent(UpdateToken event){
         responseToken = event.getToken();
     }
 
@@ -230,10 +230,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
                 + "&token=" + responseToken;
     }
 
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {

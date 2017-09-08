@@ -232,7 +232,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void updateToken(String token) {
-        EventBus.getDefault().post(new UpdateVal(token));
+        EventBus.getDefault().post(new UpdateToken(token));
 
     }
 

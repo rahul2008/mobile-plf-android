@@ -115,7 +115,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
     @Subscribe
-    public void onEvent(UpdateVal event){
+    public void onEvent(UpdateToken event){
         // your implementation
         Toast.makeText(getActivity(), event.getToken(), Toast.LENGTH_SHORT).show();
 
