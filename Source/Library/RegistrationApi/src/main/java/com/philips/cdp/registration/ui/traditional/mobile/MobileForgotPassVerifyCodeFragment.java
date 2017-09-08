@@ -55,7 +55,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     XRegError errorMessage;
 
     @BindView(R2.id.reg_verify_mobile_desc1)
-    Label reg_verify_mobile_desc1;
+    Label verifyPasswordDesc1;
 
     @BindView(R2.id.usr_forgotpassword_inputId_ValidationEditText)
     ValidationEditText verificationCodeValidationEditText;
@@ -69,8 +69,11 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     boolean isVerified;
 
     private String verificationSmsCodeURL;
+
     private String mobileNumber;
+
     private String responseToken;
+
     private String redirectUri;
 
     @Override
@@ -108,7 +111,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         SpannableString str = new SpannableString(normalText + " "+ mobileNumber);
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length(), str.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        reg_verify_mobile_desc1.setText(str);
+        verifyPasswordDesc1.setText(str);
     }
 
     private void handleVerificationCode() {
@@ -212,9 +215,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
         RLog.i("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
                 + " " + redirectUri + " " + responseToken);
-
-        redirectUri = redirectUri + "?code=" + verificationCodeValidationEditText.getText()
-                + "&token=" + responseToken;
+        constructRedirectUri();
         final String redirectUriKey = "redirectUri";
         ResetPasswordWebView resetPasswordWebView = new ResetPasswordWebView();
         Bundle bundle = new Bundle();
@@ -222,6 +223,11 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         resetPasswordWebView.setArguments(bundle);
         getRegistrationFragment().addFragment(resetPasswordWebView);
         return null;
+    }
+
+    private void constructRedirectUri() {
+        redirectUri = redirectUri + "?code=" + verificationCodeValidationEditText.getText()
+                + "&token=" + responseToken;
     }
 
     @Override

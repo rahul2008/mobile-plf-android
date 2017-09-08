@@ -33,6 +33,8 @@ public class MobileForgotPassVerifyResendCodePresenter implements
     private static final String OTP_RESEND_SUCCESS = "0";
     private static final String ERROR_DESC = "error_description";
     private static final String ERROR_MSG = "message";
+    String redirectUri;
+
 
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
@@ -46,10 +48,10 @@ public class MobileForgotPassVerifyResendCodePresenter implements
             MobileForgotPassVerifyResendCodeFragment mobileVerifyCodeContract) {
         URInterface.getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
-       RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
-    public void resendOTPRequest(String serviceUrl,final String mobileNumber) {
+    public void resendOTPRequest(String serviceUrl, final String mobileNumber) {
 
         compositeDisposable.add(Single.just(serviceUrl)
                 .subscribeOn(Schedulers.io())
@@ -76,16 +78,15 @@ public class MobileForgotPassVerifyResendCodePresenter implements
         final String urlKey = "url";
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mobileNumber);
-        RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
+        RLog.d("Configration : ", " envir :" +
+                RegistrationConfiguration.getInstance().getRegistrationEnvironment());
         String url = verificationSmsCodeURL;
 
         Intent httpServiceIntent = mobileVerifyCodeContract.getServiceIntent();
         HttpClientServiceReceiver receiver = mobileVerifyCodeContract.getClientServiceRecevier();
         receiver.setListener(this);
 
-        String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
-                "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
-                "redirectUri=" + getRedirectUri();
+        String bodyContent = getBodyContent(mobileNumber);
         RLog.d("Configration : ", " envir :" + getClientId() + getRedirectUri());
 
         httpServiceIntent.putExtra(receiverKey, receiver);
@@ -94,9 +95,17 @@ public class MobileForgotPassVerifyResendCodePresenter implements
         return httpServiceIntent;
     }
 
+    @NonNull
+    private String getBodyContent(String mobileNumber) {
+        return "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
+                "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
+                "redirectUri=" + getRedirectUri();
+    }
+
     private String getClientId() {
         ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST + Jump.getCaptureDomain());
+        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST +
+                Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {
@@ -104,9 +113,8 @@ public class MobileForgotPassVerifyResendCodePresenter implements
         return redirectUri;
     }
 
-    String redirectUri;
 
-    public void setRedirectUri(String uri){
+    public void setRedirectUri(String uri) {
         redirectUri = uri;
     }
 
@@ -139,8 +147,9 @@ public class MobileForgotPassVerifyResendCodePresenter implements
         }
         RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
 
-                mobileVerifyCodeContract.updateToken(token);
+        mobileVerifyCodeContract.updateToken(token);
     }
+
     private void handleResendSMSRespone(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -150,8 +159,7 @@ public class MobileForgotPassVerifyResendCodePresenter implements
                 handleResendVerificationEmailSuccess();
             } else {
                 mobileVerifyCodeContract.trackVerifyActionStatus(
-                        AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.TECHNICAL_ERROR,
+                        AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR,
                         AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
@@ -166,15 +174,13 @@ public class MobileForgotPassVerifyResendCodePresenter implements
     private void handleResendVerificationEmailSuccess() {
         mobileVerifyCodeContract.trackVerifyActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-
-    //    mobileVerifyCodeContract.showSMSSentNotification();
-        }
+    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
 
-        if(isOnline) {
+        if (isOnline) {
             mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {
             mobileVerifyCodeContract.netWorkStateOfflineUiHandle();

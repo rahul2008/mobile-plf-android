@@ -56,7 +56,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     private Context context;
 
-
     private MobileForgotPassVerifyResendCodePresenter mobileVerifyResendCodePresenter;
 
     private Handler handler;
@@ -273,7 +272,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     }
 
 
-
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
         showProgressDialog();
@@ -283,7 +281,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
                 verificationSmsCodeURL, phoneNumberEditText.getText().toString());
         disableResendButton();
     }
-
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {

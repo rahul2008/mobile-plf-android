@@ -20,7 +20,8 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public MobileForgotPassVerifyCodePresenter(MobileForgotPassVerifyCodeContract mobileVerifyCodeContract) {
+    public MobileForgotPassVerifyCodePresenter(MobileForgotPassVerifyCodeContract
+                                                       mobileVerifyCodeContract) {
         URInterface.getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
