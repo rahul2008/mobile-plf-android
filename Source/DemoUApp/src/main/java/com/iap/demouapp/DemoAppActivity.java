@@ -33,8 +33,6 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -45,9 +43,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
@@ -136,9 +131,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         //Integration interface
 
         mIAPSettings = new IAPSettings(this);
-        if (mUser.isUserSignIn())
+        if (mUser.isUserSignIn()) {
+            actionBar();
+            initIAP();
             setLocalFromServiceDiscovery();
-        else {
+
+        } else {
             mRegister.setVisibility(View.VISIBLE);
             Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
@@ -167,37 +165,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void setLocalFromServiceDiscovery() {
 
-        ServiceDiscoveryInterface serviceDiscovery = IapDemoUAppInterface.mAppInfra.getServiceDiscovery();
-        ArrayList<String> listOfServiceId = new ArrayList<>();
-        listOfServiceId.add("iap.baseurl");
-
-        serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                IAPLog.i(IAPLog.LOG, " DemoActivity getServicesWithCountryPreference Map" + map.toString());
-                Collection<ServiceDiscoveryService> collection = map.values();
-
-                List<ServiceDiscoveryService> list = new ArrayList<>();
-                list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-                actionBar();
-                initIAP();
-                // enableViews();
-                String configUrls = serviceDiscoveryService.getConfigUrls();
-                if (configUrls == null || configUrls.isEmpty()) {
-                    displayFlowViews(false);
-                } else {
-                    displayFlowViews(true);
-                }
-
-
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                IAPLog.i(IAPLog.LOG, "DemoActivity ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-            }
-        });
+        boolean cartVisible = mIapInterface.isCartVisible(this);
+        displayFlowViews(cartVisible);
     }
 
     private void displayFlowViews(boolean b) {
@@ -508,6 +477,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onFailure(int errorCode) {
         showToast(errorCode);
     }
+
 
     //User Registration interface functions
     @Override

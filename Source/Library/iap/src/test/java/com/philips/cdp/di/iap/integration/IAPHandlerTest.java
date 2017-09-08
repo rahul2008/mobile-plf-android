@@ -28,9 +28,7 @@ import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -87,6 +85,11 @@ public class IAPHandlerTest {
 
             @Override
             public void onFailure(int errorCode) {
+
+            }
+
+            @Override
+            public void cartAndOrderHistoryVisibility(boolean visible) {
 
             }
         };
@@ -304,14 +307,44 @@ public class IAPHandlerTest {
     }
 
     @Test
-    public void testGetFragment() throws Exception {
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, new IAPLaunchInput());
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, new IAPLaunchInput());
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, new IAPLaunchInput());
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, new IAPLaunchInput());
-        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, new IAPLaunchInput());
+    public void testGetProductCatalogFragment() throws Exception {
+        final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPFlowInput pIapFlowInput = new IAPFlowInput("HX8332/11");
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, pIapFlowInput);
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, iapLaunchInput);
     }
 
+    @Test
+    public void testGetShoppingCartFragment() throws Exception {
+        final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPFlowInput pIapFlowInput = new IAPFlowInput("HX8332/11");
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, pIapFlowInput);
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, iapLaunchInput);
+    }
+
+    @Test
+    public void testGetPurchaseHistoryFragment() throws Exception {
+        final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPFlowInput pIapFlowInput = new IAPFlowInput("HX8332/11");
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, pIapFlowInput);
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, iapLaunchInput);
+    }
+
+    @Test
+    public void testGetProductDetailFragment() throws Exception {
+        final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPFlowInput pIapFlowInput = new IAPFlowInput("HX8332/11");
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, pIapFlowInput);
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapLaunchInput);
+    }
+
+    @Test
+    public void testGetBuyDirectFragment() throws Exception {
+        final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPFlowInput pIapFlowInput = new IAPFlowInput("HX8332/11");
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, pIapFlowInput);
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapLaunchInput);
+    }
     //add fragment test case
 
     @Test
