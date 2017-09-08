@@ -7,11 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -21,8 +21,9 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.prxclient.request.PrxRequest;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.net.URL;
 import java.util.List;
@@ -31,8 +32,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
     public static final String urlBaseSeparator = "://";
     private ImageView serialNumberImageView;
-    private TextView serialNumberTextView;
-    private TextView serialNumberForamtTextView;
+    private Label serialNumberTextView;
+    private Label serialNumberForamtTextView;
 
 
     @Override
@@ -65,8 +66,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
     private void initViews(final View view) {
         serialNumberImageView = (ImageView) view.findViewById(R.id.device_image);
         Button okFoundButton = (Button) view.findViewById(R.id.ok_found_button);
-        serialNumberTextView = (TextView) view.findViewById(R.id.serial_number_guide_text);
-        serialNumberForamtTextView = (TextView) view.findViewById(R.id.serial_number_guide_format_text);
+        serialNumberTextView = (Label) view.findViewById(R.id.serial_number_guide_text);
+        serialNumberForamtTextView = (Label) view.findViewById(R.id.serial_number_guide_format_text);
 
         okFoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +95,10 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                 setSerialNumberTextView(productMetadataResponseData);
                 Log.d("imageUrl", "imageUrl " + url);
                 final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-                imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView, R.drawable.prodreg_placeholder, R.drawable.prodreg_placeholder));
+                ((ProdRegBaseActivity)getActivity()).setImgageviewwithAspectRation(serialNumberImageView);
+                imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView,
+                        R.drawable.product_placeholder, R.drawable.product_placeholder));
+                serialNumberImageView.requestLayout();
             }
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
@@ -127,7 +131,6 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
 
     private String getImageUrl(final ProductMetadataResponseData productMetadataResponseData, final PrxRequest.OnUrlReceived onUrlReceived) {
-
         if (productMetadataResponseData != null) {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
             final String asset = serialNumberSampleContent.getAsset();

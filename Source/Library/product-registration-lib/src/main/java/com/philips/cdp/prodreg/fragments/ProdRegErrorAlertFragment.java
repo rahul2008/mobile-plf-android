@@ -7,21 +7,22 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
 
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
+import com.philips.platform.uid.view.widget.Label;
 
-public class ProdRegErrorAlertFragment extends BlurDialogFragment {
+public class ProdRegErrorAlertFragment extends DialogFragment {
 
     private static final String TAG = ProdRegErrorAlertFragment.class.getSimpleName();
-    private TextView titleTextView, descriptionTextView;
+    private Label titleTextView, descriptionTextView;
     private DialogOkButtonListener dialogOkButtonListener;
 
     public static ProdRegErrorAlertFragment newInstance(String title, String description) {
@@ -56,9 +57,9 @@ public class ProdRegErrorAlertFragment extends BlurDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.prodreg_alert_dialog, null);
         Button always = (Button) v.findViewById(R.id.dialogButtonOK);
-        titleTextView = (TextView) v.findViewById(R.id.dialogTitle);
+        titleTextView = (Label) v.findViewById(R.id.dialogTitle);
         titleTextView.setText(title);
-        descriptionTextView = (TextView) v.findViewById(R.id.dialogDescription);
+        descriptionTextView = (Label) v.findViewById(R.id.dialogDescription);
         descriptionTextView.setText(description);
         always.setOnClickListener(dismissDialog());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

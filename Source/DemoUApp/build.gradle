@@ -8,6 +8,10 @@ apply plugin: 'maven-publish'
 def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
 ]
+def supportLibraryVer = '25.3.1'
+def butterKnifeVer = "7.0.1"
+def eventbusVer = "3.0.0"
+def jUnitVer = 4.12
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -28,7 +32,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
     }
 }
@@ -46,7 +50,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "UApp"
+archivesBaseName = "product-registration-libUApp"
 
 allprojects {
     repositories {
@@ -76,7 +80,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -149,14 +153,14 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.0"
+        versionName version
         multiDexEnabled true  // this line will solve this problem
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]}
-
+    dataBinding.enabled = true
     android {
         lintOptions {
             abortOnError false
@@ -166,6 +170,48 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':product-registration-lib')
+
+    def dp = project.ext.has('useprojectdependencies')
+
+    compile(dp ? project(':prg') : project(':product-registration-lib'))
+
+    compile("com.android.support:recyclerview-v7:${supportLibraryVer}") {
+        exclude module: "com.android.support"
+    }
+    compile("com.android.support:appcompat-v7:${supportLibraryVer}") {
+        exclude module: "com.android.support"
+    }
+
+    compile "com.android.support:design:${supportLibraryVer}"
+
+    compile("com.jakewharton:butterknife:${butterKnifeVer}") {
+        exclude module: "com.android.support"
+    }
+    compile "org.greenrobot:eventbus:${eventbusVer}"
+
+
+    testCompile("junit:junit:${jUnitVer}") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+
+    androidTestCompile("com.android.support.test.espresso:espresso-core:2.2.2") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+    androidTestCompile("com.android.support.test:runner:0.5") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	compile(dp ? project(':uid') : uidModule) 	
+	{
+		exclude group: 'com.android.support'
+		transitive = true
+	}
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    androidTestCompile 'org.apache.commons:commons-lang3:3.4'
 
 }

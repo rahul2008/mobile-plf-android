@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,7 +25,7 @@ public class ProdRegLoadingAlertDialog {
         alertDialogBuilder.setCancelable(false);
         LayoutInflater layoutInflater = activity.getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.prodreg_progress_dialog, null);
-        TextView titleView = (TextView)view.findViewById(R.id.dialogDescription);
+        Label titleView = (Label) view.findViewById(R.id.dialogDescription);
         titleView.setText(title);
         alertDialogBuilder.setView(view);
         alertDialogBuilder.show();
@@ -33,4 +35,16 @@ public class ProdRegLoadingAlertDialog {
                     alertDialogBuilder.dismiss();
         }
     }
+
+    public static void dlsdialog(String title, final Activity activity) {
+        AlertDialogFragment.Builder fragment = new AlertDialogFragment.Builder(activity.getApplicationContext())
+                .setTitle(title)
+                .setNegativeButton("CONTINUE", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        activity.finish();
+                    }
+                });
+    }
+
 }

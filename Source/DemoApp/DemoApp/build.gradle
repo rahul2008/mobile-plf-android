@@ -28,8 +28,9 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+        classpath 'com.android.databinding:dataBinder:1.0-rc1'
     }
 }
 
@@ -46,7 +47,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = "product-registration-libApp"
 
 allprojects {
     repositories {
@@ -65,18 +66,32 @@ allprojects {
             }
         }
 
-        apply plugin: 'com.jfrog.artifactory'
+       apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
         flatDir {
             dirs 'libs'
         }
     }
+    ext.supportLibraryVer = "25.3.1"
+    ext.butterKnifeVer = "7.0.1"
+    ext.mavenAntTaskVer = "2.1.3"
+    ext.mockitoVer = "1.10.19"
+    ext.androidAssertJVer = "1.1.1"
+    ext.minSdkVer = "21"
+    ext.buildSdkVer = "25"
+    ext.targetSdkVer = "25"
+    ext.buildToolsVer = "25.0.2"
+    ext.jUnitVer = 4.12
+    ext.robolectricVer = "3.1.2"
+    ext.powerMockitoVer = "1.6.0"
+    ext.powerMockitoJunitVer = "1.6.4"
+    ext.eventbusVer = "3.0.0"
 }
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -136,16 +151,20 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
+        applicationId "com.philips.cdp.demo"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        multiDexEnabled true  // this line will solve this problem
-
-        versionName "1.0.0"
+        versionCode 3
+        versionName "2.0.1"
+        multiDexEnabled true
+        testApplicationId "com.philips.cdp.demo.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
+    }
+    dataBinding {
+        enabled = true
     }
     signingConfigs {
         release
@@ -178,11 +197,11 @@ android {
             android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
             android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
         } else {
-            println 'NOPE - signing.properties NOT found'
+            println 'prg NOPE - signing.properties NOT found'
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'signing.properties not found'
+        println 'prg signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
     /*

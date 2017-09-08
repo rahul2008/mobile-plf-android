@@ -8,6 +8,7 @@
  */
 package com.philips.cdp.prodreg.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -15,12 +16,9 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
@@ -30,19 +28,24 @@ import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
-public class ProdRegBaseActivity extends UiKitActivity {
-    private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
-    private TextView mTitleTextView;
-    private Handler mSiteCatListHandler = new Handler();
-    private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+public class ProdRegBaseActivity extends UIDActivity {
+    private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
+    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private Handler mSiteCatListHandler = new Handler();
+    private Toolbar mToolbar;
+    private ActionBarTextView mActionBarTextView;
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override
@@ -62,23 +65,33 @@ public class ProdRegBaseActivity extends UiKitActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUiKitThemeIfRequired();
-        initCustomActionBar();
+        UIDHelper.injectCalligraphyFonts();
+        if (PRUiHelper.getInstance().getTheme() != 0) {
+            setTheme(PRUiHelper.getInstance().getTheme());
+        } else {
+            getTheme().applyStyle(DEFAULT_THEME, true);
+        }
+
+        if (PRUiHelper.getInstance().getThemeConfiguration() != null) {
+            UIDHelper.init(PRUiHelper.getInstance().getThemeConfiguration());
+        }
+
         setContentView(R.layout.prodreg_activity);
+        mToolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        mActionBarTextView = (ActionBarTextView) findViewById(R.id.uid_toolbar_title);
+        initCustomActionBar();
         animateThisScreen();
         if (savedInstanceState == null) {
             showFragment();
         }
     }
 
-    private void setUiKitThemeIfRequired() {
-        final Bundle extras = getIntent().getExtras();
-        int theme = extras.getInt(ProdRegConstants.UI_KIT_THEME);
-        if (theme <= 0)
-            theme = DEFAULT_THEME;
 
-        setTheme(theme);
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
 
     @Override
     protected void onPause() {
@@ -151,32 +164,22 @@ public class ProdRegBaseActivity extends UiKitActivity {
     }
 
     private void initCustomActionBar() {
+        setSupportActionBar(mToolbar);
         ActionBar mActionBar = this.getSupportActionBar();
         if (mActionBar != null) {
-            mActionBar.setDisplayShowHomeEnabled(false);
+            //  mActionBar.setDisplayShowHomeEnabled(false);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setDisplayShowCustomEnabled(true);
-            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    Gravity.CENTER);
-            View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
-
-            mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
-            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
-            frameLayout.setOnClickListener(new View.OnClickListener() {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            mToolbar.setNavigationIcon(R.drawable.prodreg_left_arrow);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(final View v) {
+                public void onClick(View v) {
                     onBackPressed();
                 }
             });
-            ImageView arrowImage = (ImageView) mCustomView
-                    .findViewById(R.id.arrow);
-            //noinspection deprecation
-            arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
-            mActionBar.setCustomView(mCustomView, params);
-           // setTitle(getString(R.string.app_name));
+            setTitle(getString(R.string.app_name));
         }
     }
 
@@ -198,10 +201,26 @@ public class ProdRegBaseActivity extends UiKitActivity {
         outState.putBoolean("retain_state", true);
     }
 
+    /**
+     *  setting the imageview with aspect ration 16:9
+     */
+    public void setImgageviewwithAspectRation(ImageView imageView) {
+        float aspectRatio;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        if (width > 680) {
+            aspectRatio = (16/9);
+            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
+        } else {
+            aspectRatio = (12/5);
+            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
+        }
+
+    }
+
     @Override
     public void setTitle(int titleId) {
-        if (mTitleTextView != null)
-            mTitleTextView.setText(titleId);
+        if (mActionBarTextView != null)
+            mActionBarTextView.setText(titleId);
         else
             super.setTitle(titleId);
     }

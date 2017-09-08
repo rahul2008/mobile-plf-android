@@ -28,7 +28,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
     }
 }
@@ -46,7 +46,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name
+archivesBaseName = "product-registration-lib"
 
 allprojects {
     repositories {
@@ -76,7 +76,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -151,7 +151,7 @@ android {
         targetSdkVersion 25
         multiDexEnabled true
         versionCode 1
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         manifestPlaceholders = [
@@ -159,6 +159,7 @@ android {
         ]
     }
 
+    dataBinding.enabled = true
 
     buildTypes {
         release {
@@ -208,18 +209,29 @@ configurations.all {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-        transitive = true
-    }
+
+	def dp = project.ext.has('useprojectdependencies')
+
+	
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':usr') : usrModule) 
+	{
+		transitive = true
+	}
+
+	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(dp ? project(':prx') : prxModule) 	
+	{
+		transitive = true
+	}
+
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	compile(dp ? project(':uid') : uidModule) 	
+	{
+		exclude group: 'com.android.support'
+		transitive = true
+	}
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "org.robolectric:robolectric:3.1.1"

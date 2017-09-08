@@ -2,8 +2,7 @@
 <manifest package="com.philips.cdp.product_registration_lib"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application
-        android:allowBackup="true">
+    <application>
         <activity
             android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
@@ -40,5 +39,4 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
-
 </manifest>

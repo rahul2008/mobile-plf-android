@@ -3,13 +3,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
     <WebView
         android:id="@+id/prod_reg_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ProgressBar
+    <com.philips.platform.uid.view.widget.ProgressBar
+        style="@style/UIDProgressBarCircularDeterminateMiddle"
         android:id="@+id/prod_reg_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
