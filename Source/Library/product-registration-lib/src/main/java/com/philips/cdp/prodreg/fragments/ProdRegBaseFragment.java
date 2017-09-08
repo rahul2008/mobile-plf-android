@@ -28,9 +28,14 @@ import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.cdp.product_registration_lib.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
@@ -40,6 +45,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     private static ActionBarListener mActionbarUpdateListener;
     private int mEnterAnimation = 0;
     private int mExitAnimation = 0;
+    private AlertDialogFragment alertDialogFragment;
 
     public abstract int getActionbarTitleResId();
 
@@ -249,7 +255,30 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             aspectRatio = (12/5);
             imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
         }
+    }
 
+    public void showProdRegLoadingDialog(String title, String tag) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDialogLayout(R.layout.prodreg_progress_dialog)
+                .setCancelable(false);
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), tag);
+        Button closeButton = (Button) alertDialogFragment.getDialog().findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        Label close = (Label) alertDialogFragment.getDialog().findViewById(R.id.dialogDescription);
+        close.setText(title);
+    }
+
+    public void dismissProdRegLoadingDialog() {
+        if(alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+        }
     }
 }
 
