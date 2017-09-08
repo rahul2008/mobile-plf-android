@@ -177,7 +177,8 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     private void updateUiStatus() {
-        if (verificationCodeValidationEditText.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
+        if (verificationCodeValidationEditText.getText().length()
+                >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             enableVerifyButton();
         } else {
             disableVerifyButton();
@@ -269,7 +270,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     public void enableVerifyButton() {
-        if ((verificationCodeValidationEditText.length()
+        if ((verificationCodeValidationEditText.getText().length()
                 >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH)
                 && networkUtility.isNetworkAvailable()) {
             verifyButton.setEnabled(true);
@@ -282,7 +283,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public void netWorkStateOnlineUiHandle() {
-        if (verificationCodeValidationEditText.length()
+        if (verificationCodeValidationEditText.getText().length()
                 >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             verifyButton.setEnabled(true);
         }
