@@ -14,6 +14,8 @@ def coverageSourceDirs = [
 ]
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven {
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -35,7 +37,7 @@ buildscript {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.6.2'
@@ -80,7 +82,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = objcdp.getVersion(project.ext.versions.ths_telehealth)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -215,18 +217,18 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: project.ext.versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true){
+    compile(group: 'com.philips.cdp', name: 'uid', version: project.ext.versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true){
         exclude group: 'com.android.support'
         transitive = true
     }
 
 
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: project.ext.versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
 
         transitive = true
