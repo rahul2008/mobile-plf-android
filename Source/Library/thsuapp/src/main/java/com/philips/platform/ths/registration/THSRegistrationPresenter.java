@@ -46,7 +46,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     @Override
     public void onEvent(int componentID) {
         if(componentID == R.id.ths_edit_dob){
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mTHSBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mTHSBaseFragment, false);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
 

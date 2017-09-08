@@ -19,9 +19,11 @@ public class THSDatePickerFragmentUtility{
     private Date date;
     private Calendar calendar;
     private THSBaseFragment mThsBaseFragment;
+    private boolean showPreviousDates;
 
-    public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment){
+    public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment, boolean showPreviousDates){
         this.mThsBaseFragment = thsBaseFragment;
+        this.showPreviousDates = showPreviousDates;
         initDateTimeFields();
     }
 
@@ -36,7 +38,9 @@ public class THSDatePickerFragmentUtility{
         calendar.setTime(date);
         DatePickerDialog datePickerDialog = new DatePickerDialog(mThsBaseFragment.getActivity(),
                 listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        if(showPreviousDates) {
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        }
         datePickerDialog.show();
 
         datePickerDialog.setCancelable(false);

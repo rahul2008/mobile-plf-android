@@ -158,20 +158,17 @@ android {
         jumboMode = false
     }
     buildTypes {
-        def STRING = "string"
         def BOOLEAN = "bool"
         def TRUE = "true"
-        def FALSE = "false"
         def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
-        def AWSDKURL = "awsdkurl"
-        def AWSDKKEY = "awsdkkey"
+        def AWSDK_ENABLE_CERTIFICATE_PINNING = "awsdk_enable_certificate_pinning"
+        def AWSDK_PINNED_HOSTS = "awsdk_pinned_hosts"
+        def AWSDK_PINNED_CERTIFICATES = "awsdk_pinned_certificates"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled = true
-            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
-            resValue STRING, AWSDKKEY, "3c0f99bf"
             resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         release {
@@ -180,9 +177,9 @@ android {
             shrinkResources true
             proguardFile file('proguard-rules.pro')
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
-            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
-            resValue STRING, AWSDKKEY, "3c0f99bf"
-            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+            AWSDK_ENABLE_CERTIFICATE_PINNING = true
+            AWSDK_PINNED_HOSTS = {"*.amwellintegration.com"}
+            AWSDK_PINNED_CERTIFICATES = {"06 B5 62 EB 37 1B 4E 9A 7B 06 DB 4C 30 07 FC E0 C8 AD BB 21"}
         }
     }
 

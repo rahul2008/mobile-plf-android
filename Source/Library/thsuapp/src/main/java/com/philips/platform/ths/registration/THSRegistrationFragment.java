@@ -9,13 +9,11 @@ package com.philips.platform.ths.registration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
@@ -30,6 +28,7 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.RadioButton;
+import com.philips.platform.uid.view.widget.RadioGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,6 +50,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> mValidStates = null;
     private Date mDob;
+    private RadioGroup radio_group_single_line;
 
     @Nullable
     @Override
@@ -77,6 +77,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mDateOfBirth.setClickable(true);
         mDateOfBirth.setOnClickListener(this);
         mEditTextStateSpinner = (EditText) view.findViewById(R.id.ths_edit_location_container);
+        radio_group_single_line = (RadioGroup) view.findViewById(R.id.radio_group_single_line);
         mEditTextStateSpinner.setFocusable(false);
         mEditTextStateSpinner.setClickable(true);
         mEditTextStateSpinner.setOnClickListener(this);
@@ -97,10 +98,10 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         mStateSpinner.setSelection(0);
         mStateSpinner.setOnItemSelectedEvenIfUnchangedListener(this);
 
-        prepopilateData();
+        prePopulateData();
     }
 
-    private void prepopilateData() {
+    private void prePopulateData() {
         final User user = THSManager.getInstance().getUser(getContext());
         if(user == null)
             return;
@@ -139,13 +140,36 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.ths_continue){
-            mThsRegistrationPresenter.enrollUser(mDob,mEditTextFirstName.getText().toString(),
-                    mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+            if(validateUserDetails()){
+                mThsRegistrationPresenter.enrollUser(mDob,mEditTextFirstName.getText().toString(),
+                        mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mStateSpinner.getSelectedItemPosition()));
+            }
+
         }if(id == R.id.ths_edit_dob){
             mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
         }if(id == R.id.ths_edit_location_container){
             mStateSpinner.performClick();
         }
+    }
+
+    private boolean validateUserDetails() {
+        if(mEditTextFirstName.getText().toString().isEmpty()){
+            showToast(getString(R.string.ths_first_name_validation));
+            return false;
+        }else if(mEditTextLastName.getText().toString().isEmpty()){
+            showToast(getString(R.string.ths_last_name_validation));
+            return false;
+        }else if(mDateOfBirth.getText().toString().isEmpty()){
+            showToast(getString(R.string.ths_dob_validation));
+            return false;
+        }else if(radio_group_single_line.getCheckedRadioButtonId() == -1){
+            showToast(getString(R.string.ths_gender_validation));
+            return false;
+        }else if(mEditTextStateSpinner.getText().toString().isEmpty()){
+            showToast(getString(R.string.ths_state_validation));
+            return false;
+        }else return true;
+
     }
 
     public void updateDobView(Date date) {

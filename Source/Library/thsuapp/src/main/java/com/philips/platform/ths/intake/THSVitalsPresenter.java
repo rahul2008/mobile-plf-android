@@ -20,35 +20,28 @@ import java.util.Map;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
     private THSBaseFragment mPthBaseFragment;
+    private THSVItalsUIInterface thsvItalsUIInterface;
 
-    public THSVitalsPresenter(THSVitalsFragment thsVitalsFragment) {
+    public THSVitalsPresenter(THSVItalsUIInterface thsvItalsUIInterface,THSVitalsFragment thsVitalsFragment) {
         mPthBaseFragment = thsVitalsFragment;
+        this.thsvItalsUIInterface = thsvItalsUIInterface;
     }
 
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.vitals_continue_btn) {
-            boolean isValidinput = ((THSVitalsFragment) mPthBaseFragment).validate();
-            if (!isValidinput) {
-                return;
+            if(thsvItalsUIInterface.validate()){
+                thsvItalsUIInterface.updateVitalsData();
+                try {
+                    THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), thsvItalsUIInterface.getTHSVitals(), this);
+                } catch (AWSDKInstantiationException e) {
+                    e.printStackTrace();
+                }
             }
-            ((THSVitalsFragment) mPthBaseFragment).setVitalsValues();
-            try {
-                THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), ((THSVitalsFragment) mPthBaseFragment).getTHSVitals(), this);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
-            launchMedicationFragment();
+
         } else if (componentID == R.id.vitals_skip) {
-            launchMedicationFragment();
+            thsvItalsUIInterface.launchMedicationFragment();
         }
-    }
-
-    private void launchMedicationFragment() {
-
-        final THSMedicationFragment fragment = new THSMedicationFragment();
-        fragment.setFragmentLauncher(mPthBaseFragment.getFragmentLauncher());
-        mPthBaseFragment.addFragment(fragment, THSMedicationFragment.TAG, null);
     }
 
     public void getVitals() throws AWSDKInstantiationException {
@@ -57,7 +50,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onResponse(THSVitals thsVitals, THSSDKError var2) {
-        ((THSVitalsFragment) mPthBaseFragment).updateUI(thsVitals);
+        thsvItalsUIInterface.updateUI(thsVitals);
     }
 
     @Override
@@ -67,13 +60,15 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
-        mPthBaseFragment.showToast("VitalsValidationFailure");
+        mPthBaseFragment.showToast("Vitals Validation Failure");
     }
 
     @Override
     public void onUpdateVitalsResponse(SDKError sdkError) {
-        if (sdkError == null)
+        if (sdkError == null){
+            thsvItalsUIInterface.launchMedicationFragment();
             mPthBaseFragment.showToast("UPDATE SUCCESS");
+        }
         else
             mPthBaseFragment.showToast("UPDATE FAILED");
     }
@@ -83,21 +78,24 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
         mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
     }
 
+    public boolean checkIfValueEntered(EditText editText) {
+        return !(editText.toString().isEmpty() || editText.getText().length() == 0);
+    }
+
     int stringToInteger(String value) {
+        if(null == value || value.isEmpty()){
+            return 0;
+        }
         return Integer.parseInt(value);
     }
 
-    String integerToString(int value) {
-        return String.valueOf(value);
-    }
-
     Double stringToDouble(String value) {
+        if(null == value || value.isEmpty()){
+            return 0.0;
+        }
         return Double.parseDouble(value);
     }
 
-    String doubleToString(Double value) {
-        return String.valueOf(value);
-    }
 
     boolean isTextValid(EditText editText) {
         if (editText.getText().toString() == null || editText.getText().toString().isEmpty()) {

@@ -118,7 +118,12 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
     <string name="ths_your_details">"Your details"</string>
-
+    <string name="ths_male_">Male</string>
+    <string name="ths_first_name_validation">Enter first name</string>
+    <string name="ths_last_name_validation">Enter last name</string>
+    <string name="ths_dob_validation">Enter date of birth</string>
+    <string name="ths_gender_validation">Select a gender</string>
+    <string name="ths_state_validation">Select a state</string>
 
     <string name="cvv_explaination">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on front of the card.</string>
     <string name="ths_no_insurance">"You currently don't have any insurance saved. Please add an insurance."</string>
@@ -198,4 +203,12 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
     <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
+    <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
+    <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
+    <string name="ths_matchmaking_error_text">No provider is available right now</string>
+    <string name="ths_valid_credit_card">Credit card is valid</string>
+    <string name="ths_not_valid_credit_card">Credit card is not valid</string>
+    <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
+    <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
+    <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
 </resources>
