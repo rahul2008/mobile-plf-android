@@ -118,7 +118,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void initHSDP(AppStateConfiguration configuration) {
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+        AppInfraInterface appInfra = getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -140,6 +140,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             default:
                 setStageConfig(appConfigurationInterface, configError);
         }
+    }
+
+    protected AppInfraInterface getAppInfra() {
+        return ((AppFrameworkApplication) applicationContext).getAppInfra();
     }
 
     private void setStageConfig(AppConfigurationInterface appConfigurationInterface,
@@ -271,7 +275,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      */
     public void initializeUserRegistrationLibrary() {
         RALog.d(TAG," initializeUserRegistrationLibrary called ");
-        URDependancies urDependancies = new URDependancies(((AppFrameworkApplication)applicationContext).getAppInfra());
+        URDependancies urDependancies = new URDependancies(getAppInfra());
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);

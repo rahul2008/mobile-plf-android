@@ -17,6 +17,7 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -79,6 +80,8 @@ public class UserRegistrationStateTest {
     @Mock
     FlowManager flowManager;
 
+    AppInfra appInfra;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -90,14 +93,15 @@ public class UserRegistrationStateTest {
         when(appFrameworkApplication.getTargetFlowManager()).thenReturn(flowManager);
         when(flowManager.getCurrentState()).thenReturn(new AboutScreenState());
         when(flowManager.getNextState(any(BaseState.class),any(String.class))).thenReturn(new TermsAndConditionsState());
+        appInfra=new AppInfra.Builder().build(application);
     }
 
     @Test
     public void testStageConfig(){
         userRegState.setConfiguration(AppStateConfiguration.STAGING);
         userRegState.init(application);
-        AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+//        when(appConfigurationInterface.getPropertyForKey(any(String.class),any(String.class),any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn()
         Map<String,String> map= (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,UR,new AppConfigurationInterface.AppConfigurationError());
         assertEquals(STAGE_SECRET_KEY_CHINA,map.get(CHINA_CODE));
     }
@@ -106,7 +110,7 @@ public class UserRegistrationStateTest {
         public void testDevConfig(){
             userRegState.setConfiguration(AppStateConfiguration.DEVELOPMENT);
             userRegState.init(application);
-            AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
+//            AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
             AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
             Map<String,String> map= (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,UR,new AppConfigurationInterface.AppConfigurationError());
             assertEquals(DEVELOPMENT_SECRET_KEY_DEFAULT,map.get(DEFAULT));
@@ -117,7 +121,7 @@ public class UserRegistrationStateTest {
     public void testTestConfig(){
         userRegState.setConfiguration(AppStateConfiguration.TEST);
         userRegState.init(application);
-        AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
+//        AppInfraInterface appInfra = userRegState.getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
         Map<String,String> map= (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,UR,new AppConfigurationInterface.AppConfigurationError());
         assertEquals(TEST_SECRET_KEY_DEFAULT,map.get(DEFAULT));
@@ -178,6 +182,11 @@ public class UserRegistrationStateTest {
         @Override
         protected AppFrameworkApplication getApplicationContext() {
             return appFrameworkApplication;
+        }
+
+        @Override
+        protected AppInfraInterface getAppInfra() {
+            return appInfra;
         }
     }
 }

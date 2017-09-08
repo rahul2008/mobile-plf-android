@@ -40,6 +40,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -119,6 +120,9 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         when(appInfraInterface.getSecureStorage()).thenReturn(secureStorageInterface);
         when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.STAGING);
         when(appInfraInterface.getRestClient()).thenReturn(restInterface);
+        when(appInfraInterface.getTime()).thenReturn(timeInterface);
+        when(taggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(taggingInterface);
+        when(loggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(loggingInterface);
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {
@@ -131,10 +135,9 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
             }
         });
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
-
-
-//        userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
-//        userRegistrationOnBoardingState.init(this);
+        RALog.init(appInfraInterface);
+        userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
+        userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
 
     }
