@@ -3,7 +3,6 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
-apply from: 'build-awsdk-dependencies.gradle'
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
@@ -69,7 +68,6 @@ allprojects {
         }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
-        maven {url "https://clojars.org/repo/"}
     }
 }
 
@@ -464,13 +462,9 @@ dependencies {
 		transitive = true
 	}
 
-    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2.1.0'+ objcdp.getVersionSuffix(), ext: 'aar')
-
-    compile(group: 'com.philips.cdp', name: 'awsdk', version: '3.1.1', ext: 'aar')
-
-    compile 'com.google.android.gms:play-services-maps:10.2.4'
-    compile 'com.google.android.gms:play-services-location:10.2.4'
-
+    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2.1.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+        transitive = true
+    }
 
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
