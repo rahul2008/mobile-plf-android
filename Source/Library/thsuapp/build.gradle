@@ -154,7 +154,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName objcdp.getVersionWithHash()
+        versionName version +  "(" + objcdp.getCommitHash() + ")"
 
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 25
