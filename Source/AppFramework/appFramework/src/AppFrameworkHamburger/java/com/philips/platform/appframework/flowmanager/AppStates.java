@@ -36,5 +36,5 @@ public class AppStates {
     public static final String TESTDICOMM="demoDicommClient";
     public static final String TESTDLS="DLS";
     public static final String TESTBLUELIB="demoBlueLib";
-
+    public static final String TELEHEALTHSERVICES ="telehealthservices";
 }

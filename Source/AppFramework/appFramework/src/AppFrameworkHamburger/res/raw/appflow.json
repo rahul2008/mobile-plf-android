@@ -154,6 +154,15 @@
             ]
           },
           {
+            "eventId": "telehealthservices",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "telehealthservices"
+              }
+            ]
+          },
+          {
             "eventId": "connectivity",
             "nextStates": [
               {
