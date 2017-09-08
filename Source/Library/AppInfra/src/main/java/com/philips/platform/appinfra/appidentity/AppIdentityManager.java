@@ -86,7 +86,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 				else
 					mAppState = defAppState;
 			}
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
 					"validate AppState "+mAppState);
 		}
 
@@ -110,7 +110,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 		if (serviceDiscoveryEnvironment != null && !serviceDiscoveryEnvironment.isEmpty()) {
 			if (!set.contains(serviceDiscoveryEnvironment)) {
 
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_IDENTITY
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_IDENTITY
 						,"validate Service Discovery Environment "+ serviceDiscoveryEnvironment);
 				throw new IllegalArgumentException("\"ServiceDiscovery Environment in AppConfig.json " +
 						" file must match \" +\n" +
@@ -201,7 +201,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 //            return mAppStateEnum;
 //        }
 
-		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
 				"App State Environment "+mAppStateEnum);
 		return mAppStateEnum;
 	}
@@ -238,7 +238,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 						"\"one of the following values \\n STAGING, \\n PRODUCTION\"");
 			}
 		}
-		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
 				"service Discovery Environment "+serviceDiscoveryEnvironment);
 		return serviceDiscoveryEnvironment;
 	}
@@ -250,7 +250,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 	     *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
          * */
 		final String mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
-		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
 				"Localized AppName "+mLocalizedAppName);
 		return mLocalizedAppName;
 	}
@@ -260,7 +260,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 	public String getMicrositeId() {
 		final String micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
 				("appidentity.micrositeId", "appinfra", configError);
-		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
 				"microsite Id "+micrositeId);
 		validateMicrositeId(micrositeId);
 		return micrositeId;

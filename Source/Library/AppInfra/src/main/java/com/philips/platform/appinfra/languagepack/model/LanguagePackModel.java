@@ -8,8 +8,6 @@ package com.philips.platform.appinfra.languagepack.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Random;
-
 /**
  * The Language Pack Model class
  */
@@ -61,8 +59,4 @@ public class LanguagePackModel {
 			return super.equals(obj);
 	}
 
-	@Override
-	public int hashCode() {
-		return new Random(5).hashCode();
-	}
 }

@@ -12,7 +12,6 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import java.util.Locale;
 
 /**
  * The Class Local Internationalization Manager.
@@ -32,7 +31,8 @@ public class InternationalizationManager implements InternationalizationInterfac
 
     @Override
     public String getUILocaleString() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
         return context.getResources().getString(R.string.ail_locale);
     }
 }
