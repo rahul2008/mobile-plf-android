@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -39,7 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListener{
+public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListener {
 
     private View.OnClickListener mOnClickListener;
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
@@ -47,25 +48,27 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     private THSProviderDetailsViewInterface thsProviderDetailsViewInterface;
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
-    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
-            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel,reminderValue;
+    protected Label providerName, practiceName, isAvailable, spokenLanguageValueLabel, yearsOfExpValueLabel,
+            graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue;
     protected RatingBar providerRating;
-    protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
+    protected Button detailsButtonOne, detailsButtonTwo, detailsButtonContinue;
     private RelativeLayout mTimeSlotContainer;
     private THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
-    private RelativeLayout available_provider_details_container,set_a_reminder_layout;
+    private RelativeLayout available_provider_details_container, set_a_reminder_layout;
     private THSAppointmentGridAdapter itemsAdapter;
     private List<Date> dates;
     private THSSetReminderDialogFragment thsSetReminderDialogFragment;
+    private Label details_isAvailableImage_text;
+    private FrameLayout details_isAvailableImage_layout;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
-                                    SwipeRefreshLayout.OnRefreshListener onRefreshListener,
-                                    THSProviderDetailsViewInterface thsProviderDetailsViewInterface,
-                                    THSBaseFragment thsBaseFragment,View view){
+                                           SwipeRefreshLayout.OnRefreshListener onRefreshListener,
+                                           THSProviderDetailsViewInterface thsProviderDetailsViewInterface,
+                                           THSBaseFragment thsBaseFragment, View view) {
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
@@ -85,8 +88,9 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
+        details_isAvailableImage_text = (Label) view.findViewById(R.id.details_isAvailableImage_text);
         isAvailableImage = (ImageView) view.findViewById(R.id.details_isAvailableImage);
-        notificationBadge = (NotificationBadge)view.findViewById(R.id.notification_badge);
+        notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
         providerRating = (RatingBar) view.findViewById(R.id.providerRatingValue);
         spokenLanguageValueLabel = (Label) view.findViewById(R.id.spokenLanguageValueLabel);
         yearsOfExpValueLabel = (Label) view.findViewById(R.id.yearsOfExpValueLabel);
@@ -95,7 +99,8 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         detailsButtonOne = (Button) view.findViewById(R.id.detailsButtonOne);
         detailsButtonTwo = (Button) view.findViewById(R.id.detailsButtonTwo);
         detailsButtonContinue = (Button) view.findViewById(R.id.detailsButtonContinue);
-        gridView = (THSExpandableHeightGridView)view.findViewById(R.id.grid);
+        gridView = (THSExpandableHeightGridView) view.findViewById(R.id.grid);
+        details_isAvailableImage_layout = (FrameLayout) view.findViewById(R.id.details_isAvailableImage_layout);
         detailsButtonOne.setVisibility(Button.GONE);
         detailsButtonOne.setEnabled(false);
         detailsButtonOne.setOnClickListener(mOnClickListener);
@@ -108,32 +113,33 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         set_a_reminder_layout.setOnClickListener(mOnClickListener);
     }
 
-    public void launchSetRemainderDialogFragment(THSBaseFragment thsBaseFragment){
+    public void launchSetRemainderDialogFragment(THSBaseFragment thsBaseFragment) {
 
         thsSetReminderDialogFragment = new THSSetReminderDialogFragment();
-        thsSetReminderDialogFragment.setDialogFragmentCallback((THSAvailableProviderDetailFragment)thsBaseFragment);
-        thsSetReminderDialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(),THSSetReminderDialogFragment.TAG);
+        thsSetReminderDialogFragment.setDialogFragmentCallback((THSAvailableProviderDetailFragment) thsBaseFragment);
+        thsSetReminderDialogFragment.show(((FragmentActivity) mContext).getSupportFragmentManager(), THSSetReminderDialogFragment.TAG);
     }
-    public void updateView(Provider provider,List<Date> dates){
+
+    public void updateView(Provider provider, List<Date> dates) {
         available_provider_details_container.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
-        providerRating.setText(""+provider.getRating());
+        providerRating.setText("" + provider.getRating());
         spokenLanguageValueLabel.setText(getSpokenLanguages(provider.getSpokenLanguages()));
-        yearsOfExpValueLabel.setText(""+provider.getYearsExperience());
+        yearsOfExpValueLabel.setText("" + provider.getYearsExperience());
         graduatedValueLabel.setText(provider.getSchoolName());
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
 
-        if(thsProviderDetailsViewInterface.getProvider().hasImage()) {
+        if (thsProviderDetailsViewInterface.getProvider().hasImage()) {
             try {
-                if(null==thsProviderDetailsViewInterface.getTHSProviderInfo()){
+                if (null == thsProviderDetailsViewInterface.getTHSProviderInfo()) {
                     THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
                             newImageLoader(thsProviderDetailsViewInterface.getProvider(), providerImage,
                                     ProviderImageSize.SMALL).placeholder(providerImage.getResources().
                             getDrawable(R.drawable.doctor_placeholder)).build().load();
-                }else {
+                } else {
 
                     THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
                             newImageLoader(thsProviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
@@ -146,39 +152,39 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         }
 
         checkAvailability(provider);
-        updateViewBasedOnType(provider,dates);
+        updateViewBasedOnType(provider, dates);
     }
 
-    public void updateViewBasedOnType(Provider provider,List<Date> dates) {
+    public void updateViewBasedOnType(Provider provider, List<Date> dates) {
         this.dates = dates;
         String providerAvailabilityString = null;
-        String providerVisibility =provider.getVisibility().toString();
+        String providerVisibility = provider.getVisibility().toString();
         Context context = isAvailable.getContext();
         if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
             providerAvailabilityString = context.getResources().getString(R.string.provider_available);
-            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon,context.getTheme()));
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
             providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
-            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon,context.getTheme()));
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon, context.getTheme()));
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
             providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
+            details_isAvailableImage_text.setText(""+provider.getWaitingRoomCount());
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));
         }
 
-        if(dates!=null){
+        if (dates != null) {
             mTimeSlotContainer.setVisibility(View.VISIBLE);
             isAvailable.setText(context.getString(R.string.ths_available_time_slots_text));
             mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
-                    format(((THSAvailableProviderDetailFragment)thsBaseFragment).getDate()));
+                    format(((THSAvailableProviderDetailFragment) thsBaseFragment).getDate()));
             setAppointmentsToView(dates);
             isAvailableImage.setVisibility(View.GONE);
+            details_isAvailableImage_layout.setVisibility(View.GONE);
             notificationBadge.setVisibility(View.VISIBLE);
             notificationBadge.setText(String.valueOf(dates.size()));
 
-            RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)isAvailableImage.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.notification_badge);
-
-        }else {
+        } else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);
             isAvailable.setText(providerAvailabilityString);
@@ -189,39 +195,62 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
      * This method checks for the provider visibility, if visible, user can schedule an appointment or start video chat right away
      * If provider is busy, user can schedule an appointment or wait in line.
      * If provider is offline, user can schedule an appointment
+     *
      * @param provider
      */
     private void checkAvailability(Provider provider) {
 
-        if(ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())){
+        if (ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.GONE);
-            if(isAvailableProviderData()){
+            if (isAvailableProviderData()) {
                 setButtonVisibilityForAvailableProvider();
-            }else {
+            } else {
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
-                detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                boolean isDOD = false;
+                        if((THSManager.getInstance().getPthVisitContext() != null
+                                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                                && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+
+                            isDOD=true;
+                        }
+                if (isDOD) {
+                    detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
+                    detailsButtonTwo.setVisibility(View.GONE);
+                }else {
+                    detailsButtonOne.setText(mContext.getString(R.string.ths_ill_wait_in_line_button_text));
+                    detailsButtonTwo.setVisibility(View.VISIBLE);
+                    detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                }
             }
-        }
-        else if(ProviderVisibility.isVideoAvailable(provider.getVisibility())){
+        } else if (ProviderVisibility.isVideoAvailable(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.VISIBLE);
-            if(thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
+            if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
-            }else {
+            } else {
+                boolean isDOD = false;
+                if((THSManager.getInstance().getPthVisitContext() != null
+                        && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                        && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+                    isDOD=true;
+                }
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
-                detailsButtonTwo.setVisibility(View.VISIBLE);
-                detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                if (isDOD) {
+                    detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
+                    detailsButtonTwo.setVisibility(View.GONE);
+                } else {
+                    detailsButtonOne.setText(mContext.getString(R.string.ths_see_this_doctor_now_button_text));
+                    detailsButtonTwo.setVisibility(View.VISIBLE);
+                    detailsButtonTwo.setText(mContext.getString(R.string.ths_schedule_an_appointment_button_text));
+                }
             }
-        }else if(ProviderVisibility.isOffline(provider.getVisibility())){
+        } else if (ProviderVisibility.isOffline(provider.getVisibility())) {
             isAvailableImage.setVisibility(ImageView.GONE);
-            if(thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
+            if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
-            }else {
+            } else {
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.GONE);
                 detailsButtonTwo.setVisibility(View.VISIBLE);
@@ -243,7 +272,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     private void setAppointmentsToView(List<Date> dates) {
         itemsAdapter =
                 new THSAppointmentGridAdapter(mContext, dates,
-                        thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo(),this);
+                        thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo(), this);
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }
@@ -256,8 +285,8 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     protected String getSpokenLanguages(List<Language> spokenLanguages) {
 
         String languageList = "";
-        for(int i = 0;i<spokenLanguages.size();i++){
-            if(languageList.length() == 0){
+        for (int i = 0; i < spokenLanguages.size(); i++) {
+            if (languageList.length() == 0) {
                 languageList = spokenLanguages.get(i).getName();
             } else {
                 languageList = languageList + " , " + spokenLanguages.get(i).getName();
@@ -266,18 +295,18 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         return languageList;
     }
 
-    void dismissRefreshLayout(){
+    void dismissRefreshLayout() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    void setRefreshing(){
-        if(!swipeRefreshLayout.isRefreshing()){
+    void setRefreshing() {
+        if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
         }
     }
 
     public void updateEstimateCost(EstimatedVisitCost estimatedVisitCost) {
-        visitCostValueLabel.setText("$"+estimatedVisitCost.getCost());
+        visitCostValueLabel.setText("$" + estimatedVisitCost.getCost());
     }
 
     @Override
@@ -293,18 +322,18 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         detailsButtonContinue.setEnabled(isEnabled);
     }
 
-    public void launchConfirmAppointmentFragment(int position){
+    public void launchConfirmAppointmentFragment(int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderDetailsViewInterface.getTHSProviderInfo());
         bundle.putSerializable(THSConstants.THS_DATE, dates.get(position));
-        bundle.putString(THSConstants.THS_SET_REMINDER_EXTRA_KEY,""+thsProviderDetailsViewInterface.getReminderTime());
+        bundle.putString(THSConstants.THS_SET_REMINDER_EXTRA_KEY, "" + thsProviderDetailsViewInterface.getReminderTime());
         final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
-        thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG,bundle);
+        thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG, bundle);
     }
 
     public void setReminderValue(String reminderTime) {
-        reminderValue.setText(reminderTime + " " +mContext.getResources().getString(R.string.ths_before_appointment));
+        reminderValue.setText(reminderTime + " " + mContext.getResources().getString(R.string.ths_before_appointment));
     }
 
     public String getReminderValue() {

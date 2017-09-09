@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -181,10 +182,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                     checkBox.setChecked(true);
                 }
                 topicLayout.addView(checkBox);
-                checkBox.setOnClickListener(new View.OnClickListener() {
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View view) {
-                        topic.setSelected(true);
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        topic.setSelected(isChecked);
                     }
                 });
             }

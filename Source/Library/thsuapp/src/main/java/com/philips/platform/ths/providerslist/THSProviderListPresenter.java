@@ -21,7 +21,9 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -57,9 +59,17 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
-        boolean providerAvailable = isProviderAvailable(providerInfoList);
-        thsProviderListViewInterface.updateMainView(providerAvailable);
-        thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
+        if(null != providerInfoList && providerInfoList.size() > 0 && null == sdkError) {
+            boolean providerAvailable = isProviderAvailable(providerInfoList);
+            thsProviderListViewInterface.updateMainView(providerAvailable);
+            thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
+        }
+        else if(null != sdkError){
+            AmwellLog.e(THSProviderDetailsFragment.TAG,sdkError.getMessage());
+        }
+        else {
+            thsProviderListViewInterface.showNoProviderErrorDialog();
+        }
     }
 
     boolean isProviderAvailable(List<THSProviderInfo> providerInfoList){
@@ -88,7 +98,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
             }
         } else if (componentID == R.id.getScheduleAppointmentButton) {
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {

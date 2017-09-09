@@ -22,15 +22,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunnerAmwel.class)
-public class THSPharmacyListTest {
+@RunWith(CustomRobolectricRunnerAmwel.class) @Config(shadows = THSShadowMapFragment.class)
+public class THSPharmacyListFragmentTest {
 
     @Mock
     AWSDK awsdkMock;
@@ -51,7 +53,7 @@ public class THSPharmacyListTest {
     ActionBarListener actionBarListenerMock;
 
     @Mock
-    THSPharmacyListFragment thsPharmacyListFragment;
+    THSPharmacyListFragment thsPharmacyListFragmentMock;
 
     @Mock
     FragmentLauncher fragmentLauncherMock;
@@ -69,6 +71,8 @@ public class THSPharmacyListTest {
     @Mock
     FragmentActivity activityMock;
 
+    THSPharmacyListFragment thsPharmacyListFragment;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -83,46 +87,55 @@ public class THSPharmacyListTest {
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer,address);
         thsShippingAddressFragment.setFragmentLauncher(fragmentLauncherMock);
 
+        thsPharmacyListFragment = new THSPharmacyListFragment();
+        thsPharmacyListFragment.setActionBarListener(actionBarListenerMock);
+        thsPharmacyListFragment.setFragmentLauncher(fragmentLauncherMock);
+
+    }
+
+    @Test
+    public void launchPharmacyListFragment(){
+        SupportFragmentTestUtil.startFragment(thsPharmacyListFragment);
     }
 
     @Test
     public void testValidateForMailOrder(){
         when(pharmacy.getType()).thenReturn(PharmacyType.MailOrder);
-        thsPharmacyListFragment.validateForMailOrder(pharmacy);
-        verify(thsPharmacyListFragment).validateForMailOrder(eq(pharmacy));
+        thsPharmacyListFragmentMock.validateForMailOrder(pharmacy);
+        verify(thsPharmacyListFragmentMock).validateForMailOrder(eq(pharmacy));
     }
 
     @Test
     public void testShowShippingFragment(){
-        thsPharmacyListFragment.showShippingFragment();
-        verify(thsPharmacyListFragment).showShippingFragment();
+        thsPharmacyListFragmentMock.showShippingFragment();
+        verify(thsPharmacyListFragmentMock).showShippingFragment();
     }
 
     @Test
     public void testLaunchInsuranceCostSummary(){
-        thsPharmacyListFragment.launchInsuranceCostSummary();
-        verify(thsPharmacyListFragment).launchInsuranceCostSummary();
+        thsPharmacyListFragmentMock.launchInsuranceCostSummary();
+        verify(thsPharmacyListFragmentMock).launchInsuranceCostSummary();
     }
 
     @Test
     public void testHandleBackEvent(){
-        thsPharmacyListFragment.handleBackEvent();
-        verify(thsPharmacyListFragment).handleBackEvent();
-        when(thsPharmacyListFragment.handleBackEvent()).thenReturn(false);
-        assertEquals(thsPharmacyListFragment.handleBackEvent(),false);
+        thsPharmacyListFragmentMock.handleBackEvent();
+        verify(thsPharmacyListFragmentMock).handleBackEvent();
+        when(thsPharmacyListFragmentMock.handleBackEvent()).thenReturn(false);
+        assertEquals(thsPharmacyListFragmentMock.handleBackEvent(),false);
     }
 
     @Test
     public void testHideSelectedPharmacy(){
-        thsPharmacyListFragment.hideSelectedPharmacy();
-        verify(thsPharmacyListFragment).hideSelectedPharmacy();
-        when(thsPharmacyListFragment.hideSelectedPharmacy()).thenReturn(true);
-        assertEquals(thsPharmacyListFragment.hideSelectedPharmacy(),true);
+        thsPharmacyListFragmentMock.hideSelectedPharmacy();
+        verify(thsPharmacyListFragmentMock).hideSelectedPharmacy();
+        when(thsPharmacyListFragmentMock.hideSelectedPharmacy()).thenReturn(true);
+        assertEquals(thsPharmacyListFragmentMock.hideSelectedPharmacy(),true);
     }
 
     @Test
     public void testShowSelectedPharmacyDetails(){
-        thsPharmacyListFragment.showSelectedPharmacyDetails(pharmacy);
-        verify(thsPharmacyListFragment).showSelectedPharmacyDetails(Matchers.eq(pharmacy));
+        thsPharmacyListFragmentMock.showSelectedPharmacyDetails(pharmacy);
+        verify(thsPharmacyListFragmentMock).showSelectedPharmacyDetails(Matchers.eq(pharmacy));
     }
 }

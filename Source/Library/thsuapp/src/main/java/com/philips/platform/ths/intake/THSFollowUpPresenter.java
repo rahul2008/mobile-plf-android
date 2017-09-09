@@ -12,6 +12,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
@@ -47,7 +48,13 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     }
 
     private boolean checkIfDODFlow() {
-        return !THSManager.getInstance().getPthVisitContext().hasProvider();
+        boolean isDOD= false;
+        if (null!=THSManager.getInstance().getPthVisitContext()
+                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty()
+                && !THSManager.getInstance().getPthVisitContext().hasProvider()){
+            isDOD=true;
+        }
+        return isDOD;
     }
 
     private void acceptLegalText() {
@@ -81,7 +88,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
         if (checkIfDODFlow()) {
-            //TODO: Add DOD flow here
+            THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
+            mTHSFollowUpFragment.addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
         } else {
             mTHSFollowUpFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
         }

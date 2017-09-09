@@ -34,7 +34,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.calendar_view) {
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override

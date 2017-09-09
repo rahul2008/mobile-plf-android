@@ -7,6 +7,7 @@
 package com.philips.platform.ths.pharmacy;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -51,8 +52,8 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {
-            final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
-            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
+            final List<Country> supportedCountries = getSupportedCountries();
+            stateList = getValidShippingStates(supportedCountries);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -68,6 +69,15 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         updateAddressButton.setOnClickListener(this);
         thsShippingAddressPresenter = new THSShippingAddressPresenter(this);
         return view;
+    }
+
+    @NonNull
+    public List<Country> getSupportedCountries() throws AWSDKInstantiationException {
+        return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
+    }
+
+    public List<State> getValidShippingStates(List<Country> supportedCountries) throws AWSDKInstantiationException {
+        return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
     }
 
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {

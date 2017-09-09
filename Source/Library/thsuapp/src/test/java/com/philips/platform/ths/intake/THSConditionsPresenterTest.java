@@ -81,7 +81,6 @@ public class THSConditionsPresenterTest {
     public void onEventContinueBtn() throws Exception {
         thsMedicalConditionsPresenter.onEvent(R.id.continue_btn);
         verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
-        verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
     }
 
     @Test
@@ -126,7 +125,6 @@ public class THSConditionsPresenterTest {
         doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
         thsMedicalConditionsPresenter.onEvent(R.id.continue_btn);
         verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
-        verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
     }
 
 }

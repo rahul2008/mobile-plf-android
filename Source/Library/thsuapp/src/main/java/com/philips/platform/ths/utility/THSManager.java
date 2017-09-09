@@ -68,12 +68,13 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
+import com.philips.platform.ths.cost.ApplyCouponCallback;
 import com.philips.platform.ths.cost.CreateVisitCallback;
 import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.insurance.THSInsuranceCallback;
 import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.insurance.THSSubscriptionUpdateRequest;
-import com.philips.platform.ths.intake.THSConditions;
+import com.philips.platform.ths.intake.THSCondition;
 import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSConditionsList;
 import com.philips.platform.ths.intake.THSMedication;
@@ -331,7 +332,7 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
@@ -682,10 +683,10 @@ public class THSManager {
         });
     }
 
-    public void updateConditions(Context context, List<THSConditions> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
+    public void updateConditions(Context context, List<THSCondition> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
 
         List<Condition> conditionList = new ArrayList<>();
-        for (THSConditions pthcondition:pthConditionList
+        for (THSCondition pthcondition:pthConditionList
              ) {
             conditionList.add(pthcondition.getCondition());
         }
@@ -1385,5 +1386,22 @@ public class THSManager {
                 thsMatchMakingCallback.onMatchMakingFailure(throwable);
             }
         });
+    }
+
+    public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getVisitManager().applyCouponCode(thsVisit.getVisit(), couponCode, new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                applyCouponCallback.onApplyCouponResponse(aVoid,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                applyCouponCallback.onApplyCouponFailure(throwable);
+            }
+        });
+
     }
 }

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -30,6 +31,7 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     private int mConfirmationRadioButtonSelectedID;
     private Button confirmationContinueButton;
     boolean isLaunchedFromCostSummary = false;
+    private RelativeLayout mProgressbarContainer;
 
     @Nullable
     @Override
@@ -44,6 +46,7 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
         mConfirmationRadioGroup.setOnCheckedChangeListener(this);
         confirmationContinueButton = (Button) view.findViewById(R.id.pth_insurance_confirmation_continue_button);
         confirmationContinueButton.setOnClickListener(this);
+        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_insurance_confirmation_container);
         return view;
 
     }
@@ -104,6 +107,10 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
             }
         }
 
+    }
+
+    protected void showProgressbar(){
+        createCustomProgressBar(mProgressbarContainer, BIG);
     }
 
 }

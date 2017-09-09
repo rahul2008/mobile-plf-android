@@ -20,7 +20,9 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
-public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener {
+import static com.philips.platform.ths.R.id.systolic;
+
+public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener,THSVItalsUIInterface {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
     protected THSVitalsPresenter mThsVitalsPresenter;
@@ -35,17 +37,18 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     private InputValidationLayout mDiastolicInputValidationLayout;
     private InputValidationLayout mFarenheitInputLayoutContainer;
     private InputValidationLayout mWeightInputLayoutContainer;
+    private boolean enableContinue = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_vitals, container, false);
-        mSystolic = (EditText) view.findViewById(R.id.systolic);
+        mSystolic = (EditText) view.findViewById(systolic);
         mDiastolic = (EditText) view.findViewById(R.id.diastolic);
         mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
-        mTemperature.setFilters(new InputFilter[]{new THSInputFilters(0.0,120.0)});
+        mTemperature.setFilters(new InputFilter[]{new THSInputFilters(0.0, 120.0)});
         mWeight = (EditText) view.findViewById(R.id.ponds);
-        mWeight.setFilters(new InputFilter[]{new THSInputFilters(0,500)});
+        mWeight.setFilters(new InputFilter[]{new THSInputFilters(0, 500)});
         mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
         mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);
@@ -62,14 +65,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
         mWeightInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.pounds_container);
         mWeightInputLayoutContainer.setValidator(new THSVitalsWeightValidator());
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mThsVitalsPresenter = new THSVitalsPresenter(this);
+        mThsVitalsPresenter = new THSVitalsPresenter(this,this);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
@@ -78,48 +74,65 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
+        return view;
     }
 
     @Override
     public void onClick(View view) {
-        int i = view.getId();
-        if (i == R.id.vitals_continue_btn) {
-            mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        } else if (i == R.id.vitals_skip) {
-            mThsVitalsPresenter.onEvent(R.id.vitals_skip);
-        }
+        mThsVitalsPresenter.onEvent(view.getId());
     }
 
-    void setVitalsValues() {
-        if (mThsVitalsPresenter.isTextValid(mSystolic)) {
-            mTHSVitals.setSystolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mSystolic)));
+
+    @Override
+    public boolean validate() {
+        if (mThsVitalsPresenter.checkIfValueEntered(mTemperature) || mThsVitalsPresenter.checkIfValueEntered(mWeight)) {
+            if(!mThsVitalsPresenter.checkIfValueEntered(mSystolic) && !mThsVitalsPresenter.checkIfValueEntered(mDiastolic)){
+                enableContinue = true;
+            }else {
+
+                enableContinue = validateBloodPressure();
+            }
+
         }
-        if (mThsVitalsPresenter.isTextValid(mDiastolic)) {
-            mTHSVitals.setDiastolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mDiastolic)));
+        else if(validateBloodPressure()){
+            enableContinue = true;
+        }else {
+            showToast("Please enter the values");
+            enableContinue = false;
         }
-        if (mThsVitalsPresenter.isTextValid(mTemperature)) {
-            mTHSVitals.setTemperature(mThsVitalsPresenter.stringToDouble(mThsVitalsPresenter.getTextFromEditText(mTemperature)));
-        }
-        if (mThsVitalsPresenter.isTextValid(mWeight)) {
-            mTHSVitals.setWeight(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mWeight)));
-        }
+        return enableContinue;
     }
 
+    @Override
     public void updateUI(THSVitals thsVitals) {
         mTHSVitals = thsVitals;
 
         if (mTHSVitals.getSystolic() != null)
-            mSystolic.setText(mThsVitalsPresenter.integerToString(thsVitals.getSystolic()));
+            mSystolic.setText(""+thsVitals.getSystolic());
         if (mTHSVitals.getDiastolic() != null)
-            mDiastolic.setText(mThsVitalsPresenter.integerToString(thsVitals.getDiastolic()));
+            mDiastolic.setText(""+thsVitals.getDiastolic());
         if (mTHSVitals.getTemperature() != null)
-            mTemperature.setText(mThsVitalsPresenter.doubleToString(thsVitals.getTemperature()));
+            mTemperature.setText(""+thsVitals.getTemperature());
         if (mTHSVitals.getWeight() != null)
-            mWeight.setText(mThsVitalsPresenter.integerToString(thsVitals.getWeight()));
+            mWeight.setText(""+thsVitals.getWeight());
 
-        mContinue.setEnabled(true);
     }
 
+    @Override
+    public void updateVitalsData() {
+        mTHSVitals.setSystolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mSystolic)));
+        mTHSVitals.setDiastolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mDiastolic)));
+        mTHSVitals.setTemperature(mThsVitalsPresenter.stringToDouble(mThsVitalsPresenter.getTextFromEditText(mTemperature)));
+        mTHSVitals.setWeight(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mWeight)));
+    }
+
+    @Override
+    public void launchMedicationFragment() {
+        THSMedicationFragment fragment = new THSMedicationFragment();
+        addFragment(fragment, THSMedicationFragment.TAG, null);
+    }
+
+    @Override
     public THSVitals getTHSVitals() {
         return mTHSVitals;
     }
@@ -128,21 +141,22 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         this.mTHSVitals = mTHSVitals;
     }
 
-    public boolean validate() {
-        String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
-        String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
 
-        if (!mThsVitalsPresenter.isTextValid(mSystolic)) {
-            showToast("Please Enter Valid Systolic Value");
-            return false;
-        } else if (!mThsVitalsPresenter.isTextValid(mDiastolic)) {
-            showToast("Please Enter Valid Systolic Value");
-            return false;
-        } else if (mThsVitalsPresenter.stringToInteger(diastolic) > mThsVitalsPresenter.stringToInteger(systolic)) {
-            showToast("Systolic Value should be higher than daistolic");
-            return false;
+    public boolean validateBloodPressure() {
+
+
+        if (mThsVitalsPresenter.checkIfValueEntered(mSystolic) || mThsVitalsPresenter.checkIfValueEntered(mDiastolic)) {
+            String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
+            String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
+
+            if (mThsVitalsPresenter.stringToInteger(diastolic) > mThsVitalsPresenter.stringToInteger(systolic)) {
+                showToast("Systolic Value should be higher than diasystolic");
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            return false;
         }
     }
 }

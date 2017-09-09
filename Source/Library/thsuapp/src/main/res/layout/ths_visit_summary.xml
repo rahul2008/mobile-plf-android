@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_wrap_up_provider_detail_seperator_bottom"
             android:background="?attr/uidContentPrimaryBackgroundColor"
-            android:minHeight="@dimen/ths_list_item_height">
+            android:minHeight="58dp">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_wrap_up_payment_cost"

@@ -7,13 +7,19 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.app.DatePickerDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
@@ -23,6 +29,7 @@ import com.philips.platform.ths.appointment.THSProviderNotAvailableFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
+import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -30,12 +37,16 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback {
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
+
+public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback,THSMatchMakingCallback {
 
     private THSProviderDetailsViewInterface viewInterface;
 
@@ -83,18 +94,29 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
-            THSConsumer THSConsumer = new THSConsumer();
-            THSConsumer.setConsumer(viewInterface.getConsumerInfo());
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
-            bundle.putParcelable(THSConstants.THS_PROVIDER,viewInterface.getProvider());
-            THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
-            thsSymptomsFragment.setConsumerObject(THSConsumer);
-            thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
+            boolean isDOD = false;
+            if((THSManager.getInstance().getPthVisitContext() != null
+                    && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                    && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
+                isDOD=true;
+            }
+            if(isDOD){
+                // go to pharmacy and shipping if DOD
+                mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
+            }else {
+                THSConsumer THSConsumer = new THSConsumer();
+                THSConsumer.setConsumer(viewInterface.getConsumerInfo());
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
+                bundle.putParcelable(THSConstants.THS_PROVIDER, viewInterface.getProvider());
+                THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
+                thsSymptomsFragment.setConsumerObject(THSConsumer);
+                thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
+            }
 
         } else if (componentID == R.id.detailsButtonTwo) {
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -116,7 +138,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         } else if (componentID == R.id.detailsButtonContinue) {
 
         } else if (componentID == R.id.calendar_container) {
-            THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+            THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -139,6 +161,10 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
+        }else if (componentID == R.id.uid_dialog_positive_button) {
+            // matchmaking failed
+            ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.dismiss();
+            ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
         }
     }
 
@@ -228,6 +254,82 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     @Override
     public void onError(Throwable throwable) {
+
+    }
+
+
+    void doMatchMaking(){
+        showMatchMakingProgressbar();
+        try {
+            THSManager.getInstance().doMatchMaking(mThsBaseFragment.getContext(),THSManager.getInstance().getPthVisitContext(),this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+    void showMatchMakingProgressbar(){
+        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.VISIBLE);
+        Resources resources = ((THSProviderDetailsFragment) mThsBaseFragment).getResources();
+        String highlightedChildMatchMakingMessage = resources.getString(R.string.ths_matchmaking_progressbar_meesage_child_text);
+        String parentMatchmakingString = String.format(resources.getString(R.string.ths_matchmaking_progressbar_meesage_parent_text), highlightedChildMatchMakingMessage);
+        SpannableString matchMakingProgrressMessage = new SpannableString(parentMatchmakingString);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+
+            }
+        };
+        int startingIndex = parentMatchmakingString.indexOf(highlightedChildMatchMakingMessage);
+        int endIndex = startingIndex + highlightedChildMatchMakingMessage.length();
+        matchMakingProgrressMessage.setSpan(clickableSpan, startingIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabel.setText(matchMakingProgrressMessage.toString());
+    }
+
+    @Override
+    public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
+        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
+        THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
+        ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo  = provider.getPracticeInfo();
+        THSProviderInfo tHSProviderInfo= new THSProviderInfo();
+        tHSProviderInfo.setTHSProviderInfo(provider);
+        ((THSProviderDetailsFragment) mThsBaseFragment).mThsProviderInfo=tHSProviderInfo;
+        ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
+        ((THSProviderDetailsFragment) mThsBaseFragment).dodProviderFoundMessage.setVisibility(View.VISIBLE);
+        onProviderDetailsReceived(provider,null);
+    }
+
+    @Override
+    public void onMatchMakingProviderListExhausted() {
+        showMatchmakingError(true,true,false);
+    }
+
+    @Override
+    public void onMatchMakingRequestGone() {
+        showMatchmakingError(true,true,false);
+    }
+
+    @Override
+    public void onMatchMakingResponse(Void aVoid, SDKError sdkError) {
+        showMatchmakingError(true,true,false);
+
+    }
+
+    @Override
+    public void onMatchMakingFailure(Throwable throwable) {
+        showMatchmakingError(true,true,false);
+
+    }
+
+    void showMatchmakingError(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(((THSProviderDetailsFragment) mThsBaseFragment).getFragmentActivity())
+                .setMessage(showLargeContent ? ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
+                        setPositiveButton(" Ok ", ((THSProviderDetailsFragment) mThsBaseFragment));
+
+        if (isWithTitle) {
+            builder.setTitle("Error");
+
+        }
+        ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment = builder.setCancelable(false).create();
+        ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.show(((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
 
     }
 }
