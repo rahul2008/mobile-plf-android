@@ -66,9 +66,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mButton.setEnabled(false);
         mButton.setOnClickListener(this);
 
-        createCustomProgressBar(view, BIG);
-        presenter.initializeAwsdk();
-
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
