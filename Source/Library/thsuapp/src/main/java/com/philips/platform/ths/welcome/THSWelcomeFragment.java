@@ -9,6 +9,7 @@ package com.philips.platform.ths.welcome;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,22 +55,17 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
-        mRelativeLayoutAppointments.setEnabled(false);
         mRelativeLayoutAppointments.setOnClickListener(this);
-
-        mRelativeLayoutVisitHostory.setEnabled(false);
         mRelativeLayoutVisitHostory.setOnClickListener(this);
-
-        mRelativeLayoutHowItWorks.setEnabled(false);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
-
-        mButton.setEnabled(false);
         mButton.setOnClickListener(this);
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
         return view;
     }
@@ -100,12 +96,5 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.ths_start);
         }
-    }
-
-    void updateView(){
-        mRelativeLayoutHowItWorks.setEnabled(true);
-        mRelativeLayoutVisitHostory.setEnabled(true);
-        mRelativeLayoutAppointments.setEnabled(true);
-        mButton.setEnabled(true);
     }
 }

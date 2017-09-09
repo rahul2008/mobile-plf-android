@@ -58,10 +58,4 @@ public class THSWelcomePresenter implements THSBasePresenter{
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
         uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
     }
-
-    private void launchAmwellRegistrationFragment() {
-        THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
-        thsRegistrationFragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
-        uiBaseView.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null);
-    }
 }

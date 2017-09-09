@@ -22,6 +22,7 @@ import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -35,13 +36,13 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         mTHSBaseFragment = thsBaseFragment;
     }
 
-    private void launchPractice(THSConsumer thsConsumer) {
+    /*private void launchPractice(THSConsumer thsConsumer) {
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         AmwellLog.d("Login","Consumer object received");
         THSPracticeFragment thsPracticeFragment = new THSPracticeFragment();
         thsPracticeFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
         mTHSBaseFragment.addFragment(thsPracticeFragment,THSPracticeFragment.TAG,null);
-    }
+    }*/
 
     @Override
     public void onEvent(int componentID) {
@@ -73,7 +74,12 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
             mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
             return;
         }
-        launchPractice(thsConsumer);
+        launchPreWelcomeScreen();
+    }
+
+    private void launchPreWelcomeScreen() {
+        THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
+        mTHSBaseFragment.addFragment(thsPreWelcomeFragment, THSPreWelcomeFragment.TAG, null);
     }
 
     @Override

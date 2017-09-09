@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -47,7 +48,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            THSPreWelcomeFragment welcomeFragment = new THSPreWelcomeFragment();
+            THSInitFragment welcomeFragment = new THSInitFragment();
             Bundle bundle = new Bundle();
             welcomeFragment.setArguments(bundle);
             welcomeFragment.setActionBarListener(fragmentLauncher.getActionbarListener());

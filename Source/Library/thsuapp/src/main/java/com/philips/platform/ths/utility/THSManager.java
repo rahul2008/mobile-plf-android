@@ -234,10 +234,13 @@ public class THSManager {
         });
     }
 
-    public void completeEnrollment(Context context, THSAuthentication thsAuthentication, final THSGetConsumerObjectCallBack thsGetConsumerObjectCallBack) throws AWSDKInstantiationException {
+    public void completeEnrollment(Context context, final THSAuthentication thsAuthentication, final THSGetConsumerObjectCallBack thsGetConsumerObjectCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),null,null,null, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                THSConsumer thsConsumer = new THSConsumer();
+                thsConsumer.setConsumer(consumer);
+                setPTHConsumer(thsConsumer);
                 thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
             }
 
@@ -546,8 +549,8 @@ public class THSManager {
     }
 
 
-    public void getProviderList(Context context, Consumer consumer, Practice practice,String searchTerm,final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException{
-        getAwsdk(context).getPracticeProvidersManager().findProviders(consumer, practice, null, searchTerm, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
+    public void getProviderList(Context context, Practice practice, String searchTerm, final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getPracticeProvidersManager().findProviders(getPTHConsumer().getConsumer(), practice, null, searchTerm, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
             @Override
             public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
                 List thsProvidersList = new ArrayList();
@@ -565,8 +568,8 @@ public class THSManager {
             }
         });
     }
-    public void getProviderList(Context context, Consumer consumer, Practice practice,final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException {
-        getProviderList(context,consumer,practice,null,THSProvidersListCallback);
+    public void getProviderList(Context context, Practice practice, final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException {
+        getProviderList(context, practice,null,THSProvidersListCallback);
     }
 
     public void getProviderDetails(Context context, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
@@ -596,13 +599,14 @@ public class THSManager {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
 
-                THSConsumer THSConsumer = new THSConsumer();
-                THSConsumer.setConsumer(consumer);
+                THSConsumer thsConsumer = new THSConsumer();
+                thsConsumer.setConsumer(consumer);
+                setPTHConsumer(thsConsumer);
 
                 THSSDKPasswordError pthSDKError = new THSSDKPasswordError();
                 pthSDKError.setSdkPasswordError(sdkPasswordError);
 
-                pthUpdateConsumer.onUpdateConsumerResponse(THSConsumer,pthSDKError);
+                pthUpdateConsumer.onUpdateConsumerResponse(thsConsumer,pthSDKError);
             }
 
             @Override

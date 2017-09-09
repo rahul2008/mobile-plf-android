@@ -45,7 +45,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     public void fetchProviderList(Consumer consumer, Practice practice){
         try {
-            getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(),consumer,practice,this);
+            getPthManager().getProviderList(mThsBaseFragment.getFragmentActivity(), practice,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
