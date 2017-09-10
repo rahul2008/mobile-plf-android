@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -19,12 +21,12 @@ import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.net.MalformedURLException;
@@ -35,7 +37,8 @@ import javax.net.ssl.HttpsURLConnection;
 public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
     private THSBaseFragment uiBaseView;
-    private Consumer consumer;
+    private boolean isFirstTimeUser = false;
+    private int THS_LAUNCH_INPUT = -1;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
         this.uiBaseView = uiBaseView;
@@ -44,14 +47,36 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
+            THS_LAUNCH_INPUT = THSConstants.THS_SCHEDULED_VISITS;
+            if(!isFirstTimeUser) {
+                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null);
+            }else {
+                launchAmwellRegistrationFragment();
+            }
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
+            THS_LAUNCH_INPUT = THSConstants.THS_VISITS_HISTORY;
+            if(!isFirstTimeUser) {
+                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null);
+            }else {
+                launchAmwellRegistrationFragment();
+            }
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         }else if(componentID == R.id.ths_start){
-            launchPractice();
+            THS_LAUNCH_INPUT = THSConstants.THS_PRACTICES;
+            if(!isFirstTimeUser) {
+                launchPractice();
+            }else {
+                launchAmwellRegistrationFragment();
+            }
         }
+    }
+
+    private void launchAmwellRegistrationFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THS_LAUNCH_INPUT);
+        THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
+        uiBaseView.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,bundle);
     }
 
     private void checkForUserExisitance() {
@@ -173,9 +198,11 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
 
         if(aBoolean){
             authenticateUser();
+            isFirstTimeUser = false;
         }else {
+            isFirstTimeUser = true;
             uiBaseView.hideProgressBar();
-            launchAmwellRegistrationFragment();
+            ((THSWelcomeFragment)uiBaseView).updateView();
         }
     }
 
@@ -185,12 +212,6 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
-    }
-
-    private void launchAmwellRegistrationFragment() {
-        THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
-        thsRegistrationFragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
-        uiBaseView.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null);
     }
 
     @Override
