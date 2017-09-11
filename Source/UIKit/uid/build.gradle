@@ -30,7 +30,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -68,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.uid_uid)
+version = objcdp.getVersion(versions.uid_uid)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -178,7 +178,7 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 
-	def icfModule = module(group: 'com.philips.cdp', name: 'IconFont', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def icfModule = module(group: 'com.philips.cdp', name: 'IconFont', version: versions.icf_iconFont + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':icf') : icfModule) 
 	{
         transitive = true
