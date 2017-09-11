@@ -35,6 +35,8 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
@@ -258,35 +260,24 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void showProdRegLoadingDialog(final String title, String tag) {
-      //  final Handler handler = new Handler();
+
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.prodreg_progress_dialog, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setDialogLayout(R.layout.prodreg_progress_dialog)
-                .setCancelable(false)
-                .setTitle(title)
-                .setAlternateButton(R.string.PRG_Close, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getActivity().finish();
-                    }
-                });
+                .setDialogView(view)
+                .setCancelable(false);
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), tag);
-
-//        final Runnable r = new Runnable() {
-//            public void run() {
-//                Button closeButton = (Button) alertDialogFragment.getDialog().findViewById(R.id.closeButton);
-//                closeButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        getActivity().finish();
-//                    }
-//                });
-//                Label close = (Label) alertDialogFragment.getDialog().findViewById(R.id.dialogDescription);
-//                close.setText(title);
-//            }
-//        };
-//        handler.postDelayed(r, 1000);
+        Button closeButton = (Button) view.findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        Label close = (Label) view.findViewById(R.id.dialogDescription);
+        close.setText(title);
     }
 
     public void dismissProdRegLoadingDialog() {
@@ -298,7 +289,6 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     public void showErrorDialog(String title, String description, final int statusCode, String tag) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_ALERT)
-//                .setDialogLayout(R.layout.prodreg_alert_dialog)
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(description)
@@ -321,4 +311,3 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         alertDialogFragment.show(getFragmentManager(), tag);
     }
 }
-
