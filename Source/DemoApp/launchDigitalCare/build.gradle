@@ -4,6 +4,8 @@ apply from: '../extra/calabash.gradle'
 apply plugin: 'maven-publish'
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+   
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -23,7 +25,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
     }
 }
 
@@ -65,7 +67,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(project.ext.versions.dcc_digitalCare)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -208,7 +210,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
-    /*compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.3.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    /*compile(group: 'com.philips.cdp', name: 'digitalCare', version: project.ext.versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive true
             }*/

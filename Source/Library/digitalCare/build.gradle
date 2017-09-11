@@ -9,6 +9,8 @@ jacoco {
 }
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+   
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -28,7 +30,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
     }
 }
 
@@ -73,7 +75,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(project.ext.versions.dcc_digitalCare)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -223,19 +225,19 @@ dependencies {
 	
 	def dp = project.ext.has('useprojectdependencies')
 
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: project.ext.versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':uit') : uitModule) 
 	{
 		transitive = true
 	}
 	
-	def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: project.ext.versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':pse') : pseModule) 
 	{
 		transitive = true
 	}
 	
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: project.ext.versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':uid') : uidModule) 
 	{
 		transitive = true
