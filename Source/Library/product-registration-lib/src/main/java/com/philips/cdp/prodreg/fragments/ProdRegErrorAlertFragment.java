@@ -56,12 +56,12 @@ public class ProdRegErrorAlertFragment extends DialogFragment {
         ProdRegLogger.v(TAG, "Starting dialog with error:" + title);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.prodreg_alert_dialog, null);
-        Button always = (Button) v.findViewById(R.id.dialogButtonOK);
+        //Button always = (Button) v.findViewById(R.id.dialogButtonOK);
         titleTextView = (Label) v.findViewById(R.id.dialogTitle);
         titleTextView.setText(title);
         descriptionTextView = (Label) v.findViewById(R.id.dialogDescription);
         descriptionTextView.setText(description);
-        always.setOnClickListener(dismissDialog());
+       // always.setOnClickListener(dismissDialog());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(v);
         setRetainInstance(true);

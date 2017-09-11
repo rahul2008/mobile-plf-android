@@ -29,14 +29,14 @@
             android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:textSize="16sp" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/dialogButtonOK"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/pr_registration_margin_top"
-            android:gravity="center"
-            android:text="@string/PPR_OK"
-            android:textSize="12sp" />
+        <!--<com.philips.platform.uid.view.widget.Button-->
+            <!--android:id="@+id/dialogButtonOK"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/pr_registration_margin_top"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/PPR_OK"-->
+            <!--android:textSize="12sp" />-->
 
     </LinearLayout>
 </FrameLayout>

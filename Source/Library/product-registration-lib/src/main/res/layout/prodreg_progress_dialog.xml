@@ -13,32 +13,32 @@
 
     <com.philips.platform.uid.view.widget.ProgressBar
         android:id="@+id/progress_bar"
-        style="@style/UIDProgressBarCircularDeterminateMiddle"
+        style="@style/UIDProgressBarCircularIndeterminateMiddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"/>
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/dialogDescription"
-        fontPath="fonts/centralesansbook.ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progress_bar"
-        android:layout_centerInParent="true"
-        android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
-        android:textSize="20sp"/>
+    <!--<com.philips.platform.uid.view.widget.Label-->
+        <!--android:id="@+id/dialogDescription"-->
+        <!--fontPath="fonts/centralesansbook.ttf"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/progress_bar"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"-->
+        <!--android:textSize="20sp"/>-->
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/closeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dialogDescription"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="@dimen/pr_margintop"
-        android:layout_marginTop="@dimen/pr_c_value_sm"
-        android:text="@string/PRG_Close"
-        android:textAllCaps="false"
-        app:uidComponentType="Secondary"
-        />
+    <!--<com.philips.platform.uid.view.widget.Button-->
+        <!--android:id="@+id/closeButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/dialogDescription"-->
+        <!--android:layout_gravity="bottom|center"-->
+        <!--android:layout_marginBottom="@dimen/pr_margintop"-->
+        <!--android:layout_marginTop="@dimen/pr_c_value_sm"-->
+        <!--android:text="@string/PRG_Close"-->
+        <!--android:textAllCaps="false"-->
+        <!--app:uidComponentType="Secondary"-->
+        <!--/>-->
 </RelativeLayout>

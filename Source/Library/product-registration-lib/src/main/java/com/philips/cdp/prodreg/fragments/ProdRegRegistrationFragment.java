@@ -528,6 +528,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         productTitleTextView.setVisibility(View.GONE);
     }
 
+    /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
         dialog = new Dialog(mActivity);
@@ -561,12 +562,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void dismissLoadingDialog() {
-        ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
+        dismissProdRegLoadingDialog();
     }
 
     @Override
     public void showLoadingDialog() {
-        ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),getActivity());
+        showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),"prg_dialog");
     }
 
     @Override

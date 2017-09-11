@@ -166,11 +166,11 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void showLoadingDialog() {
-        ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), getActivity());
+        showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), "prg_dialog");
     }
 
     @Override
     public void dismissLoadingDialog() {
-        ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
+        dismissProdRegLoadingDialog();
     }
 }

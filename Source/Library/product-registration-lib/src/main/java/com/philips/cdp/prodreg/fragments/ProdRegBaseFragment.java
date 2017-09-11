@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
+import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
@@ -34,8 +36,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
-import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
@@ -183,9 +183,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                     ft.commitAllowingStateLoss();
                 }
                 // Create and show the dialog.
-                ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
-                newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
-                newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
+//                ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
+//                newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
+//                newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
+                showErrorDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(), statusCode ,"error_dialog");
             }
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
@@ -206,8 +207,8 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
-            if (prev instanceof ProdRegErrorAlertFragment) {
-                ((ProdRegErrorAlertFragment) prev).dismiss();
+            if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
+                alertDialogFragment.dismiss();
             }
         }
     }
@@ -257,28 +258,68 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         }
     }
 
-    public void showProdRegLoadingDialog(String title, String tag) {
+    public void showProdRegLoadingDialog(final String title, String tag) {
+      //  final Handler handler = new Handler();
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.prodreg_progress_dialog)
-                .setCancelable(false);
+                .setCancelable(false)
+                .setTitle(title)
+                .setAlternateButton(R.string.PRG_Close, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().finish();
+                    }
+                });
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), tag);
-        Button closeButton = (Button) alertDialogFragment.getDialog().findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-        Label close = (Label) alertDialogFragment.getDialog().findViewById(R.id.dialogDescription);
-        close.setText(title);
+
+//        final Runnable r = new Runnable() {
+//            public void run() {
+//                Button closeButton = (Button) alertDialogFragment.getDialog().findViewById(R.id.closeButton);
+//                closeButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        getActivity().finish();
+//                    }
+//                });
+//                Label close = (Label) alertDialogFragment.getDialog().findViewById(R.id.dialogDescription);
+//                close.setText(title);
+//            }
+//        };
+//        handler.postDelayed(r, 1000);
     }
 
     public void dismissProdRegLoadingDialog() {
         if(alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         }
+    }
+
+    public void showErrorDialog(String title, String description, final int statusCode, String tag) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+//                .setDialogLayout(R.layout.prodreg_alert_dialog)
+                .setCancelable(false)
+                .setTitle(title)
+                .setMessage(description)
+                .setPositiveButton(R.string.PPR_OK, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismissAlertOnError();
+                        final FragmentActivity activity = getActivity();
+                        if (activity != null && !activity.isFinishing()) {
+                            clearFragmentStack();
+                            PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(statusCode));
+                            unRegisterProdRegListener();
+                            if (activity instanceof ProdRegBaseActivity) {
+                                getActivity().finish();
+                            }
+                        }
+                    }
+                });
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), tag);
     }
 }
 
