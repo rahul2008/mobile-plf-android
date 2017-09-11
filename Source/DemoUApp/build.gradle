@@ -26,7 +26,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -68,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.uaf_uAppFwLib)
+version = objcdp.getVersion(versions.uaf_uAppFwLib)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -154,7 +154,7 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: project.ext.versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':uit') : uitModule) {
         exclude group: 'com.android.support'
         transitive = true
