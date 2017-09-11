@@ -91,7 +91,7 @@ public class NetworkUtilityTest extends TestCase {
         Mockito.when( connectivityManager.getNetworkInfo( ConnectivityManager.TYPE_WIFI )).thenReturn( networkInfo );
         Mockito.when( networkInfo.isAvailable() ).thenReturn( true );
         Mockito.when( networkInfo.isConnected() ).thenReturn( true );
-        NetworkUtility.getInstance().isNetworkAvailable(mock(Context.class));
+        NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
     @Test
