@@ -62,7 +62,6 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
         final Button registerButton = (Button) view.findViewById(R.id.prg_welcomeScreen_yes_button);
         Button registerLater = (Button) view.findViewById(R.id.prg_welcomeScreen_no_button);

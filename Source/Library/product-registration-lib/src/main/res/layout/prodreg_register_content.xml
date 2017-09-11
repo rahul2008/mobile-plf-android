@@ -65,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/PRG_Please_Enter_SerialNum_Txtfldtxt"
                 android:maxLines="1"
-                app:uidInputTextWithClearButton="true" />
+                app:uidInputTextWithClearButton="true"
+                app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"/>
         </com.philips.platform.uid.view.widget.InputValidationLayout>
 
         <com.philips.platform.uid.view.widget.Label
@@ -108,6 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_calender"
+                app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                 android:hint="@string/PRG_Please_Select" />
         </com.philips.platform.uid.view.widget.InputValidationLayout>
     </LinearLayout>

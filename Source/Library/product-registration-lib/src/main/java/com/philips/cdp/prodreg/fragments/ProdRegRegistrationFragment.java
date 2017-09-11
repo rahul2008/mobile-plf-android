@@ -36,7 +36,6 @@ import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -47,6 +46,8 @@ import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
@@ -74,7 +75,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private Button registerButton;
     private FragmentActivity mActivity;
     //private Label tickIcon;
-    private Dialog dialog;
+    //private Dialog dialog;
     private DatePickerDialog datePickerDialog;
     private Label findSerialTextView;
     private InputValidationLayout serial_input_field ,date_input_field;
@@ -83,6 +84,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private String minDate;
     private Label prg_success_thanks_textView;
     String warntyPeriod=null;
+    AlertDialogFragment alertDialogFragment;
 
     @SuppressWarnings("SimpleDateFormat")
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -531,34 +533,45 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
-        dialog = new Dialog(mActivity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.prodreg_already_registered_dialog);
-        dialog.show();
-        dialog.setCancelable(false);
-        Label serialNumberTitle = (Label) dialog.findViewById(R.id.serial_number_title_message);
-        Label serialNumberRegisteredOn = (Label) dialog.findViewById(R.id.serial_number_registered_message);
-        Label serialNumberWarranty = (Label) dialog.findViewById(R.id.serial_number_warranty_message);
-        serialNumberTitle.setText(getString(R.string.PPR_registered_serial).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PPR_before)));
-        Button changeSerialNumber = (Button) dialog.findViewById(R.id.button_continue);
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.prodreg_already_registered_dialog, null);
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDialogView(view)
+                .setCancelable(false);
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
+        Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
+        Label serialNumberRegisteredOn = (Label) view.findViewById(R.id.serial_number_registered_message);
+        Label serialNumberWarranty = (Label) view.findViewById(R.id.serial_number_warranty_message);
+        serialNumberTitle.setText(getString(R.string.PRG_This_Serial_No).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PRG_Already_Registered)));
+        Button changeSerialNumber = (Button) view.findViewById(R.id.button_continue);
+        Button closeDialog = (Button) view.findViewById(R.id.closeButton);
         if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
             serialNumberRegisteredOn.setVisibility(View.VISIBLE);
-            serialNumberRegisteredOn.setText(getString(R.string.PPR_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
+            serialNumberRegisteredOn.setText(getString(R.string.PRG_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
         }
         if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
             serialNumberWarranty.setVisibility(View.VISIBLE);
-            serialNumberWarranty.setText(getString(R.string.PPR_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
+            serialNumberWarranty.setText(getString(R.string.PRG_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
         }
         changeSerialNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                dialog.dismiss();
+                alertDialogFragment.dismiss();
                 clearFragmentStack();
                 handleCallBack(true);
                 unRegisterProdRegListener();
             }
         });
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogFragment.dismiss();
+            }
+        });
     }
+
 
     @Override
     public void dismissLoadingDialog() {
@@ -578,8 +591,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void dismissDialogs() {
         dismissAlertOnError();
-        if (dialog != null) {
-            dialog.dismiss();
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
         }
         if (datePickerDialog != null) {
             datePickerDialog.dismiss();
