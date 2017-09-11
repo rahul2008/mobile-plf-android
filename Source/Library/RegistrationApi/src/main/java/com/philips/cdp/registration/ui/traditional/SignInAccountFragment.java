@@ -684,7 +684,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     e.printStackTrace();
                 }
                 RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
-                MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
+                MobileForgotPassVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPassVerifyCodeFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(mobileNumberKey, loginValidationEditText.getText().toString());
                 bundle.putString(tokenKey, token);

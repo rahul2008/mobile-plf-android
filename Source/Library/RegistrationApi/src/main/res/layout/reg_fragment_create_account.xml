@@ -40,6 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -56,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
@@ -63,6 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -88,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -112,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="textPassword"
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:maxLines="1"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>
 

@@ -10,21 +10,54 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.*;
 
-import com.philips.cdp.registration.settings.RegistrationSettings;
+import com.janrain.android.*;
+import com.philips.platform.appinfra.securestorage.*;
+
+import java.io.*;
+import java.util.*;
+
+import static com.philips.cdp.registration.settings.RegistrationSettings.*;
 
 
 public class RegPreferenceUtility {
 
     public static void storePreference(Context context, String key, boolean value) {
-        SharedPreferences pref = context.getSharedPreferences(RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
+        Jump.getSecureStorageInterface().storeValueForKey(key, String.valueOf(value), new SecureStorageInterface.SecureStorageError());
     }
 
     public static boolean getStoredState(Context context, String key) {
+        String oldPrefeFile = context.getFilesDir().getParent() + "/shared_prefs/" +
+                REGISTRATION_API_PREFERENCE + ".xml";
+        String oldPrefeFileBackUp = context.getFilesDir().getParent() + "/shared_prefs/" +
+                REGISTRATION_API_PREFERENCE + ".bak";
+        if (isFileExists(oldPrefeFile)) {
+            migrate(context);
+            deleteFile(oldPrefeFile);
+        }
+        if (isFileExists(oldPrefeFileBackUp)) {
+            deleteFile(oldPrefeFileBackUp);
+        }
+        return Boolean.parseBoolean(Jump.getSecureStorageInterface().
+                fetchValueForKey(key, new SecureStorageInterface.SecureStorageError()));
+    }
+
+    private static void deleteFile(String fileName) {
+        new File(fileName).delete();
+    }
+
+    private static void migrate(Context context) {
         SharedPreferences myPrefs = context.getSharedPreferences(
-                RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        return myPrefs.getBoolean(key, false);
+                REGISTRATION_API_PREFERENCE, 0);
+        Map<String, ?> allEntries = myPrefs.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Jump.getSecureStorageInterface().storeValueForKey(entry.getKey(),
+                    String.valueOf(entry.getValue()),
+                    new SecureStorageInterface.SecureStorageError());
+        }
+        myPrefs.edit().clear().commit();
+    }
+
+    private static boolean isFileExists(String fileName) {
+        return new File(fileName).exists();
     }
 }

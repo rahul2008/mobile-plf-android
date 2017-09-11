@@ -21,7 +21,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.*;
@@ -31,6 +31,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RegistrationActivity extends UIDActivity implements OnClickListener,
         ActionBarListener {
+
+    final String iconFontAssetName = "PUIIcon.ttf";
 
     private TextView ivBack;
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
@@ -68,13 +70,6 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(RegistrationHelper.getInstance().getThemeConfiguration() != null) {
-//            UIDHelper.init(RegistrationHelper.getInstance().getThemeConfiguration());
-        }
-        if(RegistrationHelper.getInstance().getTheme() != 0) {
-//            setTheme(RegistrationHelper.getInstance().getTheme());
-        }
-//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
@@ -105,6 +100,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
 
         setContentView(R.layout.reg_activity_registration);
         ivBack = (TextView) findViewById(R.id.iv_reg_back);
+        FontLoader.getInstance().setTypeface(ivBack, iconFontAssetName);
         ivBack.setOnClickListener(this);
 
         if (alwaysFinishActivity == 0) {

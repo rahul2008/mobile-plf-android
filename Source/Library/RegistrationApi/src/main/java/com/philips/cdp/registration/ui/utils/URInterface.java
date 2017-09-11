@@ -42,10 +42,6 @@ public class URInterface implements UappInterface {
             Bundle bundle = new Bundle();
 
             RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
-            if(((URLaunchInput) uappLaunchInput).isAccountSettings()){
-                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
-            }
-
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
@@ -60,8 +56,6 @@ public class URInterface implements UappInterface {
 
 
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
-                    uappLaunchInput).isAccountSettings());
             registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(fragmentLauncher.
                     getActionbarListener());
@@ -117,10 +111,6 @@ public class URInterface implements UappInterface {
 
             RegistrationLaunchMode registrationLaunchMode =  RegistrationLaunchMode.DEFAULT;
 
-            if(((URLaunchInput) uappLaunchInput).isAccountSettings()){
-                registrationLaunchMode= RegistrationLaunchMode.ACCOUNT_SETTINGS;
-            }
-
             if(((URLaunchInput)uappLaunchInput).getEndPointScreen()!=null){
                 registrationLaunchMode = ((URLaunchInput)uappLaunchInput).getEndPointScreen();
             }
@@ -128,8 +118,6 @@ public class URInterface implements UappInterface {
             bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
-            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS, ((URLaunchInput)
-                    uappLaunchInput).isAccountSettings());
             bundle.putInt(RegConstants.ORIENTAION, uiLauncher.getScreenOrientation().
                     getOrientationValue());
 

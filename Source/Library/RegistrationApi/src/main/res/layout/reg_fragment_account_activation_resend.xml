@@ -71,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:inputType="textEmailAddress"
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>

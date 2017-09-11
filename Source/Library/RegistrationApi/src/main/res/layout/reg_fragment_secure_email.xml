@@ -65,6 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
                     android:layout_marginBottom="@dimen/reg_layout_margin_top_24"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true"/>

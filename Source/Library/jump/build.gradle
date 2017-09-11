@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
-//def libVersionNumber = new File('../../VERSION_JUMP').text.trim()
+//def libVersionNumber = new File("${projectDir}/../../../VERSION_JUMP").text.trim()
 
 buildscript {
     repositories {

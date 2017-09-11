@@ -6,6 +6,8 @@
 
 package com.philips.themesettings;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.*;
@@ -23,6 +25,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class ThemeSettingsFragment extends BaseFragment {
+
+    private SharedPreferences defaultSharedPreferences;
 
 //    @BindView(R.id.colorRangeList)
     RecyclerView colorRangeListview;
@@ -73,6 +77,7 @@ public class ThemeSettingsFragment extends BaseFragment {
         applyTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveThemeSettings();
                 ThemeSettingsActivity activity = (ThemeSettingsActivity) getActivity();
                 activity.applyTheme();
             }
@@ -114,6 +119,12 @@ public class ThemeSettingsFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -313,6 +324,19 @@ public class ThemeSettingsFragment extends BaseFragment {
     @Override
     public int getPageTitle() {
         return R.string.page_title_theme_settings;
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    private void saveThemeValues(final String key, final String name) {
+        final SharedPreferences.Editor edit = defaultSharedPreferences.edit();
+        edit.putString(key, name);
+        edit.commit();
+    }
+
+    public void saveThemeSettings() {
+        saveThemeValues(UIDHelper.COLOR_RANGE, colorRange.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, navigationColor.name());
+        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, contentColor.name());
     }
 }
 

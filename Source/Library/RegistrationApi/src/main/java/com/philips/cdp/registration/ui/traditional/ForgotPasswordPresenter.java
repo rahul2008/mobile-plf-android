@@ -164,7 +164,7 @@ public class ForgotPasswordPresenter implements NetworkStateListener, EventListe
     }
 
     private void constructMobileVerifyCodeFragment(String mobileNumberKey, String tokenKey, String redirectUriKey, String verificationSmsCodeURLKey, String token) {
-        MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
+        MobileForgotPassVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPassVerifyCodeFragment();
         Bundle bundle = new Bundle();
         bundle.putString(mobileNumberKey, userId);
         bundle.putString(tokenKey, token);
