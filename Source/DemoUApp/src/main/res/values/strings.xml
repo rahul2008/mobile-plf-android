@@ -6,7 +6,7 @@
     <string name="please_wait">Please wait</string>
     <string name="app_title">E-Commerce Demo App</string>
     <string name="info_txt">Press Back button once logged in from user registration.</string>
-    <string name="register">Register/Login</string>
+    <string name="register">Login</string>
     <string name="activity">Launch as Fragment</string>
     <string name="adding_to_cart">Adding To Cart</string>
     <string name="loading_cart">Loading Cart</string>
@@ -33,4 +33,5 @@
     <string name="color_ranges_label">Color range</string>
     <string name="warning_text">This color is not selectable with current theme combination. Please re-select alternatives above to use this color.</string>
     <string name="set_theme_settings">Set</string>
+    <string name="log_out">Log out</string>
 </resources>
