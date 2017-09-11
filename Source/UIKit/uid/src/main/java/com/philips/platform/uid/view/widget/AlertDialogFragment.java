@@ -111,7 +111,7 @@ public class AlertDialogFragment extends DialogFragment {
             bottom_divider = view.findViewById(R.id.uid_dialog_bottom_divider);
             setAlternateButtonProperties();
             handleDividers();
-            layoutInflater.inflate(dialogParams.getContainerLayout(), dialogContainer);
+            resolveDialogLayout(layoutInflater);
         }
 
         positiveButton = (Button) view.findViewById(R.id.uid_dialog_positive_button);
@@ -130,6 +130,25 @@ public class AlertDialogFragment extends DialogFragment {
         setDimLayer();
 
         return view;
+    }
+
+    private void resolveDialogLayout(LayoutInflater layoutInflater) {
+        View containerView;
+        if(dialogParams.getContainerLayout() == 0){
+            LinearLayout layout = new LinearLayout(getContext());
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            dialogContainer.addView(layout);
+            containerView = layout;
+        }
+        else{
+            layoutInflater.inflate(dialogParams.getContainerLayout(), dialogContainer);
+            containerView = dialogContainer.getChildAt(0); //Only one childView in NestedScrollView
+        }
+
+        if(dialogParams.getDialogView()!= null && containerView instanceof ViewGroup){
+            ((ViewGroup)containerView).addView(dialogParams.getDialogView());
+        }
     }
 
     private void handleDividers() {
@@ -562,6 +581,16 @@ public class AlertDialogFragment extends DialogFragment {
             return this;
         }
 
+        /**
+         * Set the layout that should be shown on the dialog.
+         *
+         * @param view   View to be added to the dialog layout.
+         * @return This Builder object to allow for chaining of calls to set methods
+         */
+        public AlertDialogFragment.Builder setDialogView(View view) {
+            params.setDialogView(view);
+            return this;
+        }
         /**
          * Set a listener to be invoked when the alternate button of the dialog is pressed.
          *
