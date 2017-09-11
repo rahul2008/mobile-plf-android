@@ -11,7 +11,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 
 
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
@@ -45,9 +44,9 @@ public class ProdRegErrorAlertFragment extends DialogFragment {
         };
     }
 
-    public void setDialogOkButtonListener(final DialogOkButtonListener dialogOkButtonListener) {
-        this.dialogOkButtonListener = dialogOkButtonListener;
-    }
+//    public void setDialogOkButtonListener(final DialogOkButtonListener dialogOkButtonListener) {
+//        this.dialogOkButtonListener = dialogOkButtonListener;
+//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

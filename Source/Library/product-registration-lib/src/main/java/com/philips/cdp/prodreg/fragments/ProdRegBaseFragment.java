@@ -24,7 +24,6 @@ import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
@@ -193,15 +192,15 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         }
     }
 
-    /**
-     *
-     */
-    protected void resetErrorDialogIfExists() {
-        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
-            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
-        }
-    }
+//    /**
+//     *
+//     */
+//    protected void resetErrorDialogIfExists() {
+//        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+//        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
+//            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
+//        }
+//    }
 
     protected void dismissAlertOnError() {
         final FragmentActivity activity = getActivity();
@@ -239,9 +238,9 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         return false;
     }
 
-    public DialogOkButtonListener getDialogOkButtonListener() {
-        return null;
-    }
+//    public DialogOkButtonListener getDialogOkButtonListener() {
+//        return null;
+//    }
 
     /**
      *  setting the imageview with aspect ration 16:9
