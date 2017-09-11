@@ -24,7 +24,7 @@ buildscript {
 
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
@@ -67,7 +67,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.uit_uikitLib)
+version = objcdp.getVersion(versions.uit_uikitLib)
 
 configurations.all {
     // check for updates every build
