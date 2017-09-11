@@ -3,19 +3,19 @@
     <item android:state_selected="true">
         <shape>
             <corners android:bottomLeftRadius="@dimen/uid_button_corner_radius" android:topLeftRadius="@dimen/uid_button_corner_radius" />
-            <solid android:color="?attr/uidButtonPrimaryNormalBackgroundColor"></solid>
+            <solid android:color="?attr/uidButtonPrimaryNormalBackgroundColor"/>
         </shape>
     </item>
     <item android:state_pressed="true" android:state_selected="false">
         <shape>
             <corners android:bottomLeftRadius="@dimen/uid_button_corner_radius" android:topLeftRadius="@dimen/uid_button_corner_radius" />
-            <solid android:color="?attr/uidButtonSecondaryPressedBackgroundColor"></solid>
+            <solid android:color="?attr/uidButtonSecondaryPressedBackgroundColor"/>
         </shape>
     </item>
     <item android:state_enabled="true">
         <shape>
             <corners android:bottomLeftRadius="@dimen/uid_button_corner_radius" android:topLeftRadius="@dimen/uid_button_corner_radius" />
-            <solid android:color="?attr/uidButtonSecondaryNormalBackgroundColor"></solid>
+            <solid android:color="?attr/uidButtonSecondaryNormalBackgroundColor"/>
         </shape>
     </item>
 </selector>
