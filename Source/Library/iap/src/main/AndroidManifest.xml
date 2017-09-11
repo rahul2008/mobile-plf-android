@@ -14,5 +14,6 @@
             android:name=".activity.IAPActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+        <activity android:name=".DemoTestActivity" />
     </application>
 </manifest>
