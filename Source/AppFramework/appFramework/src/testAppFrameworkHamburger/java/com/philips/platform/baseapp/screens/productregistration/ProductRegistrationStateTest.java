@@ -26,6 +26,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import static org.robolectric.RuntimeEnvironment.application;
+
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class ProductRegistrationStateTest extends TestCase {
@@ -53,6 +55,7 @@ public class ProductRegistrationStateTest extends TestCase {
 
     @Test
     public void launchSupportState(){
+        productRegistrationState.init(application);
         productRegistrationState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();

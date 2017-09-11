@@ -118,11 +118,12 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         when(appInfraInterface.getSecureStorage()).thenReturn(secureStorageInterface);
-        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.STAGING);
-        when(appInfraInterface.getRestClient()).thenReturn(restInterface);
         when(appInfraInterface.getTime()).thenReturn(timeInterface);
         when(taggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(taggingInterface);
         when(loggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(loggingInterface);
+        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.STAGING);
+        when(appInfraInterface.getRestClient()).thenReturn(restInterface);
+        when(restInterface.isInternetReachable()).thenReturn(true);
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {
@@ -135,7 +136,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
             }
         });
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
-        RALog.init(appInfraInterface);
+
+
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
