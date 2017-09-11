@@ -31,6 +31,7 @@ public class AlertDialogController {
         private String positiveButtonText;
         private String alternateButtonText;
         @LayoutRes private int containerLayout;
+        private View dialogView;
         private boolean showDividers;
         private int dialogType = DialogConstants.TYPE_ALERT;
         private int dimLayer = DialogConstants.DIM_STRONG;
@@ -41,6 +42,14 @@ public class AlertDialogController {
 
         public void setDialogType(int dialogType) {
             this.dialogType = dialogType;
+        }
+
+        public View getDialogView() {
+            return dialogView;
+        }
+
+        public void setDialogView(View dialogView) {
+            this.dialogView = dialogView;
         }
 
         public int getDimLayer() {
