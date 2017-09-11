@@ -74,7 +74,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			public void onErrorResponse(VolleyError error) {
 				final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
 				final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE,"AI AppUpdate_URL"+ errMsg);
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_UPDATE,"AI AppUpdate_URL"+ errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
 		};
@@ -84,6 +84,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_UPDATE, "AI AppUpate"+response.toString());
 				try {
 					final JSONObject resp = response.getJSONObject("android");
 					if (resp != null) {
@@ -101,7 +102,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 					}
 				} catch (JSONException e) {
 					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "JSON EXCEPTION");
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_UPDATE, "JSON EXCEPTION"+e.getMessage());
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,  AppInfraLogEventID.AI_APP_UPDATE, "JSON EXCEPTION"+e.getMessage());
 				}
 			}
 		};
@@ -191,16 +192,16 @@ public class AppUpdateManager implements AppUpdateInterface {
 			@Override
 			public void onSuccess(URL url) {
 				final String appUpdateURL = url.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+url.toString());
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,  AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+url.toString());
 				downloadAppUpdate(appUpdateURL, refreshListener);
 			}
 
 			@Override
 			public void onError(ERRORVALUES error, String message) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 						AppInfraLogEventID.AI_APP_UPDATE, " Error Code:" + error.toString() + " , Error Message:" + message);
 				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, errMsg);
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_UPDATE, errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
 		};
@@ -226,7 +227,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
 						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_UPDATE, "Parse Exception");
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,  AppInfraLogEventID.AI_APP_UPDATE, "Parse Exception");
 			}
 		}
 		return false;
@@ -277,7 +278,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			try {
 				return formatter.parse(getAppUpdateModel().getVersion().getDeprecationDate());
 			} catch (ParseException e) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 						AppInfraLogEventID.AI_APP_UPDATE, "Date Parse Exception");
 			}
 		}
@@ -332,7 +333,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 
 						@Override
 						public void onSuccess(AIAppUpdateRefreshResult result) {
-							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APPINFRA,
+							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
 									"AppConfiguration Auto refresh success- AppUpdate" + " " + result);
 						}
 					});
@@ -352,7 +353,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
 			return appConfigurationInterface.getPropertyForKey("appUpdate.autoRefresh", "appinfra", error);
 		} catch (IllegalArgumentException exception) {
-			ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+			ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 					AppInfraLogEventID.AI_APPINFRA,"Error in reading AppUpdate  Config "
 							+exception.toString());
 		}
