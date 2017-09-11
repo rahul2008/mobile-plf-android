@@ -6,7 +6,6 @@
 
 package com.philips.platform.ths.cost;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,11 +21,9 @@ import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.payment.THSCreditCardDetailFragment;
 import com.philips.platform.ths.payment.THSPaymentCallback;
 import com.philips.platform.ths.payment.THSPaymentMethod;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
-import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
@@ -40,6 +37,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
 
     private THSCostSummaryFragment mTHSCostSummaryFragment;
 
+
     public THSCostSummaryPresenter(THSCostSummaryFragment thsCostSummaryFragment) {
         mTHSCostSummaryFragment = thsCostSummaryFragment;
     }
@@ -49,7 +47,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
         if (componentID == R.id.ths_cost_summary_continue_button) {
             THSWaitingRoomFragment thsWaitingRoomFragment = new THSWaitingRoomFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mTHSCostSummaryFragment.thsVisit.getVisit());
+            bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mTHSCostSummaryFragment.thsVisit.getVisit());
             mTHSCostSummaryFragment.addFragment(thsWaitingRoomFragment, THSWaitingRoomFragment.TAG, bundle);
 
         } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout) {
@@ -62,12 +60,12 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             Bundle bundle = new Bundle();
             bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
             mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle);
-        }else if (componentID == R.id.uid_dialog_positive_button) {
+        } else if (componentID == R.id.uid_dialog_positive_button) {
             // matchmaking failed
             mTHSCostSummaryFragment.alertDialogFragment.dismiss();
             //mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
-        } else if (componentID ==R.id.ths_cost_summary_promotion_code_apply_button){
-            applyCouponCode();
+        } else if (componentID == R.id.ths_cost_summary_promotion_code_apply_button) {
+            applyCouponCode(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
         }
 
     }
@@ -83,21 +81,19 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
 
     }
 
-    void applyCouponCode() {
+    void applyCouponCode(String couponCode) {
         try {
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
             mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(false);
-            String couponCode = mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim();
-            if(null==couponCode  || couponCode.isEmpty()){
+            if (null == couponCode || couponCode.isEmpty()) {
                 String errorMessage = mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_coupon_code_empty);
-                showCostError(true,true,false,errorMessage);
+                showCostError(true, true, false, errorMessage);
             }
-
-            THSManager.getInstance().applyCouponCode(mTHSCostSummaryFragment.getFragmentActivity(),mTHSCostSummaryFragment.thsVisit, couponCode, this);
+            THSManager.getInstance().applyCouponCode(mTHSCostSummaryFragment.getFragmentActivity(), mTHSCostSummaryFragment.thsVisit, couponCode, this);
         } catch (Exception e) {
             mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
-            showCostError(true,true,false,e.getMessage());
+            showCostError(true, true, false, e.getMessage());
         }
 
     }
@@ -127,18 +123,39 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     public void onCreateVisitResponse(THSVisit tHSVisit, THSSDKError tHSSDKError) {
         mTHSCostSummaryFragment.hideProgressBar();
         if (null != tHSVisit) {
-            mTHSCostSummaryFragment.thsVisit=tHSVisit;
-            updateCost(mTHSCostSummaryFragment.thsVisit);
+             String couponCode=null;
+            if (null != mTHSCostSummaryFragment.thsVisit && null != mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied() && !mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied().isEmpty()) {
+                couponCode=mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied();
+            }
+            mTHSCostSummaryFragment.thsVisit = tHSVisit;
+            mTHSCostSummaryFragment.thsVisit.setCouponCodeApplied(couponCode);
+            mTHSCostSummaryFragment.thsVisit.setInitialVisitCost(tHSVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost());
+            if (null != couponCode && !couponCode.isEmpty()) {
+                applyCouponCode(mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied());
+            } else {
+                updateCost(mTHSCostSummaryFragment.thsVisit);
+            }
         }
     }
 
-    private void updateCost(THSVisit thsVisit){
-        double costDouble = thsVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
-        String costString = String.valueOf(costDouble);
-        String[] costStringArray = costString.split("\\.");// seperate the decimal value
-        mTHSCostSummaryFragment.costBigLabel.setText("$" + costStringArray[0]);
-        if (!"0".equals(costStringArray[1])) { // if decimal part is zero then dont show
-            mTHSCostSummaryFragment.costSmallLabel.setText("." + costStringArray[1]);
+    private void updateCost(THSVisit thsVisit) {
+
+        if (thsVisit.getVisit().getVisitCost().isFree()) {
+            mTHSCostSummaryFragment.mActualCostHeader.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_header));
+            mTHSCostSummaryFragment.costBigLabel.setText("Free");
+            mTHSCostSummaryFragment.costSmallLabel.setText(null);
+            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Full_cover_cost), "$"+String.valueOf(thsVisit.getInitialVisitCost()));
+            mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
+        } else {
+            double costDouble = thsVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
+            String costString = String.valueOf(costDouble);
+            String[] costStringArray = costString.split("\\.");// seperate the decimal value
+            mTHSCostSummaryFragment.costBigLabel.setText("$" + costStringArray[0]);
+            if (!"0".equals(costStringArray[1])) { // if decimal part is zero then dont show
+                mTHSCostSummaryFragment.costSmallLabel.setText("." + costStringArray[1]);
+            }
+            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$"+String.valueOf(thsVisit.getInitialVisitCost()));
+            mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
         }
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
         mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
@@ -148,13 +165,13 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     public void onCreateVisitFailure(Throwable var1) {
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
         mTHSCostSummaryFragment.hideProgressBar();
-        showCostError(true,true,false,var1.toString());
+        showCostError(true, true, false, var1.toString());
     }
 
     @Override
     public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
         mTHSCostSummaryFragment.hideProgressBar();
-        showCostError(true,true,false,var1.toString());
+        showCostError(true, true, false, var1.toString());
     }
     // end of createVisit callbacks
 
@@ -175,6 +192,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             mTHSCostSummaryFragment.mInsuranceDetailRelativeLayout.setVisibility(View.GONE);
             mTHSCostSummaryFragment.mNoInsuranceDetailRelativeLayout.setVisibility(View.VISIBLE);
         }
+        createVisit();
     }
 
     @Override
@@ -199,9 +217,9 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
             mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.VISIBLE);
 
-            if(paymentMethod.isExpired()){
+            if (paymentMethod.isExpired()) {
                 mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_not_valid_credit_card));
-            }else {
+            } else {
                 mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_valid_credit_card));
             }
         } else {
@@ -242,6 +260,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     // start of PROMO/COUPON code callback
     @Override
     public void onApplyCouponResponse(Void aVoid, THSSDKError thssdkError) {
+        mTHSCostSummaryFragment.thsVisit.setCouponCodeApplied(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
         updateCost(mTHSCostSummaryFragment.thsVisit);
     }
 
@@ -250,7 +269,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
         mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
         String invalidCoupon = mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_coupon_code_invalid);
-        showCostError(true,true,false,invalidCoupon);
+        showCostError(true, true, false, invalidCoupon);
     }
     // end of PROMO/COUPON code callback
 }

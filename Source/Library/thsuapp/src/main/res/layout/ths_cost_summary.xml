@@ -54,6 +54,7 @@
 
             android:id="@+id/ths_cost_summary_initial_visit_cost_label"
             style="@style/UIDLabel.RecyclerViewItemSubtitleText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ths_cost_summary_relativelayout"
