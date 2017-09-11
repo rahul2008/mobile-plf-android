@@ -38,6 +38,7 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
         if (componentID == R.id.ths_visit_summary_continue_button) {
             THSManager.getInstance().setVisitContext(null);
+            THSManager.getInstance().setMatchMakingVisit(false);
             mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
 
         }

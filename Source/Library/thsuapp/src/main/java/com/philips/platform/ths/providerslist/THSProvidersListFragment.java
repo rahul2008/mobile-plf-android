@@ -101,6 +101,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().setMatchMakingVisit(false);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.provider_list_title), true);
         }

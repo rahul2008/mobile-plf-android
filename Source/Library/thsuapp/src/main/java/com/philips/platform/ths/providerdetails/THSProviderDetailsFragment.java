@@ -51,7 +51,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private ProviderInfo mProviderInfo;
 
     protected Label dodProviderFoundMessage;
-    protected ProgressBarWithLabel mProgressBarWithLabel;
+    protected Label mProgressBarLabel;
     protected RelativeLayout mProgressBarWithLabelContainer;
     AlertDialogFragment alertDialogFragment;
 
@@ -65,25 +65,26 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
         mProgressBarWithLabelContainer = (RelativeLayout) view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
-        dodProviderFoundMessage = (Label)view.findViewById(R.id.dodProviderFound);
-        mProgressBarWithLabel = (ProgressBarWithLabel)view.findViewById(R.id.ths_match_making_ProgressBarWithLabel);
+        dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
+        mProgressBarLabel = (Label) view.findViewById(R.id.ths_match_making_ProgressBar_message_label);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
         }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(), this, this, this, this, view);
-        boolean isMatchMakingrequired = false;
-                if((THSManager.getInstance().getPthVisitContext()!=null
-                        && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
-                        && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
-                    isMatchMakingrequired=true;
-                }
 
-        if(isMatchMakingrequired){ // if provider is not yet selected
+        if ((THSManager.getInstance().getPthVisitContext() != null
+                && THSManager.getInstance().getPthVisitContext().getVisitContext() != null
+                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
+                && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()) {
+            THSManager.getInstance().setMatchMakingVisit(true);
+        }
+
+        if (THSManager.getInstance().isMatchMakingVisit()) { // if provider is not yet selected
             providerDetailsPresenter.doMatchMaking();
-        }else { // if provider is already selected
-           dodProviderFoundMessage.setVisibility(View.GONE);
+        } else { // if provider is already selected
+            dodProviderFoundMessage.setVisibility(View.GONE);
             final Bundle arguments = getArguments();
             if (arguments != null) {
                 mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
@@ -184,12 +185,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public void onRefresh() {
 
-        if(mProvider!=null){
-            providerDetailsPresenter.onProviderDetailsReceived(mProvider,null);
+        if (mProvider != null) {
+            providerDetailsPresenter.onProviderDetailsReceived(mProvider, null);
             return;
         }
 
-        if(mThsProviderDetailsDisplayHelper == null)
+        if (mThsProviderDetailsDisplayHelper == null)
             return;
         mThsProviderDetailsDisplayHelper.setRefreshing();
         providerDetailsPresenter.fetchProviderDetails();
@@ -202,7 +203,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
         } else if (i == R.id.detailsButtonTwo) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
-        }else if (i == R.id.uid_dialog_positive_button) {
+        } else if (i == R.id.uid_dialog_positive_button) {
             providerDetailsPresenter.onEvent(R.id.uid_dialog_positive_button);
         }
     }
@@ -240,4 +241,22 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
         }
     }
+
+    protected void showProgressbar() {
+        createCustomProgressBar(mProgressBarWithLabelContainer, BIG);
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        if (THSManager.getInstance().isMatchMakingVisit()) {
+            showToast("Cancelling MatchMaking...");
+            providerDetailsPresenter.cancelMatchMaking();
+            return true;
+        } else {
+            return super.handleBackEvent();
+        }
+    }
 }
+
+
+
