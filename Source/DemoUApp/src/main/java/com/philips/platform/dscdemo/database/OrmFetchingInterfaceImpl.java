@@ -28,7 +28,7 @@ import com.philips.platform.dscdemo.database.table.OrmInsight;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
-import com.philips.platform.dscdemo.temperature.TemperatureMomentHelper;
+import com.philips.platform.dscdemo.moments.MomentHelper;
 import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
 import java.sql.SQLException;
@@ -65,7 +65,7 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     private final Dao<OrmInsight, Integer> ormInsightDao;
 
 
-    private TemperatureMomentHelper mTemperatureMomentHelper;
+    private MomentHelper mTemperatureMomentHelper;
 
 
     public OrmFetchingInterfaceImpl(final @NonNull Dao<OrmMoment, Integer> momentDao,

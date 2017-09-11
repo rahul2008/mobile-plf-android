@@ -18,7 +18,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
-import com.philips.platform.dscdemo.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.dscdemo.moments.MomentFragment;
 import com.philips.platform.dscdemo.utility.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -48,7 +48,7 @@ public class DemoActivity extends AppCompatActivity
         if (savedInstanceState == null)
             if (user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
-                showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
+                showFragment(new MomentFragment(), MomentFragment.TAG);
                 DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
                 try {
                     databaseHelper.getWriteDbPermission();
@@ -141,7 +141,7 @@ public class DemoActivity extends AppCompatActivity
             }
         });
 
-        showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
+        showFragment(new MomentFragment(), MomentFragment.TAG);
     }
 
     public void showFragment(Fragment fragment, String fragmentTag) {
@@ -181,7 +181,7 @@ public class DemoActivity extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.frame_container_user_reg);
-        if (currentFrag instanceof TemperatureTimeLineFragment || !(new User(this).isUserSignIn())) {
+        if (currentFrag instanceof MomentFragment || !(new User(this).isUserSignIn())) {
             finish();
         } else {
             super.onBackPressed();
