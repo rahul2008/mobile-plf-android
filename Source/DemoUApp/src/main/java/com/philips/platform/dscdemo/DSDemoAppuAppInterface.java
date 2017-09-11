@@ -9,9 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.dscdemo.activity.DemoActivity;
+import com.philips.platform.dscdemo.activity.DSLaunchActivity;
 import com.philips.platform.dscdemo.moments.MomentFragment;
-import com.philips.platform.dscdemo.utility.DemoAppManager;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -50,7 +49,7 @@ public class DSDemoAppuAppInterface implements UappInterface {
     }
 
     private void launchAsActivity() {
-        Intent intent = new Intent(mContext, DemoActivity.class);
+        Intent intent = new Intent(mContext, DSLaunchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

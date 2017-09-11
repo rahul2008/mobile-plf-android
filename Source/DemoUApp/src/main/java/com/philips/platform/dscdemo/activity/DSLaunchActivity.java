@@ -19,7 +19,7 @@ import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.moments.MomentFragment;
-import com.philips.platform.dscdemo.utility.DemoAppManager;
+import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -32,7 +32,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.sql.SQLException;
 
-public class DemoActivity extends AppCompatActivity
+public class DSLaunchActivity extends AppCompatActivity
         implements UserRegistrationListener, UserRegistrationUIEventListener, ActionBarListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
@@ -104,7 +104,7 @@ public class DemoActivity extends AppCompatActivity
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (DemoActivity.this, containerID, this);
+                (DSLaunchActivity.this, containerID, this);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }

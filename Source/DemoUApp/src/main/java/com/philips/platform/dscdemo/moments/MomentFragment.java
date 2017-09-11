@@ -39,9 +39,9 @@ import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.insights.InsightFragment;
-import com.philips.platform.dscdemo.registration.UserRegistrationInterfaceImpl;
+import com.philips.platform.dscdemo.utility.UserRegistrationHandler;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
-import com.philips.platform.dscdemo.utility.DemoAppManager;
+import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.utility.Utility;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class MomentFragment extends DSBaseFragment
     private Context mContext;
 
     private DataServicesManager mDataServicesManager;
-    private UserRegistrationInterfaceImpl userRegistrationInterface;
+    private UserRegistrationHandler userRegistrationInterface;
     private User mUser;
 
     private TextView mTvConsents;
@@ -99,7 +99,7 @@ public class MomentFragment extends DSBaseFragment
         setHasOptionsMenu(true);
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
-        userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
+        userRegistrationInterface = new UserRegistrationHandler(mContext, mUser);
         mTemperatureMomentHelper = new MomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         mTemperaturePresenter = new MomentPresenter(mContext, MomentType.TEMPERATURE, this);

@@ -1,4 +1,4 @@
-package com.philips.platform.dscdemo.utility;
+package com.philips.platform.dscdemo;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -6,8 +6,6 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
@@ -34,25 +32,18 @@ import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmMomentDetail;
 import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
-import com.philips.platform.dscdemo.error.ErrorHandlerInterfaceImpl;
-import com.philips.platform.dscdemo.registration.UserRegistrationInterfaceImpl;
+import com.philips.platform.dscdemo.utility.DSErrorHandler;
+import com.philips.platform.dscdemo.utility.UserRegistrationHandler;
 
 import java.sql.SQLException;
 
-
 public class DemoAppManager {
-
-    public DatabaseHelper databaseHelper;
-    public AppInfraInterface mAppInfra;
-    public LoggingInterface loggingInterface;
-    private Context mContext;
-    private AppConfigurationInterface.AppConfigurationError configError;
-    DataServicesManager mDataServicesManager;
-    UserRegistrationInterfaceImpl userRegImple;
+    private DatabaseHelper mDatabaseHelper;
+    private AppInfraInterface mAppInfra;
+    private DataServicesManager mDataServicesManager;
     private static DemoAppManager sDemoAppManager;
 
     private DemoAppManager() {
-
     }
 
     public static synchronized DemoAppManager getInstance() {
@@ -62,55 +53,43 @@ public class DemoAppManager {
         return sDemoAppManager;
     }
 
-    public AppInfraInterface getAppInfra() {
-        return mAppInfra;
+    void initPreRequisite(Context context, AppInfraInterface appInfra) {
+        this.mAppInfra = appInfra;
+        mDatabaseHelper = DatabaseHelper.getInstance(context, mAppInfra);
+        initAppInfra(mAppInfra);
+        init(context);
     }
 
-    public LoggingInterface getLoggingInterface() {
-        return loggingInterface;
-    }
-
-    public Context getAppContext() {
-        return mContext;
-    }
-
-    private void initAppInfra(AppInfraInterface gAppInfra) {
-        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
-    }
-
-    public UserRegistrationInterfaceImpl getUserRegImple() {
-        return userRegImple;
-    }
-
-    private void init() {
+    private void init(Context context) {
         mDataServicesManager = DataServicesManager.getInstance();
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        userRegImple = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
-        UserRegistrationInterface userRegistrationInterface = userRegImple;
-        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-        mDataServicesManager.initializeDataServices(mContext, creator, userRegistrationInterface, errorHandlerInterface);
-        injectDBInterfacesToCore();
-        mDataServicesManager.initializeSyncMonitors(mContext, null, null);
+
+        UserRegistrationInterface userRegistrationInterface = new UserRegistrationHandler(context, new User(context));
+
+        DSErrorHandler dsErrorHandler = new DSErrorHandler();
+        mDataServicesManager.initializeDataServices(context, creator, userRegistrationInterface, dsErrorHandler);
+        injectDBInterfacesToCore(context);
+        mDataServicesManager.initializeSyncMonitors(context, null, null);
     }
 
-    void injectDBInterfacesToCore() {
+    private void injectDBInterfacesToCore(Context context) {
         try {
-            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
-            Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
-            Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
-            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
-            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
-            Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
-            Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails = databaseHelper.getMeasurementGroupDetailDao();
+            Dao<OrmMoment, Integer> momentDao = mDatabaseHelper.getMomentDao();
+            Dao<OrmMomentDetail, Integer> momentDetailDao = mDatabaseHelper.getMomentDetailDao();
+            Dao<OrmMeasurement, Integer> measurementDao = mDatabaseHelper.getMeasurementDao();
+            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = mDatabaseHelper.getMeasurementDetailDao();
+            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = mDatabaseHelper.getSynchronisationDataDao();
+            Dao<OrmMeasurementGroup, Integer> measurementGroup = mDatabaseHelper.getMeasurementGroupDao();
+            Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails = mDatabaseHelper.getMeasurementGroupDetailDao();
 
-            Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
-            Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
+            Dao<OrmConsentDetail, Integer> consentDetailsDao = mDatabaseHelper.getConsentDetailsDao();
+            Dao<OrmCharacteristics, Integer> characteristicsesDao = mDatabaseHelper.getCharacteristicsDao();
 
-            Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
-            Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
-            Dao<OrmInsightMetaData, Integer> insightMetaDataDao = databaseHelper.getInsightMetaDataDao();
+            Dao<OrmSettings, Integer> settingsDao = mDatabaseHelper.getSettingsDao();
+            Dao<OrmInsight, Integer> insightsDao = mDatabaseHelper.getInsightDao();
+            Dao<OrmInsightMetaData, Integer> insightMetaDataDao = mDatabaseHelper.getInsightMetaDataDao();
 
-            Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
+            Dao<OrmDCSync, Integer> dcSyncDao = mDatabaseHelper.getDCSyncDao();
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
                     synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails,
                     characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao, dcSyncDao);
@@ -131,24 +110,23 @@ public class DemoAppManager {
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
                     characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
-            mDataServicesManager.initializeDatabaseMonitor(mContext, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDatabaseMonitor(context, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
-            Toast.makeText(mContext, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "DB injection failed", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public DatabaseHelper getDatabaseHelper() {
-        return databaseHelper;
+
+    private void initAppInfra(AppInfraInterface gAppInfra) {
+        gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
-    public void initPreRequisite(Context context, AppInfraInterface appInfra) {
-        this.mContext = context;
-        this.mAppInfra = appInfra;
-        configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        databaseHelper = DatabaseHelper.getInstance(context, mAppInfra);
-        initAppInfra(mAppInfra);
-        init();
+    public AppInfraInterface getAppInfra() {
+        return mAppInfra;
+    }
+
+    public DatabaseHelper getDatabaseHelper() {
+        return mDatabaseHelper;
     }
 
 }

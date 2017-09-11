@@ -1,16 +1,14 @@
-package com.philips.platform.dscdemo.registration;
+package com.philips.platform.dscdemo.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -25,24 +23,21 @@ import javax.inject.Singleton;
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 @Singleton
-public class UserRegistrationInterfaceImpl implements UserRegistrationInterface {
-
+public class UserRegistrationHandler implements UserRegistrationInterface {
     @NonNull
     private final Context context;
-
-    public static final String TAG = UserRegistrationInterfaceImpl.class.getSimpleName();
-
     @NonNull
     private final User user;
     private boolean accessTokenRefreshInProgress;
+    @NonNull
     private String accessToken = "";
+
     private Runnable refreshLoginSessionRunnable = new Runnable() {
         @Override
         public void run() {
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    //accessTokenRefreshTime = DateTime.now();
                     accessToken = gethsdpaccesstoken();
                     notifyLoginSessionResponse();
                 }
@@ -65,15 +60,11 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
         DataServicesManager manager = DataServicesManager.getInstance();
         manager.deleteAll(dbRequestListener);
         clearPreferences();
-        email = null;
         accessToken = "";
     }
 
-    @Nullable
-    private String email;
-
     @Inject
-    public UserRegistrationInterfaceImpl(
+    public UserRegistrationHandler(
             @NonNull final Context context,
             @NonNull final User user) {
         this.context = context;
@@ -97,7 +88,7 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
     @NonNull
     @Override
     public String getHSDPAccessToken() {
-        if ((accessToken == null || accessToken.isEmpty()) && !accessTokenRefreshInProgress) {
+        if (accessToken.isEmpty() && !accessTokenRefreshInProgress) {
             accessToken = gethsdpaccesstoken();
         }
         return accessToken;
@@ -148,7 +139,6 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
 
     @Override
     public String getHSDPUrl() {
-
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         AppInfra gAppInfra = new AppInfra.Builder().build(getApplicationContext());
@@ -156,21 +146,4 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
         return propertyForKey.toString();
     }
 
-    boolean isLogoutSuccess = false;
-
-    public boolean logout() {
-
-        user.logout(new LogoutHandler() {
-            @Override
-            public void onLogoutSuccess() {
-                isLogoutSuccess = true;
-            }
-
-            @Override
-            public void onLogoutFailure(int i, String s) {
-                isLogoutSuccess = false;
-            }
-        });
-        return isLogoutSuccess;
-    }
 }
