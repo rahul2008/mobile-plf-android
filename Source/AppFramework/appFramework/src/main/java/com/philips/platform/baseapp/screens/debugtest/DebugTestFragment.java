@@ -30,6 +30,7 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,7 @@ import java.util.List;
  * This fragment if for internal testing of dynamic configuration change of User registration
  */
 
-public class DebugTestFragment extends AbstractAppFrameworkBaseFragment {
+public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implements BackEventListener{
     public static final String TAG = DebugTestFragment.class.getSimpleName();
 //    private List<String> list;
     private TextView configurationTextView;
@@ -54,7 +55,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBar(getString(R.string.RA_DebugScreen_Title), true);
     }
 
     @Nullable
@@ -190,5 +191,10 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment {
 
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getActivity().getApplicationContext();
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return true;
     }
 }

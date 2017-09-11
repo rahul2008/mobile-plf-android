@@ -230,12 +230,15 @@ android {
         jumboMode = false
     }
     buildTypes {
-
+        def BOOLEAN = "bool"
+        def TRUE = "true"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled = true
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
 
@@ -244,12 +247,14 @@ android {
             shrinkResources false
             debuggable true
             signingConfig signingConfigs.debug
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
         psraRelease {
             minifyEnabled true
@@ -257,6 +262,7 @@ android {
             debuggable false
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
     }
@@ -339,6 +345,10 @@ android {
             }
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 repositories {
@@ -394,7 +404,6 @@ dependencies {
 	def dscModule = module(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dsc') : dscModule) {
 		exclude group: 'com.android.support'
-		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 
@@ -425,7 +434,6 @@ dependencies {
 	def dscUAppModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dscUApp') : dscUAppModule) {	
 		exclude group: 'com.android.support'
-		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 	
@@ -451,15 +459,15 @@ dependencies {
 	def dprUAppModule = module(group: 'com.philips.cdp', name: 'devicepairingUApp', version: '1.0.0' + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dprUApp') : dprUAppModule) {	
 		exclude group: 'com.android.support'
-		exclude group: 'joda-time', module: 'joda-time'
 		transitive = true
 	}
 
+    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2.1.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+        transitive = true
+    }
 
-    compile 'joda-time:joda-time:2.9.2'
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
-    compile("joda-time:joda-time:2.9.2")
     testCompile 'junit:junit:4.12'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'org.robolectric:robolectric:3.3.1'
@@ -539,7 +547,7 @@ project.afterEvaluate {
             buildTypes.each {
 
                 buildTypeName ->
-                    //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
+                    //sourceName - e.g. freeDebug ,sourcePath - e.g. free/debug
                     def sourceName, sourcePath
                     if (!productFlavorName) {
                         sourceName = sourcePath = "${buildTypeName}"
@@ -547,7 +555,7 @@ project.afterEvaluate {
                         sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
                         sourcePath = "${productFlavorName}/${buildTypeName}"
                     }
-                    // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
+                    // testTaskName -  e.g. testFreeDebugtest task that the coverage task depends on,
                     def testTaskName = "test${sourceName.capitalize()}UnitTest"
                     // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
                     task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {

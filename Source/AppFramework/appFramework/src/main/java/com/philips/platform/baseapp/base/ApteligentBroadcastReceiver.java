@@ -16,6 +16,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -43,7 +44,7 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
                 JSONObject jsonObject = new JSONObject();
 
                 if(intent.getAction() == ACTION_TAGGING_DATA) {
-                    Map textExtraTaggingData;
+                    Map<String, String> textExtraTaggingData;
                     String eventPageValue;
 
                     textExtraTaggingData = getSerializableExtra(intent);
@@ -86,11 +87,11 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
         return jsonObject;
     }
 
-    private String getTaggingData(Map textExtraTaggingData, String key) {
-        return (String) textExtraTaggingData.get(key);
+    private String getTaggingData(Map<String, String> textExtraTaggingData, String key) {
+        return textExtraTaggingData.get(key);
     }
 
-    protected Map getSerializableExtra(Intent intent) {
-        return (Map) intent.getSerializableExtra(TAGGING_DATA);
+    protected HashMap<String, String> getSerializableExtra(Intent intent) {
+        return (HashMap<String, String>) intent.getSerializableExtra(TAGGING_DATA);
     }
 }

@@ -5,8 +5,6 @@
 */
 package com.philips.platform.appframework.homescreen;
 
-import android.support.annotation.NonNull;
-
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -23,9 +21,6 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class id used for loading various fragments that are supported by home activity ,
@@ -97,16 +92,10 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
             // Commented as part of Plan A removal.
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
-            case MENU_OPTION_CONNECTIVITY:
-                return HOME_CONNECTIVITY;
-            case MENU_OPTION_COCOVERSION:
-                return HOME_COCO_VERSION_INFO;
-            case MENU_OPTION_DEBUG:
-                return HOME_DEBUG;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
-            case MENU_OPTION_PR:
-                return HOME_SUPPORT_PR;
+            case MENU_OPTION_TELEHEALTHSERVICES:
+                return HOME_TELEHEALTHSERVICES;
             default:
                 return HOME_FRAGMENT;
         }

@@ -20,7 +20,6 @@ public class AppStates {
     public static final String IAP = "iap";
     public static final String PR = "pr";
     public static final String SETTINGS = "settings";
-    public static final String DATA_SYNC = "data_sync";
     public static final String HAMBURGER_HOME = "home";
     public static final String CONNECTIVITY = "connectivity";
     public static final String POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
@@ -38,7 +37,6 @@ public class AppStates {
     public static final String TESTUAPP="demoUAPPFramework";
     public static final String TESTDICOMM="demoDicommClient";
     public static final String TESTDLS="DLS";
-    public static final String TESTCONARTIST="demoConnectvityState";
     public static final String TESTBLUELIB="demoBlueLib";
-
+    public static final String TELEHEALTHSERVICES ="telehealthservices";
 }

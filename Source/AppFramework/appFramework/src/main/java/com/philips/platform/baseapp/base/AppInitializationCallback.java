@@ -4,13 +4,13 @@ package com.philips.platform.baseapp.base;
  * Created by philips on 25/05/17.
  */
 
-public class AppInitializationCallback {
+public interface AppInitializationCallback {
 
-    public interface AppInfraInitializationCallback{
+    interface AppInfraInitializationCallback{
         void onAppInfraInitialization();
     }
 
-    public interface AppStatesInitializationCallback{
+    interface AppStatesInitializationCallback{
         void onAppStatesInitialization();
     }
 }

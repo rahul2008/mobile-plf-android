@@ -4,7 +4,10 @@ BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
-    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
+        [$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy'],
+        [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Force PSRA build ', name : 'PSRAbuild']
+    ]],
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']]
 ])
 
@@ -25,7 +28,7 @@ node ('android&&docker') {
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
             '''
             }
-			if (BranchName =~ /master|release.*/) {
+			if (params.PSRAbuild || (BranchName =~ /master|release.*/))  {
 			stage ('build PSRA') {
             sh '''#!/bin/bash -l
                 chmod -R 775 .
@@ -43,7 +46,7 @@ node ('android&&docker') {
                 '''
             }
             
-            if (BranchName =~ /master|develop|release.*/) {
+            if (params.PSRAbuild || (BranchName =~ /master|develop|release.*/)) {
                 stage('publish') {
                     echo "publish to artifactory"
                     sh '''#!/bin/bash -l

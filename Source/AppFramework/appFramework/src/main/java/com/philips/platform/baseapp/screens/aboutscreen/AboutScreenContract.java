@@ -11,7 +11,7 @@ import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacySt
  * Created by philips on 25/07/17.
  */
 
-public class AboutScreenContract {
+public interface AboutScreenContract {
     interface View {
     }
 

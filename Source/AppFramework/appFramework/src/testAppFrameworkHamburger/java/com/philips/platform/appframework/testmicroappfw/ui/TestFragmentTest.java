@@ -15,6 +15,7 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.baseapp.screens.cocoversion.CocoVersionFragment;
 
 import junit.framework.TestCase;
 
@@ -72,7 +73,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
-        assertEquals(3,chapterAdapter.getItemCount());
+        assertEquals(4,chapterAdapter.getItemCount());
     }
 
     @Test
@@ -81,9 +82,19 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
 
         fragmentManager.beginTransaction().add(testFragment,"TestCoCoListFragment").commit();
-        testFragment.showCoCoList(createChapterObject());
-        Fragment fragment = fragmentManager.findFragmentByTag("CoCoListFragment");
+        testFragment.showCoCoList(createChapterObject("Connectivity", "Blue Lib"));
+        Fragment fragment = fragmentManager.findFragmentByTag(COCOListFragment.class.getSimpleName());
         assertTrue(fragment instanceof COCOListFragment);
+    }
+
+    @Test
+    public void testShowCoCoListForAppInfo(){
+        testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
+        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(testFragment,"TestCoCoListFragment").commit();
+        testFragment.showCoCoList(createChapterObject("App Info", null));
+        Fragment fragment = fragmentManager.findFragmentByTag(CocoVersionFragment.class.getSimpleName());
+        assertTrue(fragment instanceof CocoVersionFragment);
     }
 
     @Test
@@ -98,14 +109,14 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         assertEquals("Chapter Mobile",viewHolder.chapterTextView.getText().toString());
     }
 
-    protected static  Chapter createChapterObject() {
+    protected static  Chapter createChapterObject(String chapterName, String cocoName) {
         CommonComponent commonComponent = new CommonComponent();
-        commonComponent.setCocoName("Blue Lib");
+        commonComponent.setCocoName(cocoName);
         ArrayList<CommonComponent> arrayListCommonComponent = new ArrayList<>();
         arrayListCommonComponent.add(commonComponent);
         Chapter chapter = new Chapter();
         chapter.setCommonComponentsList(arrayListCommonComponent);
-        chapter.setChapterName("Connectivity");
+        chapter.setChapterName(chapterName);
         return chapter;
     }
 

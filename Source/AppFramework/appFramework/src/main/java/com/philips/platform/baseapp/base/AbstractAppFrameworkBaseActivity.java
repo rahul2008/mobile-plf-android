@@ -92,7 +92,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
                     addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
 
                     break;
-                default:
+                case Constants.ADD_FRAGMENT_WITH_BACKSTACK:
                     addToBackStack(containerId, fragment, fragmentTag);
                     break;
             }

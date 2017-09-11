@@ -60,30 +60,29 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     private static final String TAG = UserRegistrationState.class.getSimpleName();
 
-    private Context activityContext;
     private User userObject;
-    private FragmentLauncher fragmentLauncher;
+    protected FragmentLauncher fragmentLauncher;
     private Context applicationContext;
 
     private static final String PROPOSITION_NAME = "OneBackend";
 
-    private static final String STAGE_SECRET_KEY_CHINA = "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22";
+    protected static final String STAGE_SECRET_KEY_CHINA = "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22";
     private static final String STAGE_SECRET_KEY_DEFAULT = "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda";
     private static final String STAGE_SHARED_KEY_CHINA = "6036461d-0914-4afe-9e6e-eefe27fb529a";
     private static final String STAGE_SHARED_KEY_DEFAULT = "f52cd90d-c955-43e1-8380-999e03d0d4c0";
 
-    private static final String TEST_SECRET_KEY_DEFAULT = "fef56143b07f748441862bcc395606bac36a8120279787740d173ebf4b7c31be125ca4478aae2265881ffb97cbe08d4765646edcad8c339a024a16104e25b60d";
+    protected static final String TEST_SECRET_KEY_DEFAULT = "fef56143b07f748441862bcc395606bac36a8120279787740d173ebf4b7c31be125ca4478aae2265881ffb97cbe08d4765646edcad8c339a024a16104e25b60d";
     private static final String TEST_SHARED_KEY_DEFAULT = "a76448bf-b2d9-4a88-b435-8135f5b3d0b0";
 
-    private static final String DEVELOPMENT_SECRET_KEY_DEFAULT = TEST_SECRET_KEY_DEFAULT;
+    protected static final String DEVELOPMENT_SECRET_KEY_DEFAULT = TEST_SECRET_KEY_DEFAULT;
     private static final String DEVELOPMENT_SHARED_KEY_DEFAULT = TEST_SHARED_KEY_DEFAULT;
     private static final String UR_COMPLETE = "URComplete";
     private static final String TERMS_CONDITIONS_CLICK = "TermsAndConditions";
     private static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
     private static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
-    private static final String CHINA_CODE = "CN";
-    private static final String DEFAULT = "default";
+    protected static final String CHINA_CODE = "CN";
+    protected static final String DEFAULT = "default";
     private String appState;
 
     /**
@@ -101,7 +100,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        activityContext = getFragmentActivity();
         updateDataModel();
         launchUR();
     }
@@ -252,14 +250,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return userObject;
     }
 
-    /**
-     * Registering for UIStateListener callbacks
-     *
-     * @param uiStateListener
-     */
-    public void registerUIStateListener(URStateListener uiStateListener) {
-    }
-
 
     /**
      * Launch registration fragment
@@ -285,11 +275,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
-    }
-
-    public void unregisterUserRegistrationListener() {
-        RALog.d(TAG," unregisterUserRegistrationListener called ");
-        userObject.unRegisterUserRegistrationListener(this);
     }
 
     @Override
@@ -340,9 +325,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return RegistrationHelper.getRegistrationApiVersion();
     }
 
-    public String getComponentID(Context c) {
-        return c.getResources().getString(R.string.RA_COCO_UR);
-    }
 
     public AppStateConfiguration getConfiguration() {
         if (appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
@@ -355,7 +337,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return AppStateConfiguration.STAGING;
     }
 
-    private AppFrameworkApplication getApplicationContext() {
+    protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }
 
