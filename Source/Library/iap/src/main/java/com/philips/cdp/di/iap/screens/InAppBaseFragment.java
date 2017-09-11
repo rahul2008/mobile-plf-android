@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.screens;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -188,7 +189,9 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     protected boolean isNetworkConnected() {
-        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
             NetworkUtility.getInstance().showErrorDialog(mContext,
                     getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));

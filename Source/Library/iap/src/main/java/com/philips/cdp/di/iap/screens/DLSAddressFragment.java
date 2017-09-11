@@ -96,15 +96,16 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                         setFragmentVisibility(shippingFragment, false);
                     }
                     return;
-                }
-                if (isChecked) {
-                    setFragmentVisibility(billingFragment, false);
-                    ((DLSBillingAddressFragment) billingFragment).disableAllFields();
-                    ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
-                    mBtnContinue.setEnabled(true);
                 } else {
-                    setFragmentVisibility(billingFragment, true);
-                    mBtnContinue.setEnabled(false);
+                    if (isChecked) {
+                        setFragmentVisibility(billingFragment, false);
+                        ((DLSBillingAddressFragment) billingFragment).disableAllFields();
+                        ((DLSBillingAddressFragment) billingFragment).prePopulateShippingAddress();
+                        mBtnContinue.setEnabled(true);
+                    } else {
+                        setFragmentVisibility(billingFragment, true);
+                        mBtnContinue.setEnabled(false);
+                    }
                 }
             }
         });
@@ -212,14 +213,14 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
             shippingAddressFields.setRegionIsoCode(null);
         }
 
-        HashMap<String, String> updateAddressPayload;
+        HashMap<String, String> updateAddressPayload = null;
         if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save)))
             updateAddressPayload = addressPayload(shippingAddressFields);
         else {
             if (checkBox.isChecked() && billingAddressFields == null) {
                 billingAddressFields = shippingAddressFields;
+                updateAddressPayload = addressPayload(billingAddressFields);
             }
-            updateAddressPayload = addressPayload(billingAddressFields);
         }
         if (getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION) == false) {
             if (CartModelContainer.getInstance().getAddressId() != null) {

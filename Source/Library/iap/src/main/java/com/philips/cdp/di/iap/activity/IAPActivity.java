@@ -5,7 +5,9 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
@@ -190,7 +192,9 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     public void showFragment(String fragmentTag) {
-        if (!NetworkUtility.getInstance().isNetworkAvailable(this)) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
             NetworkUtility.getInstance().showErrorDialog(this,
                     getSupportFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
