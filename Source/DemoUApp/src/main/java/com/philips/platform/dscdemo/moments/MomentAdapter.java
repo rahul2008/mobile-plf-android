@@ -51,7 +51,7 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (moment.getSynchronisationData() != null)
                 mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
             else
-                mSyncViewHolder.mMomentID.setText(R.string.fetching_moments);
+                mSyncViewHolder.mMomentID.setText(R.string.fetching_text);
 
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
