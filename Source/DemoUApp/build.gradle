@@ -27,7 +27,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -69,7 +69,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.iap_iap)
+version = objcdp.getVersion(versions.iap_iap)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -227,7 +227,7 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: project.ext.versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':uid') : uidModule) 
 	{
 		transitive = true
@@ -235,7 +235,7 @@ dependencies {
 	
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 	
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: project.ext.versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule) 
 	{
 		transitive = true
