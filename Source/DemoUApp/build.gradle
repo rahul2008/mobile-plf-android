@@ -9,7 +9,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 buildscript {
     apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
-
+ 
     repositories {
         maven {
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
