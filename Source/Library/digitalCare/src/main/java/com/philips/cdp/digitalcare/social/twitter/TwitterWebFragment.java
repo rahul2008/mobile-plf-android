@@ -56,8 +56,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     private void loadInAppTwitter() {
-        DigiCareLogger.d(TAG,"Twitter Url :"+getTwitterUrl());
-        Utils.loadWebPageContent(getTwitterUrl(), mTwitterWebView, mProgressBar);
+        setWebSettingForWebview(getTwitterUrl(), mTwitterWebView, mProgressBar);
     }
 
     private void initView(View view) {

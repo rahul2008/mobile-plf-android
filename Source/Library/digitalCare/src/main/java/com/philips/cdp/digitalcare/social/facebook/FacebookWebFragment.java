@@ -59,7 +59,7 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     }
 
     private void loadInAppFacebook() {
-        Utils.loadWebPageContent(mFacebookUrl, mFacebookWebView, mProgressBar);
+        setWebSettingForWebview(mFacebookUrl, mFacebookWebView, mProgressBar);
 
     }
 

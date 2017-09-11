@@ -11,6 +11,7 @@ package com.philips.cdp.digitalcare.faq.fragments;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -153,7 +154,11 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                     }
                 }
 
-            });
+               @Override
+               public Bitmap getDefaultVideoPoster() {
+                   return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
+               }
+           });
             mWebView.setWebViewClient(new WebViewClient() {
 
                 @Override

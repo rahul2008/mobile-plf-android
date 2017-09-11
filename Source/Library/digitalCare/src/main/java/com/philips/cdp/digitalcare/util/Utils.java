@@ -26,41 +26,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 
 public class Utils {
 
-
-    public static String loadWebPageContent(final String webpageUrl, final WebView webView, final ProgressBar progressBar) {
-        webView.loadUrl(webpageUrl);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                progressBar.setVisibility(View.VISIBLE);
-            }
-
-           @Override
-            public void onPageCommitVisible(WebView view, String url) {
-                super.onPageCommitVisible(view, url);
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                progressBar.setVisibility(View.GONE);
-            }
-
-        });
-
-        return webView.getUrl();
-    }
-
 	public boolean isSimAvailable(final Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         int SIM_STATE = telephonyManager.getSimState();

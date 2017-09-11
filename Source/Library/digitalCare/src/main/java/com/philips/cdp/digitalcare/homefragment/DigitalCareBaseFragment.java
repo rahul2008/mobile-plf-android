@@ -14,6 +14,8 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -94,6 +97,30 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
             }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageCommitVisible(WebView view, String url) {
+                super.onPageCommitVisible(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
@@ -103,6 +130,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 if (newProgress > 80) {
                     progressBar.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public Bitmap getDefaultVideoPoster() {
+                return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
             }
         });
         webView.loadUrl(url);

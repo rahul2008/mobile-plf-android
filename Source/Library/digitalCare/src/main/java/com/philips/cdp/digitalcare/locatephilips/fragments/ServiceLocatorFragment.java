@@ -51,7 +51,7 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
     private void loadServiceLocatorPage() {
         mServiceLocatorWebView.getSettings().setDomStorageEnabled(true);
         mServiceLocatorWebView.getSettings().setBuiltInZoomControls(true);
-        loadWebPageContent(getServiceLocatorUrl(), mServiceLocatorWebView, mProgressBar);
+        setWebSettingForWebview(getServiceLocatorUrl(), mServiceLocatorWebView, mProgressBar);
     }
 
     private void initView(View view) {

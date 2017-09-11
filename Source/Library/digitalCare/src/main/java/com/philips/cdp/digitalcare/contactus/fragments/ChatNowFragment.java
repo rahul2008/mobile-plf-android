@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -80,7 +82,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             mWebView.setWebChromeClient(new CustomWebChromeClient());
-            Utils.loadWebPageContent(getChatEndPoint(), mWebView, mProgressBar);
+            setWebSettingForWebview(getChatEndPoint(), mWebView, mProgressBar);
         }
     }
 

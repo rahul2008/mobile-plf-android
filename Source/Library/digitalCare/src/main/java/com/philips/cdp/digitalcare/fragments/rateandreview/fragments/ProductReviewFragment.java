@@ -75,7 +75,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         } else {
             mProductReviewWebView.getSettings().setDomStorageEnabled(true);
             mProductReviewWebView.getSettings().setBuiltInZoomControls(true);
-            Utils.loadWebPageContent(productPageUri, mProductReviewWebView, mProgressBar);
+            setWebSettingForWebview(getProductPageUri(), mProductReviewWebView, mProgressBar);
         }
     }
 
