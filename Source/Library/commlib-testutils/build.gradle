@@ -48,8 +48,8 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = project.name
-version = objcdp.getVersion()
+archivesBaseName = "commlib-testutils"
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {

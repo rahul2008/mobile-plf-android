@@ -9,86 +9,35 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.util.Availability;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * The CommunicationStrategy is responsible for communicating to an actual appliance.
  *
  * @publicApi
  */
-public abstract class CommunicationStrategy implements Availability<CommunicationStrategy> {
+public interface CommunicationStrategy extends Availability<CommunicationStrategy> {
+    void getProperties(String portName, int productId, ResponseHandler responseHandler);
 
-    private static final String SUBSCRIBER_KEY = "subscriber";
-    private static final String TTL_KEY = "ttl";
+    void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler);
 
-    protected Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
+    void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler);
 
-    protected final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
+    void deleteProperties(String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract void getProperties(String portName, int productId, ResponseHandler responseHandler);
+    void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler);
 
-    public abstract void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler);
+    void unsubscribe(String portName, int productId, ResponseHandler responseHandler);
 
-    public abstract void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler);
+    void addSubscriptionEventListener(@NonNull SubscriptionEventListener listener);
 
-    public abstract void deleteProperties(String portName, int productId, ResponseHandler responseHandler);
+    void removeSubscriptionEventListener(@NonNull SubscriptionEventListener listener);
 
-    public abstract void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler);
+    @Deprecated
+    void enableCommunication();
 
-    public abstract void unsubscribe(String portName, int productId, ResponseHandler responseHandler);
-
-    public abstract boolean isAvailable();
-
-    public abstract void enableCommunication();
-
-    public abstract void disableCommunication();
-
-    public void addSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
-        subscriptionEventListeners.add(listener);
-    }
-
-    public void removeSubscriptionEventListener(@NonNull final SubscriptionEventListener listener) {
-        subscriptionEventListeners.remove(listener);
-    }
-
-    protected void notifySubscriptionEventListeners(@NonNull final String data) {
-        for (SubscriptionEventListener listener : subscriptionEventListeners) {
-            listener.onSubscriptionEventReceived(data);
-        }
-    }
-
-    protected Map<String, Object> getSubscriptionData(int subscriptionTtl) {
-        Map<String, Object> dataMap = getUnsubscriptionData();
-        dataMap.put(TTL_KEY, subscriptionTtl);
-        return dataMap;
-    }
-
-    protected Map<String, Object> getUnsubscriptionData() {
-        return new HashMap<String, Object>() {{
-            put(SUBSCRIBER_KEY, CommCentral.getAppIdProvider().getAppId());
-        }};
-    }
-
-    protected void notifyAvailabilityChanged() {
-        for (AvailabilityListener<CommunicationStrategy> listener : availabilityListeners) {
-            listener.onAvailabilityChanged(this);
-        }
-    }
-
-    @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
-        availabilityListeners.add(listener);
-        listener.onAvailabilityChanged(this);
-    }
-
-    @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
-        availabilityListeners.remove(listener);
-    }
+    @Deprecated
+    void disableCommunication();
 }

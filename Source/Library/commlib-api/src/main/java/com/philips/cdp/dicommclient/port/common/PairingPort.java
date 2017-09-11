@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -25,7 +27,7 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
     private static final String KEY_SETUP = "setup";
     private static final String KEY_CONNECTION = "connection";
 
-    public PairingPort(CommunicationStrategy communicationStrategy) {
+    public PairingPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 

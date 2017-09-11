@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -25,7 +27,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
     private static final String KEY_SETUP = "setup";
     private static final String KEY_CONNECTION = "connection";
 
-    public WifiUIPort(CommunicationStrategy communicationStrategy) {
+    public WifiUIPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 

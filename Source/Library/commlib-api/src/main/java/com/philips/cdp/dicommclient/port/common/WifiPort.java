@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -24,7 +26,7 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
     private static final String KEY_WIFIPASSWORD = "password";
     private static final String KEY_WIFISSID = "ssid";
 
-    public WifiPort(CommunicationStrategy communicationStrategy) {
+    public WifiPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 

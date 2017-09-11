@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.demouapp.port.air;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.HashMap;
@@ -12,7 +14,7 @@ import java.util.Map;
 
 public class ComfortAirPort extends AirPort<ComfortAirPortProperties> {
 
-    public ComfortAirPort(final CommunicationStrategy communicationStrategy) {
+    public ComfortAirPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy, ComfortAirPortProperties.class);
     }
 

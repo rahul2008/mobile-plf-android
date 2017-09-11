@@ -24,12 +24,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * A {@link CommunicationStrategy} that combines multiple CommunicationStrategies.
  * <p>
  * CommunicationStrategies supplied to CombinedCommunicationStrategy are used in order. If the first
- * CommunicationStrategy is not available the second one is used, and so on. If no available
- * CommunicationStrategy can be found all calls will return errors.
+ * {@link CommunicationStrategy} is not available the second one is used, and so on. If no available
+ * {@link CommunicationStrategy} can be found all calls will return errors.
  *
  * @publicApi
  */
-public class CombinedCommunicationStrategy extends CommunicationStrategy {
+public class CombinedCommunicationStrategy extends ObservableCommunicationStrategy {
 
     public static final String TAG = "COMBINED_STRATEGY";
     @NonNull
@@ -184,7 +184,7 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
     }
 
     /**
-     * Determines if this {@link CommunicationStrategy} is available.
+     * Determines if this {@link ObservableCommunicationStrategy} is available.
      *
      * @return true if any of the underlying CommunicationStrategies are available.
      * @see Availability#isAvailable()

@@ -1,9 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
+
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -641,7 +643,7 @@ public class DiCommPortTest {
 
         private WrappedHandler handler;
 
-        private TestPort(CommunicationStrategy communicationStrategy, WrappedHandler handler) {
+        private TestPort(final @NonNull CommunicationStrategy communicationStrategy, WrappedHandler handler) {
             super(communicationStrategy);
             this.handler = handler;
         }

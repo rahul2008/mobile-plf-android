@@ -1,5 +1,5 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.core.communication;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CommunicationStrategyTest {
+public class ObservableCommunicationStrategyTest {
 
     private static final String TEST_DATA = "TestData";
 
@@ -27,12 +27,12 @@ public class CommunicationStrategyTest {
     @Mock
     private SubscriptionEventListener mockListenerTwo;
 
-    private CommunicationStrategy strategyUnderTest;
+    private ObservableCommunicationStrategy strategyUnderTest;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        strategyUnderTest = new CommunicationStrategy() {
+        strategyUnderTest = new ObservableCommunicationStrategy() {
             @Override
             public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
 

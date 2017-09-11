@@ -53,9 +53,8 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = project.name
-
-version = objcdp.getVersion()
+archivesBaseName = "cloudcontroller"
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 repositories {
     maven {

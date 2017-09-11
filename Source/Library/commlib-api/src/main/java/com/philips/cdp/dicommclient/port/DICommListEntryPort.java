@@ -1,9 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
+
+import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
@@ -16,7 +18,7 @@ abstract class DICommListEntryPort<T extends PortProperties> extends DICommPort<
 
 	public static final String BASE_ENTRY_PORT_NAME = "%s/%s";
 
-	public DICommListEntryPort(CommunicationStrategy communicationStrategy, String parentPortName, int parentPortProductId, String identifier) {
+	public DICommListEntryPort(final @NonNull CommunicationStrategy communicationStrategy, String parentPortName, int parentPortProductId, String identifier) {
 		super(communicationStrategy);
 		mParentPortName = parentPortName;
 		mParentPortProductId = parentPortProductId;
