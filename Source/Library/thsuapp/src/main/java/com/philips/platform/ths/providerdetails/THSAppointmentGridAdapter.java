@@ -7,18 +7,15 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.text.SimpleDateFormat;
@@ -31,24 +28,11 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     private ArrayList<Date> gridItemTimeList = new ArrayList();
     private Context mContext;
-    private THSBaseFragment thsBaseFragment;
-    private THSProviderInfo thsProviderInfo;
-    private int selectedPosition = -1;
-    private THSGridItemOnClickListener thsGridItemOnClickListener;
-    private final ColorStateList colorStateList;
 
-    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo, THSGridItemOnClickListener thsGridItemOnClickListener) {
+    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
         super(context, 0, cardList);
         this.mContext = context;
         this.gridItemTimeList = (ArrayList<Date>) cardList;
-        this.thsBaseFragment = thsBaseFragment;
-        this.thsProviderInfo = thsProviderInfo;
-        this.thsGridItemOnClickListener = thsGridItemOnClickListener;
-        colorStateList = ThemeUtils.buildColorStateList(getContext(), R.color.segment_text_color);
-    }
-
-    public void setSelectedPosition(int position) {
-        selectedPosition = position;
     }
 
     @Override
@@ -91,21 +75,8 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
             final ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.buttonDate = (Button) view.findViewById(R.id.date);
-            viewHolder.buttonDate.setTextColor(colorStateList);
-
             view.setTag(viewHolder);
             viewHolder.buttonDate.setTag(gridItemTimeList.get(position));
-
-            if (position == selectedPosition) {
-                viewHolder.buttonDate.setPressed(true);
-            }
-            viewHolder.buttonDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    viewHolder.buttonDate.setPressed(true);
-                    thsGridItemOnClickListener.onGridItemClicked(position);
-                }
-            });
 
         } else {
             view = convertView;
@@ -116,12 +87,6 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
         holder.buttonDate.setText(getFormatedTime(gridData));
 
         return view;
-    }
-
-    public void updateGrid(ArrayList<Date> newList) {
-        this.gridItemTimeList.clear();
-        this.gridItemTimeList = new ArrayList<>(newList);
-        this.notifyDataSetChanged();
     }
 
     static class ViewHolder {

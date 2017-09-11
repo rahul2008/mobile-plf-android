@@ -8,14 +8,19 @@ Copyright (c) Koninklijke Philips N.V., 2016
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/date"
+        style="?attr/uidButtonStyle"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:uidButtonBackgroundColorList="@color/ths_grid_view_button_bg_color"
+        app:uidButtonTextColorList="@color/ths_grid_view_button_text_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:uidComponentType="Secondary"
         />
 
 </RelativeLayout>

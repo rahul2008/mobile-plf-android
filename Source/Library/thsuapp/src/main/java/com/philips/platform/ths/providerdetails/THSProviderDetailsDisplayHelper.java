@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,7 +25,6 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
-import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
 import com.philips.platform.ths.appointment.THSSetReminderDialogFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
@@ -40,7 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListener {
+public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickListener {
 
     private View.OnClickListener mOnClickListener;
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
@@ -100,6 +100,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         detailsButtonTwo = (Button) view.findViewById(R.id.detailsButtonTwo);
         detailsButtonContinue = (Button) view.findViewById(R.id.detailsButtonContinue);
         gridView = (THSExpandableHeightGridView) view.findViewById(R.id.grid);
+        gridView.setOnItemClickListener(this);
         details_isAvailableImage_layout = (FrameLayout) view.findViewById(R.id.details_isAvailableImage_layout);
         detailsButtonOne.setVisibility(Button.GONE);
         detailsButtonOne.setEnabled(false);
@@ -272,7 +273,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
     private void setAppointmentsToView(List<Date> dates) {
         itemsAdapter =
                 new THSAppointmentGridAdapter(mContext, dates,
-                        thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo(), this);
+                        thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo());
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }
@@ -309,15 +310,6 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
         visitCostValueLabel.setText("$" + estimatedVisitCost.getCost());
     }
 
-    @Override
-    public void onGridItemClicked(int position) {
-        itemsAdapter.setSelectedPosition(position);
-        itemsAdapter.notifyDataSetChanged();
-        gridView.setAdapter(itemsAdapter);
-        thsProviderDetailsViewInterface.onCalenderItemClick(position);
-
-    }
-
     public void updateContinueButtonState(boolean isEnabled) {
         detailsButtonContinue.setEnabled(isEnabled);
     }
@@ -338,5 +330,11 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
 
     public String getReminderValue() {
         return reminderValue.getText().toString();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        view.setSelected(true);
+        thsProviderDetailsViewInterface.onCalenderItemClick(position);
     }
 }
