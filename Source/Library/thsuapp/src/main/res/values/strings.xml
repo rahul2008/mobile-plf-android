@@ -10,6 +10,7 @@
     <string name="vitals">Step 2 of 5: Vitals</string>
     <string name="conditions">Step 4 of 5: Medical conditions</string>
     <string name="ths_vitals_follow_up_step_5">Step 5 of 5: Follow up</string>
+    <string name="ths_invalid_phone_number">Please enter valid phone number</string>
     <string name="ths_vitals_follow_up_step_5_description_text">Where can the provider
         call you, for a follow up, if needed?</string>
     <string name="ths_vitals_notice_privacy_policy_check_box_text">I have read and agree to the</string>
