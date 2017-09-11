@@ -8,7 +8,6 @@
         layout="@layout/how_it_works_layout"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:visibility="gone"
         android:layout_alignParentBottom="true" />
 
     <include
