@@ -38,16 +38,16 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
     @Override
     public synchronized Entry get(String key) {
         Entry e = super.get(key);
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " before decryption");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " before decryption");
         SecureStorageInterface secureStorage = mAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         if (e != null)
             e.data = secureStorage.decryptData(e.data, sse);
         if (sse.getErrorCode() != null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest "+key + " response Decryption Error");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_REST, "AI Rest "+key + " response Decryption Error");
             return null;
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " after decryption");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " after decryption");
         }
         return e;
     }
@@ -57,15 +57,15 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
      */
     @Override
     public synchronized void put(String key, Entry entry) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest Cache write "+key + " before encryption");
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_REST, "AI Rest Cache write "+key + " before encryption");
         final SecureStorageInterface secureStorage = mAppInfra.getSecureStorage();
         final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
         entry.data = secureStorage.encryptData(entry.data, mSecureStorageError);
 
         if (mSecureStorageError.getErrorCode() != null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest "+ key + " response Encryption Error");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_REST, "AI Rest "+ key + " response Encryption Error");
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache write "+key + " after encryption");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_REST,"AI Rest Cache write "+key + " after encryption");
             super.put(key, entry);
         }
     }

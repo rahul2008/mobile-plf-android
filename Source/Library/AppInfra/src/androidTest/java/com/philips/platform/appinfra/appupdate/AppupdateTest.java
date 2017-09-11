@@ -5,12 +5,10 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
@@ -51,8 +49,6 @@ public class AppupdateTest extends AppInfraInstrumentation {
 					String testJson = ConfigValues.testJson();
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE,
-							"Error in App update setup");
 				}
 				return result;
 			}
@@ -68,8 +64,6 @@ public class AppupdateTest extends AppInfraInstrumentation {
 						URL url = new URL(APPUPDATE_URL);
 						listener.onSuccess(url);
 					} catch (MalformedURLException e) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE,
-								"Error in App version");
 					}
 				} else {
 					listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");

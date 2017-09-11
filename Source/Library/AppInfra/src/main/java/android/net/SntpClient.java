@@ -18,7 +18,6 @@
 
 package android.net;
 import android.os.SystemClock;
-import android.util.Log;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -106,7 +105,6 @@ public class SntpClient
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
         } catch (Exception e) {
-            Log.e(getClass()+""," error while request r-time");
             return false;
         } finally {
             if (socket != null) {

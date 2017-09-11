@@ -331,7 +331,6 @@ public class RestManagerTest extends AppInfraInstrumentation {
                     try {
                         jobj = new JSONObject(response);
                     } catch (JSONException e) {
-                        Log.e(getClass()+"","JsonException in rest manager login");
                     }
                     accessToken = jobj.optString("access_token");
                     if (null != accessToken) {

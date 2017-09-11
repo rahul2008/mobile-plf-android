@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -70,8 +69,6 @@ public class ABTestClientTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                            "Exception in test config");
                 }
                 return result;
             }
@@ -91,8 +88,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             assertNotNull(s);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in test value");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
         final String exp = mAbTestClientInterface.getTestValue("philipsmobileappabtest1content", "defaultValue",
                 ABTestClientInterface.UPDATETYPES.EVERY_APP_START, null);
@@ -131,8 +128,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(abTestClienTestManager);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in load cache");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -142,8 +139,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(abTestClienTestManager);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in precache");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
 
         }
     }
@@ -155,8 +152,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(mAbTestClientInterface);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in refresh variable");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -168,8 +165,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.invoke(mAbTestClientInterface);
             assertNotNull(s);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in test name config");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -184,8 +181,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             assertNotNull(s);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                   "Exception in value from server");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -200,8 +197,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             //assertNotNull(s);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in value from memor cache");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -211,8 +208,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(abTestClienTestManager);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in app update ");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -235,8 +232,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.invoke(abTestClienTestManager, loadCacheModel());
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                   "Excepton in save cache");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -247,8 +244,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.invoke(abTestClienTestManager);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in get cache");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 
@@ -259,8 +256,8 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             method.invoke(abTestClienTestManager, "Test name", "Content", null);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Exception in update memory cache");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
         }
     }
 

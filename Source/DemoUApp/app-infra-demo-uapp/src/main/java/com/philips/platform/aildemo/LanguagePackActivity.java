@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 
 public class LanguagePackActivity extends AppCompatActivity {
 
     private  LanguagePackInterface mLanguagePack;
+    private  AppInfraInterface mAppInfra;
     private TextView overviewfileStatus, activatedUrl;
 
     @Override
