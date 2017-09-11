@@ -19,7 +19,7 @@ node('Android') {
     def cucumber_filename = 'cucumber-report-android-commlib.json'
 
     Slack.notify('#conartists') {
-        boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME == "master")
+        boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME =~ "master")
 
         stage('Build') {
             sh "$gradle generateJavadocPublicApi saveResDep assemble testDebug"
@@ -56,12 +56,6 @@ node('Android') {
 
             sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
             archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
-        }
-
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME =~ "master") {
-            stage('Publish') {
-                sh "$gradle zipDocuments artifactoryPublish"
-            }
         }
 
         stage('Clean up workspace') {
