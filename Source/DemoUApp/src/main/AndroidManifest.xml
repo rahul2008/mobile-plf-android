@@ -6,7 +6,7 @@
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
         tools:replace="android:theme">
         <activity
-            android:name="com.philips.platform.dscdemo.activity.DemoActivity"
+            android:name="com.philips.platform.dscdemo.activity.DSLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 

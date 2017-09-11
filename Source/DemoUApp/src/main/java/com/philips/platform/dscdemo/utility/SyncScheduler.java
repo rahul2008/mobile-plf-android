@@ -2,16 +2,14 @@ package com.philips.platform.dscdemo.utility;
 
 import android.os.Handler;
 
-import com.philips.platform.dscdemo.reciever.ScheduleSyncReceiver;
-
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class SyncScheduler {
-    ScheduleSyncReceiver mScheduleSyncReceiver;
     private static volatile SyncScheduler sSyncScheduler;
-    final Handler handler = new Handler();
-    Runnable runnable;
-    public boolean isRunning = false;
+    private ScheduleSyncReceiver mScheduleSyncReceiver;
+    private final Handler handler = new Handler();
+    private Runnable runnable;
+    private boolean isRunning = false;
 
     private SyncScheduler() {
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
@@ -26,15 +24,13 @@ public class SyncScheduler {
 
     public void scheduleSync() {
 
-        if (isRunning == true)
+        if (isRunning)
             return;
 
         runnable = new Runnable() {
             @Override
             public void run() {
-
                 isRunning = true;
-
                 try {
                     mScheduleSyncReceiver.onReceive(getApplicationContext());
                 } catch (Exception e) {
