@@ -29,7 +29,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -67,7 +67,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.dpr_devicePairing)
+version = objcdp.getVersion(versions.dpr_devicePairing)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -157,19 +157,19 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: project.ext.versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule)
 	{
 		transitive true 
     }
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: project.ext.versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) 
 	{
 		transitive true 
     }
 	
-	def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: project.ext.versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') 
+	def dscModule = module(group: 'com.philips.cdp', name: 'dataServicesUApp', version: versions.dsc_dataServices + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dscUApp') : dscModule) 	
 	{
         exclude group: 'com.android.support'
@@ -177,14 +177,14 @@ dependencies {
 		transitive true 
     }
 	
-	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: project.ext.versions.cba_commlibAll + objcdp.getVersionSuffix(), ext: 'aar') 
+	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: versions.cba_commlibAll + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':commlib-all') : commlibAllModule) 
 	{
 		exclude group: 'com.android.support'
 		transitive true 
     }
 	
-	def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: project.ext.versions.ccc_cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.ccc_cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':cloudcontroller') : cloudcontrollerModule) 
 	
     //Android Support libraries
