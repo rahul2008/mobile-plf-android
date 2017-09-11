@@ -51,11 +51,9 @@ public class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, TH
 
     @Override
     public void onSuccessfulFetch(Address address, SDKError sdkError) {
-        if (null != address) {
-            thsCheckPharmacyConditonsView.displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
-        } else {
-            thsCheckPharmacyConditonsView.displayPharmacy();
-        }
+
+        thsCheckPharmacyConditonsView.displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
+
     }
 
     @Override
