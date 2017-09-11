@@ -22,6 +22,7 @@
     <string name="cml_switchLoopGet">Continuously get time</string>
     <string name="cml_switchSubscription">Subscribe</string>
 
+    <string name="cml_choose_firmware_image">Choose firmware image</string>
     <string name="cml_cancel_firmware">Cancel firmware</string>
     <string name="cml_checking_firmware">Checking firmware</string>
     <string name="cml_deploy_firmware">Deploy firmware</string>
@@ -80,4 +81,5 @@
     <string name="cml_pairing_failed">Pairing failed</string>
     <string name="cml_paired_success">Pairing successful</string>
     <string name="cml_unpair_success">Unpaired successfully</string>
+    <string name="cml_cancel">Cancel</string>
 </resources>
