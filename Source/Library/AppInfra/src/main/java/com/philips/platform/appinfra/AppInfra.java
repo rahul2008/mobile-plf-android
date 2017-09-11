@@ -7,6 +7,7 @@ package com.philips.platform.appinfra;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
@@ -335,35 +336,35 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
          * @return the app infra
          */
         public AppInfra build(Context pContext) {
-         //   Log.v(AppInfraLogEventID.AI_APPINFRA, "AI Intitialization Starts");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AI Intitialization Starts");
             long startTime = System.currentTimeMillis();
             final AppInfra ai = new AppInfra(pContext);
             final AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
             ai.setConfigInterface(configInterface == null ? appConfigurationManager : configInterface);
-           // Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Intitialization Done");
 
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "TimeSync Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "TimeSync Intitialization Done");
 
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "SecureStorage Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "SecureStorage Intitialization Done");
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "AppIdentity Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppIdentity Intitialization Done");
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "Local Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "Local Intitialization Done");
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ?
                     new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "ServiceDiscovery Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "ServiceDiscovery Intitialization Done");
 
             ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "Rest Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "Rest Intitialization Done");
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
-            //Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
 
             new Thread(new Runnable() {
@@ -372,8 +373,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                    final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
                     if (abTestConfig != null) {
                         ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APPINFRA,
-                               "ABTESTING Intitialization Done");
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the Abtest Config Values " +
@@ -396,11 +396,9 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     final String languagePackConfig = LanguagePackManager.getLanguagePackConfig(appConfigurationManager,ai);
                     if (languagePackConfig != null) {
                         ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA,"Language Pack Initialization done");
-
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
                     } else {
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the LanguagePack Config Values " +
                                         "to use Language Pack");
                     }
@@ -414,13 +412,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     if (appUpdateConfig != null) {
                         final AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
                         ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA,"AppUpdate Initialization done & Auto Refresh Starts");
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done & Auto Refresh Starts");
                         appUpdateManager.appInfraRefresh();
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                                AppInfraLogEventID.AI_APPINFRA,"AppUpdate Auto Refresh ENDS");
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
                     } else {
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the AppUpdate Config Values " +
                                         "to use AppUpdate Feature ");
                     }
@@ -428,6 +424,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             }).start();
 
 
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");
             return ai;
         }
@@ -446,8 +443,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             appInfraLogStatement.append(ai.getAppIdentity().getAppState());
 
         } catch (IllegalArgumentException e) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-                    AppInfraLogEventID.AI_APPINFRA,"IllegalArgumentException in InitializeLogs ");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
         }
         appInfraLogStatement.append("\"");
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,

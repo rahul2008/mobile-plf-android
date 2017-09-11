@@ -3,7 +3,9 @@ package com.philips.platform.appinfra;
 
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.util.Log;
+
 
 import com.philips.platform.appinfra.languagepack.LanguagePackConstants;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
@@ -23,14 +25,14 @@ import java.io.IOException;
 public class FileUtils {
 
 	private Context context;
-	private static final String DIRECTORY_FILE_NAME = "AppInfra";
 
 	public FileUtils(Context context) {
 		this.context = context;
 	}
 
 	public File getFilePath(String fileName, String filePath) {
-		final File directory = context.getDir(DIRECTORY_FILE_NAME, Context.MODE_PRIVATE);;
+		final ContextWrapper contextWrapper = new ContextWrapper(context);
+		final File directory = contextWrapper.getCacheDir();
 		final File file = new File(directory, filePath);
 		final File jsonFile = new File(file.getPath(), fileName);
 		if (!file.exists()) {
@@ -42,7 +44,6 @@ public class FileUtils {
 					jsonFile.createNewFile();
 				} catch (IOException var5) {
 					Log.e("IO-Exception "," 1 ");
-
 				}
 			}
 		}

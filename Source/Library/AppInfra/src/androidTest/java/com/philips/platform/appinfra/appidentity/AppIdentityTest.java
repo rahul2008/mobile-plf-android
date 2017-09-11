@@ -4,9 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -54,8 +53,6 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
-							"Error in App Identity config");
 				}
 				return result;
 			}
@@ -82,7 +79,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 			assertNotNull(mAppIdentityManager.getAppState());
 
 		} catch (IllegalArgumentException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY, e.getMessage());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
 
 		}
 	}
@@ -94,7 +91,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 			//assertEquals("Appversion is in proper format", mAppIdentityManager.getAppVersion(), "1.1.0");
 			assertNotSame("Appversion is not in proper format", mAppIdentityManager.getAppVersion(), "!!2.0");
 		} catch (IllegalArgumentException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY, e.getMessage());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
 		}
 
 	}
@@ -138,7 +135,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 			}
 
 		} catch (IllegalArgumentException error) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
 					Log.getStackTraceString(error));
 		}
 	}
@@ -198,7 +195,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 				throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty in AppConfig.json file");
 			}
 		} catch (IllegalArgumentException error) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
 					Log.getStackTraceString(error));
 		}
 	}
@@ -220,7 +217,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 				throw new IllegalArgumentException("ServiceDiscovery Environment cannot be empty in AppConfig.json file");
 			}
 		} catch (IllegalArgumentException error) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
 					Log.getStackTraceString(error));
 		}
 	}
@@ -237,8 +234,6 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 			}
 
 		} catch (IllegalArgumentException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
-					"Error in App version");
 		}
 	}
 
@@ -252,7 +247,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 				throw new IllegalArgumentException("micrositeId cannot be empty in appIdentityConfig  file");
 			}
 		} catch (IllegalArgumentException error) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
 					Log.getStackTraceString(error));
 		}
 	}
@@ -276,7 +271,7 @@ public class AppIdentityTest extends AppInfraInstrumentation {
 			}
 
 		} catch (IllegalArgumentException error) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_IDENTITY,
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity exception",
 					Log.getStackTraceString(error));
 
 		}

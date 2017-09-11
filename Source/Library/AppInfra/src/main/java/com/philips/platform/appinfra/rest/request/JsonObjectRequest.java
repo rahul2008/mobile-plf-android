@@ -5,9 +5,11 @@
  */
 package com.philips.platform.appinfra.rest.request;
 
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -36,7 +38,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
         this.mParams = params;
-       // Log.v(AppInfraLogEventID.AI_REST, "Json Object Request");
+        Log.v(AppInfraLogEventID.AI_REST, "Json Object Request");
     }
 
 
@@ -44,7 +46,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
                              String urlExtension, JSONObject jsonRequest,
                              Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
-       // Log.v(AppInfraLogEventID.AI_REST, "Json Object Request");
+        Log.v(AppInfraLogEventID.AI_REST, "Json Object Request");
     }
 
 
@@ -55,7 +57,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
                 final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
             }
-           // Log.v(AppInfraLogEventID.AI_REST, "Json Object Request get Headers"+mHeader);
+            Log.v(AppInfraLogEventID.AI_REST, "Json Object Request get Headers"+mHeader);
             return mHeader;
         }
         return super.getHeaders();

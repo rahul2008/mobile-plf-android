@@ -65,7 +65,7 @@ public class GsonCustomRequest<T> extends Request<T> {
         this.clazz = clazz;
         this.mHeader = headers;
         this.listener = listener;
-       // Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
+        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
     }
 
     @Override
@@ -75,7 +75,7 @@ public class GsonCustomRequest<T> extends Request<T> {
                 final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
             }
-          //  Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request get Headers"+mHeader);
+            Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request get Headers"+mHeader);
             return mHeader;
         }
         return super.getHeaders();

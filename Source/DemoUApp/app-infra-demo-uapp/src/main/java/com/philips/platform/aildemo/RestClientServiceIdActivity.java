@@ -150,14 +150,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                     if (null != mStringRequest) {
                         //  urlFired.setText(mStringRequest.getUrl());
-
-                        final StringRequest finalMStringRequest = mStringRequest;
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mRestInterface.getRequestQueue().add(finalMStringRequest);
-                            }
-                        }).start();
+                        mRestInterface.getRequestQueue().add(mStringRequest);
                     }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])) { //json
                     JsonObjectRequest jsonRequest = null;
@@ -188,13 +181,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                     }
                     if (null != jsonRequest) {
                         //  urlFired.setText(mStringRequest.getUrl());
-                        final JsonObjectRequest finalJsonRequest = jsonRequest;
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mRestInterface.getRequestQueue().add(finalJsonRequest);
-                            }
-                        }).start();
+                        mRestInterface.getRequestQueue().add(jsonRequest);
                     }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])) { //image
                     ImageRequest imageRequest = null;
@@ -222,13 +209,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                         Log.e("LOG REST SD", e.toString());
                     }
                     if (null != imageRequest) {
-                        final ImageRequest finalImageRequest = imageRequest;
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mRestInterface.getRequestQueue().add(finalImageRequest);
-                            }
-                        }).start();
+                        mRestInterface.getRequestQueue().add(imageRequest);
                     }
                 }
             }
