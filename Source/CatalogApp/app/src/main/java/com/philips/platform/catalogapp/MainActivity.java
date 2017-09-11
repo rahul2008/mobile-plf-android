@@ -60,6 +60,7 @@ import com.philips.platform.uid.utils.SidebarNavigationViewContainer;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 import org.greenrobot.eventbus.EventBus;
@@ -356,7 +357,12 @@ public class MainActivity extends UIDActivity {
             ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).getBinding().executePendingBindings();
 
-            holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
+            holder.itemView.post(new Runnable() {
+                @Override
+                public void run() {
+                    holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
+                }
+            });
             ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -411,7 +417,13 @@ public class MainActivity extends UIDActivity {
             ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
 
-            holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
+            holder.itemView.post(new Runnable() {
+                @Override
+                public void run() {
+                    holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
+                }
+            });
+
             ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -425,9 +437,9 @@ public class MainActivity extends UIDActivity {
             });
         }
 
-        private void updateDataHolders(ObservableArrayList<DataHolder> dataList){
+        /*private void updateDataHolders(ObservableArrayList<DataHolder> dataList){
             this.dataHolders = dataHolders;
-        }
+        }*/
 
         @Override
         public int getItemCount() {
@@ -542,7 +554,7 @@ public class MainActivity extends UIDActivity {
         leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
         isNavigationThemedLeftContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE);
         isNavigationThemedRightContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE);
-        if(isNavigationThemedLeftContainerVisible || isNavigationThemedRightContainerVisible){
+        if(isNavigationThemedLeftContainerVisible){
             showNavigationThemedLeftComponents();
         } else {
             showContentThemedLeftComponents();

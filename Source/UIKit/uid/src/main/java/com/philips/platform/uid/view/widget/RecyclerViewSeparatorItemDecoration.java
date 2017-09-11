@@ -16,8 +16,8 @@ import android.view.View;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 /**
- * The type Recycler view divider item decoration.
- * This class can be used to set the divider as per DLS specification which is 1dp/1px in height
+ * The type Recycler view dividerDrawable item decoration.
+ * This class can be used to set the dividerDrawable as per DLS specification which is 1dp/1px in height
  * Color specification is as per below table
  * Theme        Ultralight          VeryLight           Light               Bright           Very dark
  * <p>
@@ -26,10 +26,10 @@ import com.philips.platform.uid.drawable.SeparatorDrawable;
  */
 public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecoration {
 
-    private final SeparatorDrawable divider;
+    private final SeparatorDrawable dividerDrawable;
 
     /**
-     * Instantiates a new Recycler view divider item decoration.
+     * Instantiates a new Recycler view dividerDrawable item decoration.
      * <p>
      * Usage
      * recyclerview.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
@@ -37,7 +37,7 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
      * @param context the context
      */
     public RecyclerViewSeparatorItemDecoration(@NonNull Context context) {
-        this.divider = new SeparatorDrawable(context);
+        this.dividerDrawable = new SeparatorDrawable(context);
     }
 
     @Override
@@ -55,20 +55,20 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
             View child = parent.getChildAt(i);
 
             int top = child.getBottom();
-            int bottom = child.getBottom() + divider.getHeight();
-            divider.setBounds(left, top, right, bottom);
-            divider.draw(canvas);
+            int bottom = child.getBottom() + dividerDrawable.getHeight();
+            dividerDrawable.setBounds(left, top, right, bottom);
+            dividerDrawable.draw(canvas);
         }
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                                RecyclerView.State state) {
-        outRect.bottom = divider.getHeight();
+        outRect.bottom = dividerDrawable.getHeight();
     }
 
     @VisibleForTesting
-    public SeparatorDrawable getDivider() {
-        return divider;
+    public SeparatorDrawable getDividerDrawable() {
+        return dividerDrawable;
     }
 }
