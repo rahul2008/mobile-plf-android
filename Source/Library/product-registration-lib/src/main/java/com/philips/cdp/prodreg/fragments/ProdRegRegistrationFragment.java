@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -203,7 +204,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void onStart() {
-        resetErrorDialogIfExists();
+        //resetErrorDialogIfExists();
         super.onStart();
     }
 
@@ -381,15 +382,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return true;
     }
 
-    @Override
-    public DialogOkButtonListener getDialogOkButtonListener() {
-        return new DialogOkButtonListener() {
-            @Override
-            public void onOkButtonPressed() {
-                dismissAlertOnError();
-            }
-        };
-    }
+//    @Override
+//    public DialogOkButtonListener getDialogOkButtonListener() {
+//        return new DialogOkButtonListener() {
+//            @Override
+//            public void onOkButtonPressed() {
+//                dismissAlertOnError();
+//            }
+//        };
+//    }
 
     @Override
     public void exitProductRegistration() {
@@ -521,11 +522,13 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setVisibility(View.GONE);
         productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
-
+        ((ProdRegBaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((ProdRegBaseActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
         productImageView.setVisibility(View.GONE);
         productTitleTextView.setVisibility(View.GONE);
     }
 
+    /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
         dialog = new Dialog(mActivity);
@@ -559,12 +562,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void dismissLoadingDialog() {
-        ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
+        dismissProdRegLoadingDialog();
     }
 
     @Override
     public void showLoadingDialog() {
-        ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),getActivity());
+        showProdRegLoadingDialog(getString(R.string.PPR_Registering_Products_Lbltxt),"prg_dialog");
     }
 
     @Override
