@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.pins.shinelib.services.battery;
+package com.philips.pins.shinelib.services;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -13,7 +13,6 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
-import com.philips.pins.shinelib.services.SHNServiceBattery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class SHNServiceBatteryTest {
     private SHNIntegerResultListener mockedShnIntegerResultListener;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mockedShnFactory = Mockito.mock(SHNFactory.class);
         mockedShnService = Mockito.mock(SHNService.class);
         mockedShnIntegerResultListener = Mockito.mock(SHNIntegerResultListener.class);
@@ -57,7 +56,7 @@ public class SHNServiceBatteryTest {
     }
 
     @Test
-    public void initializeTest(){
+    public void initializeTest() {
         assertNotNull(shnServiceBattery);
 
         ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
@@ -84,7 +83,7 @@ public class SHNServiceBatteryTest {
     }
 
     @Test
-    public void getBatteryWithResultOkTest(){
+    public void getBatteryWithResultOkTest() {
         shnServiceBattery.getBatteryLevel(mockedShnIntegerResultListener);
 
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
@@ -96,7 +95,7 @@ public class SHNServiceBatteryTest {
     }
 
     @Test
-    public void getBatteryWithTimeOutResultTest(){
+    public void getBatteryWithTimeOutResultTest() {
         shnServiceBattery.getBatteryLevel(mockedShnIntegerResultListener);
 
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
@@ -109,7 +108,7 @@ public class SHNServiceBatteryTest {
 
 
     @Test
-    public void getBatteryWithValueOutOfRangeTest(){
+    public void getBatteryWithValueOutOfRangeTest() {
         shnServiceBattery.getBatteryLevel(mockedShnIntegerResultListener);
 
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
@@ -121,12 +120,12 @@ public class SHNServiceBatteryTest {
     }
 
     @Test
-    public void setNotificationEnabled(){
+    public void setNotificationEnabled() {
         checkNotificationSetting(true);
     }
 
     @Test
-    public void setNotificationDisabled(){
+    public void setNotificationDisabled() {
         checkNotificationSetting(false);
     }
 
@@ -145,16 +144,23 @@ public class SHNServiceBatteryTest {
 
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
         assertEquals(enabled, booleanArgumentCaptor.getValue());
+
+        if (enabled) {
+            verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(shnServiceBattery.shnCharacteristicChangedListener);
+        } else {
+            verify(mockedShnCharacteristic).setShnCharacteristicChangedListener(null);
+        }
+
     }
 
     @Test
-    public void stateChangedToAvailableTest(){
+    public void stateChangedToAvailableTest() {
         shnServiceBattery.onServiceStateChanged(mockedShnService, SHNService.State.Available);
         verify(mockedShnService).transitionToReady();
     }
 
     @Test
-    public void stateChangedToUnavailableTest(){
+    public void stateChangedToUnavailableTest() {
         shnServiceBattery.onServiceStateChanged(mockedShnService, SHNService.State.Unavailable);
         verify(mockedShnService, never()).transitionToReady();
     }
