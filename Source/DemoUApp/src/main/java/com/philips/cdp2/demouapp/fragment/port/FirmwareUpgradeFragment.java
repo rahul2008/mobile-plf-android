@@ -336,7 +336,7 @@ public class FirmwareUpgradeFragment extends Fragment {
     }
 
     private void uploadSelectedFirmware() {
-        if (selectedItemPosition == ListView.INVALID_POSITION) {
+        if (selectedFirmwareIndex == ListView.INVALID_POSITION) {
             showIndefiniteMessage(getActivity(), rootView, getString(cml_select_a_firmware_image));
         } else {
             File firmwareFile = fwImageAdapter.getItem(selectedFirmwareIndex);
