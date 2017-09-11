@@ -34,7 +34,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
     }
 }
@@ -82,7 +82,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.prg_productRegistrationLib)
+version = objcdp.getVersion(versions.prg_productRegistrationLib)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -206,7 +206,7 @@ dependencies {
         exclude module: "support-annotations"
     }
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: project.ext.versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':uid') : uidModule) 	
 	{
 		exclude group: 'com.android.support'
