@@ -62,4 +62,8 @@ public class THSConstants {
     public static final String THS_MAP_FRAGMENT_TAG = "mapFragment";
     public static final String THS_PROVIDER_DETAIL_ALERT = "thsProviderDetailAlert";
     public static final String THS_COST_SUMMARY_ALERT = "thsCostSummaryAlert";
+    public static final String THS_LAUNCH_INPUT = "THS_LAUNCH_INPUT";
+    public static final int THS_PRACTICES = 0;
+    public static final int THS_SCHEDULED_VISITS = 1;
+    public static final int THS_VISITS_HISTORY = 2;
 }

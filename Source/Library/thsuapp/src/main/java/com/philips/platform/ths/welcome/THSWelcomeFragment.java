@@ -55,10 +55,20 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutHowItWorks = (RelativeLayout) view.findViewById(R.id.how_it_works);
         mButton = (Button) view.findViewById(R.id.ths_start);
 
+        mRelativeLayoutAppointments.setEnabled(false);
         mRelativeLayoutAppointments.setOnClickListener(this);
+
+        mRelativeLayoutVisitHostory.setEnabled(false);
         mRelativeLayoutVisitHostory.setOnClickListener(this);
+
+        mRelativeLayoutHowItWorks.setEnabled(false);
         mRelativeLayoutHowItWorks.setOnClickListener(this);
+
+        mButton.setEnabled(false);
         mButton.setOnClickListener(this);
+
+        createCustomProgressBar(view, BIG);
+        presenter.initializeAwsdk();
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
@@ -96,5 +106,12 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.ths_start);
         }
+    }
+
+    void updateView(){
+        mRelativeLayoutHowItWorks.setEnabled(true);
+        mRelativeLayoutVisitHostory.setEnabled(true);
+        mRelativeLayoutAppointments.setEnabled(true);
+        mButton.setEnabled(true);
     }
 }

@@ -20,9 +20,11 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
+import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -36,13 +38,13 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         mTHSBaseFragment = thsBaseFragment;
     }
 
-    /*private void launchPractice(THSConsumer thsConsumer) {
+    private void launchPractice(THSConsumer thsConsumer) {
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         AmwellLog.d("Login","Consumer object received");
         THSPracticeFragment thsPracticeFragment = new THSPracticeFragment();
         thsPracticeFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
         mTHSBaseFragment.addFragment(thsPracticeFragment,THSPracticeFragment.TAG,null);
-    }*/
+    }
 
     @Override
     public void onEvent(int componentID) {
@@ -74,12 +76,18 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
             mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
             return;
         }
-        launchPreWelcomeScreen();
-    }
-
-    private void launchPreWelcomeScreen() {
-        THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
-        mTHSBaseFragment.addFragment(thsPreWelcomeFragment, THSPreWelcomeFragment.TAG, null);
+        final int launchInput = ((THSRegistrationFragment) mTHSBaseFragment).getLaunchInput();
+        switch (launchInput){
+            case THSConstants.THS_SCHEDULED_VISITS:
+                mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
+                break;
+            case THSConstants.THS_VISITS_HISTORY:
+                mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(),THSVisitHistoryFragment.TAG,null);
+                break;
+            case THSConstants.THS_PRACTICES:
+                mTHSBaseFragment.addFragment(new THSPracticeFragment(),THSPracticeFragment.TAG,null);
+                break;
+        }
     }
 
     @Override

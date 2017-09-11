@@ -53,6 +53,8 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     private Date mDob;
     private RadioGroup radio_group_single_line;
 
+    private int mLaunchInput = -1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +64,9 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
         }
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+
+        final Bundle arguments = getArguments();
+        mLaunchInput = arguments.getInt(THSConstants.THS_LAUNCH_INPUT);
 
         setView(view);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);
@@ -192,5 +197,9 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public int getLaunchInput() {
+        return mLaunchInput;
     }
 }

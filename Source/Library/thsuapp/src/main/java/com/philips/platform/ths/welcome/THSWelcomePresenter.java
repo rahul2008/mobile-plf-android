@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -19,12 +21,12 @@ import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.net.MalformedURLException;
@@ -32,8 +34,11 @@ import java.net.URISyntaxException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class THSWelcomePresenter implements THSBasePresenter{
+public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
+        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
     private THSBaseFragment uiBaseView;
+    private boolean isFirstTimeUser = false;
+    private int THS_LAUNCH_INPUT = -1;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
         this.uiBaseView = uiBaseView;
@@ -42,14 +47,130 @@ public class THSWelcomePresenter implements THSBasePresenter{
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
+            THS_LAUNCH_INPUT = THSConstants.THS_SCHEDULED_VISITS;
+            if(!isFirstTimeUser) {
+                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null);
+            }else {
+                launchAmwellRegistrationFragment();
+            }
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(),THSScheduledVisitsFragment.TAG,null);
+            THS_LAUNCH_INPUT = THSConstants.THS_VISITS_HISTORY;
+            if(!isFirstTimeUser) {
+                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null);
+            }else {
+                launchAmwellRegistrationFragment();
+            }
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         }else if(componentID == R.id.ths_start){
-            launchPractice();
+            THS_LAUNCH_INPUT = THSConstants.THS_PRACTICES;
+            if(!isFirstTimeUser) {
+                launchPractice();
+            }else {
+                launchAmwellRegistrationFragment();
+            }
         }
+    }
+
+    private void launchAmwellRegistrationFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THS_LAUNCH_INPUT);
+        THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
+        uiBaseView.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,bundle);
+    }
+
+    private void checkForUserExisitance() {
+        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
+        try {
+            checkIfUserExisits();
+            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void initializeAwsdk() {
+        try {
+            AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
+            THSManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }catch (AWSDKInitializationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+
+    public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
+    
+        checkForUserExisitance();
+    }
+
+    @Override
+    public void onInitializationFailure(Throwable var1) {
+        uiBaseView.hideProgressBar();
+        if (uiBaseView.getContext() != null) {
+            (uiBaseView).showToast("Init Failed!!!!!");
+        }
+    }
+
+    @Override
+    public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
+
+        if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+            refreshToken();
+            return;
+        }
+
+        try {
+            if (thsAuthentication.needsToCompleteEnrollment()) {
+                THSManager.getInstance().completeEnrollment(uiBaseView.getContext(), thsAuthentication, this);
+            } else {
+                THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), thsAuthentication.getAuthentication(), this);
+            }
+        } catch (AWSDKInstantiationException e) {
+
+        }
+    }
+
+    private void refreshToken() {
+        THSManager.getInstance().getUser(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                authenticateUser();
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int i) {
+                uiBaseView.showToast("Refresh Signon failed with the following status code " + i + " please logout and login again");
+                uiBaseView.hideProgressBar();
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String s) {
+
+            }
+        });
+    }
+
+    private void checkIfUserExisits() throws AWSDKInstantiationException {
+        THSManager.getInstance().checkConsumerExists(uiBaseView.getContext(),this);
+    }
+
+    @Override
+    public void onLoginFailure(Throwable var1) {
+        uiBaseView.hideProgressBar();
+    }
+
+    @Override
+    public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
+        uiBaseView.hideProgressBar();
+        ((THSWelcomeFragment)uiBaseView).updateView();
     }
 
     private void launchPractice() {
@@ -57,5 +178,44 @@ public class THSWelcomePresenter implements THSBasePresenter{
         final THSPracticeFragment fragment = new THSPracticeFragment();
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
         uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        uiBaseView.hideProgressBar();
+    }
+
+    @Override
+    public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
+        SDKError sdkError = thssdkError.getSdkError();
+        if(null != sdkError){
+            uiBaseView.hideProgressBar();
+            if(null != sdkError.getSDKErrorReason()) {
+                uiBaseView.showToast(sdkError.getSDKErrorReason().name());
+            }
+            return;
+        }
+
+        if(aBoolean){
+            authenticateUser();
+            isFirstTimeUser = false;
+        }else {
+            isFirstTimeUser = true;
+            uiBaseView.hideProgressBar();
+            ((THSWelcomeFragment)uiBaseView).updateView();
+        }
+    }
+
+    private void authenticateUser() {
+        try {
+            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }
