@@ -10,7 +10,10 @@
 
     <!-- Moment -->
     <string name="fetching_text">Fetching&#8230;</string>
-    <string name = "fetching_moments">Fetching moments&#8230;</string>
+    <string name="fetching_moments">Fetching moments&#8230;</string>
+
+    <!--Consent-->
+    <string name="fetching_consent">Fetching consents&#8230;</string>
 
     <!-- Data Sync related Strings-->
     <string name="data_sync">Data Sync</string>

@@ -36,7 +36,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsDialogFragment;
-import com.philips.platform.dscdemo.consents.ConsentDialogFragment;
+import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.registration.UserRegistrationInterfaceImpl;
@@ -139,7 +139,7 @@ public class MomentFragment extends DSBaseFragment
         }
 
         if (!mSharedPreferences.getBoolean("isSynced", false)) {
-            showProgressDialog("Fetching Moments");
+            showProgressDialog(getString(R.string.fetching_moments));
         }
     }
 
@@ -212,7 +212,7 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.delete_moments) {
             mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
         } else if (i == R.id.tv_set_consents) {
-            ConsentDialogFragment dFragment = new ConsentDialogFragment();
+            ConsentFragment dFragment = new ConsentFragment();
             replaceFragment(dFragment, "consents");
         } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
