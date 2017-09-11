@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.characteristics;
 
 import android.support.annotation.Nullable;
@@ -13,16 +18,11 @@ import com.philips.platform.dscdemo.pojo.AppUserCharacteristics;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by indrajitkumar on 1/17/17.
- */
-
-public class CharacteristicsPresenter {
+class CharacteristicsPresenter {
     private DataServicesManager mDataServicesManager;
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<Characteristics> dbRequestListener;
 
-    CharacteristicsPresenter(DBRequestListener dbRequestListener) {
+    CharacteristicsPresenter(DBRequestListener<Characteristics> dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
         mDataServicesManager = DataServicesManager.getInstance();
     }
@@ -43,7 +43,7 @@ public class CharacteristicsPresenter {
                     saveUserCharacteristicsToLocalDBRecursively(characteristicsList, characteristics, mAppUserCharacteristics.getCharacteristics().get(i).getCharacteristics());
                 }
             }
-            mDataServicesManager.updateUserCharacteristics(characteristicsList,dbRequestListener);
+            mDataServicesManager.updateUserCharacteristics(characteristicsList, dbRequestListener);
         } catch (JsonParseException exception) {
             return false;
         }

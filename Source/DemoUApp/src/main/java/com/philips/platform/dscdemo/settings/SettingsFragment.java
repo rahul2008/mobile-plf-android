@@ -1,11 +1,13 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.settings;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,38 +22,49 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 
 import java.util.Arrays;
 import java.util.List;
 
+public class SettingsFragment extends DSBaseFragment
+        implements DBFetchRequestListner<Settings>, DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
-
-public class SettingsFragment extends Fragment implements DBFetchRequestListner<Settings>, DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
-
-    private Button mBtnOk;
-    private Button mBtnCancel;
-    SettingsFragmentPresenter settingsFragmentPresenter;
-    private ProgressDialog mProgressDialog;
+    private SettingsPresenter mSettingsPresenter;
     private DataServicesManager mDataServicesManager;
     private Spinner mSpinner_Unit, mSpinner_Local;
     private Settings settings;
-    private Context mContext;
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.settings_title;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getString(R.string.settings_title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.dialog_settings, container,
-                false);
+        View rootView = inflater.inflate(R.layout.dialog_settings, container, false);
 
         mDataServicesManager = DataServicesManager.getInstance();
-        mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+
+        Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
-        mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
+
+        Button mBtnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         mBtnCancel.setOnClickListener(this);
-        settingsFragmentPresenter = new SettingsFragmentPresenter(getActivity(), this);
-        mProgressDialog = new ProgressDialog(getActivity());
+
+        mSettingsPresenter = new SettingsPresenter(this);
         mSpinner_Unit = (Spinner) rootView.findViewById(R.id.spinner_metrics);
         mSpinner_Local = (Spinner) rootView.findViewById(R.id.spinner_locale);
         ArrayAdapter<CharSequence> adapterMetrics = ArrayAdapter.createFromResource(getActivity(),
@@ -91,7 +104,6 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
                         } else {
                             updateUi(settings.getUnit(), settings.getLocale());
                         }
-
                     } else {
                         mDataServicesManager.saveUserSettings(mDataServicesManager.createUserSettings("en_US", "metric"), SettingsFragment.this);
                     }
@@ -102,28 +114,22 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
     }
 
     private void updateUi(String unit, String locale) {
-
         mSpinner_Unit.setSelection(Arrays.asList(getResources().getStringArray(R.array.metrics)).indexOf(unit));
         mSpinner_Local.setSelection(Arrays.asList(getResources().getStringArray(R.array.locals)).indexOf(locale));
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mContext = context;
     }
 
     @Override
     public void onFailure(final Exception exception) {
-
         refreshOnFailure(exception);
-
     }
 
     private void refreshOnFailure(final Exception exception) {
         if (getActivity() != null) {
-
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -140,28 +146,16 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
         if (i == R.id.btnOK) {
             if (settings == null) {
                 settings = mDataServicesManager.createUserSettings(mSpinner_Unit.getSelectedItem().toString(), mSpinner_Local.getSelectedItem().toString());
-
             } else {
                 settings.setUnit(mSpinner_Unit.getSelectedItem().toString());
                 settings.setLocale(mSpinner_Local.getSelectedItem().toString());
             }
-
-            settingsFragmentPresenter.updateSettings(settings);
-
-            // dismissConsentDialog(getDialog());
+            mSettingsPresenter.updateSettings(settings);
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
-        } else if (i == R.id.btnCancel) {//dismissConsentDialog(getDialog());
+        } else if (i == R.id.btnCancel) {
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
-        }
-    }
-
-    private void dismissConsentDialog(Dialog dialog) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
         }
     }
 
@@ -186,29 +180,10 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-       /* Dialog dialog = getDialog();
-        dialog.setTitle(R.string.settings);
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }*/
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog != null && !mProgressDialog.isShowing()) {
-            mProgressDialog.show();
-        }
-    }
-
-    private void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
     }
 
     public void fetchSettings() {
-        showProgressDialog();
+        showProgressDialog(getString(R.string.fetching_settings));
         DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
@@ -220,7 +195,6 @@ public class SettingsFragment extends Fragment implements DBFetchRequestListner<
 
     @Override
     public void dBChangeFailed(final Exception e) {
-
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -24,11 +24,6 @@ import javax.inject.Singleton;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @Singleton
 public class UserRegistrationInterfaceImpl implements UserRegistrationInterface {
 
@@ -144,43 +139,6 @@ public class UserRegistrationInterfaceImpl implements UserRegistrationInterface 
             notify();
         }
     }
-
-   /* private boolean isAccessTokenStillValid() {
-        return (null != accessToken) || !(accessToken != null ? accessToken.isEmpty() : false);
-        //  return accessTokenRefreshInProgress!=null && accessToken == null || accessToken.isEmpty();
-    }*/
-
-/*    public void clearUserData() {
-      //  accessTokenRefreshTime = null;
-        eventing.post(new DataClearRequest());
-        clearPreferences();
-        email = null;
-    }*/
-
-
-//    @Override
-//    public UserCredentials getUserCredentials() {
-//        return new UserCredentials(user.getHsdpUUID(), user.getHSDPAccessToken(), user.getJanrainUUID(), user.getHSDPAccessToken());
-//    }
-
-//    @Nullable
-//    private Map<String, String> getQueryParams(final String url, final int baseUrlIndex) {
-//        Map<String, String> paramsMap = parseQueryParameters(url.substring(baseUrlIndex + 1));
-//        if (paramsMap.isEmpty()) {
-//            return null;
-//        }
-//        return paramsMap;
-//    }
-
-//    private Map<String, String> parseQueryParameters(String query) {
-//        Map<String, String> queryPairsMap = new LinkedHashMap<>();
-//        String[] queryParamsPairs = query.split("&");
-//        for (String pair : queryParamsPairs) {
-//            int idx = pair.indexOf(":");
-//            queryPairsMap.put(pair.substring(0, idx), pair.substring(idx + 1));
-//        }
-//        return queryPairsMap;
-//    }
 
     private void clearPreferences() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);

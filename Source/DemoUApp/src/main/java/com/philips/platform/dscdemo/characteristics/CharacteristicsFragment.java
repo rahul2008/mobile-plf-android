@@ -1,9 +1,13 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.characteristics;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.characteristics.UCoreCharacteristics;
 import com.philips.platform.datasync.characteristics.UCoreUserCharacteristics;
+import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
 
@@ -28,29 +33,40 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-
-
-public class CharacteristicsDialogFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
-    Button mBtnOk,mBtnEdit;
+public class CharacteristicsFragment extends DSBaseFragment
+        implements View.OnClickListener, DBFetchRequestListner<Characteristics>, DBRequestListener<Characteristics>, DBChangeListener {
     private Context mContext;
+    private Button mBtnEdit;
     private EditText mEtCharacteristics;
     private CharacteristicsPresenter mCharacteristicsDialogPresenter;
-    private boolean isEditable ;
+    private boolean isEditable;
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.characteristics_title;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getString(R.string.characteristics_title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.dialog_user_characteristics, container, false);
 
-        mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
+        Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
 
         mBtnEdit = (Button) rootView.findViewById(R.id.btnEdit);
@@ -76,8 +92,19 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        DataServicesManager.getInstance().registerDBChangeListener(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -89,24 +116,6 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        DataServicesManager.getInstance().registerDBChangeListener(this);
-      /*  Dialog dialog = getDialog();
-        dialog.setTitle(getString(R.string.characteristics));
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }*/
     }
 
     @Override
@@ -123,32 +132,25 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
             } else {
                 Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
             }
-            //getDialog().dismiss();
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
-        } else if (i == R.id.btnCancel) {// getDialog().dismiss();
+        } else if (i == R.id.btnCancel) {
             getFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
         } else if (i == R.id.btnEdit) {
             isEditable = true;
             mBtnEdit.setEnabled(false);
             mEtCharacteristics.setEnabled(true);
             mEtCharacteristics.setFocusable(true);
-
         }
     }
 
     @Override
     public void onSuccess(List<? extends Characteristics> data) {
         refreshUi(data);
-
     }
 
     private void refreshUi(List<? extends Characteristics> data) {
-        //Display User characteristics from DB
-        //Display User characteristics UI
         if (data == null) return;
         if (getActivity() == null) return;
 
@@ -161,27 +163,20 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
             }
         }
 
-
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
                     UCoreUserCharacteristics uCoreCharacteristics = convertToUCoreUserCharacteristics(parentList);
-
                     Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     String jsonObj = gson.toJson(uCoreCharacteristics);
-
-                   // DSLog.i(DSLog.LOG, "Inder AppUserCharacteristics onSuccess= " + jsonObj);
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
-
         });
     }
-
 
     //Application data type to DataCore type
     public UCoreUserCharacteristics convertToUCoreUserCharacteristics(List<Characteristics> characteristic) {
@@ -191,9 +186,7 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
             for (int i = 0; i < characteristic.size(); i++) {
                 Collection<? extends Characteristics> characteristicsDetails = characteristic;
                 List<Characteristics> detailList = new ArrayList<>(characteristicsDetails);
-                // UCoreCharacteristics uCoreCharacteristics = new UCoreCharacteristics();
                 if (detailList.size() > 0) {
-                    //for (int j = 0; j < detailList.size(); j++) {
                     UCoreCharacteristics uCoreCharacteristics1 = new UCoreCharacteristics();
                     uCoreCharacteristics1.setType(detailList.get(i).getType());
                     uCoreCharacteristics1.setValue(detailList.get(i).getValue());
@@ -201,7 +194,6 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
                     List<Characteristics> detailList1 = new ArrayList<>(characteristicsDetail);
                     uCoreCharacteristics1.setCharacteristics(convertToUCoreCharacteristics(detailList1));
                     uCoreCharacteristicsList.add(uCoreCharacteristics1);
-                    //}
                 }
             }
         }
@@ -232,7 +224,7 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
 
     @Override
     public void dBChangeSuccess(SyncType type) {
-        if(type!=SyncType.CHARACTERISTICS)return;
+        if (type != SyncType.CHARACTERISTICS) return;
         if (!isEditable) {
             DataServicesManager.getInstance().fetchUserCharacteristics(this);
         }
@@ -245,8 +237,6 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
 
     @Override
     public void onFetchSuccess(List<? extends Characteristics> data) {
-        //Display User characteristics from DB
-        //Display User characteristics UI
         refreshUi(data);
     }
 

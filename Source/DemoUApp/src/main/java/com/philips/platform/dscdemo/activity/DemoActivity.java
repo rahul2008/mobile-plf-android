@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -16,6 +15,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.moments.MomentFragment;
@@ -43,12 +43,12 @@ public class DemoActivity extends AppCompatActivity
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
-        User user = new User(this);
 
+        User user = new User(this);
         if (savedInstanceState == null)
             if (user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
-                showFragment(new MomentFragment(), MomentFragment.TAG);
+                showFragment();
                 DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
                 try {
                     databaseHelper.getWriteDbPermission();
@@ -60,7 +60,6 @@ public class DemoActivity extends AppCompatActivity
         else {
             onRestoreInstanceState(savedInstanceState);
         }
-
     }
 
     private void initTheme() {
@@ -141,20 +140,15 @@ public class DemoActivity extends AppCompatActivity
             }
         });
 
-        showFragment(new MomentFragment(), MomentFragment.TAG);
+        showFragment();
     }
 
-    public void showFragment(Fragment fragment, String fragmentTag) {
+    public void showFragment() {
         int containerId = R.id.frame_container_user_reg;
 
-        try {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(containerId, fragment, fragmentTag);
-            fragmentTransaction.addToBackStack(fragmentTag);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, containerId, this);
+        DSBaseFragment momentsFragment = new MomentFragment();
+        momentsFragment.showFragment(momentsFragment, fragmentLauncher);
     }
 
     @Override

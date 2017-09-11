@@ -35,8 +35,8 @@ import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.characteristics.CharacteristicsDialogFragment;
-import com.philips.platform.dscdemo.consents.ConsentDialogFragment;
+import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
+import com.philips.platform.dscdemo.consents.ConsentFragment;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.registration.UserRegistrationInterfaceImpl;
@@ -139,7 +139,7 @@ public class MomentFragment extends DSBaseFragment
         }
 
         if (!mSharedPreferences.getBoolean("isSynced", false)) {
-            showProgressDialog("Fetching Moments");
+            showProgressDialog(getString(R.string.fetching_moments));
         }
     }
 
@@ -212,19 +212,19 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.delete_moments) {
             mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
         } else if (i == R.id.tv_set_consents) {
-            ConsentDialogFragment dFragment = new ConsentDialogFragment();
-            replaceFragment(dFragment, "consents");
+            ConsentFragment consentsFragment = new ConsentFragment();
+            showFragment(consentsFragment);
         } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
-            replaceFragment(settingsFragment, "settings");
+            showFragment(settingsFragment);
         } else if (i == R.id.tv_set_characteristics) {
-            CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-            replaceFragment(characteristicsDialogFragment, "Character");
+            CharacteristicsFragment characteristicsFragment = new CharacteristicsFragment();
+            showFragment(characteristicsFragment);
         } else if (i == R.id.tv_logout) {
             logOut();
         } else if (i == R.id.tv_insights) {
             InsightFragment insightFragment = new InsightFragment();
-            replaceFragment(insightFragment, "insights");
+            showFragment(insightFragment);
         }
     }
 
