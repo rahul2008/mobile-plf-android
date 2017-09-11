@@ -29,10 +29,10 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     public static String TAG = THSPharmacyAndShippingFragment.class.getSimpleName();
     private THSPharmacyAndShippingPresenter thsPharmacyAndShippingPresenter;
     private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
-            consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
+            consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip,ps_shipped_to_label;
     private THSConsumer thsConsumer;
     private ImageButton editPharmacy, ps_edit_consumer_shipping_address;
-    private RelativeLayout ths_shipping_pharmacy_layout;
+    private RelativeLayout ths_shipping_pharmacy_layout,ps_shipping_layout_item;
     private Address address;
     private Pharmacy pharmacy;
     private Button continueButton;
@@ -47,8 +47,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         ths_shipping_pharmacy_layout.setVisibility(View.INVISIBLE);
         editPharmacy.setOnClickListener(this);
         thsPharmacyAndShippingPresenter = new THSPharmacyAndShippingPresenter(this);
-        updateShippingAddressView(address);
         updatePharmacyDetailsView(pharmacy);
+        updateShippingAddressView(address);
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(R.string.pharmacy_shipping_fragment_name,true);
@@ -59,6 +59,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     public void setUpViews(View view) {
 
         ths_shipping_pharmacy_layout = (RelativeLayout) view.findViewById(R.id.ths_shipping_pharmacy_layout);
+        ps_shipping_layout_item = (RelativeLayout) view.findViewById(R.id.ps_shipping_layout_item);
+        ps_shipped_to_label = (Label) view.findViewById(R.id.ps_shipped_to_label);
         editPharmacy = (ImageButton) view.findViewById(R.id.ps_edit_pharmacy);
         ps_edit_consumer_shipping_address = (ImageButton) view.findViewById(R.id.ps_edit_consumer_shipping_address);
         ps_edit_consumer_shipping_address.setOnClickListener(this);
@@ -83,11 +85,17 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
 
     public void updateShippingAddressView(Address address) {
         ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
-        consumerName.setText(thsConsumer.getConsumer().getFullName());
-        consumerCity.setText(address.getCity());
-        consumerState.setText(address.getState().getCode());
-        consumerShippingAddress.setText(address.getAddress1());
-        consumerShippingZip.setText(address.getZipCode());
+        if(null != address) {
+            consumerName.setText(thsConsumer.getConsumer().getFullName());
+            consumerCity.setText(address.getCity());
+            consumerState.setText(address.getState().getCode());
+            consumerShippingAddress.setText(address.getAddress1());
+            consumerShippingZip.setText(address.getZipCode());
+        }
+        else {
+            ps_shipping_layout_item.setVisibility(View.GONE);
+            ps_shipped_to_label.setVisibility(View.GONE);
+        }
     }
 
     public void updatePharmacyDetailsView(Pharmacy pharmacy) {

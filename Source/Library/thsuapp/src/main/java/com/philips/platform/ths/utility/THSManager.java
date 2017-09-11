@@ -108,6 +108,7 @@ import com.philips.platform.ths.pharmacy.THSUpdateShippingAddressCallback;
 import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
+import com.philips.platform.ths.providerdetails.THSCancelMatchMakingCallback;
 import com.philips.platform.ths.providerdetails.THSFetchEstimatedCostCallback;
 import com.philips.platform.ths.providerdetails.THSMatchMakingCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
@@ -144,6 +145,8 @@ public class THSManager {
     private AWSDK mAwsdk = null;
     private THSConsumer mTHSConsumer = null;
     private THSVisitContext mVisitContext = null;
+    private boolean isMatchMakingVisit;
+
 
 
     @VisibleForTesting
@@ -154,7 +157,13 @@ public class THSManager {
     @VisibleForTesting
     public boolean TEST_FLAG = false;
 
+    public boolean isMatchMakingVisit() {
+        return isMatchMakingVisit;
+    }
 
+    public void setMatchMakingVisit(boolean matchMakingVisit) {
+        isMatchMakingVisit = matchMakingVisit;
+    }
 
 
     public THSVisitContext getPthVisitContext() {
@@ -363,6 +372,7 @@ public class THSManager {
 
                 for (OnDemandSpecialty onDemandSpeciality:onDemandSpecialties
                      ) {
+                    setMatchMakingVisit(true);
                     THSOnDemandSpeciality thsOnDemandSpeciality = new THSOnDemandSpeciality();
                     thsOnDemandSpeciality.setOnDemandSpecialty(onDemandSpeciality);
                     listOfThsSpecialities.add(thsOnDemandSpeciality);
@@ -1388,6 +1398,22 @@ public class THSManager {
         });
     }
 
+    public void cancelMatchMaking(Context context, THSVisitContext thsVisitContext, final THSCancelMatchMakingCallback<Void, THSSDKError> tHSCancelMatchMakingCallback)throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext.getVisitContext(), new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                tHSCancelMatchMakingCallback.onCancelMatchMakingResponse(aVoid,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                tHSCancelMatchMakingCallback.onCancelMatchMakingFailure(throwable);
+            }
+        });
+
+    }
     public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
         getAwsdk(context).getVisitManager().applyCouponCode(thsVisit.getVisit(), couponCode, new SDKCallback<Void, SDKError>() {
             @Override

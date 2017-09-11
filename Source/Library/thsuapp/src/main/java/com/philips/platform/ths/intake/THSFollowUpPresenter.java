@@ -7,12 +7,10 @@
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.legal.LegalText;
-import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
@@ -22,40 +20,30 @@ import java.util.Map;
 
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
-    private Pharmacy pharmacy;
+    private THSFollowUpViewInterface thsFollowUpViewInterfaces;
 
-    public THSFollowUpPresenter(THSFollowUpFragment tHSFollowUpFragment) {
+    public THSFollowUpPresenter(THSFollowUpFragment tHSFollowUpFragment, THSFollowUpViewInterface thsFollowUpViewInterface) {
         this.mTHSFollowUpFragment = tHSFollowUpFragment;
+        this.thsFollowUpViewInterfaces = thsFollowUpViewInterface;
     }
 
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.pth_intake_follow_up_continue_button) {
-            if (null != mTHSFollowUpFragment.mPhoneNumberEditText.getText() && !mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().isEmpty()) {
-                mTHSFollowUpFragment.mFollowUpContinueButton.showProgressIndicator();
+            if (thsFollowUpViewInterfaces.validatePhoneNumber()) {
+                thsFollowUpViewInterfaces.startProgressButton();
                 acceptLegalText();
-                updateConsumer(mTHSFollowUpFragment.mPhoneNumberEditText.getText().toString().trim());
+                updateConsumer(thsFollowUpViewInterfaces.getConsumerPhoneNumber());
             } else {
-                mTHSFollowUpFragment.showToast("Please Enter a valid Phone Number");
+                thsFollowUpViewInterfaces.showInvalidPhoneNumberToast(mTHSFollowUpFragment.getString(R.string.ths_invalid_phone_number));
             }
 
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
-            final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
-            fragment.setFragmentLauncher(mTHSFollowUpFragment.getFragmentLauncher());
-            mTHSFollowUpFragment.addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
+            thsFollowUpViewInterfaces.showNoticeOfPrivacyFragment();
         }
     }
 
-    private boolean checkIfDODFlow() {
-        boolean isDOD= false;
-        if (null!=THSManager.getInstance().getPthVisitContext()
-                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty()
-                && !THSManager.getInstance().getPthVisitContext().hasProvider()){
-            isDOD=true;
-        }
-        return isDOD;
-    }
 
     private void acceptLegalText() {
         List<LegalText> legalTextList = THSManager.getInstance().getPthVisitContext().getLegalTexts();
@@ -65,11 +53,11 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     }
 
 
-    protected void updateConsumer(String updatedPhoner) {
+    protected void updateConsumer(String updatedPhoneNumber) {
 
 
         try {
-            THSManager.getInstance().updateConsumer(mTHSFollowUpFragment.getFragmentActivity(), updatedPhoner, this);
+            THSManager.getInstance().updateConsumer(mTHSFollowUpFragment.getFragmentActivity(), updatedPhoneNumber, this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -80,18 +68,16 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1) {
-        mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
-        mTHSFollowUpFragment.showToast(var1.toString());
+        thsFollowUpViewInterfaces.hideProgressButton();
     }
 
     @Override
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
-        mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
-        if (checkIfDODFlow()) {
-            THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
-            mTHSFollowUpFragment.addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
+        thsFollowUpViewInterfaces.hideProgressButton();
+        if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
+            thsFollowUpViewInterfaces.showProviderDetailsFragment();
         } else {
-            mTHSFollowUpFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
+            thsFollowUpViewInterfaces.showConditionsFragment();
         }
         //update singleton THSManager THSConsumer member
         THSManager.getInstance().setPTHConsumer(thsConsumer);
@@ -100,7 +86,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerFailure(Throwable var1) {
-        mTHSFollowUpFragment.mFollowUpContinueButton.hideProgressIndicator();
+        thsFollowUpViewInterfaces.hideProgressButton();
         mTHSFollowUpFragment.showToast(var1.getMessage());
     }
 

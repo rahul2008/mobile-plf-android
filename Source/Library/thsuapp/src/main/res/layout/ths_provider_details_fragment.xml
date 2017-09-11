@@ -13,14 +13,14 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:gravity="center">
-    <com.philips.platform.uid.view.widget.ProgressBarWithLabel
-        android:id="@+id/ths_match_making_ProgressBarWithLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        app:uidCircularProgressBarSize="big"
-        app:uidIsIndeterminateProgressIndicator="true"
-        app:uidLabelPosition="bottom_center" />
+   <com.philips.platform.uid.view.widget.Label
+       android:id="@+id/ths_match_making_ProgressBar_message_label"
+       android:layout_marginTop="130dp"
+       android:layout_centerInParent="true"
+       android:gravity="center_horizontal"
+
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
    </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

@@ -7,18 +7,15 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSGridItemOnClickListener;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.text.SimpleDateFormat;
@@ -31,24 +28,11 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     private ArrayList<Date> gridItemTimeList = new ArrayList();
     private Context mContext;
-    private THSBaseFragment thsBaseFragment;
-    private THSProviderInfo thsProviderInfo;
-    private int selectedPosition = -1;
-    private THSGridItemOnClickListener thsGridItemOnClickListener;
-    private final ColorStateList colorStateList;
 
-    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo,THSGridItemOnClickListener thsGridItemOnClickListener) {
+    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
         super(context, 0, cardList);
         this.mContext = context;
         this.gridItemTimeList = (ArrayList<Date>) cardList;
-        this.thsBaseFragment = thsBaseFragment;
-        this.thsProviderInfo = thsProviderInfo;
-        this.thsGridItemOnClickListener = thsGridItemOnClickListener;
-        colorStateList = ThemeUtils.buildColorStateList(getContext(), R.color.segment_text_color);
-    }
-
-    public void setSelectedPosition(int position) {
-        selectedPosition = position;
     }
 
     @Override
@@ -81,52 +65,35 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        View view = null;
 
         final Date gridData = gridItemTimeList.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            view = layoutInflater.inflate(R.layout.ths_cell, null);
+            final ViewHolder viewHolder = new ViewHolder();
 
-            convertView = layoutInflater.inflate(R.layout.ths_cell, null);
+            viewHolder.buttonDate = (Button) view.findViewById(R.id.date);
+            view.setTag(viewHolder);
+            viewHolder.buttonDate.setTag(gridItemTimeList.get(position));
 
-            Button timeslot = (Button) convertView.findViewById(R.id.date);
-            timeslot.setTextColor(colorStateList);
-
-            if(position == selectedPosition){
-                timeslot.setPressed(true);
-            }
-            timeslot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    thsGridItemOnClickListener.onGridItemClicked(position);
-                }
-            });
-
-            timeslot.setText(getFormatedTime(gridData));
-
-            ViewHolder viewHolder = new ViewHolder(timeslot);
-            convertView.setTag(viewHolder);
+        } else {
+            view = convertView;
+            ((ViewHolder) view.getTag()).buttonDate.setTag(gridItemTimeList.get(position));
         }
 
+        ViewHolder holder = (ViewHolder) view.getTag();
+        holder.buttonDate.setText(getFormatedTime(gridData));
 
-        return convertView;
-    }
-
-    public void updateGrid(ArrayList<Date> newList) {
-        this.gridItemTimeList.clear();
-        this.gridItemTimeList = new ArrayList<>(newList);
-        this.notifyDataSetChanged();
+        return view;
     }
 
     static class ViewHolder {
-        Button buttonDate;
-
-        public ViewHolder(Button dateButton) {
-            this.buttonDate = dateButton;
-        }
+        protected Button buttonDate;
     }
 
-    public String getFormatedTime(Date date){
+    public String getFormatedTime(Date date) {
         return new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
     }
 }

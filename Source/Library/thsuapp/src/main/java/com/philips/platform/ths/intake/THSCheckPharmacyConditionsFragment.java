@@ -115,7 +115,6 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     private void checkIfPharmacyRequired() {
         boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
-        isPharmacyRequired = true;// TODO: this line is to removed when isCanPrescribe() returns correct value
         if (isPharmacyRequired) {
             thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
         } else {  // go to insurance or cost detail
