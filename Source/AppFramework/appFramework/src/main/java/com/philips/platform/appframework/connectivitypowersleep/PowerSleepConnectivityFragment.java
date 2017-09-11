@@ -28,6 +28,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -72,6 +73,17 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     public String getActionbarTitle() {
         return getResources().getString(R.string.RA_DLS_power_sleep_connectivity);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateActionBar();
+    }
+
+    protected void updateActionBar() {
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
+    }
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

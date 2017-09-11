@@ -79,7 +79,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         BaseFlowManager targetFlowManager = ((AppFrameworkApplication) context.getApplicationContext()).getTargetFlowManager();
 
         try {
-            BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.CONNECTIVITY), AppStates.INSIGHTS);
+            BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.POWER_SLEEP_CONNECTIVITY), AppStates.INSIGHTS);
             if (null != baseState) {
                 baseState.navigate(new FragmentLauncher((FragmentActivity) context, R.id.frame_container, (ActionBarListener) ((FragmentActivity) context)));
             }

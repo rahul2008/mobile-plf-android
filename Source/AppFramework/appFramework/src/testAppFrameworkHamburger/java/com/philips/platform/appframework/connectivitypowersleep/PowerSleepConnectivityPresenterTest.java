@@ -125,7 +125,7 @@ public class PowerSleepConnectivityPresenterTest {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        when(uiFlowManagerMock.getNextState(uiFlowManagerMock.getState(AppStates.CONNECTIVITY),AppStates.INSIGHTS)).thenReturn(insightsFragmentState);
+        when(uiFlowManagerMock.getNextState(uiFlowManagerMock.getState(AppStates.POWER_SLEEP_CONNECTIVITY),AppStates.INSIGHTS)).thenReturn(insightsFragmentState);
         powerSleepConnectivityPresenter.onEvent(R.id.insights);
         verify(insightsFragmentState).navigate(any(FragmentLauncher.class));
     }
