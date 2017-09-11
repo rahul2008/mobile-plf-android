@@ -53,10 +53,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-lan"
 version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
+version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
 
 repositories {
     maven {
@@ -155,7 +152,7 @@ android {
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${project.rootDir}/../Documents/External/${project.name}-api/")
+    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
 
     include {
         if (it.isDirectory) {
@@ -225,6 +222,6 @@ pitest {
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
     threads = 1 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
+    reportDir = "${projectDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
 }

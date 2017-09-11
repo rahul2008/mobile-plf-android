@@ -58,6 +58,12 @@ node('Android') {
             archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
         }
 
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME =~ "master") {
+            stage('Publish') {
+                sh "$gradle zipDocuments artifactoryPublish"
+            }
+        }
+
         stage('Clean up workspace') {
             /*
             This is done to keep disk space usage on build nodes to a minimum.
