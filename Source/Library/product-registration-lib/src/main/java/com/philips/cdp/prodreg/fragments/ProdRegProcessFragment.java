@@ -94,7 +94,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     @Override
     public void onStart() {
         super.onStart();
-        resetErrorDialogIfExists();
+        //resetErrorDialogIfExists();
         final Bundle arguments = getArguments();
         prodRegProcessController.process(arguments);
     }
@@ -112,24 +112,24 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public DialogOkButtonListener getDialogOkButtonListener() {
-        return new DialogOkButtonListener() {
-            @Override
-            public void onOkButtonPressed() {
-                dismissAlertOnError();
-                final FragmentActivity activity = getActivity();
-                if (activity != null && !activity.isFinishing()) {
-                    clearFragmentStack();
-                    PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
-                    unRegisterProdRegListener();
-                    if (activity instanceof ProdRegBaseActivity) {
-                        getActivity().finish();
-                    }
-                }
-            }
-        };
-    }
+//    @Override
+//    public DialogOkButtonListener getDialogOkButtonListener() {
+//        return new DialogOkButtonListener() {
+//            @Override
+//            public void onOkButtonPressed() {
+//                dismissAlertOnError();
+//                final FragmentActivity activity = getActivity();
+//                if (activity != null && !activity.isFinishing()) {
+//                    clearFragmentStack();
+//                    PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
+//                    unRegisterProdRegListener();
+//                    if (activity instanceof ProdRegBaseActivity) {
+//                        getActivity().finish();
+//                    }
+//                }
+//            }
+//        };
+//    }
 
     @Override
     public void exitProductRegistration() {
@@ -149,15 +149,15 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     }
 
-    @Override
-    protected void resetErrorDialogIfExists() {
-        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
-            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
-        } else if (isFailedOnError) {
-            showAlertOnError(responseCode);
-        }
-    }
+//    @Override
+//    protected void resetErrorDialogIfExists() {
+//        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
+//        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
+//            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
+//        } else if (isFailedOnError) {
+//            showAlertOnError(responseCode);
+//        }
+//    }
 
     @Override
     public void showFragment(Fragment fragment) {
@@ -166,12 +166,12 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void showLoadingDialog() {
-        ProdRegLoadingAlertDialog.showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), getActivity());
+        showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), "prg_dialog");
     }
 
     @Override
     public void dismissLoadingDialog() {
-        ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
+        dismissProdRegLoadingDialog();
     }
 
     @Override

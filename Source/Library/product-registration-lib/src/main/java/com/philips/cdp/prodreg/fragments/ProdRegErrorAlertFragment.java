@@ -11,7 +11,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 
 
 import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
@@ -45,9 +44,9 @@ public class ProdRegErrorAlertFragment extends DialogFragment {
         };
     }
 
-    public void setDialogOkButtonListener(final DialogOkButtonListener dialogOkButtonListener) {
-        this.dialogOkButtonListener = dialogOkButtonListener;
-    }
+//    public void setDialogOkButtonListener(final DialogOkButtonListener dialogOkButtonListener) {
+//        this.dialogOkButtonListener = dialogOkButtonListener;
+//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -56,12 +55,12 @@ public class ProdRegErrorAlertFragment extends DialogFragment {
         ProdRegLogger.v(TAG, "Starting dialog with error:" + title);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.prodreg_alert_dialog, null);
-        Button always = (Button) v.findViewById(R.id.dialogButtonOK);
+        //Button always = (Button) v.findViewById(R.id.dialogButtonOK);
         titleTextView = (Label) v.findViewById(R.id.dialogTitle);
         titleTextView.setText(title);
         descriptionTextView = (Label) v.findViewById(R.id.dialogDescription);
         descriptionTextView.setText(description);
-        always.setOnClickListener(dismissDialog());
+       // always.setOnClickListener(dismissDialog());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(v);
         setRetainInstance(true);
