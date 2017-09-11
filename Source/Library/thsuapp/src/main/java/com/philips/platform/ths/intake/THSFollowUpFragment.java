@@ -6,8 +6,6 @@
 
 package com.philips.platform.ths.intake;
 
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,6 +15,7 @@ import android.widget.CompoundButton;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -25,19 +24,14 @@ import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
-public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener {
+public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener, THSFollowUpViewInterface {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
     protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
     ProgressBarButton mFollowUpContinueButton;
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
-    protected String updatedPhone;
     private Label nopp_label;
-    private int REQUEST_LOCATION = 1001;
-    private LocationManager mLocationManager = null;
-    private String provider = null;
-    protected Location updatedLocation = null;
 
     @Nullable
     @Override
@@ -48,7 +42,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(R.string.ths_prepare_your_visit, true);
         }
-        mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
+        mTHSFollowUpPresenter = new THSFollowUpPresenter(this, this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
         mFollowUpContinueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
         mFollowUpContinueButton.setOnClickListener(this);
@@ -79,6 +73,50 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         }
     }
 
+    @Override
+    public boolean validatePhoneNumber() {
+        String pattern = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+        String phoneNumber = mPhoneNumberEditText.getText().toString();
+        return phoneNumber.matches(pattern);
+
+    }
+
+    @Override
+    public void showNoticeOfPrivacyFragment() {
+        final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
+        addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
+    }
+
+    @Override
+    public String getConsumerPhoneNumber() {
+        return mPhoneNumberEditText.getText().toString().trim();
+    }
+
+    @Override
+    public void startProgressButton() {
+        mFollowUpContinueButton.showProgressIndicator();
+    }
+
+    @Override
+    public void hideProgressButton() {
+        mFollowUpContinueButton.hideProgressIndicator();
+    }
+
+    @Override
+    public void showProviderDetailsFragment() {
+        THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
+        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
+    }
+
+    @Override
+    public void showConditionsFragment() {
+        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
+    }
+
+    @Override
+    public void showInvalidPhoneNumberToast(String message) {
+        showToast(message);
+    }
 
     /**
      * Called when a view has been clicked.
