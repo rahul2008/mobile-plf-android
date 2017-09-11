@@ -8,8 +8,29 @@
     android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <LinearLayout
+        android:id="@+id/usr_country_selection_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/reg_margin_24"
+        android:orientation="vertical"
+        >
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_mergeScreen_used_email_label"
+            style="@style/UIDLabel.MarginTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/reg_margin_bottom"
+            android:text=" Choose the country you live in ,This lets us tailor the warrenty and other information to your location"/>
+
+        </LinearLayout>
+
+
+
+
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/usr_country_selection_LinearLayout"
         android:id="@+id/country_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

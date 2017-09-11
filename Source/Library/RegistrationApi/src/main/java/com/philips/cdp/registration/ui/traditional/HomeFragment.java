@@ -347,6 +347,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 } else {
                     selectedCountryCode = RegUtility.getFallbackCountryCode();
                 }
+                addToRecent(selectedCountryCode);
                 updateHomeCountryandLabel(selectedCountryCode);
                 handleSocialProviders(selectedCountryCode);
             }
@@ -355,6 +356,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
                 String selectedCountryCode = RegUtility.getFallbackCountryCode();
+                addToRecent(selectedCountryCode);
                 updateHomeCountryandLabel(selectedCountryCode);
             }
         });
@@ -394,7 +396,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
-        } else if(v.getId() == R.id.usr_StartScreen_Skip_Button) {
+        } else if (v.getId() == R.id.usr_StartScreen_Skip_Button) {
             if (getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
                 getRegistrationFragment().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
@@ -402,33 +404,31 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    final CountryPicker picker = new CountryPicker();
 
     private void handleCountrySelection() {
         if (networkUtility.isNetworkAvailable()) {
-            picker.setListener(new CountryChangeListener() {
+
+            ArrayList<Country> rawMasterList = getAllCountries();
+
+            CountryChangeListener countryChangeListener = new CountryChangeListener() {
 
                 @Override
                 public void onSelectCountry(String name, String code) {
 
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                     changeCountry(name, code.trim().toUpperCase());
-                    picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                    picker.dismiss();
+                    addToRecent(code.trim().toUpperCase());
+                    getRegistrationFragment().onBackPressed();
 
                 }
-            });
+            };
 
 
-            if (picker != null && picker.getDialog() != null
-                    && picker.getDialog().isShowing()) {
-            } else {
-                try {
-                    picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
-                } catch (Exception e) {
-                    //Nop
-                }
-            }
+            CountryPicker picker = new CountryPicker(countryChangeListener, rawMasterList, recentSelectedCountry);
+
+            getRegistrationFragment().addFragment(picker);
+
+
         } else {
             handleUiState();
         }
@@ -1069,4 +1069,55 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     new IntentFilter(RegConstants.WE_CHAT_AUTH));
         }
     }
+
+
+    /**
+     * Get all countries with code and name from res/raw/countries.json
+     *
+     * @return
+     */
+    private ArrayList<Country> getAllCountries() {
+
+        try {
+            ArrayList<Country> allCountriesList = new ArrayList<Country>();
+            String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
+            for (String aRecourseList : recourseList) {
+                Country country = new Country();
+                country.setCode(aRecourseList);
+                Locale nameLocale = new Locale("", aRecourseList);
+                country.setName(nameLocale.getDisplayCountry());
+                allCountriesList.add(country);
+            }
+
+            return allCountriesList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    private ArrayList<Country> recentSelectedCountry = new ArrayList<>();
+
+    /**
+     * Get all countries with code and name from res/raw/countries.json
+     *
+     * @return
+     */
+    private ArrayList<Country> getRecentSelectedCountries() {
+
+        return recentSelectedCountry;
+    }
+
+    private void addToRecent(String countryCode) {
+        Country country = new Country();
+        country.setCode(countryCode);
+        Locale nameLocale = new Locale("", countryCode);
+        country.setName(nameLocale.getDisplayCountry());
+        recentSelectedCountry.add(0,country);
+    }
+
+
 }

@@ -356,4 +356,6 @@
     <string name="reg_password_strength_strong">Strong</string>
     <string name="reg_password_strength_medium">Medium</string>
 
+    <string name="reg_country_region">Country or region</string>
+
 </resources>

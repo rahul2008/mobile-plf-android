@@ -1,94 +1,62 @@
 package com.philips.cdp.registration.ui.customviews.countrypicker;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
+import android.content.res.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.widget.*;
+import android.view.*;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.countypicker.CountryPickerAdapter;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.countypicker.*;
 import com.philips.cdp.registration.countypicker.DividerItemDecoration;
-import com.philips.cdp.registration.listener.SelectedCountryListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.ui.traditional.*;
+import com.philips.cdp.registration.ui.utils.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-import javax.inject.Inject;
+import butterknife.*;
 
-import static com.janrain.android.engage.JREngage.getApplicationContext;
+import static com.janrain.android.engage.JREngage.*;
 
-public class CountryPicker extends DialogFragment implements
-        Comparator<Country>{
-    private RecyclerView countryListView;
+public class CountryPicker extends RegistrationBaseFragment implements
+        Comparator<Country> {
+    @BindView(R2.id.country_recycler_view)
+     RecyclerView countryListView;
+
+    @BindView(R2.id.usr_country_selection_LinearLayout)
+    LinearLayout usr_country_selection_LinearLayout;
+
+
     private CountryPickerAdapter adapter;
 
-    @Inject
-    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
-    /**
-     * Hold countries that matched user query
-     */
-    private List<Country> selectedCountriesList;
+    ArrayList<Country> masterList;
+
+    ArrayList<Country> recentList;
+
+    ArrayList<Country> filtredList;
+
 
     private CountryChangeListener listener;
 
-    private String selectedCountry;
 
-    /**
-     * Set listener
-     *
-     * @param listener
-     */
-    public void setListener(CountryChangeListener listener) {
+    public CountryPicker(CountryChangeListener listener, ArrayList<Country> rawMasterList, ArrayList<Country> recentList) {
         this.listener = listener;
+        this.masterList = removeDuplicatesFromArrayList(rawMasterList);
+        this.recentList = recentList;
     }
 
-    /**
-     * Get all countries with code and name from res/raw/countries.json
-     *
-     * @return
-     */
-    private List<Country> getAllCountries() {
-        List<Country> allCountriesList = new ArrayList<>();
-        List<String> recourseList = RegUtility.supportedCountryList();
-        Locale locale = RegistrationHelper.getInstance().getLocale(getContext());
-        String selectedCountry = locale.getCountry();
-        recourseList.remove(selectedCountry);
 
-        for (int i = 0; i < recourseList.size(); i++) {
-            Country country = getCountry(recourseList.get(i));
-            allCountriesList.add(country);
-        }
-
-        if (allCountriesList != null) {
-            Collections.sort(allCountriesList, this);
-            selectedCountriesList = new ArrayList<Country>();
-            selectedCountriesList.addAll(allCountriesList);
-        }
-        selectedCountriesList.set(0, getCountry(RegistrationHelper.getInstance().getCountryCode()));
-        String selectedCountryVal = getCountry(RegistrationHelper.getInstance().getCountryCode()).getName();
-        for (int i = 1; i < selectedCountriesList.size(); i++) {
-            if(selectedCountriesList.get(i).getName().equalsIgnoreCase(selectedCountryVal)){
-                selectedCountriesList.remove(i);
-            }
-        }
-        return allCountriesList;
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CountryPicker : onConfigurationChanged");
+        setCustomParams(config);
     }
+
 
     @NonNull
     private Country getCountry(String countryCode) {
@@ -100,9 +68,27 @@ public class CountryPicker extends DialogFragment implements
     }
 
     @Override
+    protected void setViewParams(Configuration config, int width) {
+        //To be set
+        applyParams(config, countryListView, width);
+        applyParams(config, usr_country_selection_LinearLayout, width);
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+        //handle code
+        handleOrientationOnView(view);
+
+    }
+
+    @Override
+    public int getTitleResourceId() {
+        return R.string.reg_country_region;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
     }
 
     /**
@@ -112,12 +98,9 @@ public class CountryPicker extends DialogFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.country_selection_layout, null);
+        ButterKnife.bind(this, view);
 
-        getAllCountries();
-        RegUtility.supportedCountryList();
 
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         countryListView = (RecyclerView) view
                 .findViewById(R.id.country_recycler_view);
 
@@ -127,7 +110,8 @@ public class CountryPicker extends DialogFragment implements
         countryListView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         countryListView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new CountryPickerAdapter(getActivity(), selectedCountriesList, new SelectedCountryListener() {
+        filtredList = populateList(recentList, masterList);
+        adapter = new CountryPickerAdapter(getActivity(), filtredList, new SelectedCountryListener() {
 
             @Override
             public void onCountrySelected(int position) {
@@ -135,16 +119,15 @@ public class CountryPicker extends DialogFragment implements
             }
 
             private void updateCountryList(int position) {
-                Country country = selectedCountriesList.get(position);
+                Country country = filtredList.get(position);
                 if (listener != null) {
 
                     listener.onSelectCountry(country.getName(),
                             country.getCode());
                 }
                 country.setName(country.getName());
-                RegistrationHelper.getInstance().setCountryCode(country.getName());
                 adapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), country.getName() + " is selected!", Toast.LENGTH_SHORT).show();
+                countryListView.scrollToPosition(0);
             }
         });
         countryListView.setAdapter(adapter);
@@ -155,4 +138,35 @@ public class CountryPicker extends DialogFragment implements
     public int compare(Country lhs, Country rhs) {
         return lhs.getName().compareTo(rhs.getName());
     }
+
+
+    private ArrayList<Country> populateList(final ArrayList<Country> recentList, ArrayList<Country> masterList) {
+        ArrayList<Country> rl = new ArrayList<>(removeDuplicatesFromArrayList(recentList));
+        ArrayList<Country> ml = new ArrayList<>(masterList);
+
+        ArrayList<Country> fl = new ArrayList<>();
+        fl.addAll(rl);
+        fl.addAll(removeRecentElementsFromMasterList(rl, ml));
+        return fl;
+    }
+
+    private ArrayList<Country> removeRecentElementsFromMasterList(final ArrayList<Country> rl, ArrayList<Country> ml) {
+        ml.removeAll(rl);
+        Collections.sort(ml, this);
+        return ml;
+
+    }
+
+
+    private ArrayList<Country> removeDuplicatesFromArrayList(ArrayList<Country> rawMasterList) {
+
+        ArrayList<Country> al = new ArrayList<>(rawMasterList);
+// add elements to al, including duplicates
+        Set<Country> hs = new LinkedHashSet<>();
+        hs.addAll(al);
+        al.clear();
+        al.addAll(hs);
+        return al;
+    }
+
 }

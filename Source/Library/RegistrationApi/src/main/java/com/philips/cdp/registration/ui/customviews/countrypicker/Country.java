@@ -20,4 +20,23 @@ public class Country {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Country other = (Country) obj;
+
+        return name.equalsIgnoreCase(other.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return code.hashCode()+name.hashCode();
+    }
 }
