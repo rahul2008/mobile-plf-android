@@ -167,8 +167,6 @@ class SecureStorageHelper {
                 generator.initialize(algorithmParameterSpec);
                 generator.generateKeyPair();
             }
-
-
             final KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
             final RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
             final Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);

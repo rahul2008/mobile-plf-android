@@ -4,6 +4,7 @@ package com.philips.platform.aildemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,8 +13,11 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class AppUpdateActivity extends AppCompatActivity {
@@ -31,7 +35,8 @@ public class AppUpdateActivity extends AppCompatActivity {
 	private TextView tvUpdateMessage;
 	private TextView tvMinimumOSverion;
 	private Button fetchappupdateValues;
-
+	byte[] plainByte;
+	byte[] encryptedByte;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +65,32 @@ public class AppUpdateActivity extends AppCompatActivity {
 
 
 		appupdateInterface = AILDemouAppInterface.getInstance().getAppInfra().getAppUpdate();
+		SecureStorageInterface mSecureStorage = AILDemouAppInterface.getInstance().getAppInfra().getSecureStorage();
+
+		String enc = "4324332423432432432435425435435346465464547657567.000343242342";
+
+		try {
+			plainByte= enc.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}
+
+		SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+		encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+		try {
+			String encBytesString = new String(encryptedByte, "UTF-8");
+			Log.e("Encrypted Data",encBytesString);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
+		String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+		try {
+			String decBytesString = new String(plainByte, "UTF-8");
+			Log.e("Decrypted Data",decBytesString);
+		} catch (UnsupportedEncodingException e) {
+		}
+
 
 		appUpdateRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override

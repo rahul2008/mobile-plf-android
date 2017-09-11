@@ -9,6 +9,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -37,8 +38,6 @@ import static com.philips.platform.appinfra.securestorage.SecureStorageHelper.AE
  */
 public class SecureStorage implements SecureStorageInterface {
 
-
-
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
@@ -60,7 +59,6 @@ public class SecureStorage implements SecureStorageInterface {
         writeLock = reentrantReadWriteLock.writeLock();
         readLock = reentrantReadWriteLock.readLock();
         secureStorageHelper = new SecureStorageHelper(mAppInfra);
-
     }
 
     @Override
@@ -237,7 +235,7 @@ public class SecureStorage implements SecureStorageInterface {
         byte[] encryptedBytes = null;
         try {
             if (null == encryptCipher) {
-                encryptCipher = getCipher(Cipher.ENCRYPT_MODE, secureStorageError);
+                encryptCipher = getCipher(Cipher.ENCRYPT_MODE);
             }
             encryptedBytes = encryptCipher.doFinal(dataToBeEncrypted); // encrypt data using AES
         } catch (Exception e) {
@@ -256,9 +254,8 @@ public class SecureStorage implements SecureStorageInterface {
         byte[] decryptedBytes = null;
         try {
             if (null == decryptCipher) {
-                decryptCipher = getCipher(Cipher.DECRYPT_MODE, secureStorageError);
+                decryptCipher = getCipher(Cipher.DECRYPT_MODE);
             }
-
             decryptedBytes = decryptCipher.doFinal(dataToBeDecrypted); // decrypt data using AES
         } catch (Exception e) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
@@ -267,33 +264,86 @@ public class SecureStorage implements SecureStorageInterface {
         return decryptedBytes;
     }
 
-    private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
+//    private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
+//        Cipher cipher = null;
+//        try {
+//            cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+//            SharedPreferences prefs = secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
+//            if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
+//                final String encryptedAESString = secureStorageHelper.fetchEncryptedData(SINGLE_AES_KEY_TAG, secureStorageError, KEY_FILE_NAME);
+//                final Key key = secureStorageHelper.fetchKey(encryptedAESString, secureStorageError);
+//                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE,"key ####### ########" + key.toString());
+//                cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+//            } else {
+//                final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
+//                final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
+//                secureStorageHelper.storeKey(SINGLE_AES_KEY_TAG, secretKey, KEY_FILE_NAME);
+//                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SECURE_STORAGE, "key ####### ########" + key.toString());
+//                cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+//            }
+//
+//        } catch (Exception e) {
+//            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE,"getCipher error");
+//        }
+//        return cipher;
+//    }
+
+//	private Cipher getCipher(int CipherEncryptOrDecryptMode, SecureStorageError secureStorageError) {
+//		byte[] secretKeyBytes = null;
+//		Cipher cipher = null;
+//		try {
+//			cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+//			final SharedPreferences prefs = secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
+//			if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
+//				final String aesKeyForEcryptandDecrypt = prefs.getString(SINGLE_AES_KEY_TAG, null);
+//				secretKeyBytes = Base64.decode(aesKeyForEcryptandDecrypt, Base64.DEFAULT);//  AES key bytes
+//				final Key key = new SecretKeySpec(secretKeyBytes, "AES");
+//				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "key ####### ########" + key.toString());
+//				cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+//			} else {
+//				final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
+//				secretKeyBytes = secretKey.getEncoded();
+//				final Key key = (Key) new SecretKeySpec(secretKeyBytes, "AES");
+//
+//				final String secretKeyString = Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
+//				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "key ####### ########" + key.toString());
+//				final boolean returnResult = secureStorageHelper.storeEncryptedData(SINGLE_AES_KEY_TAG, secretKeyString, KEY_FILE_NAME); // save encrypted AES key in file
+//				cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+//			}
+//
+//		} catch (Exception e) {
+//			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "getCipher error" + e.getMessage());
+//		}
+//		return cipher;
+//	}
+
+    private Cipher getCipher(int CipherEncryptOrDecryptMode) {
+        byte[] secretKeyBytes = null;
         Cipher cipher = null;
         try {
             cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-            SharedPreferences prefs = secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
+            final SharedPreferences prefs = secureStorageHelper.getSharedPreferences(KEY_FILE_NAME);
             if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
-                final String encryptedAESString = secureStorageHelper.fetchEncryptedData(SINGLE_AES_KEY_TAG, secureStorageError, KEY_FILE_NAME);
-                final Key key = secureStorageHelper.fetchKey(encryptedAESString, secureStorageError);
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE,"key ####### ########" + key.toString());
-                cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+                final String aesKeyForEcryptandDecrypt = prefs.getString(SINGLE_AES_KEY_TAG, null);
+                secretKeyBytes = Base64.decode(aesKeyForEcryptandDecrypt, Base64.DEFAULT);//  AES key bytes
             } else {
                 final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
-                final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
-                secureStorageHelper.storeKey(SINGLE_AES_KEY_TAG, secretKey, KEY_FILE_NAME);
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SECURE_STORAGE, "key ####### ########" + key.toString());
-                cipherInit(CipherEncryptOrDecryptMode, cipher, key);
+                secretKeyBytes = secretKey.getEncoded();
+                final String secretKeyString = Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
+                final boolean returnResult = secureStorageHelper.storeEncryptedData(SINGLE_AES_KEY_TAG, secretKeyString, KEY_FILE_NAME); // save encrypted AES key in file
             }
-
+            final Key key = (Key) new SecretKeySpec(secretKeyBytes, "AES");
+            final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
+            final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
+            cipher.init(CipherEncryptOrDecryptMode, key, ivParameterSpec);
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE,"getCipher error");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "getCipher error", e.getMessage());
         }
         return cipher;
     }
 
     @Override
     public String getDeviceCapability() {
-
         final String buildTags = android.os.Build.TAGS;
         if (buildTags != null && buildTags.contains("test-keys")) {
             return "true";
