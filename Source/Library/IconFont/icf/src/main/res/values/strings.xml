@@ -27,4 +27,25 @@
   <string name="dls_socialmediatwitter" translatable="false">\uF019</string>
   <string name="dls_startaction" translatable="false">\uF01A</string>
   <string name="dls_userstart" translatable="false">\uF01B</string>
+  <string name="dls_checkcircle" translatable="false">\uF01C</string>
+  <string name="dls_shield" translatable="false">\uF01D</string>
+  <string name="dls_cross_24" translatable="false">\uF01E</string>
+  <string name="dls_cross_32" translatable="false">\uF01F</string>
+  <string name="dls_cross_bold_24" translatable="false">\uF020</string>
+  <string name="dls_cross_bold_32" translatable="false">\uF021</string>
+  <string name="dls_cross_bold" translatable="false">\uF022</string>
+  <string name="dls_cross" translatable="false">\uF023</string>
+  <string name="dls_navigationleft_24" translatable="false">\uF024</string>
+  <string name="dls_navigationleft_light_24" translatable="false">\uF025</string>
+  <string name="dls_navigationleft_light_32" translatable="false">\uF026</string>
+  <string name="dls_navigationleft_light" translatable="false">\uF027</string>
+  <string name="dls_navigationleft" translatable="false">\uF028</string>
+  <string name="dls_navigationright_24" translatable="false">\uF029</string>
+  <string name="dls_navigationright_32" translatable="false">\uF02A</string>
+  <string name="dls_navigationright_light_24" translatable="false">\uF02B</string>
+  <string name="dls_navigationright_light_32" translatable="false">\uF02C</string>
+  <string name="dls_navigationright_light" translatable="false">\uF02D</string>
+  <string name="dls_navigationright" translatable="false">\uF02E</string>
+  <string name="dls_exclamationcircle" translatable="false">\uF02F</string>
+  <string name="dls_infocircle" translatable="false">\uF030</string>
 </resources>
