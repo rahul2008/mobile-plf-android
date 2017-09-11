@@ -27,9 +27,16 @@ ext.versions = [
 		usr_registrationApi        : "11.0.0",
 		usr_jump                   : "7.0.0",
 		usr_hsdp                   : "2.0.0",
-		usr_coppa                  : "2.0.0"
+		usr_coppa                  : "2.0.0",
+		sdk                        : 25,
+		target                     : 25,
+		minsdk                     : 21,
+		buildtools                 : "25.0.2",
+		support                    : "25.3.1",
+        jacoco                     : "0.7.6.201602180812"
 ]
 
 ext.builddeps = [
-    cdpSCM : "3.2.0"
+    cdpSCM : [group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true],
+    buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
 ]

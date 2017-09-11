@@ -1,5 +1,8 @@
 <resources>
+
     <string name="app_name_data_sync">Data Services</string>
+    <string name="data_sync">Data Sync</string>
+    <string name="data_sync_title">Data Sync</string>
 
     <!-- Actionbar title -->
     <string name="moment_title">Moments</string>
@@ -8,18 +11,23 @@
     <string name="settings_title">Settings</string>
     <string name="insights_title">Insights</string>
 
-    <!-- Moment -->
-    <string name="fetching_text">Fetching&#8230;</string>
-    <string name = "fetching_moments">Fetching moments&#8230;</string>
+    <!--Launch Screen-->
+    <string name="registration">Registration</string>
+    <string name="logout">logout</string>
 
-    <!-- Data Sync related Strings-->
-    <string name="data_sync">Data Sync</string>
-    <string name="data_sync_title">Data Sync</string>
+    <!-- Moment -->
+    <string name="moments">Moments</string>
+    <string name="fetching_text">Fetching&#8230;</string>
+    <string name="fetching_moments">Fetching moments&#8230;</string>
+    <string name="create_moment">Create moment</string>
+    <string name="deleted_expired_moments_count">Expired moments deleted:</string>
+    <string name="error_deleting_expired_moments">Error deleting expired moments!!</string>
+    <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
+
     <string name="add">Add</string>
-    <string name="sync">Sync</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
-    <string name="registration">Registration</string>
+
     <string name="phase">Time Of the Day</string>
     <string name="temperature">Temperature</string>
     <string name="temperature_hint">Temperature of the Baby</string>
@@ -27,27 +35,33 @@
     <string name="location_hint">Location Name</string>
     <string name="save">Add</string>
 
-    <!--Fragment tag -->
-    <string name="af_digital_care">digitalcare</string>
-    <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
-    <string name="synced">Not Synced</string>
-    <string name="create_moment">Create moment</string>
-    <string name="deleted_expired_moments_count">Expired moments deleted:</string>
-    <string name="error_deleting_expired_moments">Error deleting expired moments!!</string>
-    <string name="invalid_temperature"><![CDATA[<strInvalid temperature entry]]></string>
+    <!--Consent-->
     <string name="consent">User Consents</string>
-    <string name="insights">Insights</string>
-    <string name="characteristics">User Characteristics</string>
-    <string name="cancel">CANCEL</string>
-    <string name="ok">OK</string>
+    <string name="fetching_consent">Fetching consents&#8230;</string>
 
+    <!--Settings-->
+    <string name="settings">User Settings</string>
+    <string name="fetching_settings">Fetching settings&#8230;</string>
+
+    <!--Insights-->
+    <string name="insights">Insights</string>
+
+    <!--Characteristics-->
+    <string name="characteristics">User Characteristics</string>
     <string name="set_characteristics">User Characteristics</string>
     <string name="view_characteristics">View Characteristics</string>
     <string name="hide_characteristics">Hide Characteristics</string>
     <string name="edit">Edit</string>
-    <string name="settings">User Settings</string>
-    <string name="moments">Moments</string>
-    <string name="logout">logout</string>
+
+    <!--General-->
+    <string name="sync">Sync</string>
+    <string name="synced">Not Synced</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+
+    <!--Fragment tag -->
+    <string name="af_digital_care">digitalcare</string>
+    <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
 
     <string-array name="metrics">
         <item>"metric"</item>

@@ -35,7 +35,7 @@ import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
-import com.philips.platform.dscdemo.utility.DemoAppManager;
+import com.philips.platform.dscdemo.DemoAppManager;
 
 import org.joda.time.DateTime;
 

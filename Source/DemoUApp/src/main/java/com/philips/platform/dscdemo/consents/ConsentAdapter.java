@@ -1,6 +1,10 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.consents;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,16 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context mContext;
-    private ArrayList<? extends ConsentDetail> consentDetails;
-    // private ConsentDetail mConsent;
-    private final ConsentDialogPresenter consentDialogPresenter;
+class ConsentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<? extends ConsentDetail> mConsentDetailList;
+    private final ConsentPresenter mConsentPresenter;
 
-    public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
-        mContext = context;
-        this.consentDetails = consentDetails;
-        this.consentDialogPresenter = consentDialogPresenter;
+    ConsentAdapter(ArrayList<? extends ConsentDetail> consentDetailList, ConsentPresenter consentPresenter) {
+        this.mConsentDetailList = consentDetailList;
+        this.mConsentPresenter = consentPresenter;
     }
 
     @Override
@@ -36,52 +37,45 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
-            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType());
+            mConsentViewHolder.mConsentDetailSwitch.setText(mConsentDetailList.get(position).getType());
 
-            boolean isAccepted = consentDialogPresenter.getConsentDetailStatus(consentDetails.get(position));
+            boolean isAccepted = mConsentPresenter.getConsentDetailStatus(mConsentDetailList.get(position));
             mConsentViewHolder.mConsentDetailSwitch.setChecked(isAccepted);
 
             mConsentViewHolder.mConsentDetailSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        consentDetails.get(holder.getAdapterPosition()).setStatus(ConsentDetailStatusType.ACCEPTED.name());
+                        mConsentDetailList.get(holder.getAdapterPosition()).setStatus(ConsentDetailStatusType.ACCEPTED.name());
                     } else {
-                        consentDetails.get(holder.getAdapterPosition()).setStatus(ConsentDetailStatusType.REFUSED.name());
+                        mConsentDetailList.get(holder.getAdapterPosition()).setStatus(ConsentDetailStatusType.REFUSED.name());
                     }
-
                 }
             });
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return consentDetails.size();
+        return mConsentDetailList.size();
     }
 
-    public void updateConsent() {
-        consentDialogPresenter.updateConsent((List<ConsentDetail>) consentDetails);
+    void updateConsent() {
+        mConsentPresenter.updateConsent((List<ConsentDetail>) mConsentDetailList);
     }
 
+    private class ConsentDetailViewHolder extends RecyclerView.ViewHolder {
+        Switch mConsentDetailSwitch;
 
-    public class ConsentDetailViewHolder extends RecyclerView.ViewHolder {
-        public Switch mConsentDetailSwitch;
-
-        public ConsentDetailViewHolder(final View itemView) {
+        ConsentDetailViewHolder(final View itemView) {
             super(itemView);
             mConsentDetailSwitch = (Switch) itemView.findViewById(R.id.switch_consent_detail_type);
         }
     }
 
-
     public void setData(ArrayList<? extends ConsentDetail> consentDetails) {
-        this.consentDetails = consentDetails; //new ArrayList(consent.getConsentDetails());
-        // this.mConsent = consent;
+        this.mConsentDetailList = consentDetails;
     }
-
 }
