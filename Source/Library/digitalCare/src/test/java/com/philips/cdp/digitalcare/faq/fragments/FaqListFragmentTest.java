@@ -12,6 +12,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,30 +73,31 @@ public class FaqListFragmentTest extends MockitoConfiguration {
         mockAppTaggingInterface = null;
         rootView = null;
     }
-
+    @Ignore
     @Test
     public void testInitView() throws Exception {
         Assert.assertNotNull(rootView);
     }
-
+    @Ignore
     @Test
     public void testGetActionbarTitle(){
         String title = fragment.getActionbarTitle();
         Assert.assertNotNull(title);
     }
-
+    @Ignore
     @Test
     public void testSetPreviousPageName(){
         String previousPageName = fragment.setPreviousPageName();
         Assert.assertNotNull(previousPageName);
     }
-
+    @Ignore
     @Test
     public void testOnConfigurationChanged(){
         Configuration configuration = new Configuration();
         fragment.onConfigurationChanged(configuration);
     }
 
+    @Ignore
     @Test
     public void testDestroyMethod(){
         fragment.onDestroy();

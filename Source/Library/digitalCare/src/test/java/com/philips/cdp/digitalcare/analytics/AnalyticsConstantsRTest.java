@@ -24,7 +24,7 @@ public class AnalyticsConstantsRTest extends TestCase {
 
         assertEquals("Value is Same", "digitalcare:contactus:twitter", AnalyticsConstants.PAGE_CONTACTUS_TWITTER);
         assertEquals("Value is Same", "digitalcare:contactus:facebook", AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK);
-        assertEquals("Value is Same", "digitalcare:contactus:chatnow", AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
+        assertEquals("Value is Same", "digitalcare:contactus:livechat:chatnow", AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
         assertEquals("Value is Same", "digitalcare:contactus:livechat", AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT);
         assertEquals("Value is Same", "digitalcare:contactus:email", AnalyticsConstants.PAGE_CONTACTUS_EMAIL);
         assertEquals("Value is Same", "digitalcare:ratethisapp:writeReview", AnalyticsConstants.PAGE_REVIEW_WRITING);
@@ -67,7 +67,7 @@ public class AnalyticsConstantsRTest extends TestCase {
         assertEquals("Value is Same", "FAQ", AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
         assertEquals("Value is Same", "Facebook", AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_Facebook);
 
-        assertEquals("Value is Same", "ConsumerCare", AnalyticsConstants.COMPONENT_NAME_CC);
+        assertEquals("Value is Same", "dcc", AnalyticsConstants.COMPONENT_NAME_CC);
 
 
 

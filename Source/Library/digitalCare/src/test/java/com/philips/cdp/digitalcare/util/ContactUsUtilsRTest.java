@@ -10,6 +10,7 @@ import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -57,6 +58,7 @@ public class ContactUsUtilsRTest {
         assertEquals("Value is Same", fbURL, utils.facebooAppUrl(context));
     }
 
+    @Ignore
     @Test
     public void testConfigFacebookUrl(){
         String fbURL = "fb://page/177538492375159";
@@ -71,6 +73,7 @@ public class ContactUsUtilsRTest {
         assertEquals("Value is Same", fbURL, utils.facebookWebUrl(context));
     }
 
+    @Ignore
     @Test
     public void testConfigFacebookWebUrl(){
         String fbURL = "https://www.facebook.com/177538492375159";
@@ -100,6 +103,7 @@ public class ContactUsUtilsRTest {
         assertEquals("Value is Same", twitterPage, utils.twitterPageName(context));
     }
 
+    @Ignore
     @Test
     public void testConfigTwitterPage(){
         String twitterPage = "PhilipsCare";
