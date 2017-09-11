@@ -44,31 +44,33 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class MomentPresenter {
-    private final DBRequestListener dbRequestListener;
-    private DataServicesManager mDataServices;
-
-    private Measurement mMeasurement;
-    private String mMomentType;
-    private MeasurementGroup mMeasurementGroup;
-    private MeasurementGroup mMeasurementGroupInside;
+class MomentPresenter {
     private Context mContext;
+
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
     static final int ADD = 2;
+
+    private final DBRequestListener dbRequestListener;
+    private DataServicesManager mDataServices;
+    private DatabaseHelper databaseHelper;
+
+    private String mMomentType;
+    private Measurement mMeasurement;
+    private MeasurementGroup mMeasurementGroup;
+    private MeasurementGroup mMeasurementGroupInside;
 
     private EditText mTemperature;
     private EditText mLocation;
     private EditText mPhase;
     private Button mDialogButton;
-    DatabaseHelper databaseHelper;
 
     MomentPresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
-        mMomentType = momentType;
-        mContext = context;
-        this.dbRequestListener = dbRequestListener;
         databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
+        mContext = context;
+        mMomentType = momentType;
+        this.dbRequestListener = dbRequestListener;
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
@@ -123,15 +125,8 @@ public class MomentPresenter {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
             Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
-
             List<Moment> moments = new ArrayList<>();
-
             moments.add(moment);
-            //moments.add(moment);
-            //moments.add(moment);
-            //moments.add(moment);
-            //moments.add(moment);
-
             mDataServices.saveMoments(moments, dbRequestListener);
         }
     }
@@ -329,7 +324,6 @@ public class MomentPresenter {
 
     private boolean validateInputFields() {
         String temperature = mTemperature.getText().toString();
-        //validate temperature
         try {
             Double.valueOf(temperature);
             return true;

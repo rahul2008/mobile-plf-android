@@ -17,47 +17,41 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.platform.core.datatypes.Moment;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.table.OrmMoment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<? extends Moment> mMomentList;
     private Context mContext;
+    private List<? extends Moment> mMomentList;
     private Drawable mOptionsDrawable;
-    private DataServicesManager mDataServicesManager;
     private final MomentPresenter mTemperaturePresenter;
 
-
-    public MomentAdapter(final Context context, final ArrayList<? extends Moment> data, MomentPresenter mTemperaturePresenter) {
-
+    MomentAdapter(final Context context, final ArrayList<? extends Moment> data, MomentPresenter mTemperaturePresenter) {
         this.mTemperaturePresenter = mTemperaturePresenter;
-        mDataServicesManager = DataServicesManager.getInstance();
         mMomentList = data;
         mContext = context;
         initDrawables();
     }
 
     @Override
-    public DataSyncViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public MomentViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.temperature_timeline, parent, false);
-        return new DataSyncViewHolder(v);
+        return new MomentViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof DataSyncViewHolder) {
-            DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
+        if (holder instanceof MomentViewHolder) {
+            MomentViewHolder mSyncViewHolder = (MomentViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
             MomentHelper helper = new MomentHelper();
-            Moment moment = (OrmMoment) mMomentList.get(position);
+            Moment moment = mMomentList.get(position);
             if (moment.getSynchronisationData() != null)
                 mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
             else
-                mSyncViewHolder.mMomentID.setText("Fetching...");
+                mSyncViewHolder.mMomentID.setText(R.string.fetching_moments);
 
             mSyncViewHolder.mPhase.setText(helper.getTime(moment));
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
@@ -84,17 +78,17 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mMomentList = data;
     }
 
-    public class DataSyncViewHolder extends RecyclerView.ViewHolder {
-        public TextView mMomentID;
-        public TextView mTemperature;
-        public TextView mPhase;
-        public TextView mLocation;
-        public TextView mExpirationDate;
-        public ImageView mOptions;
-        public FrameLayout mDotsLayout;
-        public TextView mIsSynced;
+    private class MomentViewHolder extends RecyclerView.ViewHolder {
+        TextView mMomentID;
+        TextView mTemperature;
+        TextView mPhase;
+        TextView mLocation;
+        TextView mExpirationDate;
+        ImageView mOptions;
+        FrameLayout mDotsLayout;
+        TextView mIsSynced;
 
-        public DataSyncViewHolder(final View itemView) {
+        MomentViewHolder(final View itemView) {
             super(itemView);
             mMomentID = (TextView) itemView.findViewById(R.id.moment_id);
             mTemperature = (TextView) itemView.findViewById(R.id.time_line_data);

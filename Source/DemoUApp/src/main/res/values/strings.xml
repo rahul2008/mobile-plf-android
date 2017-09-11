@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name_data_sync">Data Services</string>
+
+    <!-- Actionbar title -->
+    <string name="moment_title">Moments</string>
+    <string name="consent_title">Consents</string>
+    <string name="characteristics_title">Characteristics</string>
+    <string name="settings_title">Settings</string>
+    <string name="insights_title">Insights</string>
+
+    <!-- Moment -->
+    <string name = "fetching_moments">Fetching Moment</string>
+
     <!-- Data Sync related Strings-->
     <string name="data_sync">Data Sync</string>
     <string name="data_sync_title">Data Sync</string>
@@ -14,6 +25,7 @@
     <string name="location">Notes</string>
     <string name="location_hint">Location Name</string>
     <string name="save">Add</string>
+
     <!--Fragment tag -->
     <string name="af_digital_care">digitalcare</string>
     <string name="af_prod_reg_vertical_tag">prod_reg_vertical_tag</string>
@@ -58,7 +70,6 @@
         <item>"en_SG"</item>
         <item>"en_US"</item>
         <item>"en_ZA"</item>
-
     </string-array>
 
 </resources>

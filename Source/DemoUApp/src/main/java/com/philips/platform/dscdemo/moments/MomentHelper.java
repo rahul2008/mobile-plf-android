@@ -21,12 +21,9 @@ public class MomentHelper {
 
     String getTemperature(Moment moment) {
         try {
-
             ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
             ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
             ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
-
-            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             return measurements.get(0).getValue();
         } catch (ArrayIndexOutOfBoundsException e) {
             return "default";
@@ -35,7 +32,6 @@ public class MomentHelper {
         } catch (Exception e) {
             return "default";
         }
-        //return -1;
     }
 
     String getTime(Moment moment) {
@@ -55,18 +51,11 @@ public class MomentHelper {
         }
     }
 
-
     String getNotes(Moment moment) {
         try {
-
             ArrayList<? extends MeasurementGroup> measurementGroupParent = new ArrayList<>(moment.getMeasurementGroups());
             ArrayList<? extends MeasurementGroup> measurementGroupChild = new ArrayList<>(measurementGroupParent.get(0).getMeasurementGroups());
             ArrayList<? extends Measurement> measurements = new ArrayList<>(measurementGroupChild.get(0).getMeasurements());
-
-            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
-            //return measurements.get(0).getValue();
-
-            // ArrayList<? extends Measurement> measurements = new ArrayList<>(moment.getMeasurements());
             Measurement measurement = measurements.get(0);
             ArrayList<? extends MeasurementDetail> measurementDetails = new ArrayList<>(measurement.getMeasurementDetails());
             return measurementDetails.get(0).getValue();
@@ -77,7 +66,6 @@ public class MomentHelper {
         } catch (Exception e) {
             return "default";
         }
-        //return null;
     }
 
     String getExpirationDate(Moment moment) {
@@ -88,5 +76,4 @@ public class MomentHelper {
             return "never expires";
         }
     }
-
 }
