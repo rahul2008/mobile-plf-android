@@ -409,7 +409,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                 changeCountry(name, code.trim().toUpperCase());
                 picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                picker.dismiss();
+                showProgressDialog();
+                //picker.dismiss();
 
             });
 
@@ -434,10 +435,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RegistrationHelper.getInstance().setCountryCode(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
-            showProgressDialog();
-
+           // showProgressDialog();
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
             getLocaleServiceDiscovery(countryName);
         }
     }
@@ -450,6 +449,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     @Override
                     public void onSuccess(String verificationUrl) {
                         if (!verificationUrl.isEmpty()) {
+                            picker.dismiss();
                             updateAppLocale(verificationUrl, countryName);
                             return;
                         }
@@ -458,6 +458,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                     @Override
                     public void onError(Throwable e) {
+                        picker.dismiss();
                         getLocaleServiceDiscoveryByCountry(countryName);
                     }
                 });

@@ -130,4 +130,8 @@
 
     <color name="reg_edit_text_field_color">@android:color/black</color>
 
+    <color name="colorAccent">#FF4081</color>
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
+
 </resources>

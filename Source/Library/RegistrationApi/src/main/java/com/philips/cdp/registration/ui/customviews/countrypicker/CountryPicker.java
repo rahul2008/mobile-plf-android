@@ -1,22 +1,44 @@
 package com.philips.cdp.registration.ui.customviews.countrypicker;
 
 import android.os.Bundle;
-import android.support.annotation.*;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.view.*;
-import android.widget.ListView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.countypicker.CountryPickerAdapter;
+import com.philips.cdp.registration.countypicker.DividerItemDecoration;
+import com.philips.cdp.registration.listener.SelectedCountryListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+
+import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class CountryPicker extends DialogFragment implements
-        Comparator<Country> {
-    private ListView countryListView;
+        Comparator<Country>{
+    private RecyclerView countryListView;
+    private CountryPickerAdapter adapter;
 
-    private CountryAdapter adapter;
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     /**
      * Hold countries that matched user query
@@ -25,7 +47,7 @@ public class CountryPicker extends DialogFragment implements
 
     private CountryChangeListener listener;
 
-
+    private String selectedCountry;
 
     /**
      * Set listener
@@ -54,14 +76,17 @@ public class CountryPicker extends DialogFragment implements
         }
 
         if (allCountriesList != null) {
-            // Sort the all countries list based on country name
             Collections.sort(allCountriesList, this);
-            // Initialize selected countries with all countries
             selectedCountriesList = new ArrayList<Country>();
             selectedCountriesList.addAll(allCountriesList);
         }
-        selectedCountriesList.add(0, getCountry(selectedCountry));
-        // Return
+        selectedCountriesList.set(0, getCountry(RegistrationHelper.getInstance().getCountryCode()));
+        String selectedCountryVal = getCountry(RegistrationHelper.getInstance().getCountryCode()).getName();
+        for (int i = 1; i < selectedCountriesList.size(); i++) {
+            if(selectedCountriesList.get(i).getName().equalsIgnoreCase(selectedCountryVal)){
+                selectedCountriesList.remove(i);
+            }
+        }
         return allCountriesList;
     }
 
@@ -86,60 +111,48 @@ public class CountryPicker extends DialogFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.country_selection_layout, null);
-        // Get countries from the json
+
         getAllCountries();
         RegUtility.supportedCountryList();
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        // Get view components
-        countryListView = (ListView) view
-                .findViewById(R.id.usr_countrySelection_countryList);
-        // Set adapter
-        adapter = new CountryAdapter(getActivity(), selectedCountriesList);
-        countryListView.setAdapter(adapter);
+        countryListView = (RecyclerView) view
+                .findViewById(R.id.country_recycler_view);
 
-        // Inform listener
-        countryListView.setOnItemClickListener((parent, view1, position, id) -> {
-            if (listener != null) {
+        countryListView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        countryListView.setLayoutManager(mLayoutManager);
+        countryListView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        countryListView.setItemAnimator(new DefaultItemAnimator());
 
+        adapter = new CountryPickerAdapter(getActivity(), selectedCountriesList, new SelectedCountryListener() {
+
+            @Override
+            public void onCountrySelected(int position) {
+                updateCountryList(position);
+            }
+
+            private void updateCountryList(int position) {
                 Country country = selectedCountriesList.get(position);
-                listener.onSelectCountry(country.getName(),
-                        country.getCode());
+                if (listener != null) {
+
+                    listener.onSelectCountry(country.getName(),
+                            country.getCode());
+                }
+                country.setName(country.getName());
+                RegistrationHelper.getInstance().setCountryCode(country.getName());
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), country.getName() + " is selected!", Toast.LENGTH_SHORT).show();
             }
         });
-
+        countryListView.setAdapter(adapter);
         return view;
     }
 
-    /**
-     * Search allCountriesList contains text and put result into
-     * selectedCountriesList
-     *
-     * @param text
-     */
-//    @SuppressLint("DefaultLocale")
-//    private void search(String text) {
-//        selectedCountriesList.clear();
-//
-//        for (Country country : allCountriesList) {
-//            if (country.getName().toLowerCase(Locale.ENGLISH)
-//                    .contains(text.toLowerCase())) {
-//                selectedCountriesList.add(country);
-//            }
-//        }
-//
-//        adapter.notifyDataSetChanged();
-//    }
-
-    /**
-     * Support sorting the countries list
-     */
     @Override
     public int compare(Country lhs, Country rhs) {
         return lhs.getName().compareTo(rhs.getName());
     }
-
 }
