@@ -1,10 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
@@ -41,7 +42,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public static final int MAX_SCHEDULES_REACHED = 1;
     public static final int DEFAULT_ERROR = 999;
 
-    public ScheduleListPort(CommunicationStrategy communicationStrategy) {
+    public ScheduleListPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 
@@ -91,7 +92,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     public void getSchedules() {
-        mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -106,7 +107,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     public void getScheduleDetails(int scheduleNumber) {
-        mCommunicationStrategy.getProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.getProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -133,7 +134,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public void addSchedule(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         Map<String, Object> dataMap = createDataMap(portName, productId, name, time, days, enabled, commandMap);
 
-        mCommunicationStrategy.addProperties(dataMap, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.addProperties(dataMap, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -160,7 +161,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     public void updateSchedule(int scheduleNumber, String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         Map<String, Object> dataMap = createDataMap(portName, productId, name, time, days, enabled, commandMap);
 
-        mCommunicationStrategy.putProperties(dataMap, getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.putProperties(dataMap, getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -175,7 +176,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     public void deleteSchedule(int scheduleNumber) {
-        mCommunicationStrategy.deleteProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.deleteProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {

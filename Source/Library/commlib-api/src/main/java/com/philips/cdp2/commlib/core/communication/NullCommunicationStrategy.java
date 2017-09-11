@@ -10,7 +10,7 @@ import com.philips.cdp.dicommclient.request.ResponseHandler;
 
 import java.util.Map;
 
-public class NullCommunicationStrategy extends CommunicationStrategy {
+public class NullCommunicationStrategy extends ObservableCommunicationStrategy {
 
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {

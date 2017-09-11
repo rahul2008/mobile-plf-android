@@ -10,11 +10,11 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-public class WifiReferenceAppliance extends ReferenceAppliance {
+public class BleReferenceAppliance extends ReferenceAppliance {
 
-    public static final String DEVICETYPE = "BCM943903";
+    public static final String DEVICETYPE = "ReferenceNode";
 
-    public WifiReferenceAppliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
+    public BleReferenceAppliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
     }
 
@@ -22,5 +22,4 @@ public class WifiReferenceAppliance extends ReferenceAppliance {
     public String getDeviceType() {
         return DEVICETYPE;
     }
-
 }

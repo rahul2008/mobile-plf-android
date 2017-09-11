@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import static com.philips.cdp2.commlib.example.R.string.no_firmware_directory_found;
+
 public class FirmwareUpgradeActivity extends AppCompatActivity {
     private static final String TAG = "FirmwareUpgradeActivity";
 
@@ -254,7 +256,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         final File[] files = externalFilesDir.listFiles(upgradeFilesFilter);
 
         if (files == null) {
-            Toast.makeText(FirmwareUpgradeActivity.this, R.string.no_firmware_directory_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FirmwareUpgradeActivity.this, no_firmware_directory_found, Toast.LENGTH_SHORT).show();
         } else {
             fwImageAdapter = new ArrayAdapter<File>(this, android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull

@@ -19,15 +19,15 @@
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cml_lan_appliance"/>
+            android:text="@string/cml_ble_appliance"/>
 
         <Switch
-            android:id="@+id/cml_switch_enable_communication"
+            android:id="@+id/cml_switch_continuous_connection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
             android:paddingTop="8dp"
-            android:text="@string/cml_enable_communication"/>
+            android:text="@string/cml_continuous_connection"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

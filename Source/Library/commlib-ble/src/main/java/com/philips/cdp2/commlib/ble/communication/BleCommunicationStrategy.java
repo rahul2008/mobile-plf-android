@@ -18,7 +18,7 @@ import com.philips.cdp2.commlib.ble.communication.PollingSubscription.Callback;
 import com.philips.cdp2.commlib.ble.request.BleGetRequest;
 import com.philips.cdp2.commlib.ble.request.BlePutRequest;
 import com.philips.cdp2.commlib.ble.request.BleRequest;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.communication.ObservableCommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 import com.philips.cdp2.commlib.core.util.ObservableCollection.ModificationListener;
 import com.philips.cdp2.commlib.core.util.VerboseRunnable;
@@ -37,7 +37,7 @@ import static com.philips.cdp2.commlib.core.util.GsonProvider.EMPTY_JSON_OBJECT_
  *
  * @publicApi
  */
-public class BleCommunicationStrategy extends CommunicationStrategy {
+public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
 
     private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
 

@@ -5,17 +5,18 @@
 
 package com.philips.cdp2.commlib.devicetest.appliance;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.devicetest.time.TimePort;
 
 public abstract class ReferenceAppliance extends Appliance {
-    public static final String CPPID = "cppid";
 
     private final TimePort timePort;
 
-    public ReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    public ReferenceAppliance(NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
 
         timePort = new TimePort(communicationStrategy);

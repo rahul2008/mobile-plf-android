@@ -5,11 +5,13 @@
 
 package com.philips.cdp2.demouapp.port.air;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public class JaguarAirPort extends AirPort<JaguarAirportProperties> {
 
-    public JaguarAirPort(final CommunicationStrategy communicationStrategy) {
+    public JaguarAirPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy, JaguarAirportProperties.class);
     }
 

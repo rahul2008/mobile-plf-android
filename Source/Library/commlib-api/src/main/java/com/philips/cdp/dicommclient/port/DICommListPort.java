@@ -1,9 +1,11 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port;
+
+import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
@@ -18,7 +20,7 @@ abstract class DICommListPort<P extends PortProperties, T extends DICommListEntr
     private Map<String, T> mListEntryPorts = new ConcurrentHashMap<>();
     private Set<DICommListPortChangedListener> mListPortChangedListeners = new CopyOnWriteArraySet<>();
 
-    public DICommListPort(CommunicationStrategy communicationStrategy) {
+    public DICommListPort(final @NonNull CommunicationStrategy communicationStrategy) {
         super(communicationStrategy);
     }
 

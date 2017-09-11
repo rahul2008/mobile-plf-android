@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclient.port;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -42,10 +44,9 @@ public abstract class DICommPort<T extends PortProperties> {
 
     protected final Gson gson = GsonProvider.get();
 
-    protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;
-
     private boolean isRequestInProgress;
+
     private boolean mIsApplyingChanges;
     private boolean mGetPropertiesRequested;
     private boolean mSubscribeRequested;
@@ -53,12 +54,14 @@ public abstract class DICommPort<T extends PortProperties> {
     private boolean mStopResubscribe;
     private final Object mResubscribeLock = new Object();
     private T mPortProperties;
-
     private final Map<String, Object> mPutPropertiesMap = new ConcurrentHashMap<>();
-    private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<DICommPortListener>();
 
-    public DICommPort(CommunicationStrategy communicationStrategy) {
-        mCommunicationStrategy = communicationStrategy;
+    private final Set<DICommPortListener> mPortListeners = new CopyOnWriteArraySet<>();
+
+    protected CommunicationStrategy communicationStrategy;
+
+    public DICommPort(@NonNull final CommunicationStrategy communicationStrategy) {
+        this.communicationStrategy = communicationStrategy;
     }
 
     public abstract boolean isResponseForThisPort(String jsonResponse);
@@ -238,7 +241,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
         DICommLog.i(LOG_TAG, "putProperties");
         setIsApplyingChanges(true);
-        mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -263,7 +266,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private void performGetProperties() {
         DICommLog.i(LOG_TAG, "getProperties");
-        mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -284,7 +287,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private void performSubscribe() {
         DICommLog.i(LOG_TAG, "perform subscribe");
-        mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
+        this.communicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {
@@ -306,7 +309,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     private void performUnsubscribe() {
         DICommLog.i(LOG_TAG, "perform unsubscribe");
-        mCommunicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
+        this.communicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), new ResponseHandler() {
 
             @Override
             public void onSuccess(String data) {

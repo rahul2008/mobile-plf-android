@@ -28,6 +28,7 @@ import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.atLeastOnce;
@@ -193,6 +194,32 @@ public class NetworkNodeTest extends RobolectricTest {
         originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
 
         verifyPropertyChangeCalled(KEY_ENCRYPTION_KEY, null);
+    }
+
+    @Test
+    public void testNetworkNodeIsValid() {
+        NetworkNode networkNode = createNetworkNode();
+
+        assertThat(networkNode.isValid());
+    }
+
+    @Test
+    public void whenNetworkNodeHasEmptyIpAddress_thenNetworkNodeIsValid() {
+        NetworkNode networkNode = createNetworkNode();
+
+        networkNode.setIpAddress("");
+        assertThat(networkNode.isValid());
+
+        networkNode.setIpAddress(null);
+        assertThat(networkNode.isValid());
+    }
+
+    @Test
+    public void whenNetworkNodeHasInvalidNonNullIpAddress_thenNetworkNodeIsInvalid() {
+        NetworkNode networkNode = createNetworkNode();
+        networkNode.setIpAddress("nope");
+
+        assertThat(networkNode.isValid()).isFalse();
     }
 
     private void verifyPropertyChangeCalled(String propertyName, Object value) {

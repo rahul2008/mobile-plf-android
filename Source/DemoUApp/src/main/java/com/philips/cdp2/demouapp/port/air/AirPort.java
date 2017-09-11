@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.demouapp.port.air;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -18,7 +20,7 @@ public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T>
     final Gson jsonParser;
     final Class<T> propertiesClass;
 
-    public AirPort(final CommunicationStrategy communicationStrategy, Class<T> propertiesClass) {
+    public AirPort(final @NonNull CommunicationStrategy communicationStrategy, Class<T> propertiesClass) {
         super(communicationStrategy);
         jsonParser = GsonProvider.get();
         this.propertiesClass = propertiesClass;
