@@ -191,52 +191,38 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      /*  DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnCreateView on "
-                + this.getClass().getSimpleName());*/
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onStart() {
-       /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnStart on "
-                + this.getClass().getSimpleName());*/
         super.onStart();
     }
 
     @Override
     public void onResume() {
-     /*   DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnResume on "
-                + this.getClass().getSimpleName());*/
         super.onResume();
         setActionbarTitle();
     }
 
     @Override
     public void onPause() {
-      /*  DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnPause on "
-                + this.getClass().getSimpleName());*/
         super.onPause();
     }
 
     @Override
     public void onStop() {
-       /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnStop on "
-                + this.getClass().getSimpleName());*/
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-       /* DigiCareLogger.i(DigiCareLogger.FRAGMENT, "onDestroy on "
-                + this.getClass().getSimpleName());*/
         getActivity().unregisterReceiver(mNetworkutility);
         super.onDestroy();
     }
 
     @Override
     public void onDestroyView() {
-        /*DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnDestroyView on "
-                + this.getClass().getSimpleName());*/
         super.onDestroyView();
         mPreviousPageName = setPreviousPageName();
         hideKeyboard();
@@ -256,7 +242,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected boolean isConnectionAlertDisplayed() {
-        // new NetworkAlertView().showNetworkAlert(getActivity());
         mHandler.postAtFrontOfQueue(new Runnable() {
 
             @Override
@@ -268,11 +253,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                                 R.string.no_internet),
                         getActivity().getResources().getString(
                                 android.R.string.yes));
-          /*      AnalyticsTracker
-                        .trackAction(
-                                AnalyticsConstants.ACTION_SET_ERROR,
-                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                         (AnalyticsConstants.ACTION_SET_ERROR,
                                 AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
@@ -330,8 +310,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        /*DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");*/
-       // setLocaleLanguage();
         getAppName();
     }
 
@@ -434,7 +412,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     public void showFragment(/*FragmentActivity context, int parentContainer,*/
                              Fragment fragment, FragmentLauncher fragmentLauncher,/*ActionbarUpdateListener actionbarUpdateListener,*/
                              int startAnimation, int endAnimation) {
-        /*DigiCareLogger.i("testing", "DigitalCare Base Fragment -- Fragment Invoke");*/
         mFragmentLauncher = fragmentLauncher;
         mContainerId = fragmentLauncher.getParentContainerResourceID();
         mActivityContext = fragmentLauncher.getFragmentActivity();

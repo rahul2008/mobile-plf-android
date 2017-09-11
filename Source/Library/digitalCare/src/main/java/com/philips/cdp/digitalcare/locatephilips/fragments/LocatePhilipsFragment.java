@@ -777,7 +777,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         } else {
             where = "No location found.";
         }
-        /*DigiCareLogger.i(TAG, where);*/
     }
 
     private boolean checkGooglePlayServices() {
@@ -848,9 +847,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     public void onDestroyView() {
         closeProgressDialog();
         super.onDestroyView();
-       /* FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
-        Fragment fragment = supportFragmentManager.findFragmentByTag("mapFragment");
-        supportFragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss();*/
     }
 
     @Override

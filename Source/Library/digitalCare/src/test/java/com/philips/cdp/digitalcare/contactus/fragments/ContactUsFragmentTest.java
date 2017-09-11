@@ -1,4 +1,4 @@
-/*
+
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.Context;
@@ -23,6 +23,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
@@ -35,6 +36,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.HashMap;
 
+import static org.mockito.Matchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -150,8 +152,8 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsCall).performClick();
     }
 
-  */
-/*  @Test
+/*
+   @Test
     public void testisContactNumberCachedFalse(){
         digitalCareBaseFragmentspy=spy(fragment);
         Mockito.when(fragmentSpy.isSimAvailable()).thenReturn(false);
@@ -162,11 +164,9 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         when(mMockEditor.commit()).thenReturn(true);
         when(mMockSharedPreferences.edit()).thenReturn(mMockEditor);
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsCall).performClick();
-    }*//*
+    }*/
 
-
-    */
-/*@Test
+    @Test
     public void testNoPhoneCallFunctionality(){
         digitalCareBaseFragmentspy=spy(fragment);
         Mockito.when(fragmentSpy.isContactNumberCached()).thenReturn(false);
@@ -175,7 +175,7 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         Mockito.when(mockUtils.isTelephonyEnabled(context)).thenReturn(true);
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsCall).performClick();
     }
-
+/*
    @Test
     public void testPhoneCallFunctionality(){
         digitalCareBaseFragmentspy=spy(fragment);
@@ -184,16 +184,16 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         Mockito.when(mockUtils.isTelephonyEnabled(context)).thenReturn(false);
         Mockito.when(mockUtils.isSimAvailable(context)).thenReturn(true);
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsSocialProvideButtonsParent).performClick();
-    }*//*
+    }*/
 
 
-  */
-/* @Test
+
+ @Test
     public void testPhoneCallFunctionality(){
         digitalCareBaseFragmentspy=spy(fragment);
         digitalCareBaseFragmentspy.isInternetAvailable=true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsSocialProvideButtonsParent).performClick();
-    }*//*
+    }
 
 
     @Test
@@ -218,4 +218,4 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
     public void testDestroyMethod(){
         fragment.onDestroy();
     }
-}*/
+}
