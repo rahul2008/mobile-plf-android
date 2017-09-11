@@ -208,14 +208,7 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
                 isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                boolean isDOD = false;
-                        if((THSManager.getInstance().getPthVisitContext() != null
-                                && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
-                                && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
-
-                            isDOD=true;
-                        }
-                if (isDOD) {
+                if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
                 }else {
@@ -229,15 +222,9 @@ public class THSProviderDetailsDisplayHelper implements THSGridItemOnClickListen
             if (thsProviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)) {
                 setButtonVisibilityForAvailableProvider();
             } else {
-                boolean isDOD = false;
-                if((THSManager.getInstance().getPthVisitContext() != null
-                        && THSManager.getInstance().getPthVisitContext().getVisitContext().hasOnDemandSpecialty())
-                        && !THSManager.getInstance().getPthVisitContext().getVisitContext().hasProvider()){
-                    isDOD=true;
-                }
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
-                if (isDOD) {
+                if (THSManager.getInstance().isMatchMakingVisit()) {
                     detailsButtonOne.setText(mContext.getString(R.string.ths_continue));
                     detailsButtonTwo.setVisibility(View.GONE);
                 } else {
