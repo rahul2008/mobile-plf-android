@@ -24,7 +24,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
     }
@@ -60,7 +60,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.usr_hsdp)
+version = objcdp.getVersion(versions.usr_hsdp)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()

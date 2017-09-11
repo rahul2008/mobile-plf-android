@@ -25,7 +25,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -66,7 +66,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.usr_coppa)
+version = objcdp.getVersion(versions.usr_coppa)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -216,7 +216,7 @@ android {
 }
 
 def Properties props = new Properties()
-def propFile = new File('signing.properties')
+def propFile = new File("${projectDir}/signing.properties")
 if (propFile.canRead()){
     props.load(new FileInputStream(propFile))
 

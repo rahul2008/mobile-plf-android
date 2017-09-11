@@ -26,7 +26,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -68,7 +68,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.usr_registrationApi)
+version = objcdp.getVersion(versions.usr_registrationApi)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -170,10 +170,10 @@ dependencies {
 	
     def dp = project.ext.has('useprojectdependencies')
 
-    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
     compile(dp ? project(':ufw') : ufwModule) 
 
-    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+    def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versiosn.ail_appInfra'1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     compile(dp ? project(':ail') : ailModule) 
 		
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -181,7 +181,7 @@ dependencies {
 	
     compile(dp ? project(':usr') : project(':RegistrationApi')) 	
 
-    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     compile(dp ? project(':uid') : uidModule) 
     {
 	transitive = true
