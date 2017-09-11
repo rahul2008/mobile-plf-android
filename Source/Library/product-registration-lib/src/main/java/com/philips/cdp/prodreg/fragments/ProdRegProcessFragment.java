@@ -174,9 +174,4 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         ProdRegLoadingAlertDialog.dismissProdRegLoadingDialog();
     }
 
-    @Override
-    public void onStop() {
-        dismissLoadingDialog();
-        super.onStop();
-    }
 }
