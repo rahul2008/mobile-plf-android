@@ -48,7 +48,15 @@
         },
         {
           "coconame":"Test ShineLib Demo"
+        },
+        {
+          "coconame":"Reference Node Connectivity"
         }
+      ]
+    },
+    {
+      "chapterName":"App Info",
+      "commonComponents":[
       ]
     }
   ]

@@ -189,25 +189,12 @@
 
     <string-array name="hamburger_drawer_items">
         <item>@string/RA_DLS_HomeScreen_Title</item>
-        <item>@string/RA_Settings_Menu_Title</item>
+        <item>@string/RA_SettingsScreen_Title</item>
         <item>@string/RA_Philips_Shop_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
         <item>@string/RA_About_Menu_Title</item>
-        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
-        <item>@string/RA_Coco_Version</item>
-        <item>@string/RA_DebugScreen_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
-    </string-array>
-
-    <string-array name="demo_drawer_items">
-        <item>@string/RA_HomeScreen_Title</item>
-        <item>@string/RA_Settings_Menu_Title</item>
-        <item>@string/RA_Philips_Shop_Menu_Title</item>
-        <item>@string/RA_Support_Menu_Title</item>
-        <item>@string/RA_About_Menu_Title</item>
-        <item>@string/RA_DataServices_Menu_Title</item>
-        <item>@string/RA_ConnectivityScreen_Menu_Title</item>
-        <item>@string/RA_Coco_Version</item>
+        <item>@string/RA_See_a_doctor_Menu_Title</item>
     </string-array>
 
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
@@ -224,6 +211,7 @@
     <string name="RA_About_Menu_Title">About</string>
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
+    <string name="RA_See_a_doctor_Menu_Title" translatable="false">See a doctor</string>
     <string name="RA_Demo_Menu_Title" translatable="false">Test Demo Apps</string>
     <string name="RA_HomeTab_Menu_Title">Home</string>
 
@@ -277,19 +265,29 @@ Receive free product accessories</string>
     <!--<item>@drawable/uikit_factory</item>-->
     <!--</array>-->
     <string name="RA_COCO_AppInfra" translatable="false">ail : App Infrastructure Library</string>
+    <string name="RA_COCO_AppInfra_desc" translatable="false">AppInfra is the component\'s top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
 
     <string name="RA_COCO_UR" translatable="false">usr : User Registration</string>
+    <string name="RA_COCO_UR_desc" translatable="false">User registration feature in Reference App provides the ability of registering a new user accessing the mobile application, for logging into the application using valid organization / social media specific credentials.</string>
+
     <string name="RA_COCO_PR" translatable="false">prg : Product Registration</string>
+    <string name="RA_COCO_PR_desc" translatable="false">Product registration is a common component, which facilitates the user to create/login into My Philips account and Register a Normal Product where by providing CTN Number, Serial Number(Mandatory) and Date of Purchase.</string>
 
     <string name="RA_COCO_IAP" translatable="false">iap : In-app Purchase</string>
+    <string name="RA_COCO_IAP_desc" translatable="false">In App Purchase feature in Reference App, provides the ability to buy products from the app for the users, which would give users the convenience of shopping anytime-anywhere. This approach also will boost marketing and sales.</string>
 
     <string name="RA_COCO_CC" translatable="false">dcc : Consumer Care</string>
+    <string name="RA_COCO_CC_desc" translatable="false">Whenever users find any difficulty in using the app, they can use the Consumer Care feature to get the issues resolved. The app provides a number of ways the users can access Consumer Care support, such as live chat, e-mail, call, tweet, Facebook post, and so on.</string>
 
     <string name="RA_COCO_Connectivity" translatable="false">cml : CommLib</string>
+    <string name="RA_COCO_Connectivity_desc" translatable="false">Connectivity feature in Reference App, provides the ability to pair the mobile application with a reference device using Bluetooth capability for capturing the data from the device to the mobile application.</string>
 
     <string name="RA_COCO_UIKIT" translatable="false">uit : Mobile UI Toolkit Non DLS</string>
+    <string name="RA_COCO_UIKIT_desc" translatable="false">UI Toolkit is a component that provides UI controls that are present in the designs provided by the design team on all the screens of the mobile application.</string>
 
     <string name="RA_COCO_DS" translatable="false">dsc : Data Services </string>
+    <string name="RA_COCO_DS_desc" translatable="false">Data Services is a common component that acts as a gateway to data core. It will provide synchronization with application data base for the below support the following types of data -\n<ul><li>Moments, Consents, Insights, Push notification and user characteristics.</li></ul></string>
+    <string name="something_wrong">Something went wrong</string>
 
     <string name="chapters" translatable="false">Chapters</string>
     <string name="common_components" translatable="false">Common Components</string>

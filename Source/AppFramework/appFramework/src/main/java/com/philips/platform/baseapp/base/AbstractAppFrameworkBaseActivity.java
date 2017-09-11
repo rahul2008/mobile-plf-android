@@ -92,6 +92,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
                     addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
 
                     break;
+                case Constants.ADD_FRAGMENT_WITH_BACKSTACK:
+                    addToBackStack(containerId, fragment, fragmentTag);
+                    break;
             }
         } catch (Exception e) {
             RALog.e(TAG, e.getMessage());
