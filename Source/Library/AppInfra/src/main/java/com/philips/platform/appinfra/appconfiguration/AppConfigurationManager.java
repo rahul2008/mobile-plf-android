@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.appconfiguration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -71,7 +70,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     protected JSONObject getMasterConfigFromApp() {
         try {
-            Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION,"Reading Master Config from app");
             final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
             final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
             final StringBuilder total = new StringBuilder();
@@ -82,7 +80,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             result = new JSONObject(total.toString());
             result = makeKeyUppercase(result); // converting all Group and child key Uppercase
         } catch (Exception e) {
-            logAppConfiguration(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_CONFIGUARTION,"CANNOT READ AppConfig.json file. \n " + Log.getStackTraceString(e));
+            logAppConfiguration(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_CONFIGUARTION,"CANNOT READ AppConfig.json file. \n " + e.getMessage());
         }
 
         return result;
@@ -93,7 +91,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (null == dynamicConfigJsonCache) {
             dynamicConfigJsonCache = getDynamicJSONFromDevice();
         }
-        Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic Config JsonCache");
         return dynamicConfigJsonCache;
     }
 
@@ -101,13 +98,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (staticConfigJsonCache == null) {
             staticConfigJsonCache = getMasterConfigFromApp();
         }
-        Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Static Config JsonCache");
         return staticConfigJsonCache;
     }
 
 
     private JSONObject getDynamicJSONFromDevice() {
-        Log.i(AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic JSON From Device");
         JSONObject mJsonObject = null;
         final SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
         mSecureStorageInterface = mAppInfra.getSecureStorage();
@@ -119,7 +114,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 mJsonObject = makeKeyUppercase(mJsonObject); // converting all Group and child key Uppercase
             } catch (Exception e) {
                 logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"AppConfiguration exception "+
-                        Log.getStackTraceString(e));
+                        e.getMessage());
             }
         }
         return mJsonObject;
@@ -129,12 +124,10 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (cloudConfigJsonCache == null) {
             cloudConfigJsonCache = getCloudJSONFromDevice();
         }
-        Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION, "get CloudConfig JsonCache");
         return cloudConfigJsonCache;
     }
 
     private JSONObject getCloudJSONFromDevice() {
-        Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Cloud JSON From Device");
         JSONObject cloudConfigJsonObj = null;
         mSharedPreferences = getCloudConfigSharedPreferences();
         if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_JSON)) {
@@ -144,7 +137,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     cloudConfigJsonObj = new JSONObject(savedCloudConfigJson);
                 } catch (Exception e) {
                     logAppConfiguration(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_CONFIGUARTION, "AppConfiguration exception "+
-                            Log.getStackTraceString(e));
+                            e.getMessage());
                 }
             }
         }
@@ -168,13 +161,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.KeyNotExists) {   // key in dynamic config does not exist
                     configError.setErrorCode(null);// reset error code to null
                     object = getKey(key, group, configError, getCloudConfigJsonCache()); // Level 2 search in cloud config
-                    Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in cloud config");
                     if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey || // cloud config does not exist
                             configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.GroupNotExists || // Group in cloud config does not exist
                             configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.KeyNotExists) {   // key in cloud config does not exist
                         configError.setErrorCode(null);// reset error code to null
                         object = getKey(key, group, configError, getStaticConfigJsonCache()); // Level 3 search in static config
-                        Log.d(AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in static config");
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
                             logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAppConfig Group:" + group + "   Key:" + key + "  found in static config");
                         }
@@ -189,7 +180,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     }
                 }
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+Log.getStackTraceString(e));
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+e.getMessage());
             }
         }
         return object;
@@ -269,7 +260,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 }
             } catch (Exception e) {
                 logAppConfiguration(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_CONFIGUARTION,"AppConfiguration exception"+
-                        Log.getStackTraceString(e));
+                        e.getMessage());
                 setOperation = false;
             }
         }
@@ -290,7 +281,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 object = getKey(key, group, configError, getStaticConfigJsonCache());
                 logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"get Default Property For Key");
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+Log.getStackTraceString(e));
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception "+e.getMessage());
             }
         }
         return object;
@@ -330,7 +321,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                                 try {
                                     object = jsonToMap(cocoJSONobject.opt(key));
                                 } catch (JSONException e) {
-                                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+Log.getStackTraceString(e));
+                                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception "+e.getMessage());
                                 }
                             }
                         }
