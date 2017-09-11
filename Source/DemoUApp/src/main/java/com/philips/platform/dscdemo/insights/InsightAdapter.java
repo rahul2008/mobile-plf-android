@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.insights;
 
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +19,13 @@ import com.philips.platform.dscdemo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> {
+class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> {
 
     private List<? extends Insight> mInsightList;
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<Insight> mDBRequestListener;
 
-    public InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener dbRequestListener) {
-        this.dbRequestListener = dbRequestListener;
+    InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener<Insight> dbRequestListener) {
+        this.mDBRequestListener = dbRequestListener;
         this.mInsightList = insightList;
     }
 
@@ -46,9 +45,9 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
         holder.mDeleteInsight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Insight> insightsToDelete = new ArrayList();
+                List<Insight> insightsToDelete = new ArrayList<>();
                 insightsToDelete.add(insight);
-                DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
+                DataServicesManager.getInstance().deleteInsights(insightsToDelete, mDBRequestListener);
                 mInsightList.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
@@ -63,18 +62,18 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
         return mInsightList.size();
     }
 
-    public void setInsightList(final ArrayList<? extends Insight> insightList) {
+    void setInsightList(final ArrayList<? extends Insight> insightList) {
         mInsightList = insightList;
     }
 
-    public class InsightHolder extends RecyclerView.ViewHolder {
+    class InsightHolder extends RecyclerView.ViewHolder {
         TextView mInsightID;
         TextView mMomentID;
         TextView mLastModified;
         TextView mRuleID;
         Button mDeleteInsight;
 
-        public InsightHolder(final View view) {
+        InsightHolder(final View view) {
             super(view);
             mInsightID = (TextView) view.findViewById(R.id.insight_id);
             mMomentID = (TextView) view.findViewById(R.id.moment_id);

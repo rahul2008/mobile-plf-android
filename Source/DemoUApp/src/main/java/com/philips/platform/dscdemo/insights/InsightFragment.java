@@ -1,18 +1,19 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.insights;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SyncType;
@@ -20,19 +21,37 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public class InsightFragment extends DSBaseFragment
+        implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
 
+    private ArrayList<? extends Insight> mInsightList = new ArrayList<>();
 
-public class InsightFragment extends Fragment implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
-    InsightAdapter mInsightAdapter;
-    RecyclerView mInsightsRecyclerView;
-    ArrayList<? extends Insight> mInsightList = new ArrayList();
-    DataServicesManager mDataServicesManager;
+    private InsightAdapter mInsightAdapter;
+    private DataServicesManager mDataServicesManager;
+
+    private RecyclerView mInsightsRecyclerView;
     private TextView mNoInsights;
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.insights_title;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getString(R.string.insights_title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return true;
+    }
 
     @Nullable
     @Override
@@ -76,8 +95,13 @@ public class InsightFragment extends Fragment implements DBRequestListener<Insig
     }
 
     @Override
-    public void dBChangeFailed(Exception e) {
-
+    public void dBChangeFailed(final Exception e) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -93,7 +117,7 @@ public class InsightFragment extends Fragment implements DBRequestListener<Insig
 
     @Override
     public void onFetchFailure(Exception exception) {
-
+        refreshOnFailure(exception);
     }
 
     @Override
@@ -103,7 +127,7 @@ public class InsightFragment extends Fragment implements DBRequestListener<Insig
 
     @Override
     public void onFailure(Exception exception) {
-
+        refreshOnFailure(exception);
     }
 
     public void updateUI(final List<? extends Insight> insights) {
@@ -123,6 +147,18 @@ public class InsightFragment extends Fragment implements DBRequestListener<Insig
                         mInsightsRecyclerView.setVisibility(View.GONE);
                         mNoInsights.setVisibility(View.VISIBLE);
                     }
+                }
+            });
+        }
+    }
+
+    private void refreshOnFailure(final Exception exception) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
