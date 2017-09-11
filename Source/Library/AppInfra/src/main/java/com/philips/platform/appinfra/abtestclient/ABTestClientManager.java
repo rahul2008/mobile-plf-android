@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.adobe.mobile.Config;
 import com.adobe.mobile.Target;
@@ -74,11 +73,9 @@ public class ABTestClientManager implements ABTestClientInterface {
         //add the mbox name so that value will be filled during refresh
         try {
             testList = getTestNameFromConfig();
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Load from Disk");
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                   "Error in Load from Disk "+e.toString());
+                   "Error in Load from Disk "+e.getMessage());
         }
         if (testList != null && testList.size() > 0) {
             for (String test : testList) {
@@ -90,12 +87,12 @@ public class ABTestClientManager implements ABTestClientInterface {
                 }
             }
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Cache Status values EXPERIENCES_NOT_UPDATED");
+           /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "Cache Status values EXPERIENCES_NOT_UPDATED");*/
         }  else {
             mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Cache Status values NO_TESTS_DEFINED");
+            /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "Cache Status values NO_TESTS_DEFINED");*/
         }
     }
 
@@ -118,8 +115,8 @@ public class ABTestClientManager implements ABTestClientInterface {
 								" in AppConfig.json file");
 					}
 				}
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-						"fetch the testNames from the config");
+			/*	mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+						"fetch the testNames from the config");*/
 				return mBoxList;
 			} else {
 				throw new IllegalArgumentException("Test Names for AB testing should be array of strings" +
@@ -137,7 +134,7 @@ public class ABTestClientManager implements ABTestClientInterface {
      * @return cacheStauts
      */
     public CACHESTATUSVALUES getCacheStatus() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "CacheStatus "+mCachestatusvalues);
         return mCachestatusvalues;
     }
@@ -155,8 +152,8 @@ public class ABTestClientManager implements ABTestClientInterface {
     public String getTestValue(final String requestNameKey, final String defaultValue,
                                final UPDATETYPES updateType, Map<String, Object> parameters) {
 
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "testName " + requestNameKey);
+        /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "testName " + requestNameKey);*/
         String requestName=mappedRequestName(requestNameKey);
         String testValue = getTestValueFromMemoryCache(requestName);
         if (testValue == null) {
@@ -179,8 +176,8 @@ public class ABTestClientManager implements ABTestClientInterface {
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
             saveCachetoPreference(mCacheModel);
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "testValue " + testValue);
+       /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "testValue " + testValue);*/
 
         return testValue;
     }
@@ -200,8 +197,8 @@ public class ABTestClientManager implements ABTestClientInterface {
         if (updateType.equals(UPDATETYPES.EVERY_APP_START)) {
             removeCacheforTestName(testName);
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "update memory cache for TestName");
+       /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "update memory cache for TestName");*/
     }
 
 
@@ -223,8 +220,8 @@ public class ABTestClientManager implements ABTestClientInterface {
                 cModel.remove(testName);
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "remove cache for TestName");
+       /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "remove cache for TestName");*/
     }
 
     /**
@@ -282,7 +279,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         } catch (IllegalArgumentException exception) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                   "Error in isAppUpdated ");
+                   "IllegalArgumentException in isAppUpdated "+exception.getMessage());
         }
 
         return false;
@@ -297,8 +294,8 @@ public class ABTestClientManager implements ABTestClientInterface {
     @Override
     public void updateCache(final OnRefreshListener listener) {
         if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "update Cache");
+            /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "update Cache");*/
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
             if (listener != null)
                 listener.onError(OnRefreshListener.ERRORVALUES.NO_NETWORK, "NO INTERNET");
@@ -329,8 +326,6 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void refreshForVariableType(int variableType) {
         String defaultValue = null;
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "Refreshing cache upto " + variableType);
         loadfromDisk();
         mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_PARTIALLY_UPDATED;
         final HashMap<String, CacheModel.ValueModel> val = mCacheStatusValue;
@@ -338,9 +333,9 @@ public class ABTestClientManager implements ABTestClientInterface {
             for (String key : val.keySet()) {
                 final CacheModel.ValueModel valModel = val.get(key);
                 final UPDATETYPES updateType = UPDATETYPES.valueOf(valModel.getUpdateType());
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         "update TYPE" + updateType.getValue());
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         "varialbe TYPE" + variableType);
 
                 if (updateType.getValue() <= variableType) {
@@ -405,7 +400,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 if (content != null) {
                     mExperience = content;
                     updateMemorycacheForTestName(requestName, content, updatetypes);
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
                             "get Test Value From Server location request"+ content);
                 }
                 done.countDown();
@@ -414,8 +409,9 @@ public class ABTestClientManager implements ABTestClientInterface {
         try {
             // done.await(10, TimeUnit.SECONDS);
             done.await();
-        } catch (InterruptedException e) {
-            Log.e(" ABCM - interrupted "," while test Value from server");
+        } catch (InterruptedException exception) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "Interrupted while test Value from server"+exception.getMessage());
         }
         return mExperience;
     }
@@ -428,7 +424,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         } catch (IllegalArgumentException exception) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Error in getAppVersion ");
+                    "Error in getAppVersion "+exception.getMessage());
         }
         return null;
     }
@@ -445,8 +441,8 @@ public class ABTestClientManager implements ABTestClientInterface {
             @Override
             public void run() {
                 cacheToPreference= gson.toJson(model);
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                        "save Cache to Preference "+cacheToPreference);
+                /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                        "save Cache to Preference "+cacheToPreference);*/
                 editor.putString("cacheobject", cacheToPreference);
                 editor.commit();
             }
@@ -474,8 +470,8 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
     private void saveAppVeriontoPref(String mAppVerion) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "save AppVerion to Pref"+mAppVerion);
+        /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                "save AppVerion to Pref"+mAppVerion);*/
         editor.putString("APPVERSION", mAppVerion);
         editor.commit();
     }
@@ -483,8 +479,8 @@ public class ABTestClientManager implements ABTestClientInterface {
     private String getAppVerionfromPref() {
         if(mSharedPreferences != null) {
             final String getAppVerionfromPref=mSharedPreferences.getString("APPVERSION", "");
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "get AppVerion from Pref"+getAppVerionfromPref);
+            /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "get AppVerion from Pref"+getAppVerionfromPref);*/
             return getAppVerionfromPref;
         }
         return null;
@@ -499,8 +495,8 @@ public class ABTestClientManager implements ABTestClientInterface {
             return mbox;
 
         } catch (IllegalArgumentException exception) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config ");
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config "+exception.getMessage());
         }
         return null;
     }
@@ -529,8 +525,8 @@ public class ABTestClientManager implements ABTestClientInterface {
                     ("abtest.mapping", "appinfra", configError);
 
         } catch (IllegalArgumentException exception) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config ");
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting Map Config "+exception.getMessage());
         }
         return null;
     }
