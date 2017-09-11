@@ -53,6 +53,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     Label mInitialVisitCostLabel;
     Label mActualCostHeader;
 
+    Label mPaymentNotRequired;
+
     THSVisit thsVisit;
 
     AlertDialogFragment alertDialogFragment;
@@ -105,6 +107,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mCouponCodeButton.setOnClickListener(this);
         mInitialVisitCostLabel = (Label)view.findViewById(R.id.ths_cost_summary_initial_visit_cost_label);
         mActualCostHeader= (Label) view.findViewById(R.id.ths_cost_summary_title_label);
+        mPaymentNotRequired=(Label) view.findViewById(R.id.ths_cost_summary_no_payment_detail_required_label);
 
         return view;
     }
@@ -133,7 +136,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     public void onStart() {
         super.onStart();
         mPresenter.fetchExistingSubscription();
-        mPresenter.getPaymentMethod();
+        //mPresenter.getPaymentMethod();
         //mPresenter.createVisit();
     }
 

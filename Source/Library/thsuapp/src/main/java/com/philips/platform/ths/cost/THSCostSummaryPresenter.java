@@ -139,7 +139,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     }
 
     private void updateCost(THSVisit thsVisit) {
-
+        getPaymentMethod(); // call payment option
         if (thsVisit.getVisit().getVisitCost().isFree()) {
             mTHSCostSummaryFragment.mActualCostHeader.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_header));
             mTHSCostSummaryFragment.costBigLabel.setText("Free");
@@ -208,6 +208,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
         if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
             // show payment detail
             mTHSCostSummaryFragment.mNoPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
+            mTHSCostSummaryFragment.mPaymentNotRequired.setVisibility(View.GONE);
             mTHSCostSummaryFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.VISIBLE);
             PaymentMethod paymentMethod = tHSPaymentMethod.getPaymentMethod();
             mTHSCostSummaryFragment.mCardType.setText(paymentMethod.getType());
@@ -223,15 +224,28 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
                 mTHSCostSummaryFragment.mCardExpirationDate.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_valid_credit_card));
             }
         } else {
-            // show no payment detail
-            mTHSCostSummaryFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
-            mTHSCostSummaryFragment.mNoPaymentMethodDetailRelativeLayout.setVisibility(View.VISIBLE);
-            mTHSCostSummaryFragment.mCostSummaryContinueButton.setText("Add payment method");
+            if(mTHSCostSummaryFragment.thsVisit.getVisit().getVisitCost().isFree()) {
+                // if visit is free then  no payment detail required
+                mTHSCostSummaryFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
+                mTHSCostSummaryFragment.mPaymentNotRequired.setVisibility(View.VISIBLE);
+                mTHSCostSummaryFragment.mNoPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
 
 
-            //  show  "Add payment method" button
-            mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.GONE);
-            mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.VISIBLE);
+                mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.VISIBLE);
+                mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
+            }else{
+                // show no payment detail
+                mTHSCostSummaryFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.GONE);
+                mTHSCostSummaryFragment.mPaymentNotRequired.setVisibility(View.GONE);
+                mTHSCostSummaryFragment.mNoPaymentMethodDetailRelativeLayout.setVisibility(View.VISIBLE);
+                mTHSCostSummaryFragment.mCostSummaryContinueButton.setText("Add payment method");
+
+
+                //  show  "Add payment method" button
+                mTHSCostSummaryFragment.mCostSummaryContinueButtonRelativeLayout.setVisibility(View.GONE);
+                mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 
