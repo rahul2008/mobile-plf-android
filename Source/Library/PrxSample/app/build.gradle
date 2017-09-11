@@ -40,7 +40,7 @@ objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "prxApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile(versions.prx_prx)
+version = objcdp.getVersion(versions.prx_prx)
 
 allprojects {
     repositories {
