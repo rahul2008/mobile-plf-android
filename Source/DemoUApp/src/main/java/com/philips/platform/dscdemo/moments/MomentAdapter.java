@@ -24,19 +24,19 @@ import com.philips.platform.dscdemo.database.table.OrmMoment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<? extends Moment> mData;
+class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<? extends Moment> mMomentList;
     private Context mContext;
     private Drawable mOptionsDrawable;
-    DataServicesManager mDataServices;
+    private DataServicesManager mDataServicesManager;
     private final MomentPresenter mTemperaturePresenter;
 
 
     public MomentAdapter(final Context context, final ArrayList<? extends Moment> data, MomentPresenter mTemperaturePresenter) {
 
         this.mTemperaturePresenter = mTemperaturePresenter;
-        mDataServices = DataServicesManager.getInstance();
-        mData = data;
+        mDataServicesManager = DataServicesManager.getInstance();
+        mMomentList = data;
         mContext = context;
         initDrawables();
     }
@@ -53,7 +53,7 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
             MomentHelper helper = new MomentHelper();
-            Moment moment = (OrmMoment) mData.get(position);
+            Moment moment = (OrmMoment) mMomentList.get(position);
             if (moment.getSynchronisationData() != null)
                 mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
             else
@@ -66,7 +66,7 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(MomentAdapter.this, mData, view, holder.getAdapterPosition());
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(MomentAdapter.this, mMomentList, view, holder.getAdapterPosition());
                 }
             });
         }
@@ -74,14 +74,14 @@ public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        if (mData != null)
-            return mData.size();
+        if (mMomentList != null)
+            return mMomentList.size();
         else
             return 0;
     }
 
     public void setData(final ArrayList<? extends Moment> data) {
-        this.mData = data;
+        this.mMomentList = data;
     }
 
     public class DataSyncViewHolder extends RecyclerView.ViewHolder {
