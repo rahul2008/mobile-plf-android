@@ -15,10 +15,12 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
@@ -28,6 +30,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class DebugTestFragmentTest extends TestCase {
+    private ActivityController<TestActivity> activityController;
     private HamburgerActivity hamburgerActivity;
     private DebugTestFragment debugFragment;
     private FragmentActivity fragmentActivityMock;
@@ -37,7 +40,8 @@ public class DebugTestFragmentTest extends TestCase {
     public void setUp() throws Exception {
         initMocks(this);
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().visible().get();
+        activityController = Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity = activityController.create().start().visible().get();
         debugFragment = new DebugTestFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(debugFragment, "DebugFragmentTest").commit();
         fragmentActivityMock = mock(FragmentActivity.class);
@@ -49,6 +53,19 @@ public class DebugTestFragmentTest extends TestCase {
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
         assertEquals(0, fragmentCount);
+    }
+
+    @Test
+    public void handleBackEventTest() {
+        assertTrue(debugFragment.handleBackEvent());
+    }
+
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        debugFragment = null;
+        hamburgerActivity = null;
+        activityController = null;
     }
 
 //    @Test

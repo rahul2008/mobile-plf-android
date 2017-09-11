@@ -2,8 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_eight"
+    android:layout_marginRight="@dimen/margin_eight"
+    android:layout_marginTop="@dimen/margin_eight"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/coco_description_background"
     android:orientation="vertical"
-    >
+    android:padding="@dimen/margin_eight">
 
     <TextView
         android:id="@+id/coco_name"
@@ -23,10 +28,24 @@
         android:textColor="?attr/uikit_listtextselector"
         android:textSize="14sp" />
     <View
+        android:id="@+id/description_seperator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:background="@color/uikit_philips_blue"
-        />
+        android:visibility="gone"
+        android:alpha="0.8"
+        android:background="@color/uikit_philips_blue" />
+
+    <TextView
+        android:id="@+id/coco_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="3dip"
+        android:padding="5dp"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+
 </LinearLayout>

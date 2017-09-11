@@ -13,6 +13,7 @@ import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.cocoversion.CocoVersionFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class TestFragment extends AbstractAppFrameworkBaseFragment implements Te
 
 
     private TestPresenter testPresenter;
+
+    private final String APP_INFO_CHAPTER = "App Info";
 
     @Nullable
     @Override
@@ -71,11 +74,20 @@ public class TestFragment extends AbstractAppFrameworkBaseFragment implements Te
 
     @Override
     public void showCoCoList(Chapter chapter) {
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,chapter);
-        COCOListFragment cocoListFragment=new COCOListFragment();
-        cocoListFragment.setArguments(bundle);
-        ((AbstractAppFrameworkBaseActivity)getActivity()).addFragment(cocoListFragment,"CoCoListFragment");
+        AbstractAppFrameworkBaseFragment baseFragment;
+
+        switch (chapter.getChapterName()) {
+            case APP_INFO_CHAPTER:
+                baseFragment = new CocoVersionFragment();
+                break;
+            default:
+                Bundle bundle=new Bundle();
+                bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,chapter);
+                baseFragment = new COCOListFragment();
+                baseFragment.setArguments(bundle);
+                break;
+        }
+        ((AbstractAppFrameworkBaseActivity)getActivity()).addFragment(baseFragment, baseFragment.getClass().getSimpleName());
     }
 
 }
