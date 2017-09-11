@@ -25,6 +25,7 @@ public class Constants {
     public static final int ADD_HOME_FRAGMENT = 200000;
     public static final int CLEAR_TILL_HOME = 200001;
     public static final int ADD_FROM_HAMBURGER = 200002;
+    public static final int ADD_FRAGMENT_WITH_BACKSTACK = 200004;
 
     //Error Loging constants
     public static final String FILE_IO = "file_IO_error";

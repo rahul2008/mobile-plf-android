@@ -12,13 +12,19 @@ import android.widget.ImageView;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
+import com.philips.platform.uid.view.widget.Button;
 import com.shamanland.fonticon.FontIconView;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
@@ -26,6 +32,9 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -34,14 +43,23 @@ public class WelcomeFragmentTest {
     private WelcomeFragmentMockAbstract welcomeFragment;
     private ViewPager pager;
     private ImageView rightArrow;
+    private Button environmentSelection;
     private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    private static WelcomeFragmentPresenter presenter;
 
     @After
     public void tearDown(){
         activityController.pause().stop().destroy();
         welcomeFragment=null;
         pager=null;
+        environmentSelection = null;
         launchActivity=null;
+        presenter = null;
     }
     @Before
     public void setUp(){
@@ -51,6 +69,8 @@ public class WelcomeFragmentTest {
         welcomeFragment =  new WelcomeFragmentMockAbstract();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeFragment,null).commit();
         pager = (ViewPager) welcomeFragment.getView().findViewById(R.id.welcome_pager);
+        environmentSelection = (Button) welcomeFragment.getView().findViewById(R.id.environment_selection);
+
     }
 
     @Test
@@ -77,6 +97,21 @@ public class WelcomeFragmentTest {
     }
 
     @Test
+    public void testEnvironmentSelectionVisibility() {
+        pager.setCurrentItem(0);
+        assertTrue(View.VISIBLE == environmentSelection.getVisibility());
+
+        pager.setCurrentItem(1);
+        assertFalse(View.VISIBLE == environmentSelection.getVisibility());
+    }
+    @Test
+    public void testEnvironmentSelectionLongClick() {
+        Button environmentSelection = (Button) welcomeFragment.getView().findViewById(R.id.environment_selection);
+        environmentSelection.performLongClick();
+        verify(presenter).onEvent(anyInt());
+    }
+
+    @Test
     public void testClearAdapter() {
         welcomeFragment.clearAdapter();
         assertNull(pager.getAdapter());
@@ -87,6 +122,11 @@ public class WelcomeFragmentTest {
         @Override
         protected void startLogging() {
 
+        }
+
+        @Override
+        protected AbstractUIBasePresenter getWelcomePresenter() {
+            return presenter;
         }
     }
 

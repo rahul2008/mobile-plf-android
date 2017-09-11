@@ -7,6 +7,15 @@
     android:background="?attr/uidContentSecondaryBackgroundColor"
     tools:ignore="MissingPrefix">
 
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/environment_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/margin_eight"
+        android:layout_margin="@dimen/margin_eight"
+        android:background="@android:color/transparent"/>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/welcome_pager"
         android:layout_width="match_parent"

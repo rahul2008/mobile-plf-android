@@ -93,6 +93,15 @@
                 "nextState": "onBoarding_registration"
               }
             ]
+          },
+          {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
+              }
+            ]
           }
         ]
       },
@@ -154,6 +163,15 @@
             ]
           },
           {
+            "eventId": "telehealthservices",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "telehealthservices"
+              }
+            ]
+          },
+          {
             "eventId": "connectivity",
             "nextStates": [
               {
@@ -177,15 +195,6 @@
               {
                 "condition": [],
                 "nextState": "coco_version_info"
-              }
-            ]
-          },
-          {
-            "eventId": "debug",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "debug"
               }
             ]
           }
@@ -386,6 +395,15 @@
               {
                 "condition": [],
                 "nextState": "demoBlueLib"
+              }
+            ]
+          },
+          {
+            "eventId": "connectivity",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "connectivity"
               }
             ]
           },

@@ -16,6 +16,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -90,7 +91,7 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
         return textExtraTaggingData.get(key);
     }
 
-    protected Map<String, String> getSerializableExtra(Intent intent) {
-        return (Map) intent.getSerializableExtra(TAGGING_DATA);
+    protected HashMap<String, String> getSerializableExtra(Intent intent) {
+        return (HashMap<String, String>) intent.getSerializableExtra(TAGGING_DATA);
     }
 }
