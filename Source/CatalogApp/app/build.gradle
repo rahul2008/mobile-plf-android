@@ -34,7 +34,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -52,7 +52,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "uidApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.uid_uid)
+version = objcdp.getVersion(versions.uid_uid)
 
 allprojects {
     repositories {
