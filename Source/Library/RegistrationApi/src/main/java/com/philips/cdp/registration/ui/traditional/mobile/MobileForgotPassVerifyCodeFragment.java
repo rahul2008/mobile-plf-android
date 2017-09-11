@@ -22,7 +22,6 @@ import com.jakewharton.rxbinding2.widget.*;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
@@ -37,10 +36,11 @@ import javax.inject.*;
 
 import butterknife.*;
 
+import static com.janrain.android.Jump.*;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
 
-public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
-        MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener{
+public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
+        MobileForgotPassVerifyCodeContract, OnUpdateListener{
 
     @Inject
     NetworkUtility networkUtility;
@@ -55,29 +55,47 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     XRegError errorMessage;
 
     @BindView(R2.id.reg_verify_mobile_desc1)
-    Label reg_verify_mobile_desc1;
+    Label verifyPasswordDesc1;
 
     @BindView(R2.id.usr_forgotpassword_inputId_ValidationEditText)
     ValidationEditText verificationCodeValidationEditText;
 
     private Context context;
 
-    private User user;
-
-    private MobileVerifyCodePresenter mobileVerifyCodePresenter;
+    private MobileForgotPassVerifyCodePresenter mobileVerifyCodePresenter;
 
     private Handler handler;
 
     boolean isVerified;
 
+    private String verificationSmsCodeURL;
+
+    private String mobileNumber;
+
+    private String responseToken;
+
+    private String redirectUri;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+                             Bundle savedInstanceState) {
+        final String mobileNumberKey = "mobileNumber";
+        final String responseTokenKey = "token";
+        final String redirectUriKey = "redirectUri";
+        final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
+
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
         trackActionStatus(REGISTRATION_ACTIVATION_SMS,"","");
         context = getRegistrationFragment().getActivity().getApplicationContext();
-        mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
-        user = new User(context);
+
+        Bundle bundle = getArguments();
+        mobileNumber = bundle.getString(mobileNumberKey);
+        responseToken = bundle.getString(responseTokenKey);
+        redirectUri = bundle.getString(redirectUriKey);
+        verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
+
+        mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
         ButterKnife.bind(this, view);
         handleOrientation(view);
@@ -89,11 +107,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void setDescription() {
-        String userId =  user.getMobile();
         String normalText = getString(R.string.reg_verify_mobile_desc1);
-        SpannableString str = new SpannableString(normalText + " "+ userId);
-        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length(), str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        reg_verify_mobile_desc1.setText(str);
+        SpannableString str = new SpannableString(normalText + " "+ mobileNumber);
+        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length(), str.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        verifyPasswordDesc1.setText(str);
     }
 
     private void handleVerificationCode() {
@@ -106,6 +124,28 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
                 });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onEvent(UpdateToken event){
+        responseToken = event.getToken();
+    }
+
+    @Subscribe
+    public void onEvent(UpdateMobile event){
+        mobileNumber = event.getMobileNumber();
+        setDescription();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -137,7 +177,8 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void updateUiStatus() {
-        if (verificationCodeValidationEditText.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
+        if (verificationCodeValidationEditText.getText().length()
+                >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             enableVerifyButton();
         } else {
             disableVerifyButton();
@@ -146,22 +187,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     public void handleUI() {
         updateUiStatus();
-    }
-
-    @Override
-    public void onRefreshUserSuccess() {
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
-        storePreference(user.getMobile());
-        setDescription();
-        hideProgressSpinner();
-        if(isVerified)
-            getRegistrationFragment().addFragment(new AddSecureEmailFragment());
-    }
-
-    @Override
-    public void onRefreshUserFailed(int error) {
-        hideProgressSpinner();
-        RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
     }
 
     @Override
@@ -184,75 +209,82 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         smsNotReceived.setEnabled(false);
         verificationCodeValidationEditText.setEnabled(false);
         getRegistrationFragment().hideKeyBoard();
-        mobileVerifyCodePresenter.verifyMobileNumber(user.getJanrainUUID(),
-                verificationCodeValidationEditText.getText().toString());
+        createSMSPasswordResetIntent();
     }
 
+    public Intent createSMSPasswordResetIntent() {
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        EventBus.getDefault().unregister(this);
+        RLog.i("MobileVerifyCodeFragment ", "response" + verificationCodeValidationEditText.getText()
+                + " " + redirectUri + " " + responseToken);
+        constructRedirectUri();
+        final String redirectUriKey = "redirectUri";
+        ResetPasswordWebView resetPasswordWebView = new ResetPasswordWebView();
+        Bundle bundle = new Bundle();
+        bundle.putString(redirectUriKey, redirectUri);
+        resetPasswordWebView.setArguments(bundle);
+        getRegistrationFragment().addFragment(resetPasswordWebView);
+        return null;
     }
 
-    @Override
-    public void onResume() {
-        user.refreshUser(this);
-        super.onResume();
-        EventBus.getDefault().register(this);
+    private void constructRedirectUri() {
+        redirectUri = redirectUri + "?code=" + verificationCodeValidationEditText.getText()
+                + "&token=" + responseToken;
     }
 
-    @Subscribe
-    public void onEvent(UpdateMobile event){
-        user.refreshUser(this);
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        user.refreshUser(this);
-        super.onViewStateRestored(savedInstanceState);
-    }
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
+        final String mobileNumberKey = "mobileNumber";
+        final String tokenKey = "token";
+        final String redirectUriKey = "redirectUri";
+        final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
         disableVerifyButton();
         verifyButton.hideProgressIndicator();
-        getRegistrationFragment().addFragment( new MobileVerifyResendCodeFragment());
         errorMessage.hideError();
-
+        addFragment(mobileNumberKey, tokenKey, redirectUriKey, verificationSmsCodeURLKey);
     }
 
-    @Override
+    private void addFragment(String mobileNumberKey, String tokenKey, String redirectUriKey,
+                             String verificationSmsCodeURLKey) {
+        MobileForgotPassVerifyResendCodeFragment mobileForgotPasswordVerifyCodeFragment
+                = new MobileForgotPassVerifyResendCodeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(mobileNumberKey, mobileNumber);
+        bundle.putString(tokenKey, responseToken);
+        bundle.putString(redirectUriKey, getRedirectUri());
+        bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
+        mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
+        getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
+    }
+
     public Intent getServiceIntent() {
         return new Intent(context, HttpClientService.class);
     }
 
-    @Override
     public HttpClientServiceReceiver getClientServiceRecevier() {
         return new HttpClientServiceReceiver(handler);
     }
 
-    @Override
     public ComponentName startService(Intent intent) {
         return context.startService(intent);
     }
 
-    @Override
     public void enableVerifyButton() {
-        if ((verificationCodeValidationEditText.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) &&
-                networkUtility.isNetworkAvailable()) {
+        if ((verificationCodeValidationEditText.getText().length()
+                >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH)
+                && networkUtility.isNetworkAvailable()) {
             verifyButton.setEnabled(true);
         }
     }
 
-    @Override
     public void disableVerifyButton() {
         verifyButton.setEnabled(false);
     }
 
     @Override
     public void netWorkStateOnlineUiHandle() {
-        if (verificationCodeValidationEditText.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
+        if (verificationCodeValidationEditText.getText().length()
+                >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             verifyButton.setEnabled(true);
         }
         errorMessage.hideError();
@@ -266,27 +298,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         smsNotReceived.setEnabled(false);
     }
 
-    @Override
-    public void showSmsSendFailedError() {
-        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
-        hideProgressSpinner();
-    }
 
-    @Override
-    public void refreshUserOnSmsVerificationSuccess() {
-        trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_USER_REGISTRATION);
-        isVerified = true;
-        user.refreshUser(this);
-    }
-
-    @Override
-    public void smsVerificationResponseError() {
-        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-        hideProgressSpinner();
-
-    }
-
-    @Override
     public void hideProgressSpinner() {
         verifyButton.hideProgressIndicator();
         smsNotReceived.setEnabled(true);
@@ -294,28 +306,11 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         enableVerifyButton();
     }
 
-    @Override
-    public void setOtpInvalidErrorMessage() {
-        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-        hideProgressSpinner();
-    }
 
-    @Override
-    public void setOtpErrorMessageFromJson(String errorDescription) {
-        trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        errorMessage.setError(errorDescription);
-        hideProgressSpinner();
-    }
-
-    @Override
     public void storePreference(String emailOrMobileNumber) {
-        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), emailOrMobileNumber, true);
+        RegPreferenceUtility.storePreference(
+                getRegistrationFragment().getContext(), emailOrMobileNumber, true);
     }
 
-    @Override
-    public void showOtpInvalidError() {
-        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
-        hideProgressSpinner();
-    }
+
 }
