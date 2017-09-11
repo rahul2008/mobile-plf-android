@@ -28,7 +28,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: project.ext.builddeps.cdpSCM, changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -66,7 +66,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(project.ext.versions.dsc_dataServices)
+version = objcdp.getVersion(versions.dsc_dataServices)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -155,13 +155,13 @@ dependencies {
     //Coco
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: project.ext.versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule) 
 	{
 		transitive true
 	}	
 
-    def sdbModule = module(group: 'com.philips.cdp', name: 'securedblibrary', version: project.ext.versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+    def sdbModule = module(group: 'com.philips.cdp', name: 'securedblibrary', version: versions.sdb_securedblibrary + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
     compile(dp ? project(':sdb') : sdbModule) 
     {
         transitive true
