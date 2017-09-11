@@ -63,7 +63,6 @@ public class CoCoVersionAdapterTest {
     public void testDescriptionVisibilityWhenClickedOnce() throws InterruptedException {
         listItemView.performClick();
         cocoVersionAdapter.onBindViewHolder(holder, 0);
-        //Robolectric.getForegroundThreadScheduler().advanceBy(1000, TimeUnit.MILLISECONDS);
         assertTrue(holder.cocoDescription.getVisibility() == View.VISIBLE);
     }
 
@@ -71,11 +70,9 @@ public class CoCoVersionAdapterTest {
     public void testDescriptionVisibilityWhenClickedTwice() throws InterruptedException {
         listItemView.performClick();
         cocoVersionAdapter.onBindViewHolder(holder, 0);
-        //Robolectric.getForegroundThreadScheduler().advanceBy(1000, TimeUnit.MILLISECONDS);
         assertTrue(holder.cocoDescription.getVisibility() == View.VISIBLE);
         listItemView.performClick();
         cocoVersionAdapter.onBindViewHolder(holder, 0);
-        //Robolectric.getForegroundThreadScheduler().advanceBy(1000, TimeUnit.MILLISECONDS);
         assertFalse(holder.cocoDescription.getVisibility() == View.VISIBLE);
     }
     private ArrayList<CocoVersionItem> dummyList() {
