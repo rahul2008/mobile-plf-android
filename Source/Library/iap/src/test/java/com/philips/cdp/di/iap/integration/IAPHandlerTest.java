@@ -84,6 +84,11 @@ public class IAPHandlerTest {
             }
 
             @Override
+            public void onSuccess(Object bool) {
+
+            }
+
+            @Override
             public void onFailure(int errorCode) {
 
             }

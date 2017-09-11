@@ -268,6 +268,11 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Override
+    public void onSuccess(Object bool) {
+        
+    }
+
+    @Override
     public void onGetCartCount(int count) {
 
     }

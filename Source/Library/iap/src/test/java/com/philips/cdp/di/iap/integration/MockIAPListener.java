@@ -33,6 +33,11 @@ public class MockIAPListener implements IAPListener {
     }
 
     @Override
+    public void onSuccess(Object bool) {
+
+    }
+
+    @Override
     public void onFailure(int errorCode) {
 
     }
