@@ -75,7 +75,7 @@ public class PowerSleepConnectivityFragmentTest {
 
     @Test
     public void actionBarTitle() {
-        Assert.assertEquals(connectivityFragment.getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title), connectivityFragment.getActionbarTitle());
+        Assert.assertEquals(connectivityFragment.getResources().getString(R.string.RA_DLS_power_sleep_connectivity), connectivityFragment.getActionbarTitle());
     }
 
     @Test
