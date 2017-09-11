@@ -6,34 +6,22 @@
 package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
-import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catalogapp.DataHolder;
-import com.philips.platform.catalogapp.DataHolderView;
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSideBarBinding;
 //import com.philips.platform.catalogapp.databinding.SidebarViewBinding;
-import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.utils.UIDContextWrapper;
-import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-import com.philips.platform.uid.view.widget.SideBar;
+
 
 public class SideBarFragment extends BaseFragment {
 
@@ -65,17 +53,17 @@ public class SideBarFragment extends BaseFragment {
 
         if(fragmentSideBarBinding.radiobuttonLeft.isChecked()){
             if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
-                ((MainActivity)getActivity()).showContentThemedComponents();
+                ((MainActivity)getActivity()).showContentThemedLeftComponents();
             } else if(fragmentSideBarBinding.radiobuttonMapNavigation.isChecked()){
-                ((MainActivity)getActivity()).showNavigationThemedComponents();
+                ((MainActivity)getActivity()).showNavigationThemedLeftComponents();
             }
             ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.START);
         } else if(fragmentSideBarBinding.radiobuttonRight.isChecked()){
-            /*if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
-                ((MainActivity)getActivity()).setRightSidebarBGColor(getContentMappedBGColor());
+            if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
+                ((MainActivity)getActivity()).showContentThemedRightComponents();
             } else if(fragmentSideBarBinding.radiobuttonMapNavigation.isChecked()){
-                ((MainActivity)getActivity()).setRightSidebarBGColor(getNavigationMappedBGColor());
-            }*/
+                ((MainActivity)getActivity()).showNavigationThemedRightComponents();
+            }
             ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.END);
         }
     }

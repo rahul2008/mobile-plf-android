@@ -21,11 +21,13 @@ public class SidebarListAdapter extends ArrayAdapter<String> {
 
     private LayoutInflater inflater;
     private int resID;
-    public SidebarListAdapter(@NonNull Context context, @LayoutRes int resource, String[] values) {
+
+    public SidebarListAdapter(@NonNull Context context, @LayoutRes int resource, String[] values, boolean isNavigationContext) {
         super(context, resource, values);
         resID = resource;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater = inflater.cloneInContext(ThemeUtils.getNavigationThemedContext(context));
+        if(isNavigationContext)
+            inflater = inflater.cloneInContext(ThemeUtils.getNavigationThemedContext(context));
     }
 
     @NonNull
