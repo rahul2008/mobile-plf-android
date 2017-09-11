@@ -18,6 +18,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,7 @@ public class AIKManager implements AIKMInterface {
     @Override
     public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
                                          Map<String, String> replacement,
-                                         @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException {
+                                         @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException {
 
         getGroomHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();

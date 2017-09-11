@@ -33,6 +33,8 @@ import com.philips.platform.appinfra.rest.request.StringRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,8 +90,11 @@ public class KeyBagActivity extends AppCompatActivity {
                             Toast.makeText(KeyBagActivity.this, message, Toast.LENGTH_SHORT).show();
                         }
                     });
-                } catch (AIKMJsonFileNotFoundException e) {
-                    Log.e("error ", " Json file not found ");
+                } catch (AIKMJsonFileNotFoundException | JSONException e) {
+                    if (e instanceof AIKMJsonFileNotFoundException)
+                        Log.e("error ", " Json file not found ");
+                    else
+                        Log.e("error ", "in Json Structure ");
                 }
             } else
                 Toast.makeText(KeyBagActivity.this, "Please enter service id", Toast.LENGTH_SHORT).show();

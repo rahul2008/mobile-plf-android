@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.aikm;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
@@ -45,7 +44,7 @@ public class GroomHelper {
         this.mAppInfra = appInfra;
     }
 
-    void init(AppInfra mAppInfra) throws AIKMJsonFileNotFoundException {
+    void init(AppInfra mAppInfra) throws AIKMJsonFileNotFoundException, JSONException {
         this.mAppInfra = mAppInfra;
         if (null == rootJsonObject) {
             InputStream mInputStream = getInputStream(mAppInfra.getAppInfraContext(), "AIKMap.json");
@@ -62,7 +61,7 @@ public class GroomHelper {
                 if (e instanceof IOException)
                     throw new AIKMJsonFileNotFoundException();
                 else
-                    Log.e("error", " while mapping local Groom data");
+                    throw new JSONException(AIKMService.AIKMapError.INVALID_JSON.name());
             }
         }
     }

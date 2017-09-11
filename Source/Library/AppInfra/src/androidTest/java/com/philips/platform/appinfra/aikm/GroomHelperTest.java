@@ -108,7 +108,11 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         thrown.expect(AIKMJsonFileNotFoundException.class);
         thrown.expectMessage("AIKeyBag.json file not found in assets folder");
         try {
-            groomHelper.init(mAppInfraMock);
+            try {
+                groomHelper.init(mAppInfraMock);
+            } catch (JSONException e) {
+                assertEquals(e.getMessage(), AIKMService.AIKMapError.INVALID_JSON.name());
+            }
         } catch (AIKMJsonFileNotFoundException e) {
             Log.e("error "," aibag.json file not found");
             assertEquals(e.getMessage(), "AIKMap.json file not found in assets folder");
@@ -156,7 +160,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         assertNotNull(groomHelper.mapData(new JSONObject(), 0, "service_id"));
     }
 
-    public void testMapAndValidateKey() throws AIKMJsonFileNotFoundException {
+    public void testMapAndValidateKey() throws AIKMJsonFileNotFoundException, JSONException {
         groomHelper = new GroomHelper(mAppInfraMock) {
             @Override
             Object getAilGroomProperties(String serviceId) {
