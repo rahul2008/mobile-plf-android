@@ -8,6 +8,7 @@ package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
@@ -53,11 +54,17 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
 
-            int top = child.getBottom() - divider.getHeight();
-            int bottom = child.getBottom();
+            int top = child.getBottom();
+            int bottom = child.getBottom() + divider.getHeight();
             divider.setBounds(left, top, right, bottom);
             divider.draw(canvas);
         }
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                               RecyclerView.State state) {
+        outRect.bottom = divider.getHeight();
     }
 
     @VisibleForTesting
