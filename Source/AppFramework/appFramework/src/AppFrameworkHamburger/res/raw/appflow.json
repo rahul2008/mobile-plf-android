@@ -30,7 +30,7 @@
         ]
       },
       {
-        "state": "connectivity",
+        "state": "power_sleep_connectivity",
         "events": [
           {
             "eventId": "insights",
@@ -186,11 +186,11 @@
             ]
           },
           {
-            "eventId": "connectivity",
+            "eventId": "power_sleep_connectivity",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "connectivity"
+                "nextState": "power_sleep_connectivity"
               }
             ]
           },

@@ -19,7 +19,7 @@ public class PowerSleepConnectivityFragmentState extends BaseState {
     public final String TAG = PowerSleepConnectivityFragmentState.class.getSimpleName();
 
     public PowerSleepConnectivityFragmentState() {
-        super(AppStates.CONNECTIVITY);
+        super(AppStates.POWER_SLEEP_CONNECTIVITY);
     }
 
     /**

@@ -195,6 +195,7 @@
         <item>@string/RA_About_Menu_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
         <item>@string/RA_See_a_doctor_Menu_Title</item>
+        <item>@string/RA_DLS_power_sleep_connectivity</item>
     </string-array>
 
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
@@ -332,6 +333,7 @@ Receive free product accessories</string>
     <string name="RA_DLS_onboarding_screen9_title" translatable="false">Integrated with HSDP &amp; IT</string>
     <string name="RA_DLS_onboarding_screen9_sub_text" translatable="false">The CDP&lt;sup>&lt;small>2&lt;/small>&lt;/sup> platform is fully integrated with HSDP and IT to ensure all functionalities are enabled end-2-end within the Philips landscape.</string>
 
+    <string name="RA_DLS_power_sleep_connectivity">PowerSleep Connectivity</string>
     <string name="label_last_synced">Last updated: %1$s</string>
     <string name="label_last_synced_default">Last updated: No update yet</string>
     <string name="label_sleep_time_format">%d mins</string>

@@ -6,8 +6,6 @@
 package com.philips.platform.appframework.connectivitypowersleep.datamodels;
 
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 
 import org.junit.After;
 import org.junit.Before;

@@ -70,7 +70,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title);
+        return getResources().getString(R.string.RA_DLS_power_sleep_connectivity);
     }
 
     @Override
