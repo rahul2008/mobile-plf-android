@@ -95,7 +95,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                 setSerialNumberTextView(productMetadataResponseData);
                 Log.d("imageUrl", "imageUrl " + url);
                 final ImageLoader imageLoader = ImageRequestHandler.getInstance(getActivity().getApplicationContext()).getImageLoader();
-                ((ProdRegBaseActivity)getActivity()).setImgageviewwithAspectRation(serialNumberImageView);
+                setImgageviewwithAspectRation(serialNumberImageView);
                 imageLoader.get(url, ImageLoader.getImageListener(serialNumberImageView,
                         R.drawable.product_placeholder, R.drawable.product_placeholder));
                 serialNumberImageView.requestLayout();

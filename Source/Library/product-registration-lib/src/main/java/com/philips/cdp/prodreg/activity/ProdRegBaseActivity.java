@@ -201,22 +201,6 @@ public class ProdRegBaseActivity extends UIDActivity {
         outState.putBoolean("retain_state", true);
     }
 
-    /**
-     *  setting the imageview with aspect ration 16:9
-     */
-    public void setImgageviewwithAspectRation(ImageView imageView) {
-        float aspectRatio;
-        int width = getResources().getDisplayMetrics().widthPixels;
-        if (width > 680) {
-            aspectRatio = (16/9);
-            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
-        } else {
-            aspectRatio = (12/5);
-            imageView.getLayoutParams().height = (int) ((width) / aspectRatio);
-        }
-
-    }
-
     @Override
     public void setTitle(int titleId) {
         if (mActionBarTextView != null)
