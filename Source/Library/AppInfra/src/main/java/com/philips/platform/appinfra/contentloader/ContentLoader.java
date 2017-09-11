@@ -26,6 +26,7 @@ import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The Content Loader class.
  */
 
-public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content> {
+public class ContentLoader<Content extends ContentInterface> implements ContentLoaderInterface<Content>,Serializable {
 
     private final int downloadLimit;
     private final ContentDatabaseHandler mContentDatabaseHandler;
@@ -94,12 +95,12 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             } else { // if data already cached
                 downloadInProgress.set(false);
                 refreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
-                Log.i("CL REFRSH NA", "" + "content loader already uptodate");
+//                Log.i("CL REFRSH NA", "" + "content loader already uptodate");
             }
         } else {
             mContentLoaderState = STATE.REFRESHING;
             downloadInProgress.set(false);
-            Log.i("CL REFRSH ERR", "" + "download already in progress");
+//            Log.i("CL REFRSH ERR", "" + "download already in progress");
             refreshListener.onError(ERROR.DOWNLOAD_IN_PROGRESS, "download already in progress");
         }
     }
@@ -115,9 +116,9 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                 @Override
                 public void onResponse(JSONObject response) {
                     JsonObject jsonObjectTree = null;
-                    Log.i("CL REFRSH RESP", "download completed for Offset: " + offset + " and Limit: " + downloadLimit);
+//                    Log.i("CL REFRSH RESP", "download completed for Offset: " + offset + " and Limit: " + downloadLimit);
                     final JsonElement serviceResponseJson = gson.fromJson(response.toString(), JsonElement.class); // cast org.json.JSONObject to gson.JsonElement
-                    Log.i("CL REFRSH RESP", "" + serviceResponseJson);
+//                    Log.i("CL REFRSH RESP", "" + serviceResponseJson);
                     if (serviceResponseJson.isJsonObject()) {
                         jsonObjectTree = serviceResponseJson.getAsJsonObject();
                         jsonObjectTree = jsonObjectTree.getAsJsonObject("result");
@@ -126,7 +127,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                     if (jsonObjectTree != null) {
                         final JsonElement content = jsonObjectTree.get(mContentType);
                         if (null == content) {
-                            Log.i("CL REFRSH Error:", "" + "Content type mismatch");
+//                            Log.i("CL REFRSH Error:", "" + "Content type mismatch");
                             mContentLoaderState = STATE.CONFIGURATION_ERROR;
                             downloadInProgress.set(false);
                             contentDownloadedCount = 0;
@@ -142,7 +143,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
 
                     if (contentList != null && contentList.size() > 0) {
                         for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
-                            Log.i("CL Ariticle", "" + contentList.get(contentCount));
+//                            Log.i("CL Ariticle", "" + contentList.get(contentCount));
                             try {
                                 final ContentInterface contentInterface = mClassType.newInstance();
                                 contentInterface.parseInput(contentList.get(contentCount).toString());
@@ -163,14 +164,14 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
                                 contentItem.setTags(tags);
                                 downloadedContents.add(contentItem);
                                 String articleId = contentItem.getId();
-                                Log.i("CL Ariticle", "" + articleId + "  TAGs ");
+//                                Log.i("CL Ariticle", "" + articleId + "  TAGs ");
                             } catch (InstantiationException | IllegalAccessException e) {
                             }
                         }
                     }
                     if (contentDownloadedCount < downloadLimit) { // download is over
-                        Log.i("CL REFRSH RESP", "download completed");
-                        Log.e("DOWNLOADED CONTENTS", downloadedContents.toString());
+//                        Log.i("CL REFRSH RESP", "download completed");
+//                        Log.e("DOWNLOADED CONTENTS", downloadedContents.toString());
                         mContentDatabaseHandler.addContents(downloadedContents, mServiceId, mLastUpdatedTime, expiryTimeforUserInputTime(mMaxAgeInHours), true);
                         mContentLoaderState = STATE.CACHED_DATA_AVAILABLE;
                         downloadInProgress.set(false);
@@ -189,7 +190,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.i("CL REFRSH Error:", "" + error);
+//                    Log.i("CL REFRSH Error:", "" + error);
                     mContentLoaderState = STATE.CACHED_DATA_OUTDATED; // if data download is interrupted
                     downloadInProgress.set(false);
                     contentDownloadedCount = 0;

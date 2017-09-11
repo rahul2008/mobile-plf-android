@@ -51,7 +51,7 @@ class AppIdentityManagerHelper {
         try {
             PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
             String appVersion = String.valueOf(pInfo.versionName);
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                     "validate AppVersion" + appVersion);
             if (appVersion != null && !appVersion.isEmpty()) {
                 boolean isValid = isValidAppVersion(appVersion);
@@ -82,7 +82,7 @@ class AppIdentityManagerHelper {
                 else
                     appState = defAppState;
             }
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                     "validate AppState " + appState);
         }
 
@@ -103,7 +103,7 @@ class AppIdentityManagerHelper {
         set.addAll(mServiceDiscoveryEnvList);
         if (serviceDiscoveryEnvironment != null && !serviceDiscoveryEnvironment.isEmpty()) {
             if (!set.contains(serviceDiscoveryEnvironment)) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY
                         , "validate Service Discovery Environment " + serviceDiscoveryEnvironment);
                 throw new IllegalArgumentException("\"ServiceDiscovery Environment in AppConfig.json " +
                         " file must match \" +\n" +
@@ -131,15 +131,15 @@ class AppIdentityManagerHelper {
             throw new IllegalArgumentException("\"App Sector cannot be empty in" +
                     " AppConfig.json file\"");
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY
                 , "validate Sector");
         return sector;
     }
 
     void micrositeIdValidation(String micrositeId) {
         if (micrositeId != null && !micrositeId.isEmpty()) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
-                    , "validate MicrositeId");
+            /*mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
+                    , "validate MicrositeId");*/
             if (!micrositeId.matches("[a-zA-Z0-9]+")) {
                 throw new IllegalArgumentException("micrositeId must not contain special " +
                         "charectors in AppConfig.json json file");
@@ -153,7 +153,7 @@ class AppIdentityManagerHelper {
 
     String getApplicationName() {
         final String appName = mContext.getApplicationInfo().loadLabel(mContext.getPackageManager()).toString();
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY
                 , "get AppName" + appName);
         return appName;
     }
@@ -179,7 +179,7 @@ class AppIdentityManagerHelper {
                         "STAGING, \\\\n ACCEPTANCE, \\\\n PRODUCTION\"");
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "App State Environment " + mAppStateEnum);
         return mAppStateEnum;
     }
@@ -215,7 +215,7 @@ class AppIdentityManagerHelper {
                         "\"one of the following values \\n STAGING, \\n PRODUCTION\"");
             }
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "service Discovery Environment " + serviceDiscoveryEnvironment);
         return serviceDiscoveryEnvironment;
     }
@@ -223,7 +223,7 @@ class AppIdentityManagerHelper {
 
     String getLocalizedApplicationName() {
         final String mLocalizedAppName = mContext.getResources().getString(R.string.localized_commercial_app_name);
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "Localized AppName " + mLocalizedAppName);
         return mLocalizedAppName;
     }
@@ -232,7 +232,7 @@ class AppIdentityManagerHelper {
     String retrieveMicrositeId() {
         final String micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                 ("appidentity.micrositeId", "appinfra", configError);
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_IDENTITY,
                 "microsite Id " + micrositeId);
         micrositeIdValidation(micrositeId);
         return micrositeId;
