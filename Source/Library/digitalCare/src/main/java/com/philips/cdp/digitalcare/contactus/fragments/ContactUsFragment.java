@@ -312,23 +312,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         }
     }
 
-/*    private String getFacebookURL(){
-
-        String facebookPageID = null;
-
-        String serviceDiscoveryFBUrl = Utils.serviceDiscoveryFBUrl();
-        if(serviceDiscoveryFBUrl != null){
-            String fbSDUrl = serviceDiscoveryFBUrl;
-            facebookPageID= fbSDUrl.substring(fbSDUrl.lastIndexOf("/") + 1);
-        }
-        else{
-            facebookPageID = getActivity().getString(R.string.facebook_product_pageID);
-        }
-
-        return "fb://page/" + facebookPageID;
-
-    }*/
-
     public void launchTwitterFeature() {
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
@@ -370,20 +353,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     }
 
     protected String getProductInformation() {
-/*
-        String twitterPageName = null;
-
-        String serviceDiscoveryTwitterUrl = mUtils.serviceDiscoveryTwitterUrl();
-
-        if(serviceDiscoveryTwitterUrl != null){
-            String twitterPage = serviceDiscoveryTwitterUrl;
-            twitterPageName = twitterPage.substring(twitterPage.lastIndexOf("@") + 1);
-        }
-        else
-            twitterPageName = getActivity().getString(R.string.twitter_page);
-*/
-
-        //String finalTwitterName = twitterPage.substring(twitterPage.lastIndexOf("@") + 1);
         final String twitterLocalizedPrefixText = getActivity().getResources().getString(
                 R.string.support_productinformation);
         final String productTitle = DigitalCareConfigManager.getInstance()

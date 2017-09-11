@@ -161,9 +161,6 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
-      /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
-
-        //AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(context, parentContainerResId,
                 actionbarUpdateListener);
@@ -349,56 +346,9 @@ public class DigitalCareConfigManager {
         return mCcListener;
     }
 
-
-    /**
-     * Returns Locale used in the DigitalCare Component
-     *
-     * @return Retuns the {@link Locale} object using by DigitalCare component.
-     */
-/*    public Locale getLocale() {
-        return mLocale;
-    }
-
-   public Locale getLocaleMatchResponseWithCountryFallBack() {
-        return mLocaleMatchWithCountryFallBack;
-    }*/
-
-/*    public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
-        mLocaleMatchWithCountryFallBack = localeMatchLocale;
-        DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
-    }*/
-
-
-    /*public Locale getLocaleMatchResponseWithLanguageFallBack() {
-        return mLocaleMatchWithLanguageFallBack;
-    }
-
-    public void setLocaleMatchResponseLocaleWithLanguageFallBack(Locale localeMatchLocale) {
-        mLocaleMatchWithLanguageFallBack = localeMatchLocale;
-        DigiCareLogger.d(TAG, "Language Fallback : " + localeMatchLocale.toString());
-    }*/
-
-    public String getDigitalCareLibVersion() {
-        return BuildConfig.VERSION_NAME;
-    }
-
     public ViewProductDetailsModel getViewProductDetailsData() {
         return mProductDetailsModel;
     }
-
-    /*public boolean isBazaarVoiceRequired() {
-        if (mContext != null) {
-            return mContext.getResources().getBoolean(R.bool.productreview_required);
-        }
-        return false;
-    }
-
-    public boolean isProductionEnvironment() {
-        if (mContext != null) {
-            return mContext.getResources().getBoolean(R.bool.production_environment);
-        }
-        return false;
-    }*/
 
     public void setViewProductDetailsData(ViewProductDetailsModel detailsObject) {
         mProductDetailsModel = detailsObject;
@@ -498,38 +448,5 @@ public class DigitalCareConfigManager {
     public int getDlsTheme(){
         return DLS_THEME;
     }
-
-    /**
-     * These are Flags used for setting/controlling screen orientation.
-     * <p>This method helps only you are using the DigitalCare component from the Intent</p>
-     * <p/>
-     * <p> <b>Note : </b> The flags are similar to deafult android screen orientation flags</p>
-     */
-    /*public enum ActivityOrientation {
-
-
-        SCREEN_ORIENTATION_UNSPECIFIED(-1), SCREEN_ORIENTATION_LANDSCAPE(0),
-        SCREEN_ORIENTATION_PORTRAIT(1), SCREEN_ORIENTATION_USER(2), SCREEN_ORIENTATION_BEHIND(3),
-        SCREEN_ORIENTATION_SENSOR(4),
-        SCREEN_ORIENTATION_NOSENSOR(5),
-        SCREEN_ORIENTATION_SENSOR_LANDSCAPE(6),
-        SCREEN_ORIENTATION_SENSOR_PORTRAIT(7),
-        SCREEN_ORIENTATION_REVERSE_LANDSCAPE(8),
-        SCREEN_ORIENTATION_REVERSE_PORTRAIT(9),
-        SCREEN_ORIENTATION_FULL_SENSOR(10),
-        SCREEN_ORIENTATION_USER_LANDSCAPE(11),
-        SCREEN_ORIENTATION_USER_PORTRAIT(12),
-        SCREEN_ORIENTATION_FULL_USER(13),
-        SCREEN_ORIENTATION_LOCKED(14);
-        private int value;
-
-        ActivityOrientation(int value) {
-            this.value = value;
-        }
-
-        private int getOrientationValue() {
-            return value;
-        }
-    }*/
 
 }

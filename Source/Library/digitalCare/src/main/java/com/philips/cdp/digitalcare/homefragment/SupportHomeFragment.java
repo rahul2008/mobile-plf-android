@@ -572,11 +572,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     setCtn(summaryModel.getData().getCtn());
             updateMenus(null);
 
-            //if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-              //      DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                 setDataToModels(productSummaryModel);
                 initialiseServiceDiscoveryRequests();
-            //}
         }
     }
 

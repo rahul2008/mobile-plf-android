@@ -48,7 +48,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setButtonParams();
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
 
@@ -146,16 +145,4 @@ public class ChatFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
     }
 
-
-    private void setButtonParams() {
-        float density = getResources().getDisplayMetrics().density;
-        LinearLayout.LayoutParams chatbuttonparams = new LinearLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height) * density));
-        chatbuttonparams.leftMargin = chatbuttonparams.rightMargin = (int) getActivity().getResources().getDimension(R.dimen.activity_margin);
-        chatbuttonparams.topMargin = chatbuttonparams.bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.chat_button_top_margin);
-        chatbuttonparams.weight = 1;
-        mChatNow.setLayoutParams(chatbuttonparams);
-        mChatNowLand.setLayoutParams(chatbuttonparams);
-    }
 }
