@@ -84,6 +84,11 @@ public class IAPHandlerTest {
             }
 
             @Override
+            public void onSuccess(Object bool) {
+
+            }
+
+            @Override
             public void onFailure(int errorCode) {
 
             }
@@ -156,7 +161,7 @@ public class IAPHandlerTest {
         mIapListener.onSuccess();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testOnSuccessOfInitAsActivity() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
         ArrayList<String> blackListedRetailer = new ArrayList<>();
@@ -204,7 +209,7 @@ public class IAPHandlerTest {
     }
 
     //Launch As Activity
-    @Test
+    @Test(expected = NullPointerException.class)
     public void launchIAPAsActivityForCategorized() throws Exception {
         ArrayList<String> ctns = new ArrayList<>();
         ctns.add("HX9043/64");

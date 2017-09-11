@@ -52,7 +52,6 @@ public class NetworkUtility {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
         if (!((Activity) context).isFinishing()) {
-
             showDLSDialog(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager);
         }
            /* if (mModalAlertDemoFragment == null) {
@@ -122,9 +121,7 @@ public class NetworkUtility {
         return errorMessage;
     }
 
-    public boolean isNetworkAvailable(Context pContext) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public boolean isNetworkAvailable(ConnectivityManager connectivityManager) {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }

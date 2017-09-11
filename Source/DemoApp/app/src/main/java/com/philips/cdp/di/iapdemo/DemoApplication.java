@@ -47,6 +47,7 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         //}
     }
 
+
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
