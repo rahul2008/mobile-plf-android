@@ -78,6 +78,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private IAPSettings mIAPSettings;
     private User mUser;
     ImageView mCartIcon;
+    Boolean isCartVisible;
 
     private ArrayList<String> ignorelistedRetailer;
 
@@ -154,7 +155,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     protected void onResume() {
         super.onResume();
 
-        if (mUser!=null && mUser.isUserSignIn()) {
+        if (mUser != null && mUser.isUserSignIn()) {
             mRegister.setText(this.getString(R.string.log_out));
             displayUIOnCartVisible();
         } else {
@@ -167,9 +168,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void displayUIOnCartVisible() {
+        mIapInterface.isCartVisible(this);
 
-        boolean cartVisible = mIapInterface.isCartVisible(this);
-        displayFlowViews(cartVisible);
     }
 
     private void displayFlowViews(boolean b) {
@@ -350,8 +350,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mRegister) {
             // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
             //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-            if(mRegister.getText().toString().equalsIgnoreCase(this.getString(R.string.log_out))){
-                if(mUser.isUserSignIn()){
+            if (mRegister.getText().toString().equalsIgnoreCase(this.getString(R.string.log_out))) {
+                if (mUser.isUserSignIn()) {
                     mUser.logout(new LogoutHandler() {
                         @Override
                         public void onLogoutSuccess() {
@@ -362,13 +362,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                         @Override
                         public void onLogoutFailure(int i, String s) {
 
-                            Toast.makeText(DemoAppActivity.this,"Logout went wrong",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DemoAppActivity.this, "Logout went wrong", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else{
-                    Toast.makeText(DemoAppActivity.this,"User is not logged in",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DemoAppActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
                 }
-            }else{
+            } else {
 
                 gotoLogInScreen();
             }
@@ -500,7 +500,14 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onSuccess() {
-        Toast.makeText(this, "onSuccess", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onSuccess(Object bool) {
+        if (bool instanceof Boolean) {
+            displayFlowViews((Boolean) bool);
+        }
     }
 
     @Override
@@ -514,7 +521,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         mRegister.setText(this.getString(R.string.log_out));
-       // displayUIOnCartVisible();
+        // displayUIOnCartVisible();
     }
 
     @Override

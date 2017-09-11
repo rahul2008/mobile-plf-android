@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -72,7 +73,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+                ConnectivityManager connectivityManager
+                        = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
                     NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager,
                             mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
                 } else {
@@ -119,7 +122,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
         @Override
         public void onClick(final View v) {
-            if (!NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
                 NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
             } else {
                 final String buyURL = mStoreList.get(getAdapterPosition()).getBuyURL();
