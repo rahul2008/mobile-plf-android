@@ -134,6 +134,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
         // enableViews();
+        actionBar();
+        initIAP();
 
     }
 
@@ -154,7 +156,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         if (mUser!=null && mUser.isUserSignIn()) {
             mRegister.setText(this.getString(R.string.log_out));
-            setLocalFromServiceDiscovery();
+            displayUIOnCartVisible();
         } else {
             mRegister.setVisibility(View.VISIBLE);
             Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
@@ -164,15 +166,14 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapLaunchInput.setIapListener(this);
     }
 
-    private void setLocalFromServiceDiscovery() {
+    private void displayUIOnCartVisible() {
 
         boolean cartVisible = mIapInterface.isCartVisible(this);
         displayFlowViews(cartVisible);
     }
 
     private void displayFlowViews(boolean b) {
-        actionBar();
-        initIAP();
+
         mAddCTNLl.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
@@ -223,7 +224,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 //    protected void onResume() {
 //        super.onResume();
 //        if (mUser.isUserSignIn()) {
-//            setLocalFromServiceDiscovery();
+//            displayUIOnCartVisible();
 //        }
 //    }
 //
@@ -513,7 +514,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         mRegister.setText(this.getString(R.string.log_out));
-        setLocalFromServiceDiscovery();
+       // displayUIOnCartVisible();
     }
 
     @Override
