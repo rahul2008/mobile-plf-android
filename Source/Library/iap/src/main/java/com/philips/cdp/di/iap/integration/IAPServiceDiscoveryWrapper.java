@@ -155,7 +155,7 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
-    public boolean getCartVisiblityByConfigUrl(final IAPListener listener, final IAPHandler iapHandler) {
+    public Boolean getCartVisiblityByConfigUrl(final IAPListener listener, final IAPHandler iapHandler) {
 
 
         serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -176,6 +176,7 @@ public class IAPServiceDiscoveryWrapper {
                     isCartVisible = true;
                 }
                 iapHandler.initIAPRequisite();
+                listener.onSuccess(isCartVisible);
             }
 
             @Override

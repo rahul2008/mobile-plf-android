@@ -111,6 +111,11 @@ public class DemoTestActivity extends AppCompatActivity implements IAPListener, 
     }
 
     @Override
+    public void onSuccess(Boolean bool) {
+
+    }
+
+    @Override
     public void onFailure(int errorCode) {
 
     }
