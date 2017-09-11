@@ -23,12 +23,9 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_SHOP = 2;
     protected static final int MENU_OPTION_SUPPORT = 3;
     protected static final int MENU_OPTION_ABOUT = 4;
-    protected static final int MENU_OPTION_CONNECTIVITY = 5;
-    protected static final int MENU_OPTION_COCOVERSION = 6;
-    protected static final int MENU_OPTION_DEBUG = 7;
-    protected static final int MENU_OPTION_TEST_MICROAPP = 8;
+    protected static final int MENU_OPTION_TEST_MICROAPP = 5;
     //protected static final int MENU_OPTION_PR = 9;
-    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 9;
+    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 6;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -98,18 +95,6 @@ abstract public class AbstractUIBasePresenter {
                 return uiStateDataModel;*/
             case AppStates.PR:
                 return new UIStateData();
-            case AppStates.CONNECTIVITY:
-                final UIStateData connectivityStateData = new UIStateData();
-                connectivityStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return connectivityStateData;
-            case AppStates.COCO_VERSION_INFO:
-                final UIStateData CocoVersionStateData = new UIStateData();
-                CocoVersionStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return CocoVersionStateData;
-            case AppStates.DEBUG:
-                final UIStateData debugStateData = new UIStateData();
-                debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return debugStateData;
             case AppStates.TEST_MICROAPP:
                 final UIStateData testStateData=new UIStateData();
                 testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);

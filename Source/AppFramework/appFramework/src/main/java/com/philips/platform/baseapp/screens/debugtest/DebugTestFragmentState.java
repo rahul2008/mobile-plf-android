@@ -11,6 +11,7 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -34,7 +35,7 @@ public class DebugTestFragmentState extends BaseState {
         RALog.d(TAG," navigate");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentLaunchState());
+                handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG, Constants.ADD_FRAGMENT_WITH_BACKSTACK);
     }
 
     @Override

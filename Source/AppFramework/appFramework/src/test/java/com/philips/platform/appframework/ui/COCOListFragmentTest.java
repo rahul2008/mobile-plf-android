@@ -62,7 +62,7 @@ public class COCOListFragmentTest extends TestCase {
 
     private COCOListFragmentMock setUpCoCoListFragmentBundle() {
         Bundle bundle=new Bundle();
-        bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER, TestFragmentTest.createChapterObject());
+        bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER, TestFragmentTest.createChapterObject("Connectivity", "Blue Lib"));
         COCOListFragmentMock cocoListFragment=new COCOListFragmentMock();
         cocoListFragment.setArguments(bundle);
         return cocoListFragment;

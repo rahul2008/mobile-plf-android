@@ -31,6 +31,7 @@ import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.shamanland.fonticon.FontIconView;
@@ -42,7 +43,8 @@ import com.shamanland.fonticon.FontIconView;
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  */
-public class WelcomeFragment extends AbstractOnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
+public class WelcomeFragment extends AbstractOnboardingBaseFragment implements View.OnClickListener,
+        WelcomeFragmentView, BackEventListener, View.OnLongClickListener {
 
     public static String TAG = WelcomeFragment.class.getSimpleName();
 
@@ -52,6 +54,7 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     private DotNavigationIndicator indicator;
     private AbstractUIBasePresenter presenter;
     private ViewPager pager;
+    private Button environmentSelection;
 
     public void onBackPressed() {
         RALog.d(TAG, " On Back Pressed");
@@ -75,7 +78,11 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomeFragmentPresenter(this);
+        presenter = getWelcomePresenter();
+    }
+
+    protected AbstractUIBasePresenter getWelcomePresenter() {
+        return new WelcomeFragmentPresenter(this);
     }
 
     @Override
@@ -89,8 +96,10 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
         rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
         doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
         skipButton = (Label) view.findViewById(R.id.welcome_skip_button);
+        environmentSelection = (Button) view.findViewById(R.id.environment_selection);
         doneButton.setOnClickListener(this);
         skipButton.setOnClickListener(this);
+        environmentSelection.setOnLongClickListener(this);
 
         indicator = (DotNavigationIndicator) view.findViewById(R.id.welcome_indicator);
         indicator.setViewPager(pager);
@@ -112,6 +121,8 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
                     skipButton.setVisibility(TextView.VISIBLE);
                     doneButton.setVisibility(TextView.GONE);
                 }
+
+                setEnviromentSelectionVisibility(position);
             }
 
             @Override
@@ -127,6 +138,10 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
 
         startAppTagging();
         return view;
+    }
+
+    private void setEnviromentSelectionVisibility(int position) {
+        environmentSelection.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
     }
 
     protected void startAppTagging() {
@@ -157,5 +172,15 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     @Override
     public void clearAdapter() {
         pager.setAdapter(null);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        switch (view.getId()) {
+            case R.id.environment_selection:
+                presenter.onEvent(view.getId());
+                return true;
+        }
+        return false;
     }
 }
