@@ -48,8 +48,7 @@ public class TimeSyncSntpClient implements TimeInterface {
     private long mOffset;
     private Calendar mNextRefreshTime;
     private boolean isSynchronized = false;
-
-    private final Handler responseHandler = new Handler(Looper.getMainLooper()) {
+    final Handler responseHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             isSynchronized = (boolean) msg.obj;
@@ -97,7 +96,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(OFFSET, pOffset);
         editor.apply();
-       // Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
+        Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
     }
 
     private long getOffset() {
@@ -262,8 +261,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        AppInfraLogEventID.AI_TIME_SYNC,"Network connectivity not found");
+                Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
                 isSynchronized = false;
             } else {
                 refreshTime();
