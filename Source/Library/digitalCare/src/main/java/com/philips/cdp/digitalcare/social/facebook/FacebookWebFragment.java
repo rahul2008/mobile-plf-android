@@ -71,20 +71,6 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mProgressBar.setVisibility(View.GONE);
     }
-/*
-    private String getFacebookUrl() {
-
-        String facebookUrl = null;
-
-        if(DigitalCareConfigManager.getInstance().getFbUrl() != null){
-            facebookUrl = DigitalCareConfigManager.getInstance().getFbUrl();
-        }
-        else {
-            facebookUrl = FacebookURL + getActivity().getString(R.string.facebook_product_pageID);
-        }
-
-        return facebookUrl;
-    }*/
 
     @Override
     public String getActionbarTitle() {
