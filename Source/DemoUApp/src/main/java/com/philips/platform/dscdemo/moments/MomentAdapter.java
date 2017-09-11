@@ -1,4 +1,9 @@
-package com.philips.platform.dscdemo.temperature;
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+package com.philips.platform.dscdemo.moments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -19,23 +24,15 @@ import com.philips.platform.dscdemo.database.table.OrmMoment;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
-public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Moment> mData;
     private Context mContext;
     private Drawable mOptionsDrawable;
-
-
     DataServicesManager mDataServices;
-    private final TemperaturePresenter mTemperaturePresenter;
+    private final MomentPresenter mTemperaturePresenter;
 
 
-    public TemperatureTimeLineFragmentcAdapter(final Context context, final ArrayList<? extends Moment> data, TemperaturePresenter mTemperaturePresenter) {
+    public MomentAdapter(final Context context, final ArrayList<? extends Moment> data, MomentPresenter mTemperaturePresenter) {
 
         this.mTemperaturePresenter = mTemperaturePresenter;
         mDataServices = DataServicesManager.getInstance();
@@ -55,7 +52,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
         if (holder instanceof DataSyncViewHolder) {
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
             mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
-            TemperatureMomentHelper helper = new TemperatureMomentHelper();
+            MomentHelper helper = new MomentHelper();
             Moment moment = (OrmMoment) mData.get(position);
             if (moment.getSynchronisationData() != null)
                 mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
@@ -69,7 +66,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this, mData, view, holder.getAdapterPosition());
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(MomentAdapter.this, mData, view, holder.getAdapterPosition());
                 }
             });
         }

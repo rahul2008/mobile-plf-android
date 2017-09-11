@@ -1,9 +1,9 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
-package com.philips.platform.dscdemo.temperature;
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+package com.philips.platform.dscdemo.moments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class TemperaturePresenter {
+public class MomentPresenter {
     private final DBRequestListener dbRequestListener;
     private DataServicesManager mDataServices;
 
@@ -63,7 +63,7 @@ public class TemperaturePresenter {
     private Button mDialogButton;
     DatabaseHelper databaseHelper;
 
-    TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
+    MomentPresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
@@ -142,7 +142,7 @@ public class TemperaturePresenter {
         saveRequest(moment);
     }
 
-    void bindDeleteOrUpdatePopUp(final TemperatureTimeLineFragmentcAdapter adapter,
+    void bindDeleteOrUpdatePopUp(final MomentAdapter adapter,
                                  final List<? extends Moment> data, final View view,
                                  final int selectedItem) {
 
@@ -169,7 +169,7 @@ public class TemperaturePresenter {
                         popupWindow.dismiss();
                         break;
                     case UPDATE:
-                        final TemperatureMomentHelper helper = new TemperatureMomentHelper();
+                        final MomentHelper helper = new MomentHelper();
                         if (String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")) {
                             Toast.makeText(mContext,
                                     "Invalid", Toast.LENGTH_SHORT).show();
@@ -185,7 +185,7 @@ public class TemperaturePresenter {
         popupWindow.show();
     }
 
-    private void removeMoment(TemperatureTimeLineFragmentcAdapter adapter,
+    private void removeMoment(MomentAdapter adapter,
                               final List<? extends Moment> data, int adapterPosition) {
         try {
             Moment moment = data.get(adapterPosition);
@@ -248,7 +248,7 @@ public class TemperaturePresenter {
         mDialogButton.setEnabled(false);
 
         if (addOrUpdate == UPDATE) {
-            final TemperatureMomentHelper helper = new TemperatureMomentHelper();
+            final MomentHelper helper = new MomentHelper();
             mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mLocation.setText(helper.getNotes(moment));
             mPhase.setText(helper.getTime(moment));

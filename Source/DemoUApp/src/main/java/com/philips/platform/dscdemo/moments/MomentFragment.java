@@ -1,4 +1,9 @@
-package com.philips.platform.dscdemo.temperature;
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+package com.philips.platform.dscdemo.moments;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -45,17 +50,18 @@ import java.util.List;
 import static android.content.Context.ALARM_SERVICE;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
-    public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
+public class MomentFragment extends Fragment implements View.OnClickListener,
+        DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener {
+    public static final String TAG = MomentFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
-    private TemperatureTimeLineFragmentcAdapter mAdapter;
+    private MomentAdapter mAdapter;
     AlarmManager alarmManager;
     DataServicesManager mDataServicesManager;
     ImageButton mAddButton;
     ImageButton mDeleteExpiredMomentsButton;
-    TemperaturePresenter mTemperaturePresenter;
-    TemperatureMomentHelper mTemperatureMomentHelper;
+    MomentPresenter mTemperaturePresenter;
+    MomentHelper mTemperatureMomentHelper;
     private Context mContext;
     SharedPreferences mSharedPreferences;
     ProgressDialog mProgressBar;
@@ -73,10 +79,10 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         mDataServicesManager = DataServicesManager.getInstance();
         mUser = new User(mContext);
         userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, mUser);
-        mTemperatureMomentHelper = new TemperatureMomentHelper();
+        mTemperatureMomentHelper = new MomentHelper();
         alarmManager = (AlarmManager) mContext.getApplicationContext().getSystemService(ALARM_SERVICE);
         //EventHelper.getInstance().registerEventNotification(EventHelper.MOMENT, this);
-        mTemperaturePresenter = new TemperaturePresenter(mContext, MomentType.TEMPERATURE, this);
+        mTemperaturePresenter = new MomentPresenter(mContext, MomentType.TEMPERATURE, this);
         mUtility = new Utility();
         mSharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         mProgressBar = new ProgressDialog(getContext());
@@ -148,7 +154,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
-        mAdapter = new TemperatureTimeLineFragmentcAdapter(getContext(), mData, mTemperaturePresenter);
+        mAdapter = new MomentAdapter(getContext(), mData, mTemperaturePresenter);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -181,7 +187,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     public void onClick(final View v) {
         int i = v.getId();
         if (i == R.id.add) {
-            mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
+            mTemperaturePresenter.addOrUpdateMoment(MomentPresenter.ADD, null);
         } else if (i == R.id.delete_moments) {
             mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
         } else if (i == R.id.tv_set_consents) {
@@ -261,7 +267,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     @Override
     public void dBChangeSuccess(SyncType type) {
         if (type != SyncType.MOMENT) return;
-        mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+        mTemperaturePresenter.fetchData(MomentFragment.this);
     }
 
     @Override
@@ -386,7 +392,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TemperatureTimeLineFragment.this.getView().invalidate();
+                MomentFragment.this.getView().invalidate();
             }
         });
     }
@@ -395,13 +401,13 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
         @Override
         public void onSuccess(List<? extends Integer> data) {
-            TemperatureTimeLineFragment.this.showToastOnUiThread(TemperatureTimeLineFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
+            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
             reloadData();
         }
 
         @Override
         public void onFailure(Exception exception) {
-            TemperatureTimeLineFragment.this.showToastOnUiThread(TemperatureTimeLineFragment.this.getActivity().getString(R.string.error_deleting_expired_moments));
+            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_deleting_expired_moments));
         }
     }
 

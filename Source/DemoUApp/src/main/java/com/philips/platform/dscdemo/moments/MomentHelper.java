@@ -1,4 +1,9 @@
-package com.philips.platform.dscdemo.temperature;
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+package com.philips.platform.dscdemo.moments;
 
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -12,11 +17,7 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class TemperatureMomentHelper {
+public class MomentHelper {
 
     String getTemperature(Moment moment) {
         try {
@@ -31,7 +32,7 @@ public class TemperatureMomentHelper {
             return "default";
         } catch (IndexOutOfBoundsException e) {
             return "default";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "default";
         }
         //return -1;
@@ -49,7 +50,7 @@ public class TemperatureMomentHelper {
             return "default";
         } catch (IndexOutOfBoundsException e) {
             return "default";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "default";
         }
     }
@@ -73,17 +74,17 @@ public class TemperatureMomentHelper {
             return "default";
         } catch (IndexOutOfBoundsException e) {
             return "default";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "default";
         }
         //return null;
     }
 
     String getExpirationDate(Moment moment) {
-        DateTime expirationDate = ((OrmMoment)moment).getExpirationDate();
-        if(expirationDate != null){
+        DateTime expirationDate = ((OrmMoment) moment).getExpirationDate();
+        if (expirationDate != null) {
             return expirationDate.toString();
-        }else{
+        } else {
             return "never expires";
         }
     }
