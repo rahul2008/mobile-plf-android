@@ -213,7 +213,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         ProductCatalogPresenter.ProductCatalogListener mProductCatalogListener = Mockito.mock(ProductCatalogPresenter.ProductCatalogListener.class);
         mProductCatalogPresenter.onModelDataError(new Message());
         mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
-                ("","No product found in your Store."));
+                ("", "No product found in your Store."));
     }
 
     @Test
@@ -230,7 +230,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         msg.obj = new Error();
         mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                 ("", mContext.getString(R.string.iap_no_product_available)));
-       // mProductCatalogPresenter.onModelDataError(msg);
+        // mProductCatalogPresenter.onModelDataError(msg);
     }
 
     @Test

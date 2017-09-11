@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.InflateException;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
@@ -16,7 +17,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -37,7 +37,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.Robolectric.buildActivity;
 
-@Ignore
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class IAPActivityTest {
@@ -73,7 +72,7 @@ public class IAPActivityTest {
         Assert.assertEquals(themeIndex, 0);
     }
 
-    @Test
+    @Test(expected = InflateException.class)
     public void shouldLandInProductCatalogScreen() throws Exception {
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 0);
         int landingIndex = intent.getIntExtra(IAPConstant.IAP_LANDING_SCREEN, 0);
@@ -89,7 +88,7 @@ public class IAPActivityTest {
 //        Assert.assertNotSame(landingIndex, 1);
 //    }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void shouldLandInPurchaseHistoryFragment() throws Exception {
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 2);
         int landingIndex = intent.getIntExtra(IAPConstant.IAP_LANDING_SCREEN, 2);
@@ -131,7 +130,7 @@ public class IAPActivityTest {
         verify(fragmentTransactionMock).commitAllowingStateLoss();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = InflateException.class)
     public void shouldLandInBuyDirectFragment() throws Exception {
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 4);
         intent.putExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL, "HX8033/21");

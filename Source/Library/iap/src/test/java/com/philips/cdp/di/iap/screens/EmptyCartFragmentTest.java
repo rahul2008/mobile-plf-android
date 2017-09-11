@@ -31,7 +31,7 @@ public class EmptyCartFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
         emptyCartFragment = EmptyCartFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(emptyCartFragment);

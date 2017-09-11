@@ -306,6 +306,9 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         dismissProgressDialog();
     }
 
+
+
+
 //    private void addActionBar() {
 //        ActionBar mActionBar = getSupportActionBar();
 //        if (mActionBar == null) return;

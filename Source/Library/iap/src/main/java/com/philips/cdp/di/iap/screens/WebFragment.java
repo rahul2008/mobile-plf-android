@@ -39,12 +39,16 @@ public abstract class WebFragment extends InAppBaseFragment {
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(false);
 
-        mProgress = (ProgressBar) viewGroup.findViewById(R.id.cl_progress);
+        mProgress = createCustomProgressBar(viewGroup,MEDIUM);
+        mProgress.setVisibility(View.GONE);
 
         mUrl = getWebUrl();
         return viewGroup;
     }
 
+    void initProgressBar(){
+
+    }
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

@@ -2,6 +2,7 @@
 package com.iap.demouapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -33,8 +35,6 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -45,9 +45,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
@@ -134,73 +131,49 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mUser = new User(this);
         mUser.registerUserRegistrationListener(this);
         //Integration interface
-
+        mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
-        if (mUser.isUserSignIn())
-            setLocalFromServiceDiscovery();
-        else {
-            mRegister.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-        }
         // enableViews();
+        actionBar();
+        initIAP();
 
     }
 
     private void initIAP() {
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-        mIapInterface = new IAPInterface();
-        mIapInterface.init(mIapDependencies, mIAPSettings);
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
         ignorelistedRetailer.add("Frys.com");
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
+        mIapInterface.init(mIapDependencies, mIAPSettings);
+        mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput.setIapListener(this);
         //ignorelistedRetailer.add("John Lewis ");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (mUser!=null && mUser.isUserSignIn()) {
+            mRegister.setText(this.getString(R.string.log_out));
+            displayUIOnCartVisible();
+        } else {
+            mRegister.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+        }
+
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
     }
 
-    private void setLocalFromServiceDiscovery() {
+    private void displayUIOnCartVisible() {
 
-        ServiceDiscoveryInterface serviceDiscovery = IapDemoUAppInterface.mAppInfra.getServiceDiscovery();
-        ArrayList<String> listOfServiceId = new ArrayList<>();
-        listOfServiceId.add("iap.baseurl");
-
-        serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                IAPLog.i(IAPLog.LOG, " DemoActivity getServicesWithCountryPreference Map" + map.toString());
-                Collection<ServiceDiscoveryService> collection = map.values();
-
-                List<ServiceDiscoveryService> list = new ArrayList<>();
-                list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-                actionBar();
-                initIAP();
-                // enableViews();
-                String configUrls = serviceDiscoveryService.getConfigUrls();
-                if (configUrls == null || configUrls.isEmpty()) {
-                    displayFlowViews(false);
-                } else {
-                    displayFlowViews(true);
-                }
-
-
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                IAPLog.i(IAPLog.LOG, "DemoActivity ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-            }
-        });
+        boolean cartVisible = mIapInterface.isCartVisible(this);
+        displayFlowViews(cartVisible);
     }
 
     private void displayFlowViews(boolean b) {
+
         mAddCTNLl.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
@@ -255,7 +228,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 //    protected void onResume() {
 //        super.onResume();
 //        if (mUser.isUserSignIn()) {
-//            setLocalFromServiceDiscovery();
+//            displayUIOnCartVisible();
 //        }
 //    }
 //
@@ -381,13 +354,29 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (view == mRegister) {
             // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
             //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
-            URLaunchInput urLaunchInput = new URLaunchInput();
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
-            urLaunchInput.setUserRegistrationUIEventListener(this);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            URInterface urInterface = new URInterface();
-            urInterface.launch(new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
+            if(mRegister.getText().toString().equalsIgnoreCase(this.getString(R.string.log_out))){
+                if(mUser.isUserSignIn()){
+                    mUser.logout(new LogoutHandler() {
+                        @Override
+                        public void onLogoutSuccess() {
+
+                            finish();
+                        }
+
+                        @Override
+                        public void onLogoutFailure(int i, String s) {
+
+                            Toast.makeText(DemoAppActivity.this,"Logout went wrong",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    Toast.makeText(DemoAppActivity.this,"User is not logged in",Toast.LENGTH_SHORT).show();
+                }
+            }else{
+
+                gotoLogInScreen();
+            }
+
         } else if (view == mAddCtn) {
             String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
             if (!mCategorizedProductList.contains(str)) {
@@ -396,6 +385,16 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mEtCTN.setText("");
             hideKeypad(this);
         }
+    }
+
+    private void gotoLogInScreen() {
+        URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+        URInterface urInterface = new URInterface();
+        urInterface.launch(new ActivityLauncher(ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
     }
 
 //    private void updateCartIcon() {
@@ -518,11 +517,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         showToast(errorCode);
     }
 
+
     //User Registration interface functions
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
-        setLocalFromServiceDiscovery();
+        mRegister.setText(this.getString(R.string.log_out));
+       // displayUIOnCartVisible();
     }
 
     @Override
@@ -566,5 +567,16 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
 }

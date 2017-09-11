@@ -68,6 +68,7 @@ public class HybrisHandlerTest {
             public void onFailure(int errorCode) {
 
             }
+
         };
     }
 

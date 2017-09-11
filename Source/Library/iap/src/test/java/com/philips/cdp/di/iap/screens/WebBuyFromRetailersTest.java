@@ -31,7 +31,7 @@ public class WebBuyFromRetailersTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
         webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(webBuyFromRetailers);

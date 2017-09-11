@@ -53,6 +53,7 @@ public class LocalHandlerTest {
         public void onFailure(int errorCode) {
 
         }
+
     };
 
     @Before

@@ -47,7 +47,8 @@ public class OAuthControllerTest {
         mOAuthController = new OAuthController();
     }
 
-    @Test
+
+    @Test(expected = RuntimeException.class)
     public void testGetAccessToken() throws Exception {
         mOAuthController.getAccessToken();
     }

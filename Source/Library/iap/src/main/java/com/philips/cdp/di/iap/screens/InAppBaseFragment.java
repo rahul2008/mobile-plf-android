@@ -13,6 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -29,6 +32,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 
@@ -38,8 +42,11 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     protected IAPListener mIapListener;
     private ProgressDialog mProgressDialog = null;
 
-    private AddressButtonListner addressButtonListner;
     String mTitle = "";
+
+    protected final int SMALL = 0;
+    protected final int MEDIUM = 1;
+    protected final int BIG = 2;
 
     protected IAPCartListener mProductCountListener = new IAPCartListener() {
         @Override
@@ -53,6 +60,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
             dismissProgressDialog();
         }
     };
+    private ProgressBar mPTHBaseFragmentProgressBar;
 
     public void setActionBarListener(ActionBarListener actionBarListener, IAPListener iapListener) {
         mActionbarUpdateListener = actionBarListener;
@@ -230,9 +238,44 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         }
     }
 
-    private interface AddressButtonListner {
-        void addressButtonEnable(boolean isEnable);
 
-        void addressButtonDisable(boolean isEnable);
+    public ProgressBar createCustomProgressBar(ViewGroup group, int size) {
+        ViewGroup parentView = (ViewGroup) getView();
+        ViewGroup layoutViewGroup = group;
+        if(parentView != null){
+            group = parentView;
+        }
+
+        switch (size){
+            case BIG:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBBig, true);
+                break;
+            case SMALL:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBSmall, true);
+                break;
+            case MEDIUM:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBMedium, true);
+                break;
+            default:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBMedium, true);
+                break;
+        }
+
+        mPTHBaseFragmentProgressBar = new ProgressBar(getContext(), null, R.attr.pth_cirucular_pb);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        mPTHBaseFragmentProgressBar.setLayoutParams(params);
+
+        try {
+            group.addView(mPTHBaseFragmentProgressBar);
+        }catch (Exception e){
+            layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
+        }
+
+        if (mPTHBaseFragmentProgressBar != null) {
+            mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        return mPTHBaseFragmentProgressBar;
     }
 }

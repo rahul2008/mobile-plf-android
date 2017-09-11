@@ -26,7 +26,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mIAPHandler.initPreRequisite();
         // mIAPHandler.initIAPRequisite();
         mIapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
-        mIapServiceDiscoveryWrapper.initializeStoreFromServiceDiscoveryResponse(mIAPHandler);
+        // mIapServiceDiscoveryWrapper.initializeStoreFromServiceDiscoveryResponse(mIAPHandler);
     }
 
     @Override
@@ -52,6 +52,14 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn()) {
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
+        } else throw new RuntimeException("User is not logged in.");
+    }
+
+    @Override
+    public boolean isCartVisible(IAPListener iapListener) {
+        mUser = new User(mIAPSettings.getContext());
+        if (mUser.isUserSignIn()) {
+            return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
         } else throw new RuntimeException("User is not logged in.");
     }
 }

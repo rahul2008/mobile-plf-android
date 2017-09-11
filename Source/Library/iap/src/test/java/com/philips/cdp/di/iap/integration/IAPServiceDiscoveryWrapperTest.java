@@ -93,4 +93,28 @@ public class IAPServiceDiscoveryWrapperTest {
         iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
     }
+
+    @Test
+    public void testCartVisiblityFromServiceDiscovery() throws Exception {
+        ServiceDiscoveryService discoveryService = new ServiceDiscoveryService();
+        discoveryService.init("en_US", "iap.baseurl");
+        discoveryService.setConfigUrl(null);
+        map.put("iap.baseurl", discoveryService);
+        iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
+        iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
+        iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
+    }
+
+    @Test
+    public void testCartVisiblityFromServiceDiscoveryOnErro() throws Exception {
+        ServiceDiscoveryService discoveryService = new ServiceDiscoveryService();
+        discoveryService.init("en_US", "iap.baseurl");
+        discoveryService.setConfigUrl(null);
+        map.put("iap.baseurl", discoveryService);
+        iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
+        iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
+        iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
+    }
 }
