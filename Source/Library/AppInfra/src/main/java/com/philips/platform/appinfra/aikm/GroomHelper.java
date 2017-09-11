@@ -112,7 +112,7 @@ public class GroomHelper {
     }
 
     String getGroomIndex(String value) {
-        String data = "https://www.philips.com/";
+        String data = "https://philips.com/";
         if (!TextUtils.isEmpty(value)) {
             StringTokenizer st = new StringTokenizer(value, data);
             if (st.hasMoreTokens())

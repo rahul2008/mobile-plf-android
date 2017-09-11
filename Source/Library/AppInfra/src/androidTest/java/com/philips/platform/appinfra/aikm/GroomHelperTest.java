@@ -80,7 +80,7 @@ public class GroomHelperTest extends AppInfraInstrumentation {
     }
 
     public void testGettingIndex() {
-        String indexData = "https://www.philips.com/0";
+        String indexData = "https://philips.com/0";
         URL url;
         try {
             url = new URL(indexData);
@@ -89,9 +89,9 @@ public class GroomHelperTest extends AppInfraInstrumentation {
             Log.e("error "," while fetching url");
         }
 
-        indexData = "https://www.philips.com/22";
+        indexData = "https://philips.com/22";
         assertEquals(groomHelper.getGroomIndex(indexData), "22");
-        indexData = "https://www.philips.com/";
+        indexData = "https://philips.com/";
         assertNull(groomHelper.getGroomIndex(indexData));
         indexData = "";
         assertNull(groomHelper.getGroomIndex(indexData));
