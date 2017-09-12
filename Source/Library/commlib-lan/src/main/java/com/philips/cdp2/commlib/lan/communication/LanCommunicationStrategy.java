@@ -34,6 +34,12 @@ import javax.net.ssl.X509TrustManager;
 
 import static java.util.Objects.requireNonNull;
 
+
+/**
+ * The type LanCommunicationStrategy.
+ *
+ * @publicApi
+ */
 public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     @NonNull
     private final RequestQueue requestQueue;
@@ -215,11 +221,17 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
         requestQueue.addRequestInFrontOfQueue(request);
     }
 
+    /**
+     * This method does nothing.
+     */
     @Override
     public void enableCommunication() {
 
     }
 
+    /**
+     * This method does nothing.
+     */
     @Override
     public void disableCommunication() {
 
