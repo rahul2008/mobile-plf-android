@@ -23,8 +23,8 @@ node ('android&&docker') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
                     cd ./Source/DemoApp 
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint zipDocuments artifactoryPublish
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
+                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test  zipDocuments artifactoryPublish
                 '''
                 }
             } else { 
