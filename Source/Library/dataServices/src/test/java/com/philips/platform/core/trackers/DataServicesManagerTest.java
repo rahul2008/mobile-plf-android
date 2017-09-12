@@ -22,14 +22,19 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteExpiredMomentRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.FetchInsightsFromDB;
+import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
+import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
+import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
@@ -38,6 +43,10 @@ import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
+import com.philips.platform.core.events.PairDevicesRequestEvent;
+import com.philips.platform.core.events.RegisterDeviceToken;
+import com.philips.platform.core.events.UnPairDeviceRequestEvent;
+import com.philips.platform.core.events.UnRegisterDeviceToken;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -350,21 +359,6 @@ public class DataServicesManagerTest {
     }
 
     @Test
-    public void unRegisterDeviceTokenTest() throws Exception {
-        tracker.unRegisterDeviceToken("token", "variant", null);
-    }
-
-    @Test
-    public void registerDeviceTokenTest() throws Exception {
-        tracker.registerDeviceToken("token", "variant", "protocol provider", null);
-    }
-
-    @Test
-    public void handlePushNotificationPayloadTest() throws Exception {
-        tracker.handlePushNotificationPayload(jsonObject);
-    }
-
-    @Test
     public void Should_fetchAllMoment_called() throws Exception {
         tracker.fetchAllMoment(dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
@@ -504,5 +498,67 @@ public class DataServicesManagerTest {
     public void Should_ClearExpiredMoments_called() {
         tracker.clearExpiredMoments(dbRequestListener);
         verify(eventingMock).post(any(DeleteExpiredMomentRequest.class));
+    }
+
+    //Push Notification test
+    @Test
+    public void unRegisterDeviceTokenTest() throws Exception {
+        tracker.unRegisterDeviceToken("token", "variant", null);
+        verify(eventingMock).post(any(UnRegisterDeviceToken.class));
+    }
+
+    @Test
+    public void registerDeviceTokenTest() throws Exception {
+        tracker.registerDeviceToken("token", "variant", "protocol provider", null);
+        verify(eventingMock).post(any(RegisterDeviceToken.class));
+    }
+
+    @Test
+    public void handlePushNotificationPayloadTest() throws Exception {
+        tracker.handlePushNotificationPayload(jsonObject);
+    }
+
+    //Subject Profile Test
+    @Test
+    public void createSubjectProfileTest() throws Exception {
+        tracker.createSubjectProfile("test user", "2013-05-05", "female", 78.88, "2015-10-01T12:11:10.123+0100", null);
+        verify(eventingMock).post(any(CreateSubjectProfileRequestEvent.class));
+    }
+
+    @Test
+    public void getSubjectProfilesTest() throws Exception {
+        tracker.getSubjectProfiles(null);
+        verify(eventingMock).post(any(GetSubjectProfileListRequestEvent.class));
+    }
+
+    @Test
+    public void getSubjectProfileTest() throws Exception {
+        tracker.getSubjectProfile("39989890000898989", null);
+        verify(eventingMock).post(any(GetSubjectProfileRequestEvent.class));
+    }
+
+    @Test
+    public void deleteSubjectProfileTest() throws Exception {
+        tracker.deleteSubjectProfile("78798089987868789", null);
+        verify(eventingMock).post(any(DeleteSubjectProfileRequestEvent.class));
+    }
+
+    //Device Pairing test
+    @Test
+    public void pairDevicesTest() throws Exception {
+        tracker.pairDevices("77908787878978", "RefNode", null, null, "rxd", null);
+        verify(eventingMock).post(any(PairDevicesRequestEvent.class));
+    }
+
+    @Test
+    public void unPairDeviceTest() throws Exception {
+        tracker.unPairDevice("7867697879787", null);
+        verify(eventingMock).post(any(UnPairDeviceRequestEvent.class));
+    }
+
+    @Test
+    public void getPairedDevicesTest() throws Exception {
+        tracker.getPairedDevices(null);
+        verify(eventingMock).post(any(GetPairedDeviceRequestEvent.class));
     }
 }
