@@ -107,7 +107,7 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
+            processDiscoveredOrLoadedNetworkNode(networkNode);
         }
 
         @Override
@@ -120,19 +120,18 @@ public class ApplianceManager {
         }
 
         @Override
-        public void onNetworkNodeUpdated(NetworkNode networkNode) {
-            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
-
-            if (appliance != null) {
-                appliance.getNetworkNode().updateWithValuesFrom(networkNode);
-                notifyApplianceUpdated(appliance);
-            }
-        }
-
-        @Override
         public void onDiscoveryStopped() {
         }
     };
+
+    private void updateAppliance(NetworkNode networkNode) {
+        final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+
+        if (appliance != null) {
+            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
+            notifyApplianceUpdated(appliance);
+        }
+    }
 
     /**
      * Instantiates a new ApplianceManager.
@@ -164,10 +163,10 @@ public class ApplianceManager {
     }
 
     @Nullable
-    private Appliance processNewlyDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
+    private Appliance processDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
         if (availableAppliances.containsKey(cppId)) {
-            discoveryListener.onNetworkNodeUpdated(networkNode);
+            updateAppliance(networkNode);
             return availableAppliances.get(cppId);
         } else if (allAppliances.containsKey(cppId)) {
             final Appliance appliance = allAppliances.get(cppId);
@@ -274,7 +273,7 @@ public class ApplianceManager {
         List<NetworkNode> networkNodes = networkNodeDatabase.getAll();
 
         for (final NetworkNode networkNode : networkNodes) {
-            final Appliance appliance = processNewlyDiscoveredOrLoadedNetworkNode(networkNode);
+            final Appliance appliance = processDiscoveredOrLoadedNetworkNode(networkNode);
             if (appliance == null) continue;
 
             applianceDatabase.loadDataForAppliance(appliance);

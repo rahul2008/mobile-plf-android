@@ -26,6 +26,7 @@ import java.util.HashSet;
 
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -99,13 +100,25 @@ public class BleDiscoveryStrategyTest {
     }
 
     @Test
-    public void whenDeviceDiscoveredTwice_ThenOnUpdateCalled() {
+    public void whenDeviceDiscoveredTwice_ThenItIsReportedTwice() {
         strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
         when(mockCache.contains("ADDR")).thenReturn(true);
 
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
-        verify(listener).onNetworkNodeUpdated(networkNode);
+        verify(listener, times(2)).onNetworkNodeDiscovered(networkNode);
+    }
+
+    @Test
+    public void whenDeviceDiscoveredTwice_ThenItsCacheTimerMustBeReset_AndItsAvailabilitySetToTrue() {
+        strategyUnderTest.addDiscoveryListener(listener);
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+        when(mockCache.contains("ADDR")).thenReturn(true);
+
+        strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
+
+        verify(mockCacheData).resetTimer();
+        verify(mockCacheData).setAvailable(true);
     }
 }

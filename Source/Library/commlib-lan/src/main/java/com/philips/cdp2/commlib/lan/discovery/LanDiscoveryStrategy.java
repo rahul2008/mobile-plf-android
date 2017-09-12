@@ -182,16 +182,14 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
 
         if (this.deviceCache.contains(networkNode.getCppId())) {
-            DICommLog.i(DICommLog.SSDP, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            DICommLog.d(DICommLog.SSDP, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.getCacheData(networkNode.getCppId()).resetTimer();
-
-            notifyNetworkNodeUpdated(networkNode);
         } else {
-            DICommLog.i(DICommLog.SSDP, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            DICommLog.d(DICommLog.SSDP, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
-
-            notifyNetworkNodeDiscovered(networkNode);
         }
+
+        notifyNetworkNodeDiscovered(networkNode);
     }
 
     @VisibleForTesting
