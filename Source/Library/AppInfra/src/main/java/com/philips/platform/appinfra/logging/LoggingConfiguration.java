@@ -310,7 +310,7 @@ class LoggingConfiguration {
                 return null;
             }
             final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
         } catch (Exception e) {
             if (mAppInfra.getAppInfraLogInstance() != null) {
@@ -328,12 +328,12 @@ class LoggingConfiguration {
             final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
             final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             if (isDebuggable) { // debug mode is for development environment where logs and property file will be written to device external memory if available
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, " log File Path" + filePath);// this path will be dynamic for each device
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, " log File Path" + filePath);// this path will be dynamic for each device
             }
             final int logFileSize = Integer.parseInt(getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
             final int maxLogFileCount = Integer.parseInt(getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
             //boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "FileHandler exception" + e.getMessage());
