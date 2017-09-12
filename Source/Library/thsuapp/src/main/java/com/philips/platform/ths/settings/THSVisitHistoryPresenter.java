@@ -29,7 +29,7 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
 
     protected void getVisitHistory(){
         try {
-            THSManager.getInstance().getVisitHistory(mThsVisitHistoryFragment.getContext(),null,false , this);
+            THSManager.getInstance().getVisitHistory(mThsVisitHistoryFragment.getContext(),null, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

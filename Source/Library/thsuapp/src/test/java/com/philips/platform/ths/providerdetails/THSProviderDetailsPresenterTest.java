@@ -15,6 +15,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -75,11 +76,15 @@ public class THSProviderDetailsPresenterTest {
     @Mock
     THSBaseFragment thsBaseFragmentMock;
 
+    @Mock
+    THSConsumer thsConsumer;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager = THSManager.getInstance();
         THSManager.setAwsdk(awsdkMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumer);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsPresenter = new THSProviderDetailsPresenter(thsProviderDetailsViewInterface, thsBaseFragmentMock);
     }

@@ -34,7 +34,7 @@ import java.net.URISyntaxException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
+class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
     private THSBaseFragment uiBaseView;
     private boolean isFirstTimeUser = false;
@@ -89,17 +89,11 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         }
     }
 
-    protected void initializeAwsdk() {
+    void initializeAwsdk() {
         try {
             AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }catch (AWSDKInitializationException e) {
+        } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
             e.printStackTrace();
         }
     }

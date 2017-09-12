@@ -33,18 +33,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback {
+class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback {
     private THSBaseFragment mThsBaseFragment;
     private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
-    private OnDateSetChangedInterface onDateSetChangedInterface;
-    protected List<Date> dateList;
+    List<Date> dateList;
     private int position;
 
-    THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper,
-                                        OnDateSetChangedInterface onDateSetChangedInterface) {
+    THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper
+                                       ) {
         mThsBaseFragment = thsBaseFragment;
         mthsProviderDetailsDisplayHelper = thsProviderDetailsDisplayHelper;
-        this.onDateSetChangedInterface = onDateSetChangedInterface;
         dateList = new ArrayList<>();
     }
 
@@ -79,6 +77,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     }
 
+    @SuppressWarnings("unchecked")
     private void launchAvailableProviderDetailBasedOnAvailibity() {
         try {
             THSManager.getInstance().getProviderDetails(mThsBaseFragment.getContext(),
@@ -131,11 +130,11 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
         }
     }
 
-    public void updateContinueButtonState(boolean isEnabled) {
+    void updateContinueButtonState(boolean isEnabled) {
         mthsProviderDetailsDisplayHelper.updateContinueButtonState(isEnabled);
     }
 
-    public void fetchProviderDetails(Context context, THSProviderInfo thsProviderInfo) {
+    void fetchProviderDetails(Context context, THSProviderInfo thsProviderInfo) {
         try {
             THSManager.getInstance().getProviderDetails(context, thsProviderInfo, this);
         } catch (AWSDKInstantiationException e) {
@@ -168,6 +167,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
         mThsBaseFragment.hideProgressBar();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onResponse(List dates, THSSDKError sdkError) {
         mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
@@ -195,7 +195,8 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     }
 
-    public void scheduleAppointment(int position) {
+    @SuppressWarnings("unchecked")
+    void scheduleAppointment(int position) {
         this.position = position;
         try {
             THSManager.getInstance().scheduleAppointment(mThsBaseFragment.getContext(), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(),

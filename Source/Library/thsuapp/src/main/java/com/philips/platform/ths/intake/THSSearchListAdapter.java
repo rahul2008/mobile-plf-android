@@ -20,12 +20,12 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 
 import java.util.List;
 
-public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
+class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
 
     private List<T> searchList;
     private Context mContext;
 
-    public THSSearchListAdapter(Context context, List<T> searchList) {
+    THSSearchListAdapter(Context context, List<T> searchList) {
         this.mContext = context;
         this.searchList = searchList;
     }
@@ -94,6 +94,7 @@ public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
      * @param parent      The parent that this view will eventually be attached to
      * @return A View corresponding to the data at the specified position.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
@@ -107,7 +108,7 @@ public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
 
             rowView.setTag(viewHolder);
         }
-        String searchedItem = null;
+        String searchedItem;
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
         if (searchList.get(position) instanceof NamedSDKEntity) {

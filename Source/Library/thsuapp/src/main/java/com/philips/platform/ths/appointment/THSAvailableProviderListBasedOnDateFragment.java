@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface{
+public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface {
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
 
     protected Date mDate;
@@ -60,25 +60,28 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         super.onActivityCreated(savedInstanceState);
         View view = getView();
         Bundle bundle = getArguments();
-        if(mDate == null) {
+        if (mDate == null) {
             mDate = (Date) bundle.getSerializable(THSConstants.THS_DATE);
         }
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
         mThsAvailableProviderList = bundle.getParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST);
-        mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this,this);
-        recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
-        mLabelNumberOfAvailableDoctors = (Label)view.findViewById(R.id.number_of_available_doctors);
-        mLabelDate = (Label) view.findViewById(R.id.calendar_view);
-        mLabelDate.setOnClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this, this);
+        if (null != view) {
 
-        refreshList();
+            recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
+            mLabelNumberOfAvailableDoctors = (Label) view.findViewById(R.id.number_of_available_doctors);
+            mLabelDate = (Label) view.findViewById(R.id.calendar_view);
+            mLabelDate.setOnClickListener(this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            refreshList();
+        }
     }
 
     protected void refreshList() {
-        if(mThsAvailableProviderList !=null){
+        if (mThsAvailableProviderList != null) {
             updateProviderAdapterList(mThsAvailableProviderList);
-        }else {
+        } else {
             refreshView();
         }
     }
@@ -88,10 +91,10 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     }
 
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
-        if(getContext()!=null){
+        if (getContext() != null) {
             mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
 
-            List<THSAvailableProvider> listOfProviderInfos = new ArrayList();
+            List<THSAvailableProvider> listOfProviderInfos = new ArrayList<>();
             for (AvailableProvider availableProvider : availableProviderses.getAvailableProvidersList()) {
                 THSAvailableProvider thsProviderInfo = new THSAvailableProvider();
                 thsProviderInfo.setAvailableProvider(availableProvider);
@@ -114,7 +117,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
-        if(viewId == R.id.calendar_view){
+        if (viewId == R.id.calendar_view) {
             mTHSAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
         }
     }

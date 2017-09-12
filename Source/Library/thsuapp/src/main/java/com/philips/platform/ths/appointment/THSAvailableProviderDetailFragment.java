@@ -12,7 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -34,19 +33,15 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     private THSProviderEntity thsProviderEntity;
     private THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
     private Practice mPractice;
-    private RelativeLayout mRelativelayout;
     private THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
     private int position;
     private RemindOptions remindOptions;
-    private SwipeRefreshLayout swipeProviderLayout;
-    private String reminderTime;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
-        mRelativelayout = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
-        swipeProviderLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
+        SwipeRefreshLayout swipeProviderLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeProviderLayout.setEnabled(false);
         swipeProviderLayout.setRefreshing(false);
 
@@ -59,7 +54,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         mPractice = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
 
         thsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this,this,view);
-        thsAvailableDetailProviderPresenter = new THSAvailableProviderDetailPresenter(this,thsProviderDetailsDisplayHelper,this);
+        thsAvailableDetailProviderPresenter = new THSAvailableProviderDetailPresenter(this,thsProviderDetailsDisplayHelper);
         thsAvailableDetailProviderPresenter.updateContinueButtonState(false);
         refreshView();
         return view;
@@ -95,7 +90,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     public THSProviderInfo getProviderEntity() {
-        ProviderInfo providerInfo = null;
+        ProviderInfo providerInfo;
         if(thsProviderEntity instanceof THSAvailableProvider) {
             providerInfo = ((THSAvailableProvider) thsProviderEntity).getProviderInfo();
         }else {
@@ -124,7 +119,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     @Override
     public void onPostData(Object o) {
         if(null != o){
-            reminderTime = (String)o;
+            String reminderTime = (String) o;
             thsProviderDetailsDisplayHelper.setReminderValue(reminderTime);
             if(reminderTime.equalsIgnoreCase(THSConstants.THS_NO_REMINDER_STRING)){
                 remindOptions = RemindOptions.NO_REMINDER;

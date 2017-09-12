@@ -32,13 +32,8 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected EditText mWeight;
     protected Button mContinue;
     private THSVitals mTHSVitals;
-    private Button mSkipLabel;
-    private InputValidationLayout mSystolicInputValidationLayout;
-    private InputValidationLayout mDiastolicInputValidationLayout;
-    private InputValidationLayout mFarenheitInputLayoutContainer;
-    private InputValidationLayout mWeightInputLayoutContainer;
-    private boolean enableContinue = false;
 
+    @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,19 +46,19 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mWeight.setFilters(new InputFilter[]{new THSInputFilters(0, 500)});
         mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
-        mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);
+        Button mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);
         mSkipLabel.setOnClickListener(this);
 
-        mSystolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_systolic_container);
+        InputValidationLayout mSystolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_systolic_container);
         mSystolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
-        mDiastolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_diasystolic_container);
+        InputValidationLayout mDiastolicInputValidationLayout = (InputValidationLayout) view.findViewById(R.id.intake_diasystolic_container);
         mDiastolicInputValidationLayout.setValidator(new THSVitalsSystolicValidator());
 
-        mFarenheitInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.intake_farenheit_container);
+        InputValidationLayout mFarenheitInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.intake_farenheit_container);
         mFarenheitInputLayoutContainer.setValidator(new THSVitalsTemperatureValidator());
 
-        mWeightInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.pounds_container);
+        InputValidationLayout mWeightInputLayoutContainer = (InputValidationLayout) view.findViewById(R.id.pounds_container);
         mWeightInputLayoutContainer.setValidator(new THSVitalsWeightValidator());
         mThsVitalsPresenter = new THSVitalsPresenter(this,this);
         if (null != getActionBarListener()) {
@@ -85,13 +80,9 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
     @Override
     public boolean validate() {
+        boolean enableContinue;
         if (mThsVitalsPresenter.checkIfValueEntered(mTemperature) || mThsVitalsPresenter.checkIfValueEntered(mWeight)) {
-            if(!mThsVitalsPresenter.checkIfValueEntered(mSystolic) && !mThsVitalsPresenter.checkIfValueEntered(mDiastolic)){
-                enableContinue = true;
-            }else {
-
-                enableContinue = validateBloodPressure();
-            }
+            enableContinue = !mThsVitalsPresenter.checkIfValueEntered(mSystolic) && !mThsVitalsPresenter.checkIfValueEntered(mDiastolic) || validateBloodPressure();
 
         }
         else if(validateBloodPressure()){
@@ -108,13 +99,13 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mTHSVitals = thsVitals;
 
         if (mTHSVitals.getSystolic() != null)
-            mSystolic.setText(""+thsVitals.getSystolic());
+            mSystolic.setText(String.valueOf(thsVitals.getSystolic()));
         if (mTHSVitals.getDiastolic() != null)
-            mDiastolic.setText(""+thsVitals.getDiastolic());
+            mDiastolic.setText(String.valueOf(thsVitals.getDiastolic()));
         if (mTHSVitals.getTemperature() != null)
-            mTemperature.setText(""+thsVitals.getTemperature());
+            mTemperature.setText(String.valueOf(thsVitals.getTemperature()));
         if (mTHSVitals.getWeight() != null)
-            mWeight.setText(""+thsVitals.getWeight());
+            mWeight.setText(String.valueOf(thsVitals.getWeight()));
 
     }
 
