@@ -365,6 +365,11 @@ public class THSManager {
                 });
     }
 
+    public boolean isSDKInitialized(Context context) throws AWSDKInstantiationException {
+        final boolean serviceKeyCollected = getAwsdk(context).getConfiguration().isServiceKeyCollected();
+        return serviceKeyCollected;
+    }
+
     public void getOnDemandSpecialities(Context context, PracticeInfo practiceInfo, String searchItem, final THSOnDemandSpecialtyCallback thsOnDemandSpecialtyCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getOnDemandSpecialties(getPTHConsumer().getConsumer(), practiceInfo, searchItem, new SDKCallback<List<OnDemandSpecialty>, SDKError>() {
             @Override

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -48,14 +49,32 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            THSInitFragment welcomeFragment = new THSInitFragment();
-            Bundle bundle = new Bundle();
-            welcomeFragment.setArguments(bundle);
-            welcomeFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
-            welcomeFragment.setFragmentLauncher(fragmentLauncher);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), welcomeFragment, THSWelcomeFragment.TAG);
-           // fragmentTransaction.addToBackStack(THSWelcomeFragment.TAG);
-            fragmentTransaction.commitAllowingStateLoss();
+            THSBaseFragment thsBaseFragment;
+            try {
+                if(THSManager.getInstance().isSDKInitialized(context)) {
+                    thsBaseFragment = new THSWelcomeFragment();
+                    lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
+                    return;
+                }
+            } catch (AWSDKInstantiationException e) {
+
+            }catch (IllegalArgumentException e){
+
+            }
+            thsBaseFragment = new THSInitFragment();
+            lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
         }
+    }
+
+    private void lauchFirstFragment(THSBaseFragment thsBaseFragment,FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction) {
+        Bundle bundle = new Bundle();
+        thsBaseFragment.setArguments(bundle);
+        thsBaseFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
+        thsBaseFragment.setFragmentLauncher(fragmentLauncher);
+        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), thsBaseFragment, THSInitFragment.TAG);
+        if(thsBaseFragment instanceof THSWelcomeFragment) {
+            fragmentTransaction.addToBackStack(THSWelcomeFragment.TAG);
+        }
+        fragmentTransaction.commitAllowingStateLoss();
     }
 }
