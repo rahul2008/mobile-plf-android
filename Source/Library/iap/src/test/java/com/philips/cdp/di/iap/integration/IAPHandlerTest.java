@@ -57,11 +57,11 @@ public class IAPHandlerTest {
         mIAPDependencies = new MockIAPDependencies(mAppInfra);
         mIAPSettings = new IAPSettings(mContext);
         mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
-        Intent intent = new Intent();
-        intent.putExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS, "HX8332/11");
-        intent.putStringArrayListExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, new ArrayList<String>());
-
-        Robolectric.buildActivity(IAPActivity.class).withIntent(intent).start().get();
+//        Intent intent = new Intent();
+//        intent.putExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS, "HX8332/11");
+//        intent.putStringArrayListExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, new ArrayList<String>());
+//
+//        Robolectric.buildActivity(IAPActivity.class).withIntent(intent).start().get();
 
 
         //IAP Listener
@@ -261,7 +261,7 @@ public class IAPHandlerTest {
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void launchIAPAsActivityForProductDetail() throws Exception {
         ArrayList blackListedRetailer = new ArrayList<>();
         IAPFlowInput input = new IAPFlowInput("HX9043/64");
@@ -269,7 +269,12 @@ public class IAPHandlerTest {
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input, blackListedRetailer);
         IAPSettings iapSettings = new IAPSettings(new Application());
         MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
+        Intent intent = new Intent();
+        intent.putExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS, "HX8332/11");
+        intent.putStringArrayListExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, new ArrayList<String>());
 
+        Robolectric.buildActivity(IAPActivity.class).withIntent(intent).start().get();
+        //Robolectric.setupActivity(TestActivity.class);
 
         mockIAPHandler.launchIAP(new ActivityLauncher
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
@@ -392,6 +397,16 @@ public class IAPHandlerTest {
         Message msg = new Message();
         msg.obj = new IAPNetworkError(null, 0, null);
         mMockIAPHandler.getIAPErrorCode(msg);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testInitPreRequisite() throws Exception{
+        mMockIAPHandler.initIAPRequisite();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testInitIAPRequisite() throws Exception{
+        mMockIAPHandler.initIAPRequisite();
     }
 
 }

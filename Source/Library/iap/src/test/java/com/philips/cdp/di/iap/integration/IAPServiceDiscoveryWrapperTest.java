@@ -91,7 +91,7 @@ public class IAPServiceDiscoveryWrapperTest {
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
         iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), null, null);
-        iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
+        iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "No Connection");
     }
 
     @Test

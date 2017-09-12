@@ -4,9 +4,7 @@
  */
 package com.philips.cdp.di.iap.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
@@ -15,11 +13,6 @@ import android.util.Log;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
 
 import junit.framework.TestCase;
 
@@ -60,12 +53,6 @@ public class NetworkUtilityTest extends TestCase {
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testShowErrorDialog() {
-        //  UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        NetworkUtility.getInstance().showErrorDialog(mock(Activity.class), mock(FragmentManager.class), "", "", "");
-    }
-
     @Test
     public void testShowErrorMessage() {
         NetworkUtility.getInstance().showErrorMessage(mock(Message.class), mock(FragmentManager.class), mock(Context.class));
@@ -94,19 +81,4 @@ public class NetworkUtilityTest extends TestCase {
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
-    @Test
-    public void testCreateIAPErrorMessage() {
-        //UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        NetworkUtility.getInstance().createIAPErrorMessage("", "");
-    }
-
-    private void initTheme() {
-        int themeIndex = mock(Intent.class).getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
-        if (themeIndex <= 0) {
-            themeIndex = DEFAULT_THEME;
-        }
-        mock(Context.class).getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-
-    }
 }
