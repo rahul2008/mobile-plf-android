@@ -184,13 +184,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cl.di.dev.pa'
-            versionCode 601
-            versionName '7.0.0.1'
+            versionCode 603
+            versionName '8.0.1'
         }
         device {
             applicationId 'com.philips.cl.di.dev.pa'
-            versionCode 601
-            versionName '7.0.0.1'
+            versionCode 603
+            versionName '8.0.1'
         }
     }
 
