@@ -162,6 +162,9 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     @Override
+    public void onSuccess(Object o) {
+    }
+    @Override
     public void onFailure(int i) {
         ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
         RALog.d(TAG, "IAPState list fetching failed");
