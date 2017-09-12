@@ -37,7 +37,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     private THSBaseFragment mThsBaseFragment;
     private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
     private OnDateSetChangedInterface onDateSetChangedInterface;
-    private List<Date> dateList;
+    protected List<Date> dateList;
     private int position;
 
     THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper,
