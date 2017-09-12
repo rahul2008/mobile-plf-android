@@ -19,7 +19,7 @@
         android:maxLines="2"
         android:gravity="start|center" />
 
-    <com.philips.platform.uid.view.widget.Label
+    <TextView
         android:id="@+id/icon_button_icon1"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_marginRight="16dp"
         fontPath="fonts/iconfont.ttf"
         android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
-        android:text="@string/dls_navigationright_light"
+        android:textSize="18sp"
         android:gravity="center"/>
 
     <!--<com.shamanland.fonticon.FontIconView-->

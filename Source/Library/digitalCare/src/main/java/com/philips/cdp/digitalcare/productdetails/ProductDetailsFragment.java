@@ -148,7 +148,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         for (int i = 0; i < mVideoLength.size(); i++) {
             View child = getActivity().getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
             ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
-            ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
+            TextView videoPlay = (TextView) child.findViewById(R.id.videoPlay);
             ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
             ImageView videoRightArrow = (ImageView) child.findViewById(R.id.videoRightArrow);
 
@@ -237,7 +237,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         return imageBitmap;
     }
 
-    private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay,
+    private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, TextView videoPlay,
                              ImageView videoLeftArrow, ImageView videoRightArrow) {
         String tag = counter + "";
         final String thumbnail = video.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
@@ -309,9 +309,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 Label label = (Label) container.findViewById(R.id.icon_button_text1);
                 label.setText(item.mText);
                 TextView icon = (TextView) container.findViewById(R.id.icon_button_icon1);
-                //icon.setImageResource(item.mIcon);
-//                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
-//                icon.setText(item.mIcon);
+                if(label.getText().equals(getString(R.string.FAQ_KEY)))
+                    icon.setText(getString(R.string.dls_navigationright_32));
+                else
+                    icon.setText(getString(R.string.dls_linkexternal_32));
+
                 container.setTag(getResources().getResourceEntryName(item.mText));
                 container.setOnClickListener(context);
             }
@@ -321,7 +323,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     private ArrayList<MenuItem> getMenuItems() {
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
-        //TypedArray icons = getResources().obtainTypedArray(R.array.product_menu_resource);
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
             menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
