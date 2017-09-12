@@ -105,16 +105,6 @@
       *;
   }
 
-#-------------------------Consumer Care Starts -------------------------
-
-
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--dontpreverify
--keepattributes *Annotation*
--keepattributes Signature
-
 
 # ----------------------------Gson specific classes --------------------------
 -keep class sun.misc.Unsafe { *; }
@@ -262,14 +252,6 @@
 -keep class uk.co.chrisjenx.** {*;}
 
 
-#--------------------ConsumerCare--------------------
--keep class com.philips.cdp.digitalcare.** {*;}
-
--keepclassmembers class *{
-  @android.webkit.JavascriptInterface <methods>;
-}
-
-
 #--------------------GooglePLayServices--------------------
 
 -keep class android.support.** {*;}
@@ -279,9 +261,6 @@
 -keep public class * extends android.support.v13.**
 -keep public class * extends android.app.Fragment
 -keep class com.philips.cdp.uikit.customviews.**
--keep class com.philips.cdp.productselection.**
--keep class com.philips.cdp.productselection.utils.ProductSelectionLogger.**
--keep class com.philips.cdp.productselection.ProductModelSelectionHelper.**
 
 -dontwarn com.google.android.gms.**
 
@@ -292,17 +271,24 @@
 
 #------------------------- Consumer Care starts -------------------------
 
--dontwarn com.philips.cdp.digitalcare.**
-#-dontwarn com.philips.cdp.productselection.**
--dontwarn com.adobe.mobile.**
--dontwarn org.apache.**
+#need for javascript enabled webviews
+-keepclassmembers class *{
+  @android.webkit.JavascriptInterface <methods>;
+}
 
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
 
--dontwarn com.shamanland.**
--dontwarn uk.co.chrisjenx.**
+#attributes
+-keepattributes *Annotation*
+-keepattributes Signature
 
 
 #-------------------------Consumer Care Ends -------------------------
+
+
 
 #------------------------------InAppPurchase starts here------------------------------------
 #all below classes are model classes
