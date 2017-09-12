@@ -183,6 +183,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                 '**/*$ViewBinder*.*',
                 '**/BuildConfig.*',
                 '**/Manifest*.*',
+                '**/com/philips/platform/referenceapp/utils/PushNotificationConstants*.*'
         ])
 
     def coverageSourceDirs = [

@@ -561,6 +561,9 @@ project.afterEvaluate {
                                         '**/*$ViewBinder*.*',
                                         '**/BuildConfig.*',
                                         '**/Manifest*.*',
+                                        '**/com/philips/platform/baseapp/screens/utility/Constants*.*',
+                                        '**/com/philips/platform/appframework/flowmanager/AppState*.*',
+                                        '**/com/philips/platform/appframework/flowmanager/AppConditions*.*',
                                         '**/com/philips/platform/baseapp/screens/dataservices/**'
                                 ]
                         )
