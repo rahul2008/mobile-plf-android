@@ -34,14 +34,4 @@
         android:textSize="18sp"
         android:gravity="center"/>
 
-    <!--<com.shamanland.fonticon.FontIconView-->
-    <!--android:layout_width="35dp"-->
-    <!--android:layout_height="35dp"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_marginRight="16dp"-->
-    <!--android:gravity="center"-->
-    <!--android:id="@+id/icon_button_icon"-->
-    <!--android:textSize="18dp"-->
-    <!--android:textColor="?attr/uidContentPrimary"-->
-    <!--fontPath="digitalcarefonts/CCIcon.ttf"/>-->
 </RelativeLayout>

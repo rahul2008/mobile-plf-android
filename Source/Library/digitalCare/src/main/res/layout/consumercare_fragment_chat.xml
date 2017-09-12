@@ -24,11 +24,6 @@
                     android:id="@+id/chatnow_bg"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_bg_height" />
-                <!--
-                                <TextView
-                                    android:id="@+id/helpText"
-                                    style="@style/chatNowHelpText"
-                                    fontPath="digitalcarefonts/CentraleSans-Book.otf" />-->
             </FrameLayout>
         </LinearLayout>
 
@@ -104,26 +99,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:weightSum="2">
-                <!--
-
-                                <RelativeLayout
-                                    android:id="@+id/chatNoThanksParentLand"
-                                    style="@style/fontButton"
-                                    android:layout_marginLeft="@dimen/activity_margin"
-
-                                    android:layout_weight="1"
-                                    android:padding="2dp">
-
-                                    <Button
-                                        android:id="@+id/chatNoThanksLand"
-                                        style="?attr/uikit_outlinedButtonStyle"
-                                        fontPath="digitalcarefonts/CentraleSans-Bold.otf"
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="@dimen/support_btn_height"
-                                        android:layout_marginTop="0dp"
-                                        android:text="@string/cancel" />
-                                </RelativeLayout>
-                -->
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/chatNowLand"

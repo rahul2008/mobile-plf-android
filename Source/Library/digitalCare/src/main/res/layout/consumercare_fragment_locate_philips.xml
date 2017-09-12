@@ -149,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                    fontPath="fonts/centralesansbook.ttf" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/secondRowText"
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:visibility="gone"
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+                    fontPath="fonts/centralesansbook.ttf" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

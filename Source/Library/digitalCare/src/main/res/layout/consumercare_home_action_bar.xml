@@ -29,5 +29,5 @@
     <TextView
         android:id="@+id/action_bar_title"
         style="@style/actionbarFontTextView"
-        fontPath="digitalcarefonts/CentraleSans-Light.otf" />
+        fontPath="fonts/centralesanslight.ttf" />
 </RelativeLayout>

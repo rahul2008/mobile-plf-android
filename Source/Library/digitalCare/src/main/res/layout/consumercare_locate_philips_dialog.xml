@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="@string/servicecenters_not_found"
         android:textColor="@android:color/black"
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
+        fontPath="fonts/centralesanslight.ttf" />
 
     <View
         android:id="@+id/seperatorOne"
@@ -34,7 +34,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@string/localtephilips_contactus"
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
+        fontPath="fonts/centralesanslight.ttf" />
 
     <View
         android:id="@+id/seperatorTwo"
@@ -52,5 +52,5 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@android:string/ok"
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
+        fontPath="fonts/centralesanslight.ttf" />
 </RelativeLayout>

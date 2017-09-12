@@ -136,7 +136,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
 
             mWebView.setVisibility(View.INVISIBLE);
 
-            mWebView.getSettings().setStandardFontFamily("file:///android_asset/digitalcarefonts/CentraleSans-Book.otf");
+            mWebView.getSettings().setStandardFontFamily("file:///android_asset/fonts/centralesansbook.ttf");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
