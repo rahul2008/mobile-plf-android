@@ -42,7 +42,7 @@ public class AIKManager implements AIKMInterface {
         getGroomHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
-        getGroomHelper().getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
+        getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
     }
 
     @NonNull
@@ -75,7 +75,7 @@ public class AIKManager implements AIKMInterface {
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = fetchGettingGroomUrlsListener(onGetServicesListener, aiKmServices, urlMap);
                 ArrayList<String> appendedServiceIds = groomHelper.getAppendedGrooms(serviceIds);
-                groomHelper.getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, onGetServiceUrlMapListener);
+                getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, onGetServiceUrlMapListener);
             }
 
             @Override
@@ -99,4 +99,25 @@ public class AIKManager implements AIKMInterface {
         }
         return false;
     }
+
+    void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, AISDResponse.AISDPreference aiSdPreference,
+                                   Map<String, String> replacement,
+                                   ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener) {
+        if (replacement != null) {
+            if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
+                getServiceDiscovery().getServicesWithCountryPreference(serviceIds, serviceUrlMapListener, replacement);
+            else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
+                getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener, replacement);
+        } else {
+            if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
+                getServiceDiscovery().getServicesWithCountryPreference(serviceIds, serviceUrlMapListener);
+            else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
+                getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener);
+        }
+    }
+
+    ServiceDiscoveryInterface getServiceDiscovery() {
+        return appInfra.getServiceDiscovery();
+    }
 }
+

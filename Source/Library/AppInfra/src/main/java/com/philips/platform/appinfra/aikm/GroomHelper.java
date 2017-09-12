@@ -12,8 +12,6 @@ import android.text.TextUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONArray;
@@ -218,21 +216,4 @@ public class GroomHelper {
         }
         return appendedServiceIds;
     }
-
-    void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, AISDResponse.AISDPreference aiSdPreference,
-                                   Map<String, String> replacement,
-                                   ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener) {
-        if (replacement != null) {
-            if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
-                mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIds, serviceUrlMapListener, replacement);
-            else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-                mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener, replacement);
-        } else {
-            if (aiSdPreference == AISDResponse.AISDPreference.AISDCountryPreference)
-                mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIds, serviceUrlMapListener);
-            else if (aiSdPreference == AISDResponse.AISDPreference.AISDLanguagePreference)
-                mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIds, serviceUrlMapListener);
-        }
-    }
-
 }

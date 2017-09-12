@@ -13,7 +13,11 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import static org.mockito.Mockito.mock;
@@ -24,21 +28,28 @@ public class AIKManagerTest extends AppInfraInstrumentation {
 
 
     private AIKManager aikManager;
+    private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         AppInfra appInfraMock = mock(AppInfra.class);
-        ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
+        serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
-        aikManager = new AIKManager(appInfraMock);
+        aikManager = new AIKManager(appInfraMock) {
+
+            @Override
+            ServiceDiscoveryInterface getServiceDiscovery() {
+                return serviceDiscoveryInterfaceMock;
+            }
+        };
     }
 
-    public void testInvokingServices() throws AIKMJsonFileNotFoundException {
+    public void testInvokingServices() throws AIKMJsonFileNotFoundException, JSONException {
         Context context = getInstrumentation().getContext();
         AppInfra appInfraMock = mock(AppInfra.class);
         when(appInfraMock.getAppInfraContext()).thenReturn(context);
-        ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
+        final ServiceDiscoveryInterface serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(appInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
@@ -102,4 +113,20 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         urlMap.put("service_id2", value2);
         return urlMap;
     }
+
+
+    public void testGetServiceDiscoveryUrlMap() {
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
+        aikManager.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServiceUrlMapListener);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(null, onGetServiceUrlMapListener);
+        aikManager.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDLanguagePreference, null, onGetServiceUrlMapListener);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(null, onGetServiceUrlMapListener);
+
+        Map<String, String> replacement = new HashMap<>();
+        aikManager.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDCountryPreference, replacement, onGetServiceUrlMapListener);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(null, onGetServiceUrlMapListener, replacement);
+        aikManager.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDLanguagePreference, replacement, onGetServiceUrlMapListener);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(null, onGetServiceUrlMapListener, replacement);
+    }
+
 }

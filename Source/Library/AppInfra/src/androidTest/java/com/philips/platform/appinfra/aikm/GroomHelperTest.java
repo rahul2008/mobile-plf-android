@@ -13,8 +13,6 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONArray;
@@ -29,17 +27,13 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class GroomHelperTest extends AppInfraInstrumentation {
 
     private GroomHelper groomHelper;
-    private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
     private AppInfra mAppInfraMock;
     private InputStream inputStream;
 
@@ -48,8 +42,6 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         super.setUp();
         mAppInfraMock = mock(AppInfra.class);
         LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
-        serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
-        when(mAppInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(mAppInfraMock.getLogging()).thenReturn(loggingInterfaceMock);
 
         try {
@@ -142,25 +134,11 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         }
     }
 
-    public void testGetServiceDiscoveryUrlMap() {
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
-        groomHelper.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServiceUrlMapListener);
-        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(null, onGetServiceUrlMapListener);
-        groomHelper.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDLanguagePreference, null, onGetServiceUrlMapListener);
-        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(null, onGetServiceUrlMapListener);
-
-        Map<String, String> replacement = new HashMap<>();
-        groomHelper.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDCountryPreference, replacement, onGetServiceUrlMapListener);
-        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(null, onGetServiceUrlMapListener, replacement);
-        groomHelper.getServiceDiscoveryUrlMap(null, AISDResponse.AISDPreference.AISDLanguagePreference, replacement, onGetServiceUrlMapListener);
-        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(null, onGetServiceUrlMapListener, replacement);
-    }
-
     public void testMappingData() throws Exception {
         assertNotNull(groomHelper.mapData(new JSONObject(), 0, "service_id"));
     }
 
-    public void testMapAndValidateKey() throws AIKMJsonFileNotFoundException, JSONException {
+    public void testMapAndValidateKey() throws AIKMJsonFileNotFoundException {
         groomHelper = new GroomHelper(mAppInfraMock) {
             @Override
             Object getAilGroomProperties(String serviceId) {
@@ -172,7 +150,11 @@ public class GroomHelperTest extends AppInfraInstrumentation {
                 return inputStream;
             }
         };
-        groomHelper.init(mAppInfraMock);
+        try {
+            groomHelper.init(mAppInfraMock);
+        } catch (JSONException e) {
+           assertEquals(e.getMessage(),AIKMService.AIKMapError.INVALID_JSON.name());
+        }
         ServiceDiscoveryService serviceDiscovery = new ServiceDiscoveryService();
         serviceDiscovery.setmError("something went wrong");
         AIKMService aikmService = new AIKMService();
