@@ -271,12 +271,7 @@
 
 #------------------------- Consumer Care starts -------------------------
 
--dontwarn com.adobe.mobile.**
--dontwarn org.apache.**
-
--dontwarn com.shamanland.**
--dontwarn uk.co.chrisjenx.**
-
+#need for javascript enabled webviews
 -keepclassmembers class *{
   @android.webkit.JavascriptInterface <methods>;
 }
@@ -285,6 +280,8 @@
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
 -dontpreverify
+
+#attributes
 -keepattributes *Annotation*
 -keepattributes Signature
 
