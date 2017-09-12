@@ -69,7 +69,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
             if (errors.isEmpty()) {
                 THSManager.getInstance().updatePaymentMethod(mTHSBillingAddressFragment.getFragmentActivity(), mTHSCreatePaymentRequest, this);
             } else {
-
+                mTHSBillingAddressFragment.showToast(errors.toString());
                 AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
             }
 
