@@ -138,7 +138,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         mActivity = getActivity();
         setRetainInstance(true);
         prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity);
-        dismissLoadingDialog();
+       // dismissLoadingDialog();
     }
 
     @SuppressWarnings("deprecation")
@@ -584,7 +584,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void onStop() {
         super.onStop();
-        dismissDialogs();
+        //dismissDialogs();
     }
 
     private void dismissDialogs() {

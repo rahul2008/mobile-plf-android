@@ -209,6 +209,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
             Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
             if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
                 alertDialogFragment.dismiss();
+                alertDialogFragment = null;
             }
         }
     }
@@ -279,12 +280,13 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
-            if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
-                alertDialogFragment.dismiss();
-            }
+//        final FragmentActivity activity = getActivity();
+//        if (activity != null && !activity.isFinishing()) {
+//            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
+//            if (prev instanceof AlertDialogFragment &&
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+            alertDialogFragment = null;
         }
     }
 
@@ -311,5 +313,12 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                 });
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), tag);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dismissProdRegLoadingDialog();
+        dismissAlertOnError();
     }
 }
