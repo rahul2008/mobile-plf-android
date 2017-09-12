@@ -486,7 +486,7 @@ public class THSManager {
         });
     }*/
 
-    public void getAppointments(Context context, SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback<List, THSSDKError> thsGetAppointmentsCallback) throws AWSDKInstantiationException {
+    public void getAppointments(Context context, SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback<List<Appointment>, THSSDKError> thsGetAppointmentsCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getAppointments(getPTHConsumer().getConsumer(),sdkLocalDate,new SDKCallback<List< Appointment >, SDKError>(){
 
             @Override
@@ -873,7 +873,7 @@ public class THSManager {
 
     }
 
-    public void getProviderAvailability(Context context, Provider provider, Date date, final THSAvailableProviderCallback<List,THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
+    public void getProviderAvailability(Context context, Provider provider, Date date, final THSAvailableProviderCallback<List<Date>,THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
         try {
             getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), provider,
                     date, null,new SDKCallback<List<Date>, SDKError>() {
@@ -1247,7 +1247,7 @@ public class THSManager {
         this.mAppInfra = mAppInfra;
     }
 
-    public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback<List, SDKError> visitReportListCallback) throws AWSDKInstantiationException {
+    public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback<List<VisitReport>, SDKError> visitReportListCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVisitReports(getPTHConsumer().getConsumer(), date, null, new SDKCallback<List<VisitReport>, SDKError>() {
 
             @Override
@@ -1262,7 +1262,7 @@ public class THSManager {
         });
     }
 
-    public void getVisitReportDetail(Context context, VisitReport visitReport, final THSVisitReportDetailCallback thsVisitReportDetailCallback) throws AWSDKInstantiationException {
+    public void getVisitReportDetail(Context context, VisitReport visitReport, final THSVisitReportDetailCallback<VisitReportDetail, SDKError> thsVisitReportDetailCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVisitReportDetail(getPTHConsumer().getConsumer(), visitReport, new SDKCallback<VisitReportDetail, SDKError>() {
             @Override
             public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {

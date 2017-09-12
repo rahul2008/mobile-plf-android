@@ -14,7 +14,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
-public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitReportListCallback<List,SDKError>{
+public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitReportListCallback<List<VisitReport>,SDKError>{
 
     THSVisitHistoryFragment mThsVisitHistoryFragment;
 

@@ -24,23 +24,21 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
+class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
     private THSBaseFragment mTHSBaseFragment;
-    private boolean hasInsurance;
 
-    public THSInsuranceDetailPresenter(THSInsuranceDetailFragment tHSInsuranceDetailFraagment) {
+    THSInsuranceDetailPresenter(THSInsuranceDetailFragment tHSInsuranceDetailFraagment) {
         this.mTHSBaseFragment = tHSInsuranceDetailFraagment;
 
     }
 
 
-    public THSHealthPlan fetchHealthPlanList() {
+    THSHealthPlan fetchHealthPlanList() {
         THSHealthPlan tHSHealthPlan = new THSHealthPlan();
         try {
             List<HealthPlan> healthPlanList = THSManager.getInstance().getHealthPlans(mTHSBaseFragment.getFragmentActivity());
@@ -51,7 +49,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
         return tHSHealthPlan;
     }
 
-    public THSRelationship fetchSubscriberRelationList() {
+    THSRelationship fetchSubscriberRelationList() {
         THSRelationship tHSRelationship = new THSRelationship();
         try {
             List<Relationship> relationships = THSManager.getInstance().getSubscriberRelationships(mTHSBaseFragment.getFragmentActivity());
@@ -62,7 +60,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
         return tHSRelationship;
     }
 
-    public THSSubscriptionUpdateRequest getSubscriptionUpdateRequestWithoutVistContext() {
+    private THSSubscriptionUpdateRequest getSubscriptionUpdateRequestWithoutVistContext() {
         THSSubscriptionUpdateRequest tHSSubscriptionUpdateRequest = null;
         try {
             tHSSubscriptionUpdateRequest = THSManager.getInstance().getNewSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity());
@@ -80,7 +78,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
         }
     }
 
-    void updateTHSInsuranceSubscription() {
+    private void updateTHSInsuranceSubscription() {
         try {
             ///////validate
 
@@ -92,10 +90,8 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             if (((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan.isUsesSuffix()) {
 
                 subscription.setSubscriberSuffix(((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.getText().toString().trim());
-            } else {
-
             }
-            Relationship relationship = null;
+            Relationship relationship;
             if (!((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.isChecked()) {
                 relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mTHSRelationshipList.getRelationShipList().get(0);// primary subscriber by default
 
@@ -103,7 +99,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
                 relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship;
             }
             subscription.setRelationship(relationship);
-            if (relationship != null && !relationship.isPrimarySubscriber()) {
+            if (!relationship.isPrimarySubscriber()) {
                 subscription.setPrimarySubscriberFirstName(((THSInsuranceDetailFragment) mTHSBaseFragment).firstNameEditBox.getText().toString().trim());
                 subscription.setPrimarySubscriberLastName(((THSInsuranceDetailFragment) mTHSBaseFragment).lastNameEditBox.getText().toString().trim());
                 subscription.setPrimarySubscriberDateOfBirth(SDKLocalDate.valueOf(((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.getText().toString().trim()));
@@ -115,22 +111,22 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             if (errors.isEmpty()) {
                 updateInsurance(thsSubscriptionUpdateRequest);
             } else {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+                mTHSBaseFragment.hideProgressBar();
                 AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
                 //showInsuranceNotVerifiedDialog();
                 String missingFields="";
-                Iterator it = errors.entrySet().iterator();
+                Iterator<Map.Entry<String, ValidationReason>> it = errors.entrySet().iterator();
                 while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
+                    Map.Entry<String, ValidationReason> pair = (Map.Entry)it.next();
                     String[] array = pair.getKey().toString().split("\\.");
                     missingFields = missingFields + array[array.length-1]+ "     ";
                     it.remove(); // avoids a ConcurrentModificationException
                 }
 
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).showToast(missingFields +" Field(s) Required");
+                mTHSBaseFragment.showToast(missingFields +" Field(s) Required");
             }
         } catch (Exception e) {
-            ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+            mTHSBaseFragment.hideProgressBar();
         }
 
     }
@@ -142,13 +138,6 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
-    }
-
-    public THSSubscription getCurrentSubscription() {
-        THSSubscription thsSubscription = new THSSubscription();
-        final Subscription currentSubscription = THSManager.getInstance().getPTHConsumer().getConsumer().getSubscription();
-        thsSubscription.setSubscription(currentSubscription);
-        return thsSubscription;
     }
 
     @Override
@@ -168,7 +157,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             showCostSummaryFragment();
         } else if (componentID == R.id.ths_confirmation_dialog_secondary_button_label) {
             // stay on same insurance screen
-            ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+            mTHSBaseFragment.hideProgressBar();
         }
 
     }
@@ -177,7 +166,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     ////////// start of getExistingSubscription call back
     @Override
     public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+        mTHSBaseFragment.hideProgressBar();
         ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
         Subscription subscription = tHSSubscription.getSubscription();
         if (null != subscription) {
@@ -227,8 +216,8 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     @Override
     public void onGetInsuranceFailure(Throwable throwable) {
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).showToast(throwable.getMessage());
+        mTHSBaseFragment.hideProgressBar();
+        mTHSBaseFragment.showToast(throwable.getMessage());
     }
     ////////// end of getExistingSubscription call back
 
@@ -236,20 +225,20 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     ///////// start update suscription call back
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+        mTHSBaseFragment.hideProgressBar();
         AmwellLog.i("updateInsurance", "fail");
         showInsuranceNotVerifiedDialog();
     }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+        mTHSBaseFragment.hideProgressBar();
         showCostSummaryFragment();
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
+        mTHSBaseFragment.hideProgressBar();
         showInsuranceNotVerifiedDialog();
 
     }
@@ -259,7 +248,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     private void showCostSummaryFragment() {
         AmwellLog.i("updateInsurance", "success");
         if (((THSInsuranceDetailFragment) mTHSBaseFragment).isLaunchedFromCostSummary) {
-            ((THSInsuranceDetailFragment) mTHSBaseFragment).getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
+            mTHSBaseFragment.getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
         } else {
             THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             //fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
@@ -270,7 +259,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     private void showInsuranceNotVerifiedDialog() {
         THSInsuranceNotVerifiedDialogFragment thsInsuranceNotVerifiedDialogFragment = new THSInsuranceNotVerifiedDialogFragment();
         thsInsuranceNotVerifiedDialogFragment.setPresenter(this);
-        thsInsuranceNotVerifiedDialogFragment.show(((THSInsuranceDetailFragment) mTHSBaseFragment).getFragmentManager(), THSInsuranceNotVerifiedDialogFragment.TAG);
+        thsInsuranceNotVerifiedDialogFragment.show(mTHSBaseFragment.getFragmentManager(), THSInsuranceNotVerifiedDialogFragment.TAG);
     }
 
 }

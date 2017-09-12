@@ -256,8 +256,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     }
 
     private void setAppointmentsToView(List<Date> dates) {
-        THSAppointmentGridAdapter itemsAdapter = new THSAppointmentGridAdapter(mContext, dates,
-                thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo());
+        THSAppointmentGridAdapter itemsAdapter = new THSAppointmentGridAdapter(mContext, dates);
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }

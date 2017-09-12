@@ -41,9 +41,11 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         mSystolic = (EditText) view.findViewById(systolic);
         mDiastolic = (EditText) view.findViewById(R.id.diastolic);
         mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
-        mTemperature.setFilters(new InputFilter[]{new THSInputFilters(0.0, 120.0)});
+        THSInputFilters<Double> thsInputFilters = new THSInputFilters<>(0.0, 120.0);
+        THSInputFilters<Integer> thsInputFiltersInt = new THSInputFilters<>(0, 500);
+        mTemperature.setFilters(new InputFilter[]{thsInputFilters});
         mWeight = (EditText) view.findViewById(R.id.ponds);
-        mWeight.setFilters(new InputFilter[]{new THSInputFilters(0, 500)});
+        mWeight.setFilters(new InputFilter[]{thsInputFiltersInt});
         mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
         Button mSkipLabel = (Button) view.findViewById(R.id.vitals_skip);

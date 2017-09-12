@@ -33,14 +33,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback {
+class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List<Date>, THSSDKError>, THSFetchEstimatedCostCallback, THSSDKValidatedCallback {
     private THSBaseFragment mThsBaseFragment;
     private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
     List<Date> dateList;
     private int position;
 
-    THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper
-                                       ) {
+    THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper) {
         mThsBaseFragment = thsBaseFragment;
         mthsProviderDetailsDisplayHelper = thsProviderDetailsDisplayHelper;
         dateList = new ArrayList<>();
@@ -87,9 +86,9 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                             ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
                             try {
                                 THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
-                                        ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), new THSAvailableProviderCallback<List, THSSDKError>() {
+                                        ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
                                             @Override
-                                            public void onResponse(List dates, THSSDKError sdkError) {
+                                            public void onResponse(List<Date> dates, THSSDKError sdkError) {
                                                 if (dates == null || dates.size() == 0) {
 
                                                     final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
@@ -169,7 +168,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onResponse(List dates, THSSDKError sdkError) {
+    public void onResponse(List<Date> dates, THSSDKError sdkError) {
         mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
         dateList = dates;
         mThsBaseFragment.hideProgressBar();
