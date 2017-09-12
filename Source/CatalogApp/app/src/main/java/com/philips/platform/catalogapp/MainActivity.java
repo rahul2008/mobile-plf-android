@@ -114,7 +114,11 @@ public class MainActivity extends UIDActivity {
             "Profile item 1",
             "Profile item 2",
             "Profile item 3",
-            "Profile item 4"
+            "Profile item 4",
+            "Profile item 5",
+            "Profile item 6",
+            "Profile item 7",
+            "Profile item 8"
     };
 
     boolean isAppLevelThemeApplied;
