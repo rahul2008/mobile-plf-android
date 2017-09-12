@@ -23,12 +23,9 @@ import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
-
-public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener, THSFollowUpViewInterface {
-import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
 
-public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener {
+public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener,THSFollowUpViewInterface {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
     protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;

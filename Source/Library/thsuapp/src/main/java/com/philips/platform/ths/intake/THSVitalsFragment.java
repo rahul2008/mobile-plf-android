@@ -17,20 +17,16 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import static com.philips.platform.ths.R.id.systolic;
-
-public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener,THSVItalsUIInterface {
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
-public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener {
+public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener,THSVItalsUIInterface {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
     protected THSVitalsPresenter mThsVitalsPresenter;
@@ -40,11 +36,6 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected EditText mWeight;
     protected Button mContinue;
     private THSVitals mTHSVitals;
-    private Button mSkipLabel;
-    private InputValidationLayout mSystolicInputValidationLayout;
-    private InputValidationLayout mDiastolicInputValidationLayout;
-    private InputValidationLayout mFarenheitInputLayoutContainer;
-    private InputValidationLayout mWeightInputLayoutContainer;
     String tagActions="";
 
     @SuppressWarnings("unchecked")
@@ -108,7 +99,17 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if (mThsVitalsPresenter.checkIfValueEntered(mTemperature) || mThsVitalsPresenter.checkIfValueEntered(mWeight)) {
             enableContinue = !mThsVitalsPresenter.checkIfValueEntered(mSystolic) && !mThsVitalsPresenter.checkIfValueEntered(mDiastolic) || validateBloodPressure();
 
-    void setVitalsValues() {
+        }
+        else if(validateBloodPressure()){
+            enableContinue = true;
+        }else {
+            showToast("Please enter the values");
+            enableContinue = false;
+        }
+        return enableContinue;
+    }
+
+    /*void setVitalsValues() {
         tagActions="";
         if (mThsVitalsPresenter.isTextValid(mSystolic)) {
             tagActions= THSTagUtils.addActions(tagActions,"bloodPressure");
@@ -132,7 +133,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             tagActions= THSTagUtils.addActions(tagActions,"weight");
             mTHSVitals.setWeight(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mWeight)));
         }
-    }
+    }*/
 
     @Override
     public void updateUI(THSVitals thsVitals) {

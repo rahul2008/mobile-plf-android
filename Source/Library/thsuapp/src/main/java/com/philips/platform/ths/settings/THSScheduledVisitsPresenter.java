@@ -18,10 +18,10 @@ import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.util.List;
 
-public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppointmentsCallback<List<Appointment>,THSSDKError>,THSInitializeCallBack<Void,THSSDKError> {
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
-public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppointmentsCallback<List,THSSDKError>,THSInitializeCallBack<Void,THSSDKError> {
+public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppointmentsCallback<List<Appointment>, THSSDKError>, THSInitializeCallBack<Void, THSSDKError> {
+
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
 
     public THSScheduledVisitsPresenter(THSScheduledVisitsFragment thsScheduledVisitsFragment) {
@@ -35,32 +35,32 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppoi
 
     void cancelAppointment(Appointment appointment) {
         try {
-            THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getContext(),appointment ,this);
+            THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getContext(), appointment, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
     public void getAppointmentsSince(SDKLocalDate dateSince) throws AWSDKInstantiationException {
-        THSManager.getInstance().getAppointments(mThsScheduledVisitsFragment.getContext(),dateSince,this);
+        THSManager.getInstance().getAppointments(mThsScheduledVisitsFragment.getContext(), dateSince, this);
     }
 
     @Override
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
-        AmwellLog.i(AmwellLog.LOG,"appoint response");
+        AmwellLog.i(AmwellLog.LOG, "appoint response");
         mThsScheduledVisitsFragment.updateList(appointments);
         setProgressBarVisibility(false);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        AmwellLog.i(AmwellLog.LOG,"appoint throwable");
+        AmwellLog.i(AmwellLog.LOG, "appoint throwable");
         setProgressBarVisibility(false);
     }
 
     @Override
     public void onInitializationResponse(Void var1, THSSDKError var2) {
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","videoVisitAtAppointmentsCancelled");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "videoVisitAtAppointmentsCancelled");
         mThsScheduledVisitsFragment.refreshList();
     }
 
@@ -69,9 +69,9 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppoi
         setProgressBarVisibility(false);
     }
 
-    public void setProgressBarVisibility(boolean isVisible){
+    public void setProgressBarVisibility(boolean isVisible) {
 
-        if(!isVisible){
+        if (!isVisible) {
             mThsScheduledVisitsFragment.hideProgressBar();
         }
     }

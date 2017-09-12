@@ -146,7 +146,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mPresenter.getPaymentMethod();
         mPresenter.fetchExistingSubscription();
 
-
     }
 
     /**

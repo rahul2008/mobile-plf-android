@@ -18,11 +18,9 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.List;
 import java.util.Map;
 
-public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
-public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError>
-        , THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
+public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
     private THSFollowUpViewInterface thsFollowUpViewInterfaces;
 
