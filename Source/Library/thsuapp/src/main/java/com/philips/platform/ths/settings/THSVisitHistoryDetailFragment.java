@@ -168,13 +168,13 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
             mLabelAppointmentDate.setText(date);
         }
 
-        if(mVisitReportDetail.getVisitCost().isFree()){
+       /* if(mVisitReportDetail.getVisitCost().isFree()){
             mLabelCreditCardCharge.setText("$ 0");
         }else{
             double cost= mVisitReportDetail.getVisitCost().getExpectedConsumerCopayCost();
 
             mLabelCreditCardCharge.setText("$"+Double.toString(cost));
-        }
+        }*/
 
         Address address = mVisitReportDetail.getShippingAddress();
         String consumerFullName = mVisitReportDetail.getConsumerInfo().getFullName();
@@ -182,7 +182,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         Pharmacy pharmacy = mVisitReportDetail.getPharmacy();
         updatePharmacyDetailsView(pharmacy);
 
-        mLabelCreditCardCharge.setText(mVisitReportDetail.getPaymentAmount() + "");
+        mLabelCreditCardCharge.setText("$"+mVisitReportDetail.getPaymentAmount() );
     }
 
     public VisitReport getVisitReport() {

@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -56,6 +57,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     Label mPaymentNotRequired;
 
     THSVisit thsVisit;
+    protected THSPaymentMethod mTHSPaymentMethod;
 
     AlertDialogFragment alertDialogFragment;
 
@@ -135,9 +137,10 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onStart() {
         super.onStart();
+        mPresenter.getPaymentMethod();
         mPresenter.fetchExistingSubscription();
-        //mPresenter.getPaymentMethod();
-        //mPresenter.createVisit();
+
+
     }
 
     /**
