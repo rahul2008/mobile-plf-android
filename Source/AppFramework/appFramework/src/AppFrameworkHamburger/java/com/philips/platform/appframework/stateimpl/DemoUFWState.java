@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -25,7 +26,7 @@ public class DemoUFWState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        UappDemoInterface uAppInterface = new UappDemoInterface();
+        UappDemoInterface uAppInterface = getUappDemoInterface();
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
         UappDemoDependencies uappDependencies = new UappDemoDependencies(appFrameworkApplication.getAppInfra());
         uAppInterface.init(uappDependencies, new UappDemoSettings(context.getApplicationContext()));// pass App-infra instance instead of null
@@ -33,10 +34,17 @@ public class DemoUFWState extends BaseState {
 
     }
 
+    @NonNull
+    protected UappDemoInterface getUappDemoInterface() {
+        return new UappDemoInterface();
+    }
+
     @Override
     public void init(Context context) {
         this.context=context;
     }
+
+
 
     @Override
     public void updateDataModel() {

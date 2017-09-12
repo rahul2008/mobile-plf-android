@@ -1,6 +1,14 @@
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -25,10 +33,15 @@ public class DemoDCCState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        CCDemoUAppuAppInterface uAppInterface = new CCDemoUAppuAppInterface();
+        CCDemoUAppuAppInterface uAppInterface = getCcDemoUAppuAppInterface();
         uAppInterface.init(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
+    }
+
+    @NonNull
+    protected CCDemoUAppuAppInterface getCcDemoUAppuAppInterface() {
+        return new CCDemoUAppuAppInterface();
     }
 
     @Override

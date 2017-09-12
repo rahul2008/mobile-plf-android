@@ -1,13 +1,13 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
 package com.philips.platform.baseapp.screens.consumercare;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.CcDependencies;
@@ -22,7 +22,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.UIStateListener;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
@@ -36,9 +35,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class contains all initialization & Launching details of Consumer Care
@@ -119,7 +115,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
         productsSelection.setCatalog(PrxConstants.Catalog.CARE);
         productsSelection.setSector(PrxConstants.Sector.B2C);
-        final CcInterface ccInterface = new CcInterface();
+        final CcInterface ccInterface = getCcInterface();
 
         if (ccSettings == null) ccSettings = new CcSettings(activityContext);
         if (ccLaunchInput == null) ccLaunchInput = new CcLaunchInput();
@@ -141,12 +137,9 @@ public class SupportFragmentState extends BaseState implements CcListener {
         ccInterface.launch(fragmentLauncher, ccLaunchInput);
     }
 
-    /**
-     * Registering for UIStateListener callbacks
-     * @param uiStateListener
-     */
-    public void registerUIStateListener(UIStateListener uiStateListener) {
-
+    @NonNull
+    protected CcInterface getCcInterface() {
+        return new CcInterface();
     }
 
 

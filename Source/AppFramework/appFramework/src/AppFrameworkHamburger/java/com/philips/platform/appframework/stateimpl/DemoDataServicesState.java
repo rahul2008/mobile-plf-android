@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 
 import com.philips.cdp.registration.User;
@@ -69,8 +70,8 @@ public class DemoDataServicesState extends BaseState
     public void init(Context context) {
         mContext = context;
         DSDemoAppuAppSettings dsDemoAppuAppSettings = new DSDemoAppuAppSettings(context.getApplicationContext());
-        dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
-        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra()), dsDemoAppuAppSettings);
+        dsDemoAppuAppInterface = getDsDemoAppuAppInterface();
+        dsDemoAppuAppInterface.init(getUappDependencies(context), dsDemoAppuAppSettings);
 
         if (BaseAppUtil.isDSPollingEnabled(context)) {
             User user = new User(context);
@@ -86,6 +87,16 @@ public class DemoDataServicesState extends BaseState
                 deregisterForReceivingPayload();
             }
         }
+    }
+
+    @NonNull
+    protected DSDemoAppuAppDependencies getUappDependencies(Context context) {
+        return new DSDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
+    }
+
+    @NonNull
+    protected DSDemoAppuAppInterface getDsDemoAppuAppInterface() {
+        return new DSDemoAppuAppInterface();
     }
 
     @Override

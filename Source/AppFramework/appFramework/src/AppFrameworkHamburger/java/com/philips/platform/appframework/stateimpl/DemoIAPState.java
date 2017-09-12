@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.iap.demouapp.IapDemoAppSettings;
 import com.iap.demouapp.IapDemoUAppDependencies;
@@ -25,9 +26,14 @@ public class DemoIAPState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        IapDemoUAppInterface uAppInterface = new IapDemoUAppInterface();
+        IapDemoUAppInterface uAppInterface = getIapDemoUAppInterface();
         uAppInterface.init(new IapDemoUAppDependencies(((AppFrameworkApplication)appContext.getApplicationContext()).getAppInfra()), new IapDemoAppSettings(appContext));
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+    }
+
+    @NonNull
+    protected IapDemoUAppInterface getIapDemoUAppInterface() {
+        return new IapDemoUAppInterface();
     }
 
     @Override

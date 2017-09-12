@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -26,11 +27,16 @@ public class DemoUSRState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        URDemouAppInterface uAppInterface = new URDemouAppInterface();
+        URDemouAppInterface uAppInterface = getUrDemouAppInterface();
 
         uAppInterface.init(new URDemouAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new URDemouAppSettings(context.getApplicationContext()));
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
+    }
+
+    @NonNull
+    protected URDemouAppInterface getUrDemouAppInterface() {
+        return new URDemouAppInterface();
     }
 
     @Override
