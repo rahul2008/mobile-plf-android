@@ -1,57 +1,76 @@
 package com.philips.cdp.registration.ui.traditional.countrySelection;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.os.*;
+import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.*;
 
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
 
 import java.util.*;
 
+public class CountrySelectionAdapter extends RecyclerView.Adapter<CountrySelectionAdapter.CountryPickerHolder> {
 
-public class CountrySelectionAdapter extends RecyclerView.Adapter<CountrySelectionAdapter.CountryItemViewHolder> {
+    private List<Country> countries;
 
-    private final List<String> countryList = RegUtility.supportedCountryList();
+    private SelectedCountryListener mSelectedCountryListener;
 
-    public CountrySelectionAdapter() {
-        Collections.sort(countryList);
+    private int position = 0;
+
+    private Handler handler = new Handler();
+
+    class CountryPickerHolder extends RecyclerView.ViewHolder {
+        private Label countryName;
+        private Label checked;
+
+        CountryPickerHolder(View view) {
+            super(view);
+            countryName = (Label) view.findViewById(R.id.title);
+            checked = (Label) view.findViewById(R.id.tick);
+            checked.setText(R.string.ic_reg_check);
+            FontLoader.getInstance().setTypeface(checked, "PUIIcon.ttf");
+        }
+    }
+
+    public CountrySelectionAdapter(List<Country> countries, SelectedCountryListener selectedCountryListener) {
+        super();
+        this.countries = countries;
+        mSelectedCountryListener = selectedCountryListener;
     }
 
     @Override
-    public CountryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.country_selection_item, parent, false);
-        return new CountryItemViewHolder(itemView);
+    public CountryPickerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.country_selection_item, parent, false);
+        return new CountryPickerHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(CountryItemViewHolder holder, int position) {
-        String countryName = getCountryName(countryList.get(position));
-        holder.countryName.setText(countryName);
+    public void onBindViewHolder(CountryPickerHolder holder, int position) {
+        Country country = countries.get(position);
+        holder.countryName.setText(country.getName());
+        if (position == this.position) {
+            holder.checked.setVisibility(View.VISIBLE);
+        } else {
+            holder.checked.setVisibility(View.GONE);
+        }
+        holder.itemView.setOnClickListener(view -> {
+            setSelectedPosition(position);
+            handler.removeCallbacksAndMessages(null);
+            handler.postDelayed(() -> mSelectedCountryListener.onCountrySelected(position), 500);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return countryList.size();
+        return countries.size();
     }
 
-    public static class CountryItemViewHolder extends ViewHolder {
-        TextView countryName;
-        ImageView selected;
-
-        public CountryItemViewHolder(View itemView) {
-            super(itemView);
-            countryName = (TextView) itemView.findViewById(R.id.usr_countrySelection_countryName);
-            countryName.setOnClickListener(v -> selected.setVisibility(View.VISIBLE));
-            selected = (ImageView) itemView.findViewById(R.id.usr_countrySelection_countrySelector);
-            selected.setVisibility(View.INVISIBLE);
-        }
+    private void setSelectedPosition(int posistion) {
+        position = posistion;
+        notifyDataSetChanged();
     }
-
-    private String getCountryName(String countryCode) {
-        Locale locale = new Locale("", countryCode);
-        return locale.getDisplayCountry();
-    }
-
 }

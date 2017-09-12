@@ -30,9 +30,9 @@ import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.listener.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.customviews.countrypicker.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.wechat.*;
@@ -410,21 +410,20 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
             ArrayList<Country> rawMasterList = getAllCountries();
 
-            CountryChangeListener countryChangeListener = new CountryChangeListener() {
+            CountrySelectionListener countryChangeListener = new CountrySelectionListener() {
 
                 @Override
                 public void onSelectCountry(String name, String code) {
 
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
                     changeCountry(name, code.trim().toUpperCase());
-                    addToRecent(code.trim().toUpperCase());
                     getRegistrationFragment().onBackPressed();
 
                 }
             };
 
 
-            CountryPicker picker = new CountryPicker(countryChangeListener, rawMasterList, recentSelectedCountry);
+            CountrySelectionFragment picker = new CountrySelectionFragment(countryChangeListener, rawMasterList, recentSelectedCountry);
 
             getRegistrationFragment().addFragment(picker);
 
@@ -438,6 +437,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RegistrationHelper.getInstance().setCountryCode(countryCode);
+            addToRecent(countryCode.trim().toUpperCase());
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
 
@@ -686,24 +686,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnCreateAccount.setEnabled(state);
         enableSocialProviders(state);
         mBtnMyPhilips.setEnabled(state);
-        if (state) {
-//            mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_enable_color);
-            return;
-        }
-//        mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_disabled_color);
     }
 
     private void enableSocialProviders(boolean enableState) {
         for (int i = 0; i < mLlSocialProviderBtnContainer.getChildCount(); i++) {
             mLlSocialProviderBtnContainer.getChildAt(i).setEnabled(enableState);
-        }
-    }
-
-    private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
-        if (!RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-//            linkifyPrivacyPolicy(pTvPrivacyPolicy);
-        } else {
-            linifyPrivacyPolicyAndTerms(pTvPrivacyPolicy);
         }
     }
 
@@ -1101,15 +1088,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private ArrayList<Country> recentSelectedCountry = new ArrayList<>();
 
-    /**
-     * Get all countries with code and name from res/raw/countries.json
-     *
-     * @return
-     */
-    private ArrayList<Country> getRecentSelectedCountries() {
-
-        return recentSelectedCountry;
-    }
 
     private void addToRecent(String countryCode) {
         Country country = new Country();

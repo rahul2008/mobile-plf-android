@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_margin="@dimen/reg_layout_margin_16dp"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:weightSum="100"
-              android:layout_height="50dp">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uid_list_item_selector"
+    android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/usr_countrySelection_countryName"
-        android:layout_width="0dp"
-        android:layout_weight="100"
-        android:layout_margin="@dimen/reg_layout_margin_10dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:textSize="20sp"
-        android:text="India"/>
+        android:id="@+id/title"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_alignEnd="@+id/tick"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:textSize="16dp"/>
 
-    <ImageView
-        android:id="@+id/usr_countrySelection_countrySelector"
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/tick"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/reg_layout_margin_16dp"
-        android:visibility="gone"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_transparent_done_icon"/>
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:textSize="16dp"/>
 
-</LinearLayout>
+</RelativeLayout>
+

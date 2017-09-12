@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.ui.customviews.countrypicker;
+package com.philips.cdp.registration.dao;
 
 public class Country {
     private String code;
@@ -22,7 +22,6 @@ public class Country {
 
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj)
             return true;
         if (obj == null)
@@ -32,11 +31,10 @@ public class Country {
         Country other = (Country) obj;
 
         return name.equalsIgnoreCase(other.name);
-
     }
 
     @Override
     public int hashCode() {
-        return code.hashCode()+name.hashCode();
+        return code.hashCode() + name.hashCode();
     }
 }
