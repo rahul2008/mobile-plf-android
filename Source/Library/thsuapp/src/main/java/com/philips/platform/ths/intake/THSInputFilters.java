@@ -3,11 +3,11 @@ package com.philips.platform.ths.intake;
 import android.text.InputFilter;
 import android.text.Spanned;
 
-public class THSInputFilters<T extends Number & Comparable<? super T>> implements InputFilter {
+class THSInputFilters<T extends Number & Comparable<? super T>> implements InputFilter {
 
     private T min, max;
 
-    public THSInputFilters(T min, T max) {
+    THSInputFilters(T min, T max) {
         this.min = min;
         this.max = max;
     }

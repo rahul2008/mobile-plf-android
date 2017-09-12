@@ -16,7 +16,6 @@ import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -40,9 +39,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import clojure.lang.Cons;
-import clojure.lang.IFn;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,8 +59,6 @@ public class THSAvailableProviderDetailPresenterTest {
     @Mock
     ConsumerManager consumerManagerMock;
 
-    @Mock
-    OnDateSetChangedInterface onDateSetChangedInterfaceMock;
 
     @Captor
     private ArgumentCaptor<DatePickerDialog.OnDateSetListener> dateCallback;
@@ -117,7 +111,7 @@ public class THSAvailableProviderDetailPresenterTest {
         when(thsProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getContext()).thenReturn(contextMock);
-        mThsAvailableProviderDetailPresenter = new THSAvailableProviderDetailPresenter(thsAvailableProviderDetailFragmentMock,thsProviderDetailsDisplayHelperMock,onDateSetChangedInterfaceMock);
+        mThsAvailableProviderDetailPresenter = new THSAvailableProviderDetailPresenter(thsAvailableProviderDetailFragmentMock,thsProviderDetailsDisplayHelperMock);
     }
 
     @Test

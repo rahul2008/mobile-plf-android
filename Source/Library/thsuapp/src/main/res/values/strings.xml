@@ -215,4 +215,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_initial_Full_cover_cost">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
     <string name="ths_cost_summary_initial_Partial_cover_cost">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
     <string name="ths_cost_summary_free_visit_header">Your visit is</string>
+
+    <!-- Match making fragment strings-->
+    <string name="ths_matchmaking_ok_button">Ok</string>
+    <string name="ths_matchmaking_error">Error</string>
+    <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>
 </resources>

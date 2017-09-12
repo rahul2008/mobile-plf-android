@@ -38,7 +38,6 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
     private Label mChangeAppointDateView;
     private RelativeLayout providerListItemLayoutBasedOnDate;
-    private ImageView imageView;
 
     @Nullable
     @Override
@@ -48,7 +47,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
             getActionBarListener().updateActionBar(getString(R.string.ths_no_availability), true);
         }
 
-        imageView = (ImageView) view.findViewById(R.id.ths_providerlist_right_arrow_icon);
+        ImageView imageView = (ImageView) view.findViewById(R.id.ths_providerlist_right_arrow_icon);
         imageView.setVisibility(View.INVISIBLE);
         mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
@@ -108,12 +107,12 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
                     THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
                             newImageLoader(((THSAvailableProvider) mThsProviderEntity).getProviderInfo(), imageView,
                                     ProviderImageSize.SMALL).placeholder(imageView.getResources().
-                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                            getDrawable(R.drawable.doctor_placeholder,getActivity().getTheme())).build().load();
                 }else {
                     THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
                             newImageLoader(((THSProviderInfo) mThsProviderEntity).getProviderInfo(), imageView,
                                     ProviderImageSize.SMALL).placeholder(imageView.getResources().
-                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                            getDrawable(R.drawable.doctor_placeholder,getActivity().getTheme())).build().load();
                 }
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
@@ -132,10 +131,6 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
     public THSProviderEntity getThsProviderEntity() {
         return mThsProviderEntity;
-    }
-
-    public void setThsProviderEntity(THSProviderEntity mThsProviderEntity) {
-        this.mThsProviderEntity = mThsProviderEntity;
     }
 
     @Override

@@ -9,12 +9,12 @@ import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.utility.THSManager;
 
-public class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
+class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
 
     private THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView;
     private Pharmacy pharmacy;
 
-    public THSCheckPharmacyConditionsPresenter(THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView){
+    THSCheckPharmacyConditionsPresenter(THSCheckPharmacyConditonsView thsCheckPharmacyConditonsView){
         this.thsCheckPharmacyConditonsView = thsCheckPharmacyConditonsView;
     }
 
@@ -23,7 +23,7 @@ public class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, TH
 
     }
 
-    public void fetchConsumerPreferredPharmacy() {
+    void fetchConsumerPreferredPharmacy() {
         try {
             THSManager.getInstance().getConsumerPreferredPharmacy(thsCheckPharmacyConditonsView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
@@ -31,7 +31,7 @@ public class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, TH
         }
     }
 
-    public void getConsumerShippingAddress() {
+    void getConsumerShippingAddress() {
         try {
             THSManager.getInstance().getConsumerShippingAddress(thsCheckPharmacyConditonsView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {

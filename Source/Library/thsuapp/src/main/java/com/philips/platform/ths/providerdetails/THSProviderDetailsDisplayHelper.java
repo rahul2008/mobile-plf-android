@@ -48,7 +48,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     private THSProviderDetailsViewInterface thsProviderDetailsViewInterface;
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
-    protected Label providerName, practiceName, isAvailable, spokenLanguageValueLabel, yearsOfExpValueLabel,
+    private Label providerName, practiceName, isAvailable, spokenLanguageValueLabel, yearsOfExpValueLabel,
             graduatedValueLabel, aboutMeValueLabel, mLabelDate, visitCostValueLabel, reminderValue;
     protected RatingBar providerRating;
     protected Button detailsButtonOne, detailsButtonTwo, detailsButtonContinue;
@@ -57,10 +57,8 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     protected SwipeRefreshLayout swipeRefreshLayout;
     private THSBaseFragment thsBaseFragment;
     private NotificationBadge notificationBadge;
-    private RelativeLayout available_provider_details_container, set_a_reminder_layout;
-    private THSAppointmentGridAdapter itemsAdapter;
+    private RelativeLayout available_provider_details_container;
     private List<Date> dates;
-    private THSSetReminderDialogFragment thsSetReminderDialogFragment;
     private Label details_isAvailableImage_text;
     private FrameLayout details_isAvailableImage_layout;
 
@@ -77,7 +75,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         setViews(view);
     }
 
-    void setViews(View view) {
+    private void setViews(View view) {
         available_provider_details_container = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
         available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
@@ -110,13 +108,13 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         mLabelDate = (Label) view.findViewById(R.id.calendar_container);
         mLabelDate.setOnClickListener(mOnClickListener);
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
-        set_a_reminder_layout = (RelativeLayout) view.findViewById(R.id.set_reminder_layout);
+        RelativeLayout set_a_reminder_layout = (RelativeLayout) view.findViewById(R.id.set_reminder_layout);
         set_a_reminder_layout.setOnClickListener(mOnClickListener);
     }
 
     public void launchSetRemainderDialogFragment(THSBaseFragment thsBaseFragment) {
 
-        thsSetReminderDialogFragment = new THSSetReminderDialogFragment();
+        THSSetReminderDialogFragment thsSetReminderDialogFragment = new THSSetReminderDialogFragment();
         thsSetReminderDialogFragment.setDialogFragmentCallback((THSAvailableProviderDetailFragment) thsBaseFragment);
         thsSetReminderDialogFragment.show(((FragmentActivity) mContext).getSupportFragmentManager(), THSSetReminderDialogFragment.TAG);
     }
@@ -126,9 +124,9 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
-        providerRating.setText("" + provider.getRating());
+        providerRating.setText(String.valueOf(provider.getRating()));
         spokenLanguageValueLabel.setText(getSpokenLanguages(provider.getSpokenLanguages()));
-        yearsOfExpValueLabel.setText("" + provider.getYearsExperience());
+        yearsOfExpValueLabel.setText(String.valueOf(provider.getYearsExperience()));
         graduatedValueLabel.setText(provider.getSchoolName());
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
@@ -139,13 +137,13 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
                     THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
                             newImageLoader(thsProviderDetailsViewInterface.getProvider(), providerImage,
                                     ProviderImageSize.SMALL).placeholder(providerImage.getResources().
-                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                            getDrawable(R.drawable.doctor_placeholder,mContext.getTheme())).build().load();
                 } else {
 
                     THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
                             newImageLoader(thsProviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
                                     ProviderImageSize.SMALL).placeholder(providerImage.getResources().
-                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                            getDrawable(R.drawable.doctor_placeholder,mContext.getTheme())).build().load();
                 }
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
@@ -156,7 +154,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         updateViewBasedOnType(provider, dates);
     }
 
-    public void updateViewBasedOnType(Provider provider, List<Date> dates) {
+    private void updateViewBasedOnType(Provider provider, List<Date> dates) {
         this.dates = dates;
         String providerAvailabilityString = null;
         String providerVisibility = provider.getVisibility().toString();
@@ -170,7 +168,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
             providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
-            details_isAvailableImage_text.setText(""+provider.getWaitingRoomCount());
+            details_isAvailableImage_text.setText(String.valueOf(provider.getWaitingRoomCount()));
             isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon, context.getTheme()));
         }
 
@@ -197,7 +195,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
      * If provider is busy, user can schedule an appointment or wait in line.
      * If provider is offline, user can schedule an appointment
      *
-     * @param provider
+     * @param provider : provider object to be passed
      */
     private void checkAvailability(Provider provider) {
 
@@ -258,9 +256,8 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     }
 
     private void setAppointmentsToView(List<Date> dates) {
-        itemsAdapter =
-                new THSAppointmentGridAdapter(mContext, dates,
-                        thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo());
+        THSAppointmentGridAdapter itemsAdapter = new THSAppointmentGridAdapter(mContext, dates,
+                thsBaseFragment, thsProviderDetailsViewInterface.getTHSProviderInfo());
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }
@@ -270,7 +267,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
      * display on the screen.
      */
 
-    protected String getSpokenLanguages(List<Language> spokenLanguages) {
+    private String getSpokenLanguages(List<Language> spokenLanguages) {
 
         String languageList = "";
         for (int i = 0; i < spokenLanguages.size(); i++) {
@@ -294,7 +291,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
     }
 
     public void updateEstimateCost(EstimatedVisitCost estimatedVisitCost) {
-        visitCostValueLabel.setText("$" + estimatedVisitCost.getCost());
+        visitCostValueLabel.setText(String.valueOf("$" + estimatedVisitCost.getCost()));
     }
 
     public void updateContinueButtonState(boolean isEnabled) {
