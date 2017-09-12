@@ -6,6 +6,7 @@
     <RelativeLayout
         android:id="@+id/rl_reg_header"
         android:layout_width="match_parent"
+        android:elevation="8dp"
         android:layout_height="@dimen/reg_header_height"
         android:background="?attr/uidNavigationPrimaryBackgroundColor" >
 
