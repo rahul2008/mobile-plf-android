@@ -13,7 +13,7 @@ import java.util.List;
 
 
 /**
- * This is the callback method from getServicesForServiceIds() API.
+ * This is the callback method from getValueForServiceIds() API.
  * the call back will have success method for actions completed successfully.
  * onSuccess returns the successful response
  */

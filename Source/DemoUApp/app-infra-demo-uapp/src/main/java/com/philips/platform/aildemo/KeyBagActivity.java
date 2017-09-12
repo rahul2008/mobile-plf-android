@@ -78,7 +78,7 @@ public class KeyBagActivity extends AppCompatActivity {
                 String[] serviceIds = serviceIdsFromEditText.split(",");
 
                 try {
-                    aiKmInterface.getServicesForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new OnGetServicesListener() {
+                    aiKmInterface.getValueForServiceIds(new ArrayList<>(Arrays.asList(serviceIds)), aikmServiceDiscoveryPreference, null, new OnGetServicesListener() {
                         @Override
                         public void onSuccess(List<AIKMService> aikmServices) {
                             updateView(aikmServices);

@@ -35,9 +35,9 @@ public class AIKManager implements AIKMInterface {
     }
 
     @Override
-    public void getServicesForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
-                                         Map<String, String> replacement,
-                                         @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException {
+    public void getValueForServiceIds(@NonNull final ArrayList<String> serviceIds, @NonNull AISDResponse.AISDPreference aiSdPreference,
+                                      Map<String, String> replacement,
+                                      @NonNull final OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException {
 
         getGroomHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();

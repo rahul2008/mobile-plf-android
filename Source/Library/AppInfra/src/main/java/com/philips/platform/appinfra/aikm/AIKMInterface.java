@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface AIKMInterface {
 
-    void getServicesForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
-                                  Map<String, String> replacement,
-                                  OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException;
+    void getValueForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
+                               Map<String, String> replacement,
+                               OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException;
 }

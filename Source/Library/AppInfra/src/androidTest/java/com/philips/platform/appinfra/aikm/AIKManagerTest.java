@@ -56,7 +56,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
 
         };
 
-        aikManager.getServicesForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
+        aikManager.getValueForServiceIds(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, onGetServicesListenerMock);
 //        verify(groomHelperMock).getServiceDiscoveryUrlMap(serviceIds, AISDResponse.AISDPreference.AISDCountryPreference, null, serviceUrlMapListenerMock);
     }
 
