@@ -364,8 +364,7 @@ public class THSManager {
     }
 
     public boolean isSDKInitialized(Context context) throws AWSDKInstantiationException {
-        final boolean serviceKeyCollected = getAwsdk(context).getConfiguration().isServiceKeyCollected();
-        return serviceKeyCollected;
+        return getAwsdk(context).getConfiguration().isServiceKeyCollected();
     }
 
     public void getOnDemandSpecialities(Context context, PracticeInfo practiceInfo, String searchItem, final THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>, THSSDKError> thsOnDemandSpecialtyCallback) throws AWSDKInstantiationException {
