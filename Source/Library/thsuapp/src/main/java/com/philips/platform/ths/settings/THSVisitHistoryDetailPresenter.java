@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisitReportAttachmentCallback<FileAttachment,SDKError> {
 
     THSVisitHistoryDetailFragment mThsVisitHistoryDetailFragment;
@@ -54,7 +56,7 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
             mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
             return;
         }
-
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","reportDownloaded");
         THSFileUtils fileUtils = new THSFileUtils();
 
         fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);

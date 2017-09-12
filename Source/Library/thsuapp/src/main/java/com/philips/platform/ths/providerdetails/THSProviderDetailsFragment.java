@@ -33,6 +33,10 @@ import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
+import com.philips.platform.ths.utility.THSManager;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
 /**
  * This class is used to display the provider details selected by the user.
@@ -102,6 +106,13 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             onRefresh();
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_DETAIL_PAGE,null,null);
+
     }
 
     /**

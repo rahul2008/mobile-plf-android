@@ -19,6 +19,9 @@ import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import java.util.List;
 
 public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppointmentsCallback<List<Appointment>,THSSDKError>,THSInitializeCallBack<Void,THSSDKError> {
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
+public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppointmentsCallback<List,THSSDKError>,THSInitializeCallBack<Void,THSSDKError> {
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
 
     public THSScheduledVisitsPresenter(THSScheduledVisitsFragment thsScheduledVisitsFragment) {
@@ -57,6 +60,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppoi
 
     @Override
     public void onInitializationResponse(Void var1, THSSDKError var2) {
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","videoVisitAtAppointmentsCancelled");
         mThsScheduledVisitsFragment.refreshList();
     }
 

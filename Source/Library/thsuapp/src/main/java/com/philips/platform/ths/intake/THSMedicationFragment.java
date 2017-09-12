@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.health.Medication;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 
@@ -27,6 +28,8 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_PAGE;
 
 
 public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
@@ -92,6 +95,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_MEDICATION_PAGE,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }

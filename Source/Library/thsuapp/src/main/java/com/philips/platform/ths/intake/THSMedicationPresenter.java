@@ -22,6 +22,7 @@ import static com.philips.platform.ths.R.id.ths_intake_medication_skip_step_labe
 
 import static com.philips.platform.ths.R.id.ths_existing_medicine_footer_relative_layout;
 import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 
 public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCallback.PTHGetMedicationCallback, THSMedicationCallback.PTHUpdateMedicationCallback {
@@ -97,7 +98,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     @Override
     public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
         ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step3MedicationsAdded");
         AmwellLog.i("onUpdateMedication", "success");
         // addF
         final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();

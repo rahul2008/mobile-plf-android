@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -23,6 +25,12 @@ import com.philips.platform.uid.view.widget.InputValidationLayout;
 import static com.philips.platform.ths.R.id.systolic;
 
 public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener,THSVItalsUIInterface {
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
+
+public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
     protected THSVitalsPresenter mThsVitalsPresenter;
@@ -32,6 +40,12 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected EditText mWeight;
     protected Button mContinue;
     private THSVitals mTHSVitals;
+    private Button mSkipLabel;
+    private InputValidationLayout mSystolicInputValidationLayout;
+    private InputValidationLayout mDiastolicInputValidationLayout;
+    private InputValidationLayout mFarenheitInputLayoutContainer;
+    private InputValidationLayout mWeightInputLayoutContainer;
+    String tagActions="";
 
     @SuppressWarnings("unchecked")
     @Nullable
@@ -77,6 +91,14 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         mThsVitalsPresenter.onEvent(view.getId());
+        int i = view.getId();
+        if (i == R.id.vitals_continue_btn) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_FLOATING_BUTTON,"vitalsContinue");
+            mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
+        } else if (i == R.id.vitals_skip) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_FLOATING_BUTTON,"vitalsSkip");
+            mThsVitalsPresenter.onEvent(R.id.vitals_skip);
+        }
     }
 
 
@@ -86,14 +108,30 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         if (mThsVitalsPresenter.checkIfValueEntered(mTemperature) || mThsVitalsPresenter.checkIfValueEntered(mWeight)) {
             enableContinue = !mThsVitalsPresenter.checkIfValueEntered(mSystolic) && !mThsVitalsPresenter.checkIfValueEntered(mDiastolic) || validateBloodPressure();
 
+    void setVitalsValues() {
+        tagActions="";
+        if (mThsVitalsPresenter.isTextValid(mSystolic)) {
+            tagActions= THSTagUtils.addActions(tagActions,"bloodPressure");
+            mTHSVitals.setSystolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mSystolic)));
         }
         else if(validateBloodPressure()){
             enableContinue = true;
         }else {
             showToast("Please enter the values");
             enableContinue = false;
+        if (mThsVitalsPresenter.isTextValid(mDiastolic)) {
+            tagActions= THSTagUtils.addActions(tagActions,"bloodPressure");
+            mTHSVitals.setDiastolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mDiastolic)));
         }
         return enableContinue;
+        if (mThsVitalsPresenter.isTextValid(mTemperature)) {
+            tagActions= THSTagUtils.addActions(tagActions,"temperature");
+            mTHSVitals.setTemperature(mThsVitalsPresenter.stringToDouble(mThsVitalsPresenter.getTextFromEditText(mTemperature)));
+        }
+        if (mThsVitalsPresenter.isTextValid(mWeight)) {
+            tagActions= THSTagUtils.addActions(tagActions,"weight");
+            mTHSVitals.setWeight(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mWeight)));
+        }
     }
 
     @Override
@@ -151,5 +189,11 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_ADD_VITALS_PAGE,null,null);
     }
 }

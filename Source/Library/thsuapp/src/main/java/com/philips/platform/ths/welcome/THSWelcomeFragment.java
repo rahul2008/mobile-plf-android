@@ -13,16 +13,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_HISTORY_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS;
+import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_START;
+import static com.philips.platform.ths.utility.THSConstants.THS_WELCOME;
 
 public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
@@ -48,6 +56,8 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_fragment, container, false);
+
+
 
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
@@ -92,14 +102,18 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.appointments) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_SCHEDULE_APPOINTMENT);
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.appointments);
         }else if(i == R.id.visit_history){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HISTORY_PAGE);
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
             presenter.onEvent(R.id.how_it_works);
         }else if(i == R.id.ths_start){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
             createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.ths_start);
         }
@@ -110,5 +124,20 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         mRelativeLayoutVisitHostory.setEnabled(true);
         mRelativeLayoutAppointments.setEnabled(true);
         mButton.setEnabled(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // entry to THS, start tagging
+        THSManager.getInstance().getThsTagging().collectLifecycleInfo(this.getActivity());
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WELCOME,null,null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // exit from THS, collect tagging data
+        THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
     }
 }

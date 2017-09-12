@@ -25,6 +25,10 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener, THSFollowUpViewInterface {
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_FOLLOW_UP_PAGE;
+
+public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
     protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
@@ -126,6 +130,12 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         mTHSFollowUpPresenter.onEvent(v.getId());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
     }
 
 }
