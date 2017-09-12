@@ -20,5 +20,14 @@ local.properties
 # ===== #
 **/.DS_Store
 **/.DS_Store?
+
+# ================ #
+# ConArtists stuff #
+# ================ #
 Documents/External/*-api
 dependencies.lock
+
+# ========= #
+# MS Office #
+# ========= #
+**/~$*
