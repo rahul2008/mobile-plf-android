@@ -119,6 +119,7 @@ public class IAPServiceDiscoveryWrapper {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
+                iapListener.onFailure(IAPConstant.IAP_ERROR_SERVER_ERROR);
                 IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
             }
         };
@@ -127,6 +128,7 @@ public class IAPServiceDiscoveryWrapper {
 
     private void launchingIAP(IAPHandler pIAPHandler, UiLauncher pUiLauncher, IAPLaunchInput pUappLaunchInput) {
         mIAPSettings.setProposition(loadConfigParams());
+
         if (!mIAPSettings.isUseLocalData() && (!pIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
             pIAPHandler.initIAP(pUiLauncher, pUappLaunchInput);
         } else {

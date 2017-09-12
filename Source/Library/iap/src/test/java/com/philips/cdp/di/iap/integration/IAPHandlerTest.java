@@ -6,11 +6,13 @@ package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -55,6 +57,12 @@ public class IAPHandlerTest {
         mIAPDependencies = new MockIAPDependencies(mAppInfra);
         mIAPSettings = new IAPSettings(mContext);
         mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
+        Intent intent = new Intent();
+        intent.putExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS, "HX8332/11");
+        intent.putStringArrayListExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, new ArrayList<String>());
+
+        Robolectric.buildActivity(IAPActivity.class).withIntent(intent).start().get();
+
 
         //IAP Listener
         mIapListener = new IAPListener() {
@@ -261,6 +269,8 @@ public class IAPHandlerTest {
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input, blackListedRetailer);
         IAPSettings iapSettings = new IAPSettings(new Application());
         MockIAPHandler mockIAPHandler = new MockIAPHandler(mIAPDependencies, iapSettings);
+
+
         mockIAPHandler.launchIAP(new ActivityLauncher
                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 1), iapLaunchInput);
     }
