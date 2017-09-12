@@ -112,7 +112,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (savedInstanceState == null) {
             int landingScreen = getIntent().getIntExtra(IAPConstant.IAP_LANDING_SCREEN, -1);
             ArrayList<String> CTNs = getIntent().getExtras().getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-            final ArrayList<String> ignoreRetailerList = getIntent().getExtras().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
+            ArrayList<String> ignoreRetailerList = getIntent().getExtras().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
             Bundle bundle = new Bundle();
             switch (landingScreen) {
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
