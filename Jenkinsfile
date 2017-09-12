@@ -14,7 +14,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_CDP2_TeamSabers@philips.com'
 def errors = []
 
-node ('android&&docker') {
+node ('android&&device') {
     timestamps {
         try {
             stage ('Checkout') {
@@ -27,7 +27,7 @@ node ('android&&docker') {
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC testRelease zipDocuments artifactoryPublish
                     '''
                 }
             } else {
@@ -36,7 +36,7 @@ node ('android&&docker') {
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC testRelease
                     '''
                 }
             }
