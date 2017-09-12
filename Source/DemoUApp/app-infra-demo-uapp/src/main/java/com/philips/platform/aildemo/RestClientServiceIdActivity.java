@@ -59,7 +59,7 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
         mRestInterface = AILDemouAppInterface.getInstance().getAppInfra().getRestClient();
         //mRestInterface.setCacheLimit(2*1024*1023);// 1 MB cache
         serviceIDInput = (EditText) findViewById(R.id.editTextServiceID);
-     //   serviceIDInput.setText("userreg.janrain.api");
+        //   serviceIDInput.setText("userreg.janrain.api");
         pathComponentInput = (EditText) findViewById(R.id.editTextPathComponent);
         mResponse = (TextView) findViewById(R.id.textViewResponse);
         mImageView = (ImageView) findViewById(R.id.responseImageId);
@@ -150,7 +150,14 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
 
                     if (null != mStringRequest) {
                         //  urlFired.setText(mStringRequest.getUrl());
-                        mRestInterface.getRequestQueue().add(mStringRequest);
+
+                        final StringRequest finalMStringRequest = mStringRequest;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mRestInterface.getRequestQueue().add(finalMStringRequest);
+                            }
+                        }).start();
                     }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[1])) { //json
                     JsonObjectRequest jsonRequest = null;
@@ -181,7 +188,13 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                     }
                     if (null != jsonRequest) {
                         //  urlFired.setText(mStringRequest.getUrl());
-                        mRestInterface.getRequestQueue().add(jsonRequest);
+                        final JsonObjectRequest finalJsonRequest = jsonRequest;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mRestInterface.getRequestQueue().add(finalJsonRequest);
+                            }
+                        }).start();
                     }
                 } else if (requestDataSpinner.getSelectedItem().toString().trim().equalsIgnoreCase(requestDataOption[2])) { //image
                     ImageRequest imageRequest = null;
@@ -209,7 +222,13 @@ public class RestClientServiceIdActivity extends AppCompatActivity {
                         Log.e("LOG REST SD", e.toString());
                     }
                     if (null != imageRequest) {
-                        mRestInterface.getRequestQueue().add(imageRequest);
+                        final ImageRequest finalImageRequest = imageRequest;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mRestInterface.getRequestQueue().add(finalImageRequest);
+                            }
+                        }).start();
                     }
                 }
             }
