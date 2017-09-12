@@ -105,16 +105,6 @@
       *;
   }
 
-#-------------------------Consumer Care Starts -------------------------
-
-
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--dontpreverify
--keepattributes *Annotation*
--keepattributes Signature
-
 
 # ----------------------------Gson specific classes --------------------------
 -keep class sun.misc.Unsafe { *; }
@@ -262,13 +252,6 @@
 -keep class uk.co.chrisjenx.** {*;}
 
 
-#--------------------ConsumerCare--------------------
-
--keepclassmembers class *{
-  @android.webkit.JavascriptInterface <methods>;
-}
-
-
 #--------------------GooglePLayServices--------------------
 
 -keep class android.support.** {*;}
@@ -291,12 +274,24 @@
 -dontwarn com.adobe.mobile.**
 -dontwarn org.apache.**
 
-
 -dontwarn com.shamanland.**
 -dontwarn uk.co.chrisjenx.**
 
+-keepclassmembers class *{
+  @android.webkit.JavascriptInterface <methods>;
+}
+
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-keepattributes *Annotation*
+-keepattributes Signature
+
 
 #-------------------------Consumer Care Ends -------------------------
+
+
 
 #------------------------------InAppPurchase starts here------------------------------------
 #all below classes are model classes
