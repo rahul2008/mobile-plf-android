@@ -214,11 +214,14 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
     <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
 
+    <string name="ths_cost_summary_initial_Full_cover_cost">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
+    <string name="ths_cost_summary_initial_Partial_cover_cost">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
+    <string name="ths_cost_summary_free_visit_header">Your visit is</string>
+
     <!-- Pre Welcome Screen-->
     <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
     <string name="ths_service_provider">This service is provided by</string>
     <string name="ths_go_see_provider">Go see a provider</string>
     <string name="ths_amwell_philips_licence">All providers are licenced and working under \n<u>Amwell terms &amp; conditions</u></string>
     <string name="ths_see_provider_pre_welcome">See <b>a provider online,</b> anytime</string>
-
 </resources>

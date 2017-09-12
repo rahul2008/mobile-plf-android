@@ -24,7 +24,9 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +82,8 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     void updateTHSInsuranceSubscription() {
         try {
+            ///////validate
+
             ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressbar();
             THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
             final Subscription subscription = thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest().getSubscription();
@@ -113,7 +117,17 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             } else {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
                 AmwellLog.i("updateInsurance", "validateSubscriptionUpdateRequest error " + errors.toString());
-                showInsuranceNotVerifiedDialog();
+                //showInsuranceNotVerifiedDialog();
+                String missingFields="";
+                Iterator it = errors.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    String[] array = pair.getKey().toString().split("\\.");
+                    missingFields = missingFields + array[array.length-1]+ "     ";
+                    it.remove(); // avoids a ConcurrentModificationException
+                }
+
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).showToast(missingFields +" Field(s) Required");
             }
         } catch (Exception e) {
             ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
@@ -192,7 +206,6 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
             }
 
-            ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
             if (subscription.getRelationship() != null) {
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship = subscription.getRelationship();
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).relationshipEditBox.setText(subscription.getRelationship().getName());
