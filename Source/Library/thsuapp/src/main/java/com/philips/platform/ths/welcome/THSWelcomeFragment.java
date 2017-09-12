@@ -9,6 +9,7 @@ package com.philips.platform.ths.welcome;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
-
         return view;
     }
 

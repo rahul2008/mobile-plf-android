@@ -74,13 +74,14 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         thsFollowUpViewInterfaces.hideProgressButton();
+        THSManager.getInstance().setPTHConsumer(thsConsumer);
         if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
             thsFollowUpViewInterfaces.showProviderDetailsFragment();
         } else {
             thsFollowUpViewInterfaces.showConditionsFragment();
         }
         //update singleton THSManager THSConsumer member
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
+
 
     }
 
