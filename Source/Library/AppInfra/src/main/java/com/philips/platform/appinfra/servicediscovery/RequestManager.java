@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.LocaleList;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -156,7 +155,8 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					Log.e("error"," while getting cached data");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data"+exception.getMessage());
 				}
 			}
 			else {
@@ -175,7 +175,8 @@ public class RequestManager {
 						return cachedResponse;
 					}
 				} catch (Exception exception) {
-					Log.e("error"," while getting cached data");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+							AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data"+exception.getMessage());
 				}
 			}
 		}
