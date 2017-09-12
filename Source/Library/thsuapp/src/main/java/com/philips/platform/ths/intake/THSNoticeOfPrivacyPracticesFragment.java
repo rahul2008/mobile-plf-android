@@ -34,9 +34,6 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
         mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
         mTHSNoppPresenter = new THSNoticeOfPrivacyPracticesPresenter(this);
-
-       
-
         return view;
     }
 

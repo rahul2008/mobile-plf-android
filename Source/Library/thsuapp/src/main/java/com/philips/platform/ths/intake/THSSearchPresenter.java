@@ -78,7 +78,7 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
 
     public void searchProviders(String provider, Practice practice) {
         try {
-            THSManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(), THSManager.getInstance().getPTHConsumer().getConsumer(), practice, provider, this);
+            THSManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(), practice, provider, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

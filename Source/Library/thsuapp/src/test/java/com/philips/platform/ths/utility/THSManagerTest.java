@@ -25,7 +25,6 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitContext;
-import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
@@ -41,7 +40,6 @@ import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
 import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
 import com.philips.platform.ths.intake.THSVitalSDKCallback;
-import com.philips.platform.ths.intake.THSVitals;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
@@ -396,7 +394,7 @@ public class THSManagerTest {
     @Test
     public void getProviderListTest() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        THSManager.getProviderList(contextMock, mConsumer, practice, THSProvidersListCallback);
+        THSManager.getProviderList(contextMock, practice, THSProvidersListCallback);
         verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class), any(State.class), any(Language.class), any(Integer.class), providerListCaptor.capture());
         SDKCallback value = providerListCaptor.getValue();
 //        value.onGetPaymentMethodResponse(any(List.class), any(SDKError.class));
