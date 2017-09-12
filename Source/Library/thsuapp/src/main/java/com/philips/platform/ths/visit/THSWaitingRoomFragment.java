@@ -27,10 +27,6 @@ import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
-/**
- * Created by philips on 7/26/17.
- */
-
 public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWaitingRoomFragment.class.getSimpleName();
     public static final String CANCEL_VISIT_ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
@@ -143,7 +139,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ths_waiting_room_cancel_button) ;
+        if (v.getId() == R.id.ths_waiting_room_cancel_button)
         {
             // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
             if (v.getId() == R.id.uid_dialog_positive_button) {

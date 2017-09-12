@@ -21,13 +21,11 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitReport;
 import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.appframework.flowmanager.exceptions.NullEventException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
@@ -67,7 +65,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
 
 
         try {
-            THSManager.getInstance().getVisitReportDetail(mThsVisitHistoryFragment.getContext(), visitReport, new THSVisitReportDetailCallback() {
+            THSManager.getInstance().getVisitReportDetail(mThsVisitHistoryFragment.getContext(), visitReport, new THSVisitReportDetailCallback<VisitReportDetail, SDKError>() {
                 @Override
                 public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
                     mVisitReportDetail = visitReportDetail;
@@ -80,10 +78,8 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
                                     newImageLoader(visitReportDetail.getAssignedProviderInfo(),
                                             holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder(drawable).build().load();
 
-                        } catch (AWSDKInstantiationException e) {
+                        } catch (AWSDKInstantiationException | NullPointerException e) {
                             e.printStackTrace();
-                        } catch (NullPointerException npe) {
-                            npe.printStackTrace();
                         }
                     }
                 }

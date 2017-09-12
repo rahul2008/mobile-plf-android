@@ -26,7 +26,7 @@ import com.philips.platform.ths.utility.THSConstants;
 
 import java.util.Date;
 
-public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragment implements View.OnClickListener, OnDateSetChangedInterface, THSDialogFragmentCallback {
+public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragment implements View.OnClickListener, OnDateSetChangedInterface, THSDialogFragmentCallback<String> {
     public static final String TAG = THSAvailableProviderDetailFragment.class.getSimpleName();
 
     private Date mDate;
@@ -117,29 +117,28 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
 
 
     @Override
-    public void onPostData(Object o) {
+    public void onPostData(String o) {
         if(null != o){
-            String reminderTime = (String) o;
-            thsProviderDetailsDisplayHelper.setReminderValue(reminderTime);
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_NO_REMINDER_STRING)){
+            thsProviderDetailsDisplayHelper.setReminderValue(o);
+            if(o.equalsIgnoreCase(THSConstants.THS_NO_REMINDER_STRING)){
                 remindOptions = RemindOptions.NO_REMINDER;
             }
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_15_MINS_REMINDER)){
+            if(o.equalsIgnoreCase(THSConstants.THS_15_MINS_REMINDER)){
                 remindOptions = RemindOptions.FIFTEEN_MIN;
             }
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_ONE_HOUR_REMINDER)){
+            if(o.equalsIgnoreCase(THSConstants.THS_ONE_HOUR_REMINDER)){
                 remindOptions = RemindOptions.ONE_HOUR;
             }
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_FOUR_HOURS_REMINDER)){
+            if(o.equalsIgnoreCase(THSConstants.THS_FOUR_HOURS_REMINDER)){
                 remindOptions = RemindOptions.FOUR_HOURS;
             }
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_EIGHT_HOURS_REMINDER)){
+            if(o.equalsIgnoreCase(THSConstants.THS_EIGHT_HOURS_REMINDER)){
                 remindOptions = RemindOptions.EIGHT_HOURS;
             }
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_ONE_DAY_REMINDER)){
+            if(o.equalsIgnoreCase(THSConstants.THS_ONE_DAY_REMINDER)){
                 remindOptions = RemindOptions.ONE_DAY;
             }
-            if(reminderTime.equalsIgnoreCase(THSConstants.THS_ONE_WEEK_REMINDER)){
+            if(o.equalsIgnoreCase(THSConstants.THS_ONE_WEEK_REMINDER)){
                 remindOptions = RemindOptions.ONE_WEEK;
             }
 

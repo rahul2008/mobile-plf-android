@@ -175,9 +175,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                             ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
                             try {
                                 THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
-                                        date, new THSAvailableProviderCallback<List, THSSDKError>() {
+                                        date, new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
                                             @Override
-                                            public void onResponse(final List dates, THSSDKError sdkError) {
+                                            public void onResponse(final List<Date> dates, THSSDKError sdkError) {
                                                 if (viewInterface.getPractice() == null) {
                                                     try {
                                                         THSManager.getInstance().getPractice(mThsBaseFragment.getContext(), viewInterface.getPracticeInfo(), new THSPracticeCallback<Practice, SDKError>() {
@@ -220,7 +220,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         }
     }
 
-    private void launchFragmentBasedOnAvailibity(Practice practice, List dates, Date date) {
+    private void launchFragmentBasedOnAvailibity(Practice practice, List<Date> dates, Date date) {
         if (dates == null || dates.size() == 0) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(THSConstants.THS_DATE, date);
