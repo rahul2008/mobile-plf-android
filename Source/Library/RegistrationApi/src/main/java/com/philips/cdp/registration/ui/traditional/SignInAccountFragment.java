@@ -202,7 +202,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             alertDialogFragment.dismiss();
         } else {
             final AlertDialogFragment wtf = (AlertDialogFragment) getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
-            wtf.dismiss();
+            if (wtf != null) {
+                wtf.dismiss();
+            }
         }
     }
 
