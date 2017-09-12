@@ -1,10 +1,11 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version {next}
+Version 7.0.0
 -------------
 
 ### Functionality Delivered
+* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
 * \#37438: component now exposes its version and tla via BuildConfig
 * \#35191: Pin mismatch api added
 	* `onPortError` will give `Error.INSECURE_CONNECTION` when there is a pin mismatch.
@@ -14,44 +15,19 @@ Version {next}
 		* `LanTransportContext#findAppliancesWithMismatchedPinIn`
 
 ### Backwards Compatibility
-* N/A
-
-### Features not covered
-* To be filled in at release
-
-### Breaking Changes
-`DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
-
-### Defects solved
-* N/A
-
-### Residual anomalies
-* To be filled in at release
-
-### Risks and mitigations
-* N/A
-
-Version 7.0.0
--------------
-
-### Functionality Delivered
-* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
-
-### Backwards Compatibility
 * Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their `DICommApplianceFactory.createApplianceForNode(..)` implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
-
-### Features not covered
-* To be filled in at release
-
-### Breaking Changes
 * `NetworkNode.PAIRED_STATUS` has been renamed to `NetworkNode.PairingState`
 * `NetworkNode` no longer extends `Observable`, but adds `PropertyChangeSupport` instead.
+* `DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
+
+### Features not covered
+* NA
 
 ### Defects solved
 * NA
 
 ### Residual anomalies
-* To be filled in at release
+* NA
 
 ### Risks and mitigations
 * NA
@@ -104,7 +80,7 @@ Version 4.0.0
 
 ### New features
 * DiscoveryStrategy interface is extended with start(Set<String> deviceTypes, Set<String> modelIds) method to allow filtering on model ids.
- 
+
 ### Bugs fixed
 * 17024 Internet permission is added to CommLib. If you have manifest mergeing enabled you no longer have to specify this permission in your app.
 
@@ -125,7 +101,7 @@ Version 3.1.2
 * COM-209 BLE discovery
 * COM-249 Https support
 * CON-119 Firmware update
- 
+
 ### Bugs fixed
 * [DE15085] ProGuard configuration for release builds
 
@@ -137,7 +113,7 @@ Version 2.0.0
 
 ### New features
 * COM-119 DiComm client lib can now be initialized with external CloudController.
-* COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship. 
+* COM-24 Added startUserPairing call to PairingHandler that allows to create user relationship.
 
 ### Bugs fixed
 
@@ -168,12 +144,12 @@ Version v1.2.0
 --------------
 
 ### New features
-* DICommAppliance class signature change: 
+* DICommAppliance class signature change:
 	disableSubscription() renamed to disableCommunication()
 * enableSubscription() renamed to enableCommunication()
 
 ### Bugs fixed
-* DE12197 Fixed timing issues with SignOn ongoing. 
+* DE12197 Fixed timing issues with SignOn ongoing.
 
 ### Known issues
 
@@ -184,7 +160,7 @@ Version v1.1.3
 * BG-294 Added impementation for getModelNumber in NetworkNode so it is possible to distinguish between appliance models in ApplianceFactory
 
 ### Bugs fixed
-* DE12042 Rebooting appliance no longer removes pairing relationships 
+* DE12042 Rebooting appliance no longer removes pairing relationships
 * DE11897 When requesting removal of backend relations then the reletions are actually removed  
 
 ### Known issues
@@ -196,8 +172,8 @@ Version v1.1.2
 * Upgraded ICPClient to v7.1.0_A.1
 
 ### Bugs fixed
-* DE11257 Remote subscriptions' reponse messages are now parsed properly. 
-* DE11299 DevicePort now supports subscription 
+* DE11257 Remote subscriptions' reponse messages are now parsed properly.
+* DE11299 DevicePort now supports subscription
 
 ### Known issues
 

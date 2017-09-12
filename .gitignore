@@ -66,3 +66,5 @@ Source/pluginreferenceboard/build
 Source/DemoApp/build
 Source/DemoUApp/build
 profiles_settings.xml
+**/~$*
+Documents/External/**/Commlib_API/*
