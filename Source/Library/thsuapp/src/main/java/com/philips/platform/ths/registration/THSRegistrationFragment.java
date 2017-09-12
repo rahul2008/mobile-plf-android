@@ -63,7 +63,6 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_your_details), true);
         }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
         final Bundle arguments = getArguments();
         mLaunchInput = arguments.getInt(THSConstants.THS_LAUNCH_INPUT);
