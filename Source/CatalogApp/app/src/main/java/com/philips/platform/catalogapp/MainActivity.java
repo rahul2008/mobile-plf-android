@@ -40,7 +40,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.philips.platform.catalogapp.dataUtils.SidebarListAdapter;
+import com.philips.platform.catalogapp.dataUtils.SidebarRightListViewAdapter;
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
@@ -284,68 +284,6 @@ public class MainActivity extends UIDActivity {
         return dataHolderView;
     }
 
-    /*private class ContentThemedRecyclerViewAdapter extends RecyclerView.Adapter {
-        private ObservableArrayList<DataHolder> dataHolders;
-
-        private ContentThemedRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
-            this.dataHolders = dataHolders;
-
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            View v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
-
-
-            return new MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-            final DataHolder dataHolder = dataHolders.get(position);
-            ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).getBinding().setVariable(1, dataHolder);
-            ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).getBinding().executePendingBindings();
-
-            holder.itemView.post(new Runnable() {
-                @Override
-                public void run() {
-                    holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
-                }
-            });
-            ((MainActivity.ContentThemedRecyclerViewAdapter.ContentThemedBindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    leftRecyclerViewSelectedPosition = position;
-                    holder.itemView.setSelected(true);
-                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    sideBarLayout.closeDrawer(GravityCompat.START);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return dataHolders.size();
-        }
-
-        class ContentThemedBindingHolder extends RecyclerView.ViewHolder {
-            private ViewDataBinding binding;
-
-            ContentThemedBindingHolder(@NonNull View rowView) {
-                super(rowView);
-                binding = DataBindingUtil.bind(rowView);
-            }
-
-            public ViewDataBinding getBinding() {
-                return binding;
-            }
-        }
-    }*/
-
-
     private class SidebarRecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
         private LayoutInflater inflater;
@@ -418,7 +356,7 @@ public class MainActivity extends UIDActivity {
         final SeparatorDrawable contentThemedSeparatorDrawable = new SeparatorDrawable(this);
         contentThemedRightListView.setDivider(contentThemedSeparatorDrawable);
         contentThemedRightListView.setDividerHeight(contentThemedSeparatorDrawable.getHeight());
-        ArrayAdapter contentThemedArrayAdapter = new SidebarListAdapter(this, R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), false);
+        ArrayAdapter contentThemedArrayAdapter = new SidebarRightListViewAdapter(this, R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), false);
         contentThemedRightListView.setAdapter(contentThemedArrayAdapter);
         contentThemedRightListView.setItemChecked(0, true);
         contentThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -433,7 +371,7 @@ public class MainActivity extends UIDActivity {
         final SeparatorDrawable navigationThemedSeparatorDrawable = new SeparatorDrawable(ThemeUtils.getNavigationThemedContext(this));
         navigationThemedRightListView.setDivider(navigationThemedSeparatorDrawable);
         navigationThemedRightListView.setDividerHeight(navigationThemedSeparatorDrawable.getHeight());
-        ArrayAdapter navigationThemedArrayAdapter = new SidebarListAdapter(ThemeUtils.getNavigationThemedContext(this), R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), true );
+        ArrayAdapter navigationThemedArrayAdapter = new SidebarRightListViewAdapter(ThemeUtils.getNavigationThemedContext(this), R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), true );
         navigationThemedRightListView.setAdapter(navigationThemedArrayAdapter);
         navigationThemedRightListView.setItemChecked(0, true);
         navigationThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
