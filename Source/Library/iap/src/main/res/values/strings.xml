@@ -296,7 +296,6 @@
     <string name="iap_delivery_ups_parcel">Delivery via %s</string>
     <string name="iap_delivery_free_description">Delivery is free when you spend %s or more </string>
     <string name="iap_cart_summary">Cart summary</string>
-    <string name="iap_number_of_products">%i Products</string>
     <string name="iap_1x_daily_collection">1x daily collection Miniblender</string>
     <string name="iap_1x_advance_collection">1x Advance collection Blender</string>
     <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
@@ -310,4 +309,15 @@
     <string name="iap_product_remove_description">Your product will be removed from your shopping cart. Are you sure?</string>
     <string name="iap_including_tax">Including tax</string>
     <string name="iap_shopping_cart_dls">Shopping cart</string>
+    <string name="iap_option">Option</string>
+    <string name="iap_cvv_code">Please enter the CVV/CVC for</string>
+    <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
+    <string name="iap_cvv_code_hint">000</string>
+    <string name="iap_not_now">Not now</string>
+    <string name="iap_your_order_number_is">Your order number is:</string>
+    <string name="iap_checkout_steps">Steps %s of 3: Address</string>
+    <string name="iap_select_payment_method">Select payment method</string>
+    <string name="iap_number_of_products">%i Products</string>
+    <string name="iap_number_of_product">%i Product</string>
+
 </resources>
