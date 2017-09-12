@@ -36,9 +36,9 @@ public class THSDatePickerFragmentUtility{
 
     public void showDatePicker(DatePickerDialog.OnDateSetListener listener) {
         calendar.setTime(date);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(mThsBaseFragment.getActivity(),
+        DatePickerDialog datePickerDialog = new DatePickerDialog(mThsBaseFragment.getContext(),
                 listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        if(showPreviousDates) {
+        if(showPreviousDates && datePickerDialog.getDatePicker()!=null) {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         }
         datePickerDialog.show();
