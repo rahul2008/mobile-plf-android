@@ -21,7 +21,7 @@
        android:layout_height="wrap_content"
        android:layout_marginRight="7dp"
        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
-       android:text="@string/dls_warning"
+       android:text="@string/dls_infocircle"
        fontPath="fonts/iconfont.ttf"/>
 
    <com.philips.platform.uid.view.widget.Label

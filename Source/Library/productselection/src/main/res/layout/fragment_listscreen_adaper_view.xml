@@ -70,13 +70,16 @@
 
 
     </RelativeLayout>
-    <ImageView
+
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/imageArrowRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:src="@drawable/find_prod_right_arrow"
         android:layout_marginRight="16dp"
+        fontPath="fonts/iconfont.ttf"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:text="@string/dls_navigationright_light"
         android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
