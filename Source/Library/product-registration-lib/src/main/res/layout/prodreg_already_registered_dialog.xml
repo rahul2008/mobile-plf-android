@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:layout_marginLeft="@dimen/fab_margin"
@@ -18,7 +18,6 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_registered_message"
-        android:layout_below="@+id/serial_number_title_message"
         style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,19 +27,20 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_warranty_message"
-        android:layout_below="@+id/serial_number_registered_message"
         style="@style/UIDLabel.ProductRegistrationProductSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:visibility="gone"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-       >
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/pr_c_value_sm"
+        >
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/button_continue"
@@ -54,12 +54,12 @@
             android:id="@+id/closeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/pr_margintop"
+            android:layout_below="@+id/button_continue"
             android:layout_marginTop="@dimen/pr_c_value_sm"
             android:text="@string/PRG_Close"
             android:textAllCaps="false"
             app:uidComponentType="Secondary"
             />
-    </LinearLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

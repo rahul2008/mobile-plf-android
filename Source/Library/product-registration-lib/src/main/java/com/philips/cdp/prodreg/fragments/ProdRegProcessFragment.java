@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;

@@ -259,7 +259,6 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void showProdRegLoadingDialog(final String title, String tag) {
-
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.prodreg_progress_dialog, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
@@ -280,8 +279,12 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-        if(alertDialogFragment != null) {
-            alertDialogFragment.dismiss();
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
+            if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
+                alertDialogFragment.dismiss();
+            }
         }
     }
 

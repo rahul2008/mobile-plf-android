@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
@@ -167,7 +166,6 @@ public class ProdRegBaseActivity extends UIDActivity {
         setSupportActionBar(mToolbar);
         ActionBar mActionBar = this.getSupportActionBar();
         if (mActionBar != null) {
-            //  mActionBar.setDisplayShowHomeEnabled(false);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setDisplayShowCustomEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
