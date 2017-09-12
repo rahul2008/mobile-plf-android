@@ -61,7 +61,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     private CacheData cacheDataMock;
 
     @Mock
-    private ConnectivityMonitor connectivityMontitorMock;
+    private ConnectivityMonitor connectivityMonitorMock;
 
     @Mock
     private WifiNetworkProvider wifiNetworkProviderMock;
@@ -93,25 +93,15 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
                 availabilityListener = invocation.getArgumentAt(0, AvailabilityListener.class);
                 return null;
             }
-        }).when(connectivityMontitorMock).addAvailabilityListener(Matchers.<AvailabilityListener<ConnectivityMonitor>>any());
+        }).when(connectivityMonitorMock).addAvailabilityListener(Matchers.<AvailabilityListener<ConnectivityMonitor>>any());
 
-        strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMontitorMock, wifiNetworkProviderMock) {
+        strategyUnderTest = new LanDiscoveryStrategy(deviceCacheMock, connectivityMonitorMock, wifiNetworkProviderMock) {
             @Override
             SsdpDiscovery createSsdpDiscovery() {
                 return ssdpDiscoveryMock;
             }
         };
         strategyUnderTest.addDiscoveryListener(discoveryListenerMock);
-    }
-
-    @Test
-    public void whenStartingDiscovery_thenSsdpDiscoveryShouldBeStarted() {
-        try {
-            strategyUnderTest.start();
-        } catch (MissingPermissionException ignored) {
-            fail();
-        }
-        verify(ssdpDiscoveryMock).start();
     }
 
     @Test
@@ -301,28 +291,65 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     }
 
     @Test
-    public void whenStoppingDiscovery_thenSsdpDiscoveryShouldBeStopped() {
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenSsdpDiscoveryShouldBeStopped() throws MissingPermissionException {
+        ensureDiscoveryIsStarted();
+
         strategyUnderTest.stop();
 
         verify(ssdpDiscoveryMock).stop();
     }
 
     @Test
-    public void whenAvailabilityChangesFromAvailableToUnavailableAndBack_thenSsdpDiscoveryShouldBePausedAndResumed() {
+    public void givenDiscoveryIsNotStartedWhenTransportBecomesAvailableThenSsdpIsNotStarted() {
+        //setup arranges discovery to not be started
+
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        verify(ssdpDiscoveryMock, never()).start();
+    }
+
+    @Test
+    public void givenTransportIsNotAvailableWhenDiscoveryIsStartedThenSsdpIsNotStarted() {
+        //setup arranges transport to be unavailable
+
         try {
             strategyUnderTest.start();
         } catch (MissingPermissionException ignored) {
             fail();
         }
 
-        when(connectivityMontitorMock.isAvailable()).thenReturn(false);
-        availabilityListener.onAvailabilityChanged(connectivityMontitorMock);
+        verify(ssdpDiscoveryMock, never()).start();
+    }
 
-        when(connectivityMontitorMock.isAvailable()).thenReturn(true);
-        availabilityListener.onAvailabilityChanged(connectivityMontitorMock);
+    @Test
+    public void givenDiscoveryIsStartedWhenTransportBecomesAvailableThenSsdpIsStarted() throws MissingPermissionException {
+        strategyUnderTest.start();
+
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        verify(ssdpDiscoveryMock, times(1)).start();
+    }
+
+    @Test
+    public void givenTransportIsAvailableWhenDiscoveryIsStartedThenSsdpIsStarted() throws MissingPermissionException {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+
+        strategyUnderTest.start();
+
+        verify(ssdpDiscoveryMock, times(1)).start();
+    }
+
+    @Test
+    public void givenTransportIsAvailableAndDiscoveryIsStartedWhenTransportBecomesUnavailableThenSsdpIsStopped() throws MissingPermissionException {
+        ensureDiscoveryIsStarted();
+
+        when(connectivityMonitorMock.isAvailable()).thenReturn(false);
+        availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
         verify(ssdpDiscoveryMock, times(1)).stop();
-        verify(ssdpDiscoveryMock, times(2)).start();
     }
 
     private DeviceModel createDeviceModel(final @Nullable SSDPdevice ssdpDevice) {
@@ -340,5 +367,12 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         ssdpDevice.setModelNumber(modelNumber);
 
         return ssdpDevice;
+    }
+
+    private void ensureDiscoveryIsStarted() throws MissingPermissionException {
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
+        strategyUnderTest.start();
+        when(ssdpDiscoveryMock.isStarted()).thenReturn(true);
     }
 }

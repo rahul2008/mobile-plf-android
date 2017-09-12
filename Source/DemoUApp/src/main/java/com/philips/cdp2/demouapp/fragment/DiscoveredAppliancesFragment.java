@@ -14,12 +14,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -37,6 +43,8 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
@@ -55,6 +63,11 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private View view;
     private ApplianceAdapter applianceAdapter;
+
+    private EditText editFilterModelId;
+    private final Set<String> discoveryFilterModelIds = new HashSet<>();
+
+    private Switch discoverySwitch;
 
     private void onAppliancesChanged() {
         getActivity().runOnUiThread(new Runnable() {
@@ -115,6 +128,36 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
+        editFilterModelId = (EditText) view.findViewById(R.id.editFilterModelId);
+        editFilterModelId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateModelIds(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+        });
+
+        discoverySwitch = (Switch) view.findViewById(R.id.cml_sw_startstop_discovery);
+        discoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    startDiscovery();
+                } else {
+                    stopDiscovery();
+                }
+            }
+        });
+
         final ListView listViewAppliances = (ListView) view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,8 +196,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        startDiscovery();
-
         commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
@@ -163,7 +204,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private void startDiscovery() {
         try {
-            commCentral.startDiscovery();
+            commCentral.startDiscovery(discoveryFilterModelIds);
         } catch (MissingPermissionException e) {
             Log.e(TAG, "Error starting discovery: " + e.getMessage());
 
@@ -176,12 +217,17 @@ public class DiscoveredAppliancesFragment extends Fragment {
         }
     }
 
+    private void stopDiscovery() {
+        commCentral.stopDiscovery();
+        discoverySwitch.setChecked(false);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
 
         commCentral.getApplianceManager().removeApplianceListener(applianceListener);
-        commCentral.stopDiscovery();
+        stopDiscovery();
     }
 
     public static DiscoveredAppliancesFragment newInstance() {
@@ -195,8 +241,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
             case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     new Handler().post(this.permissionCallback);
-                } else {
-                    // TODO Handle error in UI
                 }
             }
         }
@@ -208,6 +252,14 @@ public class DiscoveredAppliancesFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     ACCESS_COARSE_LOCATION_REQUEST_CODE);
+        }
+    }
+
+    private void updateModelIds(final String commaSeparatedModelIds) {
+        discoveryFilterModelIds.clear();
+
+        if (!TextUtils.isEmpty(commaSeparatedModelIds)) {
+            discoveryFilterModelIds.addAll(Arrays.asList((commaSeparatedModelIds).split(",")));
         }
     }
 }

@@ -29,6 +29,7 @@ public class SsdpServiceHelper implements SsdpDiscovery, StartStopInterface {
     private static final int DELAY_STOPSSDP = 3000;
 
     private int mTestDelay = -1;
+    private boolean isStarted;
 
     public SsdpServiceHelper(SsdpService ssdpService, Callback callback) {
         mSsdpService = ssdpService;
@@ -41,6 +42,7 @@ public class SsdpServiceHelper implements SsdpDiscovery, StartStopInterface {
                 createNewStartStopThread();
             }
             mThread.startDiscoveryAsync();
+            isStarted = true;
         }
     }
 
@@ -50,7 +52,13 @@ public class SsdpServiceHelper implements SsdpDiscovery, StartStopInterface {
                 createNewStartStopThread();
             }
             mThread.stopDiscoveryAsync();
+            isStarted = false;
         }
+    }
+
+    @Override
+    public boolean isStarted() {
+        return isStarted;
     }
 
     public void stopDiscoveryImmediate() {

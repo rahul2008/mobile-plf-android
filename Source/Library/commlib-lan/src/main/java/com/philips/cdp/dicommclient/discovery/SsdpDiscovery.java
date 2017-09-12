@@ -9,4 +9,6 @@ public interface SsdpDiscovery {
     void start();
 
     void stop();
+
+    boolean isStarted();
 }

@@ -58,6 +58,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     @NonNull
     private Set<String> modelIds;
 
+    private boolean isConnected;
+
+    private boolean isStartRequested;
+
     private final Handler.Callback ssdpCallback = new Handler.Callback() {
 
         @Override
@@ -86,17 +90,23 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             return isHandled;
         }
     };
-
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
-            if (connectivityMonitor.isAvailable()) {
-                ssdp.start();
-            } else {
+            isConnected = connectivityMonitor.isAvailable();
+            handleDiscoveryStateChanged();
+        }
+    };
+
+    private void handleDiscoveryStateChanged() {
+        if (isConnected && isStartRequested) {
+            ssdp.start();
+        } else {
+            if (ssdp.isStarted()) {
                 ssdp.stop();
             }
         }
-    };
+    }
 
     private final ExpirationCallback expirationCallback = new ExpirationCallback() {
 
@@ -138,7 +148,9 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         this.deviceTypes = deviceTypes;
         this.modelIds = modelIds;
 
-        ssdp.start();
+        isStartRequested = true;
+        handleDiscoveryStateChanged();
+
         deviceCache.resetTimers();
 
         DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
@@ -146,7 +158,9 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void stop() {
-        ssdp.stop();
+        isStartRequested = false;
+        handleDiscoveryStateChanged();
+
         deviceCache.stopTimers();
 
         DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");

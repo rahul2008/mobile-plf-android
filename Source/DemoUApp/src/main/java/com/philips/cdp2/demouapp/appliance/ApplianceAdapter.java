@@ -13,11 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.demouapp.R;
 
 public class ApplianceAdapter extends ArrayAdapter<Appliance> {
 
     public ApplianceAdapter(final @NonNull Context context) {
-        super(context, android.R.layout.simple_list_item_2, android.R.id.text1);
+        super(context, R.layout.cml_appliance_list_item, R.id.appliance_name);
     }
 
     @NonNull
@@ -25,8 +26,9 @@ public class ApplianceAdapter extends ArrayAdapter<Appliance> {
         View view = super.getView(position, convertView, parent);
         Appliance appliance = getItem(position);
 
-        ((TextView) view.findViewById(android.R.id.text1)).setText(appliance.getName());
-        ((TextView) view.findViewById(android.R.id.text2)).setText(String.format("%s - %s", appliance.getDeviceType(), appliance.getNetworkNode().getCppId()));
+        ((TextView) view.findViewById(R.id.appliance_name)).setText(String.format("%s (%s)", appliance.getName(), appliance.getDeviceType()));
+        ((TextView) view.findViewById(R.id.appliance_cpp_id)).setText(appliance.getNetworkNode().getCppId());
+        ((TextView) view.findViewById(R.id.appliance_model_id)).setText(appliance.getNetworkNode().getModelId());
 
         return view;
     }
