@@ -9,6 +9,12 @@ package com.philips.platform.ths.cost;
 import com.americanwell.sdk.entity.visit.Visit;
 
 public class THSVisit {
+
+
+    private Visit visit;
+    double initialVisitCost;
+    String couponCodeApplied;
+
     public Visit getVisit() {
         return visit;
     }
@@ -17,5 +23,18 @@ public class THSVisit {
         this.visit = visit;
     }
 
-    private Visit visit;
+    public double getInitialVisitCost() {
+        return initialVisitCost;
+    }
+
+    public void setInitialVisitCost(double initialVisitCost) {
+        this.initialVisitCost = initialVisitCost;
+    }
+    public String getCouponCodeApplied() {
+        return couponCodeApplied;
+    }
+
+    public void setCouponCodeApplied(String couponCodeApplied) {
+        this.couponCodeApplied = couponCodeApplied;
+    }
 }
