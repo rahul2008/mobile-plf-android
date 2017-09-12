@@ -318,6 +318,6 @@
     <string name="iap_checkout_steps">Steps %s of 3: Address</string>
     <string name="iap_select_payment_method">Select payment method</string>
     <string name="iap_number_of_products">%s Products</string>
-    <string name="iap_number_of_product">%i Product</string>
+    <string name="iap_number_of_product">%s Product</string>
 
 </resources>
