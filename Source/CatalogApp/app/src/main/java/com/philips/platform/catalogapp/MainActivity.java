@@ -60,7 +60,6 @@ import com.philips.platform.uid.utils.SidebarNavigationViewContainer;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
-import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 import org.greenrobot.eventbus.EventBus;
@@ -160,12 +159,12 @@ public class MainActivity extends UIDActivity {
         DataHolderView navigationThemedDataHolderView = getIconDataHolderView(ThemeUtils.getNavigationThemedContext(this));
 
         contentThemedLeftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_content_themed_left_recyclerview);
-        contentThemedLeftRecyclerView.setAdapter(new MainActivity.ContentThemedRecyclerViewAdapter(contentThemedDataHolderView.dataHolders));
+        contentThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(contentThemedDataHolderView.dataHolders, false));
         contentThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         contentThemedLeftRecyclerView.addItemDecoration(contentThemedSeparatorItemDecoration);
 
         navigationThemedLeftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_navigation_themed_left_recyclerview);
-        navigationThemedLeftRecyclerView.setAdapter(new MainActivity.NavigationThemedRecyclerViewAdapter(navigationThemedDataHolderView.dataHolders));
+        navigationThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(navigationThemedDataHolderView.dataHolders, true));
         navigationThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         navigationThemedLeftRecyclerView.addItemDecoration(navigationThemedSeparatorItemDecoration);
 
@@ -285,7 +284,7 @@ public class MainActivity extends UIDActivity {
         return dataHolderView;
     }
 
-    private class ContentThemedRecyclerViewAdapter extends RecyclerView.Adapter {
+    /*private class ContentThemedRecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
 
         private ContentThemedRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
@@ -344,29 +343,34 @@ public class MainActivity extends UIDActivity {
                 return binding;
             }
         }
-    }
+    }*/
 
 
-    private class NavigationThemedRecyclerViewAdapter extends RecyclerView.Adapter {
+    private class SidebarRecyclerViewAdapter extends RecyclerView.Adapter {
         private ObservableArrayList<DataHolder> dataHolders;
+        private LayoutInflater inflater;
+        private boolean isNavigationContext;
 
-        private NavigationThemedRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
+        private SidebarRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders, boolean isNavigationContext) {
             this.dataHolders = dataHolders;
+            this.isNavigationContext = isNavigationContext;
         }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).cloneInContext(ThemeUtils.getNavigationThemedContext(parent.getContext()))
-                        .inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
+            inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if(isNavigationContext)
+                inflater = inflater.cloneInContext(ThemeUtils.getNavigationThemedContext(parent.getContext()));
+            View v = inflater.inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
 
-            return new MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder(v);
+            return new SidebarRecyclerViewBindingHolder(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
             final DataHolder dataHolder = dataHolders.get(position);
-            ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
-            ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
+            ((SidebarRecyclerViewBindingHolder) holder).getBinding().setVariable(1, dataHolder);
+            ((SidebarRecyclerViewBindingHolder) holder).getBinding().executePendingBindings();
 
             holder.itemView.post(new Runnable() {
                 @Override
@@ -375,14 +379,15 @@ public class MainActivity extends UIDActivity {
                 }
             });
 
-            ((MainActivity.NavigationThemedRecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+            ((SidebarRecyclerViewBindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    notifyItemChanged(leftRecyclerViewSelectedPosition);
                     contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
+                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
                     leftRecyclerViewSelectedPosition = position;
                     holder.itemView.setSelected(true);
                     contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
+                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
                     sideBarLayout.closeDrawer(GravityCompat.START);
                 }
             });
@@ -393,10 +398,10 @@ public class MainActivity extends UIDActivity {
             return dataHolders.size();
         }
 
-        class BindingHolder extends RecyclerView.ViewHolder {
+        class SidebarRecyclerViewBindingHolder extends RecyclerView.ViewHolder {
             private ViewDataBinding binding;
 
-            BindingHolder(@NonNull View rowView) {
+            SidebarRecyclerViewBindingHolder(@NonNull View rowView) {
                 super(rowView);
                 binding = DataBindingUtil.bind(rowView);
             }
