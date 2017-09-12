@@ -119,6 +119,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
         } else {  // go to insurance or cost detail
             Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            getActivity().getSupportFragmentManager().popBackStack();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
                 addFragment(fragment, THSCostSummaryFragment.TAG, null);
