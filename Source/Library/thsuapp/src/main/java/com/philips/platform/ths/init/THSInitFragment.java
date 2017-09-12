@@ -18,6 +18,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class THSInitFragment extends THSBaseFragment{
     public static final String TAG = THSInitFragment.class.getSimpleName();
@@ -37,6 +38,11 @@ public class THSInitFragment extends THSBaseFragment{
             initializeSDK(view);
         }catch (IllegalArgumentException e){
             initializeSDK(view);
+        }
+
+        ActionBarListener actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(getString(R.string.ths_terms_and_conditions),true);
         }
 
         return view;
