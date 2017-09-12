@@ -21,7 +21,7 @@
     <string name="past_purchase_date_error" translatable="false">error in date selection</string>
     <string name="register_list" translatable="false">Product List</string>
     <string name="spinner_title" translatable="false">SPinner</string>
-    <string name="prod_reg_benefits_conf_text" translatable="false">• Receive important updates about your products.\n • Extend your warranty for 24 months.\n • Receive 10% discount in the Philips.\n • Receive free product accessories.</string>
+    <string name="prod_reg_benefits_conf_text" translatable="false">• Receive important updates about your products.\n• Extend your warranty for 24 months.\n• Receive 10% discount in the Philips.\n • Receive free product accessories.</string>
 
     <string name="color_ranges_label">Color range</string>
     <string name="set_theme_settings">Set</string>
