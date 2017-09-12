@@ -6,8 +6,6 @@
  */
 package com.philips.platform.appinfra.rest.request;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -16,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -55,7 +52,7 @@ public class GsonCustomRequest<T> extends Request<T> {
         this.mHeader = header;
         this.mParams = params;
         this.listener = listener;
-        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
+//        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
     }
 
     public GsonCustomRequest(int method, String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref,
@@ -65,7 +62,7 @@ public class GsonCustomRequest<T> extends Request<T> {
         this.clazz = clazz;
         this.mHeader = headers;
         this.listener = listener;
-        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
+//        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
     }
 
     @Override
@@ -75,7 +72,7 @@ public class GsonCustomRequest<T> extends Request<T> {
                 final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
             }
-            Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request get Headers"+mHeader);
+//            Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request get Headers"+mHeader);
             return mHeader;
         }
         return super.getHeaders();
