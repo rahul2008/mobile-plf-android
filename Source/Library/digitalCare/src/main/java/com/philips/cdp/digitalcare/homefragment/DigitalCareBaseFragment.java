@@ -134,7 +134,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
             @Override
             public Bitmap getDefaultVideoPoster() {
-                return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
+                if(isAdded()){
+                    return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
+                }
+                else {
+                    return super.getDefaultVideoPoster();
+                }
             }
         });
         webView.loadUrl(url);
