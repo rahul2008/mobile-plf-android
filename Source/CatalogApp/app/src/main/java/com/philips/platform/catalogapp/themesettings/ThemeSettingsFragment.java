@@ -10,12 +10,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.*;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
@@ -105,6 +109,9 @@ public class ThemeSettingsFragment extends BaseFragment {
                 view.setVisibility(View.VISIBLE);
             }
         });
+
+        ((MainActivity)getActivity()).getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        ((MainActivity)getActivity()).getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
         return view;
     }
