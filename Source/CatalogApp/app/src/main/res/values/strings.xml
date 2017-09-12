@@ -297,5 +297,15 @@
     <string name="sidebar_map_navigation">Map to navigation</string>
     <string name="sidebar_close_hint">Touching outside the sidebar closes it</string>
     <string name="sidebar_show">Show sidebar</string>
+    <string-array name="sidebar_right_menu_items">
+        <item>Profile item 1</item>
+        <item>Profile item 2</item>
+        <item>Profile item 3</item>
+        <item>Profile item 4</item>
+        <item>Profile item 5</item>
+        <item>Profile item 6</item>
+        <item>Profile item 7</item>
+        <item>Profile item 8</item>
+    </string-array>
 
 </resources>

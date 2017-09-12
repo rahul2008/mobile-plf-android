@@ -95,8 +95,6 @@ public class MainActivity extends UIDActivity {
     public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
     public static final String IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE";
     public static final String IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE";
-    public static final String LEFT_SIDEBAR_BG = "LEFT_SIDEBAR_BG";
-    public static final String RIGHT_SIDEBAR_BG = "RIGHT_SIDEBAR_BG";
     private int leftRecyclerViewSelectedPosition = 0;
     private boolean isNavigationThemedLeftContainerVisible;
     private boolean isNavigationThemedRightContainerVisible;
@@ -105,21 +103,6 @@ public class MainActivity extends UIDActivity {
     private SidebarFrameLayoutContainer navigationThemedLeftSidebarRoot;
     private SidebarNavigationViewContainer contentThemedRightSidebarRoot;
     private SidebarNavigationViewContainer navigationThemedRightSidebarRoot;
-    /*private int leftSidebarBGColor;
-    private int rightSidebarBGColor;
-    private RelativeLayout leftSidebarRoot;
-    private NavigationView rightSidebarRoot;*/
-
-    private static final String[] RIGHT_MENU_ITEMS = new String[]{
-            "Profile item 1",
-            "Profile item 2",
-            "Profile item 3",
-            "Profile item 4",
-            "Profile item 5",
-            "Profile item 6",
-            "Profile item 7",
-            "Profile item 8"
-    };
 
     boolean isAppLevelThemeApplied;
 
@@ -470,7 +453,7 @@ public class MainActivity extends UIDActivity {
         final SeparatorDrawable contentThemedSeparatorDrawable = new SeparatorDrawable(this);
         contentThemedRightListView.setDivider(contentThemedSeparatorDrawable);
         contentThemedRightListView.setDividerHeight(contentThemedSeparatorDrawable.getHeight());
-        ArrayAdapter contentThemedArrayAdapter = new SidebarListAdapter(this, R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS, false);
+        ArrayAdapter contentThemedArrayAdapter = new SidebarListAdapter(this, R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), false);
         contentThemedRightListView.setAdapter(contentThemedArrayAdapter);
         contentThemedRightListView.setItemChecked(0, true);
         contentThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -485,7 +468,7 @@ public class MainActivity extends UIDActivity {
         final SeparatorDrawable navigationThemedSeparatorDrawable = new SeparatorDrawable(ThemeUtils.getNavigationThemedContext(this));
         navigationThemedRightListView.setDivider(navigationThemedSeparatorDrawable);
         navigationThemedRightListView.setDividerHeight(navigationThemedSeparatorDrawable.getHeight());
-        ArrayAdapter navigationThemedArrayAdapter = new SidebarListAdapter(ThemeUtils.getNavigationThemedContext(this), R.layout.sidebar_right_listview_item, RIGHT_MENU_ITEMS, true );
+        ArrayAdapter navigationThemedArrayAdapter = new SidebarListAdapter(ThemeUtils.getNavigationThemedContext(this), R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), true );
         navigationThemedRightListView.setAdapter(navigationThemedArrayAdapter);
         navigationThemedRightListView.setItemChecked(0, true);
         navigationThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
