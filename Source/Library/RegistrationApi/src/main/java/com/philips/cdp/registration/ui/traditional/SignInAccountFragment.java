@@ -12,37 +12,38 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
 import android.support.annotation.*;
-import android.text.*;
-import android.text.style.*;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.*;
-import android.view.View.*;
+import android.view.View.OnClickListener;
 import android.widget.*;
+import android.widget.ProgressBar;
 
-import com.jakewharton.rxbinding2.widget.*;
-import com.janrain.android.*;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.servicediscovery.*;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.*;
-import com.squareup.okhttp.*;
+import com.squareup.okhttp.RequestBody;
 
 import org.json.*;
 
 import java.net.*;
 import java.util.*;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
 import butterknife.*;
 import io.reactivex.Observable;
@@ -53,6 +54,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         TraditionalLoginHandler, ForgotPasswordHandler, OnUpdateListener,
         EventListener, ResendVerificationEmailHandler,
         NetworkStateListener, HttpClientServiceReceiver.Listener {
+
+    private static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     @Inject
     NetworkUtility networkUtility;
@@ -88,6 +91,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_email_label)
     Label usr_loginScreen_email_label;
 
+    @BindView(R2.id.usr_loginScreen_progress_indicator)
+    LinearLayout progressBar;
 
     private User mUser;
 
@@ -193,6 +198,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
             handleResend();
         }
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+        } else {
+            final AlertDialogFragment wtf = (AlertDialogFragment) getFragmentManager().findFragmentByTag(ALERT_DIALOG_TAG);
+            wtf.dismiss();
+        }
     }
 
     private void hideValidations() {
@@ -259,7 +270,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         SpannableString content = new SpannableString(resetPasswordLabel.getText());
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         resetPasswordLabel.setText(content);
-        resetPasswordLabel.setOnClickListener(view -> launchResetPasswordFragment());
+        resetPasswordLabel.setOnClickListener(view -> {
+            if(registrationSettingsURL.isMobileFlow()) {
+                showForgotPasswordSpinner();
+                handleResend();
+            } else if(loginValidationEditText.getText().toString().length() > 0) {
+                resetPassword();
+            } else {
+                launchResetPasswordFragment();
+            }
+        });
     }
 
     private Disposable observeLoginButton() {
@@ -371,8 +391,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
-        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
-                mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), view -> RegAlertDialog.dismissDialog());
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setMessage("We've just sent you an email to reset the password.\n\nThe email may not arrive immediately but it is on its way.")
+                .setPositiveButton("Back to login", this)
+                .setTitle("Reset password")
+                .setCancelable(false);
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
         hideForgotPasswordSpinner();
         mRegError.hideError();
     }
@@ -422,13 +448,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void showForgotPasswordSpinner() {
-//        mPbForgotPasswdSpinner.setVisibility(View.VISIBLE);
-//        mBtnForgot.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void hideForgotPasswordSpinner() {
-//        mPbForgotPasswdSpinner.setVisibility(View.INVISIBLE);
-//        mBtnForgot.setEnabled(true);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void resetPassword() {
@@ -439,7 +463,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             validatorResult = FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString());
         }
         if (!validatorResult) {
-//            mEtEmail.showInvalidAlert();
+            showInvalidAlert();
         } else {
             if (networkUtility.isNetworkAvailable()) {
                 if (mUser != null) {
@@ -447,18 +471,27 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     mEtEmail.clearFocus();
                     mEtPassword.clearFocus();
                     mBtnSignInAccount.setEnabled(false);
-                    mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
                     if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
                         mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
                     } else {
                         serviceDiscovery();
                     }
                 }
-
             } else {
                 mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         }
+    }
+    private AlertDialogFragment alertDialogFragment;
+    private void showInvalidAlert() {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setTitle("Title")
+                .setMessage("Test text test text")
+                .setPositiveButton("OK", this)
+                .setCancelable(false);
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), "ALERT_DIALOG_TAG");
     }
 
     private void updateUiStatus() {
@@ -592,8 +625,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnSignInAccount.setEnabled(false);
         if (registrationSettingsURL.isMobileFlow()) {
             serviceDiscovery();
-        } else {
-            mUser.resendVerificationMail(loginValidationEditText.getText().toString(), this);
         }
     }
 
@@ -627,7 +658,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-
+                hideForgotPasswordSpinner();
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
                 verificationSmsCodeURL = null;
                 mEtEmail.setErrorMessage(getResources().getString(R.string.reg_Generic_Network_Error));

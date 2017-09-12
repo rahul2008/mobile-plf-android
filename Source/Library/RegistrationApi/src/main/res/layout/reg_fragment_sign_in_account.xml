@@ -126,4 +126,17 @@
         android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"
         android:textSize="@dimen/reg_text_size_12"/>
 
+    <LinearLayout
+        android:id="@+id/usr_loginScreen_progress_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <com.philips.platform.uid.view.widget.ProgressBar
+            style="@style/UIDProgressBarCircularIndeterminateMiddle"
+            />
+    </LinearLayout>
+
 </RelativeLayout>
