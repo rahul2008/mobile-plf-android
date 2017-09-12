@@ -33,11 +33,11 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
 
-    ArrayList<Country> masterList;
+    private ArrayList<Country> masterList;
 
-    ArrayList<Country> recentList;
+    private ArrayList<Country> recentList;
 
-    ArrayList<Country> filtredList;
+    private ArrayList<Country> filtredList;
 
 
     private CountrySelectionListener listener;
@@ -101,7 +101,6 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
             listener.onSelectCountry(country.getName(),
                     country.getCode());
         }
-        country.setName(country.getName());
         countryListAdapter.notifyDataSetChanged();
         countryListView.scrollToPosition(0);
     }
@@ -113,30 +112,28 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
 
 
     private ArrayList<Country> populateList(final ArrayList<Country> recentList, ArrayList<Country> masterList) {
-        ArrayList<Country> rl = new ArrayList<>(removeDuplicatesFromArrayList(recentList));
-        ArrayList<Country> ml = new ArrayList<>(masterList);
+        ArrayList<Country> recentCountryList = new ArrayList<>(removeDuplicatesFromArrayList(recentList));
+        ArrayList<Country> masterCountryList = new ArrayList<>(masterList);
 
-        ArrayList<Country> fl = new ArrayList<>();
-        fl.addAll(rl);
-        fl.addAll(removeRecentElementsFromMasterList(rl, ml));
-        return fl;
+        ArrayList<Country> filteredCountryList = new ArrayList<>();
+        filteredCountryList.addAll(recentCountryList);
+        filteredCountryList.addAll(removeRecentElementsFromMasterList(recentCountryList, masterCountryList));
+        return filteredCountryList;
     }
 
-    private ArrayList<Country> removeRecentElementsFromMasterList(final ArrayList<Country> rl, ArrayList<Country> ml) {
-        ml.removeAll(rl);
-        Collections.sort(ml, this);
-        return ml;
+    private ArrayList<Country> removeRecentElementsFromMasterList(final ArrayList<Country> recentList, ArrayList<Country> masterList) {
+        masterList.removeAll(recentList);
+        Collections.sort(masterList, this);
+        return masterList;
 
     }
-
 
     private ArrayList<Country> removeDuplicatesFromArrayList(ArrayList<Country> rawMasterList) {
-        ArrayList<Country> al = new ArrayList<>(rawMasterList);
-        Set<Country> hs = new LinkedHashSet<>();
-        hs.addAll(al);
-        al.clear();
-        al.addAll(hs);
-        return al;
+        ArrayList<Country> countryList = new ArrayList<>(rawMasterList);
+        Set<Country> countryHashSet = new LinkedHashSet<>();
+        countryHashSet.addAll(countryList);
+        countryList.clear();
+        countryList.addAll(countryHashSet);
+        return countryList;
     }
-
 }

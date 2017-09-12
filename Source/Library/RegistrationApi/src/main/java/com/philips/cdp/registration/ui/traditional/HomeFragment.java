@@ -1069,10 +1069,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             ArrayList<Country> allCountriesList = new ArrayList<Country>();
             String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
             for (String aRecourseList : recourseList) {
-                Country country = new Country();
-                country.setCode(aRecourseList);
-                Locale nameLocale = new Locale("", aRecourseList);
-                country.setName(nameLocale.getDisplayCountry());
+                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
                 allCountriesList.add(country);
             }
 
@@ -1088,14 +1085,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private ArrayList<Country> recentSelectedCountry = new ArrayList<>();
 
-
     private void addToRecent(String countryCode) {
-        Country country = new Country();
-        country.setCode(countryCode);
-        Locale nameLocale = new Locale("", countryCode);
-        country.setName(nameLocale.getDisplayCountry());
-        recentSelectedCountry.add(0,country);
+        Country country = new Country(countryCode, new Locale("", countryCode).getDisplayCountry());
+        recentSelectedCountry.add(0, country);
     }
-
-
 }
