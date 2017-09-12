@@ -14,7 +14,6 @@ import android.net.SntpClient;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -96,7 +95,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(OFFSET, pOffset);
         editor.apply();
-        Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
+        //Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
     }
 
     private long getOffset() {
@@ -197,7 +196,7 @@ public class TimeSyncSntpClient implements TimeInterface {
                     }
                 }
             } catch (IllegalArgumentException exception) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,"illegal argument when getting T-sync config pool");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,"illegal argument when getting T-sync config pool"+exception.getMessage());
             }
         }
         return null;
@@ -212,7 +211,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             date = new Date(getOffset() + System.currentTimeMillis());
             return date;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error get U-time");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error get U-time"+e.getMessage());
         }
         return null;
     }
@@ -229,13 +228,13 @@ public class TimeSyncSntpClient implements TimeInterface {
                             refreshOffset();
                         } catch (IllegalArgumentException e) {
                             if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null)
-                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error refresh time");
+                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error refresh time"+e.getMessage());
                         }
                     }
                 }).start();
             }
         } else {
-            Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
+          //  Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
             isSynchronized = false;
         }
     }
@@ -261,7 +260,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-                Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
+                //Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
                 isSynchronized = false;
             } else {
                 refreshTime();

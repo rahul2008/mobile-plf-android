@@ -316,7 +316,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else if (country != null) {
                 url += "&country=" + country;
             }
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Build URL in SD"
                     + "Appidentity values are null");
@@ -869,9 +869,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     return (Map<String, String>) countryMapping;
                 }
             } catch (IllegalArgumentException exception) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-                        "ServiceDiscovery-getServiceDiscoveryCountryMapping",
-                        "illegal argument");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        AppInfraLogEventID.AI_SERVICE_DISCOVERY,
+                        "ServiceDiscovery-getServiceDiscoveryCountryMapping illegal argument"+exception.getMessage());
             }
         }
         return null;
