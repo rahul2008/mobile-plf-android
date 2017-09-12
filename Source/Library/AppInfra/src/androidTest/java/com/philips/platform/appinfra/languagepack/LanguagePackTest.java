@@ -60,6 +60,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
+                    Log.e(getClass()+"","Error in Language pack test setup");
                 }
                 return result;
             }
@@ -77,6 +78,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                         URL url = new URL(LANGUAGE_PACK_OVERVIEW_URL);
                         listener.onSuccess(url);
                     } catch (MalformedURLException e) {
+                        Log.e(getClass()+"","Error in Language pack test setup service discovery interface callback");
                     }
                 } else {
                     listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");
@@ -147,6 +149,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             mLanguagePackInterface.refresh(listener);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Error in refresh");
         }
     }
 
@@ -196,6 +199,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(mLanguagePackManager, listener, result);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Error in Post refresh success");
         }
     }
 
@@ -219,6 +223,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(mLanguagePackManager, listener, result, "errorMessage");
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Error in Post refresh error");
         }
     }
 
@@ -239,6 +244,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             };
             method.invoke(mLanguagePackInterface, listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Error in test active");
         }
     }
 
@@ -258,6 +264,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             JSONObject jobj = new JSONObject(getOverviewJSON());
             method.invoke(mLanguagePackManager, jobj, listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | JSONException e) {
+            Log.e(getClass()+"","Error in Process forLanguage pack");
         }
     }
 
@@ -290,6 +297,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(mLanguagePackManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Error in preferred locale");
         }
     }
 
@@ -328,7 +336,9 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(languagePackUtil, list.getLanguages().get(0));
             languagePackUtil.saveLocaleMetaData(list.getLanguages().get(0));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Illegalaccess or Nosuch method orInvocationTarget Error in Language pack test save locale meta data");
         } catch (Exception exception) {
+            Log.e(getClass()+"","Error in Language pack test save locale meta data");
         }
     }
 
@@ -338,6 +348,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(languagePackUtil);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            Log.e(getClass()+"","Error in Rename on acivate");
         }
     }
 
