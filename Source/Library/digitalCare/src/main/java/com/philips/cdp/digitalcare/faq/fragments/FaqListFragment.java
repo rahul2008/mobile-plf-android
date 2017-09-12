@@ -111,8 +111,8 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                     @Override
                     public void bindData(RecyclerView.ViewHolder holder, Item question) {
                         Label title = (Label) holder.itemView.findViewById(R.id.icon_button_text1);
-                        ImageView readMore = (ImageView) holder.itemView.findViewById(R.id.icon_button_icon1);
-                        readMore.setImageResource(R.drawable.consumercare_list_right_arrow);
+                        TextView readMore = (TextView) holder.itemView.findViewById(R.id.icon_button_icon1);
+                        //readMore.setImageResource(R.drawable.consumercare_list_right_arrow);
                         title.setText(question.getHead());
                         holder.itemView.setOnClickListener(fragment);
                         holder.itemView.setTag(question.getAsset());
