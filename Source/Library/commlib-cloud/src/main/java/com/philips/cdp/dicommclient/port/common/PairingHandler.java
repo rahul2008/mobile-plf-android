@@ -176,8 +176,6 @@ public class PairingHandler<T extends Appliance> {
                 mAppliance.getNetworkNode().setPairedState(PAIRED);
                 mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
-                // TODO: Store the Appliance in the database
-
                 notifyListenerSuccess();
             }
         } else {

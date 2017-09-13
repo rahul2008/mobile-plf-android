@@ -14,6 +14,7 @@ Version {next}
 
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
+* CommLib - Running the pairing process (through `PairingHandler`) no longer automatically stores the appliance to the database upon successful completion. Use `ApplianceManager.storeAppliance()` method manually as alternative.
 
 ### Features not covered
 * To be filled in at release

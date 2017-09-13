@@ -76,8 +76,6 @@ public class PairingFragment extends Fragment {
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                applianceManager.storeAppliance(appliance);
-
                 Activity activity = getActivity();
                 if (activity != null) {
                     showMessage(getActivity(), rootview, getString(cml_paired_success));
@@ -110,8 +108,6 @@ public class PairingFragment extends Fragment {
             @Override
             public void onPairingSuccess(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
-
-                applianceManager.storeAppliance(appliance);
 
                 Activity activity = getActivity();
                 if (activity != null) {
