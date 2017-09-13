@@ -73,16 +73,16 @@ public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.
                 " IntroductionScreen Activity Created ");
         View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
 
-        pager = (ViewPager) view.findViewById(R.id.welcome_pager);
+        pager = (ViewPager) view.findViewById(R.id.ufw_welcome_pager);
         pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
-        leftArrow = (FontIconView) view.findViewById(R.id.welcome_leftarrow);
-        rightArrow = (FontIconView) view.findViewById(R.id.welcome_rightarrow);
-        doneButton = (TextView) view.findViewById(R.id.welcome_start_registration_button);
-        skipButton = (TextView) view.findViewById(R.id.welcome_skip_button);
+        leftArrow = (FontIconView) view.findViewById(R.id.ufw_welcome_leftarrow);
+        rightArrow = (FontIconView) view.findViewById(R.id.ufw_welcome_rightarrow);
+        doneButton = (TextView) view.findViewById(R.id.ufw_welcome_start_registration_button);
+        skipButton = (TextView) view.findViewById(R.id.ufw_welcome_skip_button);
         doneButton.setOnClickListener(this);
         skipButton.setOnClickListener(this);
 
-        indicator = (CircleIndicator) view.findViewById(R.id.welcome_indicator);
+        indicator = (CircleIndicator) view.findViewById(R.id.ufw_welcome_indicator);
         indicator.setViewPager(pager);
         indicator.setFillColor(Color.WHITE);
         indicator.setStrokeColor(Color.WHITE);
