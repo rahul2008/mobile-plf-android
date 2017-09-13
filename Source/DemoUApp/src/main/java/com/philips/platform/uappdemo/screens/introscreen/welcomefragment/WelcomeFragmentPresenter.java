@@ -55,9 +55,9 @@ public class WelcomeFragmentPresenter extends UappBasePresenter {
     // TODO: Deepthi, revisit this switch - (As discussed we need to have this to convert from int ID to string for json)
     protected String getEventState(final int componentID) {
 
-        if (componentID == R.id.welcome_skip_button) {
+        if (componentID == R.id.ufw_welcome_skip_button) {
             return WELCOME_SKIP;
-        } else if (componentID == R.id.welcome_start_registration_button) {
+        } else if (componentID == R.id.ufw_welcome_start_registration_button) {
             return WELCOME_DONE;
         } else if (componentID == MENU_OPTION_HOME) {
             return WELCOME_HOME;

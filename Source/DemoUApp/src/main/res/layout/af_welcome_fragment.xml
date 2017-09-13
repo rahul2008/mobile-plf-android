@@ -5,14 +5,14 @@
                 android:layout_height="match_parent"
     >
     <android.support.v4.view.ViewPager
-        android:id="@+id/welcome_pager"
+        android:id="@+id/ufw_welcome_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
 
     <LinearLayout
-        android:id="@+id/welcome_skip_button_layout"
+        android:id="@+id/ufw_welcome_skip_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,7 +24,7 @@
         >
 
         <TextView
-            android:id="@+id/welcome_skip_button"
+            android:id="@+id/ufw_welcome_skip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -35,7 +35,7 @@
             />
 
         <TextView
-            android:id="@+id/welcome_placeholder_button"
+            android:id="@+id/ufw_welcome_placeholder_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -46,24 +46,24 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/welcome_indicator_layout"
+        android:id="@+id/ufw_welcome_indicator_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/welcome_skip_button_layout"
+        android:layout_above="@id/ufw_welcome_skip_button_layout"
         android:layout_centerInParent="true"
         android:layout_marginEnd="@dimen/intro_margin_right"
         android:layout_marginStart="@dimen/intro_margin_left"
         >
 
         <com.shamanland.fonticon.FontIconView
-            android:id="@+id/welcome_leftarrow"
+            android:id="@+id/ufw_welcome_leftarrow"
             android:layout_alignParentStart="true"
             android:text="@string/uikit_fonticon_arrow_left"
             style="@style/FontIcon.WelcomeArrow"
             />
 
         <com.philips.cdp.uikit.customviews.CircleIndicator
-            android:id="@+id/welcome_indicator"
+            android:id="@+id/ufw_welcome_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -71,14 +71,14 @@
             />
 
         <com.shamanland.fonticon.FontIconView
-            android:id="@+id/welcome_rightarrow"
+            android:id="@+id/ufw_welcome_rightarrow"
             android:layout_alignParentEnd="true"
             android:text="@string/uikit_fonticon_arrow_right"
             style="@style/FontIcon.WelcomeArrow"
             />
 
         <TextView
-            android:id="@+id/welcome_start_registration_button"
+            android:id="@+id/ufw_welcome_start_registration_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
