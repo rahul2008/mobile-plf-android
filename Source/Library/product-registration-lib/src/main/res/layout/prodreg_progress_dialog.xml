@@ -37,7 +37,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
-            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:textSize="20sp"/>
     </RelativeLayout>
 

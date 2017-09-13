@@ -442,10 +442,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 prg_product_title.setVisibility(View.GONE);
             }
             minDate = summaryData.getSop();
+            int width = getResources().getDisplayMetrics().widthPixels;
+            productImageView.getLayoutParams().height = (int) ((width));
+
             imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(productImageView,
                     R.drawable.product_placeholder, R.drawable.product_placeholder));
             imageLoader.get(summaryData.getImageURL(),ImageLoader.getImageListener(success_background_image,
                     R.drawable.product_placeholder, R.drawable.product_placeholder));
+            productImageView.requestLayout();
             field_serial.addTextChangedListener(getWatcher());
         }
     }
