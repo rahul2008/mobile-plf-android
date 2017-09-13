@@ -52,7 +52,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_NoActionBar;
     // private DemoApplication mApplicationContext;
 
     private LinearLayout mAddCTNLl;

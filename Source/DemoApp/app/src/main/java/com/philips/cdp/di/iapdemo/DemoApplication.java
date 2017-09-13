@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
@@ -20,7 +19,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -39,7 +37,7 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         super.onCreate();
 
         UIDHelper.injectCalligraphyFonts();
-        getTheme().applyStyle(R.style.Theme_DLS_Blue_UltraLight, true);
+        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         registerActivityLifecycleCallbacks(this);
         LeakCanary.install(this);
