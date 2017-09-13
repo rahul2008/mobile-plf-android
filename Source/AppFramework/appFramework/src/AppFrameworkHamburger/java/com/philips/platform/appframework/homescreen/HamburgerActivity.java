@@ -414,7 +414,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
     @Override
-    public void onSuccess(Boolean isCartVisible) {
+    public void onSuccess(boolean isCartVisible) {
 
     }
 
