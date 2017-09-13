@@ -6,6 +6,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'maven'
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+   
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -25,7 +27,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -54,25 +56,25 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar') 
+	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':uit') : uitModule) 
 	{
 		transitive = true
 	}
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.7.0' + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
 	compile(dp ? project(':ufw') : ufwModule) 
 	{
 		transitive = true
 	}
 	
-	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':prx') : prxModule) 	
 	{
 		transitive = true
 	}
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':uid') : uidModule) 
 	{
 		transitive = true
@@ -107,7 +109,7 @@ allprojects {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(versions.pse_productselection)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
