@@ -85,7 +85,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         mPresenter = new THSInsuranceDetailPresenter(this);
         mAlertDialog = new AlertDialog.Builder(getActivity());
 
-        View convertView = (View) inflater.inflate(R.layout.ths_list, null);
+        View convertView = inflater.inflate(R.layout.ths_list, null);
         Bundle bundle = getArguments();
         if (null != bundle) {
             isLaunchedFromCostSummary = bundle.getBoolean(IS_LAUNCHED_FROM_COST_SUMMARY);
@@ -139,8 +139,8 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        mTHSHealthPlanList = ((THSInsuranceDetailPresenter) mPresenter).fetchHealthPlanList();
-        mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
+        mTHSHealthPlanList = mPresenter.fetchHealthPlanList();
+        mTHSRelationshipList = mPresenter.fetchSubscriberRelationList();
         mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
         mTHSSubscriberRelationshipListAdapter = new THSSubscriberRelationshipListAdapter(getActivity(), mTHSRelationshipList);
         showProgressbar();

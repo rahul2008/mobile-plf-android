@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
-import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -40,7 +37,6 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        THSMicroAppLaunchInput THSMicroAppLaunchInput = (THSMicroAppLaunchInput) uappLaunchInput;
         THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
@@ -50,17 +46,6 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
             THSBaseFragment thsBaseFragment;
-            try {
-                if(THSManager.getInstance().isSDKInitialized(context)) {
-                    thsBaseFragment = new THSWelcomeFragment();
-                    lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
-                    return;
-                }
-            } catch (AWSDKInstantiationException e) {
-
-            }catch (IllegalArgumentException e){
-
-            }
             thsBaseFragment = new THSInitFragment();
             lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
         }
@@ -71,10 +56,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         thsBaseFragment.setArguments(bundle);
         thsBaseFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
         thsBaseFragment.setFragmentLauncher(fragmentLauncher);
-        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), thsBaseFragment, THSInitFragment.TAG);
-        if(thsBaseFragment instanceof THSWelcomeFragment) {
-            fragmentTransaction.addToBackStack(THSWelcomeFragment.TAG);
-        }
-        fragmentTransaction.commitAllowingStateLoss();
+        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), thsBaseFragment, THSInitFragment.TAG).
+                addToBackStack(THSInitFragment.TAG).commitAllowingStateLoss();
     }
 }

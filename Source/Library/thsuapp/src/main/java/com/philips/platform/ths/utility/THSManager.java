@@ -1240,8 +1240,8 @@ public class THSManager {
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
                 URConfigurationConstants.UR, configError));
-        if(propertyForKey instanceof Map){
-            HashMap map = (HashMap) propertyForKey;
+        if(propertyForKey instanceof Map<?,?>){
+            HashMap<?,?> map = (HashMap<?,?>) propertyForKey;
             if (map.get("default") != null) {
                 return map.get("default").toString();
             }else {

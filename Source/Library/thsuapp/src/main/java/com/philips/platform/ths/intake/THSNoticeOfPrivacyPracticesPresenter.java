@@ -65,8 +65,9 @@ class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNotic
         }
     }
 
+    @SuppressWarnings("deprecation")
     private Spanned getSpannedText() {
-        if (Build.VERSION.SDK_INT >= 24) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
            return Html.fromHtml(mStringBuilder.toString(), FROM_HTML_MODE_LEGACY); // for 24 api and more
         } else {
             return Html.fromHtml(mStringBuilder.toString());

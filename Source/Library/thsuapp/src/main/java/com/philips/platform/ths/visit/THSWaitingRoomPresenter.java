@@ -32,7 +32,6 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
-import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
@@ -71,7 +70,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                                 getPracticeProvidersManager().
                                 newImageLoader(providerInfo,
                                         mTHSWaitingRoomFragment.mProviderImageView, ProviderImageSize.SMALL).placeholder
-                                (mTHSWaitingRoomFragment.mProviderImageView.getResources().getDrawable(R.drawable.doctor_placeholder)).
+                                (mTHSWaitingRoomFragment.mProviderImageView.getResources().getDrawable(R.drawable.doctor_placeholder,mTHSWaitingRoomFragment.getActivity().getTheme())).
                                 build().load();
                     } catch (AWSDKInstantiationException e) {
                         e.printStackTrace();
