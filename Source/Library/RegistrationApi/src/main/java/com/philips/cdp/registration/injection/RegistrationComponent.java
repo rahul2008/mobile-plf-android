@@ -115,4 +115,6 @@ public interface RegistrationComponent {
     void inject(MergeAccountPresenter mergeAccountPresenter);
 
     void inject(MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter);
+
+    void inject(HomePresenter homePresenter);
 }

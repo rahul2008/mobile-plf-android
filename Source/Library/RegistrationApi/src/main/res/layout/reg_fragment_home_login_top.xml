@@ -54,7 +54,7 @@
 
             <LinearLayout
                 android:id="@+id/usr_startScreen_Social_Container"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -65,6 +65,7 @@
                 style="@style/UIDLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="Or"
                 android:textSize="@dimen/reg_text_size_12"
                 />
@@ -82,13 +83,14 @@
                 android:layout_height="wrap_content"
                 android:text="Create my Philips account"
                 app:uidComponentType="Secondary"/>
-                />
+            />
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_StartScreen_Skip_Button"
                 style="@style/UIDExtraWideIconQuietButton.Center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/reg_margin_24"
                 android:text="Continue without account"
                 />
