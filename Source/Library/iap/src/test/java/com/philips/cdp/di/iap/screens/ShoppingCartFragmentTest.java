@@ -2,38 +2,27 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.activity.IAPActivity;
-import com.philips.cdp.di.iap.utils.DemoTestActivity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startVisibleFragment;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class ShoppingCartFragmentTest {
     private Context mContext;
     ShoppingCartFragment shoppingCartFragment;
-    private DemoTestActivity mActivity;
 
     @Before
     public void setUp() {
