@@ -65,7 +65,7 @@ public class HybrisHandlerTest {
             }
 
             @Override
-            public void onSuccess(Object bool) {
+            public void onSuccess(boolean bool) {
 
             }
 

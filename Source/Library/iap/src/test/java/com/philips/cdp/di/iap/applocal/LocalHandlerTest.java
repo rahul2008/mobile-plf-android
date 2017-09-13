@@ -50,7 +50,7 @@ public class LocalHandlerTest {
         }
 
         @Override
-        public void onSuccess(Object bool) {
+        public void onSuccess(boolean bool) {
 
         }
 

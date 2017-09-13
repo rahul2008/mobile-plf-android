@@ -33,7 +33,7 @@ public class MockIAPListener implements IAPListener {
     }
 
     @Override
-    public void onSuccess(Object bool) {
+    public void onSuccess(boolean bool) {
 
     }
 

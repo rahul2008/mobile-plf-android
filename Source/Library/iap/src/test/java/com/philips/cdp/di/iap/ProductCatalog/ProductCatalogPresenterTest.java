@@ -268,8 +268,8 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     @Override
-    public void onSuccess(Object bool) {
-        
+    public void onSuccess(boolean bool) {
+
     }
 
     @Override
