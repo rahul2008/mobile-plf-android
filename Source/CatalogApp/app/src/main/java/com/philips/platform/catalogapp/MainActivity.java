@@ -20,6 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,6 +100,12 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sidebarController = new SidebarController(this, activityMainBinding);
+        lockSidebar();
+    }
+
+    private void lockSidebar(){
+        sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
     }
 
     public SidebarController getSideBarController(){
@@ -263,6 +270,7 @@ public class MainActivity extends UIDActivity {
             super.onBackPressed();
         }
         navigationController.processBackButton();
+        lockSidebar();
     }
 
     public NavigationController getNavigationController() {

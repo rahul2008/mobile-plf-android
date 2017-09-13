@@ -10,21 +10,15 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
-import com.philips.platform.catalogapp.fragments.SideBarFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.SideBar;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.philips.platform.catalogapp.MainActivity.FRAGMENTS_LIST;
 
 public class NavigationController {
@@ -65,14 +59,8 @@ public class NavigationController {
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
-            lockSidebar();
             storeFragmentInPreference(null);
         }
-    }
-
-    private void lockSidebar(){
-        mainActivity.getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        mainActivity.getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
     }
 
     private void clearLastFragmentOnFreshLaunch(Intent intent) {
