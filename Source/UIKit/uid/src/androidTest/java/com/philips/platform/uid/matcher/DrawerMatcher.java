@@ -6,9 +6,6 @@ package com.philips.platform.uid.matcher;
 
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-
-import com.philips.platform.uid.utils.UIDUtils;
-
 import org.hamcrest.Matcher;
 
 public class DrawerMatcher {
@@ -84,18 +81,4 @@ public class DrawerMatcher {
             }
         };
     }
-
-    /*public static Matcher<? super View> isSameDrawerScrimColor(final int color) {
-        return new BaseTypeSafteyMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(final View view) {
-                if (view instanceof DrawerLayout) {
-                    DrawerLayout drawerLayout = (DrawerLayout) view;
-                    setValues(drawerLayout.getRootView().getDrawingCacheBackgroundColor(), color);
-                    return areEqual();
-                }
-                return false;
-            }
-        };
-    }*/
 }
