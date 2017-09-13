@@ -35,7 +35,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     protected THSBaseFragment thsBaseView;
     protected THSProviderInfo mThsProviderInfo;
     protected THSVisitContext THSVisitContext;
-    private THSFileUtils fileUtils;
+    protected THSFileUtils fileUtils;
     private UploadAttachment uploadAttachment;
 
 
@@ -54,7 +54,8 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     public void uploadDocuments(final Uri uri) {
 
         try {
-            uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(), THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
+            uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(),
+                    THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
             THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
