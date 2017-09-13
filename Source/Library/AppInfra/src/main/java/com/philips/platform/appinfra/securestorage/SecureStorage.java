@@ -69,10 +69,8 @@ public class SecureStorage implements SecureStorageInterface {
         boolean returnResult;
         try {
             writeLock.lock();
-            long startTime = System.currentTimeMillis();
             if (null == userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null == valueToBeEncrypted) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                postLog(startTime, " duration for executing storeValueForKey ");
                 return false;
             }
             userKey = secureStorageHelper.getDecodedString(userKey);
@@ -102,7 +100,6 @@ public class SecureStorage implements SecureStorageInterface {
                 //Log.e("SecureStorage", Log.getStackTraceString(e));
             }
 
-            postLog(startTime, " duration for executing storeValueForKey ");
         } finally {
             writeLock.unlock();
         }
@@ -110,21 +107,13 @@ public class SecureStorage implements SecureStorageInterface {
 
     }
 
-    private void postLog(long startTime, String message) {
-        long endTime = System.currentTimeMillis();
-        long methodDuration = (endTime - startTime);
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, getClass() + "" + message + methodDuration);
-    }
-
     @Override
     public String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         String decryptedString;
         try {
             readLock.lock();
-            long startTime = System.currentTimeMillis();
             if (null == userKey || userKey.isEmpty()) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                postLog(startTime, " duration for executing fetchValueForKey ");
                 return null;
             }
             userKey = secureStorageHelper.getDecodedString(userKey);
@@ -132,7 +121,6 @@ public class SecureStorage implements SecureStorageInterface {
             final String encryptedAESString = secureStorageHelper.fetchEncryptedData(userKey, secureStorageError, KEY_FILE_NAME);
             if (null == encryptedString || null == encryptedAESString) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                postLog(startTime, " duration for executing fetchValueForKey ");
                 return null; // if user entered key is not present
             }
             try {
@@ -143,7 +131,6 @@ public class SecureStorage implements SecureStorageInterface {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
                 decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
             }
-            postLog(startTime, " duration for executing fetchValueForKey ");
         } finally {
             readLock.unlock();
         }
