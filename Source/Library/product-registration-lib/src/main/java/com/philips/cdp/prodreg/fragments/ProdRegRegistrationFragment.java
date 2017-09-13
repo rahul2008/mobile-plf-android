@@ -383,15 +383,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return true;
     }
 
-//    @Override
-//    public DialogOkButtonListener getDialogOkButtonListener() {
-//        return new DialogOkButtonListener() {
-//            @Override
-//            public void onOkButtonPressed() {
-//                dismissAlertOnError();
-//            }
-//        };
-//    }
+
 
     @Override
     public void exitProductRegistration() {
