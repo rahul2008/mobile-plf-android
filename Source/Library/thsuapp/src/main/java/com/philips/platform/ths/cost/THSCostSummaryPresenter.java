@@ -50,7 +50,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mTHSCostSummaryFragment.thsVisit.getVisit());
             mTHSCostSummaryFragment.addFragment(thsWaitingRoomFragment, THSWaitingRoomFragment.TAG, bundle);
 
-        } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout) {
+        } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout || componentID == R.id.ths_cost_summary_add_payment_method_button) {
             final THSCreditCardDetailFragment fragment = new THSCreditCardDetailFragment();
             fragment.setFragmentLauncher(mTHSCostSummaryFragment.getFragmentLauncher());
             mTHSCostSummaryFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, null);

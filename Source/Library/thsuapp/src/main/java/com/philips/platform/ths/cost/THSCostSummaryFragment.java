@@ -76,7 +76,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mPresenter = new THSCostSummaryPresenter(this);
 
 
-
         costBigLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_big_label);
         costSmallLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_small_label);
         mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_cost_summary_relativelayout);
@@ -111,9 +110,9 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mCouponCodeEdittext = (EditText) view.findViewById(R.id.ths_cost_summary_promotion_code_edittext);
         mCouponCodeButton = (Button) view.findViewById(R.id.ths_cost_summary_promotion_code_apply_button);
         mCouponCodeButton.setOnClickListener(this);
-        mInitialVisitCostLabel = (Label)view.findViewById(R.id.ths_cost_summary_initial_visit_cost_label);
-        mActualCostHeader= (Label) view.findViewById(R.id.ths_cost_summary_title_label);
-        mPaymentNotRequired=(Label) view.findViewById(R.id.ths_cost_summary_no_payment_detail_required_label);
+        mInitialVisitCostLabel = (Label) view.findViewById(R.id.ths_cost_summary_initial_visit_cost_label);
+        mActualCostHeader = (Label) view.findViewById(R.id.ths_cost_summary_title_label);
+        mPaymentNotRequired = (Label) view.findViewById(R.id.ths_cost_summary_no_payment_detail_required_label);
 
         return view;
     }
@@ -141,7 +140,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onStart() {
         super.onStart();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY,null,null);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY, null, null);
         mPresenter.getPaymentMethod();
         mPresenter.fetchExistingSubscription();
 
@@ -154,23 +153,12 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ths_cost_summary_continue_button) {
-            mPresenter.onEvent(R.id.ths_cost_summary_continue_button);
-        } else if (v.getId() == R.id.ths_cost_summary_insurance_detail_framelayout) {
-            mPresenter.onEvent(R.id.ths_cost_summary_insurance_detail_framelayout);
-        } else if (v.getId() == R.id.ths_cost_summary_payment_detail_framelayout || v.getId() == R.id.ths_cost_summary_add_payment_method_button) {
-            mPresenter.onEvent(R.id.ths_cost_summary_payment_detail_framelayout);
-        }else if (v.getId() == R.id.uid_dialog_positive_button) {
-            mPresenter.onEvent(R.id.uid_dialog_positive_button);
-        } else if (v.getId() == R.id.ths_cost_summary_promotion_code_apply_button) {
-            mPresenter.onEvent(R.id.ths_cost_summary_promotion_code_apply_button );
-        }
-
+        mPresenter.onEvent(v.getId());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        thsVisit=null;
+        thsVisit = null;
     }
 }
