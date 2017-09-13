@@ -184,6 +184,7 @@
     <dimen name="reg_text_size_12">12sp</dimen>
     <dimen name="reg_text_size_20">20sp</dimen>
     <dimen name="reg_text_size_16">16sp</dimen>
+    <dimen name="reg_dimen_8dp">8dp</dimen>
 
 
     <integer name="reg_et_verifycode_max_length">1</integer>

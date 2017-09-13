@@ -12,12 +12,13 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
 import android.support.annotation.*;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
+import android.support.v4.content.ContextCompat;
+import android.text.*;
+import android.text.method.LinkMovementMethod;
+import android.text.style.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
-import android.widget.ProgressBar;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.janrain.android.Jump;
@@ -271,6 +272,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void underlineResetPassword() {
         SpannableString content = new SpannableString(resetPasswordLabel.getText());
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        resetPasswordLabel.setMovementMethod(LinkMovementMethod.getInstance());
+        resetPasswordLabel.setLinkTextColor(ContextCompat.getColor(getContext(),
+                R.color.reg_hyperlink_highlight_color));
+        resetPasswordLabel.setHighlightColor(ContextCompat.getColor(getContext(),
+                android.R.color.transparent));
         resetPasswordLabel.setText(content);
         resetPasswordLabel.setOnClickListener(view -> {
             if(registrationSettingsURL.isMobileFlow()) {
@@ -297,7 +303,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private Observable<Boolean> getPasswordObservable() {
         return RxTextView.textChanges(passwordValidationEditText)
-                .map(password -> password.length() >= 8);
+                .map(password -> password.length() > 0);
     }
 
     @Override
