@@ -6,7 +6,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -101,7 +102,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -199,7 +200,7 @@ android {
         disable 'InvalidPackage'
         disable 'GradleCompatible'
         disable 'MissingTranslation'
-        disable 'TypographyFractions','TypographyQuotes'
+        disable 'TypographyFractions', 'TypographyQuotes'
         absolutePaths false
         lintConfig file('lint.xml')
 
@@ -216,6 +217,11 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -243,7 +249,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
-
 
 /*task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
@@ -279,7 +284,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 }*/
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
 
 

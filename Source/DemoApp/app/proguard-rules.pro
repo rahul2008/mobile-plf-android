@@ -149,3 +149,5 @@
 -keep  class com.janrain.android.Jump$* {*;}
 -keep class com.philips.cdp.registration.User$*{*;}
 -keep  class com.janrain.android.capture.Capture$* {*;}
+
+#EventBus(Registration)
