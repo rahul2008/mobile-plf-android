@@ -253,6 +253,14 @@ public class NetworkNode implements Parcelable {
             setName(networkNode.getName());
         }
 
+        if (!Objects.equals(networkNode.getModelId(), this.modelId)) {
+            setModelId(networkNode.getModelId());
+        }
+
+        if (!Objects.equals(networkNode.getDeviceType(), this.deviceType)) {
+            setDeviceType(networkNode.getDeviceType());
+        }
+
         if (networkNode.getBootId() != this.bootId) {
             setEncryptionKey(null);
             setBootId(networkNode.getBootId());

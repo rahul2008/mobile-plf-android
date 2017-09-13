@@ -23,9 +23,11 @@ import java.beans.PropertyChangeListener;
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.PAIRED;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_HOME_SSID;
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
+import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -156,6 +158,30 @@ public class NetworkNodeTest extends RobolectricTest {
         originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
 
         verifyPropertyChangeCalled(KEY_DEVICE_NAME, "My awesome appliance");
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithOtherModelId_ThenModelIdShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createNetworkNode();
+        NetworkNode networkNodeForUpdate = createNetworkNode();
+        networkNodeForUpdate.setModelId("My awesome modelId");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_MODEL_ID, "My awesome modelId");
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithOtherDeviceType_ThenDeviceTypeShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createNetworkNode();
+        NetworkNode networkNodeForUpdate = createNetworkNode();
+        networkNodeForUpdate.setDeviceType("My awesome deviceType");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_DEVICE_TYPE, "My awesome deviceType");
     }
 
     @Test
