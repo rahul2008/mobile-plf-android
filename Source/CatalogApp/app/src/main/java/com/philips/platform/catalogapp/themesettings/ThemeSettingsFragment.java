@@ -110,8 +110,8 @@ public class ThemeSettingsFragment extends BaseFragment {
             }
         });
 
-        ((MainActivity)getActivity()).getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        ((MainActivity)getActivity()).getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        ((MainActivity)getActivity()).getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        ((MainActivity)getActivity()).getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
         return view;
     }

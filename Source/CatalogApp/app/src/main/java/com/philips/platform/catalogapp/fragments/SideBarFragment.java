@@ -43,8 +43,8 @@ public class SideBarFragment extends BaseFragment {
         fragmentSideBarBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_side_bar, container, false);
         fragmentSideBarBinding.setFrag(this);
 
-        ((MainActivity)getActivity()).getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
-        ((MainActivity)getActivity()).getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+        ((MainActivity)getActivity()).getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
+        ((MainActivity)getActivity()).getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
 
         return fragmentSideBarBinding.getRoot();
     }
@@ -53,18 +53,18 @@ public class SideBarFragment extends BaseFragment {
 
         if(fragmentSideBarBinding.radiobuttonLeft.isChecked()){
             if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
-                ((MainActivity)getActivity()).showContentThemedLeftComponents();
+                ((MainActivity)getActivity()).getSideBarController().showContentThemedLeftComponents();
             } else if(fragmentSideBarBinding.radiobuttonMapNavigation.isChecked()){
-                ((MainActivity)getActivity()).showNavigationThemedLeftComponents();
+                ((MainActivity)getActivity()).getSideBarController().showNavigationThemedLeftComponents();
             }
-            ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.START);
+            ((MainActivity)getActivity()).getSideBarController().getSideBar().openDrawer(GravityCompat.START);
         } else if(fragmentSideBarBinding.radiobuttonRight.isChecked()){
             if(fragmentSideBarBinding.radiobuttonMapContent.isChecked()){
-                ((MainActivity)getActivity()).showContentThemedRightComponents();
+                ((MainActivity)getActivity()).getSideBarController().showContentThemedRightComponents();
             } else if(fragmentSideBarBinding.radiobuttonMapNavigation.isChecked()){
-                ((MainActivity)getActivity()).showNavigationThemedRightComponents();
+                ((MainActivity)getActivity()).getSideBarController().showNavigationThemedRightComponents();
             }
-            ((MainActivity)getActivity()).getSideBar().openDrawer(GravityCompat.END);
+            ((MainActivity)getActivity()).getSideBarController().getSideBar().openDrawer(GravityCompat.END);
         }
     }
 
