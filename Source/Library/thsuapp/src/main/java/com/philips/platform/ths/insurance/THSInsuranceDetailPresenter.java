@@ -117,7 +117,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                 String missingFields="";
                 Iterator<Map.Entry<String, ValidationReason>> it = errors.entrySet().iterator();
                 while (it.hasNext()) {
-                    Map.Entry<String, ValidationReason> pair = (Map.Entry)it.next();
+                    Map.Entry pair = (Map.Entry)it.next();
                     String[] array = pair.getKey().toString().split("\\.");
                     missingFields = missingFields + array[array.length-1]+ "     ";
                     it.remove(); // avoids a ConcurrentModificationException
