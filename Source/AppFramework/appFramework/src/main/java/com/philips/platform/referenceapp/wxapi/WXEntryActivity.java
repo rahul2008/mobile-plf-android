@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -72,7 +70,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                 weChatCode = sendResp.code;
             } catch (Exception e) {
-                RLog.e(TAG, Arrays.toString(e.getStackTrace()));
+                RALog.e(TAG, Arrays.toString(e.getStackTrace()));
                 RALog.e(TAG,"error in  response received ");
             }
         }

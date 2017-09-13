@@ -36,9 +36,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by philips on 06/09/17.
- */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class UserRegistrationSettingsStateTest {
@@ -101,6 +98,5 @@ public class UserRegistrationSettingsStateTest {
             fragmentLauncher = (FragmentLauncher) uiLauncher;
         }
     }
-
 
 }
