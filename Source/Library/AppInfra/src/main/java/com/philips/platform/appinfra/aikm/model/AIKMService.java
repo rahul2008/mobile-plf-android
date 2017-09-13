@@ -45,10 +45,10 @@ public class AIKMService extends ServiceDiscoveryService {
     public enum AIKMapError {
 
         INVALID_INDEX_URL("Invalid index url found from service discovery"),
-        BEYOND_BOUND_ERROR("Beyond bounds exception"),
+        INDEX_NOT_FOUND("Index not found exception"),
         INVALID_JSON("AIKMap.json is an invalid JSON"),
         NO_SERVICE_FOUND("No Service Found From ServiceDiscovery"),
-        EMPTY_ARGUMENT_URL("Empty URL argument"),
+        NO_URL_FOUND("No URL found"),
         CONVERT_ERROR("Error while converting the value");
 
         private final String description;

@@ -12,6 +12,15 @@ import java.util.Map;
 
 public interface AIKMInterface {
 
+    /**
+     * API to fetch value of url and tokens for the provided service id's
+     * @param serviceIds - pass service_id to fetch url and tokens
+     * @param aisdPreference - pass country or language preference
+     * @param replacement - pass query parameters if required as map
+     * @param onGetServicesListener - call back listener to callee
+     * @throws AIKMJsonFileNotFoundException - Exception is thrown when AIKMap.json is not found in assets
+     * @throws JSONException - Exception is thrown when Json structure in invalid
+     */
     void getValueForServiceIds(ArrayList<String> serviceIds, AISDResponse.AISDPreference aisdPreference,
                                Map<String, String> replacement,
                                OnGetServicesListener onGetServicesListener) throws AIKMJsonFileNotFoundException, JSONException;

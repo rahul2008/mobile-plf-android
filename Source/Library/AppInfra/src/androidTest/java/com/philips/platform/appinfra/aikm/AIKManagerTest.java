@@ -77,7 +77,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         ArrayList<String> serviceIds = new ArrayList<>();
         OnGetServicesListener onGetServicesListenerMock = mock(OnGetServicesListener.class);
 
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = aikManager.fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetServicesListenerMock);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = aikManager.getSDUrlsListener(serviceIds, aiKmServices, AISDResponse.AISDPreference.AISDLanguagePreference, onGetServicesListenerMock);
         serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
         verify(onGetServicesListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "error in security");
     }
@@ -86,7 +86,7 @@ public class AIKManagerTest extends AppInfraInstrumentation {
         OnGetServicesListener onGetServicesListenerMock = mock(OnGetServicesListener.class);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
         TreeMap<String, ServiceDiscoveryService> urlMap = getStringServiceDiscoveryServiceTreeMap();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = aikManager.fetchGettingGroomUrlsListener(onGetServicesListenerMock, aiKmServices, urlMap);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = aikManager.getKMappedGroomListener(onGetServicesListenerMock, aiKmServices, urlMap);
         onGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
         verify(onGetServicesListenerMock).onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SECURITY_ERROR, "security error");
         onGetServiceUrlMapListener.onSuccess(urlMap);

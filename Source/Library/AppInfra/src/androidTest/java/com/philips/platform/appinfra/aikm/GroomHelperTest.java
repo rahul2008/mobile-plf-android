@@ -90,6 +90,25 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         assertNull(groomHelper.getGroomIndex(null));
     }
 
+    public void testGettingIndexWithSplit() {
+        String indexData = "https://philips.com/0";
+        URL url;
+        try {
+            url = new URL(indexData);
+            assertEquals(groomHelper.getGroomIndexWithSplit(url.toString()), "0");
+        } catch (MalformedURLException e) {
+            Log.e("error "," while fetching url");
+        }
+
+        indexData = "https://philips.com/22";
+        assertEquals(groomHelper.getGroomIndexWithSplit(indexData), "22");
+        indexData = "https://philips.com/";
+        assertNull(groomHelper.getGroomIndexWithSplit(indexData));
+        indexData = "";
+        assertNull(groomHelper.getGroomIndexWithSplit(indexData));
+        assertNull(groomHelper.getGroomIndexWithSplit(null));
+    }
+
     public void testGettingMd5ValueInHex() throws NoSuchAlgorithmException {
         assertNull(groomHelper.getAilGroomInHex(null));
         assertNotNull(groomHelper.getAilGroomInHex("testing"));

@@ -41,7 +41,7 @@ public class AIKManager implements AIKMInterface {
 
         getGroomHelper().init(appInfra);
         final ArrayList<AIKMService> aiKmServices = new ArrayList<>();
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = fetchGettingServiceDiscoveryUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener = getSDUrlsListener(serviceIds, aiKmServices, aiSdPreference, onGetServicesListener);
         getServiceDiscoveryUrlMap(serviceIds, aiSdPreference, replacement, serviceUrlMapListener);
     }
 
@@ -51,7 +51,7 @@ public class AIKManager implements AIKMInterface {
     }
 
     @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingGroomUrlsListener(final OnGetServicesListener onGetServicesListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener getKMappedGroomListener(final OnGetServicesListener onGetServicesListener, final List<AIKMService> aikmServices, final Map<String, ServiceDiscoveryService> serviceDiscoveryUrlMap) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
@@ -67,13 +67,13 @@ public class AIKManager implements AIKMInterface {
     }
 
     @NonNull
-    ServiceDiscoveryInterface.OnGetServiceUrlMapListener fetchGettingServiceDiscoveryUrlsListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
-                                                                                                  final AISDResponse.AISDPreference aiSdPreference,
-                                                                                                  final OnGetServicesListener onGetServicesListener) {
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener getSDUrlsListener(final List<String> serviceIds, final List<AIKMService> aiKmServices,
+                                                                           final AISDResponse.AISDPreference aiSdPreference,
+                                                                           final OnGetServicesListener onGetServicesListener) {
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = fetchGettingGroomUrlsListener(onGetServicesListener, aiKmServices, urlMap);
+                ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = getKMappedGroomListener(onGetServicesListener, aiKmServices, urlMap);
                 ArrayList<String> appendedServiceIds = groomHelper.getAppendedGrooms(serviceIds);
                 getServiceDiscoveryUrlMap(appendedServiceIds, aiSdPreference, null, onGetServiceUrlMapListener);
             }

@@ -108,12 +108,25 @@ public class GroomHelper {
         return new String(data);
     }
 
+    // TODO: Deepthi please change the strings and revisit the logic 
+//           Will consider above TODO in 17.5
     String getGroomIndex(String value) {
         String data = "https://philips.com/";
         if (!TextUtils.isEmpty(value)) {
             StringTokenizer st = new StringTokenizer(value, data);
             if (st.hasMoreTokens())
                 return st.nextToken();
+        }
+        return null;
+    }
+
+    //TODO - will be introduced in 17.5
+    String getGroomIndexWithSplit(String value) {
+        String data = "https://philips.com/";
+        if (!TextUtils.isEmpty(value)) {
+            String[] grooms = value.split(data);
+            if (grooms.length > 1)
+                return grooms[1];
         }
         return null;
     }
@@ -151,7 +164,7 @@ public class GroomHelper {
             String groomIndex = getGroomIndex(configUrls);
             mapAndValidateGroom(aikmService, key, groomIndex);
         } else {
-            aikmService.setAIKMapError(AIKMService.AIKMapError.EMPTY_ARGUMENT_URL);
+            aikmService.setAIKMapError(AIKMService.AIKMapError.NO_URL_FOUND);
         }
     }
 
@@ -172,7 +185,7 @@ public class GroomHelper {
                     try {
                         jsonObject = (JSONObject) jsonArray.get(index);
                     } catch (JSONException e) {
-                        aikmService.setAIKMapError(AIKMService.AIKMapError.BEYOND_BOUND_ERROR);
+                        aikmService.setAIKMapError(AIKMService.AIKMapError.INDEX_NOT_FOUND);
                         return;
                     }
                     Map map = mapData(jsonObject, index, serviceId);
