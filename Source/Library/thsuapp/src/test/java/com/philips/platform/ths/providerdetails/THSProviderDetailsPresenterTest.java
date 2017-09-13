@@ -11,6 +11,9 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
@@ -25,6 +28,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
@@ -79,11 +83,23 @@ public class THSProviderDetailsPresenterTest {
     @Mock
     THSConsumer thsConsumer;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager = THSManager.getInstance();
         THSManager.setAwsdk(awsdkMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
+
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsPresenter = new THSProviderDetailsPresenter(thsProviderDetailsViewInterface, thsBaseFragmentMock);
