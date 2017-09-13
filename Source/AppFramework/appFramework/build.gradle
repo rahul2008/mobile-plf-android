@@ -462,9 +462,10 @@ dependencies {
 		transitive = true
 	}
 
-    compile(group: 'com.philips.cdp', name: 'telehealth', version: '2.1.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
-        transitive = true
-    }
+    def thsModule = module(group: 'com.philips.cdp', name: 'telehealth', version: '2.1.0'+ objcdp.getVersionSuffix(), ext: 'aar')
+	compile(dp ? project(':ths') : thsModule) {	
+		transitive = true
+	}
 
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
