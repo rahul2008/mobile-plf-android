@@ -51,6 +51,7 @@ public class MainActivity extends UIDActivity {
 
     protected static final String TITLE_TEXT = "TITLE_TEXT";
     static final String THEMESETTINGS_ACTIVITY_RESTART = "THEMESETTINGS_ACTIVITY_RESTART";
+    static final String FRAGMENTS_LIST = "FRAGMENTS_LIST";
 
     ContentColor contentColor;
     ColorRange colorRange;
@@ -166,6 +167,7 @@ public class MainActivity extends UIDActivity {
         }
         Intent intent = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(THEMESETTINGS_ACTIVITY_RESTART, true);
+        intent.putStringArrayListExtra(FRAGMENTS_LIST, navigationController.activeFragmentsList);
         startActivity(intent);
     }
 

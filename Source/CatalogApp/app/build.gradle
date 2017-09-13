@@ -14,6 +14,8 @@ def butterKnifeVer = "7.0.1"
 def eventbusVer = "3.0.0"
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -32,7 +34,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -50,7 +52,7 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "uidApp"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(versions.uid_uid)
 
 allprojects {
     repositories {

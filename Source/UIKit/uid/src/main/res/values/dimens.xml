@@ -2,20 +2,12 @@
 <resources>
     <dimen name="uid_page_margin_left_right">24dp</dimen>
 
+    <!--Adaptive layout-->
+    <item name="uid_adaptive_layout_width" format="integer" type="dimen">-1</item>
+
     <!--Percentage for opacity-->
-    <item name="uid_alpha_per_20" format="float" type="dimen">0.20</item>
-    <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>
-    <item name="uid_alpha_per_35" format="float" type="dimen">0.35</item>
-    <item name="uid_alpha_per_45" format="float" type="dimen">0.45</item>
-    <item name="uid_alpha_per_50" format="float" type="dimen">0.50</item>
     <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
-    <item name="uid_alpha_per_70" format="float" type="dimen">0.70</item>
     <item name="uid_alpha_per_80" format="float" type="dimen">0.80</item>
-    <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
-    <!--<item name="uid_alpha_per_10" format="float" type="dimen">0.1</item>
-    <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
-    <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
-    <item name="uid_alpha_per_40" format="float" type="dimen">0.40</item>-->
 
     <!--Switch dimensions-->
     <dimen name="uid_switch_thumb_radius">24dp</dimen>

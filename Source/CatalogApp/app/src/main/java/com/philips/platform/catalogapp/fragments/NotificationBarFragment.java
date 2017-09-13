@@ -53,16 +53,17 @@ public class NotificationBarFragment extends BaseFragment {
     }
 
     protected void showInfoNotification() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 showInfoPopup();
             }
-        });
+        },100);
     }
 
     @Override
     public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             wasInfoPopUPShown = savedInstanceState.getBoolean(INFO_POPUP_SHOWN);
         }
@@ -71,7 +72,6 @@ public class NotificationBarFragment extends BaseFragment {
         } else if (wasPopUPShowing) {
             showNotificationBar();
         }
-        super.onViewStateRestored(savedInstanceState);
     }
 
     protected void showNotificationBar() {
