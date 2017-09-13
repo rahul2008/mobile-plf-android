@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
@@ -18,6 +19,12 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.squareup.leakcanary.LeakCanary;
 
 public class DemoApplication extends Application implements ActivityLifecycleCallbacks {
@@ -25,9 +32,15 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
     private AppInfra mAppInfra;
     private Activity currentActivity;
 
+    ThemeConfiguration themeConfiguration;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        UIDHelper.injectCalligraphyFonts();
+        getTheme().applyStyle(R.style.Theme_DLS_Blue_UltraLight, true);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         registerActivityLifecycleCallbacks(this);
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
@@ -46,7 +59,6 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
 
         //}
     }
-
 
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new
