@@ -145,6 +145,8 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
             }
             mWebView.setWebChromeClient(new WebChromeClient() {
 
+                Bitmap videoPoster = BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
+
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
@@ -157,11 +159,10 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                @Override
                public Bitmap getDefaultVideoPoster() {
                    if (Build.VERSION.SDK_INT >= 26) {
-                       return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
+                       return videoPoster;
                    }
-                   else{
-                       return super.getDefaultVideoPoster();
-                   }
+
+                   return super.getDefaultVideoPoster();
                }
            });
             mWebView.setWebViewClient(new WebViewClient() {
