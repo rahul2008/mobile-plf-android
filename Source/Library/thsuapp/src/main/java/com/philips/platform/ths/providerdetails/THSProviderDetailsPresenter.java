@@ -197,6 +197,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                                                     } catch (AWSDKInstantiationException e) {
                                                         e.printStackTrace();
                                                     }
+                                                    return;
                                                 }
                                                 launchFragmentBasedOnAvailibity(viewInterface.getPractice(), dates, date);
                                             }
