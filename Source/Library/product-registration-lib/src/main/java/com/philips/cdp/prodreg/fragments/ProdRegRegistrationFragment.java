@@ -383,15 +383,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return true;
     }
 
-//    @Override
-//    public DialogOkButtonListener getDialogOkButtonListener() {
-//        return new DialogOkButtonListener() {
-//            @Override
-//            public void onOkButtonPressed() {
-//                dismissAlertOnError();
-//            }
-//        };
-//    }
+
 
     @Override
     public void exitProductRegistration() {
@@ -594,15 +586,5 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onStop() {
         super.onStop();
         //dismissDialogs();
-    }
-
-    private void dismissDialogs() {
-        dismissAlertOnError();
-        if (alertDialogFragment != null) {
-            alertDialogFragment.dismiss();
-        }
-        if (datePickerDialog != null) {
-            datePickerDialog.dismiss();
-        }
     }
 }

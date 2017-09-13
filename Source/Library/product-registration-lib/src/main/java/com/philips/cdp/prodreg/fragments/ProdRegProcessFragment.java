@@ -15,9 +15,6 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
-import com.philips.cdp.prodreg.constants.ProdRegError;
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.listener.DialogOkButtonListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.register.ProdRegProcessController;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -111,25 +108,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
         super.onSaveInstanceState(outState);
     }
 
-//    @Override
-//    public DialogOkButtonListener getDialogOkButtonListener() {
-//        return new DialogOkButtonListener() {
-//            @Override
-//            public void onOkButtonPressed() {
-//                dismissAlertOnError();
-//                final FragmentActivity activity = getActivity();
-//                if (activity != null && !activity.isFinishing()) {
-//                    clearFragmentStack();
-//                    PRUiHelper.getInstance().getProdRegUiListener().onProdRegFailed(ProdRegError.fromId(responseCode));
-//                    unRegisterProdRegListener();
-//                    if (activity instanceof ProdRegBaseActivity) {
-//                        getActivity().finish();
-//                    }
-//                }
-//            }
-//        };
-//    }
-
     @Override
     public void exitProductRegistration() {
         clearFragmentStack();
@@ -147,16 +125,6 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
     public void buttonEnable() {
 
     }
-
-//    @Override
-//    protected void resetErrorDialogIfExists() {
-//        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-//        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
-//            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
-//        } else if (isFailedOnError) {
-//            showAlertOnError(responseCode);
-//        }
-//    }
 
     @Override
     public void showFragment(Fragment fragment) {
