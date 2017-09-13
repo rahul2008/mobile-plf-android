@@ -141,12 +141,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
      */
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.ths_visit_summary_continue_button){
-            mTHSVisitSummaryPresenter.onEvent(R.id.ths_visit_summary_continue_button);
-        } else if (v.getId()==R.id.ths_waiting_room_provider_detail_relativelayout){
-            mTHSVisitSummaryPresenter.onEvent(R.id.ths_waiting_room_provider_detail_relativelayout);
-        }
-
+        mTHSVisitSummaryPresenter.onEvent(v.getId());
     }
 
     @Override
