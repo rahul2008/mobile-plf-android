@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity" >
+            android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -36,6 +36,7 @@
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
+            android:exported="false"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>
@@ -43,6 +44,7 @@
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
+            android:exported="false"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>

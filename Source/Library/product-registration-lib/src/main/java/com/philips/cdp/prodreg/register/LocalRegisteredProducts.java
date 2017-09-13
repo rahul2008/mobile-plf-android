@@ -33,7 +33,7 @@ public class LocalRegisteredProducts {
         uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
     }
 
-    public void store(RegisteredProduct registeredProduct) {
+    void store(RegisteredProduct registeredProduct) {
         Gson gson = getGSon();
         Set<RegisteredProduct> registeredProducts = getLocalRegisteredProducts().getUniqueRegisteredProducts();
         if (registeredProducts.contains(registeredProduct))

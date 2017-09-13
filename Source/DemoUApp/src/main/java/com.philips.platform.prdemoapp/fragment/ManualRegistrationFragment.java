@@ -303,7 +303,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle(getString(R.string.app_name));
+        getActivity().setTitle(getString(R.string.prg_app_name));
     }
 
     @Override

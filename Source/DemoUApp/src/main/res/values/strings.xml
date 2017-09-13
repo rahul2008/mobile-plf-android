@@ -1,5 +1,5 @@
 <resources tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">Product Registration</string>
+    <string name="prg_app_name" translatable="false">Product Registration</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="enter_ctn_number" translatable="false">Enter CTN number</string>
     <string name="user_registration" translatable="false">User Registration</string>
