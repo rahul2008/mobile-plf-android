@@ -5,9 +5,9 @@
 
 package com.philips.cdp2.demouapp.fragment.port;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,13 +23,12 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
-import static android.support.design.widget.Snackbar.LENGTH_SHORT;
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
-import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
-import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_paired_success;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pairing_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
+import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
 public class PairingFragment extends Fragment {
     private static final String TAG = "PairingFragment";
@@ -79,14 +78,20 @@ public class PairingFragment extends Fragment {
 
                 applianceManager.storeAppliance(appliance);
 
-                showMessage(getActivity(), rootview, getString(cml_paired_success));
+                Activity activity = getActivity();
+                if (activity != null) {
+                    showMessage(getActivity(), rootview, getString(cml_paired_success));
+                }
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
 
-                showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                Activity activity = getActivity();
+                if (activity != null) {
+                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                }
             }
         }, getCloudController());
 
@@ -108,14 +113,20 @@ public class PairingFragment extends Fragment {
 
                 applianceManager.storeAppliance(appliance);
 
-                showMessage(getActivity(), rootview, getString(cml_unpair_success));
+                Activity activity = getActivity();
+                if (activity != null) {
+                    showMessage(getActivity(), rootview, getString(cml_unpair_success));
+                }
             }
 
             @Override
             public void onPairingFailed(final AirPurifier appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
 
-                showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                Activity activity = getActivity();
+                if (activity != null) {
+                    showIndefiniteMessage(getActivity(), rootview, getString(cml_pairing_failed));
+                }
             }
         }, getCloudController());
 
