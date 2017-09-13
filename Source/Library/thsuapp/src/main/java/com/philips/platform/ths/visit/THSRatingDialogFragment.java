@@ -14,10 +14,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RatingBar;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_RATE_PROVIDER_AND_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_SUMMARY;
 
 public class THSRatingDialogFragment extends DialogFragment {
     public RatingBar providerInputRatingBar;
@@ -35,6 +39,7 @@ public class THSRatingDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_rating, container, false);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_RATE_PROVIDER_AND_VISIT,null,null);
         providerInputRatingBar= (RatingBar) view.findViewById(R.id.ths_provider_ratingbar);
         visitInputRatingBar= (RatingBar) view.findViewById(R.id.ths_visit_ratingbar);
         okButton = (Button) view.findViewById(R.id.ths_ratingbar_ok_button);

@@ -16,7 +16,11 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.EditText;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
     private THSBaseFragment mPthBaseFragment;
@@ -65,7 +69,8 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onUpdateVitalsResponse(SDKError sdkError) {
-        if (sdkError == null){
+        if (sdkError == null) {
+            tagSuccess();
             thsvItalsUIInterface.launchMedicationFragment();
             mPthBaseFragment.showToast("UPDATE SUCCESS");
         }
@@ -82,6 +87,14 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
         return !(editText.toString().isEmpty() || editText.getText().length() == 0);
     }
 
+
+    private void tagSuccess(){
+        HashMap<String, String> map= new HashMap<String, String>();
+        map.put("step2VitalsForVisit",((THSVitalsFragment) mPthBaseFragment).tagActions);
+        map.put("specialEvents","step2VitalsAdded");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, map);
+
+    }
     int stringToInteger(String value) {
         if(null == value || value.isEmpty()){
             return 0;

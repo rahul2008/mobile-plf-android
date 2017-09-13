@@ -17,6 +17,8 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 public class THSMedicalConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList, THSSDKError>, THSUpdateConditionsCallback<Void, THSSDKError> {
     private THSBaseFragment thsBaseFragment;
 
@@ -71,6 +73,8 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
 
     @Override
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
+
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step4MedicalConditionsAdded");
         //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
         //On response, as of now no need to handle
         //Keeping this for future use

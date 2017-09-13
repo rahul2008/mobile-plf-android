@@ -12,8 +12,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +25,7 @@ import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
@@ -39,6 +38,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_DETAIL;
+
 
 public class THSInsuranceDetailFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
@@ -153,6 +154,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_DETAIL,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Insurance", true);
         }

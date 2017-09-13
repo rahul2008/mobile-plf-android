@@ -17,6 +17,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -37,9 +39,9 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
@@ -106,12 +108,19 @@ public class THSWelcomePresenterTest {
     @Captor
     private ArgumentCaptor<RefreshLoginSessionHandler> refreshLoginSessionHandlerArgumentCaptor;
 
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdk);
         THSManager.getInstance().setUser(userMock);
+
+        when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterface);
         THSManager.getInstance().TEST_FLAG = true;

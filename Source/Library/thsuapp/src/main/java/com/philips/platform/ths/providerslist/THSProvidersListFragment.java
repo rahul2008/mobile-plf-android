@@ -35,6 +35,8 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
+
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     public static final String DIALOG_TAG = THSProvidersListFragment.class.getSimpleName() + "Dialog";

@@ -21,9 +21,13 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
+
 
 public class THSPracticeFragment extends THSBaseFragment{
 
@@ -70,6 +74,7 @@ public class THSPracticeFragment extends THSBaseFragment{
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PRACTICE_PAGE,null,null);
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(getString(R.string.ths_practice_screen_title),true);
