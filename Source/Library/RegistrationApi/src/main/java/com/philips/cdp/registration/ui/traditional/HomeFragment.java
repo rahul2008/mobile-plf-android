@@ -12,7 +12,6 @@ import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
-import android.support.constraint.*;
 import android.support.v4.content.*;
 import android.text.*;
 import android.text.method.*;
@@ -98,7 +97,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 
     Context mContext;
+
+    @BindView(R2.id.sv_root_layout)
     ScrollView mSvRootLayout;
+
     ProgressDialog mProgressDialog;
 
     @BindView(R2.id.usr_StartScreen_country_label)
@@ -110,8 +112,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @BindView(R2.id.usr_StartScreen_Skip_Button)
     Button skipRegistration;
 
-    @BindView(R2.id.usr_startScreen_baseLayout_ConstraintLayout)
-    ConstraintLayout usr_startScreen_baseLayout_ConstraintLayout;
+    @BindView(R2.id.usr_startScreen_baseLayout_LinearLayout)
+    LinearLayout usr_startScreen_baseLayout_LinearLayout;
 
     @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
     LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
@@ -148,7 +150,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
 
         ButterKnife.bind(this, view);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         if (mProgressDialog == null)
             mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
@@ -603,7 +604,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, usr_startScreen_baseLayout_ConstraintLayout, width);
+        applyParams(config, usr_startScreen_baseLayout_LinearLayout, width);
         applyParams(config, usr_StartScreen_privacyNotice_country_LinearLayout, width);
     }
 
