@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:layout_marginLeft="@dimen/fab_margin"
+              android:layout_marginRight="@dimen/fab_margin"
+              android:orientation="vertical"
+              android:padding="10dp">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_title_message"
@@ -34,12 +33,33 @@
         android:text=""
         android:visibility="gone"/>
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/button_continue"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pr_registration_margin_top"
-        android:text="@string/PPR_Continue"/>
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/pr_c_value_sm"
+        >
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/button_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pr_registration_margin_top"
+            android:text="@string/PPR_Continue"
+            />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/closeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_continue"
+            android:layout_marginTop="@dimen/pr_c_value_sm"
+            android:text="@string/PRG_Close"
+            android:textAllCaps="false"
+            app:uidComponentType="Secondary"
+            />
+    </RelativeLayout>
 
 </LinearLayout>
-</FrameLayout>

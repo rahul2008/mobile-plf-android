@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -166,7 +165,7 @@ public class ProdRegProcessFragment extends ProdRegBaseFragment implements ProdR
 
     @Override
     public void showLoadingDialog() {
-        showProdRegLoadingDialog(getString(R.string.PPR_Looking_For_Products_Lbltxt), "prg_dialog");
+        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt), "prg_dialog");
     }
 
     @Override
