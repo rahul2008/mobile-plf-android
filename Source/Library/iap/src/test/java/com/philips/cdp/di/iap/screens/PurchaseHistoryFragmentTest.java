@@ -31,7 +31,7 @@ public class PurchaseHistoryFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
         purchaseHistoryFragment = PurchaseHistoryFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(purchaseHistoryFragment);

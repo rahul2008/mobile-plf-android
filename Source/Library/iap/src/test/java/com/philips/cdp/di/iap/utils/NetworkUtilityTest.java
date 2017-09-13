@@ -34,8 +34,6 @@ public class NetworkUtilityTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-
-
     }
 
 
@@ -70,14 +68,11 @@ public class NetworkUtilityTest extends TestCase {
 
     @Test
     public void testIsNetworkAvailable() {
-        //mock(Context.class).getSystemService(Context.CONNECTIVITY_SERVICE);
-        // UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        // Setup
-        final ConnectivityManager connectivityManager = Mockito.mock( ConnectivityManager.class );
-        final NetworkInfo networkInfo = Mockito.mock( NetworkInfo.class );
-        Mockito.when( connectivityManager.getNetworkInfo( ConnectivityManager.TYPE_WIFI )).thenReturn( networkInfo );
-        Mockito.when( networkInfo.isAvailable() ).thenReturn( true );
-        Mockito.when( networkInfo.isConnected() ).thenReturn( true );
+        final ConnectivityManager connectivityManager = Mockito.mock(ConnectivityManager.class);
+        final NetworkInfo networkInfo = Mockito.mock(NetworkInfo.class);
+        Mockito.when(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).thenReturn(networkInfo);
+        Mockito.when(networkInfo.isAvailable()).thenReturn(true);
+        Mockito.when(networkInfo.isConnected()).thenReturn(true);
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
