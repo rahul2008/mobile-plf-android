@@ -6,6 +6,7 @@
         <activity
             android:name="com.philips.cdp.prodreg.activity.ProdRegBaseActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SUPPORT_DIGITAL"/>
@@ -14,7 +15,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity" >
+            android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -23,11 +24,13 @@
                     android:host="com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp"
                     android:path="/oauth2redirect"/>
             </intent-filter>
+
         </activity>
 
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
+            android:exported="false"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>
@@ -35,6 +38,7 @@
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
+            android:exported="false"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>

@@ -5,6 +5,7 @@
 */
 package com.philips.cdp.prodreg.fragments;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -526,8 +527,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setVisibility(View.GONE);
         productCtnTextView.setVisibility(View.GONE);
         successLayout.setVisibility(View.VISIBLE);
-        ((ProdRegBaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((ProdRegBaseActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+        if (getActivity() != null && getActivity() instanceof ProdRegBaseActivity &&
+                ((ProdRegBaseActivity) getActivity()).getSupportActionBar() != null) { // need to modify this later.
+            ((ProdRegBaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            ((ProdRegBaseActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+        }
         productImageView.setVisibility(View.GONE);
         productTitleTextView.setVisibility(View.GONE);
     }

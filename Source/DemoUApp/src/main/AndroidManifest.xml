@@ -2,7 +2,8 @@
     package="com.philips.platform.prdemoapplibrary">
 
     <application>
-        <activity android:name="com.philips.platform.prdemoapp.activity.MainActivity" />
+        <activity android:name="com.philips.platform.prdemoapp.activity.MainActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

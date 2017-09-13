@@ -12,7 +12,7 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
 def errors = []
 
 
-node ('android&&docker') {
+node ('android&&device') {
 	timestamps {
 		try {
             stage ('Checkout') {
@@ -26,7 +26,7 @@ node ('android&&docker') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test jacocoTestReport  zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport  zipDocuments artifactoryPublish
                     ''' 
                 }
             } 
@@ -36,7 +36,7 @@ node ('android&&docker') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test jacocoTestReport 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport 
                     '''
                 }
             }
@@ -73,7 +73,7 @@ node ('android&&docker') {
             }      
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/**/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'jacocoTestReport']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release']) 

@@ -1,7 +1,78 @@
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in C:\Users\310273508\AppData\Local\Android\Sdk/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the proguardFiles
+# directive in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project specific keep options here:
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+#
+# This ProGuard configuration file illustrates how to process a program
+# library, such that it remains usable as a library.
+# Usage:
+#     java -jar proguard.jar @library.pro
+#
+
+# Specify the input jars, output jars, and library jars.
+# In this case, the input jar is the program library that we want to process.
+
+
+# Save the obfuscation mapping to a file, so we can de-obfuscate any stack
+# traces later on. Keep a fixed source file attribute and all line number
+# tables to get line numbers in the stack traces.
+# You can comment this out if you're not interested in stack traces.
+
+-printmapping out.map
+-keepparameternames
+-renamesourcefileattribute SourceFile
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,EnclosingMethod
+
+# Preserve all annotations.
+
+-keepattributes *Annotation*,InnerClasses
+-keepattributes EnclosingMethod
+
+# Preserve all native method names and the names of their classes.
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+
+
+
+# Your library may contain more items that need to be preserved;
+# typically classes that are dynamically created using Class.forName:
+
+# -keep public class mypackage.MyClass
+# -keep public interface mypackage.MyInterface
+# -keep public class * implements mypackage.MyInterface
+
+# This is a configuration file for AppInfra ProGuard.
+# http://proguard.sourceforge.net/index.html#manual/usage.html
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
+-verbose
+
+# Optimization is turned off by default. Dex does not like code run
+# through the ProGuard optimize and preverify steps (and performs some
+# of these optimizations on its own).
+-dontoptimize
 -dontpreverify
+# Note that if you want to enable optimization, you cannot just
+# include optimization flags in your own project configuration file;
+# instead you will need to point to the
+# "proguard-android-optimize.txt" file instead of this one from your
+# project.properties file.
+
 
 -dontwarn com.google.gson.**
 
@@ -15,71 +86,60 @@
 -dontwarn com.philips.cdp.registration.**
 -dontwarn org.apache.**
 -dontwarn com.philips.cdp.prxclient.**
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
 
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
--keep public class * extends android.view.View {
-public <init>(android.content.Context);
-public <init>(android.content.Context, android.util.AttributeSet);
-public <init>(android.content.Context, android.util.AttributeSet, int);
-public void set*(...);
-*** get*();
-}
+#GMS
+-keep  class com.google.android.gms.* { public *; }
 
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
-}
 
--keepclasseswithmembers class * {
-public <init>(android.content.Context, android.util.AttributeSet);
-}
+##-keep public class pack.com.progard.** {*;}
+##Registration API specific
+##General network
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-keepattributes InnerClasses,Exceptions
 
--keepclasseswithmembers class * {
-public <init>(android.content.Context, android.util.AttributeSet, int);
-}
+-keep class org.apache.http.** { *; }
 
-#Enumeration
--keepclassmembers enum * {
-public static **[] values();
-public static ** valueOf(java.lang.String);
-}
 
-#Static
--keepclassmembers class **.R$* {
-public static <fields>;
-}
 
-#UIKIT
--keep class com.philips.cdp.uikit.** {*;}
-
-#Product Registration library
--keep class com.philips.cdp.prodreg.** {*;}
--keep interface com.philips.cdp.prodreg.** {*;}
--keep enum com.philips.cdp.prodreg.** {*;}
-
-#Android support library
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
--keep class android.support.v8.renderscript.** { *; }
-
-#Volley
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
--keep class org.apache.commons.logging.**
+
+
+#appinfra
+-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
+
+#uid
+-keep public class com.philips.platform.uid.** { *; }
+-dontwarn com.philips.platform.uid.**
+
 -keep class com.squareup.okhttp.** { *; }
 -keep class okio.** { *; }
 
-#Gson
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.**{*;}
-#-keep class com.google.gson.stream.** { *; }
+#webkit
+-keep class android.net.http.SslError
+-keep class android.webkit.WebViewClient
 
-#Prx
--keep class com.philips.cdp.prxclient.** { *; }
--keep interface com.philips.cdp.prxclient.** { *; }
--keep enum com.philips.cdp.prxclient.** { *; }
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
 
 
 ##Registration API specific
@@ -103,51 +163,54 @@ public static <fields>;
 -keep class com.janrain.android.Jump$* {*;}
 -keep class com.philips.cdp.registration.User$*{*;}
 -keep class com.janrain.android.capture.Capture$* {*;}
--keep public class com.philips.cdp.security.SecureStorage {
-public static void init(android.content.Context);
-}
--keep public class com.philips.cdp.security.SecureStorage {
-public static java.lang.String objectToString(java.io.Serializable);
-}
--keep public class com.philips.cdp.security.SecureStorage {
-public static java.lang.Object stringToObject(java.lang.String);
-}
--keep public class com.philips.cdp.security.SecureStorage {
-public static void migrateUserData(java.lang.String);
-}
--keep public class com.philips.cdp.security.SecureStorage {
-public static byte[] encrypt(java.lang.String);
-}
--keep public class com.philips.cdp.security.SecureStorage {
-public static byte[] decrypt(byte[]);
-}
--keep public class com.philips.cdp.security.SecureStorage {
-public static void generateSecretKey();
-}
--keepclasseswithmembernames public class com.janrain.android.** {*;}
--keepclasseswithmembernames public class com.janrain.android.Jump {*;}
--keepclasseswithmembernames public class com.janrain.android.JumpConfig{*;}
--keepclasseswithmembernames public class com.janrain.android.TradSignInUi{*;}
-#Locale match
--keep public class com.philips.cdp.localematch.** {*;}
--keep interface com.philips.cdp.localematch.** {*;}
+
 #Registration API
 -keep class com.philips.cdp.registration.** {*;}
 -dontwarn com.philips.cdp.registration.**
+
 #HSDP Lib
 -keep class com.philips.dhpclient.** {*;}
 -keep class com.fasterxml.jackson.annotation.** {*;}
 -keep class com.fasterxml.jackson.core.** {*;}
 -keep class com.fasterxml.jackson.databind.** {*;}
-#GSM
--keep class com.google.android.gms.* { public *; }
--dontwarn com.google.android.gms.**
--dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-#webkit
--keep class android.net.http.SslError
--keep class android.webkit.WebViewClient
--dontwarn android.webkit.WebView
--dontwarn android.net.http.SslError
--dontwarn android.webkit.WebViewClient
-#notification
--dontwarn android.app.Notification
+
+
+#Gson
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.** {*;}
+-keep class com.google.gson.stream.** { *; }
+
+
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+#-keep class com.google.gson.stream.** { *; }
+
+# Prevent proguard from stripping interface information from TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+-keepclassmembers enum * {
+ public static **[] values();
+ public static ** valueOf(java.lang.String);
+ }
+
+ -keepclassmembers enum * { *; }
+
+ #prxclient model class
+ -keep class com.philips.cdp.prxclient.datamodels.** { *; }
+
+ #Product Registration library
+ -keep class com.philips.cdp.prodreg.model.** {*;}
+ -keep class com.philips.cdp.prodreg.register.** {*;}
+ -keep class com.philips.cdp.prodreg.localcache.** {*;}
+
