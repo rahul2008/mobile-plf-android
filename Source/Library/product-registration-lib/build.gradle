@@ -9,6 +9,8 @@ def coverageSourceDirs = [
         '../product-registration-lib/src/main/java'
 ]
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -28,7 +30,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath(builddeps.cdpSCM)
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
     }
 }
@@ -76,7 +78,7 @@ allprojects {
 
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(versions.prg_productRegistrationLib)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -213,19 +215,19 @@ dependencies {
 	def dp = project.ext.has('useprojectdependencies')
 
 	
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':usr') : usrModule) 
 	{
 		transitive = true
 	}
 
-	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: '3.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 	compile(dp ? project(':prx') : prxModule) 	
 	{
 		transitive = true
 	}
 
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':uid') : uidModule) 	
 	{
 		exclude group: 'com.android.support'
