@@ -156,10 +156,10 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
 
                @Override
                public Bitmap getDefaultVideoPoster() {
-                   if(isAdded()){
-                        return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
+                   if (Build.VERSION.SDK_INT >= 26) {
+                       return BitmapFactory.decodeResource(getResources(), R.drawable.ic_media_video_poster);
                    }
-                   else {
+                   else{
                        return super.getDefaultVideoPoster();
                    }
                }
