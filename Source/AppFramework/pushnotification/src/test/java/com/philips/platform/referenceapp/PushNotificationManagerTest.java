@@ -485,10 +485,16 @@ public class PushNotificationManagerTest {
     }
 
     private static class TestPlatformInstanceIDListenerService extends PlatformInstanceIDListenerService {
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            onTokenRefresh();
+        }
+
         @Override
         public void onTokenRefresh() {
             super.onTokenRefresh();
-            onTokenRefresh();
             stopSelf();
         }
     }
