@@ -536,7 +536,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.prodreg_already_registered_dialog, null);
+        LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+        View view = lf.inflate(R.layout.prodreg_already_registered_dialog, null);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogView(view)
