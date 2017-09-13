@@ -37,7 +37,7 @@ public class DemoApplication extends Application implements ActivityLifecycleCal
         super.onCreate();
 
         UIDHelper.injectCalligraphyFonts();
-        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
+        getTheme().applyStyle(R.style.Theme_DLS_Blue_UltraLight, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         registerActivityLifecycleCallbacks(this);
         LeakCanary.install(this);
