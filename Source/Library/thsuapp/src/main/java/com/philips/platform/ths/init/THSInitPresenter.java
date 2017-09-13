@@ -120,6 +120,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     }*/
 
     private void launchPreWelcomeScreen() {
+
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
         mThsInitFragment.addFragment(thsPreWelcomeFragment,THSRegistrationFragment.TAG,null);
     }
@@ -175,8 +176,9 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     private void launchWelcomeScreen() {
         mThsInitFragment.hideProgressBar();
+        mThsInitFragment.popSelfBeforeTransition();
         THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
-        mThsInitFragment.addFragment(thsWelcomeFragment, THSPreWelcomeFragment.TAG,null);
+        mThsInitFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG,null);
     }
 
     @Override
