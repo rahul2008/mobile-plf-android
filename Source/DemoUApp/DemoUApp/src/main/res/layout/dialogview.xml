@@ -19,11 +19,11 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Add Product"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uid"
             android:textSize="20sp" />
     </FrameLayout>
 
-    <com.philips.cdp.uikit.customviews.PuiEditText
+    <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/ctn_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_marginTop="37dp"
         inputText:uikit_hintText="Add CTN here" />
 
-    <com.philips.cdp.uikit.customviews.PuiEditText
+    <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/category_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         android:layout_margin="4dp"
         inputText:uikit_hintText="Add category here" />
 
-    <com.philips.cdp.uikit.customviews.PuiEditText
+    <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/catalog_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
