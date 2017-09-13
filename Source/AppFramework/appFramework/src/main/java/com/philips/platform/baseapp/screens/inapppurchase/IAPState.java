@@ -60,8 +60,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
         updateDataModel();
-        if (getApplicationContext().isHybrisFlow()) {
-            ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
+        if (getApplicationContext().isShopingCartVisible) {         // for hybris flow
             setListener();
         }else {
             launchIAP();
@@ -129,6 +128,11 @@ public abstract class IAPState extends BaseState implements IAPListener {
         IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
         iapInterface.init(iapDependencies, iapSettings);
+
+    }
+
+    public void isCartVisible() {
+        iapInterface.isCartVisible(this);
     }
 
     public void setListener() {
@@ -162,7 +166,10 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     @Override
-    public void onSuccess(Object o) {
+    public void onSuccess(Object bool) {
+        if (bool instanceof Boolean) {
+            ((AppFrameworkApplication) applicationContext).setShopingCartVisible((Boolean) bool);
+        }
     }
     @Override
     public void onFailure(int i) {
