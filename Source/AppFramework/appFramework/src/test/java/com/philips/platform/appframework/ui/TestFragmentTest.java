@@ -1,4 +1,11 @@
-package com.philips.platform.appframework.testmicroappfw.ui;
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2017
+ *  All rights are reserved. Reproduction or dissemination
+ *  in whole or in part is prohibited without the prior written
+ *  consent of the copyright holder.
+ */
+
+package com.philips.platform.appframework.ui;
 
 
 import android.os.Handler;
@@ -11,10 +18,13 @@ import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.data.TestConfigManager;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
-import com.philips.platform.appframework.testmicroappfw.models.Chapter;
-import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.appframework.models.Chapter;
+import com.philips.platform.appframework.models.CommonComponent;
+import com.philips.platform.appframework.ui.COCOListFragment;
+import com.philips.platform.appframework.ui.ChapterAdapter;
+import com.philips.platform.appframework.ui.TestFragment;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionFragment;
 
 import junit.framework.TestCase;
@@ -30,6 +40,8 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
+
+
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
