@@ -18,7 +18,7 @@ import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.util.List;
 
-public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppointmentsCallback<List,THSSDKError>,THSInitializeCallBack<Void,THSSDKError> {
+public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppointmentsCallback<List<Appointment>,THSSDKError>,THSInitializeCallBack<Void,THSSDKError> {
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
 
     public THSScheduledVisitsPresenter(THSScheduledVisitsFragment thsScheduledVisitsFragment) {

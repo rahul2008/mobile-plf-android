@@ -18,7 +18,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -71,11 +71,12 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private boolean isGooglePlayServicesAvailable() {
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int status = apiAvailability.isGooglePlayServicesAvailable(getActivity());
         if (ConnectionResult.SUCCESS == status) {
             return true;
         } else {
-            GooglePlayServicesUtil.getErrorDialog(status, getActivity(), 0).show();
+            apiAvailability.getErrorDialog(getActivity(),status,0).show();
             return false;
         }
     }
@@ -119,6 +120,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
         } else {  // go to insurance or cost detail
             Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            getActivity().getSupportFragmentManager().popBackStack();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
                 addFragment(fragment, THSCostSummaryFragment.TAG, null);
@@ -215,11 +217,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         criteria.setCostAllowed(true);
         criteria.setPowerRequirement(Criteria.POWER_LOW);
 
-        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            return true;
-        } else {
-            return false;
-        }
+        return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
     }
 

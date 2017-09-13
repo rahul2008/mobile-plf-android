@@ -21,13 +21,12 @@ import java.util.List;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
-public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNoticeOfPrivacyPracticesCallBack {
-    THSBaseView uiBaseView;
-    THSVisitContext mTHSVisitContext;
-    List<LegalText> legalTextList;
-    StringBuilder mStringBuilder;
+class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNoticeOfPrivacyPracticesCallBack {
+    private THSBaseView uiBaseView;
+    protected THSVisitContext mTHSVisitContext;
+    private StringBuilder mStringBuilder;
 
-    public THSNoticeOfPrivacyPracticesPresenter(THSBaseView uiBaseView) {
+    THSNoticeOfPrivacyPracticesPresenter(THSBaseView uiBaseView) {
 
         this.uiBaseView = uiBaseView;
         mTHSVisitContext = THSManager.getInstance().getPthVisitContext();
@@ -35,8 +34,8 @@ public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, T
     }
 
 
-    public void showLegalTextForNOPP() {
-        legalTextList = mTHSVisitContext.getLegalTexts();
+    void showLegalTextForNOPP() {
+        List<LegalText> legalTextList = mTHSVisitContext.getLegalTexts();
         for (LegalText legalText : legalTextList) {
             try{
             THSManager.getInstance().getLegaltext(uiBaseView.getFragmentActivity(), legalText,this);

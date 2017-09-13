@@ -204,6 +204,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_insurance_not_verified_confirm_message">We could not verify your health insurance information. Please confirm that your Name, Health Plan and Subscription ID match your insurance card exactly.\n\nIf you skip this step, the cost of your visit may increase.\n\nQuestions? Contact Customer Support (855) 818-DOCS </string>
     <string name="ths_insurance_not_verified_confirm_primary_button_text">Ok</string>
     <string name="ths_insurance_not_verified_confirm_secondary_button_label_text">Try again</string>
+
     <string name="ths_matchmaking_progressbar_meesage_parent_text">We\'re finding right provider for your visit \n%1$s</string>
     <string name="ths_matchmaking_progressbar_meesage_child_text">This may take few minutes</string>
     <string name="ths_matchmaking_error_text">No provider is available right now</string>
@@ -212,4 +213,21 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_provider_logged_out">Provider is offline</string>
     <string name="ths_cost_summary_coupon_code_empty">Coupon code is empty</string>
     <string name="ths_cost_summary_coupon_code_invalid">Coupon code is invalid</string>
+
+    <string name="ths_cost_summary_initial_Full_cover_cost">Initial visit cost : %1$s Your insurance / promocode covers the cost of the visit.</string>
+    <string name="ths_cost_summary_initial_Partial_cover_cost">Initial visit cost : %1$s Your insurance / promocode partly covers the cost of the visit.</string>
+    <string name="ths_cost_summary_free_visit_header">Your visit is</string>
+
+    <!-- Pre Welcome Screen-->
+    <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
+    <string name="ths_service_provider">This service is provided by</string>
+    <string name="ths_go_see_provider">Go see a provider</string>
+    <string name="ths_amwell_philips_licence">All providers are licenced and working under \n<u>Amwell terms &amp; conditions</u></string>
+    <string name="ths_see_provider_pre_welcome">See <b>a provider online,</b> anytime</string>
+    <string name="ths_terms_and_conditions">Terms and conditions</string>
+
+    <!-- Match making fragment strings-->
+    <string name="ths_matchmaking_ok_button">Ok</string>
+    <string name="ths_matchmaking_error">Error</string>
+    <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>
 </resources>

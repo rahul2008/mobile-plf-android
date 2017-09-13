@@ -7,14 +7,13 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.view.widget.Button;
 
@@ -24,12 +23,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
+class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
-    private ArrayList<Date> gridItemTimeList = new ArrayList();
+    private ArrayList<Date> gridItemTimeList = new ArrayList<>();
     private Context mContext;
 
-    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
+    THSAppointmentGridAdapter(Context context, List<Date> cardList) {
         super(context, 0, cardList);
         this.mContext = context;
         this.gridItemTimeList = (ArrayList<Date>) cardList;
@@ -63,9 +62,10 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
         return 0;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = null;
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+        View view;
 
         final Date gridData = gridItemTimeList.get(position);
 

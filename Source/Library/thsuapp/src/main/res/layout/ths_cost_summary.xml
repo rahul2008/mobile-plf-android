@@ -12,6 +12,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_cost_summary_title_label"
+            fontPath="fonts/centralesansbold.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ths_margin_between_buttons"
@@ -20,8 +21,7 @@
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="8sp"
             android:text="Your visit will cost"
-            android:textSize="20dp"
-            fontPath="fonts/centralesansbold.ttf" />
+            android:textSize="20dp" />
 
         <RelativeLayout
             android:id="@+id/ths_cost_summary_relativelayout"
@@ -61,6 +61,7 @@
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:lineSpacingExtra="4sp"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:textSize="@dimen/ths_small_body_text">
 
         </com.philips.platform.uid.view.widget.Label>
@@ -108,9 +109,9 @@
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
+            android:enabled="false"
             android:text="Apply"
             app:uidComponentType="Secondary"
-            android:enabled="false"
 
             />
 
@@ -252,6 +253,7 @@
                         <com.philips.platform.uid.view.widget.Label
 
                             android:id="@+id/ths_cost_summary_no_insurance_label"
+                            fontPath="fonts/centralesansbold.ttf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -259,8 +261,7 @@
                             android:layout_toRightOf="@+id/ths_cost_summary_no_insurance_image"
                             android:lineSpacingExtra="6sp"
                             android:text="No insurance"
-                            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                            fontPath="fonts/centralesansbold.ttf">
+                            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor">
 
                         </com.philips.platform.uid.view.widget.Label>
                     </RelativeLayout>
@@ -422,6 +423,7 @@
                         <com.philips.platform.uid.view.widget.Label
 
                             android:id="@+id/ths_cost_summary_no_payment_label"
+                            fontPath="fonts/centralesansbold.ttf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -429,8 +431,7 @@
                             android:layout_toRightOf="@+id/ths_cost_summary_no_payment_image"
                             android:lineSpacingExtra="6sp"
                             android:text="No payment method"
-                            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-                            fontPath="fonts/centralesansbold.ttf">
+                            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor">
 
                         </com.philips.platform.uid.view.widget.Label>
                     </RelativeLayout>
@@ -450,8 +451,27 @@
                 </RelativeLayout>
 
 
+
             </RelativeLayout>
             <!--end of non existing card block-->
+
+
+            <!--start of non existing card block-->
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_cost_summary_no_payment_detail_required_label"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/ths_fab_margin"
+                android:layout_marginRight="@dimen/ths_fab_margin"
+                android:gravity="center_vertical"
+                android:layout_height="48dp"
+                android:lineSpacingExtra="6sp"
+                android:text="No payment details required"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textSize="16sp"
+                android:visibility="gone">
+
+            </com.philips.platform.uid.view.widget.Label>
+            <!--end of not required  card block-->
         </FrameLayout>
         <!--end of card block-->
 

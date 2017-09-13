@@ -82,7 +82,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
                         getPracticeProvidersManager().
                         newImageLoader(mProvider,
                                 mImageProvider, ProviderImageSize.LARGE).placeholder
-                        (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder)).
+                        (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder,getActivity().getTheme())).
                         build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();

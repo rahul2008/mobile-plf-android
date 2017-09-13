@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +104,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
 
         subscriberIDEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_subscriber_edit_text);
 
+
         detailContinueButton = (Button) view.findViewById(R.id.ths_insurance_detail_continue_button);
         detailContinueButton.setOnClickListener(this);
         detailSkipButton = (Button) view.findViewById(R.id.ths_insurance_detail_skip_button);
@@ -123,6 +126,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
 
         mSuffixLabel = (Label) view.findViewById(R.id.ths_insurance_detail_suffix_edit_text_label);
         mSuffixEditText = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_suffix_edit_text);
+
 
         return view;
 

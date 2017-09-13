@@ -24,10 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 
-public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSMedication, SDKError>, THSProvidersListCallback,THSGetPharmaciesCallback {
+class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSMedication, SDKError>, THSProvidersListCallback,THSGetPharmaciesCallback {
 
     private THSBaseFragment uiBaseView;
-
 
     public THSSearchPresenter(THSBaseFragment uiBaseView) {
         this.uiBaseView = uiBaseView;
@@ -41,6 +40,7 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
         AmwellLog.i("onFetchMedication", "failure");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onResponse(THSMedication THSMedication, SDKError sdkError) {
 
@@ -76,15 +76,15 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
 
     }
 
-    public void searchProviders(String provider, Practice practice) {
+    void searchProviders(String provider, Practice practice) {
         try {
-            THSManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(), THSManager.getInstance().getPTHConsumer().getConsumer(), practice, provider, this);
+            THSManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(), practice, provider, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
-    public void searchMedication(String medication) {
+    void searchMedication(String medication) {
         try {
             THSManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(), medication, this);
 
@@ -93,7 +93,7 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
         }
     }
 
-    public void searchPharmacy(String pharmacyZip){
+    void searchPharmacy(String pharmacyZip){
         try {
             THSManager.getInstance().getPharmacies(uiBaseView.getFragmentActivity(),THSManager.getInstance().getPTHConsumer(),null,null,pharmacyZip,this);
         } catch (AWSDKInstantiationException e) {
@@ -102,6 +102,7 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
         if (null != providerInfoList && !providerInfoList.isEmpty()) {
@@ -125,6 +126,7 @@ public class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCall
         ((THSBaseFragment) uiBaseView).showToast("Search failure");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
         if(null != pharmacies && !pharmacies.isEmpty()){

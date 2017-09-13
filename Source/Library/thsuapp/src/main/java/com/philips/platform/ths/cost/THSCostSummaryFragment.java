@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -50,13 +51,19 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
 
     Label mInsuranceName, mInsuranceMemberId, mInsuranceSubscriptionType;
     Label mCardType, mMaskedCardNumber, mCardExpirationDate;
+    Label mInitialVisitCostLabel;
+    Label mActualCostHeader;
+
+    Label mPaymentNotRequired;
 
     THSVisit thsVisit;
+    protected THSPaymentMethod mTHSPaymentMethod;
 
     AlertDialogFragment alertDialogFragment;
 
     EditText mCouponCodeEdittext;
     Button mCouponCodeButton;
+
 
     @Nullable
     @Override
@@ -100,6 +107,9 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mCouponCodeEdittext = (EditText) view.findViewById(R.id.ths_cost_summary_promotion_code_edittext);
         mCouponCodeButton = (Button) view.findViewById(R.id.ths_cost_summary_promotion_code_apply_button);
         mCouponCodeButton.setOnClickListener(this);
+        mInitialVisitCostLabel = (Label)view.findViewById(R.id.ths_cost_summary_initial_visit_cost_label);
+        mActualCostHeader= (Label) view.findViewById(R.id.ths_cost_summary_title_label);
+        mPaymentNotRequired=(Label) view.findViewById(R.id.ths_cost_summary_no_payment_detail_required_label);
 
         return view;
     }
@@ -127,9 +137,10 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onStart() {
         super.onStart();
-        mPresenter.fetchExistingSubscription();
         mPresenter.getPaymentMethod();
-        mPresenter.createVisit();
+        mPresenter.fetchExistingSubscription();
+
+
     }
 
     /**
@@ -151,5 +162,11 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
             mPresenter.onEvent(R.id.ths_cost_summary_promotion_code_apply_button );
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        thsVisit=null;
     }
 }

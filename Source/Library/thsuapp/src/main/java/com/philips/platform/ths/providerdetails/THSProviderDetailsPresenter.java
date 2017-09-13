@@ -46,19 +46,18 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 
-public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback,THSMatchMakingCallback,THSCancelMatchMakingCallback<Void, THSSDKError>  {
+class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback, THSCancelMatchMakingCallback<Void, THSSDKError> {
 
     private THSProviderDetailsViewInterface viewInterface;
 
-    private Provider mProvider;
     private THSBaseFragment mThsBaseFragment;
 
-    public THSProviderDetailsPresenter(THSProviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
+    THSProviderDetailsPresenter(THSProviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment) {
         this.viewInterface = viewInterface;
         mThsBaseFragment = thsBaseFragment;
     }
 
-    public void fetchProviderDetails(){
+    void fetchProviderDetails() {
         try {
             if (viewInterface.getTHSProviderInfo() != null)
                 getPTHManager().getProviderDetails(viewInterface.getContext(), viewInterface.getTHSProviderInfo(), this);
@@ -70,7 +69,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     }
 
-    protected THSManager getPTHManager() {
+    private THSManager getPTHManager() {
         return THSManager.getInstance();
     }
 
@@ -79,7 +78,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         THSConsumer thsConsumer = new THSConsumer();
         thsConsumer.setConsumer(viewInterface.getConsumerInfo());
         try {
-            THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider,this);
+            THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -94,10 +93,10 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
-            if(THSManager.getInstance().isMatchMakingVisit()){
+            if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
-            }else {
+            } else {
                 THSConsumer THSConsumer = new THSConsumer();
                 THSConsumer.setConsumer(viewInterface.getConsumerInfo());
                 Bundle bundle = new Bundle();
@@ -110,7 +109,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             }
 
         } else if (componentID == R.id.detailsButtonTwo) {
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -129,10 +128,8 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
 
 
-        } else if (componentID == R.id.detailsButtonContinue) {
-
         } else if (componentID == R.id.calendar_container) {
-            THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
+            THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, true);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -155,17 +152,17 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
-        }else if (componentID == R.id.uid_dialog_positive_button) {
+        } else if (componentID == R.id.uid_dialog_positive_button) {
             // matchmaking failed
             ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.dismiss();
-            ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
+            mThsBaseFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         }
     }
 
     private void launchAvailableProviderDetailBasedOnAvailibity(final Date date) {
         try {
             THSProviderInfo thsProviderInfo = viewInterface.getTHSProviderInfo();
-            if(thsProviderInfo == null){
+            if (thsProviderInfo == null) {
                 final Provider provider = viewInterface.getProvider();
                 THSProviderInfo thsProviderInfo1 = new THSProviderInfo();
                 thsProviderInfo1.setTHSProviderInfo(provider);
@@ -178,16 +175,15 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                             ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
                             try {
                                 THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
-                                        date, new THSAvailableProviderCallback<List, THSSDKError>() {
+                                        date, new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
                                             @Override
-                                            public void onResponse(final List dates, THSSDKError sdkError) {
-                                                if(viewInterface.getPractice() == null){
+                                            public void onResponse(final List<Date> dates, THSSDKError sdkError) {
+                                                if (viewInterface.getPractice() == null) {
                                                     try {
-                                                        THSManager.getInstance().getPractice(mThsBaseFragment.getContext(), viewInterface.getPracticeInfo(), new THSPracticeCallback<Practice,SDKError>() {
+                                                        THSManager.getInstance().getPractice(mThsBaseFragment.getContext(), viewInterface.getPracticeInfo(), new THSPracticeCallback<Practice, SDKError>() {
                                                             @Override
                                                             public void onResponse(Practice practice, SDKError practiceSdkError) {
-                                                                launchFragmentBasedOnAvailibity(practice,dates, date);
-                                                                return;
+                                                                launchFragmentBasedOnAvailibity(practice, dates, date);
                                                             }
 
                                                             @Override
@@ -199,7 +195,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                                                         e.printStackTrace();
                                                     }
                                                 }
-                                                launchFragmentBasedOnAvailibity(viewInterface.getPractice(),dates, date);
+                                                launchFragmentBasedOnAvailibity(viewInterface.getPractice(), dates, date);
                                             }
 
                                             @Override
@@ -224,8 +220,8 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         }
     }
 
-    private void launchFragmentBasedOnAvailibity(Practice practice,List dates, Date date) {
-        if(dates == null || dates.size()==0){
+    private void launchFragmentBasedOnAvailibity(Practice practice, List<Date> dates, Date date) {
+        if (dates == null || dates.size() == 0) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(THSConstants.THS_DATE, date);
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
@@ -235,8 +231,8 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
             mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle);
             mThsBaseFragment.hideProgressBar();
-        }else {
-            new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment,viewInterface.getTHSProviderInfo(),
+        } else {
+            new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, viewInterface.getTHSProviderInfo(),
                     date, practice);
         }
     }
@@ -252,18 +248,19 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     }
 
 
-    void doMatchMaking(){
+    void doMatchMaking() {
         showMatchMakingProgressbar();
         try {
-            THSManager.getInstance().doMatchMaking(mThsBaseFragment.getContext(),THSManager.getInstance().getPthVisitContext(),this);
+            THSManager.getInstance().doMatchMaking(mThsBaseFragment.getContext(), THSManager.getInstance().getPthVisitContext(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
-    void showMatchMakingProgressbar(){
+
+    private void showMatchMakingProgressbar() {
         ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.VISIBLE);
         ((THSProviderDetailsFragment) mThsBaseFragment).showProgressbar();
-        Resources resources = ((THSProviderDetailsFragment) mThsBaseFragment).getResources();
+        Resources resources = mThsBaseFragment.getResources();
         String highlightedChildMatchMakingMessage = resources.getString(R.string.ths_matchmaking_progressbar_meesage_child_text);
         String parentMatchmakingString = String.format(resources.getString(R.string.ths_matchmaking_progressbar_meesage_parent_text), highlightedChildMatchMakingMessage);
         SpannableString matchMakingProgrressMessage = new SpannableString(parentMatchmakingString);
@@ -281,59 +278,59 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     @Override
     public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
-        ((THSProviderDetailsFragment) mThsBaseFragment).hideProgressBar();
+        mThsBaseFragment.hideProgressBar();
         ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
         THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
-        ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo  = provider.getPracticeInfo();
-        THSProviderInfo tHSProviderInfo= new THSProviderInfo();
+        ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo = provider.getPracticeInfo();
+        THSProviderInfo tHSProviderInfo = new THSProviderInfo();
         tHSProviderInfo.setTHSProviderInfo(provider);
-        ((THSProviderDetailsFragment) mThsBaseFragment).mThsProviderInfo=tHSProviderInfo;
+        ((THSProviderDetailsFragment) mThsBaseFragment).mThsProviderInfo = tHSProviderInfo;
         ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
         ((THSProviderDetailsFragment) mThsBaseFragment).dodProviderFoundMessage.setVisibility(View.VISIBLE);
-        onProviderDetailsReceived(provider,null);
+        onProviderDetailsReceived(provider, null);
     }
 
     @Override
     public void onMatchMakingProviderListExhausted() {
-        ((THSProviderDetailsFragment) mThsBaseFragment).hideProgressBar();
-        showMatchmakingError(true,true,false);
+        mThsBaseFragment.hideProgressBar();
+        showMatchmakingError(true, true);
     }
 
     @Override
     public void onMatchMakingRequestGone() {
-        showMatchmakingError(true,true,false);
+        showMatchmakingError(true, true);
     }
 
     @Override
     public void onMatchMakingResponse(Void aVoid, SDKError sdkError) {
-        showMatchmakingError(true,true,false);
+        showMatchmakingError(true, true);
 
     }
 
     @Override
     public void onMatchMakingFailure(Throwable throwable) {
-        showMatchmakingError(true,true,false);
+        showMatchmakingError(true, true);
 
     }
 
-    void showMatchmakingError(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(((THSProviderDetailsFragment) mThsBaseFragment).getFragmentActivity())
-                .setMessage(showLargeContent ? ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
-                        setPositiveButton(" Ok ", ((THSProviderDetailsFragment) mThsBaseFragment));
+    private void showMatchmakingError(final boolean showLargeContent, final boolean isWithTitle) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsBaseFragment.getFragmentActivity())
+                .setMessage(showLargeContent ? mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
+                        setPositiveButton(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_ok_button), ((THSProviderDetailsFragment) mThsBaseFragment));
 
         if (isWithTitle) {
-            builder.setTitle("Error");
+            builder.setTitle(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error));
 
         }
         ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment = builder.setCancelable(false).create();
-        ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.show(((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
+        ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.show(mThsBaseFragment.getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
 
     }
 
 
-    void cancelMatchMaking(){
+    void cancelMatchMaking() {
         try {
-            THSManager.getInstance().cancelMatchMaking(mThsBaseFragment.getContext(),THSManager.getInstance().getPthVisitContext(),this);
+            THSManager.getInstance().cancelMatchMaking(mThsBaseFragment.getContext(), THSManager.getInstance().getPthVisitContext(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -343,17 +340,17 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     // start of cancel MatchMaker callback
     @Override
     public void onCancelMatchMakingResponse(Void aVoid, THSSDKError thssdkError) {
-     if(null==thssdkError.getSdkError()){
-         ((THSProviderDetailsFragment) mThsBaseFragment).getActivity().getSupportFragmentManager().popBackStack();
-     }
+        if (null == thssdkError.getSdkError()) {
+            mThsBaseFragment.getActivity().getSupportFragmentManager().popBackStack();
+        }
 
     }
 
     @Override
     public void onCancelMatchMakingFailure(Throwable throwable) {
         THSManager.getInstance().setMatchMakingVisit(false);
-        ((THSProviderDetailsFragment) mThsBaseFragment).showToast("Error while cancelling match making");
-        ((THSProviderDetailsFragment) mThsBaseFragment).getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
+        mThsBaseFragment.showToast(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_cancelling));
+        mThsBaseFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
     }
     // start of cancel MatchMaker callback
 }

@@ -16,10 +16,9 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
 
     public static String TAG = THSSetReminderDialogFragment.class.getSimpleName();
     private RadioGroup radioGroup;
-    private Button set_reminder_confirmation_button, cancel_reminder_dialog;
-    private THSDialogFragmentCallback thsDialogFragmentCallback;
+    private THSDialogFragmentCallback<String> thsDialogFragmentCallback;
 
-    public void setDialogFragmentCallback(THSDialogFragmentCallback thsDialogFragmentCallback){
+    public void setDialogFragmentCallback(THSDialogFragmentCallback<String> thsDialogFragmentCallback){
         this.thsDialogFragmentCallback = thsDialogFragmentCallback;
     }
 
@@ -28,8 +27,8 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_set_reminder_dialog_fragment, container, false);
         radioGroup = (RadioGroup) view.findViewById(R.id.ths_reminder_radio_group);
-        set_reminder_confirmation_button = (Button) view.findViewById(R.id.set_reminder_confirmation_button);
-        cancel_reminder_dialog = (Button) view.findViewById(R.id.cancel_reminder_dialog);
+        Button set_reminder_confirmation_button = (Button) view.findViewById(R.id.set_reminder_confirmation_button);
+        Button cancel_reminder_dialog = (Button) view.findViewById(R.id.cancel_reminder_dialog);
         set_reminder_confirmation_button.setOnClickListener(this);
         cancel_reminder_dialog.setOnClickListener(this);
         radioGroup.check(R.id.ths_rb_15_mins);
