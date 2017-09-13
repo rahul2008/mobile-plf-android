@@ -13,7 +13,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -40,7 +39,7 @@ public class PRDemoActivityTest {
     @Rule
     public ActivityTestRule<PRDemoActivity> mActivityTestRule = new ActivityTestRule<>(PRDemoActivity.class);
 
-    @Test
+//    @Test
     public void pRDemoActivityTest() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.launch_pr_demo_app_button), withText("Launch PR Demo App"), isDisplayed()));

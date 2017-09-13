@@ -29,7 +29,7 @@ public class PRDemoActivityTestRegister {
     @Rule
     public ActivityTestRule<PRDemoActivity> mActivityTestRule = new ActivityTestRule<>(PRDemoActivity.class);
 
-    @Test
+//    @Test
     public void testProductRegisteredSuccessOnAppSetUpFlow() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.launch_pr_demo_app_button), withText("Launch PR Demo App"), isDisplayed()));
