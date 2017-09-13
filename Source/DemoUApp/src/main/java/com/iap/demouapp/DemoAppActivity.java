@@ -183,9 +183,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
-            try{
+            try {
                 mIapInterface.getCompleteProductList(this);
-            }catch(RuntimeException e){
+            } catch (RuntimeException e) {
 
             }
             mShopNow.setVisibility(View.VISIBLE);
@@ -473,9 +473,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.GONE);
         }
 
-        try{
+        try {
             mIapInterface.getCompleteProductList(this);
-        }catch (Exception e){
+        } catch (Exception e) {
             IAPLog.e(IAPLog.LOG, e.getMessage());
         }
 
@@ -513,10 +513,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     @Override
-    public void onSuccess(Object bool) {
-        if (bool instanceof Boolean) {
-            displayFlowViews((Boolean) bool);
-        }
+    public void onSuccess(boolean bool) {
+        displayFlowViews(bool);
     }
 
     @Override

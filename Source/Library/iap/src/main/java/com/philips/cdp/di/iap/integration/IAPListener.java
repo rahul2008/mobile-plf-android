@@ -17,10 +17,9 @@ public interface IAPListener {
 
     void onGetCompleteProductList(final ArrayList<String> productList);
 
-    @Deprecated
     void onSuccess();
 
-    void onSuccess(Object bool);
+    void onSuccess(boolean bool);
 
     void onFailure(final int errorCode);
 

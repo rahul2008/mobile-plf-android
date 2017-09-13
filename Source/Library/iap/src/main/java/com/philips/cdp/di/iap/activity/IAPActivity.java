@@ -306,7 +306,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     @Override
-    public void onSuccess(Object bool) {
+    public void onSuccess(boolean bool) {
         dismissProgressDialog();
     }
 
