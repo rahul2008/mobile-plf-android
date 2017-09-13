@@ -74,4 +74,5 @@
     <string name="PRG_warranty_until">Under warranty until:</string>
     <string name="PRG_Registering_Products_Lbltxt">Registering</string>
     <string name="PRG_Please_Enter_SerialNum_Txtfldtxt">Enter your serial number</string>
+    <string name="PRG_Looking_For_Products_Lbltxt">We\'re looking for your products…</string>
 </resources>
