@@ -5,6 +5,8 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
@@ -22,7 +24,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath(builddeps.cdpSCM)
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
     }
@@ -58,15 +60,7 @@ repositories {
 }
 
 group = 'com.philips.cdp'
-def libVersionNumber = new File("${projectDir}/../../../VERSION_HSDP").text.trim()
-if(objcdp.getWorkingBranch().startsWith('master')) {
-    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
-} else if(objcdp.getWorkingBranch().startsWith('release')) {
-    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '-rc.' + objcdp.getTimeStamp())
-} else {
-    libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '-SNAPSHOT.' + objcdp.getTimeStamp())
-}
-version = libVersionNumber
+version = objcdp.getVersion(versions.usr_hsdp)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
