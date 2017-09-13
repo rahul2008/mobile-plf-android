@@ -142,7 +142,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     public void onStart() {
         super.onStart();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY,null,null);
-        mPresenter.fetchExistingSubscription();
         mPresenter.getPaymentMethod();
         mPresenter.fetchExistingSubscription();
 
