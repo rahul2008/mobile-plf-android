@@ -14,6 +14,8 @@ def coverageSourceDirs = [
 ]
 
 buildscript {
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven {
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -35,7 +37,7 @@ buildscript {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '3.2.0', changing: true
+        classpath(builddeps.cdpSCM)
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.6.2'
@@ -80,7 +82,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(versions.ths_telehealth)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -219,20 +221,20 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 	
-	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar')
+	def ailModule = module(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':ail') : ailModule) {
         exclude group: 'com.android.support'
         transitive = true
     }
     
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: '0.1.1'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
+	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
 	compile(dp ? project(':uid') : uidModule) 
 	{
         exclude group: 'com.android.support'
 		transitive = true
 	}
 
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: '11.0.0' + objcdp.getVersionSuffix(), ext: 'aar')
+	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':usr') : usrModule) 
 	{
         exclude group: 'com.android.support'
