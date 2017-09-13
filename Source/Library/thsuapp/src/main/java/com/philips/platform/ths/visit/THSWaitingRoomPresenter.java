@@ -20,6 +20,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
@@ -159,6 +160,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     @Override
     public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
+        AmwellLog.v("call end",visitEndReason.toString());
 
     }
 
