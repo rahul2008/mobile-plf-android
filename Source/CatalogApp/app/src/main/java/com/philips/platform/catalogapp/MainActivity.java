@@ -12,56 +12,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-
-import com.philips.platform.catalogapp.dataUtils.SidebarRightListViewAdapter;
 import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
 import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
 import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
 import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
-import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.utils.SidebarFrameLayoutContainer;
-import com.philips.platform.uid.utils.SidebarNavigationViewContainer;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDUtils;
-import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-import com.philips.platform.uid.view.widget.SideBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -84,28 +59,9 @@ public class MainActivity extends UIDActivity {
     private ViewDataBinding activityMainBinding;
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
-
-    private SidebarController sidebarController;
-    /*private SideBar sideBarLayout;
-    private ActionBarDrawerToggle drawerToggle;
-    private RecyclerView contentThemedLeftRecyclerView;
-    private RecyclerView navigationThemedLeftRecyclerView;
-    private ListView contentThemedRightListView;
-    private ListView navigationThemedRightListView;
-    public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
-    public static final String IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE";
-    public static final String IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE";
-    private int leftRecyclerViewSelectedPosition = 0;
-    private boolean isNavigationThemedLeftContainerVisible;
-    private boolean isNavigationThemedRightContainerVisible;
-    private LinearLayout sidebarLeftRoot;
-    private SidebarFrameLayoutContainer contentThemedLeftSidebarRoot;
-    private SidebarFrameLayoutContainer navigationThemedLeftSidebarRoot;
-    private SidebarNavigationViewContainer contentThemedRightSidebarRoot;
-    private SidebarNavigationViewContainer navigationThemedRightSidebarRoot;*/
-
     boolean isAppLevelThemeApplied;
 
+    private SidebarController sidebarController;
 
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
@@ -142,122 +98,11 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sidebarController = new SidebarController(this, activityMainBinding);
-        
-        /*sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
-        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
-
-        sidebarLeftRoot = (LinearLayout) findViewById(R.id.sidebar_left_root);
-        contentThemedLeftSidebarRoot = (SidebarFrameLayoutContainer) findViewById(R.id.sidebar_content_themed_left_root);
-        navigationThemedLeftSidebarRoot = (SidebarFrameLayoutContainer) findViewById(R.id.sidebar_navigation_themed_left_root);
-
-        contentThemedRightSidebarRoot = (SidebarNavigationViewContainer) findViewById(R.id.sidebar_content_themed_right_root);
-        navigationThemedRightSidebarRoot = (SidebarNavigationViewContainer) findViewById(R.id.sidebar_navigation_themed_right_root);
-
-        drawerToggle = setupDrawerToggle();
-
-        RecyclerViewSeparatorItemDecoration contentThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(this);
-        RecyclerViewSeparatorItemDecoration navigationThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(ThemeUtils.getNavigationThemedContext(this));
-        DataHolderView contentThemedDataHolderView = getIconDataHolderView(this);
-        DataHolderView navigationThemedDataHolderView = getIconDataHolderView(ThemeUtils.getNavigationThemedContext(this));
-
-        contentThemedLeftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_content_themed_left_recyclerview);
-        contentThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(contentThemedDataHolderView.dataHolders, false));
-        contentThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contentThemedLeftRecyclerView.addItemDecoration(contentThemedSeparatorItemDecoration);
-
-        navigationThemedLeftRecyclerView = (RecyclerView) findViewById(R.id.sidebar_navigation_themed_left_recyclerview);
-        navigationThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(navigationThemedDataHolderView.dataHolders, true));
-        navigationThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        navigationThemedLeftRecyclerView.addItemDecoration(navigationThemedSeparatorItemDecoration);
-
-        initializeRecyclerView(this);
-
-        contentThemedRightListView = (ListView) findViewById(R.id.sidebar_content_themed_right_listview);
-        navigationThemedRightListView = (ListView) findViewById(R.id.sidebar_navigation_themed_right_listview);
-
-        ImageView sidebarRightImg = (ImageView) findViewById(R.id.sidebar_right_header_image);
-        sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(this), 0, 0);
-
-
-        setRightListItems();
-
-
-        drawerToggle.setDrawerIndicatorEnabled(false);
-        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // event when click home button
-                if (navigationController.hasBackStack()) {
-                    onBackPressed();
-                }
-            }
-        });*/
     }
 
-    /*private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, sideBarLayout, navigationController.getToolbar(), R.string.sidebar_open,  R.string.sidebar_close){
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-    }
-*/
     public SidebarController getSideBarController(){
         return sidebarController;
     }
-
-    /*public void showContentThemedLeftComponents(){
-        isNavigationThemedLeftContainerVisible = false;
-        navigationThemedLeftSidebarRoot.setVisibility(View.GONE);
-        sidebarLeftRoot.setBackgroundColor(getContentMappedBGColor());
-        contentThemedLeftSidebarRoot.setVisibility(View.VISIBLE);
-    }
-
-    public void showNavigationThemedLeftComponents(){
-        isNavigationThemedLeftContainerVisible = true;
-        contentThemedLeftSidebarRoot.setVisibility(View.GONE);
-        sidebarLeftRoot.setBackgroundColor(getNavigationMappedBGColor());
-        navigationThemedLeftSidebarRoot.setVisibility(View.VISIBLE);
-    }
-
-    public void showContentThemedRightComponents(){
-        isNavigationThemedRightContainerVisible = false;
-        navigationThemedRightSidebarRoot.setVisibility(View.GONE);
-        contentThemedRightSidebarRoot.setVisibility(View.VISIBLE);
-    }
-
-    public void showNavigationThemedRightComponents(){
-        isNavigationThemedRightContainerVisible = true;
-        contentThemedRightSidebarRoot.setVisibility(View.GONE);
-        navigationThemedRightSidebarRoot.setVisibility(View.VISIBLE);
-    }
-
-    private int getContentMappedBGColor(){
-        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentPrimaryBackgroundColor});
-        int sidebarBGColor = 0;
-        if (typedArray != null) {
-            sidebarBGColor = typedArray.getColor(0, Color.WHITE);
-            typedArray.recycle();
-        }
-        return sidebarBGColor;
-    }
-
-    private int getNavigationMappedBGColor(){
-        TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.uidNavigationPrimaryBackgroundColor});
-        int sidebarBGColor = 0;
-        if (typedArray != null) {
-            sidebarBGColor = typedArray.getColor(0, Color.WHITE);
-            typedArray.recycle();
-        }
-        return sidebarBGColor;
-    } */
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -270,122 +115,6 @@ public class MainActivity extends UIDActivity {
         super.onPostCreate(savedInstanceState);
         sidebarController.getDrawerToggle().syncState();
     }
-
-    /*private void initializeRecyclerView(Context context) {
-
-    }*/
-
-    /*@NonNull
-    private DataHolderView getIconDataHolderView(Context context) {
-        DataHolderView dataHolderView = new DataHolderView();
-        dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.menu1, context);
-        dataHolderView.addIconItem(R.drawable.ic_home, R.string.menu2, context);
-        dataHolderView.addIconItem(R.drawable.ic_lock, R.string.menu3, context);
-        dataHolderView.addIconItem(R.drawable.ic_alarm, R.string.menu4, context);
-        dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.menu5, context);
-        dataHolderView.addIconItem(R.drawable.ic_location, R.string.menu6, context);
-        return dataHolderView;
-    }*/
-
-    /*private class SidebarRecyclerViewAdapter extends RecyclerView.Adapter {
-        private ObservableArrayList<DataHolder> dataHolders;
-        private LayoutInflater inflater;
-        private boolean isNavigationContext;
-
-        private SidebarRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders, boolean isNavigationContext) {
-            this.dataHolders = dataHolders;
-            this.isNavigationContext = isNavigationContext;
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-            inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(isNavigationContext)
-                inflater = inflater.cloneInContext(ThemeUtils.getNavigationThemedContext(parent.getContext()));
-            View v = inflater.inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
-
-            return new SidebarRecyclerViewBindingHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-            final DataHolder dataHolder = dataHolders.get(position);
-            ((SidebarRecyclerViewBindingHolder) holder).getBinding().setVariable(1, dataHolder);
-            ((SidebarRecyclerViewBindingHolder) holder).getBinding().executePendingBindings();
-
-            holder.itemView.post(new Runnable() {
-                @Override
-                public void run() {
-                    holder.itemView.setSelected(leftRecyclerViewSelectedPosition == position);
-                }
-            });
-
-            ((SidebarRecyclerViewBindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    leftRecyclerViewSelectedPosition = position;
-                    holder.itemView.setSelected(true);
-                    contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    sideBarLayout.closeDrawer(GravityCompat.START);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return dataHolders.size();
-        }
-
-        class SidebarRecyclerViewBindingHolder extends RecyclerView.ViewHolder {
-            private ViewDataBinding binding;
-
-            SidebarRecyclerViewBindingHolder(@NonNull View rowView) {
-                super(rowView);
-                binding = DataBindingUtil.bind(rowView);
-            }
-
-            public ViewDataBinding getBinding() {
-                return binding;
-            }
-        }
-    }*/
-
-
-    /*private void setRightListItems() {
-
-        final SeparatorDrawable contentThemedSeparatorDrawable = new SeparatorDrawable(this);
-        contentThemedRightListView.setDivider(contentThemedSeparatorDrawable);
-        contentThemedRightListView.setDividerHeight(contentThemedSeparatorDrawable.getHeight());
-        ArrayAdapter contentThemedArrayAdapter = new SidebarRightListViewAdapter(this, R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), false);
-        contentThemedRightListView.setAdapter(contentThemedArrayAdapter);
-        contentThemedRightListView.setItemChecked(0, true);
-        contentThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                contentThemedRightListView.setItemChecked(position, true);
-                navigationThemedRightListView.setItemChecked(position, true);
-                sideBarLayout.closeDrawer(GravityCompat.END);
-            }
-        });
-
-        final SeparatorDrawable navigationThemedSeparatorDrawable = new SeparatorDrawable(ThemeUtils.getNavigationThemedContext(this));
-        navigationThemedRightListView.setDivider(navigationThemedSeparatorDrawable);
-        navigationThemedRightListView.setDividerHeight(navigationThemedSeparatorDrawable.getHeight());
-        ArrayAdapter navigationThemedArrayAdapter = new SidebarRightListViewAdapter(ThemeUtils.getNavigationThemedContext(this), R.layout.sidebar_right_listview_item, getResources().getStringArray(R.array.sidebar_right_menu_items), true );
-        navigationThemedRightListView.setAdapter(navigationThemedArrayAdapter);
-        navigationThemedRightListView.setItemChecked(0, true);
-        navigationThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                navigationThemedRightListView.setItemChecked(position, true);
-                contentThemedRightListView.setItemChecked(position, true);
-                sideBarLayout.closeDrawer(GravityCompat.END);
-            }
-        });
-    }*/
 
     private void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
@@ -445,19 +174,6 @@ public class MainActivity extends UIDActivity {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
         sidebarController.initSidebarContainerState(savedInstanceState);
-        /*leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
-        isNavigationThemedLeftContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE);
-        isNavigationThemedRightContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE);
-        if(isNavigationThemedLeftContainerVisible){
-            showNavigationThemedLeftComponents();
-        } else {
-            showContentThemedLeftComponents();
-        }
-        if(isNavigationThemedRightContainerVisible){
-            showNavigationThemedRightComponents();
-        } else {
-            showContentThemedRightComponents();
-        }*/
     }
 
     @Override
@@ -479,21 +195,10 @@ public class MainActivity extends UIDActivity {
                 }
                 restartActivity();
                 break;
-            /*case android.R.id.home:
-                if (navigationController.hasBackStack()) {
-                    onBackPressed();
-                } else {
-                    //showSnackBar();
-                    sideBarLayout.openDrawer(GravityCompat.START);
-                }*/
         }
 
         return true;
     }
-
-    /*private void showSnackBar() {
-        Snackbar.make(navigationController.getToolbar(), R.string.hamburger_not_ready, Snackbar.LENGTH_LONG).show();
-    }*/
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
@@ -507,9 +212,6 @@ public class MainActivity extends UIDActivity {
         navigationController.onSaveInstance(outState);
         sidebarController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
-        /*outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
-        outState.putBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE, isNavigationThemedLeftContainerVisible);
-        outState.putBoolean(IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE, isNavigationThemedRightContainerVisible);*/
     }
 
     public ThemeConfiguration getThemeConfig() {
@@ -547,13 +249,13 @@ public class MainActivity extends UIDActivity {
 
     @Override
     public void onBackPressed() {
-        /*if(sideBarLayout.isDrawerOpen(GravityCompat.START)){
-            sideBarLayout.closeDrawer(GravityCompat.START);
+        if(sidebarController.getSideBar().isDrawerOpen(GravityCompat.START)){
+            sidebarController.getSideBar().closeDrawer(GravityCompat.START);
             return;
-        } else if(sideBarLayout.isDrawerOpen(GravityCompat.END)){
-            sideBarLayout.closeDrawer(GravityCompat.END);
+        } else if(sidebarController.getSideBar().isDrawerOpen(GravityCompat.END)){
+            sidebarController.getSideBar().closeDrawer(GravityCompat.END);
             return;
-        }*/
+        }
 
         if (navigationController.updateStack()) {
             super.onBackPressed();

@@ -47,9 +47,9 @@ public class SidebarController {
     private RecyclerView navigationThemedLeftRecyclerView;
     private ListView contentThemedRightListView;
     private ListView navigationThemedRightListView;
-    public static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
-    public static final String IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE";
-    public static final String IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE";
+    private static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
+    private static final String IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE";
+    private static final String IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE";
     private int leftRecyclerViewSelectedPosition = 0;
     private boolean isNavigationThemedLeftContainerVisible;
     private boolean isNavigationThemedRightContainerVisible;
@@ -89,7 +89,7 @@ public class SidebarController {
             public void onClick(View v) {
                 // event when click home button
                 if (mainActivity.getNavigationController().hasBackStack()) {
-                    onBackPressed();
+                    mainActivity.onBackPressed();
                 }
             }
         });
@@ -106,16 +106,6 @@ public class SidebarController {
                 super.onDrawerOpened(drawerView);
             }
         };
-    }
-
-    private void onBackPressed() {
-        if(sideBarLayout.isDrawerOpen(GravityCompat.START)){
-            sideBarLayout.closeDrawer(GravityCompat.START);
-            return;
-        } else if(sideBarLayout.isDrawerOpen(GravityCompat.END)){
-            sideBarLayout.closeDrawer(GravityCompat.END);
-            return;
-        }
     }
 
     private void initRightSidebarListViews() {
