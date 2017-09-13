@@ -33,7 +33,7 @@ public class DataHolder extends BaseObservable {
         this.text = text;
         this.description = description;
         this.context = context;
-        colorList = AppCompatResources.getColorStateList(context, R.color.uid_sidebar_list_icon_selector);
+        colorList = AppCompatResources.getColorStateList(context, R.color.uid_list_item_icon_selector);
     }
 
     public Drawable getIcon() {
