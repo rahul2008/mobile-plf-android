@@ -22,7 +22,7 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.List;
 
 
-public class THSSpinnerAdapter extends ArrayAdapter {
+public class THSSpinnerAdapter extends ArrayAdapter<Integer> {
 
     private Context context;
     private Label pharmacyState;
