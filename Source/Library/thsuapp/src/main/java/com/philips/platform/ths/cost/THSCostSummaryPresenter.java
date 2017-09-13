@@ -33,12 +33,12 @@ import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 
-public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, ApplyCouponCallback<Void, THSSDKError> {
+class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<THSVisit, THSSDKError>, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSPaymentCallback.THSgetPaymentMethodCallBack<THSPaymentMethod, THSSDKError>, ApplyCouponCallback<Void, THSSDKError> {
 
     private THSCostSummaryFragment mTHSCostSummaryFragment;
 
 
-    public THSCostSummaryPresenter(THSCostSummaryFragment thsCostSummaryFragment) {
+    THSCostSummaryPresenter(THSCostSummaryFragment thsCostSummaryFragment) {
         mTHSCostSummaryFragment = thsCostSummaryFragment;
     }
 
@@ -50,7 +50,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mTHSCostSummaryFragment.thsVisit.getVisit());
             mTHSCostSummaryFragment.addFragment(thsWaitingRoomFragment, THSWaitingRoomFragment.TAG, bundle);
 
-        } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout) {
+        } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout || componentID == R.id.ths_cost_summary_add_payment_method_button) {
             final THSCreditCardDetailFragment fragment = new THSCreditCardDetailFragment();
             fragment.setFragmentLauncher(mTHSCostSummaryFragment.getFragmentLauncher());
             mTHSCostSummaryFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, null);
@@ -71,7 +71,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     }
 
 
-    void createVisit() {
+    private void createVisit() {
         try {
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
             THSManager.getInstance().createVisit(mTHSCostSummaryFragment.getFragmentActivity(), THSManager.getInstance().getPthVisitContext(), this);
@@ -81,19 +81,19 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
 
     }
 
-    void applyCouponCode(String couponCode) {
+    private void applyCouponCode(String couponCode) {
         try {
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
             mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(false);
             if (null == couponCode || couponCode.isEmpty()) {
                 String errorMessage = mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_coupon_code_empty);
-                showCostError(true, true, false, errorMessage);
+                showCostError(true, true, errorMessage);
             }
             THSManager.getInstance().applyCouponCode(mTHSCostSummaryFragment.getFragmentActivity(), mTHSCostSummaryFragment.thsVisit, couponCode, this);
         } catch (Exception e) {
             mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
             mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
-            showCostError(true, true, false, e.getMessage());
+            showCostError(true, true, e.getMessage());
         }
 
     }
@@ -141,7 +141,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     private void updateCost(THSVisit thsVisit) {
         if (thsVisit.getVisit().getVisitCost().isFree()) {
             mTHSCostSummaryFragment.mActualCostHeader.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_header));
-            mTHSCostSummaryFragment.costBigLabel.setText("Free");
+            mTHSCostSummaryFragment.costBigLabel.setText(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_free_visit_text));
             mTHSCostSummaryFragment.costSmallLabel.setText(null);
             String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Full_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
@@ -153,9 +153,9 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             double costDouble = thsVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
             String costString = String.valueOf(costDouble);
             String[] costStringArray = costString.split("\\.");// seperate the decimal value
-            mTHSCostSummaryFragment.costBigLabel.setText("$" + costStringArray[0]);
+            mTHSCostSummaryFragment.costBigLabel.setText(String.valueOf("$" + costStringArray[0]));
             if (!"0".equals(costStringArray[1])) { // if decimal part is zero then dont show
-                mTHSCostSummaryFragment.costSmallLabel.setText("." + costStringArray[1]);
+                mTHSCostSummaryFragment.costSmallLabel.setText(String.valueOf("." + costStringArray[1]));
             }
             String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
             mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
@@ -168,13 +168,13 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     public void onCreateVisitFailure(Throwable var1) {
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
         mTHSCostSummaryFragment.hideProgressBar();
-        showCostError(true, true, false, var1.toString());
+        showCostError(true, true, var1.toString());
     }
 
     @Override
     public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
         mTHSCostSummaryFragment.hideProgressBar();
-        showCostError(true, true, false, var1.toString());
+        showCostError(true, true, var1.toString());
     }
     // end of createVisit callbacks
 
@@ -188,7 +188,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             mTHSCostSummaryFragment.mInsuranceDetailRelativeLayout.setVisibility(View.VISIBLE);
             Subscription subscription = tHSSubscription.getSubscription();
             mTHSCostSummaryFragment.mInsuranceName.setText(subscription.getHealthPlan().getName());
-            mTHSCostSummaryFragment.mInsuranceMemberId.setText("Member ID: " + subscription.getSubscriberId());
+            mTHSCostSummaryFragment.mInsuranceMemberId.setText(String.valueOf(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_member_id) + subscription.getSubscriberId()));
             mTHSCostSummaryFragment.mInsuranceSubscriptionType.setText(subscription.getRelationship().getName());
         } else {
             // show no insurance detail
@@ -216,7 +216,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
             mTHSCostSummaryFragment.mPaymentMethodDetailRelativeLayout.setVisibility(View.VISIBLE);
             PaymentMethod paymentMethod = tHSPaymentMethod.getPaymentMethod();
             mTHSCostSummaryFragment.mCardType.setText(paymentMethod.getType());
-            mTHSCostSummaryFragment.mMaskedCardNumber.setText("xxxx xxxx xxxx " + paymentMethod.getLastDigits());
+            mTHSCostSummaryFragment.mMaskedCardNumber.setText(String.valueOf("xxxx xxxx xxxx " + paymentMethod.getLastDigits()));
 
             //  show  "Ok, continue" button
             mTHSCostSummaryFragment.mAddPaymentMethodButtonRelativeLayout.setVisibility(View.GONE);
@@ -257,13 +257,13 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
     }
     // end of getPayment callbacks
 
-    void showCostError(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon, final String message) {
+    private void showCostError(final boolean showLargeContent, final boolean isWithTitle, final String message) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? message : message).
-                        setPositiveButton(" Ok ", mTHSCostSummaryFragment);
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), mTHSCostSummaryFragment);
 
         if (isWithTitle) {
-            builder.setTitle("Error");
+            builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));
 
         }
         mTHSCostSummaryFragment.alertDialogFragment = builder.setCancelable(false).create();
@@ -285,7 +285,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCal
         mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
         String invalidCoupon = mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_coupon_code_invalid);
-        showCostError(true, true, false, invalidCoupon);
+        showCostError(true, true, invalidCoupon);
     }
     // end of PROMO/COUPON code callback
 }
