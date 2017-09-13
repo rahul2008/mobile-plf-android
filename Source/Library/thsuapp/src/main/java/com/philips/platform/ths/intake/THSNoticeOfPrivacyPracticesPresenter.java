@@ -23,7 +23,7 @@ import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNoticeOfPrivacyPracticesCallBack {
     private THSBaseView uiBaseView;
-    private THSVisitContext mTHSVisitContext;
+    protected THSVisitContext mTHSVisitContext;
     private StringBuilder mStringBuilder;
 
     THSNoticeOfPrivacyPracticesPresenter(THSBaseView uiBaseView) {

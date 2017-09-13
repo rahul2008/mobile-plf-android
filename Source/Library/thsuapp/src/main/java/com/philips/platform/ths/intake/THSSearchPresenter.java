@@ -26,10 +26,9 @@ import java.util.Map;
 
 class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSMedication, SDKError>, THSProvidersListCallback,THSGetPharmaciesCallback {
 
-    private THSBaseView uiBaseView;
+    private THSBaseFragment uiBaseView;
 
-
-    THSSearchPresenter(THSBaseView uiBaseView) {
+    public THSSearchPresenter(THSBaseFragment uiBaseView) {
         this.uiBaseView = uiBaseView;
     }
 
@@ -65,7 +64,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
 
         AmwellLog.i("onFetchMedication", "failure");
-        ((THSMedicationFragment) uiBaseView).showToast("Search failure");
+        uiBaseView.showToast("Search failure");
     }
 
 

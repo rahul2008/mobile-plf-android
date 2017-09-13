@@ -139,6 +139,17 @@ public class THSWelcomePresenterTest {
     }
 
     @Test
+    public void onEventFirstTimeUser() throws Exception {
+        pthWelcomePresenter.isFirstTimeUser = true;
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        pthWelcomePresenter.onEvent(R.id.appointments);
+        verifyNoMoreInteractions(consumerManagerMock);
+        // verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
+    }
+
+    @Test
     public void onEventVisitHistory() throws Exception {
         when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
@@ -149,7 +160,28 @@ public class THSWelcomePresenterTest {
     }
 
     @Test
+    public void onEventVisitHistoryFirstTimeUser() throws Exception {
+        pthWelcomePresenter.isFirstTimeUser =  true;
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        pthWelcomePresenter.onEvent(R.id.visit_history);
+        verifyNoMoreInteractions(consumerManagerMock);
+        // verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
+    }
+
+    @Test
     public void onEventHowItWorkd() throws Exception {
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        pthWelcomePresenter.onEvent(R.id.how_it_works);
+        verify(pTHBaseViewMock).showToast(anyString());
+    }
+
+    @Test
+    public void onEventHowItWorkdFirstTimeUser() throws Exception {
+        pthWelcomePresenter.isFirstTimeUser = true;
         when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(userMock.getHsdpUUID()).thenReturn("1234");
@@ -165,6 +197,17 @@ public class THSWelcomePresenterTest {
         pthWelcomePresenter.onEvent(R.id.ths_start);
         verifyNoMoreInteractions(consumerManagerMock);
        // verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
+    }
+
+    @Test
+    public void onEventths_startFirstTimeUser() throws Exception {
+        pthWelcomePresenter.isFirstTimeUser = true;
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        pthWelcomePresenter.onEvent(R.id.ths_start);
+        verifyNoMoreInteractions(consumerManagerMock);
+        // verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
     }
 
     @Test
@@ -198,13 +241,24 @@ public class THSWelcomePresenterTest {
         verify(awsdk).initialize(any(Map.class),any(SDKCallback.class));
     }
 
-/*
     @Test
     public void onInitializationResponse() throws Exception {
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
         pthWelcomePresenter.onInitializationResponse(null, THSSDKError);
-        verify(pTHBaseViewMock).updateView();
+        verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
     }
-*/
+
+    @Test
+    public void onInitializationResponseException() throws Exception {
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(userMock.getHsdpUUID()).thenReturn("1234");
+        pthWelcomePresenter.onInitializationResponse(null, THSSDKError);
+        verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
+    }
 
     @Test
     public void onInitializationFailure()  {
@@ -506,4 +560,5 @@ public class THSWelcomePresenterTest {
     public void onFailure(){
         pthWelcomePresenter.onFailure(throwableMock);
     }
+
 }

@@ -10,6 +10,7 @@ import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -142,7 +143,8 @@ public class THSVitalsPresenterTest {
 
     @Test
     public void getVitals() throws Exception {
-
+        thsVitalsPresenter.getVitals();
+        verify(consumerManagerMock).getVitals(any(Consumer.class),any(VisitContext.class),any(SDKCallback.class));
     }
 
     @Test
@@ -223,4 +225,19 @@ public class THSVitalsPresenterTest {
         assert text.equalsIgnoreCase("Spoorti");
     }
 
+    @Test
+    public void checkIfValueEntered(){
+        when(editTextMock.getText()).thenReturn(editableMock);
+        when(editableMock.length()).thenReturn(0);
+        boolean isvalue = thsVitalsPresenter.checkIfValueEntered(editTextMock);
+        assertFalse(isvalue);
+    }
+
+    @Test
+    public void checkIfValueEnteredIsValidTrue(){
+        when(editTextMock.getText()).thenReturn(editableMock);
+        when(editableMock.length()).thenReturn(1);
+        boolean isvalue = thsVitalsPresenter.checkIfValueEntered(editTextMock);
+        assertTrue(isvalue);
+    }
 }

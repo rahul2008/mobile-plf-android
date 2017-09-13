@@ -26,7 +26,7 @@ import java.util.Map;
 public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, THSPaymentCallback.THSgetPaymentMethodValidatedCallback<THSPaymentMethod, THSSDKError> {
 
     private THSCreditCardBillingAddressFragment mTHSBillingAddressFragment;
-    private THSCreatePaymentRequest mTHSCreatePaymentRequest;
+    protected THSCreatePaymentRequest mTHSCreatePaymentRequest;
 
 
     public THSCreditCardBillingAddressPresenter(THSCreditCardBillingAddressFragment thsBillingAddressFragment) {

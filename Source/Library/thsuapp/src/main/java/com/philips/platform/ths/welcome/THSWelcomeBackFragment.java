@@ -36,7 +36,7 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     ImageView mArrow;
     Label mLabel;
     Button mBtnGetStarted;
-    private THSWelcomeBackPresenter mThsWelcomeBackPresenter;
+    protected THSWelcomeBackPresenter mThsWelcomeBackPresenter;
     private PracticeInfo mPracticeInfo;
     private Provider mProvider;
     private RatingBar mRatingBar;
@@ -63,29 +63,31 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
         mRatingBar.setVisibility(View.VISIBLE);
 
         final Bundle arguments = getArguments();
-        Long date = arguments.getLong(THSConstants.THS_DATE);
-        mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
-        mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+        if(arguments!=null) {
+            Long date = arguments.getLong(THSConstants.THS_DATE);
+            mPracticeInfo = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+            mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
 
-        final String format = new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
-        String text = getString(R.string.ths_appointment_start_time,format);
+            final String format = new SimpleDateFormat(THSConstants.TIME_FORMATTER, Locale.getDefault()).format(date);
+            String text = getString(R.string.ths_appointment_start_time, format);
 
-        mLabel.setText(text);
-        mRatingBar.setRating(mProvider.getRating());
+            mLabel.setText(text);
+            mRatingBar.setRating(mProvider.getRating());
 
-        mLabelProviderName.setText(mProvider.getFullName());
-        mLabelPracticeName.setText(mPracticeInfo.getName());
+            mLabelProviderName.setText(mProvider.getFullName());
+            mLabelPracticeName.setText(mPracticeInfo.getName());
 
-        if (mProvider.hasImage()) {
-            try {
-                THSManager.getInstance().getAwsdk(mImageProvider.getContext()).
-                        getPracticeProvidersManager().
-                        newImageLoader(mProvider,
-                                mImageProvider, ProviderImageSize.LARGE).placeholder
-                        (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder,getActivity().getTheme())).
-                        build().load();
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+            if (mProvider.hasImage()) {
+                try {
+                    THSManager.getInstance().getAwsdk(mImageProvider.getContext()).
+                            getPracticeProvidersManager().
+                            newImageLoader(mProvider,
+                                    mImageProvider, ProviderImageSize.LARGE).placeholder
+                            (mImageProvider.getResources().getDrawable(R.drawable.doctor_placeholder, getActivity().getTheme())).
+                            build().load();
+                } catch (AWSDKInstantiationException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return view;
