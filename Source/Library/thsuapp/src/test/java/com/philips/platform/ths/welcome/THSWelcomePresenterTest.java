@@ -109,9 +109,6 @@ public class THSWelcomePresenterTest {
     private ArgumentCaptor<RefreshLoginSessionHandler> refreshLoginSessionHandlerArgumentCaptor;
 
     @Mock
-    AppInfraInterface appInfraInterface;
-
-    @Mock
     AppTaggingInterface appTaggingInterface;
 
 
@@ -122,10 +119,9 @@ public class THSWelcomePresenterTest {
         THSManager.getInstance().setAwsdk(awsdk);
         THSManager.getInstance().setUser(userMock);
 
-        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
-        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
-        THSManager.getInstance().setAppInfra(appInfraInterface);
-
+        when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterface);
         THSManager.getInstance().TEST_FLAG = true;
         when(userMock.getHsdpUUID()).thenReturn("abc");
