@@ -54,7 +54,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     protected void fetchMedication() {
         try {
-            THSManager.getInstance().getMedication(mTHSBaseFragment.getFragmentActivity(), this);
+            THSManager.getInstance().getMedication(mTHSBaseFragment.getContext(), this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     protected void updateMedication(THSMedication pTHMedication) {
         if (null != pTHMedication) {
             try {
-                THSManager.getInstance().updateMedication(mTHSBaseFragment.getFragmentActivity(), pTHMedication, this);
+                THSManager.getInstance().updateMedication(mTHSBaseFragment.getContext(), pTHMedication, this);
 
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
