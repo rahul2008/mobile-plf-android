@@ -23,7 +23,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
@@ -34,10 +33,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * Application class is used for initialization
@@ -57,9 +52,17 @@ public class AppFrameworkApplication extends Application {
     private PushNotificationManager pushNotificationManager;
     private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
-    private boolean isHybrisFlow = false;
 
-    private final String IAP_BASE_URL_CONSTANT = "iap.baseurl";
+    public boolean isShopingCartVisible() {
+        return isShopingCartVisible;
+    }
+
+    public void setShopingCartVisible(boolean shopingCartVisible) {
+        isShopingCartVisible = shopingCartVisible;
+    }
+
+    public boolean isShopingCartVisible = false;
+
 
     @Override
     public void onCreate() {
@@ -97,10 +100,11 @@ public class AppFrameworkApplication extends Application {
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
         RALog.d(LOG, "PR state end::");
-        determineHybrisFlow();
+      //  determineHybrisFlow();
         RALog.d(LOG, "DS state begin::");
         initDataServiceState();
         RALog.d(LOG, "DS state end::");
+        initializeIAP();
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
@@ -188,48 +192,7 @@ public class AppFrameworkApplication extends Application {
         });
     }
 
-    public boolean isHybrisFlow() {
-        return isHybrisFlow;
-    }
-
-    public void initializeIAP() {
-        RALog.d(LOG, "IAP state begin::");
-        iapState = new IAPRetailerFlowState();
-        iapState.init(this);
-        RALog.d(LOG, "IAP state end::");
-    }
-
-    public void determineHybrisFlow() {
-        ArrayList<String> listOfServiceId = new ArrayList<>();
-        listOfServiceId.add(IAP_BASE_URL_CONSTANT);
-        appInfra.getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                RALog.d(LOG, " AppFrameworkApplication getServicesWithCountryPreference Map" + map.toString());
-                Collection<ServiceDiscoveryService> collection = map.values();
-                ArrayList<ServiceDiscoveryService> list = new ArrayList<>();
-                list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-                String configUrls = serviceDiscoveryService.getConfigUrls();
-                if(configUrls != null && !configUrls.isEmpty()) {
-                    //set hybris flow
-                    isHybrisFlow = true;
-                    RALog.d(LOG, "IAP Hybris flow");
-                } else {
-                    //not hybris flow
-                    isHybrisFlow = false;
-                    RALog.d(LOG, "IAP not Hybris flow");
-                }
-
-                initializeIAP();
-            }
-
-            public void onError(ERRORVALUES errorvalues, String s) {
-                isHybrisFlow = false;
-                initializeIAP();
-                RALog.d(LOG, "AppFrameworkApplication ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-            }
-        });
-    }
+    
     public DemoDataServicesState getDataServiceState() {
         if (dataSyncScreenState == null) {
             initDataServiceState();
@@ -237,6 +200,20 @@ public class AppFrameworkApplication extends Application {
         return dataSyncScreenState;
     }
 
+    public void initializeIAP() {
+        RALog.d(LOG, "IAP state begin::");
+        iapState = new IAPRetailerFlowState();
+        iapState.init(this);
+        try{
+            getIap().isCartVisible();
+
+        }
+        catch (RuntimeException rte)
+        {
+            setShopingCartVisible(false);
+        }
+        RALog.d(LOG, "IAP state end::");
+    }
 
     @Override
     public void onTerminate() {
