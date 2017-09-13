@@ -250,22 +250,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         registrationSettingsURL = new RegistrationSettingsURL();
     }
 
-   private boolean emailOrMobileValidator(String emailOrMobile){
-       if(emailOrMobile.isEmpty()) {
-           mEtEmail.setErrorMessage(
-                   R.string.reg_EmptyField_ErrorMsg);
+   private boolean emailOrMobileValidator(String emailOrMobile) {
+       if (emailOrMobile.isEmpty()) {
+           mEtEmail.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
            return false;
        }
 
-       if(RegistrationHelper.getInstance().isMobileFlow()) {
-           mEtEmail.setErrorMessage(
-                   R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
-           return FieldsValidator.isValidMobileNumber(emailOrMobile.toString());
-       }else{
-           mEtEmail.setErrorMessage(
-                   R.string.reg_InvalidEmailAdddress_ErrorMsg);
-           return FieldsValidator.isValidEmail(emailOrMobile.toString());
+       if (RegistrationHelper.getInstance().isMobileFlow()) {
+           if((!FieldsValidator.isValidMobileNumber(emailOrMobile) || !FieldsValidator.isValidEmail(emailOrMobile))) {
+               mEtEmail.setErrorMessage(R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+               return FieldsValidator.isValidMobileNumber(emailOrMobile) || FieldsValidator.isValidEmail(emailOrMobile);
+           }
+       } else {
+           mEtEmail.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+           return FieldsValidator.isValidEmail(emailOrMobile);
        }
+       return false;
    }
 
 
@@ -279,13 +279,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 android.R.color.transparent));
         resetPasswordLabel.setText(content);
         resetPasswordLabel.setOnClickListener(view -> {
-            if(registrationSettingsURL.isMobileFlow()) {
+            if(loginValidationEditText.getText().toString().trim().length() <= 0) {
+                launchResetPasswordFragment();
+            } else if(registrationSettingsURL.isMobileFlow() && (FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString()))) {
                 showForgotPasswordSpinner();
                 handleResend();
-            } else if(loginValidationEditText.getText().toString().length() > 0) {
+            } else if(FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
                 resetPassword();
             } else {
-                launchResetPasswordFragment();
+                mEtEmail.showError();
             }
         });
     }
@@ -408,7 +410,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
         hideForgotPasswordSpinner();
-        mRegError.hideError();
     }
 
     @Override
@@ -435,12 +436,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         if (null != userRegistrationFailureInfo.getErrorDescription()) {
             mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
+            mEtEmail.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
-        }
-
-        if (null != userRegistrationFailureInfo.getErrorDescription()) {
-            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
@@ -464,29 +462,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void resetPassword() {
-        boolean validatorResult;
-        if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
-            validatorResult = true;
-        } else {
-            validatorResult = FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString());
-        }
-        if (!validatorResult) {
-            showInvalidAlert();
-        } else {
-            if (networkUtility.isNetworkAvailable()) {
-                if (mUser != null) {
-                    showForgotPasswordSpinner();
-                    mEtEmail.clearFocus();
-                    mEtPassword.clearFocus();
-                    mBtnSignInAccount.setEnabled(false);
-                    if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
-                        mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
-                    } else {
-                        serviceDiscovery();
-                    }
+        if (networkUtility.isNetworkAvailable()) {
+            if (mUser != null) {
+                showForgotPasswordSpinner();
+                mEtEmail.clearFocus();
+                mEtPassword.clearFocus();
+                mBtnSignInAccount.setEnabled(false);
+                if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
+                    mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
+                } else {
+                    serviceDiscovery();
                 }
-            } else {
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         }
     }
@@ -735,6 +721,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
                 String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), mContext);
                 mEtEmail.setErrorMessage(errorMsg);
+                mEtEmail.showError();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 return;
             }
