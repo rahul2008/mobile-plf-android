@@ -38,7 +38,6 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.util.AppIdProvider;
-import com.philips.cdp2.commlib.core.util.AppIdProvider.AppIdListener;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
@@ -68,6 +67,13 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private final Set<String> discoveryFilterModelIds = new HashSet<>();
 
     private Switch discoverySwitch;
+
+    private AppIdProvider.AppIdListener appIdListener = new AppIdProvider.AppIdListener() {
+        @Override
+        public void onAppIdChanged(String appId) {
+            updateAppId();
+        }
+    };
 
     private void onAppliancesChanged() {
         getActivity().runOnUiThread(new Runnable() {
@@ -172,14 +178,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        appIdProvider.addAppIdListener(new AppIdListener() {
-            @Override
-            public void onAppIdChanged(String appId) {
-                updateAppId();
-            }
-        });
-        updateAppId();
-
         return view;
     }
 
@@ -200,6 +198,9 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
         applianceAdapter.clear();
         applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
+
+        appIdProvider.addAppIdListener(appIdListener);
+        updateAppId();
     }
 
     private void startDiscovery() {
@@ -228,6 +229,8 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
         commCentral.getApplianceManager().removeApplianceListener(applianceListener);
         stopDiscovery();
+
+        appIdProvider.removeAppIdListener(appIdListener);
     }
 
     public static DiscoveredAppliancesFragment newInstance() {
