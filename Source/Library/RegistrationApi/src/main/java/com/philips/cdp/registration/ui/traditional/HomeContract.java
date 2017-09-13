@@ -6,4 +6,10 @@ interface HomeContract {
     void enableControlsOnNetworkConnectionArraival();
 
     void disableControlsOnNetworkConnectionGone();
+
+    void hideCountrySelctionLabel();
+
+    void showCountrySelctionLabel();
+
+    void updateHomeCountry(String selectedCountryCode);
 }

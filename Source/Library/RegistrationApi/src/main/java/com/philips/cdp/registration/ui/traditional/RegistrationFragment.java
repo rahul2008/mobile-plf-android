@@ -491,7 +491,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+       /* if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
@@ -504,7 +504,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "
                             + RegistrationHelper.getInstance().getLocale(getContext()));
-        }
+        }*/
     }
 
     public Activity getParentActivity() {

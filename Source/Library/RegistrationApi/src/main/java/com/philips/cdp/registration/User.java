@@ -167,7 +167,7 @@ public class User {
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-                        socialLoginHandler, mContext, mUpdateUserRecordHandler);
+                        socialLoginHandler, activity, mUpdateUserRecordHandler);
                 loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
             } else {
                 if (socialLoginHandler != null) {
@@ -175,7 +175,7 @@ public class User {
                             new UserRegistrationFailureInfo();
                     userRegistrationFailureInfo.setErrorCode(RegConstants.
                             DI_PROFILE_NULL_ERROR_CODE);
-                    ThreadUtils.postInMainThread(mContext, () ->
+                    ThreadUtils.postInMainThread(activity, () ->
                             socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 }
             }

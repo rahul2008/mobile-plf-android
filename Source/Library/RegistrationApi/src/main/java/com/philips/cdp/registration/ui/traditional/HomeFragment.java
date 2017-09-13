@@ -104,7 +104,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
     ScrollView mSvRootLayout;
 
 
-
     @BindView(R2.id.usr_StartScreen_country_label)
     TextView mCountryDisplay;
 
@@ -126,7 +125,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
     String mWeChatAppSecret;
     IWXAPI mWeChatApi;
     String mWeChatCode;
-    String mShowCountrySelection;
     String mLocale;
 
     View view;
@@ -237,49 +235,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
         super.onDestroy();
     }
 
-    private void handleSocialProviders(final String countryCode) {
-        RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
-        if (null != RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode)) {
-            mLlSocialProviderBtnContainer.post(new Runnable() {
 
-                @Override
-                public void run() {
-                    mLlSocialProviderBtnContainer.removeAllViews();
-                    List<String> providers = new ArrayList<String>();
-                    providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
-                    if (null != providers) {
-                        for (int i = 0; i < providers.size(); i++) {
-                            inflateEachProviderBtn(providers.get(i));
-                        }
-                        RLog.d("HomeFragment", "social providers : " + providers);
-                    }
-                    handleUiState();
-                }
-            });
-        }
-    }
 
-    private void inflateEachProviderBtn(String provider) {
-
-        try {
-            String providerName = "reg_" + provider;
-            String providerDrawable = "reg_" + provider + "_ic";
-
-            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
-                    getRegistrationFragment().getParentActivity().getPackageName());
-
-            int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
-                    getRegistrationFragment().getParentActivity().getPackageName());
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMarginStart(16);
-            params.setMarginEnd(16);
-
-            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId), params);
-        } catch (Exception e) {
-            RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
-        }
-    }
 
     private Button getProviderBtn(final String providerName, int providerNameStringId,
                                   int providerLogoDrawableId) {
@@ -337,48 +294,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
         homePresenter.updateHomeControls();
-        initServiceDiscovery();
-        showCountrySelection();
+        homePresenter.initServiceDiscovery();
+        homePresenter.configureCountrySelection();
     }
-
-
-
-    private void initServiceDiscovery() {
-        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                String selectedCountryCode;
-                if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
-                    selectedCountryCode = s.toUpperCase();
-                } else {
-                    selectedCountryCode = RegUtility.getFallbackCountryCode();
-                }
-                addToRecent(selectedCountryCode);
-                updateHomeCountryandLabel(selectedCountryCode);
-                handleSocialProviders(selectedCountryCode);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                String selectedCountryCode = RegUtility.getFallbackCountryCode();
-                addToRecent(selectedCountryCode);
-                updateHomeCountryandLabel(selectedCountryCode);
-            }
-        });
-    }
-
-    private void updateHomeCountryandLabel(String selectedCountryCode) {
-        serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
-        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
-    }
-
-
-
-
-
-
 
 
     private void handleCountrySelection() {
@@ -399,21 +317,21 @@ public class HomeFragment extends RegistrationBaseFragment implements
             };
 
 
-            CountrySelectionFragment picker = new CountrySelectionFragment(countryChangeListener, rawMasterList, recentSelectedCountry);
+            CountrySelectionFragment picker = new CountrySelectionFragment(countryChangeListener, rawMasterList, homePresenter.getRecentSelectedCountry());
 
             getRegistrationFragment().addFragment(picker);
 
 
         } else {
-            handleUiState();
+            homePresenter.updateHomeControls();
         }
     }
 
     private void changeCountry(String countryName, String countryCode) {
+        mFlowId = 0;
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
             RegistrationHelper.getInstance().setCountryCode(countryCode);
-            addToRecent(countryCode.trim().toUpperCase());
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
 
@@ -459,7 +377,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
                         ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
                         hideProgressDialog();
                         mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-//                        scrollViewAutomatically(mRegError, mSvRootLayout);
+                        scrollViewAutomatically(mRegError, mSvRootLayout);
 
                     }
                 });
@@ -474,7 +392,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
         updateCountryText(countryName);
-        //hideProgressDialog();
+        homePresenter.addToRecent(RegistrationHelper.getInstance().getCountryCode());
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
@@ -641,64 +559,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
 
-    private void linifyPrivacyPolicyAndTerms(TextView pTvPrivacyPolicy) {
-        String privacyPolicyText = getString(R.string.reg_LegalNoticeText_With_Terms_And_Conditions);
-        privacyPolicyText = String.format(privacyPolicyText,
-                getString(R.string.reg_PrivacyNoticeText),
-                getString(R.string.reg_TermsAndConditionsText));
-        mTvWelcomeDesc.setText(privacyPolicyText);
-
-        String privacy = mContext.getResources().getString(R.string.reg_PrivacyNoticeText);
-        String terms = mContext.getResources().getString(R.string.reg_TermsAndConditionsText);
-
-        SpannableString spanableString = new SpannableString(privacyPolicyText);
-
-        int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
-                privacy.toLowerCase());
 
 
-        spanableString.setSpan(privacyClickListener, privacyStartIndex, privacyStartIndex +
-                        privacy.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-
-        int termStartIndex = privacyPolicyText.toLowerCase().indexOf(
-                terms.toLowerCase());
-
-
-        spanableString.setSpan(termsClickListener, termStartIndex, termStartIndex + terms.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-        removeUnderlineFromLink(spanableString);
-
-        pTvPrivacyPolicy.setText(spanableString);
-        pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-        pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
-                R.color.reg_hyperlink_highlight_color));
-        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
-                android.R.color.transparent));
-    }
-
-    private ClickableSpan privacyClickListener = new ClickableSpan() {
-
-        @Override
-        public void onClick(View widget) {
-            if (mRegError.isShown()) mRegError.hideError();
-            handlePrivacyPolicy();
-        }
-
-    };
-
-    private ClickableSpan termsClickListener = new ClickableSpan() {
-
-        @Override
-        public void onClick(View widget) {
-            if (mRegError.isShown()) mRegError.hideError();
-            handleTermsCondition();
-        }
-
-    };
 
     private ClickableSpan countryClickListener = new ClickableSpan() {
         @Override
@@ -707,7 +570,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
             handleCountrySelection();
         }
     };
-
 
 
     private void removeUnderlineFromLink(SpannableString spanableString) {
@@ -736,10 +598,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
                 onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
     }
 
-    private void handleTermsCondition() {
-        getRegistrationFragment().getUserRegistrationUIEventListener().
-                onTermsAndConditionClick(getRegistrationFragment().getParentActivity());
-    }
 
     @Override
     public void onLoginSuccess() {
@@ -916,6 +774,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
     private ProgressDialog mProgressDialog;
+
     private void showProgressDialog() {
         if (!(getActivity().isFinishing())) {
             if (mProgressDialog == null) {
@@ -1000,14 +859,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
 
-    private ArrayList<Country> recentSelectedCountry = new ArrayList<>();
-
-    private void addToRecent(String countryCode) {
-        Country country = new Country(countryCode, new Locale("", countryCode).getDisplayCountry());
-        recentSelectedCountry.add(0, country);
-    }
-
-
     //modified code
 
 
@@ -1018,7 +869,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
         getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
         getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
     }
-
 
 
     private void enableControls(boolean clickableState) {
@@ -1043,16 +893,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
 
-    private void handleUiState() {
-        if (networkUtility.isNetworkAvailable()) {
-            mRegError.hideError();
-            enableControls(true);
-        } else {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-            enableControls(false);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-        }
-    }
+
 
 
     @Override
@@ -1119,21 +960,82 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
 
-
-
     private void updateCountryText(String text) {
         mCountryDisplay.setText(String.format("%s %s", getString(R.string.usr_country_prefix), text));
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
     }
 
-    private void showCountrySelection() {
-        mShowCountrySelection = appConfiguration.getShowCountrySelection();
-        RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
-        if (mShowCountrySelection != null) {
-            if (mShowCountrySelection.equalsIgnoreCase("false")) {
-                mCountryDisplay.setVisibility(View.INVISIBLE);
+    @Override
+    public void hideCountrySelctionLabel() {
+        mCountryDisplay.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showCountrySelctionLabel() {
+        mCountryDisplay.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void updateHomeCountry(String selectedCountryCode) {
+        updateCountryText(new Locale("", selectedCountryCode).getDisplayCountry());
+        handleSocialProviders(selectedCountryCode);
+    }
+
+
+    private void handleSocialProviders(final String countryCode) {
+        RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
+        mLlSocialProviderBtnContainer.post(new Runnable() {
+
+            @Override
+            public void run() {
+                mLlSocialProviderBtnContainer.removeAllViews();
+                mLlSocialProviderBtnContainer.invalidate();
+                List<String> providers = homePresenter.getProviders(countryCode);
+                if (null != providers) {
+                    for (int i = 0; i < providers.size(); i++) {
+                        inflateEachProviderBtn(providers.get(i));
+                    }
+                    RLog.d("HomeFragment", "social providers : " + providers);
+                }
+                homePresenter.updateHomeControls();
             }
+        });
+    }
+
+
+    private void inflateEachProviderBtn(String provider) {
+
+        try {
+            String providerName = "reg_" + provider;
+            String providerDrawable = "reg_" + provider + "_ic";
+
+            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
+                    getRegistrationFragment().getParentActivity().getPackageName());
+
+            int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
+                    getRegistrationFragment().getParentActivity().getPackageName());
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMarginStart(16);
+            params.setMarginEnd(16);
+
+            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId), params);
+            mLlSocialProviderBtnContainer.invalidate();
+        } catch (Exception e) {
+            RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
         }
     }
+
+    private ClickableSpan privacyClickListener = new ClickableSpan() {
+
+        @Override
+        public void onClick(View widget) {
+            if (mRegError.isShown()) mRegError.hideError();
+            handlePrivacyPolicy();
+        }
+
+    };
+
 
 }
