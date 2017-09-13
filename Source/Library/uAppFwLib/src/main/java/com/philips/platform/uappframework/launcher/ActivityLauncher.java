@@ -71,7 +71,7 @@ public class ActivityLauncher extends UiLauncher  {
 
     private ThemeConfiguration mDLSThemeConfiguration;
 
-
+    @Deprecated
     /**
      Constructor
      @param screenOrientation : takes screen Oreintation
@@ -84,6 +84,7 @@ public class ActivityLauncher extends UiLauncher  {
         mUiKitTheme=uikitTheme;
     }
 
+    @Deprecated
     /**
      Constructor
      @param screenOrientation : takes screen Orientation
