@@ -34,7 +34,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * Test class for
+ * Test class for WXEntryActivity
  */
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)

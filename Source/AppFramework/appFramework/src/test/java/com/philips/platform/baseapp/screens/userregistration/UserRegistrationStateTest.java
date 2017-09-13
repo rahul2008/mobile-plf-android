@@ -42,6 +42,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowIntent;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
@@ -89,65 +90,75 @@ public class UserRegistrationStateTest {
         userRegState.navigate(fragmentLauncher);
         when(appFrameworkApplication.getTargetFlowManager()).thenReturn(flowManager);
         when(flowManager.getCurrentState()).thenReturn(new AboutScreenState());
-        when(flowManager.getNextState(any(BaseState.class),any(String.class))).thenReturn(new TermsAndConditionsState());
+        when(flowManager.getNextState(any(BaseState.class), any(String.class))).thenReturn(new TermsAndConditionsState());
     }
 
     @Test
-    public void testStageConfig(){
+    public void testStageConfig() {
         userRegState.setConfiguration(AppStateConfiguration.STAGING);
         userRegState.init(application);
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-        Map<String,String> map= (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,UR,new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(STAGE_SECRET_KEY_CHINA,map.get(CHINA_CODE));
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(CHINA_CODE, STAGE_SECRET_KEY_CHINA);
+        when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
+        Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
+        assertEquals(STAGE_SECRET_KEY_CHINA, map.get(CHINA_CODE));
     }
 
     @Test
-        public void testDevConfig(){
-            userRegState.setConfiguration(AppStateConfiguration.DEVELOPMENT);
-            userRegState.init(application);
-            AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
-            AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-            Map<String,String> map= (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,UR,new AppConfigurationInterface.AppConfigurationError());
-            assertEquals(DEVELOPMENT_SECRET_KEY_DEFAULT,map.get(DEFAULT));
+    public void testDevConfig() {
+        userRegState.setConfiguration(AppStateConfiguration.DEVELOPMENT);
+        userRegState.init(application);
+        AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(DEFAULT, DEVELOPMENT_SECRET_KEY_DEFAULT);
+        when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
+        Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
+        assertEquals(DEVELOPMENT_SECRET_KEY_DEFAULT, map.get(DEFAULT));
     }
 
 
     @Test
-    public void testTestConfig(){
+    public void testTestConfig() {
         userRegState.setConfiguration(AppStateConfiguration.TEST);
         userRegState.init(application);
         AppInfraInterface appInfra = ((AppFrameworkApplication) application).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-        Map<String,String> map= (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,UR,new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(TEST_SECRET_KEY_DEFAULT,map.get(DEFAULT));
+        Map<String, String> hsdpSecrets = new HashMap<>();
+        hsdpSecrets.put(DEFAULT, TEST_SECRET_KEY_DEFAULT);
+        when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
+        Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
+        assertEquals(TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
     }
 
     @Test
-    public void getUserObject_NotNull(){
+    public void getUserObject_NotNull() {
         assertNotNull(userRegState.getUserObject(application));
     }
 
     @Test
-    public void onPrivacyPolicyClickedTest(){
+    public void onPrivacyPolicyClickedTest() {
         userRegState.onPrivacyPolicyClick(hamburgerActivity);
-        ShadowActivity shadowActivity=shadowOf(hamburgerActivity);
-        Intent intent=shadowActivity.getNextStartedActivity();
-        ShadowIntent shadowIntent=shadowOf(intent);
+        ShadowActivity shadowActivity = shadowOf(hamburgerActivity);
+        Intent intent = shadowActivity.getNextStartedActivity();
+        ShadowIntent shadowIntent = shadowOf(intent);
         assertEquals(shadowIntent.getIntentClass().getSimpleName(), WebViewActivity.class.getSimpleName());
     }
 
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         activityController.pause().stop().destroy();
-        hamburgerActivity=null;
-        fragmentLauncher=null;
-        userRegState=null;
-        flowManager=null;
-        appFrameworkApplication=null;
+        hamburgerActivity = null;
+        fragmentLauncher = null;
+        userRegState = null;
+        flowManager = null;
+        appFrameworkApplication = null;
     }
-    class UserRegistrationStateMock extends UserRegistrationState{
+
+    class UserRegistrationStateMock extends UserRegistrationState {
 
         private AppStateConfiguration configuration;
 
@@ -166,13 +177,13 @@ public class UserRegistrationStateTest {
             return configuration;
         }
 
-        public void setConfiguration(AppStateConfiguration configuration){
-            this.configuration=configuration;
+        public void setConfiguration(AppStateConfiguration configuration) {
+            this.configuration = configuration;
         }
 
         @Override
         public void navigate(UiLauncher uiLauncher) {
-            fragmentLauncher= (FragmentLauncher) uiLauncher;
+            fragmentLauncher = (FragmentLauncher) uiLauncher;
         }
 
         @Override

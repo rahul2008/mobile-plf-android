@@ -12,9 +12,20 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
@@ -22,23 +33,63 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
-    public AppInfraInterface appInfra;
     private UserRegistrationOnBoardingState userRegistrationOnBoardingState;
     private IAPState iapState;
-    private LanguagePackInterface languagePackInterface;
+
+    @Mock
+    AppInfra appInfraInterface;
+
+    @Mock
+    SecureStorageInterface secureStorageInterface;
+
+    @Mock
+    AppIdentityInterface appIdentityInterface;
+
+    @Mock
+    InternationalizationInterface internationalizationInterface;
+
+    @Mock
+    LoggingInterface loggingInterface;
+
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    @Mock
+    AppTaggingInterface taggingInterface;
+
+    @Mock
+    TimeInterface timeInterface;
+
+    @Mock
+    AppConfigurationInterface appConfigurationInterface;
+
+    @Mock
+    RestInterface restInterface;
+
+    @Mock
+    ABTestClientInterface abTestClientInterface;
+
+    @Mock
+    LanguagePackInterface languagePackInterface;
+
+    @Mock
+    AppUpdateInterface appUpdateInterface;
 
     @Test
     public void shouldPass() {
@@ -57,7 +108,22 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        MockitoAnnotations.initMocks(this);
+        appInfraInterface = mock(AppInfra.class);
+        when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
+        when(appInfraInterface.getTagging()).thenReturn(taggingInterface);
+        when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
+        when(appInfraInterface.getAppUpdate()).thenReturn(appUpdateInterface);
+        when(appInfraInterface.getAppIdentity()).thenReturn(appIdentityInterface);
+        when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterface);
+        when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
+        when(appInfraInterface.getSecureStorage()).thenReturn(secureStorageInterface);
+        when(appInfraInterface.getTime()).thenReturn(timeInterface);
+        when(taggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(taggingInterface);
+        when(loggingInterface.createInstanceForComponent(any(String.class),any(String.class))).thenReturn(loggingInterface);
+        when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.STAGING);
+        when(appInfraInterface.getRestClient()).thenReturn(restInterface);
+        when(restInterface.isInternetReachable()).thenReturn(true);
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {
@@ -69,14 +135,18 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
                 });
             }
         });
+        AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
 
-
-        appInfra = mock(AppInfra.class);
 
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
 
+    }
+
+    @Override
+    protected AppInfra createAppInfraInstance() {
+        return appInfraInterface;
     }
 
     @Override
@@ -93,6 +163,15 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         iapState = state;
     }
 
+    @Override
+    public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
+        appInfra= appInfraInterface;
+    }
+
+    @Override
+    public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
+    }
+
     public void setTargetFlowManager() {
         this.targetFlowManager = new FlowManager();
         this.targetFlowManager.initialize(getApplicationContext(), R.raw.appflow, new FlowManagerListener() {
@@ -105,9 +184,9 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Test
     public void testLanguagePack() {
-        appInfra = mock(AppInfra.class);
+        appInfraInterface = mock(AppInfra.class);
         languagePackInterface = mock(LanguagePackInterface.class);
-        Mockito.when(appInfra.getLanguagePack()).thenReturn(languagePackInterface);
+        when(appInfraInterface.getLanguagePack()).thenReturn(languagePackInterface);
         languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
             @Override
             public void onError(AILPRefreshResult ailpRefreshResult, String s) {

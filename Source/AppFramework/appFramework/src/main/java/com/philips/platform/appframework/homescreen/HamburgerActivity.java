@@ -414,6 +414,11 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
     @Override
+    public void onSuccess(Object o) {
+
+    }
+
+    @Override
     public void onFailure(int i) {
      //   showToast(i);
     }
