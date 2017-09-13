@@ -80,6 +80,7 @@ public class AppFrameworkApplication extends Application {
         /*
          * Apteligent initialization.
          */
+        Crittercism.setLoggingLevel(Crittercism.LoggingLevel.Silent);
         Crittercism.initialize(getApplicationContext(), Apteligent_APP_ID);
     }
 
