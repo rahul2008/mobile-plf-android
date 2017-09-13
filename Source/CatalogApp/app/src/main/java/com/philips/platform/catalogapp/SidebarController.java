@@ -29,8 +29,6 @@ import android.widget.ListView;
 import com.philips.platform.catalogapp.dataUtils.SidebarRightListViewAdapter;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.utils.SidebarFrameLayoutContainer;
-import com.philips.platform.uid.utils.SidebarNavigationViewContainer;
 import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
