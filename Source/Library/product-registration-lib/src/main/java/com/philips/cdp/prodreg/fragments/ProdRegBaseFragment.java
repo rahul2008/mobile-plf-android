@@ -183,26 +183,12 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                     ft.remove(prev);
                     ft.commitAllowingStateLoss();
                 }
-                // Create and show the dialog.
-//                ProdRegErrorAlertFragment newFragment = ProdRegErrorAlertFragment.newInstance(prodRegErrorMap.getTitle(), prodRegErrorMap.getDescription());
-//                newFragment.setDialogOkButtonListener(getDialogOkButtonListener());
-//                newFragment.show(getActivity().getSupportFragmentManager(), "error_dialog");
                 showErrorDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(), statusCode ,"error_dialog");
             }
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
     }
-
-//    /**
-//     *
-//     */
-//    protected void resetErrorDialogIfExists() {
-//        Fragment prev = getFragmentManager().findFragmentByTag("error_dialog");
-//        if (prev != null && prev instanceof ProdRegErrorAlertFragment) {
-//            ((ProdRegErrorAlertFragment) prev).setDialogOkButtonListener(getDialogOkButtonListener());
-//        }
-//    }
 
     protected void dismissAlertOnError() {
         final FragmentActivity activity = getActivity();
@@ -240,10 +226,6 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     public boolean handleBackEvent() {
         return false;
     }
-
-//    public DialogOkButtonListener getDialogOkButtonListener() {
-//        return null;
-//    }
 
     /**
      *  setting the imageview with aspect ration 16:9
@@ -283,10 +265,6 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-//        final FragmentActivity activity = getActivity();
-//        if (activity != null && !activity.isFinishing()) {
-//            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
-//            if (prev instanceof AlertDialogFragment &&
         if (alertDialogFragment != null) {
             alertDialogFragment.dismissAllowingStateLoss();
             alertDialogFragment = null;

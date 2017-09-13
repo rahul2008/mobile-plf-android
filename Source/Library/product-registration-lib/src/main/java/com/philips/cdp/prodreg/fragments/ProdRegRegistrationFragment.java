@@ -595,14 +595,4 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         super.onStop();
         //dismissDialogs();
     }
-
-    private void dismissDialogs() {
-        dismissAlertOnError();
-        if (alertDialogFragment != null) {
-            alertDialogFragment.dismiss();
-        }
-        if (datePickerDialog != null) {
-            datePickerDialog.dismiss();
-        }
-    }
 }
