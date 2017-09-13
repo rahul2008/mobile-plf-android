@@ -47,7 +47,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="start"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:background="?attr/uidContentPrimaryBackgroundColor">
 
             <com.philips.platform.uid.utils.SidebarFrameLayoutContainer
                 android:id="@+id/sidebar_content_themed_left_root"
