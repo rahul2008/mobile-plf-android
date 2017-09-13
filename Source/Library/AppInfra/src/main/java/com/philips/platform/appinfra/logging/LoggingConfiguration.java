@@ -221,7 +221,6 @@ class LoggingConfiguration {
             }
 
         } else { // remove console log if any
-            getJavaLogger().setLevel(Level.OFF);
             final Handler[] currentComponentHandlers = getJavaLogger().getHandlers();
             if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
                 for (Handler handler : currentComponentHandlers) {
