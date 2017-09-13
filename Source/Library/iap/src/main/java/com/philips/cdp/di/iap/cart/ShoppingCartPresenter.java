@@ -56,6 +56,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     public ShoppingCartPresenter(Context context, ShoppingCartListener<?> listener) {
         super(context, listener);
+        mAddressController = new AddressController(context, ShoppingCartPresenter.this);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -123,7 +124,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         getHybrisDelegate().sendRequest(0, model, model);
     }
 
-    private void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
+    public void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         DeleteCartRequest model = new DeleteCartRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.DELETE_CART, model, new RequestListener() {
@@ -143,7 +144,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         });
     }
 
-    private void createCart(final Context context, final IAPCartListener iapHandlerListener,
+    public void createCart(final Context context, final IAPCartListener iapHandlerListener,
                             final String ctnNumber, final boolean isBuy) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
@@ -151,6 +152,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onSuccess(final Message msg) {
                 mAddressController = new AddressController(context, ShoppingCartPresenter.this);
+
                 mAddressController.getUser();
 
                 if (isBuy) {

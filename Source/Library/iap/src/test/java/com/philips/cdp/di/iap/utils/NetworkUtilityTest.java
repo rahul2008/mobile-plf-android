@@ -4,9 +4,7 @@
  */
 package com.philips.cdp.di.iap.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
@@ -15,11 +13,6 @@ import android.util.Log;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
 
 import junit.framework.TestCase;
 
@@ -41,8 +34,6 @@ public class NetworkUtilityTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-
-
     }
 
 
@@ -58,12 +49,6 @@ public class NetworkUtilityTest extends TestCase {
     @Test
     public void testDismissErrorDialog() {
         NetworkUtility.getInstance().dismissErrorDialog();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testShowErrorDialog() {
-        //  UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        NetworkUtility.getInstance().showErrorDialog(mock(Activity.class), mock(FragmentManager.class), "", "", "");
     }
 
     @Test
@@ -83,30 +68,12 @@ public class NetworkUtilityTest extends TestCase {
 
     @Test
     public void testIsNetworkAvailable() {
-        //mock(Context.class).getSystemService(Context.CONNECTIVITY_SERVICE);
-        // UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        // Setup
-        final ConnectivityManager connectivityManager = Mockito.mock( ConnectivityManager.class );
-        final NetworkInfo networkInfo = Mockito.mock( NetworkInfo.class );
-        Mockito.when( connectivityManager.getNetworkInfo( ConnectivityManager.TYPE_WIFI )).thenReturn( networkInfo );
-        Mockito.when( networkInfo.isAvailable() ).thenReturn( true );
-        Mockito.when( networkInfo.isConnected() ).thenReturn( true );
+        final ConnectivityManager connectivityManager = Mockito.mock(ConnectivityManager.class);
+        final NetworkInfo networkInfo = Mockito.mock(NetworkInfo.class);
+        Mockito.when(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).thenReturn(networkInfo);
+        Mockito.when(networkInfo.isAvailable()).thenReturn(true);
+        Mockito.when(networkInfo.isConnected()).thenReturn(true);
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
-    @Test
-    public void testCreateIAPErrorMessage() {
-        //UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        NetworkUtility.getInstance().createIAPErrorMessage("", "");
-    }
-
-    private void initTheme() {
-        int themeIndex = mock(Intent.class).getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
-        if (themeIndex <= 0) {
-            themeIndex = DEFAULT_THEME;
-        }
-        mock(Context.class).getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(mock(Context.class), ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-
-    }
 }

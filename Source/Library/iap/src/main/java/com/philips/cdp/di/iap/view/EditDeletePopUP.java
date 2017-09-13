@@ -1,7 +1,8 @@
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
- */
+ *//*
+
 package com.philips.cdp.di.iap.view;
 
 import android.content.Context;
@@ -64,4 +65,4 @@ public class EditDeletePopUP {
     public boolean isShowing() {
         return mPopUp.isShowing();
     }
-}
+}*/

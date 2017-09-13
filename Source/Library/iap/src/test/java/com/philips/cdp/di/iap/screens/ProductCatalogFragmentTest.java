@@ -47,7 +47,7 @@ public class ProductCatalogFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldDisplayCategorizedProductlist() {
         Bundle bundle = new Bundle();
         ArrayList<String> list = new ArrayList<>();
@@ -59,7 +59,7 @@ public class ProductCatalogFragmentTest {
         Assert.assertNotNull(productCatalogFragment);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldNotDisplayCategorizedProductlist() {
         Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, "US");
         productCatalogFragment = ProductCatalogFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);

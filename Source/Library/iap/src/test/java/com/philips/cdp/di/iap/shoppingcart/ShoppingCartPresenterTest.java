@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
@@ -49,10 +50,11 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class ShoppingCartPresenterTest implements ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData> {
+public class ShoppingCartPresenterTest implements ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AddressController.AddressListener {
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
+    AddressController mAddressController;
     private MockPRXSummaryExecutor mMockPRXDataBuilder;
     private ArrayList<String> mCTNS = new ArrayList<>();
 
@@ -69,6 +71,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 
         mCTNS.add("HX9033/64");
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mAddressController = new AddressController(mContext, this);
     }
 
     @Test
@@ -193,6 +196,29 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
+    public void testUpdateCartSuccessResponseOnProductRemove() throws
+            JSONException, NoSuchFieldException, IllegalAccessException {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+
+        EntriesEntity entriesEntity = new EntriesEntity();
+        Field entry = entriesEntity.getClass().getDeclaredField("entryNumber");
+        entry.setAccessible(true);
+        entry.setInt(entriesEntity, 0);
+
+        ShoppingCartData data = new ShoppingCartData(entriesEntity, null);
+        Field ctn = data.getClass().getDeclaredField("mCtnNumber");
+        ctn.setAccessible(true);
+        ctn.set(data, "HX8331/11");
+        mShoppingCartPresenter.updateProductQuantity(data, 5, getQuantityStatus(1, 2));
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "update_cart_response.txt"));
+        mNetworkController.sendSuccess(obj);
+
+    }
+
+    @Test
     public void testUpdateCartErrorResponse() throws
             JSONException, NoSuchFieldException, IllegalAccessException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
@@ -283,6 +309,110 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
                 .class, "get_cart_api_empty_response.txt"));
         mNetworkController.sendSuccess(obj);
+    }
+
+
+    @Test
+    public void testDeleteCartSuccessResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+                assertEquals(3, count);
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.deleteCart(mContext, mProductCountListener);
+        mNetworkController.sendSuccess(null);
+    }
+
+    @Test
+    public void testDeleteCartFailureResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+                assertEquals(3, count);
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.deleteCart(mContext, mProductCountListener);
+        mNetworkController.sendFailure(null);
+    }
+
+    @Test
+    public void testCreateCartSuccessResponseIfBuy() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+                assertEquals(3, count);
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mAddressController = new AddressController(mContext, mShoppingCartPresenter);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.createCart(mContext, mProductCountListener, "HX8832/11", true);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "create_cart_response.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testCreateCartSuccessResponseIfNotBuy() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+                assertEquals(0, count);
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mAddressController = new AddressController(mContext, mShoppingCartPresenter);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.createCart(mContext, mProductCountListener, "HX8832/11", false);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "create_cart_response.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
+    @Test
+    public void testCreateCartFailureResponse() throws JSONException {
+        IAPCartListener mProductCountListener = new IAPCartListener() {
+            @Override
+            public void onSuccess(final int count) {
+                assertEquals(3, count);
+            }
+
+            @Override
+            public void onFailure(final Message msg) {
+            }
+        };
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.createCart(mContext, mProductCountListener, "HX8832/11", true);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "create_cart_response.txt"));
+        mNetworkController.sendFailure(null);
     }
 
     @Test
@@ -532,6 +662,18 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     }
 
     @Test
+    public void testGetDeliveryModesResponseWithDeliveryModes() throws Exception {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "DeliveryModesWithModes.txt"));
+        Message msg = Message.obtain();
+        msg.obj = new Gson().fromJson(obj.toString(), GetDeliveryModes.class);
+        mShoppingCartPresenter.onGetDeliveryModes(msg);
+
+    }
+
+    @Test
     public void testSetDeliveryModesResponseWithIAPNetworkError() {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -540,7 +682,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.onSetDeliveryMode(msg);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testSetDeliveryAddressResponseWithIAPNetworkError() {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
@@ -587,5 +729,40 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     @Override
     public void onRetailerError(final IAPNetworkError errorMsg) {
         assertEquals(errorMsg.getMessage(), mContext.getString(R.string.iap_no_retailer_message));
+    }
+
+    @Override
+    public void onGetRegions(Message msg) {
+
+    }
+
+    @Override
+    public void onGetUser(Message msg) {
+
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryAddress(Message msg) {
+
+    }
+
+    @Override
+    public void onGetDeliveryModes(Message msg) {
+
+    }
+
+    @Override
+    public void onSetDeliveryMode(Message msg) {
+
     }
 }

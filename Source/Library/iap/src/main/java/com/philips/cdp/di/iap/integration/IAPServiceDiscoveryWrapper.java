@@ -106,9 +106,9 @@ public class IAPServiceDiscoveryWrapper {
                         pIAPHandler.initControllerFactory();
                         if (entry.equalsIgnoreCase("completeProductList"))
 
-                            try{
+                            try {
                                 pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 IAPLog.e(IAPLog.LOG, e.getMessage());
                             }
                         else
@@ -119,8 +119,10 @@ public class IAPServiceDiscoveryWrapper {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                iapListener.onFailure(IAPConstant.IAP_ERROR_SERVER_ERROR);
-                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+                if (errorvalues.name().equals(ERRORVALUES.NO_NETWORK)) {
+                    iapListener.onFailure(IAPConstant.IAP_ERROR_SERVER_ERROR);
+                    IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+                }
             }
         };
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);

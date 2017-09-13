@@ -149,22 +149,22 @@ public class AddressFields implements Serializable, Cloneable {
         return newFields;
     }
 
-    @Override
-    public String toString() {
-        if (titleCode == null && firstName == null && lastName == null && countryIsocode == null && email == null && line1 == null && line2 == null && postalCode == null && town == null && phone1 == null && phone2 == null && regionIsoCode == null && regionName == null)
-            return null;
-        return "titleCode " + titleCode
-                + "first name = " + firstName
-                + "lastName = " + lastName
-                + "countryIsocode = " + countryIsocode
-                + "email = " + email
-                + "line1 = " + line1
-                + "line2 = " + line2
-                + "postalCode = " + postalCode
-                + "town = " + town
-                + "phone1 = " + phone1
-                + "phone2 = " + phone2
-                + "regionIsoCode = " + regionIsoCode
-                + "regionName = " + regionName;
-    }
+//    @Override
+//    public String toString() {
+//        if (titleCode == null && firstName == null && lastName == null && countryIsocode == null && email == null && line1 == null && line2 == null && postalCode == null && town == null && phone1 == null && phone2 == null && regionIsoCode == null && regionName == null)
+//            return null;
+//        return "titleCode " + titleCode
+//                + "first name = " + firstName
+//                + "lastName = " + lastName
+//                + "countryIsocode = " + countryIsocode
+//                + "email = " + email
+//                + "line1 = " + line1
+//                + "line2 = " + line2
+//                + "postalCode = " + postalCode
+//                + "town = " + town
+//                + "phone1 = " + phone1
+//                + "phone2 = " + phone2
+//                + "regionIsoCode = " + regionIsoCode
+//                + "regionName = " + regionName;
+//    }
 }

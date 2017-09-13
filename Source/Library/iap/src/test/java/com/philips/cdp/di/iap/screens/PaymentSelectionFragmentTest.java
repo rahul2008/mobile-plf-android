@@ -31,7 +31,7 @@ public class PaymentSelectionFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
         paymentSelectionFragment = PaymentSelectionFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(paymentSelectionFragment);
