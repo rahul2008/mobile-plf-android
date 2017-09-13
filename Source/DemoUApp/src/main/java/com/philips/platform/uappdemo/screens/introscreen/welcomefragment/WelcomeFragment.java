@@ -71,7 +71,7 @@ public class WelcomeFragment extends UappOnBoardingBaseFragment implements View.
 
         UappDemoUiHelper.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
-        View view = inflater.inflate(R.layout.af_welcome_fragment, container, false);
+        View view = inflater.inflate(R.layout.ufw_welcome_fragment, container, false);
 
         pager = (ViewPager) view.findViewById(R.id.ufw_welcome_pager);
         pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
