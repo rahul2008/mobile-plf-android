@@ -18,6 +18,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -102,12 +103,17 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_CANCELED && requestCode == REQUEST_VIDEO_VISIT) {
+        if (resultCode == 1001 && requestCode == REQUEST_VIDEO_VISIT) { // 1001 is Successfull video completion
             //  todo getPresenter().setResult(resultCode, data);
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mVisit);
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
             addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle);
+        }else{
+            // video call does completed succesfully so sending back user is
+            THSManager.getInstance().setVisitContext(null);
+            THSManager.getInstance().setMatchMakingVisit(false);
+            getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         }
     }
 
