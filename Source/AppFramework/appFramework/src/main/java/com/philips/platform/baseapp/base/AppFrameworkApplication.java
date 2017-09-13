@@ -52,7 +52,6 @@ public class AppFrameworkApplication extends Application {
     private PushNotificationManager pushNotificationManager;
     private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
-    //private boolean isHybrisFlow = false;
 
     public boolean isShopingCartVisible() {
         return isShopingCartVisible;
@@ -193,53 +192,7 @@ public class AppFrameworkApplication extends Application {
         });
     }
 
-    /*// public boolean isHybrisFlow() {
-         return isHybrisFlow;
-     }
-
-     public void initializeIAP() {
-         RALog.d(LOG, "IAP state begin::");
-         iapState = new IAPRetailerFlowState();
-         iapState.init(this);
-         RALog.d(LOG, "IAP state end::");
-     }
-
- <<<<<<< HEAD
-     /*public void determineHybrisFlow() {
-         ArrayList listOfServiceId = new ArrayList();
- =======
-     public void determineHybrisFlow() {
-         ArrayList<String> listOfServiceId = new ArrayList<>();
- >>>>>>> 5fc342ca96811e0832435467c923ec773f875bff
-         listOfServiceId.add(IAP_BASE_URL_CONSTANT);
-         appInfra.getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-             public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                 RALog.d(LOG, " AppFrameworkApplication getServicesWithCountryPreference Map" + map.toString());
-                 Collection<ServiceDiscoveryService> collection = map.values();
-                 ArrayList<ServiceDiscoveryService> list = new ArrayList<>();
-                 list.addAll(collection);
-                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-                 String configUrls = serviceDiscoveryService.getConfigUrls();
-                 if(configUrls != null && !configUrls.isEmpty()) {
-                     //set hybris flow
-                     isHybrisFlow = true;
-                     RALog.d(LOG, "IAP Hybris flow");
-                 } else {
-                     //not hybris flow
-                     isHybrisFlow = false;
-                     RALog.d(LOG, "IAP not Hybris flow");
-                 }
-
-                 initializeIAP();
-             }
-
-             public void onError(ERRORVALUES errorvalues, String s) {
-                 isHybrisFlow = false;
-                 initializeIAP();
-                 RALog.d(LOG, "AppFrameworkApplication ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-             }
-         });
-     }*/
+    
     public DemoDataServicesState getDataServiceState() {
         if (dataSyncScreenState == null) {
             initDataServiceState();
