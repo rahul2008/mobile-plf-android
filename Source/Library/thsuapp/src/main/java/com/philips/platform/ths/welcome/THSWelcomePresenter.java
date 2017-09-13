@@ -37,7 +37,7 @@ import javax.net.ssl.HttpsURLConnection;
 class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
     private THSBaseFragment uiBaseView;
-    private boolean isFirstTimeUser = false;
+    protected boolean isFirstTimeUser = false;
     private int THS_LAUNCH_INPUT = -1;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
@@ -101,7 +101,6 @@ class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Voi
     @Override
 
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-    
         checkForUserExisitance();
     }
 
