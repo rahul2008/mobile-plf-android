@@ -45,5 +45,4 @@ public class SidebarNavigationViewContainer extends NavigationView {
             default: return context;
         }
     }
-
 }

@@ -39,7 +39,7 @@ public class SidebarController {
     private MainActivity mainActivity;
     private ViewDataBinding activityMainBinding;
 
-    private SideBar sideBarLayout;
+    private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
     private RecyclerView contentThemedLeftRecyclerView;
     private RecyclerView navigationThemedLeftRecyclerView;
@@ -66,9 +66,9 @@ public class SidebarController {
 
     private void initSidebarComponents(){
 
-        sideBarLayout = (SideBar) activityMainBinding.getRoot().findViewById(R.id.sidebar_layout);
-        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        sideBarLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        sideBar = (SideBar) activityMainBinding.getRoot().findViewById(R.id.sidebar_layout);
+        sideBar.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        sideBar.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
 
         sidebarLeftRoot = (LinearLayout) activityMainBinding.getRoot().findViewById(R.id.sidebar_left_root);
         contentThemedLeftSidebarRoot = (SidebarFrameLayoutContainer) activityMainBinding.getRoot().findViewById(R.id.sidebar_content_themed_left_root);
@@ -94,7 +94,7 @@ public class SidebarController {
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(mainActivity, sideBarLayout, mainActivity.getNavigationController().getToolbar(), R.string.sidebar_open,  R.string.sidebar_close){
+        return new ActionBarDrawerToggle(mainActivity, sideBar, mainActivity.getNavigationController().getToolbar(), R.string.sidebar_open,  R.string.sidebar_close){
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -126,7 +126,7 @@ public class SidebarController {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 contentThemedRightListView.setItemChecked(position, true);
                 navigationThemedRightListView.setItemChecked(position, true);
-                sideBarLayout.closeDrawer(GravityCompat.END);
+                sideBar.closeDrawer(GravityCompat.END);
             }
         });
 
@@ -142,7 +142,7 @@ public class SidebarController {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 navigationThemedRightListView.setItemChecked(position, true);
                 contentThemedRightListView.setItemChecked(position, true);
-                sideBarLayout.closeDrawer(GravityCompat.END);
+                sideBar.closeDrawer(GravityCompat.END);
             }
         });
     }
@@ -220,7 +220,7 @@ public class SidebarController {
                     holder.itemView.setSelected(true);
                     contentThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
                     navigationThemedLeftRecyclerView.getAdapter().notifyItemChanged(leftRecyclerViewSelectedPosition);
-                    sideBarLayout.closeDrawer(GravityCompat.START);
+                    sideBar.closeDrawer(GravityCompat.START);
                 }
             });
         }
@@ -245,7 +245,7 @@ public class SidebarController {
     }
 
     public SideBar getSideBar() {
-        return sideBarLayout;
+        return sideBar;
     }
 
     public ActionBarDrawerToggle getDrawerToggle() {

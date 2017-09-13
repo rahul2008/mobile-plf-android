@@ -102,9 +102,6 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
                             drawerToggle = setupDrawerToggle();
 
                         }
-                        /*if (layout == com.philips.platform.uid.test.R.layout.layout_sidebar){
-                            sideBar = (SideBar) findViewById(com.philips.platform.uid.test.R.id.test_sidebar);
-                        }*/
                     }
                 }
         );
@@ -148,11 +145,6 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
         return (Toolbar) findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
     }
 
-    public SideBar getSidebar() {
-        //sideBar =  (SideBar) findViewById(com.philips.platform.uid.test.R.id.test_sidebar);
-        return sideBar;
-    }
-
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, sideBar, toolbar, com.philips.platform.uid.test.R.string.test_sidebar_open,  com.philips.platform.uid.test.R.string.test_sidebar_close){
             @Override
@@ -172,12 +164,6 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
-    /*@Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }*/
 
     @VisibleForTesting
     @NonNull

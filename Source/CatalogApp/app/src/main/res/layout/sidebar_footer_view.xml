@@ -14,4 +14,5 @@
         android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
         android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
         android:text="@string/sidebar_footer_item"/>
+
 </LinearLayout>

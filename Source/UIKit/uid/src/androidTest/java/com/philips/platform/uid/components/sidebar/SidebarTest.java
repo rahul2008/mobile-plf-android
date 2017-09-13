@@ -6,13 +6,9 @@ package com.philips.platform.uid.components.sidebar;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,10 +17,8 @@ import android.view.View;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.DrawerMatcher;
-import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.utils.UIDUtils;
-import com.philips.platform.uid.view.widget.SideBar;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -42,9 +36,8 @@ public class SidebarTest extends BaseTest {
 
     private static final int ULTRA_LIGHT = 0;
     @Rule
-    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
+    public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     private Resources resources;
-    //private IdlingResource mIdlingResource;
     private BaseTestActivity activity;
 
     @Before
@@ -53,9 +46,6 @@ public class SidebarTest extends BaseTest {
         activity = mActivityTestRule.launchActivity(intent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
         resources = activity.getResources();
-        /*mIdlingResource = activity.getIdlingResource();
-        // To prove that the test fails, omit this call:
-        Espresso.registerIdlingResources(mIdlingResource);*/
     }
 
     private ViewInteraction getSidebar() {
@@ -104,23 +94,15 @@ public class SidebarTest extends BaseTest {
         getSidebar().perform(actionOpenDrawer(GravityCompat.END));
         waitFor(resources, 500);
         getSidebar().check(matches(DrawerMatcher.isDrawerOpen(GravityCompat.END)));
-        /*waitFor(resources, 500);
-        onView(withId(com.philips.platform.uid.test.R.id.container)).perform(ViewActions.click());
-        waitFor(resources, 500);
-        getSidebar().check(matches(DrawerMatcher.isDrawerClose(GravityCompat.END)));*/
     }
 
     @After
     public void closeDrawer() {
-
         getSidebar().perform(actionCloseDrawer(GravityCompat.START));
         getSidebar().perform(actionCloseDrawer(GravityCompat.END));
-        /*if (mIdlingResource != null) {
-            Espresso.unregisterIdlingResources(mIdlingResource);
-        }*/
     }
 
-    public static ViewAction actionOpenDrawer(final int gravityCompat) {
+    private static ViewAction actionOpenDrawer(final int gravityCompat) {
         return new ViewAction() {
             @Override public Matcher<View> getConstraints() {
                 return isAssignableFrom(DrawerLayout.class);
@@ -136,7 +118,7 @@ public class SidebarTest extends BaseTest {
         };
     }
 
-    public static ViewAction actionCloseDrawer(final int gravityCompat) {
+    private static ViewAction actionCloseDrawer(final int gravityCompat) {
         return new ViewAction() {
             @Override public Matcher<View> getConstraints() {
                 return isAssignableFrom(DrawerLayout.class);
@@ -151,11 +133,4 @@ public class SidebarTest extends BaseTest {
             }
         };
     }
-
-    /*@Test
-    public void verifySidebarDimlayerColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidDimLayerSubtleBackgroundColor);
-        getSidebar().check(matches(ViewPropertiesMatchers.isSameDrawerScrimColor(expectedColor)));
-    }*/
-
 }
