@@ -59,6 +59,7 @@ public class NavigationController {
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
+            mainActivity.lockSidebar();
             storeFragmentInPreference(null);
         }
     }

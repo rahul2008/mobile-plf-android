@@ -100,12 +100,13 @@ public class MainActivity extends UIDActivity {
         navigationController.init(savedInstanceState);
 
         sidebarController = new SidebarController(this, activityMainBinding);
-        lockSidebar();
     }
 
-    private void lockSidebar(){
-        sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+    public void lockSidebar(){
+        if(sidebarController != null){
+            sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+            sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        }
     }
 
     public SidebarController getSideBarController(){
@@ -270,7 +271,6 @@ public class MainActivity extends UIDActivity {
             super.onBackPressed();
         }
         navigationController.processBackButton();
-        lockSidebar();
     }
 
     public NavigationController getNavigationController() {
