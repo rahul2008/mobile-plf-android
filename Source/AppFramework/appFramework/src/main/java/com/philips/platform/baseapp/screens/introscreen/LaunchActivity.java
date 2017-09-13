@@ -199,7 +199,7 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
 
     @Override
-    public void onSuccess(Object o) {
+    public void onSuccess(Boolean isCartVisible) {
 
     }
     @Override

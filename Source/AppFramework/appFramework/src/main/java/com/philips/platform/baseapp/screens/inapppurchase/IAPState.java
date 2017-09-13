@@ -166,11 +166,10 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     @Override
-    public void onSuccess(Object isCartVisible) {
-        if (isCartVisible instanceof Boolean) {
-            ((AppFrameworkApplication) applicationContext).setShopingCartVisible((Boolean) isCartVisible);
-        }
+    public void onSuccess(Boolean isCartVisible) {
+        ((AppFrameworkApplication) applicationContext).setShopingCartVisible((isCartVisible);
     }
+
     @Override
     public void onFailure(int i) {
         ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
