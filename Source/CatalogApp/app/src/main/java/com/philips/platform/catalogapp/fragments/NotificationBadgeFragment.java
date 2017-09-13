@@ -13,12 +13,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBadgeBinding;
 
@@ -87,16 +87,28 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
 
     @NonNull
     private String getBadgeCount(String s) {
+        String leadingZeroRemovedString = (String) trimLeadingZeros(s);
         //Avoid NFE for value out of Integer range.
-        if (s.length() > 4) {
+        if (leadingZeroRemovedString.length() > 4) {
             return s;
         }
         try {
-            Integer badgeValue = Integer.valueOf(s);
+            Integer badgeValue = Integer.valueOf(leadingZeroRemovedString);
             return badgeValue == 0 ? "" : "" + badgeValue;
         } catch (NumberFormatException nfe) {
             return "";
         }
+    }
+
+    private CharSequence trimLeadingZeros(CharSequence charSequence) {
+        if (!TextUtils.isEmpty(charSequence)) {
+            for (int index = 0; index < charSequence.length(); index++) {
+                if (charSequence.charAt(index) != '0') {
+                    return charSequence.subSequence(index, charSequence.length());
+                }
+            }
+        }
+        return "";
     }
 
     @Override

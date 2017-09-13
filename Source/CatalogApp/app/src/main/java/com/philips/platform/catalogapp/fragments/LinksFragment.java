@@ -15,14 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentLinksBinding;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.view.widget.Label;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -84,7 +82,7 @@ public class LinksFragment extends BaseFragment {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (getActivity() != null) {
+                    if (getActivity() != null && LinksFragment.this.isVisible()) {
                         confluenceHelpPopUP = new PopupWindow(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         confluenceHelpPopUP.setContentView(getConfluencePageHelpView());
                         confluenceHelpPopUP.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));

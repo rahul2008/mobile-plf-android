@@ -13,15 +13,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import static com.philips.platform.catalogapp.MainActivity.FRAGMENTS_LIST;
 
 public class NavigationController {
     public static final String ACTIVE_FRAGMENTS = "activeFragments";
@@ -38,6 +38,8 @@ public class NavigationController {
     private int titleResource;
     private Toolbar toolbar;
     private boolean shouldHandleBack = true;
+
+    public ArrayList<String> activeFragmentsList = new ArrayList<>();
 
     public interface BackPressListener {
         boolean handleBackPress();
@@ -67,6 +69,10 @@ public class NavigationController {
         if (intent != null && !intent.hasExtra(MainActivity.THEMESETTINGS_ACTIVITY_RESTART)) {
             storeFragmentInPreference(null);
         }
+        if (intent != null && intent.hasExtra(FRAGMENTS_LIST)) {
+            activeFragmentsList = intent.getStringArrayListExtra(FRAGMENTS_LIST);
+        }
+
     }
 
     private void toggleHamburgerIcon() {
@@ -196,22 +202,18 @@ public class NavigationController {
     }
 
     public void storeFragmentInPreference(String fragmentTag) {
-
-        if (fragmentTag == null) {
-            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, null).apply();
-            return;
+        if (fragmentTag != null) {
+            if(!activeFragmentsList.contains(fragmentTag)) {
+                activeFragmentsList.add(fragmentTag);
+            }
         }
-        Set<String> set = new LinkedHashSet<>();
-        final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, set);
-        stringSet.add(fragmentTag);
-        fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).apply();
     }
 
-    private Set<String> getLastActiveFragmentName() {
-        return fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, null);
+    private ArrayList<String> getLastActiveFragmentName() {
+        return activeFragmentsList;
     }
 
-    private void restoreLastActiveFragment(final Set<String> lastActiveFragments) {
+    private void restoreLastActiveFragment(final ArrayList<String> lastActiveFragments) {
         if (lastActiveFragments != null) {
             for (String lastFragment : lastActiveFragments) {
                 if (lastFragment != null) {
@@ -244,8 +246,7 @@ public class NavigationController {
     public boolean updateStack() {
         shouldHandleBack = true;
         if (hasBackStack()) {
-            final List<Fragment> fragments = supportFragmentManager.getFragments();
-            final Fragment fragment = fragments.get(fragments.size() - 1);
+            final Fragment fragment = getFragmentAtTopOfBackStack();
             if (fragment instanceof BackPressListener) {
                 if (fragment.isVisible() && fragment.isAdded() && ((BackPressListener) fragment).handleBackPress()) {
                     shouldHandleBack = false;
@@ -258,10 +259,6 @@ public class NavigationController {
     }
 
     private void removeFragmentInPreference(String fragmentName) {
-        final Set<String> stringSet = fragmentPreference.getStringSet(ACTIVE_FRAGMENTS, new LinkedHashSet<String>());
-        if (stringSet != null && !stringSet.isEmpty()) {
-            stringSet.remove(fragmentName);
-            fragmentPreference.edit().putStringSet(ACTIVE_FRAGMENTS, stringSet).apply();
-        }
+        activeFragmentsList.remove(fragmentName);
     }
 }
