@@ -12,12 +12,21 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.UIDUtils;
+
+/**
+ * UID Sidebar
+ * <p>
+ * <P> UID Sidebar is custom DrawerLayout as per DLS design.
+ * <p>
+ * <P> Use Sidebar in your xml layout file similar to DrawerLayout.
+ * <p>
+ *
+ */
 
 public class SideBar extends DrawerLayout {
 
@@ -39,7 +48,7 @@ public class SideBar extends DrawerLayout {
         int shadowColor = array.getColor(R.styleable.PhilipsUID_uidDimLayerSubtleBackgroundColor, Color.TRANSPARENT);
         array.recycle();
         setScrimColor(shadowColor);
-        float elevation= context.getResources().getDimensionPixelSize(R.dimen.uid_sidebar_elevation);
+        float elevation = context.getResources().getDimensionPixelSize(R.dimen.uid_sidebar_elevation);
         setDrawerElevation(elevation);
     }
 
@@ -55,7 +64,6 @@ public class SideBar extends DrawerLayout {
             if (isDrawerView(child)) {
                 int width = Math.min(child.getMeasuredWidth(), getMaxWidth());
                 child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), heightMeasureSpec);
-                Log.d("********** Sidebar ", "width = " + width);
             }
         }
     }

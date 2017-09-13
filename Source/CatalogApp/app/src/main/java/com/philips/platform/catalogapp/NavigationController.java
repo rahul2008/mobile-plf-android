@@ -42,7 +42,6 @@ public class NavigationController {
     private int titleResource;
     private Toolbar toolbar;
     private boolean shouldHandleBack = true;
-    private SideBar sideBar;
 
     public interface BackPressListener {
         boolean handleBackPress();
@@ -70,9 +69,8 @@ public class NavigationController {
     }
 
     private void lockSidebar(){
-        sideBar = (SideBar) activityMainBinding.getRoot().findViewById(R.id.sidebar_layout);
-        sideBar.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
-        sideBar.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        mainActivity.getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        mainActivity.getSideBarController().getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
     }
 
     private void clearLastFragmentOnFreshLaunch(Intent intent) {
