@@ -102,8 +102,8 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
                 mStringBuilder.append(line).append('\n');
             }
             result = new JSONObject(mStringBuilder.toString());
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_TAGGING, "Master ADB Mobile Config Json" +
-                    result.toString());
+           /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_TAGGING, "Master ADB Mobile Config Json" +
+                    result.toString());*/
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING, "Tagging ADBMobileConfig file reading exception" +
                     Log.getStackTraceString(e));
