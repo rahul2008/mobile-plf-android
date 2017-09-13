@@ -111,6 +111,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle);
         }else{
             // video call does completed succesfully so sending back user is
+            THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
             getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
         }
