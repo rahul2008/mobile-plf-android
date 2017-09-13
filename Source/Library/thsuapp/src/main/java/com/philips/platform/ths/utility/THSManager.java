@@ -139,8 +139,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.http.HEAD;
-
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 
 
@@ -1237,7 +1235,7 @@ public class THSManager {
         mUser = user;
     }
 
-    private String getAppName() {
+    public String getAppName() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
