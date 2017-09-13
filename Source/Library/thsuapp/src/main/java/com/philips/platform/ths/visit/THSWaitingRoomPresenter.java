@@ -32,6 +32,8 @@ import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
 import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_VIDEO_CALL;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 /**
@@ -152,6 +154,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
 
        mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VIDEO_CALL,null,null);
 
     }
 

@@ -7,6 +7,9 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.manager.ConsumerManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.registration.THSConsumer;
@@ -24,6 +27,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.atLeastOnce;
@@ -71,11 +75,18 @@ public class THSVitalsFragmentTest {
     @Mock
     THSVitalsFragmentTestMock thsVitalsFragmentMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
+
 
         thsVitalsFragment = new THSVitalsFragmentTestMock();
         thsVitalsFragment.setActionBarListener(actionBarListenerMock);
@@ -83,6 +94,11 @@ public class THSVitalsFragmentTest {
 
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(pthConsumerMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
 
         THSManager.getInstance().setVisitContext(pthVisitContextMock);
         when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
@@ -118,7 +134,7 @@ public class THSVitalsFragmentTest {
         thsVitalsFragment.setFragmentLauncher(fragmentLauncherMock);
         final View viewById = thsVitalsFragment.getView().findViewById(R.id.vitals_continue_btn);
         viewById.performClick();
-        verify(presenterMock).onEvent(R.id.vitals_continue_btn);
+        verify(presenterMock,atLeastOnce()).onEvent(R.id.vitals_continue_btn);
     }
 
     @Test
@@ -128,7 +144,7 @@ public class THSVitalsFragmentTest {
         thsVitalsFragment.setFragmentLauncher(fragmentLauncherMock);
         final View viewById = thsVitalsFragment.getView().findViewById(R.id.vitals_skip);
         viewById.performClick();
-        verify(presenterMock).onEvent(R.id.vitals_skip);
+        verify(presenterMock,atLeastOnce()).onEvent(R.id.vitals_skip);
     }
 
 

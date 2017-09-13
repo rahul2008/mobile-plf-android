@@ -29,6 +29,9 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_BILLING_ADDRESS;
+
+
 
 public class THSCreditCardBillingAddressFragment extends THSBaseFragment implements View.OnClickListener {
 
@@ -95,6 +98,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_BILLING_ADDRESS,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Billing address", true);
         }

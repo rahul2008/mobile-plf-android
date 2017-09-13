@@ -65,6 +65,8 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
@@ -137,6 +139,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+
 
 public class THSManager {
     private static THSManager sTHSManager = null;
@@ -151,6 +155,14 @@ public class THSManager {
     private User mUser;
 
     private AppInfraInterface mAppInfra;
+
+    public AppTaggingInterface getThsTagging() {
+        return mAppTaggingInterface;
+    }
+
+
+
+    AppTaggingInterface mAppTaggingInterface;
 
     @VisibleForTesting
     public boolean TEST_FLAG = false;
@@ -1223,7 +1235,7 @@ public class THSManager {
         mUser = user;
     }
 
-    private String getAppName() {
+    public String getAppName() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
         Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
@@ -1245,6 +1257,7 @@ public class THSManager {
 
     public void setAppInfra(AppInfraInterface mAppInfra) {
         this.mAppInfra = mAppInfra;
+        this.mAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME);// initialize tagging for ths
     }
 
     public void getVisitHistory(final Context context, SDKLocalDate date, final THSVisitReportListCallback<List<VisitReport>, SDKError> visitReportListCallback) throws AWSDKInstantiationException {

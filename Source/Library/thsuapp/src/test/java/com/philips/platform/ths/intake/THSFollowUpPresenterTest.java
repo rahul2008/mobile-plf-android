@@ -13,10 +13,11 @@ import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.ConsumerManager;
-import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
@@ -30,9 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -83,12 +83,23 @@ public class THSFollowUpPresenterTest {
     @Mock
     ConsumerUpdate consumerUpdateMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setVisitContext(thsVisitContextMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
         List list = new ArrayList();
         list.add(legalTextMock);

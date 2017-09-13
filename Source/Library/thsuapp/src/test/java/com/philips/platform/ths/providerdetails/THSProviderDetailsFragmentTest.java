@@ -10,6 +10,9 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
@@ -101,11 +104,23 @@ public class THSProviderDetailsFragmentTest {
     @Mock
     THSProviderDetailsPresenter presenterMock;
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
+
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        THSManager.getInstance().setAppInfra(appInfraInterface);
+
+
         when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
         when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsFragment = new THSProviderDetailsFragmentMock();

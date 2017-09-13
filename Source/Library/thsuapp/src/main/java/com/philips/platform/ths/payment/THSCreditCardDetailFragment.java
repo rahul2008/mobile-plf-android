@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -22,6 +23,8 @@ import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 
 import static com.philips.platform.ths.utility.THSConstants.CVV_HELP_TEXT;
+import static com.philips.platform.ths.utility.THSConstants.THS_PAYMENT_METHOD;
+
 
 
 public class THSCreditCardDetailFragment extends THSBaseFragment implements View.OnClickListener {
@@ -81,6 +84,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PAYMENT_METHOD,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Payment method", true);
         }

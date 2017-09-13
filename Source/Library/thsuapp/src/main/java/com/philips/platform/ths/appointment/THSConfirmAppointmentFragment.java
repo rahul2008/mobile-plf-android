@@ -31,6 +31,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_CONFIRMED;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+
 public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface, View.OnClickListener {
 
     public static final String TAG = THSConfirmAppointmentFragment.class.getSimpleName();
@@ -48,6 +52,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_confirm_appointment, container, false);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","appointmentScheduled");
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
         }
@@ -117,5 +122,12 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         if (v.getId() == R.id.ok_got_it) {
             popFragmentByTag(THSWelcomeFragment.TAG, 0);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
+
     }
 }

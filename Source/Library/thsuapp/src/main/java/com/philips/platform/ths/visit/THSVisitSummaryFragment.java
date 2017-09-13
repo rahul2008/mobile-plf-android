@@ -23,7 +23,9 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
+
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_SUMMARY;
 
 /**
  * Created by philips on 8/4/17.
@@ -118,6 +120,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_SUMMARY,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Thank you", true);
         }
