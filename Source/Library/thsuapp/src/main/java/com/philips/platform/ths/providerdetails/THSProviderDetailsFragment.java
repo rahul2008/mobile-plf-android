@@ -101,6 +101,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
                     THSProviderInfo thsProviderInfo = new THSProviderInfo();
                     thsProviderInfo.setTHSProviderInfo(mProviderInfo);
                     setTHSProviderEntity(thsProviderInfo);
+                }else if(mProvider!=null){
+                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                    thsProviderInfo.setTHSProviderInfo(mProvider);
+                    setTHSProviderEntity(thsProviderInfo);
+                }else {
+                    showToast("Provider not supplied");
                 }
             }
             onRefresh();
