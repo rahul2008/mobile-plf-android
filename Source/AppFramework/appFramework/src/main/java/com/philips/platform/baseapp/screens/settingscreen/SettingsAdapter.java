@@ -1,9 +1,9 @@
-package com.philips.platform.baseapp.screens.settingscreen;/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-
+package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -33,7 +33,6 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
-import com.philips.platform.baseapp.screens.utility.TaggingConstants;
 import com.philips.platform.dscdemo.utility.SyncScheduler;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.shamanland.fonticon.FontIconTextView;
@@ -46,7 +45,7 @@ import java.util.ArrayList;
  */
 
 public class SettingsAdapter extends BaseAdapter {
-    public static final String TAG =  SettingsAdapter.class.getSimpleName();
+    public static final String TAG = SettingsAdapter.class.getSimpleName();
     private Context activityContext;
     private LayoutInflater inflater = null;
     private UserRegistrationState userRegistrationState;
@@ -61,6 +60,8 @@ public class SettingsAdapter extends BaseAdapter {
     private AlertDialog logoutAlertDialog;
     private UIKitButton btn_settings_logout = null;
     private String viewHolderTag = null;
+    public static final String MARKETING_OPT_OUT = "remarketingOptOut";
+    public static final String MARKETING_OPT_IN = "remarketingOptIn";
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
                            AbstractUIBasePresenter fragmentPresenter, UserRegistrationState userRegistrationState, boolean isUserLoggedIn, boolean isMarketingEnabled) {
@@ -109,7 +110,7 @@ public class SettingsAdapter extends BaseAdapter {
     @NonNull
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        RALog.d(TAG," getView ");
+        RALog.d(TAG, " getView ");
         int type = getItemViewType(position);
         VerticalViewHolder verticalViewHolder = null;
         if (convertView == null) {
@@ -168,7 +169,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     protected void loginButtonView(View vi) {
-        RALog.d(TAG," loginButtonView ");
+        RALog.d(TAG, " loginButtonView ");
         btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
         if (isUserLoggedIn) {
             btn_settings_logout.setText(getString(R.string.RA_Settings_Logout));
@@ -191,7 +192,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     private void notificationSection(int position, VerticalViewHolder viewHolder) {
-        RALog.d(TAG,"notificationSection called ");
+        RALog.d(TAG, "notificationSection called ");
         if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
             viewHolder.name.setVisibility(View.VISIBLE);
             viewHolder.name.setText(settingsItemList.get(position).title);
@@ -218,7 +219,7 @@ public class SettingsAdapter extends BaseAdapter {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, true);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
-                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_IN);
+                                AppFrameworkTagging.getInstance().trackAction(MARKETING_OPT_IN);
                             }
 
                             @Override
@@ -236,7 +237,7 @@ public class SettingsAdapter extends BaseAdapter {
                                 sharedPreferenceUtility.writePreferenceBoolean(Constants.isEmailMarketingEnabled, false);
                                 progress.cancel();
                                 Toast.makeText(activityContext, activityContext.getResources().getString(R.string.RA_Settings_Update_Success), Toast.LENGTH_LONG).show();
-                                AppFrameworkTagging.getInstance().trackAction(TaggingConstants.MARKETING_OPT_OUT);
+                                AppFrameworkTagging.getInstance().trackAction(MARKETING_OPT_OUT);
                             }
 
                             @Override
@@ -287,7 +288,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     protected void logoutAlert() {
-        RALog.d(TAG ," Logout Alert called");
+        RALog.d(TAG, " Logout Alert called");
         if (logoutAlertDialog != null && logoutAlertDialog.isShowing()) {
             return;
         }
@@ -314,13 +315,13 @@ public class SettingsAdapter extends BaseAdapter {
                                     PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(), new PushNotificationManager.DeregisterTokenListener() {
                                         @Override
                                         public void onSuccess() {
-                                            RALog.d(TAG ," Logout Success is returned ");
+                                            RALog.d(TAG, " Logout Success is returned ");
                                             doLogout();
                                         }
 
                                         @Override
                                         public void onError() {
-                                            RALog.d(TAG ," Logout Error is returned ");
+                                            RALog.d(TAG, " Logout Error is returned ");
 
                                             doLogout();
                                         }
@@ -352,11 +353,11 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     public void doLogout() {
-        RALog.d(TAG ," do logout called ");
+        RALog.d(TAG, " do logout called ");
         userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                RALog.d(TAG ," UserRegistration onLogoutSuccess  - ");
+                RALog.d(TAG, " UserRegistration onLogoutSuccess  - ");
                 //    ((AbstractAppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                 //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
                 progressDialog.cancel();
@@ -365,10 +366,10 @@ public class SettingsAdapter extends BaseAdapter {
                 }
                 fragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
                 if (!BaseAppUtil.isDSPollingEnabled(activityContext)) {
-                    PushNotificationManager.getInstance().saveTokenRegistrationState(activityContext.getApplicationContext(),false);
+                    PushNotificationManager.getInstance().saveTokenRegistrationState(activityContext.getApplicationContext(), false);
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
-                    ((Activity)activityContext).runOnUiThread(new Runnable() {
+                    ((Activity) activityContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             SyncScheduler.getInstance().stopSync();
@@ -381,7 +382,7 @@ public class SettingsAdapter extends BaseAdapter {
 
             @Override
             public void onLogoutFailure(final int i, final String errorMessage) {
-                RALog.d(TAG ," UserRegistration onLogoutFailure  - " + errorMessage);
+                RALog.d(TAG, " UserRegistration onLogoutFailure  - " + errorMessage);
 
                 progressDialog.cancel();
                 Toast.makeText(activityContext, errorMessage, Toast.LENGTH_LONG).show();
