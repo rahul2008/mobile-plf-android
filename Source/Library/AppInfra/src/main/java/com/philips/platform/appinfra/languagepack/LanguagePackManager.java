@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -46,6 +47,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	private FileUtils languagePackUtil;
 	private Gson gson;
 	private Context context;
+
 
     @NonNull
     protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(final OnRefreshListener aILPRefreshResult) {
@@ -99,6 +101,7 @@ public class LanguagePackManager implements LanguagePackInterface {
         mAppInfra = appInfra;
         mRestInterface = appInfra.getRestClient();
         this.context = appInfra.getAppInfraContext();
+        VolleyLog.DEBUG = false;
         mLanguageList = new LanguageList();
         languagePackUtil = new FileUtils(appInfra.getAppInfraContext());
         gson = new Gson();

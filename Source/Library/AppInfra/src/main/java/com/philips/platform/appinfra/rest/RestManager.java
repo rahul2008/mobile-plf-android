@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
@@ -36,6 +37,7 @@ public class RestManager implements RestInterface {
 
     public RestManager(AppInfra appInfra) {
         mAppInfra = appInfra;
+        VolleyLog.DEBUG = false;
     }
 
     @Override

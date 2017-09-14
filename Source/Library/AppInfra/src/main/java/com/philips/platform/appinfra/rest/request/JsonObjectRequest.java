@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.rest.request;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -35,6 +36,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
         this.mParams = params;
+        VolleyLog.DEBUG = false;
 //        Log.v(AppInfraLogEventID.AI_REST, "Json Object Request");
     }
 
@@ -43,6 +45,7 @@ public class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequ
                              String urlExtension, JSONObject jsonRequest,
                              Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), jsonRequest, listener, errorListener);
+        VolleyLog.DEBUG = false;
 //        Log.v(AppInfraLogEventID.AI_REST, "Json Object Request");
     }
 

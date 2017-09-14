@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -34,12 +35,14 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
         this.mParams = params;
+        VolleyLog.DEBUG = false;
 //        Log.v(AppInfraLogEventID.AI_REST, "Image Request");
     }
 
     public ImageRequest(String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref, String urlExtension, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
                         ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, Response.ErrorListener errorListener)  {
         super(ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), listener, maxWidth, maxHeight, scaleType, decodeConfig, errorListener);
+        VolleyLog.DEBUG = false;
 //        Log.v(AppInfraLogEventID.AI_REST, "Image Request");
     }
 

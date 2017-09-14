@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -66,6 +67,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
+        VolleyLog.DEBUG = false;
     }
 
     protected JSONObject getMasterConfigFromApp() {
