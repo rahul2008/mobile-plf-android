@@ -6,10 +6,7 @@
 ext.versions = [
 		ail_appInfra               : "1.8.0",
 		bll_shinelib               : "3.2.0",
-		cba_commlibAll             : "1.5.0",
-		cca_cloudcontrollerApi     : "3.4.0",
-		ccc_cloudcontroller        : "5.4.0",
-		cml_dicommClientLib        : "7.1.0",
+		cml_commlib                : "8.0.0",
 		dcc_digitalCare            : "8.0.0",
 		dsc_dataServices           : "2.0.0",
 		dpr_devicePairing          : "1.0.0",
