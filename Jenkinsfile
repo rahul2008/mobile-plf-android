@@ -43,7 +43,7 @@ node('Android') {
                     }
                 }
 
-                boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master")
+                boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master"))
                 if (publishing) {
                     for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
                         def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
@@ -66,6 +66,9 @@ node('Android') {
                     archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
                 }
             }
+
+            Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLib", "cml")
+
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
