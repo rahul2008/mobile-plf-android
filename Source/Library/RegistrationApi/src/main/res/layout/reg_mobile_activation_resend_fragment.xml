@@ -93,7 +93,7 @@
                 android:indeterminate="false"
                 android:minWidth="@dimen/uid_progress_bar_min_width"
                 android:progressDrawable="@drawable/uid_secondary_progress_bar"
-                android:secondaryProgress="50"
+                android:secondaryProgress="100"
                 android:text="@string/no_sms_yet"
                 app:uidIsLinearProgressBar="true"
                 app:uidLabelPosition="bottom_left"/>
