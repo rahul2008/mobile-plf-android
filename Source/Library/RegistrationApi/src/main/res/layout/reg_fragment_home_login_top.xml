@@ -129,6 +129,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:lines="1"
+            android:textSize="@dimen/reg_text_size_12"
             android:text="Privacy notice"/>
 
 
@@ -138,6 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textSize="@dimen/reg_text_size_12"
             android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="end"

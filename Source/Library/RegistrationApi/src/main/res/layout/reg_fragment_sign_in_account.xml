@@ -77,7 +77,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-
                     app:uidTextBoxValidationErrorText="inline_error_message">
 
                     <com.philips.platform.uid.view.widget.ValidationEditText
@@ -125,6 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:textSize="@dimen/reg_text_size_12"
         android:layout_marginBottom="@dimen/reg_margin_24"
         android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"/>
 
