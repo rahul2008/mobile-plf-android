@@ -6,6 +6,7 @@
 buildscript { bs ->
     apply from: projectDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: projectDir.absolutePath + '/../common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -26,7 +27,7 @@ buildscript { bs ->
 
     dependencies {
         classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpscm)
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -177,22 +178,27 @@ dependencies {
 
     provided deps.support.annotations
 
-	def dp = project.ext.has('useprojectdependencies')
+    def useProjectDependencies = project.ext.has('useprojectdependencies')
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uapp_framework + objcdp.getVersionSuffix(), changing: true)
-	compile(dp ? project(':ufw') : ufwModule)
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+    compile(useProjectDependencies ? project(':ufw') : ufwModule)
 
-    def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
-
-    debugCompile project(path: ':commlib', configuration: 'debug')
-    releaseCompile project(path: ':commlib', configuration: 'release')
-    testCompile project(path: ':commlib', configuration: 'debug')
-
-    if (findProject(':cloudcontroller')) {
-        debugCompile project(path: ':cloudcontroller', configuration: 'debug')
-        releaseCompile project(path: ':cloudcontroller', configuration: 'release')
+    if (useProjectDependencies) {
+        compile project(':cml')
     } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        if (findProject(':commlib')) {
+            debugCompile project(path: ':commlib', configuration: 'debug')
+            releaseCompile project(path: ':commlib', configuration: 'release')
+        } else {
+            compile module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+        }
+
+        if (findProject(':cloudcontroller')) {
+            debugCompile project(path: ':cloudcontroller', configuration: 'debug')
+            releaseCompile project(path: ':cloudcontroller', configuration: 'release')
+        } else {
+            compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        }
     }
 
     compile deps.joda_time
