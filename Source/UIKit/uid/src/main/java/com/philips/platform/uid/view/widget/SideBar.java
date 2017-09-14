@@ -26,6 +26,7 @@ import com.philips.platform.uid.utils.UIDUtils;
  * <P> Use Sidebar in your xml layout file similar to DrawerLayout.
  * <p>
  *
+ * @see <a href="https://confluence.atlas.philips.com/display/MU/How+to+integrate+Sidebar">https://confluence.atlas.philips.com/display/MU/How+to+integrate+Sidebar</a>
  */
 
 public class SideBar extends DrawerLayout {
