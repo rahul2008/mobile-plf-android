@@ -10,6 +10,8 @@ import android.os.Build;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
+import com.philips.platform.appinfra.aikm.AIKMInterface;
+import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -39,7 +41,7 @@ import java.io.Serializable;
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
  */
-public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Serializable {
+public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serializable {
 
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;
@@ -60,6 +62,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
      */
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
+    private AIKMInterface aikmInterface;
 
 
     private AppInfra(Context pContext) {
@@ -164,6 +167,10 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         this.mLanguagePackInterface = languagePackInterface;
     }
 
+    private void setAiKmInterface(AIKMInterface aikmInterface) {
+        this.aikmInterface = aikmInterface;
+    }
+
     private void setRestInterface(RestInterface restInterface) {
         mRestInterface = restInterface;
     }
@@ -180,7 +187,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
         this.mAppupdateInterface = appupdateInterface;
     }
-
 
     public AppTaggingInterface getTagging() {
         return tagging;
@@ -205,6 +211,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
+    @Override
+    public AIKMInterface getAiKmInterface() {
+        return aikmInterface;
+    }
+
     /**
      * The type Builder.
      */
@@ -212,7 +223,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
         private SecureStorageInterface secStor;
         private LoggingInterface logger; // builder logger
-     //   private LoggingInterface aiLogger; // app infra logger
+        //   private LoggingInterface aiLogger; // app infra logger
         private AppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
         private InternationalizationInterface local;
@@ -225,6 +236,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
+        private AIKMInterface aikmInterface;
 
 
         /**
@@ -243,7 +255,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
-            appupdateInterface = null;
+            aikmInterface = null;
         }
 
 
@@ -324,6 +336,15 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         public Builder setTimeSync(TimeInterface timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
             return this;
+        }
+
+        /**
+         * Sets Builder aiKm Service overriding the default implementation.
+         *
+         * @param aikmInterface aiKm service interface
+         */
+        public void setAiKmInterface(AIKMInterface aikmInterface) {
+            this.aikmInterface = aikmInterface;
         }
 
 
@@ -422,9 +443,19 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 }
             }).start();
 
+            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final AIKManager aikManager;
+                        aikManager = new AIKManager(ai);
+                        ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
+                    }
+                }).start();
+            }
 
 //            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
-            postLog(ai,startTime, "App-infra initialization ends with ");
+            postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
     }
