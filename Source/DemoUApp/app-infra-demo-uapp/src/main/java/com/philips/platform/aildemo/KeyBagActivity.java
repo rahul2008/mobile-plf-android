@@ -6,7 +6,6 @@
 package com.philips.platform.aildemo;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -19,17 +18,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.aikm.exception.AIKMJsonFileNotFoundException;
 import com.philips.platform.appinfra.aikm.model.AIKMService;
 import com.philips.platform.appinfra.aikm.model.OnGetServicesListener;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.rest.request.StringRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
@@ -160,12 +154,12 @@ public class KeyBagActivity extends AppCompatActivity {
             }
         }
         responseTextView.setText(stringBuilder.toString());
-        if (serviceUrl != null && testDSKey != null)
-            makeRestCall(serviceUrl, testDSKey);
+//        if (serviceUrl != null && testDSKey != null)
+//            makeRestCall(serviceUrl, testDSKey);
 
     }
 
-    private void makeRestCall(String serviceUrl, final Map<String, String> testDSKey) {
+   /* private void makeRestCall(String serviceUrl, final Map<String, String> testDSKey) {
 
         Uri.Builder builder = Uri.parse(serviceUrl)
                 .buildUpon();
@@ -211,5 +205,5 @@ public class KeyBagActivity extends AppCompatActivity {
         // mStringRequest.setShouldCache(false); // set false to disable cache
 
             appInfra.getRestClient().getRequestQueue().add(mStringRequest);
-    }
+    }*/
 }
