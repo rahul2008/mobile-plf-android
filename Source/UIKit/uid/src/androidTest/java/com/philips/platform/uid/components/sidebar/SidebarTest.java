@@ -18,6 +18,7 @@ import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.DrawerMatcher;
 import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.utils.UIDUtils;
 
 import org.hamcrest.Matcher;
@@ -84,7 +85,7 @@ public class SidebarTest extends BaseTest {
     public void verifyLeftSidebarCanOpen() {
         getSidebar().check(matches(DrawerMatcher.isDrawerClose(GravityCompat.START)));
         getSidebar().perform(actionOpenDrawer(GravityCompat.START));
-        waitFor(resources, 500);
+        waitFor(resources, UIDTestUtils.UI_LOAD_WAIT_TIME);
         getSidebar().check(matches(DrawerMatcher.isDrawerOpen(GravityCompat.START)));
     }
 
@@ -92,7 +93,7 @@ public class SidebarTest extends BaseTest {
     public void verifyRightSidebarCanOpen() {
         getSidebar().check(matches(DrawerMatcher.isDrawerClose(GravityCompat.END)));
         getSidebar().perform(actionOpenDrawer(GravityCompat.END));
-        waitFor(resources, 500);
+        waitFor(resources, UIDTestUtils.UI_LOAD_WAIT_TIME);
         getSidebar().check(matches(DrawerMatcher.isDrawerOpen(GravityCompat.END)));
     }
 
