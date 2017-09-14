@@ -12,8 +12,6 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import java.util.Locale;
-
 /**
  * The Class Local Internationalization Manager.
  */

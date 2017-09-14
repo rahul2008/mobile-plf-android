@@ -4,8 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -53,6 +54,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 					String testJson = ConfigValues.testJson();
 					result = new JSONObject(testJson);
 				} catch (Exception e) {
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+							"Error in appconfiguration test");
 				}
 				return result;
 			}
@@ -134,6 +137,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			}
 			assertEquals(null, configError.getErrorCode()); // success
 		} catch (IllegalArgumentException exception) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in GetPropertyForKey");
 		}
 
 	}
@@ -198,6 +203,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			assertEquals(null, configError.getErrorCode());
 
 		} catch (IllegalArgumentException exception) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in SetPropertyForKey");
 		}
 	}
 
@@ -402,6 +409,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			assertEquals(null, configError.getErrorCode()); // success
 
 		} catch (IllegalArgumentException exception) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in Default PropertyForKey");
 		}
 
 	}
@@ -452,6 +461,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 		try {
 			oldData = new JSONObject(testJsonOld());
 		} catch (JSONException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in test Migration");
 		}
 		// set the previos file to old data with duplicate values
 		sse = new SecureStorageInterface.SecureStorageError();
@@ -571,6 +582,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			method.invoke(appConfigurationManager, listener);
 
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in test RefreshCloudConfig");
 		}
 	}
 
@@ -594,6 +607,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			};
 			method.invoke(appConfigurationManager, "url", listener);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in  test FetchCloudConfig");
 		}
 	}
 
@@ -606,6 +621,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			JSONObject jObject = new JSONObject();
 			method.invoke(appConfigurationManager, jObject, "url");
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in test  SaveCloudConfig");
 		}
 	}
 
@@ -617,6 +634,8 @@ public class AppConfigurationTest extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(appConfigurationManager);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+					"Error in  test ClearCloudConfigFile");
 		}
 	}
 

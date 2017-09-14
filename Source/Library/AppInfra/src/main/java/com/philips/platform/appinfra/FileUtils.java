@@ -3,9 +3,6 @@ package com.philips.platform.appinfra;
 
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.util.Log;
-
 
 import com.philips.platform.appinfra.languagepack.LanguagePackConstants;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
@@ -24,6 +21,8 @@ import java.io.IOException;
 
 public class FileUtils {
 
+	private static final String DIRECTORY_FILE_NAME = "AppInfra";
+
 	private Context context;
 
 	public FileUtils(Context context) {
@@ -31,19 +30,18 @@ public class FileUtils {
 	}
 
 	public File getFilePath(String fileName, String filePath) {
-		final ContextWrapper contextWrapper = new ContextWrapper(context);
-		final File directory = contextWrapper.getCacheDir();
+		final File directory = context.getDir(DIRECTORY_FILE_NAME, Context.MODE_PRIVATE);
 		final File file = new File(directory, filePath);
 		final File jsonFile = new File(file.getPath(), fileName);
 		if (!file.exists()) {
 			final boolean mkdirs = file.mkdirs();
 			if (!mkdirs) {
-				Log.e(this.getClass() + "", "error in creating folders");
+				//Log.e(this.getClass() + "", "error in creating folders");
 			} else {
 				try {
 					jsonFile.createNewFile();
 				} catch (IOException var5) {
-					Log.e("IO-Exception "," 1 ");
+					//Log.e("IO-Exception "," 1 ");
 				}
 			}
 		}
@@ -58,14 +56,14 @@ public class FileUtils {
 			fileWriter.write(response);
 			fileWriter.close();
 		} catch (IOException e) {
-			Log.e("IO-Exception "," 2 ");
+			//Log.e("IO-Exception "," 2 ");
 			
 		} finally {
 			try {
 				if (fileWriter != null)
 					fileWriter.close();
 			} catch (IOException e) {
-				Log.e("IO-Exception "," 3 ");
+				//Log.e("IO-Exception "," 3 ");
 			}
 		}
 	}
@@ -78,13 +76,13 @@ public class FileUtils {
 			fileInputStream = new FileInputStream(file);
 			fileInputStream.read(bytes);
 		} catch (IOException e) {
-			Log.e("IO-Exception "," 4 ");
+//			Log.e("IO-Exception "," 4 ");
 		} finally {
 			try {
 				if (fileInputStream != null)
 					fileInputStream.close();
 			} catch (IOException e) {
-				Log.e("IO-Exception "," 5 ");
+//				Log.e("IO-Exception "," 5 ");
 			}
 		}
 		return (bytes.length == 0 ? null : new String(bytes));
@@ -104,7 +102,7 @@ public class FileUtils {
 			metadataJsonObject.put(LanguagePackConstants.URL, languagePackModel.getUrl());
 			saveFile(metadataJsonObject.toString(),LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		} catch (JSONException e) {
-			Log.e(getClass()+"", " error while parsing Json ");
+//			Log.e(getClass()+"", " error while parsing Json ");
 		}
 	}
 
