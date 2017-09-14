@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <gradient
-        android:endColor="?attr/uikit_baseColor"
-        android:startColor="?attr/uikit_darkerColor" />
+        android:endColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:startColor="?attr/uidLabelDescriptorNormalTextColor" />
 
 </shape>

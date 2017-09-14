@@ -5,7 +5,7 @@
         <shape>
             <corners android:radius="3dip" />
             <stroke android:width="1dip" />
-            <solid android:color="?attr/uikit_darkerColor" />
+            <solid android:color="?attr/uidButtonPrimaryFocusBackgroundColor" />
         </shape>
     </item>
 
@@ -13,7 +13,7 @@
         <shape>
             <corners android:radius="3dip" />
             <stroke android:width="1dip" />
-            <solid android:color="?attr/uikit_baseColor" />
+            <solid android:color="?attr/uidLabelDescriptorNormalTextColor" />
         </shape>
     </item>
 
@@ -21,7 +21,7 @@
         <shape>
             <corners android:radius="3dip" />
             <stroke android:width="1dip" />
-            <solid android:color="?attr/uikit_baseColor" />
+            <solid android:color="?attr/uidLabelDescriptorNormalTextColor" />
         </shape>
     </item>
 
