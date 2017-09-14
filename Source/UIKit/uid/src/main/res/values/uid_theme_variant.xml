@@ -2,25 +2,27 @@
 <resources>
 
     <style name="Base">
-        <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width</item>
     </style>
 
     <style name="Base.UltraLight">
-        <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width_ultralight</item>
-        <item name="uidTonalRange">UltraLight</item>
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">UltraLight</item>-->
     </style>
 
     <style name="Base.VeryLight">
-        <item name="uidTonalRange">VeryLight</item>
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">VeryLight</item>-->
     </style>
 
     <!--  <style name="Base.Light">
     </style>
 -->
     <style name="Base.Bright">
-        <item name="uidTonalRange">Bright</item>
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">Bright</item>-->
     </style>
     <style name="Base.VeryDark">
-        <item name="uidTonalRange">VeryDark</item>
+        <!--Don't add tonal range as it creates conflict with extend tonal range.-->
+        <!--<item name="uidTonalRange">VeryDark</item>-->
     </style>
 </resources>

@@ -49,7 +49,6 @@
     <dimen name="uid_edittext_text_padding">12dp</dimen>
     <dimen name="uid_edittext_min_width">24dp</dimen>
     <dimen name="uid_edittext_text_size">16sp</dimen>
-    <dimen name="uid_edittext_stroke_width_ultralight">1dp</dimen>
     <dimen name="uid_edittext_line_spacing">0dp</dimen>
     <dimen name="uid_edittext_vertical_padding">12dp</dimen>
     <item name="uid_edittext_fill_disabled_alpha" format="float" type="dimen">0.35</item>
