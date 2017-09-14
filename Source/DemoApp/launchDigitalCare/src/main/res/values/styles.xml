@@ -14,7 +14,7 @@
     </style>
 
     <!--UI Kit Theme-->
-    <style name="app_theme_vertical" parent="Theme.Philips.BrightBlue.Gradient.WhiteBackground"/>
+    <style name="app_theme_vertical" parent="Theme.DLS.Blue.Bright"/>
 
     <style name="style_ctnbutton">
         <item name="android:layout_width">wrap_content</item>
