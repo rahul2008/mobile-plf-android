@@ -409,12 +409,18 @@ dependencies {
 		transitive = true
 	}
 
-	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: versions.cba_commlibAll + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':commlib-all') : commlibAllModule) {	
+	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar')
+	compile(dp ? project(':commlib') : commlibModule) {
 		exclude group: 'com.android.support'
 		transitive = true
 	}
-	
+
+    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'DICommClientSampleUApp', version: versions.cml_dicommClientLib + objcdp.getVersionSuffix(), ext: 'aar')
+    compile(dp ? project(':commlibUApp') : commlibUAppModule) {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
 	def dccUAppModule = module(group: 'com.philips.cdp', name: 'digitalCareUApp', version: versions.dcc_digitalCare + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':dccUApp') : dccUAppModule) {	
 		exclude group: 'com.android.support'
@@ -441,12 +447,6 @@ dependencies {
 	
 	def prgUAppModule = module(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: versions.prg_productRegistrationLib + objcdp.getVersionSuffix(), ext: 'aar')
 	compile(dp ? project(':prgUApp') : prgUAppModule) {		
-		exclude group: 'com.android.support'
-		transitive = true
-	}
-
-	def commlibUAppModule = module(group: 'com.philips.cdp', name: 'DICommClientSampleUApp', version: versions.cml_dicommClientLib + objcdp.getVersionSuffix(), ext: 'aar')
-	compile(dp ? project(':commlibUApp') : commlibUAppModule) {		
 		exclude group: 'com.android.support'
 		transitive = true
 	}
