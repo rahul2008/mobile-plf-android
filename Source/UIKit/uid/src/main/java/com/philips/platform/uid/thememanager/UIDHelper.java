@@ -8,6 +8,7 @@ package com.philips.platform.uid.thememanager;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDContextWrapper;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UIDHelper {
@@ -126,4 +129,14 @@ public class UIDHelper {
     public static Context getPopupThemedContext(Context context) {
         return ThemeUtils.getPopupThemedContext(context);
     }
+
+    public static Context getContentThemedContext(Context context) {
+        return  ThemeUtils.getContentThemedContext(context);
+    }
+
+    public static Context getNavigationThemedContext(Context context) {
+        return ThemeUtils.getNavigationThemedContext(context);
+    }
+
+
 }

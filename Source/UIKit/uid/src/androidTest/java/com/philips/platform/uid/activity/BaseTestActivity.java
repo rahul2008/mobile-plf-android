@@ -5,6 +5,7 @@
 package com.philips.platform.uid.activity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,13 +16,17 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.view.WindowManager;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.view.widget.SideBar;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import java.io.*;
@@ -32,6 +37,8 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     public static final String NAVIGATION_COLOR_KEY = "NavigationColor";
 
     private Toolbar toolbar;
+    private SideBar sideBar;
+    private ActionBarDrawerToggle drawerToggle;
     @Nullable
     private UidIdlingResource mIdlingResource;
 
@@ -91,6 +98,9 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
                             toolbar.setNavigationIcon(com.philips.platform.uid.test.R.drawable.ic_hamburger_menu);
                             UIDHelper.setupToolbar(BaseTestActivity.this);
                             toolbar.setTitle(getString(com.philips.platform.uid.test.R.string.catalog_app_name));
+                            sideBar = (SideBar) findViewById(com.philips.platform.uid.test.R.id.test_sidebar);
+                            drawerToggle = setupDrawerToggle();
+
                         }
                     }
                 }
@@ -133,6 +143,26 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
 
     public Toolbar getToolbar() {
         return (Toolbar) findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
+    }
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, sideBar, toolbar, com.philips.platform.uid.test.R.string.test_sidebar_open,  com.philips.platform.uid.test.R.string.test_sidebar_close){
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @VisibleForTesting

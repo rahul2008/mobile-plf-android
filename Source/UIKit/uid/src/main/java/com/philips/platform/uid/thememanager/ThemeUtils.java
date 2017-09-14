@@ -176,4 +176,27 @@ public final class ThemeUtils {
     private static boolean isLightStatusBar(String tonalRange) {
         return TR_UL.equals(tonalRange) || TR_VL.equals(tonalRange);
     }
+
+    private static int getNavigationFullThemeResourceID(@NonNull Context context) {
+        TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
+        String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
+        String navigationRange = themeArray.getString(R.styleable.PhilipsUID_uidNavigationRange);
+        String themeName = String.format("Theme.DLS.%s.%s", colorRange, navigationRange);
+        themeArray.recycle();
+        return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
+    }
+
+    static Context getContentThemedContext(Context context) {
+        final Resources.Theme theme = context.getResources().newTheme();
+        theme.setTo(context.getTheme());
+        theme.applyStyle(ThemeUtils.getThemeResourceID(context), true);
+        return UIDContextWrapper.getThemedContext(context, theme);
+    }
+
+    static Context getNavigationThemedContext(Context context) {
+        final Resources.Theme theme = context.getResources().newTheme();
+        theme.setTo(context.getTheme());
+        theme.applyStyle(getNavigationFullThemeResourceID(context), true);
+        return UIDContextWrapper.getThemedContext(context, theme);
+    }
 }

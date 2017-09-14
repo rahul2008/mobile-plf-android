@@ -17,10 +17,8 @@ import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.philips.platform.catalogapp.MainActivity.FRAGMENTS_LIST;
 
 public class NavigationController {
@@ -61,6 +59,7 @@ public class NavigationController {
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
+            mainActivity.lockSidebar();
             storeFragmentInPreference(null);
         }
     }

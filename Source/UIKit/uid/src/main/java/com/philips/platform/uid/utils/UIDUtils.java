@@ -10,11 +10,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.view.WindowManager;
+
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,5 +62,34 @@ public final class UIDUtils {
         Drawable compatDrawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTintList(compatDrawable, colorStateList);
         return compatDrawable;
+    }
+
+    public static int getActionBarSize(Context context) {
+        final TypedArray styledAttributes = context.getTheme()
+                .obtainStyledAttributes(new int[]{R.attr.actionBarSize});
+        int size = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        return size;
+    }
+
+    public static int getDeviceWidth(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+        return metrics.widthPixels;
+    }
+
+    public static int getDeviceHeight(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int height = 0;
+        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resId > 0) {
+            height = context.getResources().getDimensionPixelSize(resId);
+        }
+        return height;
     }
 }

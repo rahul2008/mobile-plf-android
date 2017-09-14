@@ -10,28 +10,43 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.philips.platform.catalogapp.events.*;
+import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
+import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
+import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
+import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
+import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
-import com.philips.platform.uid.thememanager.*;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import java.io.*;
 
 public class MainActivity extends UIDActivity {
 
@@ -46,9 +61,9 @@ public class MainActivity extends UIDActivity {
     private ViewDataBinding activityMainBinding;
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
-
     boolean isAppLevelThemeApplied;
 
+    private SidebarController sidebarController;
 
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
@@ -83,6 +98,31 @@ public class MainActivity extends UIDActivity {
         EventBus.getDefault().register(this);
         navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
+
+        sidebarController = new SidebarController(this, activityMainBinding);
+    }
+
+    public void lockSidebar(){
+        if(sidebarController != null){
+            sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+            sidebarController.getSideBar().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        }
+    }
+
+    public SidebarController getSideBarController(){
+        return sidebarController;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        sidebarController.getDrawerToggle().onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        sidebarController.getDrawerToggle().syncState();
     }
 
     private void initTheme() {
@@ -143,6 +183,7 @@ public class MainActivity extends UIDActivity {
     protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
+        sidebarController.initSidebarContainerState(savedInstanceState);
     }
 
     @Override
@@ -164,19 +205,9 @@ public class MainActivity extends UIDActivity {
                 }
                 restartActivity();
                 break;
-            case android.R.id.home:
-                if (navigationController.hasBackStack()) {
-                    onBackPressed();
-                } else {
-                    showSnackBar();
-                }
         }
 
         return true;
-    }
-
-    private void showSnackBar() {
-        Snackbar.make(navigationController.getToolbar(), R.string.hamburger_not_ready, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -189,6 +220,7 @@ public class MainActivity extends UIDActivity {
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
         navigationController.onSaveInstance(outState);
+        sidebarController.onSaveInstance(outState);
         super.onSaveInstanceState(outState);
     }
 
@@ -227,6 +259,14 @@ public class MainActivity extends UIDActivity {
 
     @Override
     public void onBackPressed() {
+        if(sidebarController.getSideBar().isDrawerOpen(GravityCompat.START)){
+            sidebarController.getSideBar().closeDrawer(GravityCompat.START);
+            return;
+        } else if(sidebarController.getSideBar().isDrawerOpen(GravityCompat.END)){
+            sidebarController.getSideBar().closeDrawer(GravityCompat.END);
+            return;
+        }
+
         if (navigationController.updateStack()) {
             super.onBackPressed();
         }

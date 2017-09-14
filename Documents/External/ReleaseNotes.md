@@ -1,5 +1,8 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.4.Sprint4
+Story 66964: Android Sidebar
+
 SPRINT - MUITK.PI17.4.Sprint3
 Story 66629: Android Dialog
 

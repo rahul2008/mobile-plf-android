@@ -276,4 +276,36 @@
     <string name="menu_uipicker">Menu UI picker</string>
     <string name="add_location">Add Location</string>
 
+    <!--Sidebar-->
+    <string name="page_title_sidebar">Sidebar</string>
+    <string name="menu1">Menu item 1</string>
+    <string name="menu2">Menu item 2</string>
+    <string name="menu3">Menu item 3</string>
+    <string name="menu4">Menu item 4</string>
+    <string name="menu5">Menu item 5</string>
+    <string name="menu6">Menu item 6</string>
+    <string name="sidebar_open">Open</string>
+    <string name="sidebar_close">Close</string>
+    <string name="sidebar_header_item">Header item</string>
+    <string name="sidebar_footer_item">Footer item</string>
+    <string name="sidebar_right_header_avatar">Sidebar Right Header Avatar</string>
+    <string name="sidebar_location">Location</string>
+    <string name="sidebar_bg_color">Background color</string>
+    <string name="sidebar_left_side">Left side</string>
+    <string name="sidebar_right_side">Right side</string>
+    <string name="sidebar_map_content">Map to content</string>
+    <string name="sidebar_map_navigation">Map to navigation</string>
+    <string name="sidebar_close_hint">Touching outside the sidebar closes it</string>
+    <string name="sidebar_show">Show sidebar</string>
+    <string-array name="sidebar_right_menu_items">
+        <item>Profile item 1</item>
+        <item>Profile item 2</item>
+        <item>Profile item 3</item>
+        <item>Profile item 4</item>
+        <item>Profile item 5</item>
+        <item>Profile item 6</item>
+        <item>Profile item 7</item>
+        <item>Profile item 8</item>
+    </string-array>
+
 </resources>

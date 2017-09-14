@@ -36,7 +36,7 @@ public class SeparatorMatcher {
                     final List<RecyclerView.ItemDecoration> itemsDecoration = UIDTestUtils.getItemsDecoration((RecyclerView) view);
                     final RecyclerView.ItemDecoration itemDecoration = itemsDecoration.get(0);
                     if (itemDecoration instanceof RecyclerViewSeparatorItemDecoration) {
-                        final Drawable divider = ((RecyclerViewSeparatorItemDecoration) itemDecoration).getDivider();
+                        final Drawable divider = ((RecyclerViewSeparatorItemDecoration) itemDecoration).getDividerDrawable();
                         return DrawableMatcher.isSameHeight(height).matches(divider);
                     }
                 }
@@ -76,7 +76,7 @@ public class SeparatorMatcher {
                 final List<RecyclerView.ItemDecoration> itemsDecoration = UIDTestUtils.getItemsDecoration(view);
                 final RecyclerView.ItemDecoration itemDecoration = itemsDecoration.get(0);
                 if (itemDecoration instanceof RecyclerViewSeparatorItemDecoration) {
-                    return isSameColorDrawableColor(((RecyclerViewSeparatorItemDecoration) itemDecoration).getDivider());
+                    return isSameColorDrawableColor(((RecyclerViewSeparatorItemDecoration) itemDecoration).getDividerDrawable());
                 }
                 return false;
             }
