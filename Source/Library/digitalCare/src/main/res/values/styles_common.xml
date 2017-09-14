@@ -7,7 +7,7 @@
         <item name="android:layout_height">@dimen/support_btn_height</item>
         <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/uikit_white</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
         <item name="android:layout_marginTop">@dimen/marginTopButton</item>
 

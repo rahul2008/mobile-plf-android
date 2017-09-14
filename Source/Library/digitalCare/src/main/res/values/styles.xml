@@ -45,7 +45,7 @@
 
     <style name="alertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
-        <item name="colorAccent">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="colorAccent">@color/uidColorBlack</item>
     </style>
 
 </resources>

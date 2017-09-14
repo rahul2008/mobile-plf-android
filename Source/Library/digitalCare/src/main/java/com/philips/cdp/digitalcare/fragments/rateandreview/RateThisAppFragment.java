@@ -30,7 +30,7 @@ import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisApp
 
 public class RateThisAppFragment extends DigitalCareBaseFragment implements RateThisAppFragmentContract {
     private static String TAG = RateThisAppFragment.class.getSimpleName();
-    private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
+    private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "https://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
     private Button mRatePlayStoreBtn = null;
     private Button mRatePhilipsBtn = null;
@@ -87,7 +87,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 +getContext().getPackageName());
 
-        Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL+getContext().getPackageName());
+        Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL+"com.philips.cl.di.kitchenappliances.airfryer");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         try {
             startActivity(goToMarket);

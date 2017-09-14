@@ -222,27 +222,19 @@ configurations.all {
 dependencies {
     compile 'com.google.code.gson:gson:2.2.2'
     testCompile 'junit:junit:4.12'
-	
-	def dp = project.ext.has('useprojectdependencies')
+    def dp = project.ext.has('useprojectdependencies')
 
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':uit') : uitModule) 
-	{
-		transitive = true
-	}
-	
-	def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':pse') : pseModule) 
-	{
-		transitive = true
-	}
-	
-	def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) 
-	compile(dp ? project(':uid') : uidModule) 
-	{
-		transitive = true
-	}
-	
+    def pseModule = module(group: 'com.philips.cdp', name: 'productselection', version: versions.pse_productselection + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(dp ? project(':pse') : pseModule)
+        {
+            transitive = true
+        }
+
+    def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(dp ? project(':uid') : uidModule)
+            {
+                transitive = true
+            }
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'

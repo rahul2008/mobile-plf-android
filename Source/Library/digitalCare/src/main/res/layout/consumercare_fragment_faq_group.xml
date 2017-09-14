@@ -19,7 +19,7 @@
             android:background="?attr/uidContentSecondaryBackgroundColor"
             android:gravity="center_vertical" />
 
-        <com.philips.platform.uid.view.widget.Label
+        <TextView
             android:id="@+id/faq_list_item_header_show_more_less"
             android:textSize="12sp"
             android:layout_width="wrap_content"

@@ -6,7 +6,6 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,23 +23,22 @@ import com.philips.cdp.prxclient.PrxConstants.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.platform.ccdemouapp.util.ThemeHelper;
-import com.philips.platform.ccdemouapp.util.ThemeUtil;
-import com.philips.cdp.uikit.UiKitActivity;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.ccdemouapp.util.ThemeUtil;
 import com.philips.platform.ccdemouapplibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by 310166779 on 3/21/2017.
  */
-public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.OnClickListener,
+public class CCDemoUAppFragmentActivity extends UIDActivity implements View.OnClickListener,
         CcListener {
     private static final String TAG = CCDemoUAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;

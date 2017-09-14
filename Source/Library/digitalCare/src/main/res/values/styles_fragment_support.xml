@@ -14,7 +14,7 @@
         <item name="android:layout_marginTop">@dimen/supportHomeHelpText_margin_top</item>
         <item name="android:layout_gravity">left</item>
         <item name="android:paddingBottom">@dimen/supportHomeHelpText_margin_top</item>
-        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textColor">?attr/uidButtonPrimaryFocusBackgroundColor</item>
         <item name="android:textSize">@dimen/title_text_size_large</item>
     </style>
 
