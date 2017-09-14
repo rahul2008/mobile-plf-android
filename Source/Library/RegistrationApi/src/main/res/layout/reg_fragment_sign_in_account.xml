@@ -41,6 +41,7 @@
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_loginScreen_email_label"
                     style="@style/UIDLabel.MarginTop"
+                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"/>
@@ -65,6 +66,7 @@
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_loginScreen_password_label"
                     style="@style/UIDLabel.MarginTop"
+                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Password"/>
@@ -118,13 +120,12 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/usr_loginScreen_forgotPassword_button"
-        style="@style/UIDLabel.MarginTop"
+        style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/reg_margin_24"
-        android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"
-        android:textSize="@dimen/reg_text_size_12"/>
+        android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"/>
 
     <LinearLayout
         android:id="@+id/usr_loginScreen_progress_indicator"

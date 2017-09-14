@@ -88,10 +88,10 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         handler = new Handler();
         phoneNumberEditText.setText(mobileNumber);
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+        disableResendButton();
         if (!getRegistrationFragment().getCounterState()) {
             enableResendButton();
         }
-        disableResendButton();
         phoneNumberChange();
         CounterHelper.getInstance()
                 .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
@@ -315,7 +315,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
                 ((60 - timeRemaining) * 100) / 60);
         String timeRemainingAsString = Integer.toString(timeRemaining);
         usr_mobileverification_resendsmstimer_progress.setText(
-                String.format(getString(R.string.no_sms_timer), timeRemainingAsString));
+                String.format(getResources().getString(R.string.no_sms_timer), timeRemainingAsString));
         disableResendButton();
     }
 

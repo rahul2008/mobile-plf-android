@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_margin_24"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:text="Create my Philips account"
                 />
 
@@ -53,6 +54,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:text="Log in"
                 app:uidComponentType="Secondary"/>
                 />

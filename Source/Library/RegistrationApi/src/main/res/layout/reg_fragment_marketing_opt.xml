@@ -63,6 +63,7 @@
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_marketingScreen_philipsNews_label"
                     android:layout_width="match_parent"
+                    android:padding="@dimen/reg_margin_16dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
                     android:layout_marginTop="@dimen/reg_text_size_12"

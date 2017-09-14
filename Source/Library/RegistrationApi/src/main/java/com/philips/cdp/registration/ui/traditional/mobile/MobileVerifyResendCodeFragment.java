@@ -83,10 +83,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         handler = new Handler();
         phoneNumberEditText.setText(user.getMobile());
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+        disableResendButton();
         if(!getRegistrationFragment().getCounterState()){
             enableResendButton();
         }
-        disableResendButton();
         phoneNumberChange();
         CounterHelper.getInstance()
                 .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
@@ -169,7 +169,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private void updateUiStatus() {
         if (FieldsValidator.isValidMobileNumber(phoneNumberEditText.getText().toString())) {
-            resendSMSButton.setEnabled(true);
+                resendSMSButton.setEnabled(true);
         } else {
             resendSMSButton.setEnabled(false);
         }

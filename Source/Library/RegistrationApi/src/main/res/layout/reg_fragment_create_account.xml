@@ -124,6 +124,7 @@
                 android:id="@+id/usr_createScreen_passwordValidation_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_layout_margin_8dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -138,8 +139,7 @@
                     android:progress="5"
                     android:progressDrawable="@drawable/reg_password_strength_weak"
                     android:secondaryProgress="100"
-                    android:textColor="@android:color/black"
-                    />
+                    android:textColor="@android:color/black"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_createscreen_passwordstrength_label"
@@ -211,8 +211,7 @@
                 android:id="@+id/usr_createscreen_error_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
-                />
+                android:layout_marginTop="@dimen/reg_layout_margin_top_24"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/reg_margin_bottom"
