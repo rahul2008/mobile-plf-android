@@ -8,6 +8,7 @@ buildscript { bs ->
 
     apply from: "$project.common/project-build.gradle", to: bs
     apply from: "$project.common/module.gradle"
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -28,7 +29,7 @@ buildscript { bs ->
 
     dependencies {
         classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpscm)
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -51,7 +52,7 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-api"
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+version = objcdp.getVersion(versions.cml_commlib)
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
 artifacts {
@@ -88,6 +89,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
@@ -114,10 +116,13 @@ publishing {
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                    resolvedArtifacts.each {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                        dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                        dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    }
                 }
             }
         }
