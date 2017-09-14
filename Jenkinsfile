@@ -63,11 +63,16 @@ node('Android') {
         }
 
         stage('Clean up workspace') {
-            /*
-            This is done to keep disk space usage on build nodes to a minimum.
-            Comment out the next line if you need to check the workspace after a build.
-             */
-            sh 'rm -rf ./* .gitmodules .gitignore .git'
+           step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+        }
+    }
+}
+
+node('master') {
+    stage('Cleaning workspace') {
+        def wrk = pwd() + "@script/"
+        dir("${wrk}") {
+            deleteDir()
         }
     }
 }
