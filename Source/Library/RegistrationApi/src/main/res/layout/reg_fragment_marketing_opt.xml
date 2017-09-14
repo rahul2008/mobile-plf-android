@@ -57,16 +57,18 @@
                 android:id="@+id/usr_marketingScreen_newsContainer_linearlayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:background="?attr/uidContentTertiaryBackgroundColor"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_marketingScreen_philipsNews_label"
                     android:layout_width="match_parent"
-                    android:padding="@dimen/reg_margin_16dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                    android:layout_marginTop="@dimen/reg_text_size_12"
+                    android:layout_marginStart="@dimen/reg_layout_margin_16dp"
+                    android:textSize="@dimen/reg_text_size_12"
+                    android:layout_marginBottom="@dimen/reg_layout_margin_14dp"
+                    android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                     android:text="@string/reg_Receive_Philips_News_lbltxt"
                     android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"/>
             </LinearLayout>

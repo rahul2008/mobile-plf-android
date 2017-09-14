@@ -79,10 +79,10 @@ public class RegUtility {
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_Receive_Philips_News_lbltxt);
-        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String doesThisMeanStr = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String link = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
@@ -90,10 +90,10 @@ public class RegUtility {
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
-        String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String doesThisMeanStr = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);
-        String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        String link = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 

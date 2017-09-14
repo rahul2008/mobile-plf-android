@@ -239,7 +239,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtPassword.setOnClickListener(this);
         mEtPassword.setValidator(password -> password.length() > 0);
         mEtPassword.setErrorMessage(getString(R.string.reg_EmptyField_ErrorMsg));
-        underlineResetPassword();
+//        underlineResetPassword();
+        linkifyPrivacyPolicy(resetPasswordLabel, forgotPasswordClickListener);
         mRegError = (XRegError) view.findViewById(R.id.usr_loginScreen_error_view);
         handleUiState();
 
@@ -290,6 +291,63 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 mEtEmail.showError();
             }
         });
+    }
+
+    private ClickableSpan forgotPasswordClickListener = new ClickableSpan() {
+
+        @Override
+        public void onClick(View widget) {
+            if(loginValidationEditText.getText().toString().trim().length() <= 0) {
+                launchResetPasswordFragment();
+            } else if(registrationSettingsURL.isMobileFlow() && (FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString()))) {
+                showForgotPasswordSpinner();
+                handleResend();
+            } else if(FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
+                resetPassword();
+            } else {
+                mEtEmail.showError();
+            }
+        }
+
+    };
+
+
+    private void linkifyPrivacyPolicy(TextView pTvPrivacyPolicy, ClickableSpan span) {
+        String privacy = pTvPrivacyPolicy.getText().toString();
+        SpannableString spannableString = new SpannableString(privacy);
+
+        spannableString.setSpan(span, 0, privacy.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        removeUnderlineFromLink(spannableString);
+
+        pTvPrivacyPolicy.setText(spannableString);
+        pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+        pTvPrivacyPolicy.setLinkTextColor(ContextCompat.getColor(getContext(),
+                R.color.reg_hyperlink_highlight_color));
+        pTvPrivacyPolicy.setHighlightColor(ContextCompat.getColor(getContext(),
+                android.R.color.transparent));
+    }
+
+    private void removeUnderlineFromLink(SpannableString spanableString) {
+        for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
+                ClickableSpan.class)) {
+            spanableString.setSpan(new UnderlineSpan() {
+
+                public void updateDrawState(TextPaint tp) {
+                    tp.setUnderlineText(false);
+                }
+            }, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
+        }
+
+        for (URLSpan u : spanableString.getSpans(0, spanableString.length(), URLSpan.class)) {
+            spanableString.setSpan(new UnderlineSpan() {
+
+                public void updateDrawState(TextPaint tp) {
+                    tp.setUnderlineText(false);
+                }
+            }, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
+        }
     }
 
     private Disposable observeLoginButton() {

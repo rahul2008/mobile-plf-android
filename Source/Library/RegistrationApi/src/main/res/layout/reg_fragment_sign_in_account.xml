@@ -51,6 +51,7 @@
                     android:id="@+id/usr_loginScreen_login_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_dimen_8dp"
                     app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                     app:uidTextBoxValidationErrorText="inline_error_message">
 

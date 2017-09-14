@@ -18,8 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_layout_margin_top_24"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_layout_margin_end_16">
+            android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_activationresend_title_label"
@@ -44,7 +43,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_margin_24"
                 android:text="@string/reg_verify_resend_mail_desc2"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 />
@@ -53,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_verify_resend_mail_edittext_label"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 />
 

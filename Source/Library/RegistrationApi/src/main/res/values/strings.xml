@@ -305,7 +305,7 @@
     <string name="reg_verify_resend_mail_desc2">If it isn\'t there please check the address below is correct and click the resend button to receive the link again.</string>
     <string name="reg_verify_resend_mail_edittext_label">Your email address</string>
     <string name="reg_verify_resend_mail_button_resend">Resend the email</string>
-    <string name="reg_verify_resend_mail_button_return">Thanks\, I\'ve got it now </string>
+    <string name="reg_verify_resend_mail_button_return">Thanks, I\'ve got it now</string>
     <string name="reg_verify_resend_mail_nav_title">Resend email</string>
 
     <string name="reg_verify_resend_mail_intime_title"> Please have a little patience</string>

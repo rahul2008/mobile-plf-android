@@ -60,6 +60,7 @@
                 android:id="@+id/usr_activation_emailVerified_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
                 android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_VerifyEmail_Activated_btntxt"
