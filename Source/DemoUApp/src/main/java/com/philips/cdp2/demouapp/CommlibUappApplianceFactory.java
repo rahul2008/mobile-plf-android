@@ -82,10 +82,6 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
 
     @Override
     public Set<String> getSupportedDeviceTypes() {
-        return Collections.unmodifiableSet(new HashSet<String>() {{
-            add(AirPurifier.DEVICETYPE);
-            add(WifiReferenceAppliance.DEVICETYPE);
-            add(BleReferenceAppliance.DEVICETYPE);
-        }});
+        return Collections.unmodifiableSet(new HashSet<String>());
     }
 }
