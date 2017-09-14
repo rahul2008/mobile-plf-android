@@ -570,7 +570,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
-        String valueForRegistration = "sample";
+        String valueForRegistrationTitle = "sample";
         String valueForEmailVerification = "sample";
         String optInTitleText = getResources().getString(R.string.reg_Opt_In_Be_The_First);
         String optInQuessionaryText = getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
@@ -578,7 +578,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
         String optInTitleBarText = getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
-        registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
         registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);

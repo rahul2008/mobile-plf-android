@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.wechat;
 
 
+import com.philips.cdp.registration.listener.*;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.squareup.okhttp.*;
 

@@ -1,16 +1,15 @@
 package com.philips.cdp.registration.ui.utils;
 
-import java.io.Serializable;
+import java.io.*;
 
-/**
- * Created by 310243576 on 4/12/2017.
- */
 
 public class RegistrationContentConfiguration implements Serializable {
 
-    private String valueForRegistration;
+    private String valueForRegistrationTitle;
 
     private String valueForEmailVerification;
+
+    private String valueForRegistrationDescription;
 
     private String optInTitleText;
 
@@ -19,6 +18,14 @@ public class RegistrationContentConfiguration implements Serializable {
     private String optInDetailDescription;
 
     private String optInBannerText;
+
+    public String getValueForRegistrationDescription() {
+        return valueForRegistrationDescription;
+    }
+
+    public void setValueForRegistrationDescription(String valueForRegistrationDescription) {
+        this.valueForRegistrationDescription = valueForRegistrationDescription;
+    }
 
     public String getOptInActionBarText() {
         return optInActionBarText;
@@ -31,12 +38,12 @@ public class RegistrationContentConfiguration implements Serializable {
     private String optInActionBarText;
 
 
-    public String getValueForRegistration() {
-        return valueForRegistration;
+    public String getValueForRegistrationTitle() {
+        return valueForRegistrationTitle;
     }
 
-    public void setValueForRegistration(String valueForRegistration) {
-        this.valueForRegistration = valueForRegistration;
+    public void setValueForRegistrationTitle(String valueForRegistrationTitle) {
+        this.valueForRegistrationTitle = valueForRegistrationTitle;
     }
 
     public String getValueForEmailVerification() {

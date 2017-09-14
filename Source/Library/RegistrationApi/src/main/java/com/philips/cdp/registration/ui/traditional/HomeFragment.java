@@ -21,60 +21,28 @@ import android.widget.*;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.infra.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.*;
-import com.philips.cdp.registration.events.*;
-import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.listener.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
-import com.philips.cdp.registration.wechat.*;
-import com.philips.platform.appinfra.servicediscovery.*;
-import com.tencent.mm.sdk.modelbase.*;
-import com.tencent.mm.sdk.modelmsg.*;
-import com.tencent.mm.sdk.openapi.*;
 
 import org.json.*;
 
 import java.util.*;
 
-import javax.inject.*;
-
 import butterknife.*;
-import io.reactivex.android.schedulers.*;
-import io.reactivex.disposables.*;
-import io.reactivex.observers.*;
-import io.reactivex.schedulers.*;
 
-//wechat first time launch
-//enabling country selection
-//string from setter from launch for title and description
 
 public class HomeFragment extends RegistrationBaseFragment implements
-        SocialProviderLoginHandler, EventListener, HomeContract {
+        HomeContract {
 
     public static final String WECHAT = "wechat";
+
     private static final int AUTHENTICATION_FAILED = -30;
-    private static final int LOGIN_FAILURE = -1;
-
-    @Inject
-    NetworkUtility networkUtility;
-
-    @Inject
-    AppConfiguration appConfiguration;
-
-    @Inject
-    ServiceDiscoveryInterface serviceDiscoveryInterface;
-
-    @Inject
-    ServiceDiscoveryWrapper serviceDiscoveryWrapper;
-
-    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @BindView(R2.id.usr_startScreen_createAccount_Button)
     Button mBtnCreateAccount;
@@ -94,14 +62,13 @@ public class HomeFragment extends RegistrationBaseFragment implements
     @BindView(R2.id.reg_error_msg)
     XRegError mRegError;
 
-    User mUser;
-    String mProvider;
-
-
     Context mContext;
 
     @BindView(R2.id.sv_root_layout)
     ScrollView mSvRootLayout;
+
+    @BindView(R2.id.ll_root_layout)
+    LinearLayout spinnerLayout;
 
 
     @BindView(R2.id.usr_StartScreen_country_label)
@@ -110,160 +77,70 @@ public class HomeFragment extends RegistrationBaseFragment implements
     @BindView(R2.id.usr_StartScreen_privacyNotice_label)
     TextView privacyPolicy;
 
-    @BindView(R2.id.usr_StartScreen_Skip_Button)
-    Button skipRegistration;
-
     @BindView(R2.id.usr_startScreen_baseLayout_LinearLayout)
     LinearLayout usr_startScreen_baseLayout_LinearLayout;
 
     @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
     LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
 
-
-    boolean isWeChatAppRegistered;
-    String mWeChatAppId;
-    String mWeChatAppSecret;
-    IWXAPI mWeChatApi;
-    String mWeChatCode;
-    String mLocale;
-
-    View view;
-
-
     private HomePresenter homePresenter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        mUser = new User(mContext);
         homePresenter = new HomePresenter(this);
-
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.WECHAT_AUTH, this);
-        RLog.i(RLog.EVENT_LISTENERS,
-                "HomeFragment register: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+        View view;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
         } else {
             view = inflater.inflate(R.layout.reg_fragment_home_login_top, container, false);
         }
-
         ButterKnife.bind(this, view);
-
         initUI(view);
         handleOrientation(view);
-        registerWeChatApp();
-
-
+        homePresenter.registerWeChatApp();
         return view;
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
-        //  makeProviderButtonsClickable();
-    }
-
-    private void makeProviderButtonsClickable() {
-        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
-        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
-            View childView = providerButtonGroup.getChildAt(i);
-            if (childView instanceof XProviderButton) {
-                childView.setClickable(true);
-            }
-        }
-    }
-
-
-    protected void handleWeChatCode(final String code) {
-        RLog.i("WECHAT", String.format("WeChat Code: ", code));
-        WeChatAuthenticator weChatAuthenticator = new WeChatAuthenticator();
-        weChatAuthenticator.getWeChatResponse(mWeChatAppId, mWeChatAppSecret, code,
-                new WeChatAuthenticationListener() {
-                    @Override
-                    public void onSuccess(final JSONObject jsonObj) {
-                        try {
-                            final String token = jsonObj.getString("access_token");
-                            final String openId = jsonObj.getString("openid");
-                            RLog.i("WECHAT body", "token " + token + " openid " + openId);
-                            User user = new User(mContext);
-                            user.loginUserUsingSocialNativeProvider(getRegistrationFragment().
-                                            getParentActivity(),
-                                    "wechat", token, openId, HomeFragment.this, "");
-                        } catch (JSONException e) {
-                            makeProgressInvisible();
-                            hideProgressDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onFail() {
-                        makeProgressInvisible();
-                        hideProgressDialog();
-                        mRegError.setError(mContext.
-                                getString(R.string.reg_JanRain_Server_Connection_Failed));
-//                        scrollViewAutomatically(mRegError, mSvRootLayout);
-                    }
-                });
+        makeProviderButtonsClickable();
     }
 
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDestroy");
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-                this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-                this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.WECHAT_AUTH,
-                this);
-
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mMessageReceiver);
-        RLog.i(RLog.EVENT_LISTENERS,
-                "HomeFragment unregister: NetworkStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         if (homePresenter != null) {
             homePresenter.cleanUp();
         }
         super.onDestroy();
     }
 
-
-
-
-    private Button getProviderBtn(final String providerName, int providerNameStringId,
-                                  int providerLogoDrawableId) {
+    private Button getProviderBtn(final String providerName, int providerLogoDrawableId) {
         final Button socialButton = (com.philips.platform.uid.view.widget.Button) getActivity().getLayoutInflater().inflate(R.layout.social_button, null);
         FontLoader.getInstance().setTypeface(socialButton, RegConstants.PUIICON_TTF);
         socialButton.setText(providerLogoDrawableId);
-
         socialButton.setEnabled(true);
-        if (networkUtility.isNetworkAvailable()
+        if (homePresenter.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             socialButton.setEnabled(true);
         } else {
             socialButton.setEnabled(false);
         }
         socialButton.setOnClickListener(v -> {
-
             trackPage(AppTaggingPages.CREATE_ACCOUNT);
-
             RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
             if (mRegError.isShown()) mRegError.hideError();
-            if (networkUtility.isNetworkAvailable()) {
-                mFlowId = 3;
-                mProvider = providerName;
+            if (homePresenter.isNetworkAvailable()) {
+                homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
+                homePresenter.setProvider(providerName);
                 if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                    if (!providerName.equalsIgnoreCase(WECHAT)) {
-//                            providerBtn.showProgressBar();
-                    } else {
+                    if (providerName.equalsIgnoreCase(WECHAT)) {
                         socialButton.setClickable(false);
                     }
                     callSocialProvider(providerName);
@@ -271,14 +148,17 @@ public class HomeFragment extends RegistrationBaseFragment implements
                     showProgressDialog();
                     RegistrationHelper.getInstance().initializeUserRegistration(mContext);
                 }
-
             } else {
-//                scrollViewAutomatically(mRegError, mSvRootLayout);
                 enableControls(false);
-                mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
+                updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             }
         });
         return socialButton;
+    }
+
+    private void updateErrorMessage(String errorMessage) {
+        mRegError.setError(errorMessage);
+        scrollViewAutomatically(mRegError, mSvRootLayout);
     }
 
     @Override
@@ -290,7 +170,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
     private void initUI(View view) {
         consumeTouch(view);
-        mTvWelcome.setText(getString(R.string.lets_get_started));
+        setContentConfig();
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
         homePresenter.updateHomeControls();
@@ -298,95 +178,41 @@ public class HomeFragment extends RegistrationBaseFragment implements
         homePresenter.configureCountrySelection();
     }
 
+    private void setContentConfig() {
+        if (null != getRegistrationFragment().getContentConfiguration()) {
+            if (null != getRegistrationFragment().getContentConfiguration().getValueForRegistrationTitle()) {
+                mTvWelcome.setText(getRegistrationFragment().getContentConfiguration().getValueForRegistrationTitle());
+            }
+            if (null != getRegistrationFragment().getContentConfiguration().getValueForRegistrationDescription()) {
+                mTvWelcomeDesc.setText(getRegistrationFragment().getContentConfiguration().getValueForRegistrationDescription());
+            }
+        }
+    }
+
 
     private void handleCountrySelection() {
-        if (networkUtility.isNetworkAvailable()) {
-
-            ArrayList<Country> rawMasterList = getAllCountries();
-
+        if (homePresenter.isNetworkAvailable()) {
+            ArrayList<Country> rawMasterList = homePresenter.getAllCountries();
             CountrySelectionListener countryChangeListener = new CountrySelectionListener() {
-
                 @Override
                 public void onSelectCountry(String name, String code) {
-
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
-                    changeCountry(name, code.trim().toUpperCase());
+                    homePresenter.changeCountry(name, code.trim().toUpperCase());
                     getRegistrationFragment().onBackPressed();
-
                 }
             };
-
-
             CountrySelectionFragment picker = new CountrySelectionFragment(countryChangeListener, rawMasterList, homePresenter.getRecentSelectedCountry());
-
             getRegistrationFragment().addFragment(picker);
-
-
         } else {
             homePresenter.updateHomeControls();
         }
     }
 
-    private void changeCountry(String countryName, String countryCode) {
-        mFlowId = 0;
-        if (networkUtility.isNetworkAvailable()) {
-            serviceDiscoveryInterface.setHomeCountry(countryCode);
-            RegistrationHelper.getInstance().setCountryCode(countryCode);
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
-            showProgressDialog();
 
-            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-
-            getLocaleServiceDiscovery(countryName);
-        }
-    }
-
-    private void getLocaleServiceDiscovery(final String countryName) {
-        serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-                    @Override
-                    public void onSuccess(String verificationUrl) {
-                        if (!verificationUrl.isEmpty()) {
-                            updateAppLocale(verificationUrl, countryName);
-                            return;
-                        }
-                        getLocaleServiceDiscoveryByCountry(countryName);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        getLocaleServiceDiscoveryByCountry(countryName);
-                    }
-                });
-    }
-
-    private void getLocaleServiceDiscoveryByCountry(String countryName) {
-        serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
-                    @Override
-                    public void onSuccess(String verificationUrl) {
-                        updateAppLocale(verificationUrl, countryName);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
-                        hideProgressDialog();
-                        mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-                        scrollViewAutomatically(mRegError, mSvRootLayout);
-
-                    }
-                });
-    }
-
-    private void updateAppLocale(String localeString, String countryName) {
-        mLocale = localeString;
-        RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
-        String localeArr[] = mLocale.toString().split("_");
+    @Override
+    public void updateAppLocale(String localeString, String countryName) {
+        RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + localeString);
+        String localeArr[] = localeString.toString().split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
@@ -395,7 +221,16 @@ public class HomeFragment extends RegistrationBaseFragment implements
         homePresenter.addToRecent(RegistrationHelper.getInstance().getCountryCode());
     }
 
-    int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
+    @Override
+    public void localeServiceDiscoveryFailed() {
+        hideProgressDialog();
+        updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
+    }
+
+    @Override
+    public void countryChangeStarted() {
+        showProgressDialog();
+    }
 
     private void launchSignInFragment() {
         trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
@@ -403,9 +238,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
             getRegistrationFragment().addFragment(new SignInAccountFragment());
             return;
         }
-        if (networkUtility.isNetworkAvailable()) {
+        if (homePresenter.isNetworkAvailable()) {
             showProgressDialog();
-            mFlowId = 2;
+            homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.LOGIN);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
@@ -416,9 +251,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
             showCreateAccountFragment();
             return;
         }
-        if (networkUtility.isNetworkAvailable()) {
+        if (homePresenter.isNetworkAvailable()) {
             showProgressDialog();
-            mFlowId = 1;
+            homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.CREATE);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
     }
@@ -428,71 +263,40 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
     private void makeProgressVisible() {
-        if (getView() != null) {
-            getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
-            getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
-        }
+        mSvRootLayout.setVisibility(View.INVISIBLE);
+        usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.INVISIBLE);
+        spinnerLayout.setVisibility(View.VISIBLE);
     }
 
     private void makeProgressInvisible() {
-        if (getView() != null) {
-            getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
-        }
+        mSvRootLayout.setVisibility(View.VISIBLE);
+        usr_StartScreen_privacyNotice_country_LinearLayout.setVisibility(View.VISIBLE);
+        spinnerLayout.setVisibility(View.INVISIBLE);
     }
 
     private void callSocialProvider(String providerName) {
         RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
-        if (null == mUser) {
-            return;
-        }
-        if (networkUtility.isNetworkAvailable()) {
+        if (homePresenter.isNetworkAvailable()) {
             trackMultipleActionsLogin(providerName);
-            trackSocialProviderPage();
+            homePresenter.trackSocialProviderPage();
             if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
                 if (providerName.equalsIgnoreCase(WECHAT)) {
-                    if (isWeChatAuthenticate()) {
-//                        makeProgressVisible();
-                        startWeChatAuthentication();
+                    if (homePresenter.isWeChatAuthenticate()) {
+                        homePresenter.startWeChatAuthentication();
                     } else {
-                        hideProviderProgress();
+                        makeProgressInvisible();
                     }
                     return;
                 } else {
                     makeProgressVisible();
-                    mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
+                    homePresenter.setProvider(providerName);
+                    homePresenter.startSocialLogin();
                 }
-
                 return;
             }
             makeProgressVisible();
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
-    }
-
-    private boolean isWeChatAuthenticate() {
-        if (!mWeChatApi.isWXAppInstalled()) {
-            makeProviderButtonsClickable();
-            final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
-                    mContext.getText(R.string.reg_wechat));
-            Toast.makeText(mContext, formatedString
-                    , Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (!mWeChatApi.isWXAppSupportAPI()) {
-            makeProviderButtonsClickable();
-            Toast.makeText(mContext, mContext.getText(R.string.reg_Provider_Not_Supported)
-                    , Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return isWeChatAppRegistered;
-    }
-
-    private void startWeChatAuthentication() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "123456";
-        mWeChatApi.sendReq(req);
     }
 
     @Override
@@ -511,58 +315,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
         return R.string.getting_started;
     }
 
-    @Override
-    public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
-                " isHomeFragment :onCounterEventReceived is : " + event);
-        if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            hideProgressDialog();
-            if (mFlowId == 1) {
-                showCreateAccountFragment();
-                mFlowId = 0;
-                return;
-            }
-            if (mFlowId == 2) {
-                getRegistrationFragment().addFragment(new SignInAccountFragment());
-                mFlowId = 0;
-                return;
-            }
-            if (mFlowId == 3) {
-                if (mProvider.equalsIgnoreCase("wechat")) {
-                    if (isWeChatAuthenticate()) {
-//                        makeProgressVisible();
-                        makeProgressInvisible();
-                        hideProgressDialog();
-                        hideProviderProgress();
-                        startWeChatAuthentication();
-                    } else {
-                        hideProviderProgress();
-                    }
-                } else {
-                    makeProgressVisible();
-                    mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
-                }
-
-                mFlowId = 0;
-            }
-        } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-            makeProgressInvisible();
-            hideProgressDialog();
-            hideProviderProgress();
-            mFlowId = 0;
-        } else if (RegConstants.WECHAT_AUTH.equals(event)) {
-            if (mWeChatCode != null) {
-                makeProgressVisible();
-                handleWeChatCode(mWeChatCode);
-            }
-        }
-    }
-
-
-
-
-
-
     private ClickableSpan countryClickListener = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -570,7 +322,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
             handleCountrySelection();
         }
     };
-
 
     private void removeUnderlineFromLink(SpannableString spanableString) {
         for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
@@ -598,74 +349,13 @@ public class HomeFragment extends RegistrationBaseFragment implements
                 onPrivacyPolicyClick(getRegistrationFragment().getParentActivity());
     }
 
-
-    @Override
-    public void onLoginSuccess() {
-
-        handleLoginSuccess();
-
-    }
-
     private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
-        hideProviderProgress();
+        makeProgressInvisible();
         enableControls(true);
-
-        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
-        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
-        if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
-            launchAccountActivationFragment();
-            return;
-        }
-
-        if ((mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            completeRegistation();
-        } else {
-            if (isEmailAvailable) {
-                launchAccountActivationFragment();
-            } else {
-                launchMobileVerifyCodeFragment();
-            }
-        }
-    }
-
-    private void launchMobileVerifyCodeFragment() {
-        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
-        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
-    }
-
-    private void launchAccountActivationFragment() {
-        getRegistrationFragment().launchAccountActivationFragmentForLogin();
-    }
-
-    private void completeRegistation() {
-        String emailorMobile;
-        if (FieldsValidator.isValidEmail(mUser.getEmail())) {
-            emailorMobile = mUser.getEmail();
-        } else {
-            emailorMobile = mUser.getMobile();
-        }
-        if (emailorMobile != null && RegistrationConfiguration.getInstance().
-                isTermsAndConditionsAcceptanceRequired() &&
-                !RegPreferenceUtility.getStoredState(mContext, emailorMobile) || !mUser.getReceiveMarketingEmail()) {
-            launchAlmostDoneForTermsAcceptanceFragment();
-            return;
-        }
-        getRegistrationFragment().userRegistrationComplete();
-    }
-
-
-    private void launchAlmostDoneForTermsAcceptanceFragment() {
-        trackPage(AppTaggingPages.ALMOST_DONE);
-        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
-    }
-
-
-    @Override
-    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleLoginFailedWithError(userRegistrationFailureInfo);
+        homePresenter.navigateToScreen();
     }
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
@@ -673,49 +363,30 @@ public class HomeFragment extends RegistrationBaseFragment implements
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" +
                 userRegistrationFailureInfo.getErrorCode());
         trackPage(AppTaggingPages.HOME);
-        hideProviderProgress();
+        makeProgressInvisible();
         enableControls(true);
-        //Temp fix need to be changed
         if (userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED) {
-            mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-//            scrollViewAutomatically(mRegError, mSvRootLayout);
+            updateErrorMessage(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
-            mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-//            scrollViewAutomatically(mRegError, mSvRootLayout);
+            updateErrorMessage(mContext.getString(R.string.reg_Generic_Network_Error));
         }
     }
 
-    @Override
-    public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
-                                              final String socialRegistrationToken) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
-        hideProviderProgress();
-        enableControls(true);
-        RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
-                + prefilledRecord);
-        launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
-    }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
         trackPage(AppTaggingPages.ALMOST_DONE);
-        getRegistrationFragment().addAlmostDoneFragment(prefilledRecord, mProvider,
+        getRegistrationFragment().addAlmostDoneFragment(prefilledRecord, homePresenter.getProvider(),
                 socialRegistrationToken);
     }
 
-    @Override
-    public void onLoginFailedWithMergeFlowError(final String mergeToken, final String existingProvider,
-                                                final String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-                                                String existingIdpNameLocalized, final String emailId) {
-        handleLoginFailedWithMergeFlowError(existingProvider, mergeToken, conflictingIdentityProvider, emailId);
-    }
 
     private void handleLoginFailedWithMergeFlowError(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
-        hideProviderProgress();
+        makeProgressInvisible();
         enableControls(true);
-        if (mUser.handleMergeFlowError(existingProvider)) {
+        if (homePresenter.isMergePossible(existingProvider)) {
             launchMergeAccountFragment(mergeToken, conflictingIdentityProvider, emailId);
         } else {
-            mProvider = existingProvider;
+            homePresenter.setProvider(existingProvider);
             Bundle bundle = new Bundle();
             bundle.putString(RegConstants.SOCIAL_PROVIDER, conflictingIdentityProvider);
             bundle.putString(RegConstants.CONFLICTING_SOCIAL_PROVIDER, existingProvider);
@@ -735,45 +406,17 @@ public class HomeFragment extends RegistrationBaseFragment implements
         getRegistrationFragment().addMergeSocialAccountFragment(bundle);
     }
 
-    @Override
-    public void onContinueSocialProviderLoginSuccess() {
-
-        RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
-        completeRegistation();
-        hideProviderProgress();
-        enableControls(true);
-    }
-
-    @Override
-    public void onContinueSocialProviderLoginFailure(
-            final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
-    }
 
     private void handleContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginFailure");
-        trackSocialProviderPage();
-        hideProviderProgress();
+        homePresenter.trackSocialProviderPage();
+        makeProgressInvisible();
         enableControls(true);
     }
 
 
-    private void trackSocialProviderPage() {
-        if (mProvider == null) {
-            return;
-        }
-        if (mProvider.equalsIgnoreCase(SocialProvider.FACEBOOK)) {
-            trackPage(AppTaggingPages.FACEBOOK);
-        } else if (mProvider.equalsIgnoreCase(SocialProvider.GOOGLE_PLUS)) {
-            trackPage(AppTaggingPages.GOOGLE_PLUS);
-        } else if (mProvider.equalsIgnoreCase(SocialProvider.TWITTER)) {
-            trackPage(AppTaggingPages.TWITTER);
-        } else if (mProvider.equalsIgnoreCase(SocialProvider.WECHAT)) {
-            trackPage(AppTaggingPages.WECHAT);
-        }
-    }
-
     private ProgressDialog mProgressDialog;
+
 
     private void showProgressDialog() {
         if (!(getActivity().isFinishing())) {
@@ -790,84 +433,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
-    }
-
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int error_code = intent.getIntExtra(RegConstants.WECHAT_ERR_CODE, 0);
-            String weChatCode = intent.getStringExtra(RegConstants.WECHAT_CODE);
-            RLog.d("WECHAT", "BroadcastReceiver Got message: " + error_code + " " + weChatCode);
-            switch (error_code) {
-                case BaseResp.ErrCode.ERR_OK:
-                    mWeChatCode = weChatCode;
-                    ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH));
-                    break;
-                case BaseResp.ErrCode.ERR_USER_CANCEL:
-                    RLog.d("WECHAT", "WeChat - User canceled the request");
-                    makeProgressInvisible();
-                    hideProviderProgress();
-                    break;
-                case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                    RLog.d("WECHAT", "WeChat - User denied the request");
-                    makeProgressInvisible();
-                    hideProviderProgress();
-                    break;
-            }
-        }
-    };
-
-    private void registerWeChatApp() {
-        mWeChatAppId = appConfiguration.getWeChatAppId();
-        mWeChatAppSecret = appConfiguration.getWeChatAppSecret();
-        RLog.d("WECHAT", "weChatId " + mWeChatAppId + " WechatSecrete " + mWeChatAppSecret);
-
-        if (mWeChatAppId != null && mWeChatAppSecret != null) {
-            mWeChatApi = WXAPIFactory.createWXAPI(getRegistrationFragment().getParentActivity(),
-                    mWeChatAppId, false);
-            mWeChatApi.registerApp(mWeChatAppSecret);
-            isWeChatAppRegistered = mWeChatApi.registerApp(mWeChatAppId);
-            LocalBroadcastManager.getInstance(mContext).registerReceiver(mMessageReceiver,
-                    new IntentFilter(RegConstants.WE_CHAT_AUTH));
-        }
-    }
-
-
-    /**
-     * Get all countries with code and name from res/raw/countries.json
-     *
-     * @return
-     */
-    private ArrayList<Country> getAllCountries() {
-
-        try {
-            ArrayList<Country> allCountriesList = new ArrayList<Country>();
-            String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
-            for (String aRecourseList : recourseList) {
-                Country country = new Country(aRecourseList, new Locale("", aRecourseList).getDisplayCountry());
-                allCountriesList.add(country);
-            }
-
-            return allCountriesList;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    //modified code
-
-
-    private void hideProviderProgress() {
-        if (getView() == null) {
-            return;
-        }
-        getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
     }
 
 
@@ -893,9 +458,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
 
-
-
-
     @Override
     public void enableControlsOnNetworkConnectionArraival() {
         mRegError.hideError();
@@ -907,13 +469,12 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
     @Override
     public void disableControlsOnNetworkConnectionGone() {
-        hideProviderProgress();
+        makeProgressInvisible();
         mBtnCreateAccount.setEnabled(false);
         enableSocialProviders(false);
         mBtnMyPhilips.setEnabled(false);
         mCountryDisplay.setEnabled(false);
-        mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-        scrollViewAutomatically(mRegError, mSvRootLayout);
+        updateErrorMessage(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
     }
 
 
@@ -1020,7 +581,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
             params.setMarginStart(16);
             params.setMarginEnd(16);
 
-            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId), params);
+            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, drawableId), params);
             mLlSocialProviderBtnContainer.invalidate();
         } catch (Exception e) {
             RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
@@ -1038,4 +599,165 @@ public class HomeFragment extends RegistrationBaseFragment implements
     };
 
 
+    @Override
+    public Activity getActivityContext() {
+        return getRegistrationFragment().getParentActivity();
+    }
+
+    @Override
+    public void registerWechatReceiver() {
+        LocalBroadcastManager.getInstance(getActivityContext()).registerReceiver(homePresenter.getMessageReceiver(),
+                new IntentFilter(RegConstants.WE_CHAT_AUTH));
+    }
+
+    @Override
+    public void unRegisterWechatReceiver() {
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(homePresenter.getMessageReceiver());
+    }
+
+    @Override
+    public void wechatAppNotInstalled() {
+        makeProviderButtonsClickable();
+        final String formatedString = String.format(mContext.getText(R.string.reg_App_NotInstalled_AlertMessage).toString(),
+                mContext.getText(R.string.reg_wechat));
+        Toast.makeText(mContext, formatedString
+                , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void wechatAppNotSupported() {
+        makeProviderButtonsClickable();
+        Toast.makeText(mContext, mContext.getText(R.string.reg_Provider_Not_Supported)
+                , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void wechatAuthenticationSuccessParsingError() {
+        makeProgressInvisible();
+        hideProgressDialog();
+    }
+
+    @Override
+    public void wechatAuthenticationFailError() {
+        makeProgressInvisible();
+        hideProgressDialog();
+        updateErrorMessage(mContext.
+                getString(R.string.reg_JanRain_Server_Connection_Failed));
+    }
+
+    @Override
+    public void createSocialAccount(JSONObject prefilledRecord, String socialRegistrationToken) {
+        makeProgressInvisible();
+        enableControls(true);
+        launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
+    }
+
+    @Override
+    public void mergeSocialAccount(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
+        handleLoginFailedWithMergeFlowError(existingProvider, mergeToken, conflictingIdentityProvider, emailId);
+    }
+
+    @Override
+    public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleLoginFailedWithError(userRegistrationFailureInfo);
+    }
+
+    @Override
+    public void loginSuccess() {
+        handleLoginSuccess();
+    }
+
+    @Override
+    public void SocialLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+    }
+
+    @Override
+    public void completeSocialLogin() {
+        homePresenter.completeRegistation();
+        makeProgressInvisible();
+        enableControls(true);
+    }
+
+    @Override
+    public void initSuccess() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void initFailed() {
+        hideProgressDialog();
+        makeProgressInvisible();
+    }
+
+    @Override
+    public void navigateToCreateAccount() {
+        showCreateAccountFragment();
+    }
+
+    @Override
+    public void navigateToLogin() {
+        getRegistrationFragment().addFragment(new SignInAccountFragment());
+    }
+
+    @Override
+    public void startWeChatAuthentication() {
+        hideProgressDialog();
+        makeProgressInvisible();
+        homePresenter.startWeChatAuthentication();
+    }
+
+    @Override
+    public void switchToControlView() {
+        makeProgressInvisible();
+    }
+
+    @Override
+    public void socialProviderLogin() {
+        makeProgressVisible();
+        homePresenter.startSocialLogin();
+    }
+
+    @Override
+    public void wechatAutheticationCanceled() {
+        makeProgressInvisible();
+    }
+
+    @Override
+    public void startWeChatLogin() {
+        makeProgressVisible();
+        homePresenter.handleWeChatCode();
+    }
+
+    @Override
+    public void naviagteToAccountActivationScreen() {
+        getRegistrationFragment().launchAccountActivationFragmentForLogin();
+    }
+
+    @Override
+    public void naviagteToMobileAccountActivationScreen() {
+        getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
+        trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
+    }
+
+    @Override
+    public void navigateToAcceptTermsScreen() {
+        trackPage(AppTaggingPages.ALMOST_DONE);
+        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
+    }
+
+    @Override
+    public void registrationCompleted() {
+        getRegistrationFragment().userRegistrationComplete();
+    }
+
+    private void makeProviderButtonsClickable() {
+        ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
+        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
+            View childView = providerButtonGroup.getChildAt(i);
+            if (childView instanceof XProviderButton) {
+                childView.setClickable(true);
+            }
+        }
+    }
 }

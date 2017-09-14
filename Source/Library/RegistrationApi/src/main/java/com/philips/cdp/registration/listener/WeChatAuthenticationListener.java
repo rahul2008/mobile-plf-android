@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.wechat;
+package com.philips.cdp.registration.listener;
 
 import org.json.JSONObject;
 
