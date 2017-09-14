@@ -34,10 +34,14 @@ public class TeleHealthServicesState extends BaseState{
     private void launchTeleHealthServices() {
 
         THSMicroAppLaunchInput microAppLaunchInput = new THSMicroAppLaunchInput("");//We are not using this, hence passing empty string
-        THSMicroAppInterfaceImpl microAppInterface = new THSMicroAppInterfaceImpl();
+        THSMicroAppInterfaceImpl microAppInterface = getMicroAppInterface();
         microAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
                 fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra()), new THSMicroAppSettings(fragmentLauncher.getFragmentActivity().getApplicationContext()));
         microAppInterface.launch(fragmentLauncher, microAppLaunchInput);
+    }
+
+    protected THSMicroAppInterfaceImpl getMicroAppInterface() {
+        return new THSMicroAppInterfaceImpl();
     }
 
     @Override
