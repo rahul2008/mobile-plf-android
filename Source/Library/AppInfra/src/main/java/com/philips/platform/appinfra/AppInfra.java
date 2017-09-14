@@ -19,6 +19,8 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
+import com.philips.platform.appinfra.aikm.AIKMInterface;
+import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
@@ -40,7 +42,7 @@ import java.io.Serializable;
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
  */
-public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Serializable {
+public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serializable {
 
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;
@@ -61,6 +63,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
      */
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
+    private AIKMInterface aikmInterface;
 
 
     private AppInfra(Context pContext) {
@@ -74,6 +77,24 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 message + methodDuration);
     }
 
+    private static void initializeLogs(AppInfra ai) {
+        final StringBuilder appInfraLogStatement = new StringBuilder();
+
+        try {
+            appInfraLogStatement.append("AppInfra initialized for application \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppName());
+            appInfraLogStatement.append("\" version \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
+            appInfraLogStatement.append("\" in state \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppState());
+
+        } catch (IllegalArgumentException e) {
+            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
+        }
+        appInfraLogStatement.append("\"");
+        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
+    }
 
     public Context getAppInfraContext() {
         return appInfraContext;
@@ -165,6 +186,10 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         this.mLanguagePackInterface = languagePackInterface;
     }
 
+    private void setAiKmInterface(AIKMInterface aikmInterface) {
+        this.aikmInterface = aikmInterface;
+    }
+
     private void setRestInterface(RestInterface restInterface) {
         mRestInterface = restInterface;
     }
@@ -181,7 +206,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
         this.mAppupdateInterface = appupdateInterface;
     }
-
 
     public AppTaggingInterface getTagging() {
         return tagging;
@@ -206,6 +230,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
+    @Override
+    public AIKMInterface getAiKmInterface() {
+        return aikmInterface;
+    }
+
     /**
      * The type Builder.
      */
@@ -226,6 +255,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
+        private AIKMInterface aikmInterface;
 
 
         /**
@@ -244,7 +274,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
-            appupdateInterface = null;
+            aikmInterface = null;
         }
 
 
@@ -325,6 +355,15 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         public Builder setTimeSync(TimeInterface timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
             return this;
+        }
+
+        /**
+         * Sets Builder aiKm Service overriding the default implementation.
+         *
+         * @param aikmInterface aiKm service interface
+         */
+        public void setAiKmInterface(AIKMInterface aikmInterface) {
+            this.aikmInterface = aikmInterface;
         }
 
 
@@ -423,31 +462,21 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 }
             }).start();
 
+            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final AIKManager aikManager;
+                        aikManager = new AIKManager(ai);
+                        ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
+                    }
+                }).start();
+            }
 
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
-            postLog(ai,startTime, "App-infra initialization ends with ");
+            postLog(ai, startTime, "App-infra initialization ends with ");
             return ai;
         }
-    }
-
-
-    private static void initializeLogs(AppInfra ai) {
-        final StringBuilder appInfraLogStatement = new StringBuilder();
-
-        try {
-            appInfraLogStatement.append("AppInfra initialized for application \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppName());
-            appInfraLogStatement.append("\" version \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
-            appInfraLogStatement.append("\" in state \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppState());
-
-        } catch (IllegalArgumentException e) {
-            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
-        }
-        appInfraLogStatement.append("\"");
-        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-                AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
     }
 
 }

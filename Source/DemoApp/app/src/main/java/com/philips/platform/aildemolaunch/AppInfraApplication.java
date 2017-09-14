@@ -15,11 +15,13 @@ import com.squareup.leakcanary.LeakCanary;
 public class AppInfraApplication extends Application {
     private AppInfraInterface gAppInfra;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfra.Builder builder = new AppInfra.Builder();
+        gAppInfra = builder.build(getApplicationContext());
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
@@ -28,4 +30,5 @@ public class AppInfraApplication extends Application {
     public AppInfraInterface getAppInfra() {
         return gAppInfra;
     }
+
 }
