@@ -27,7 +27,6 @@ public class AppFrameworkTagging {
     private static AppFrameworkTagging taggingInstance;
     private AppFrameworkApplication context;
     private static String previousPage;
-    private static Object mutex= new Object();
     private ApteligentBroadcastReceiver broadcastReceiverApteligent;
     private static final String TAG = AppFrameworkTagging.class.getSimpleName();
 
@@ -38,13 +37,9 @@ public class AppFrameworkTagging {
     /*
      * Single instance of Tagging is required.
      */
-    public static AppFrameworkTagging getInstance() {
+    public static synchronized AppFrameworkTagging getInstance() {
         if (taggingInstance == null) {
-            // Singleton pattern is thread safe now.
-            synchronized (mutex) {
-                if (taggingInstance == null)
-                    taggingInstance = new AppFrameworkTagging();
-            }
+            taggingInstance = new AppFrameworkTagging();
         }
         return taggingInstance;
     }
@@ -71,7 +66,7 @@ public class AppFrameworkTagging {
      * Release the receiver
      */
     public void releaseApteligentReceiver() {
-        if(broadcastReceiverApteligent != null) {
+        if (broadcastReceiverApteligent != null) {
             RALog.d(TAG, "releaseApteligentReceiver()");
             getTagging().unregisterTaggingData(broadcastReceiverApteligent);
         }
@@ -89,7 +84,7 @@ public class AppFrameworkTagging {
         if (currPage == null || currPage.equalsIgnoreCase(previousPage)) {
             return;
         }
-        previousPage=currPage;
+        previousPage = currPage;
         if (getTaggingInterface(context) != null) {
             getTaggingInterface(context).trackPageWithInfo(currPage, null);
         }

@@ -390,7 +390,7 @@ public void set*(...);
 }
 
 # Model classes for test microapp should not be obfuscated
--keep class com.philips.platform.appframework.testmicroappfw.models.** {*;}
+-keep class com.philips.platform.appframework.models.** {*;}
 
 
 #Enumeration

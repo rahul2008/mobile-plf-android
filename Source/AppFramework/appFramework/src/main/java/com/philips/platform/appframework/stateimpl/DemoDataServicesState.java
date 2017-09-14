@@ -44,7 +44,7 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-public class DemoDataServicesState extends BaseState
+public class DemoDataServicesState extends DemoBaseState
         implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
 
     public static final String TAG = DemoDataServicesState.class.getSimpleName();
@@ -63,7 +63,8 @@ public class DemoDataServicesState extends BaseState
     @Override
     public void navigate(UiLauncher uiLauncher) {
         dsDemoAppuAppInterface.launch(new ActivityLauncher
-                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 0), null);
+                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,
+                        getDLSThemeConfiguration(mContext.getApplicationContext()), 0, null), null);
     }
 
     @Override

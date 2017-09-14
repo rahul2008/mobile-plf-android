@@ -16,7 +16,7 @@ import com.philips.platform.urdemo.URDemouAppSettings;
  * Created by philips on 30/03/17.
  */
 
-public class DemoUSRState extends BaseState {
+public class DemoUSRState extends DemoBaseState {
 
     private Context context;
 
@@ -30,7 +30,8 @@ public class DemoUSRState extends BaseState {
         URDemouAppInterface uAppInterface = getUrDemouAppInterface();
 
         uAppInterface.init(new URDemouAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new URDemouAppSettings(context.getApplicationContext()));
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
 
     }
 
