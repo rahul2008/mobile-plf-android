@@ -117,31 +117,35 @@ public abstract class DSBaseFragment extends Fragment implements BackEventListen
     }*/
 
     public void showProgressDialog(final String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog == null) {
-                    mProgressDialog = new ProgressDialog(mContext);
+        if (getActivity() != null && !(getActivity().isFinishing())) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mProgressDialog == null) {
+                        mProgressDialog = new ProgressDialog(mContext);
+                    }
+                    mProgressDialog.setCancelable(false);
+                    mProgressDialog.setCanceledOnTouchOutside(false);
+                    mProgressDialog.setMessage(message);
+                    if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+                        mProgressDialog.show();
+                    }
                 }
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setCanceledOnTouchOutside(false);
-                mProgressDialog.setMessage(message);
-                if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
-                    mProgressDialog.show();
-                }
-            }
-        });
+            });
+        }
     }
 
     public void dismissProgressDialog() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (isProgressShowing() && !(((Activity) mContext).isFinishing())) {
-                    mProgressDialog.dismiss();
+        if (getActivity() != null && !(getActivity().isFinishing())) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (isProgressShowing() && !(((Activity) mContext).isFinishing())) {
+                        mProgressDialog.dismiss();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public boolean isProgressShowing() {
@@ -159,4 +163,5 @@ public abstract class DSBaseFragment extends Fragment implements BackEventListen
     public boolean handleBackEvent() {
         return false;
     }
+
 }
