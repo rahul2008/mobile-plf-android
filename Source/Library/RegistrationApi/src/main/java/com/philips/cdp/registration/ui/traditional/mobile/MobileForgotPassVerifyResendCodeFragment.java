@@ -15,6 +15,7 @@ import android.os.*;
 import android.text.*;
 import android.view.*;
 import android.widget.Button;
+import android.widget.*;
 
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
@@ -177,9 +178,10 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     private void handleResendVerificationEmailSuccess() {
         trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
-                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
-                getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+//        RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
+//                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content),
+//                getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        viewOrHideNotificationBar();
         resendSMSButton.hideProgressIndicator();
         getRegistrationFragment().startCountDownTimer();
         if(!mobileNumber.equals(phoneNumberEditText.getText().toString())){
@@ -187,48 +189,40 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         }
     }
 
-    //Notification Bar : Commented due to background color supports only in White. Need to cross check with DLS team.
+    private PopupWindow popupWindow;
 
-//    private PopupWindow popupWindow;
-//
-//    private void createPopUpWindow() {
-//        View view = getNotificationContentView();
-//        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//    }
-//
-//    private View getNotificationContentView() {
-//        View view = View.inflate(getContext(), R.layout.uid_notification_bg_white, null);
-//        ((TextView) view.findViewById(R.id.uid_notification_title)).
-//                setText(context.getResources().getString(R.string.reg_Resend_SMS_title));
-//        ((TextView) view.findViewById(R.id.uid_notification_content))
-//                .setText(context.getResources().getString(R.string.reg_Resend_SMS_Success_Content));
-//        ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setVisibility(View.GONE);
-//        ((TextView) view.findViewById(R.id.uid_notification_btn_2)).setVisibility(View.GONE);
-//        view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
-//        view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
-//
-//        view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
-//        view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alterPopUpState();
-//            }
-//        });
-//        return view;
-//    }
-//
-//    public void alterPopUpState() {
-//        if (popupWindow == null) {
-//            createPopUpWindow();
-//        }
-//        if (popupWindow.isShowing()) {
-//            popupWindow.dismiss();
-//        } else {
-//            popupWindow.showAsDropDown(getActivity().
-//                    findViewById(R.id.ll_reg_root_container));
-//        }
-//    }
+    public void viewOrHideNotificationBar() {
+        if (popupWindow == null) {
+            View view = getRegistrationFragment().getNotificationContentView(
+                    context.getResources().getString(R.string.reg_Resend_SMS_title),
+                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content));
+            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            popupWindow.showAsDropDown(getActivity().
+                    findViewById(R.id.ll_reg_root_container));
+        }
+    }
 
+    @Subscribe
+    public void onEvent(NotificationBarHandler event) {
+        viewOrHideNotificationBar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public void updateToken(String token) {
@@ -276,6 +270,9 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void verifyClicked() {
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
         errorMessage.hideError();
         mobileVerifyResendCodePresenter.resendOTPRequest(
                 verificationSmsCodeURL, phoneNumberEditText.getText().toString());
@@ -284,6 +281,9 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
         getRegistrationFragment().onBackPressed();
     }
 

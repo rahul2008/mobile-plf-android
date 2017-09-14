@@ -30,6 +30,8 @@ import com.philips.cdp.registration.update.*;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.*;
 
+import org.greenrobot.eventbus.*;
+
 import java.util.*;
 
 import javax.inject.*;
@@ -90,6 +92,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     String emailUser;
 
     AccountActivationResendMailPresenter accountActivationResendMailPresenter;
+
+    private PopupWindow popupWindow;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,12 +170,18 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @OnClick(R2.id.usr_activationresend_return_button)
     public void returnVerifyScreen() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
         getRegistrationFragment().onBackPressed();
     }
 
     @OnClick(R2.id.usr_activationresend_emailResend_button)
     public void resendEmail() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
         addEmailClicked(emailUser);
 
     }
@@ -245,7 +256,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         resendVerificationEmailSuccessTrackAction();
         getRegistrationFragment().startCountDownTimer();
         updateResendUIState();
-        showSuccessDialog();
+        viewOrHideNotificationBar();
     }
 
     void resendVerificationEmailSuccessTrackAction() {
@@ -255,15 +266,15 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
     }
 
-    private void showSuccessDialog() {
-        RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.reg_verify_resend_mail_sent),
-                mUser.getEmail(),
-                null,
-                mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_button_ok)
-                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-    }
+//    private void showSuccessDialog() {
+//        RegAlertDialog.showDialog(mContext.getResources().getString(
+//                R.string.reg_verify_resend_mail_sent),
+//                mUser.getEmail(),
+//                null,
+//                mContext.getResources().getString(
+//                        R.string.reg_verify_resend_mail_intime_button_ok)
+//                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+//    }
 
     private void showAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
@@ -397,5 +408,38 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
             proceedResend = false;
             updateResendTime(timeLeft);
         }
+    }
+
+    public void viewOrHideNotificationBar() {
+        if (popupWindow == null) {
+            View view = getRegistrationFragment().getNotificationContentView(
+                    mContext.getResources().getString(R.string.reg_verify_resend_mail_sent),
+                    mUser.getEmail());
+            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            popupWindow.showAsDropDown(getActivity().
+                    findViewById(R.id.usr_activationresend_root_layout));
+        }
+    }
+
+    @Subscribe
+    public void onEvent(NotificationBarHandler event) {
+        viewOrHideNotificationBar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 }

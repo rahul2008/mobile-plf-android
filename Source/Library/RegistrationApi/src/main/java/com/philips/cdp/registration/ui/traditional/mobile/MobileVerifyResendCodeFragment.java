@@ -15,6 +15,7 @@ import android.os.*;
 import android.text.*;
 import android.view.*;
 import android.widget.Button;
+import android.widget.*;
 
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
@@ -68,6 +69,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Inject
     NetworkUtility networkUtility;
+
+    private PopupWindow popupWindow;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -176,10 +180,11 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         phoneNumberEditText.setEnabled(true);
     }
 
-    private void handleResendVerificationEmailSuccess() {
-        trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
-                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+    private void handleResendVerificationSMSSuccess() {
+        trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_RESEND_SMS_VERIFICATION);
+//        RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
+//                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        viewOrHideNotificationBar();
         getRegistrationFragment().startCountDownTimer();
     }
 
@@ -220,6 +225,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -237,7 +245,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
    @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
-        getRegistrationFragment().onBackPressed();
+       if (popupWindow != null && popupWindow.isShowing()) {
+           popupWindow.dismiss();
+       }
+       getRegistrationFragment().onBackPressed();
     }
 
     @Override
@@ -316,7 +327,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableResendButtonAndHideSpinner() {
         trackMultipleActionsOnMobileSuccess();
-        handleResendVerificationEmailSuccess();
+        handleResendVerificationSMSSuccess();
     }
 
     @Override
@@ -351,5 +362,38 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         }else{
             updateResendTime(timeLeft);
         }
+    }
+
+    public void viewOrHideNotificationBar() {
+        if (popupWindow == null) {
+            View view = getRegistrationFragment().getNotificationContentView(
+                    context.getResources().getString(R.string.reg_Resend_SMS_title),
+                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content));
+            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            popupWindow.showAsDropDown(getActivity().
+                    findViewById(R.id.ll_reg_root_container));
+        }
+    }
+
+    @Subscribe
+    public void onEvent(NotificationBarHandler event) {
+        viewOrHideNotificationBar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 }

@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.*;
 import android.view.View.*;
 import android.view.inputmethod.*;
+import android.widget.*;
 
 import com.janrain.android.*;
 import com.philips.cdp.registration.R;
@@ -31,6 +32,7 @@ import com.philips.cdp.registration.ui.utils.*;
 import com.philips.dhpclient.BuildConfig;
 import com.philips.platform.uappframework.listener.*;
 
+import org.greenrobot.eventbus.*;
 import org.json.*;
 
 import javax.inject.*;
@@ -578,6 +580,22 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
-    ;
+    public View getNotificationContentView(String title, String message ) {
+        View view = View.inflate(getContext(), R.layout.uid_notification_bg_white, null);
+        ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title);
+        ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);
+        ((TextView) view.findViewById(R.id.uid_notification_btn_1)).setVisibility(View.GONE);
+        ((TextView) view.findViewById(R.id.uid_notification_btn_2)).setVisibility(View.GONE);
+        view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new NotificationBarHandler());
+            }
+        });
+        return view;
+    }
 
 }

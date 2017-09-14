@@ -9,13 +9,13 @@
     <ScrollView
         android:id="@+id/usr_activationresend_rootLayout_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
         <LinearLayout
             android:id="@+id/usr_activationresend_root_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_layout_margin_top_24"
             android:orientation="vertical">
