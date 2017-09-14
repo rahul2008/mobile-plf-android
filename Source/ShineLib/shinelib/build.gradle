@@ -6,6 +6,8 @@
 buildscript { bs ->
     apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
     apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
+
     repositories {
         maven {
             url repos.jcenter
@@ -25,7 +27,7 @@ buildscript { bs ->
 
     dependencies {
         classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpscm)
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -48,7 +50,8 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "shinelib"
-version = objcdp.getVersionFromFile("${projectDir}/../../../VERSION")
+
+version = objcdp.getVersion(versions.bll_shinelib)
 
 repositories {
     maven {

@@ -9,6 +9,7 @@ buildscript { bs ->
 
     apply from: "$project.common/project-build.gradle", to: bs
     apply from: "$project.common/module.gradle"
+    apply from: projectDir.absolutePath + '/../../ci-build-support/gradle/versions.gradle'
 
     repositories {
         maven {
@@ -29,7 +30,7 @@ buildscript { bs ->
 
     dependencies {
         classpath(builddeps.buildinfoextractor)
-        classpath(builddeps.cdpscm)
+        classpath(builddeps.cdpSCM)
     }
 }
 
@@ -51,7 +52,8 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "shinelibDemoUApp"
-version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
+
+version = objcdp.getVersion(versions.bll_shinelib)
 
 repositories {
     maven {
@@ -174,7 +176,13 @@ android {
 dependencies {
     debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
     releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uapp_framework + objcdp.getVersionSuffix(), changing: true)
+
+    def useProjectDependencies = project.ext.has('useprojectdependencies')
+    def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
+    compile(useProjectDependencies ? project(':ufw') : ufwModule) {
+        transitive = true
+    }
+
     compile deps.support.design
 
     testCompile deps.junit
