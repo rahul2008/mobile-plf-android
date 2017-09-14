@@ -148,7 +148,7 @@ public class ProdRegRegistrationController {
         final boolean validSerialNumber = validateSerialNumber(serialNumber);
         if (!isApiCallingProgress && validDate && validSerialNumber) {
             registerControllerCallBacks.tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
-            registerControllerCallBacks.showLoadingDialog();
+           // registerControllerCallBacks.showLoadingDialog();
             registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
             getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
@@ -197,7 +197,7 @@ public class ProdRegRegistrationController {
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
                     registerControllerCallBacks.buttonEnable();
-                    registerControllerCallBacks.dismissLoadingDialog();
+                  //  registerControllerCallBacks.dismissLoadingDialog();
                     final ProdRegCache prodRegCache = getProdRegCache();
                     prodRegUtil.storeProdRegTaggingMeasuresCount(prodRegCache, AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT, 1);
                     registerControllerCallBacks.tagEvents("RegistrationSuccessEvent", "noOfProductRegistrationCompleted", String.valueOf(prodRegCache.getIntData(AnalyticsConstants.Product_REGISTRATION_COMPLETED_COUNT)));
@@ -213,7 +213,7 @@ public class ProdRegRegistrationController {
                 if (fragmentActivity != null && !fragmentActivity.isFinishing()) {
                     ProdRegRegistrationController.this.registeredProduct = registeredProduct;
                     registerControllerCallBacks.buttonEnable();
-                    registerControllerCallBacks.dismissLoadingDialog();
+                    //registerControllerCallBacks.dismissLoadingDialog();
                     if (registeredProduct.getProdRegError() != ProdRegError.PRODUCT_ALREADY_REGISTERED) {
                         registerControllerCallBacks.showAlertOnError(registeredProduct.getProdRegError().getCode());
                     } else {

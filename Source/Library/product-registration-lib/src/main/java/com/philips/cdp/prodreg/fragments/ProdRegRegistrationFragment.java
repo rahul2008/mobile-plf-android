@@ -50,6 +50,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.text.DateFormat;
@@ -71,7 +72,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
-    private Button registerButton;
+    private ProgressBarButton registerButton;
     private FragmentActivity mActivity;
     //private Label tickIcon;
     //private Dialog dialog;
@@ -159,7 +160,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         prSuccessConfigurableTextView = (Label) view.findViewById(R.id.prg_success_configurable_textView);
-        registerButton = (Button) view.findViewById(R.id.prg_registerScreen_register_button);
+        registerButton = (ProgressBarButton) view.findViewById(R.id.prg_registerScreen_register_button);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
         team_member_icon=(ImageView)view.findViewById(R.id.team_member_icon);
@@ -205,7 +206,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void onStart() {
-        //resetErrorDialogIfExists();
+   //     dismissLoadingDialog();
         super.onStart();
     }
 
@@ -364,6 +365,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                registerButton.showProgressIndicator();
                 // registerButton.setEnabled(false);
                 isRegisterButtonClicked = true;
                 prodRegRegistrationController.registerProduct(date_EditText.getText().toString(),
@@ -416,9 +418,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void isValidSerialNumber(boolean validSerialNumber) {
-        if (validSerialNumber) {
-            findSerialTextView.setVisibility(View.GONE);
-        } else
+//        if (validSerialNumber) {
+//            findSerialTextView.setVisibility(View.GONE);
+//        } else
             showErrorMessageSerialNumber();
     }
 
@@ -571,7 +573,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 }
             });
         }catch (Exception e) {
-
+            ProdRegLogger.i("Exception ***", "" + e.getMessage());
         }
 
     }

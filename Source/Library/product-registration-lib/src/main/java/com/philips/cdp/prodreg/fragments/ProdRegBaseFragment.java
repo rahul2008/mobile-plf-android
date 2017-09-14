@@ -183,11 +183,35 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                     ft.remove(prev);
                     ft.commitAllowingStateLoss();
                 }
-                showErrorDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(), statusCode ,"error_dialog");
+                if(ProdRegError.NETWORK_ERROR.getCode() ==statusCode) {
+                    showNetworkDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(),
+                            statusCode ,"error_dialog");
+                } else {
+                    showErrorDialog(prodRegErrorMap.getTitle(),prodRegErrorMap.getDescription(),
+                            statusCode ,"error_dialog");
+                }
+
             }
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
+    }
+
+    private void showNetworkDialog(String title, String description, int statusCode, String error_dialog) {
+
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setCancelable(false)
+                .setTitle(title)
+                .setMessage(description)
+                .setPositiveButton(R.string.PPR_OK, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismissAlertOnError();
+                    }
+                });
+        alertDialogFragment = builder.create();
+        alertDialogFragment.show(getFragmentManager(), error_dialog);
     }
 
     protected void dismissAlertOnError() {
@@ -209,7 +233,8 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
                     activity.finish();
                 } else {
                     FragmentManager fragManager = activity.getSupportFragmentManager();
-                    return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    return fragManager.popBackStackImmediate(ProdRegConstants.PROD_REG_VERTICAL_TAG,
+                            FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
             }
         } catch (IllegalStateException e) {
@@ -265,7 +290,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-        if (alertDialogFragment != null) {
+        if (alertDialogFragment != null && getActivity() !=null && !getActivity().isDestroyed()) {
             alertDialogFragment.dismissAllowingStateLoss();
             alertDialogFragment = null;
         }
