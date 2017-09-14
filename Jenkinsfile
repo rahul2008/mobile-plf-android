@@ -47,6 +47,10 @@ node('Android') {
                     sh "$libgradle assembleRelease saveResDep zipDocuments artifactoryPublish"
                 }
             }
+
+            stage("Publish demouapp") {
+                sh "cd Source && ./gradlew -u :commlib-demouapp:generatePomFileForAarPublication :commlib-demouapp:zipDocuments :commlib-demouapp:artifactoryPublish"
+            }
         }
 
         stage('Archive results') {
