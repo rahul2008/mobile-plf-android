@@ -20,7 +20,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  * State class to launch Comm lib demo micro app.
  */
 
-public class DemoCMLState extends BaseState {
+public class DemoCMLState extends DemoBaseState {
 
     private static final String TAG = DemoCMLState.class.getSimpleName();
     private Context context;
@@ -40,7 +40,8 @@ public class DemoCMLState extends BaseState {
             catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }
-            uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+            uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                    getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
         }
 
 

@@ -16,7 +16,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * Created by philips on 30/03/17.
  */
 
-public class DemoPRGState extends BaseState {
+public class DemoPRGState extends DemoBaseState {
 
     private Context context;
 
@@ -28,7 +28,8 @@ public class DemoPRGState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         PRDemoAppuAppInterface uAppInterface = getPrDemoAppuAppInterface();
         uAppInterface.init(new PRDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra()), new PRDemoAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);// pass launch input if required
 
     }
 

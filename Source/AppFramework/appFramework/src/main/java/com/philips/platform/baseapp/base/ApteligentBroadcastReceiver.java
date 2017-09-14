@@ -91,6 +91,7 @@ public class ApteligentBroadcastReceiver extends BroadcastReceiver {
         return textExtraTaggingData.get(key);
     }
 
+    @SuppressWarnings("unchecked")
     protected HashMap<String, String> getSerializableExtra(Intent intent) {
         return (HashMap<String, String>) intent.getSerializableExtra(TAGGING_DATA);
     }
