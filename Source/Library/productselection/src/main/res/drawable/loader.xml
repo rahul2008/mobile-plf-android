@@ -10,8 +10,8 @@
 
         <gradient
             android:angle="0"
-            android:endColor="@color/uikit_philips_dark_blue"
-            android:startColor="@color/uikit_philips_light_orange"
+            android:endColor="@color/uid_philips_brand_philips_blue"
+            android:startColor="@color/uid_orange_level_5"
             android:type="sweep"
             android:useLevel="false" />
     </shape>

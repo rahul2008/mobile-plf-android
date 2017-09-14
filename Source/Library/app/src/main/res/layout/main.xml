@@ -66,9 +66,9 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/add_product" />
 
-        <com.philips.cdp.uikit.customviews.ActionButton
+        <com.philips.platform.uid.view.widget.ImageButton
             android:id="@+id/addimageButton"
-            style="@style/Philips.ActionButton.Circle.Float.Plus"
+
             android:layout_width="@dimen/savedscreen_top_container_height"
             android:layout_height="@dimen/savedscreen_top_container_height"
             android:layout_alignBottom="@+id/recycler_view"

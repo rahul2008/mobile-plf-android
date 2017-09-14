@@ -61,7 +61,7 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         ThemeConfiguration config = ProductModelSelectionHelper.getInstance().getThemeConfiguration();
         setTheme(ProductModelSelectionHelper.getInstance().getDlsTheme());
         UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+        FontIconTypefaceHolder.init(getAssets(), "fonts/iconfont.ttf");
     }
 
     @Override
