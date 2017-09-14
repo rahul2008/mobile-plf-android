@@ -26,12 +26,11 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/reg_secure_data_title_txt"
-                fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
                 android:text="@string/reg_recovery_title"
-                android:textStyle="bold"
+                fontPath="fonts/centralesansbold.ttf"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"/>
 

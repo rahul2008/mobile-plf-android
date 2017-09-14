@@ -27,7 +27,7 @@
                 android:layout_marginTop="@dimen/reg_margin_24"
                 android:text="@string/lets_get_started"
                 android:textSize="@dimen/reg_text_size_20"
-                android:textStyle="bold"
+                fontPath="fonts/centralesansbold.ttf"
                 />
 
             <com.philips.platform.uid.view.widget.Label

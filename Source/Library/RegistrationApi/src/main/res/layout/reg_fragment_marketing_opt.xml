@@ -31,7 +31,7 @@
                 android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_error_alert_size"
-                android:textStyle="bold"/>
+                fontPath="fonts/centralesansbold.ttf"/>
 
 
             <com.philips.platform.uid.view.widget.Label

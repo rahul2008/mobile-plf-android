@@ -30,8 +30,7 @@
                 android:text="@string/reg_verify_resend_mail_title"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
-                android:textStyle="bold"
-                />
+                fontPath="fonts/centralesansbold.ttf"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_activationresend_email_label"

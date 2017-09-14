@@ -36,7 +36,8 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="Log in now"
                     android:textSize="@dimen/reg_title_text_size"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    fontPath="fonts/centralesansbold.ttf"/>
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/usr_loginScreen_email_label"
