@@ -415,7 +415,7 @@ dependencies {
 		transitive = true
 	}
 
-    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'DICommClientSampleUApp', version: versions.cml_dicommClientLib + objcdp.getVersionSuffix(), ext: 'aar')
+    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar')
     compile(dp ? project(':commlibUApp') : commlibUAppModule) {
         exclude group: 'com.android.support'
         transitive = true
