@@ -50,12 +50,6 @@ objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-demouapp"
 version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
 
-
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
 repositories {
     maven {
         url repos.jcenter
@@ -105,8 +99,6 @@ publishing {
             groupId group
             version = version
             artifactId archivesBaseName
-
-            artifact zipDocuments
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
