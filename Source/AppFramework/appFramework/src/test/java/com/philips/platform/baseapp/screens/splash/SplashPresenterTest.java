@@ -19,69 +19,72 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class SplashPresenterTest extends TestCase{
+@RunWith(MockitoJUnitRunner.class)
+public class SplashPresenterTest {
+
     private SplashPresenter splashPresenter;
+
+    @Mock
     private LaunchView launchView;
+
+    @Mock
     private FragmentActivity fragmentActivity;
+
+    @Mock
+    private AppFrameworkApplication application;
+
+    @Mock
+    private BaseFlowManager baseFlowManager;
+
+    @Mock
+    private SplashState splashState;
+
+    @Mock
+    private WelcomeState welcomeState;
+
+
     private String APP_START = "onSplashTimeOut";
 
     @Before
-    protected void setUp() throws Exception{
-        super.setUp();
-        launchView = mock(LaunchView.class);
-        fragmentActivity = mock(FragmentActivity.class);
+    public void setUp() {
         when(launchView.getFragmentActivity()).thenReturn(fragmentActivity);
+        when(fragmentActivity.getApplicationContext()).thenReturn(application);
+        when(application.getTargetFlowManager()).thenReturn(baseFlowManager);
+        when(baseFlowManager.getState(AppStates.SPLASH)).thenReturn(splashState);
+        when(baseFlowManager.getNextState(splashState,APP_START)).thenReturn(welcomeState);
+        when(welcomeState.getStateID()).thenReturn(AppStates.HOME_FRAGMENT);
         splashPresenter = new SplashPresenter(launchView);
     }
 
+    @Test
     public void testAppStartAfterSplash(){
-        final WelcomeState welcomeStateMock = mock(WelcomeState.class);
-        final UIStateData uiStateData = mock(UIStateData.class);
-        final SplashState splashState = mock(SplashState.class);
-        final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
-        final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
-        final BaseFlowManager baseFlowManager = mock(BaseFlowManager.class);
-        final FlowManager uiFlowManagerMock = mock(FlowManager.class);
-        when(fragmentActivity.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        splashPresenter = new SplashPresenter(launchView) {
-            @Override
-            public void setState(final String stateID) {
-                super.setState(AppStates.SPLASH);
-            }
-
-            @Override
-            public FragmentLauncher getFragmentLauncher() {
-                return fragmentLauncherMock;
-            }
-
-            @NonNull
-            @Override
-            protected UIStateData setStateData(final String componentID) {
-                return uiStateData;
-            }
-
-            @Override
-            protected BaseFlowManager getTargetFlowManager() {
-                return uiFlowManagerMock;
-            }
-
-            @Override
-            protected AppFrameworkApplication getApplicationContext() {
-                return appFrameworkApplicationMock;
-            }
-        };
-        when(uiFlowManagerMock.getState(AppStates.SPLASH)).thenReturn(splashState);
-        when(uiFlowManagerMock.getNextState(splashState,APP_START)).thenReturn(welcomeStateMock);
         splashPresenter.onEvent(1);
-        verify(welcomeStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
+        verify(welcomeState, times(1)).navigate(any(FragmentLauncher.class));
+    }
 
+    @After
+    public void tearDown() {
+        splashPresenter = null;
+        launchView = null;
+        fragmentActivity = null;
+        application = null;
+        baseFlowManager = null;
+        splashState = null;
+        welcomeState = null;
     }
 
 }

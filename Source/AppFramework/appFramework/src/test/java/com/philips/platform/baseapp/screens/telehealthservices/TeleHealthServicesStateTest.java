@@ -5,50 +5,93 @@
 */
 package com.philips.platform.baseapp.screens.telehealthservices;
 
-import android.support.v4.app.FragmentManager;
-
-import com.philips.platform.CustomRobolectricRunner;
-import com.philips.platform.TestActivity;
-import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.base.UIStateData;
+import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
+import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.android.controller.ActivityController;
-import org.robolectric.annotation.Config;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
-public class TeleHealthServicesStateTest extends TestCase {
+import static junit.framework.TestCase.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-    @Test(expected = NullPointerException.class)
-    public void testLaunchTelehealthServicesState() {
-        TeleHealthServicesState teleHealthServicesState  = new TeleHealthServicesState();
-        UIStateData uiStateData = new UIStateData();
-        uiStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-        teleHealthServicesState.setUiStateData(uiStateData);
-        ActivityController<TestActivity> activityController  = Robolectric.buildActivity(TestActivity.class);
-        HamburgerActivity hamburgerActivity  = activityController.create().start().get();
-        FragmentLauncher fragmentLauncher  = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
+@RunWith(MockitoJUnitRunner.class)
+public class TeleHealthServicesStateTest {
 
-        teleHealthServicesState.init(RuntimeEnvironment.application);
-        teleHealthServicesState.navigate(fragmentLauncher);
-        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(1, fragmentCount);
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
+    private THSMicroAppInterfaceImpl thsMicroAppInterface;
+
+    @Mock
+    private FragmentLauncher fragmentLauncher;
+
+    @Mock
+    private HamburgerActivity hamburgerActivity;
+
+    @Mock
+    private AppFrameworkApplication application;
+
+    @Mock
+    private AppInfraInterface appInfraInterface;
+
+    private TeleHealthServicesState teleHealthServicesState;
+
+    @Before
+    public void setUp() {
+        teleHealthServicesState  = new TeleHealthServiceStateMock();
+        teleHealthServicesState.updateDataModel();
+        teleHealthServicesState.init(application);
+        when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
+        when(hamburgerActivity.getApplicationContext()).thenReturn(application);
+        when(application.getAppInfra()).thenReturn(appInfraInterface);
     }
 
     @Test
-    public void updateDataModelsTest(){
+    public void testLaunchTelehealthServicesState() {
+        teleHealthServicesState.navigate(fragmentLauncher);
+        verify(thsMicroAppInterface).init(any(URDependancies.class), any(UappSettings.class));
+        verify(thsMicroAppInterface).launch(any(FragmentLauncher.class), any(THSMicroAppLaunchInput.class));
+    }
+
+    @Test
+    public void getMicroAppInterfaceTest(){
         TeleHealthServicesState teleHealthServicesState  = new TeleHealthServicesState();
-        teleHealthServicesState.updateDataModel();
+        assertNotNull(teleHealthServicesState.getMicroAppInterface());
+    }
+
+    @After
+    public void tearDown() {
+        thsMicroAppInterface = null;
+        fragmentLauncher = null;
+        hamburgerActivity = null;
+        application = null;
+        appInfraInterface = null;
+        teleHealthServicesState = null;
+    }
+
+    class TeleHealthServiceStateMock extends TeleHealthServicesState {
+
+        @Override
+        protected THSMicroAppInterfaceImpl getMicroAppInterface() {
+            return thsMicroAppInterface;
+        }
     }
 }
