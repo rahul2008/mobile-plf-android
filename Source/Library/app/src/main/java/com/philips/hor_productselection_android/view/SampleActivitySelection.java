@@ -65,7 +65,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
 
         ProductModelSelectionHelper.getInstance().initialize(this, mAppInfraInterface);
         UIDHelper.setupToolbar(this);
-        getTheme().applyStyle(com.philips.cdp.uikit.R.style.Theme_Philips_BrightOrange_Gradient, true);
+        //getTheme().applyStyle(com.philips.cdp.uikit.R.style.Theme_Philips_BrightOrange_Gradient, true);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back_icon);
 

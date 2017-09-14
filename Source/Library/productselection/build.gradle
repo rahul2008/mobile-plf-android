@@ -56,20 +56,16 @@ dependencies {
 
 	def dp = project.ext.has('useprojectdependencies')
 
-	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':uit') : uitModule) 
-	{
-		transitive = true
-	}
+    compile 'com.shamanland:fonticon:0.1.8'
 
-	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true) 
+	def ufwModule = module(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), changing: true)
 	compile(dp ? project(':ufw') : ufwModule) 
 	{
 		transitive = true
 	}
 	
 	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':prx') : prxModule) 	
+	compile(dp ? project(':prx') : prxModule)
 	{
 		transitive = true
 	}

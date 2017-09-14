@@ -10,7 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import com.philips.platform.uid.view.widget.ImageButton;
 import android.widget.Toast;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
@@ -206,7 +206,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         themeHelper = new ThemeHelper(this);
         setTheme(themeHelper.getThemeResourceId());
         UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+        FontIconTypefaceHolder.init(getAssets(), "fonts/iconfont.ttf");
     }
 
     protected void changeTheme(){

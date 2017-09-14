@@ -14,9 +14,9 @@
         </shape></item>-->
         
     <item><shape>
-            <corners android:radius="3dp" android:color="?attr/uikit_baseColor"/>
-            <stroke android:width="2dp" android:color="?attr/uikit_baseColor"/>
-            <solid android:color="?attr/uikit_baseColor" />
+            <corners android:radius="3dp" android:color="?attr/uidButtonPrimaryFocusBackgroundColor"/>
+            <stroke android:width="2dp" android:color="?attr/uidButtonPrimaryFocusBackgroundColor"/>
+            <solid android:color="?attr/uidButtonPrimaryFocusBackgroundColor" />
         </shape></item>
 
 </selector>

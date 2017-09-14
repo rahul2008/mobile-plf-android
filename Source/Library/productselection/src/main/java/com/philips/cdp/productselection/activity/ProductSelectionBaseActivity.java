@@ -15,7 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -28,7 +28,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  *         naveen@philips.com
  * @since : 20 Jan 2016
  */
-public abstract class ProductSelectionBaseActivity extends UiKitActivity {
+public abstract class ProductSelectionBaseActivity extends UIDActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
