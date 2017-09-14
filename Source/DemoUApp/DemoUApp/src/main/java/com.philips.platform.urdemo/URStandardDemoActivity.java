@@ -276,32 +276,26 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
-            RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            urLaunchInput = new URLaunchInput();
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
-            urLaunchInput.setUserRegistrationUIEventListener(this);
+            RLog.d(RLog.ONCLICK, "Logout");
 
-            urInterface = new URInterface();
-            urInterface.launch(activityLauncher, urLaunchInput);
-            final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
-            switch (abTestingUIFlow) {
-                case FLOW_A:
-                    Toast.makeText(mContext, "UI Flow Type A", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                    break;
-                case FLOW_B:
-                    Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    break;
-                case FLOW_C:
-                    Toast.makeText(mContext, "UI Flow Type C", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                    break;
-                default:
-                    break;
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+                showLogoutSpinner();
+                mUser.logout(new LogoutHandler() {
+                    @Override
+                    public void onLogoutSuccess() {
+                        hideLogoutSpinner();
+                        Toast.makeText(mContext, "Logout success", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onLogoutFailure(int responseCode, String message) {
+                        hideLogoutSpinner();
+                        Toast.makeText(mContext, "Code "+ responseCode +"Message"+message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }else{
+                mUser.logout(null);
             }
 
         } else if (i == R.id.btn_marketing_opt_in) {
@@ -310,7 +304,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setUIFlow(UIFlow.FLOW_C);
+            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
             urLaunchInput.setUserRegistrationUIEventListener(this);
 
             urInterface = new URInterface();
@@ -326,10 +320,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 case FLOW_B:
                     Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
                     RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                    break;
-                case FLOW_C:
-                    Toast.makeText(mContext, "UI Flow Type C", Toast.LENGTH_LONG).show();
-                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     break;
                 default:
                     break;
@@ -634,5 +624,22 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } catch (IOException e) {
         }
         return null;
+    }
+
+
+    private void showLogoutSpinner() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this, com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(false);
+        }
+        if (!(isFinishing()) && (mProgressDialog != null)) mProgressDialog.show();
+    }
+
+
+    private void hideLogoutSpinner() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 }

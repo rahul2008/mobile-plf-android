@@ -6,7 +6,7 @@ package com.philips.cdp.registration.configuration;
 public enum RegistrationLaunchMode {
 
     DEFAULT("Default"),
-    ACCOUNT_SETTINGS("AccountSettings"),
+
     MARKETING_OPT("MarketingOpt");
 
     private String mValue;

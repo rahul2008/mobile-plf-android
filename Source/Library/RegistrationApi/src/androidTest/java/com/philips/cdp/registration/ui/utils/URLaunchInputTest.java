@@ -1,21 +1,16 @@
 package com.philips.cdp.registration.ui.utils;
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.*;
+import android.content.*;
 
-import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.listener.*;
+import com.philips.cdp.registration.settings.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static android.support.test.InstrumentationRegistry.*;
+import static junit.framework.Assert.*;
 
 
 public class URLaunchInputTest extends RegistrationApiInstrumentationBase {
@@ -59,9 +54,5 @@ public class URLaunchInputTest extends RegistrationApiInstrumentationBase {
         mURLaunchInput.enableAddtoBackStack(false);
         assertFalse(mURLaunchInput.isAddtoBackStack());
     }
-@Test
-    public void testIsAccountSettingsTrue(){
-        mURLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-        assertEquals(RegistrationLaunchMode.ACCOUNT_SETTINGS,mURLaunchInput.getEndPointScreen());
-    }
+
 }

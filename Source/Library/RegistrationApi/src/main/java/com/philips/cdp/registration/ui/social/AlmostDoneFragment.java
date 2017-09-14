@@ -265,11 +265,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 acceptTermsCheck.setVisibility(View.VISIBLE);
                 marketingOptCheck.setVisibility(View.GONE);
                 break;
-
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                acceptTermsCheck.setVisibility(View.VISIBLE);
-                break;
             default:
                 break;
         }
@@ -456,14 +451,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                 launchMarketingAccountFragment();
                 break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                if (almostDonePresenter.isEmailVerificationStatus()) {
-                    completeRegistration();
-                } else {
-                    launchAccountActivateFragment();
-                }
-                break;
             default:
                 break;
         }
@@ -566,11 +553,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
-                break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
                 break;
             default:
                 break;

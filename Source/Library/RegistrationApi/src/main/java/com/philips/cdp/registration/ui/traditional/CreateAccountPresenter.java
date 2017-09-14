@@ -114,10 +114,6 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                 createAccountContract.launchMarketingAccountFragment();
                 break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
-                setABTestingFlow();
-                break;
         }
     }
 

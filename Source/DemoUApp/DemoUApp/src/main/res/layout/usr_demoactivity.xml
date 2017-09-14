@@ -32,7 +32,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Account Setting"/>
+                    android:text="Logout"/>
 
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/btn_marketing_opt_in"

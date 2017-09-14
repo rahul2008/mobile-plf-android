@@ -178,8 +178,6 @@ public class RegUtility {
                 ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
         if (flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())) {
             return UIFlow.FLOW_B;
-        } else if (flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())) {
-            return UIFlow.FLOW_C;
         }
         return UIFlow.FLOW_A;
     }

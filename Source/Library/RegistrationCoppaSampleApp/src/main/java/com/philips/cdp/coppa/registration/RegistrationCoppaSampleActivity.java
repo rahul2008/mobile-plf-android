@@ -228,17 +228,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         switch (v.getId()) {
 
             case R.id.btn_registration_with_account:
-                RLog.d(RLog.ONCLICK, "RegistrationCoppaSampleActivity : Registration");
-                RegistrationCoppaApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
-                urLaunchInput = new CoppaLaunchInput();
-                urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-                urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-                urLaunchInput.setUserRegistrationUIEventListener(this);
-                activityLauncher = new ActivityLauncher(ActivityLauncher.
-                        ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
-
-                urInterface = new CoppaInterface();
-                urInterface.launch(activityLauncher, urLaunchInput);
+            user.logout(null);
                 break;
 
             case R.id.btn_marketing_opt_in:
@@ -458,7 +448,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
         String optInTitleBarText = getResources().getString(R.string.reg_OptIn_NavTitle);
         registrationContentConfiguration = new RegistrationContentConfiguration();
-        registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
         registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);

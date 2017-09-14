@@ -272,20 +272,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        } else if (RegistrationLaunchMode.ACCOUNT_SETTINGS.equals(mRegistrationLaunchMode)) {
-            if (isUserSignIn && isEmailVerified) {
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-                replaceWithLogoutFragment();
-                return;
-            }
-
-            if (isUserSignIn && !isEmailVerificationRequired) {
-                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-                replaceWithLogoutFragment();
-                return;
-            }
-            AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            replaceWithHomeFragment();
         } else {
             if (isUserSignIn && isEmailVerified) {
                 userRegistrationComplete();
@@ -374,19 +360,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
-
-    private void replaceWithLogoutFragment() {
-        try {
-            LogoutFragment logoutFragment = new LogoutFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
 
     private void replacMarketingAccountFragment() {
         try {
@@ -491,7 +464,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-       /* if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+       if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() &&
@@ -504,7 +477,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "
                             + RegistrationHelper.getInstance().getLocale(getContext()));
-        }*/
+        }
     }
 
     public Activity getParentActivity() {

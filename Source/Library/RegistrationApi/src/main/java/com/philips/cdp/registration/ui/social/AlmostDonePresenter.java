@@ -1,24 +1,23 @@
 package com.philips.cdp.registration.ui.social;
 
 
-import android.os.Bundle;
+import android.os.*;
 
-import com.janrain.android.Jump;
-import com.philips.cdp.registration.User;
+import com.janrain.android.*;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.NetworkStateListener;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
 import org.json.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
-import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
+import static com.philips.cdp.registration.ui.utils.RegConstants.*;
 
 public class AlmostDonePresenter implements NetworkStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
 
@@ -267,7 +266,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
             almostDoneContract.replaceWithHomeFragment();
             return;
         }
-        if (error == RegConstants.FAILURE_TO_CONNECT || error == BAD_RESPONSE_ERROR_CODE) {
+        if (error == RegConstants.FAILURE_TO_CONNECT || error == RegConstants.BAD_RESPONSE_ERROR_CODE) {
             almostDoneContract.failedToConnectToServer();
             return;
         }

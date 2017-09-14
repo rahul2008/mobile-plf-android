@@ -186,4 +186,6 @@ public class RegConstants {
     public final static String COUNTER_TICK = "COUNTER_TICK";
     public final static String COUNTER_FINISH = "COUNTER_FINISH";
 
+    public static final int BAD_RESPONSE_ERROR_CODE = 7008;
+
 }

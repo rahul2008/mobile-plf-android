@@ -309,13 +309,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
                 break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                usr_createscreen_marketingmails_checkbox.setVisibility(View.VISIBLE);
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
-                        AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
-                break;
-
             default:
                 break;
         }
