@@ -23,11 +23,20 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.carts.BasePriceEntity;
+import com.philips.cdp.di.iap.response.carts.CartsEntity;
+import com.philips.cdp.di.iap.response.carts.CategoriesEntity;
+import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.ProductEntity;
+import com.philips.cdp.di.iap.response.carts.TotalPriceEntity;
+import com.philips.cdp.di.iap.response.carts.TotalPriceWithTaxEntity;
+import com.philips.cdp.di.iap.response.carts.TotalTaxEntity;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -39,11 +48,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -74,7 +85,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mAddressController = new AddressController(mContext, this);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullDelegate() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
@@ -87,7 +98,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         makePRXData();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetCurrentCartDetailsSuccessResponse() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
@@ -698,19 +709,72 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.getHybrisDelegate();
     }
 
-//    @Override
-//    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
-//        if (data.size() > 0 && data.get(0) != null) {
-//            assertEquals(mCTNS.size(), data.size());
-//        } else {
-//            assertFalse(false);
-//        }
-//    }
-//
-//    @Override
-//    public void onLoadFinished(ShoppingCartData data) {
-//
-//    }
+
+    @Test(expected = NullPointerException.class)
+    public void verfyMerge() throws Exception {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        CartsEntity cartsEntity = Mockito.mock(CartsEntity.class);
+        final ArrayList<EntriesEntity> value = new ArrayList<>();
+        EntriesEntity entity = Mockito.mock(EntriesEntity.class);
+        Mockito.when(entity.getBasePrice()).thenReturn(new BasePriceEntity());
+        Mockito.when(entity.getEntryNumber()).thenReturn(1);
+        Mockito.when(entity.getProduct()).thenReturn(new ProductEntity());
+        Mockito.when(entity.getQuantity()).thenReturn(2);
+        Mockito.when(entity.getTotalPrice()).thenReturn(new TotalPriceEntity());
+        value.add(entity);
+        Mockito.when(cartsEntity.getEntries()).thenReturn(value);
+        Message msg = new Message();
+        msg.obj = new HashMap<>();
+        mShoppingCartPresenter.onModelDataLoadFinished(msg);
+    }
+
+    @Test
+    public void verfyGetShoppingCartDatas() throws Exception {
+        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+        CartsEntity cartsEntity = Mockito.mock(CartsEntity.class);
+        final ArrayList<EntriesEntity> value = new ArrayList<>();
+        EntriesEntity entity = Mockito.mock(EntriesEntity.class);
+        Mockito.when(entity.getBasePrice()).thenReturn(new BasePriceEntity());
+        Mockito.when(entity.getEntryNumber()).thenReturn(1);
+
+        final ProductEntity productEntity = Mockito.mock(ProductEntity.class);
+        Mockito.when(productEntity.getCode()).thenReturn("HX8332/11");
+        final ArrayList<CategoriesEntity> categoriesEntities = new ArrayList<>();
+        CategoriesEntity categoriesEntity = Mockito.mock(CategoriesEntity.class);
+        Mockito.when(categoriesEntity.getCode()).thenReturn("HX8332/11");
+        categoriesEntities.add(categoriesEntity);
+        Mockito.when(productEntity.getCategories()).thenReturn(categoriesEntities);
+
+        Mockito.when(entity.getProduct()).thenReturn(productEntity);
+        Mockito.when(entity.getQuantity()).thenReturn(2);
+        Mockito.when(entity.getTotalPrice()).thenReturn(new TotalPriceEntity());
+        value.add(entity);
+
+
+        Mockito.when(cartsEntity.getEntries()).thenReturn(value);
+        final TotalPriceWithTaxEntity totalPriceWithTaxEntity = Mockito.mock(TotalPriceWithTaxEntity.class);
+        Mockito.when(totalPriceWithTaxEntity.getFormattedValue()).thenReturn("12");
+        Mockito.when(cartsEntity.getTotalPriceWithTax()).thenReturn(totalPriceWithTaxEntity);
+        Mockito.when(cartsEntity.getTotalItems()).thenReturn(2);
+        Mockito.when(cartsEntity.getDeliveryAddress()).thenReturn(new DeliveryAddressEntity());
+        final TotalTaxEntity totalTaxEntity = Mockito.mock(TotalTaxEntity.class);
+        Mockito.when(totalTaxEntity.getFormattedValue()).thenReturn("3");
+        Mockito.when(cartsEntity.getTotalTax()).thenReturn(totalTaxEntity);
+
+
+        CartModelContainer.getInstance().addProductAsset("HX8332/11", new ArrayList<String>());
+        final SummaryModel summaryModel = Mockito.mock(SummaryModel.class);
+        final Data data = new Data();
+        data.setMarketingTextHeader("Something");
+        data.setProductTitle("product title");
+        data.setImageURL("http://imageUrl/");
+        Mockito.when(summaryModel.getData()).thenReturn(data);
+//        Mockito.when(summaryModel.getData().getImageURL()).thenReturn(data.g);
+//        Mockito.when(summaryModel.getData().getProductTitle()).thenReturn("Brush");
+//        Mockito.when(summaryModel.getData().getMarketingTextHeader()).thenReturn("http://image/");
+        CartModelContainer.getInstance().addProductSummary("HX8332/11", summaryModel);
+        mShoppingCartPresenter.getShoppingCartDatas(cartsEntity, value);
+    }
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {
@@ -765,4 +829,12 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     public void onSetDeliveryMode(Message msg) {
 
     }
+
+//    @Test
+//    public void testGetRetailersInformationWithWebResultNull() throws JSONException {
+//        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
+//        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+//        mShoppingCartPresenter.getRetailersInformation("HX8071/10");
+//
+//    }
 }

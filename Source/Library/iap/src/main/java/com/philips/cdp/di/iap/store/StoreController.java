@@ -26,11 +26,8 @@ import org.json.JSONObject;
 
 public class StoreController {
     final Context mContext;
-    //    protected PILLocaleManager mLocaleManager;
-//    protected PILLocale mPILLocale;
     protected StoreConfiguration mStoreConfig;
     protected RequestListener mRequestListener;
-    //    protected String mFallBackLocale;
     protected String mSiteID;
 
     public StoreController(Context context, StoreConfiguration storeConfig) {
@@ -40,15 +37,8 @@ public class StoreController {
 
     public void initConfig(final RequestListener listener) {
         mRequestListener = listener;
-        // refreshPILocaleManager(language, countryCode);
         startConfigDownloadThread();
     }
-
-//    void refreshPILocaleManager(String language, String countryCode) {
-//        mLocaleManager = new PILLocaleManager(mContext);
-//        mLocaleManager.setInputLocale(language, countryCode);
-//        mLocaleManager.refresh(mLocaleMatchListener);
-//    }
 
     String getSiteID() {
         return mSiteID;
@@ -58,10 +48,6 @@ public class StoreController {
         if (CartModelContainer.getInstance().getCountry() == null || CartModelContainer.getInstance().getLanguage() == null)
             return null;
         return CartModelContainer.getInstance().getLanguage() + "_" + CartModelContainer.getInstance().getCountry();
-//        if (mPILLocale != null) {
-//            return mPILLocale.getLocaleCode();
-//        }
-//        return mFallBackLocale;
     }
 
     private void startConfigDownloadThread() {
@@ -118,25 +104,4 @@ public class StoreController {
             }
         });
     }
-
-//    private LocaleMatchListener mLocaleMatchListener = new LocaleMatchListener() {
-//        @Override
-//        public void onLocaleMatchRefreshed(final String s) {
-//            mFallBackLocale = s;
-//            mPILLocale = mLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, s,
-//                    Platform.PRX, Sector.B2C, Catalog.CONSUMER);
-//            startConfigDownloadThread();
-//        }
-//
-//        @Override
-//        public void onErrorOccurredForLocaleMatch(final LocaleMatchError localeMatchError) {
-//            if (mRequestListener != null) {
-//                Message msg = Message.obtain();
-//                if (LocaleMatchError.INPUT_VALIDATION_ERROR != localeMatchError) {
-//                    msg.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
-//                }
-//                notifyConfigListener(false, msg);
-//            }
-//        }
-//    };
 }

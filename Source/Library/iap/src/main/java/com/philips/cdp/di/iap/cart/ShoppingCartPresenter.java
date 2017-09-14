@@ -145,7 +145,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     public void createCart(final Context context, final IAPCartListener iapHandlerListener,
-                            final String ctnNumber, final boolean isBuy) {
+                           final String ctnNumber, final boolean isBuy) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
@@ -371,12 +371,16 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
         CartsEntity cartsEntity = mCurrentCartData;
         List<EntriesEntity> entries = cartsEntity.getEntries();
+        return getShoppingCartDatas(cartsEntity, entries);
+    }
+
+    public ArrayList<ShoppingCartData> getShoppingCartDatas(CartsEntity cartsEntity, List<EntriesEntity> entries) {
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
-            ShoppingCartData cartItem = new ShoppingCartData(entry, mCurrentCartData.getDeliveryMode());
+            ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
             if (list.containsKey(ctn)) {
@@ -384,8 +388,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             } else {
                 continue;
             }
-            if(entry.getProduct().getDiscountPrice() !=null)
-             cartItem.setDiscountPrice(entry.getProduct().getDiscountPrice().getValue());
+            if (entry.getProduct().getDiscountPrice() != null)
+                cartItem.setDiscountPrice(entry.getProduct().getDiscountPrice().getValue());
             cartItem.setImageUrl(data.getImageURL());
             cartItem.setProductTitle(data.getProductTitle());
             cartItem.setCtnNumber(ctn);
