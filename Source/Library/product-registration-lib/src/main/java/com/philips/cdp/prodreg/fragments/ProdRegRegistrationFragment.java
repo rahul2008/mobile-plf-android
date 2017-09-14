@@ -531,44 +531,49 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
-        View view = lf.inflate(R.layout.prodreg_already_registered_dialog, null);
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setDialogView(view)
-                .setCancelable(false);
-        alertDialogFragment = builder.create();
-        alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
-        Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
-        Label serialNumberRegisteredOn = (Label) view.findViewById(R.id.serial_number_registered_message);
-        Label serialNumberWarranty = (Label) view.findViewById(R.id.serial_number_warranty_message);
-        serialNumberTitle.setText(getString(R.string.PRG_This_Serial_No).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PRG_Already_Registered)));
-        Button changeSerialNumber = (Button) view.findViewById(R.id.button_continue);
-        Button closeDialog = (Button) view.findViewById(R.id.closeButton);
-        if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
-            serialNumberRegisteredOn.setVisibility(View.VISIBLE);
-            serialNumberRegisteredOn.setText(getString(R.string.PRG_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
-        }
-        if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
-            serialNumberWarranty.setVisibility(View.VISIBLE);
-            serialNumberWarranty.setText(getString(R.string.PRG_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
-        }
-        changeSerialNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                alertDialogFragment.dismiss();
-                clearFragmentStack();
-                handleCallBack(true);
-                unRegisterProdRegListener();
+        try {
+            LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+            LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+            View view = lf.inflate(R.layout.prodreg_already_registered_dialog, null);
+            final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                    .setDialogType(DialogConstants.TYPE_DIALOG)
+                    .setDialogView(view)
+                    .setCancelable(false);
+            alertDialogFragment = builder.create();
+            alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
+            Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
+            Label serialNumberRegisteredOn = (Label) view.findViewById(R.id.serial_number_registered_message);
+            Label serialNumberWarranty = (Label) view.findViewById(R.id.serial_number_warranty_message);
+            serialNumberTitle.setText(getString(R.string.PRG_This_Serial_No).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PRG_Already_Registered)));
+            Button changeSerialNumber = (Button) view.findViewById(R.id.button_continue);
+            Button closeDialog = (Button) view.findViewById(R.id.closeButton);
+            if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
+                serialNumberRegisteredOn.setVisibility(View.VISIBLE);
+                serialNumberRegisteredOn.setText(getString(R.string.PRG_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
             }
-        });
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialogFragment.dismiss();
+            if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
+                serialNumberWarranty.setVisibility(View.VISIBLE);
+                serialNumberWarranty.setText(getString(R.string.PRG_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
             }
-        });
+            changeSerialNumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    alertDialogFragment.dismiss();
+                    clearFragmentStack();
+                    handleCallBack(true);
+                    unRegisterProdRegListener();
+                }
+            });
+            closeDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialogFragment.dismiss();
+                }
+            });
+        }catch (Exception e) {
+
+        }
+
     }
 
 
