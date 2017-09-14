@@ -8,6 +8,7 @@ package com.philips.platform.uid.thememanager;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDContextWrapper;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UIDHelper {
@@ -126,4 +129,29 @@ public class UIDHelper {
     public static Context getPopupThemedContext(Context context) {
         return ThemeUtils.getPopupThemedContext(context);
     }
+
+    private static int getNavigationFullThemeResourceID(@NonNull Context context) {
+        TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
+        String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
+        String navigationRange = themeArray.getString(R.styleable.PhilipsUID_uidNavigationRange);
+        String themeName = String.format("Theme.DLS.%s.%s", colorRange, navigationRange);
+        themeArray.recycle();
+        return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
+    }
+
+    public static Context getContentThemedContext(Context context) {
+        final Resources.Theme theme = context.getResources().newTheme();
+        theme.setTo(context.getTheme());
+        theme.applyStyle(ThemeUtils.getThemeResourceID(context), true);
+        return UIDContextWrapper.getThemedContext(context, theme);
+    }
+
+    public static Context getNavigationThemedContext(Context context) {
+        final Resources.Theme theme = context.getResources().newTheme();
+        theme.setTo(context.getTheme());
+        theme.applyStyle(getNavigationFullThemeResourceID(context), true);
+        return UIDContextWrapper.getThemedContext(context, theme);
+    }
+
+
 }

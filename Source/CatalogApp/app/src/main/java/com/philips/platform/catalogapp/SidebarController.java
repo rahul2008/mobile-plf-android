@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.philips.platform.catalogapp.dataUtils.SidebarRightListViewAdapter;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
@@ -130,11 +130,11 @@ public class SidebarController {
             }
         });
 
-        final SeparatorDrawable navigationThemedSeparatorDrawable = new SeparatorDrawable(ThemeUtils.getNavigationThemedContext(context));
+        final SeparatorDrawable navigationThemedSeparatorDrawable = new SeparatorDrawable(UIDHelper.getNavigationThemedContext(context));
         navigationThemedRightListView.setDivider(navigationThemedSeparatorDrawable);
         navigationThemedRightListView.setDividerHeight(navigationThemedSeparatorDrawable.getHeight());
 
-        ArrayAdapter navigationThemedArrayAdapter = new SidebarRightListViewAdapter(ThemeUtils.getNavigationThemedContext(context), R.layout.sidebar_right_listview_item, context.getResources().getStringArray(R.array.sidebar_right_menu_items), true );
+        ArrayAdapter navigationThemedArrayAdapter = new SidebarRightListViewAdapter(UIDHelper.getNavigationThemedContext(context), R.layout.sidebar_right_listview_item, context.getResources().getStringArray(R.array.sidebar_right_menu_items), true );
         navigationThemedRightListView.setAdapter(navigationThemedArrayAdapter);
         navigationThemedRightListView.setItemChecked(0, true);
         navigationThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,9 +150,9 @@ public class SidebarController {
     private void initLeftSidebarRecyclerViews() {
 
         RecyclerViewSeparatorItemDecoration contentThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(context);
-        RecyclerViewSeparatorItemDecoration navigationThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(ThemeUtils.getNavigationThemedContext(context));
+        RecyclerViewSeparatorItemDecoration navigationThemedSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(UIDHelper.getNavigationThemedContext(context));
         DataHolderView contentThemedDataHolderView = getIconDataHolderView(context);
-        DataHolderView navigationThemedDataHolderView = getIconDataHolderView(ThemeUtils.getNavigationThemedContext(context));
+        DataHolderView navigationThemedDataHolderView = getIconDataHolderView(UIDHelper.getNavigationThemedContext(context));
 
         contentThemedLeftRecyclerView = (RecyclerView) activityMainBinding.getRoot().findViewById(R.id.sidebar_content_themed_left_recyclerview);
         contentThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(contentThemedDataHolderView.dataHolders, false));
@@ -192,7 +192,7 @@ public class SidebarController {
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if(isNavigationContext)
-                inflater = inflater.cloneInContext(ThemeUtils.getNavigationThemedContext(parent.getContext()));
+                inflater = inflater.cloneInContext(UIDHelper.getNavigationThemedContext(parent.getContext()));
             View v = inflater.inflate(R.layout.sidebar_left_recyclerview_item, parent, false);
 
             return new SidebarRecyclerViewBindingHolder(v);

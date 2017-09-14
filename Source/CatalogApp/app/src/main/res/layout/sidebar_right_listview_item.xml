@@ -2,7 +2,7 @@
 
 <com.philips.platform.uid.view.widget.Label
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/UIDLabel.SidebarRecyclerViewItemText"
+    style="@style/UIDLabel.ListItemText"
     android:layout_width="match_parent"
     android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
     android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"

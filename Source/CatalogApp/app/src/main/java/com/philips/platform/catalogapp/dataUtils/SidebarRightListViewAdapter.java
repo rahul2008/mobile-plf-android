@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Label;
 
 public class SidebarRightListViewAdapter extends ArrayAdapter<String> {
@@ -27,7 +27,7 @@ public class SidebarRightListViewAdapter extends ArrayAdapter<String> {
         resID = resource;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(isNavigationContext)
-            inflater = inflater.cloneInContext(ThemeUtils.getNavigationThemedContext(context));
+            inflater = inflater.cloneInContext(UIDHelper.getNavigationThemedContext(context));
     }
 
     @NonNull

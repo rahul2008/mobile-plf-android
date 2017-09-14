@@ -70,8 +70,8 @@ public class SideBar extends DrawerLayout {
 
     private int getMaxWidth() {
         int defaultWidth = UIDUtils.getDeviceWidth(context) - UIDUtils.getActionBarSize(context);
-        int maxWidth = context.getResources().getDimensionPixelSize(R.dimen.uid_sidebar_max_width);
-        return Math.min(defaultWidth, maxWidth);
+        int recommendedMaxWidth = context.getResources().getDimensionPixelSize(R.dimen.uid_sidebar_max_width);
+        return Math.min(defaultWidth, recommendedMaxWidth);
     }
 
     boolean isDrawerView(View child) {

@@ -131,29 +131,6 @@ public final class ThemeUtils {
         return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
     }
 
-    private static int getNavigationFullThemeResourceID(@NonNull Context context) {
-        TypedArray themeArray = context.getTheme().obtainStyledAttributes(R.styleable.PhilipsUID);
-        String colorRange = themeArray.getString(R.styleable.PhilipsUID_uidColorRange);
-        String navigationRange = themeArray.getString(R.styleable.PhilipsUID_uidNavigationRange);
-        String themeName = String.format("Theme.DLS.%s.%s", colorRange, navigationRange);
-        themeArray.recycle();
-        return context.getResources().getIdentifier(themeName, "style", context.getPackageName());
-    }
-
-    public static Context getNavigationThemedContext(Context context) {
-        final Resources.Theme theme = context.getResources().newTheme();
-        theme.setTo(context.getTheme());
-        theme.applyStyle(getNavigationFullThemeResourceID(context), true);
-        return UIDContextWrapper.getThemedContext(context, theme);
-    }
-
-    public static Context getContentThemedContext(Context context) {
-        final Resources.Theme theme = context.getResources().newTheme();
-        theme.setTo(context.getTheme());
-        theme.applyStyle(getThemeResourceID(context), true);
-        return UIDContextWrapper.getThemedContext(context, theme);
-    }
-
     private static int getResourceIdBasedComponentType(@NonNull final TypedArray typedArray) {
         int resourceId = typedArray.getInt(0, 0);
         if (resourceId == 1) {

@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 /**
  *  This class is created only for demo purpose to get either Content Themed or Navigation Themed Context for Sidebar Container.
@@ -40,8 +40,8 @@ public class SidebarFrameLayoutContainer extends FrameLayout {
         int resourceId = typedArray.getInt(0, 0);
         typedArray.recycle();
         switch (resourceId){
-            case 0: return ThemeUtils.getContentThemedContext(context);
-            case 1: return ThemeUtils.getNavigationThemedContext(context);
+            case 0: return UIDHelper.getContentThemedContext(context);
+            case 1: return UIDHelper.getNavigationThemedContext(context);
             default: return context;
         }
     }
