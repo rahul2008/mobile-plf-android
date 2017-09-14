@@ -13,8 +13,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
-
 public class THSProviderNotAvailablePresenterTest {
     THSProviderNotAvailablePresenter mTHSProviderNotAvailablePresenter;
 
@@ -27,7 +25,7 @@ public class THSProviderNotAvailablePresenterTest {
         mTHSProviderNotAvailablePresenter = new THSProviderNotAvailablePresenter(thsProviderNotAvailableFragmentMock);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onEvent() throws Exception {
         mTHSProviderNotAvailablePresenter.onEvent(R.id.calendar_view);
     }

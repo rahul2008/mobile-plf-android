@@ -52,7 +52,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        initTheme();
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE ));
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, AccentRange.ORANGE ));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_activity_launch);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
