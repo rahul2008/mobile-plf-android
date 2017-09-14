@@ -59,16 +59,19 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     XRegError mRegError;
 
     @BindView(R2.id.usr_activationresend_emailormobile_textfield)
-    ValidationEditText usr_activationresend_emailormobile_textfield;
+    ValidationEditText emailEditText;
 
     @BindView(R2.id.usr_activationresend_emailormobile_inputValidationLayout)
-    InputValidationLayout usr_activationresend_emailormobile_inputValidationLayout;
+    InputValidationLayout emailEditTextInputValidation;
 
     @BindView(R2.id.usr_activationresend_rootLayout_scrollView)
     ScrollView mSvRootLayout;
 
     @BindView(R2.id.usr_activationresend_root_layout)
     LinearLayout usr_activationresend_root_layout;
+
+    @BindView(R2.id.usr_mobileverification_resendmailtimer_progress)
+    ProgressBarWithLabel emailResendTimerProgress;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
@@ -108,7 +111,6 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
         mUser = new User(mContext);
         emailUser = mUser.getEmail();
-
         CounterHelper.getInstance()
                 .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
         CounterHelper.getInstance()
@@ -181,8 +183,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     private void initUI(View view) {
+        mResendEmail.setEnabled(false);
         consumeTouch(view);
-        usr_activationresend_emailormobile_textfield.setText(mUser.getEmail());
+        emailEditText.setText(mUser.getEmail());
         handleUiState(networkUtility.isNetworkAvailable());
     }
 
@@ -191,15 +194,17 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         if (isOnline) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
-                mResendEmail.setEnabled(true);
+                if (!getRegistrationFragment().getCounterState()) {
+                    mResendEmail.setEnabled(true);
+                }
                 mReturnButton.setEnabled(true);
             } else {
                 mResendEmail.setEnabled(false);
                 mReturnButton.setEnabled(false);
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+                mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             }
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
             mResendEmail.setEnabled(false);
             mReturnButton.setEnabled(false);
             scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -297,7 +302,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     public void addEmailClicked(String emailId) {
         mResendEmail.showProgressIndicator();
-        if (emailId.equals(usr_activationresend_emailormobile_textfield.getText().toString())) {
+        if (emailId.equals(emailEditText.getText().toString())) {
             if (proceedResend) {
                 handleResend(emailId);
             } else {
@@ -305,7 +310,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                 showAlertDialog();
             }
         } else {
-            updateUserEmail(usr_activationresend_emailormobile_textfield.getText().toString());
+            updateUserEmail(emailEditText.getText().toString());
 
         }
     }
@@ -369,14 +374,28 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     boolean proceedResend = true;
 
+    public void updateResendTime(long timeLeft) {
+        int timeRemaining = (int) (timeLeft / 1000);
+        emailResendTimerProgress.setSecondaryProgress(
+                ((60 - timeRemaining) * 100) / 60);
+        String timeRemainingAsString = Integer.toString(timeRemaining);
+        emailResendTimerProgress.setText(
+                String.format(mContext.getResources().getString(R.string.no_sms_timer), timeRemainingAsString));
+        mResendEmail.setEnabled(false);
+    }
+
     @Override
     public void onCounterEventReceived(String event, long timeLeft) {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed" + timeLeft);
-
+        int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
+            emailResendTimerProgress.setSecondaryProgress(progress);
+            emailResendTimerProgress.setText(mContext.getResources().getString(R.string.no_sms_yet));
+            mResendEmail.setEnabled(true);
             proceedResend = true;
         } else {
             proceedResend = false;
+            updateResendTime(timeLeft);
         }
     }
 }

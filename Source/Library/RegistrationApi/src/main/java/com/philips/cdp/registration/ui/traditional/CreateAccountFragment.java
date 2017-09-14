@@ -215,7 +215,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         } else {
             passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
-                    R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
+                    R.drawable.reg_password_strength_weak, R.string.reg_EmptyField_ErrorMsg, false);
         }
         return 0;
     }

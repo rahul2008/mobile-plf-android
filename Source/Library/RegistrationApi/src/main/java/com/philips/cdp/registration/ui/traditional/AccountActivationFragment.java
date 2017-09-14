@@ -158,11 +158,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     void emailResend() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend email");
 
-        if (proceedResend) {
+      //  if (proceedResend) {
             getRegistrationFragment().addFragment(new AccountActivationResendMailFragment());
-        } else {
-            showResendAlertDialog();
-        }
+      //  } else {
+      //      showResendAlertDialog();
+      //  }
     }
 
     private void initUI(View view) {
@@ -260,17 +260,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 
-    private void showResendAlertDialog() {
-        RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.reg_verify_resend_mail_intime_title),
-                mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_desc),
-                mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_desc2),
-                mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_button_ok)
-                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-    }
+//    private void showResendAlertDialog() {
+//        RegAlertDialog.showDialog(mContext.getResources().getString(
+//                R.string.reg_verify_resend_mail_intime_title),
+//                mContext.getResources().getString(
+//                        R.string.reg_verify_resend_mail_intime_desc),
+//                mContext.getResources().getString(
+//                        R.string.reg_verify_resend_mail_intime_desc2),
+//                mContext.getResources().getString(
+//                        R.string.reg_verify_resend_mail_intime_button_ok)
+//                , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+//    }
 
     @Override
     public void hideActivateSpinner() {
