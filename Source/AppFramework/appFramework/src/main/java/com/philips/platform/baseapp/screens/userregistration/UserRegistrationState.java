@@ -118,7 +118,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     private void initHSDP(AppStateConfiguration configuration) {
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
+        AppInfraInterface appInfra = getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -140,6 +140,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             default:
                 setStageConfig(appConfigurationInterface, configError);
         }
+    }
+
+    protected AppInfraInterface getAppInfra() {
+        return ((AppFrameworkApplication) applicationContext).getAppInfra();
     }
 
     private void setStageConfig(AppConfigurationInterface appConfigurationInterface,
@@ -211,8 +215,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         if (null != activity) {
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
-            getApplicationContext().determineHybrisFlow();
-
+            getApplicationContext().getIap().isCartVisible();
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
                 RALog.d(PushNotificationManager.TAG, "Polling is enabled");
@@ -271,7 +274,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      */
     public void initializeUserRegistrationLibrary() {
         RALog.d(TAG," initializeUserRegistrationLibrary called ");
-        URDependancies urDependancies = new URDependancies(((AppFrameworkApplication)applicationContext).getAppInfra());
+        URDependancies urDependancies = new URDependancies(getAppInfra());
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);

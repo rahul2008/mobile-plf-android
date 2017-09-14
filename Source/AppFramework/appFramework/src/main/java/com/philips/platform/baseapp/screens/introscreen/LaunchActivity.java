@@ -55,6 +55,11 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     }
 
     @Override
+    public void updateActionBarIcon(boolean b) {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -123,10 +128,6 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
         setTitle(s);
     }
 
-    @Override
-    public void updateActionBarIcon(boolean b) {
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -196,6 +197,11 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
     }
 
+
+    @Override
+    public void onSuccess(boolean isCartVisible) {
+
+    }
     @Override
     public void onFailure(int i) {
 
