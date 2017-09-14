@@ -43,7 +43,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;
@@ -51,7 +51,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
+//        initTheme();
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE ));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_activity_launch);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);

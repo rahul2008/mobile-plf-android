@@ -33,7 +33,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 public class FirstActivity extends AppCompatActivity implements View.OnClickListener, ActionBarListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
     Button launchAmwell;
     Button logout;
     User user;
@@ -42,7 +42,8 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
+//        initTheme();
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE ));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_activity);
 
