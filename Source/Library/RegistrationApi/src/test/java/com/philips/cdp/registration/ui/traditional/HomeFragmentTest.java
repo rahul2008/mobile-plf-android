@@ -75,12 +75,12 @@ public class HomeFragmentTest {
         } catch (Throwable t) {}
     }
 
-    @Test
-    public void handleWeChatCode() throws Exception {
-        try {
-            homeFragment.handleWeChatCode(null);
-        } catch (Throwable t) {}
-    }
+//    @Test
+//    public void handleWeChatCode() throws Exception {
+//        try {
+//            homeFragment.handleWeChatCode(null);
+//        } catch (Throwable t) {}
+//    }
 
     @Test
     public void onPause() throws Exception {
@@ -124,12 +124,12 @@ public class HomeFragmentTest {
         } catch (Throwable t) {}
     }
 
-    @Test
-    public void onClick() throws Exception {
-        try {
-            homeFragment.onClick(null);
-        } catch (Throwable t) {}
-    }
+//    @Test
+//    public void onClick() throws Exception {
+//        try {
+//            homeFragment.onClick(null);
+//        } catch (Throwable t) {}
+//    }
 
     @Test
     public void setViewParams() throws Exception {
@@ -152,69 +152,69 @@ public class HomeFragmentTest {
         } catch (Throwable t) {}
     }
 
-    @Test
-    public void onEventReceived() throws Exception {
-        try {
-            homeFragment.onEventReceived(null);
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onLoginSuccess() throws Exception {
-        try {
-            homeFragment.onLoginSuccess();
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onLoginFailedWithError() throws Exception {
-        try {
-            homeFragment.onLoginFailedWithError(null);
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onLoginFailedWithTwoStepError() throws Exception {
-        try {
-            homeFragment.onLoginFailedWithTwoStepError(null,null);
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onLoginFailedWithMergeFlowError() throws Exception {
-        try {
-            homeFragment.onLoginFailedWithMergeFlowError(null, null, null, null, null, null);
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onContinueSocialProviderLoginSuccess() throws Exception {
-        try {
-            homeFragment.onContinueSocialProviderLoginSuccess();
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onContinueSocialProviderLoginFailure() throws Exception {
-        try {
-            homeFragment.onContinueSocialProviderLoginFailure(null);
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onNetWorkStateReceived_true() throws Exception {
-
-        try {
-            homeFragment.onNetWorkStateReceived(true);
-        } catch (Throwable t) {}
-    }
-
-    @Test
-    public void onNetWorkStateReceived_false() throws Exception {
-
-        try {
-            homeFragment.onNetWorkStateReceived(false);
-        } catch (Throwable t) {}
-    }
+//    @Test
+//    public void onEventReceived() throws Exception {
+//        try {
+//            homeFragment.onEventReceived(null);
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onLoginSuccess() throws Exception {
+//        try {
+//            homeFragment.onLoginSuccess();
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onLoginFailedWithError() throws Exception {
+//        try {
+//            homeFragment.onLoginFailedWithError(null);
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onLoginFailedWithTwoStepError() throws Exception {
+//        try {
+//            homeFragment.onLoginFailedWithTwoStepError(null,null);
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onLoginFailedWithMergeFlowError() throws Exception {
+//        try {
+//            homeFragment.onLoginFailedWithMergeFlowError(null, null, null, null, null, null);
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onContinueSocialProviderLoginSuccess() throws Exception {
+//        try {
+//            homeFragment.onContinueSocialProviderLoginSuccess();
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onContinueSocialProviderLoginFailure() throws Exception {
+//        try {
+//            homeFragment.onContinueSocialProviderLoginFailure(null);
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onNetWorkStateReceived_true() throws Exception {
+//
+//        try {
+//            homeFragment.onNetWorkStateReceived(true);
+//        } catch (Throwable t) {}
+//    }
+//
+//    @Test
+//    public void onNetWorkStateReceived_false() throws Exception {
+//
+//        try {
+//            homeFragment.onNetWorkStateReceived(false);
+//        } catch (Throwable t) {}
+//    }
 
 }
