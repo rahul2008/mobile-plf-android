@@ -8,9 +8,10 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 import com.philips.platform.appinfra.rest.request.ImageRequest;
@@ -42,6 +43,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        VolleyLog.DEBUG = false;
         context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);

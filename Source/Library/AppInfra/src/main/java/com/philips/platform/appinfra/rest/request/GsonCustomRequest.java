@@ -11,6 +11,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -52,6 +53,7 @@ public class GsonCustomRequest<T> extends Request<T> {
         this.mHeader = header;
         this.mParams = params;
         this.listener = listener;
+        VolleyLog.DEBUG = false;
 //        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
     }
 
@@ -62,6 +64,7 @@ public class GsonCustomRequest<T> extends Request<T> {
         this.clazz = clazz;
         this.mHeader = headers;
         this.listener = listener;
+        VolleyLog.DEBUG = false;
 //        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
     }
 

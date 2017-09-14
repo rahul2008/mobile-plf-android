@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.rest;
 import android.content.Context;
 
 import com.android.volley.Cache;
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 
@@ -20,6 +21,7 @@ public class DiskCacheTest extends AppInfraInstrumentation {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        VolleyLog.DEBUG = false;
         context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);

@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -26,7 +27,6 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import java.io.File;
 import java.net.URL;
@@ -51,6 +51,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 	public AppUpdateManager(AppInfra appInfra) {
 		this.mAppInfra = appInfra;
 		this.mContext = appInfra.getAppInfraContext();
+		VolleyLog.DEBUG = false;
 		init();
 	}
 

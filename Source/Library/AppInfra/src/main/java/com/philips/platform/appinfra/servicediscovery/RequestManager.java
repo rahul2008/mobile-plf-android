@@ -1,7 +1,6 @@
 package com.philips.platform.appinfra.servicediscovery;
 
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -14,6 +13,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -46,6 +46,7 @@ public class RequestManager {
 	public RequestManager(Context context, AppInfra appInfra) {
 		mContext = context;
 		mAppInfra = appInfra;
+		VolleyLog.DEBUG = false;
 	}
 
 	public ServiceDiscovery execute(final String url, ServiceDiscoveryManager.AISDURLType urlType) {

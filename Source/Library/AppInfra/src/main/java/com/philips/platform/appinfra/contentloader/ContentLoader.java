@@ -6,12 +6,12 @@
 package com.philips.platform.appinfra.contentloader;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -72,6 +72,7 @@ public class ContentLoader<Content extends ContentInterface> implements ContentL
         mClassType = contentClassType;
         mContentType = contentType;
         mAppInfra = appInfra;
+        VolleyLog.DEBUG = false;
         mRestInterface = mAppInfra.getRestClient();
         downloadInProgress = new AtomicBoolean(false);
         if (downloadLimit > 0) { // if a positive down load limit is set

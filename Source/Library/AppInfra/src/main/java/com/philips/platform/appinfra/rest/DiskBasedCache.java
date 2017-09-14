@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.rest;
 
 
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -30,6 +31,7 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
     public DiskBasedCache(File rootDirectory, int maxCacheSizeInBytes, AppInfra appInfra) {
         super(rootDirectory, maxCacheSizeInBytes);
         mAppInfra = appInfra;
+        VolleyLog.DEBUG = false;
     }
 
     /**

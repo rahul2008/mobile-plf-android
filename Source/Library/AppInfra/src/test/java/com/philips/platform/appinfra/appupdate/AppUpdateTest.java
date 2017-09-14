@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.appupdate;
 import android.os.Handler;
 
 import com.android.volley.Network;
+import com.android.volley.VolleyLog;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -39,7 +40,7 @@ public class AppUpdateTest extends TestCase {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
         AppInfra mAppInfra = mock(AppInfra.class);
-
+		VolleyLog.DEBUG = false;
 		Runnable runnableMock = mock(Runnable.class);
 		Handler handlerMock = mock(Handler.class);
 

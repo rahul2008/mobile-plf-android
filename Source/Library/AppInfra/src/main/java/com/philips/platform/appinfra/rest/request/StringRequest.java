@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.rest.request;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -24,6 +25,7 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
         this.mParams = params;
+        VolleyLog.DEBUG = false;
     }
 
 

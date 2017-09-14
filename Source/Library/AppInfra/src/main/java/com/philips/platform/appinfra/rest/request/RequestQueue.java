@@ -9,6 +9,7 @@ import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.ResponseDelivery;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 
 
 /**
@@ -24,6 +25,7 @@ public class RequestQueue extends com.android.volley.RequestQueue {
 
     public RequestQueue(Cache cache, Network network) {
         super(cache, network);
+        VolleyLog.DEBUG = false;
         mHttpErrorDelivery = new ExecutorDelivery(new Handler(Looper.getMainLooper()));
     }
 
