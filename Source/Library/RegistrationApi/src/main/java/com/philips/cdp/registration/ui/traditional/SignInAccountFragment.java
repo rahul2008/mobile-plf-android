@@ -460,9 +460,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setDialogType(DialogConstants.TYPE_ALERT)
-                .setMessage("We've just sent you an email to reset the password.\n\nThe email may not arrive immediately but it is on its way.")
-                .setPositiveButton("Back to login", this)
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDialogLayout(R.layout.forgot_password_dialog)
+                .setPositiveButton("Back to log in", this)
                 .setTitle("Reset password")
                 .setCancelable(false);
         alertDialogFragment = builder.create();
