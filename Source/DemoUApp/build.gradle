@@ -49,7 +49,7 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = "commlib-demouapp"
-version = objcdp.getVersionFromFile("${projectDir}/../../VERSION")
+version = objcdp.getVersion(versions.cml_commlib)
 
 repositories {
     maven {
@@ -105,12 +105,14 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
-                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
-                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                    resolvedArtifacts.each {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                        dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                        dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                    }
                 }
             }
         }
