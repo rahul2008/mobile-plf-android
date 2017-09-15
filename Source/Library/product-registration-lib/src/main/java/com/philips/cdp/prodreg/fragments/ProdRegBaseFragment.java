@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -290,11 +291,16 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-        if (alertDialogFragment != null && getActivity() != null && !getActivity().isFinishing()) {
-            alertDialogFragment.dismissAllowingStateLoss();
-            alertDialogFragment = null;
+        final FragmentActivity activity = getActivity();
+        if (activity != null && !activity.isFinishing()) {
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
+            if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
+                alertDialogFragment.dismissAllowingStateLoss();
+                alertDialogFragment = null;
+            }
         }
     }
+
 
     public void showErrorDialog(String title, String description, final int statusCode, String tag) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
@@ -322,9 +328,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        dismissProdRegLoadingDialog();
-        dismissAlertOnError();
+    public void onPause() {
+        super.onPause();
+        if (alertDialogFragment != null && alertDialogFragment.getDialog().isShowing()) {
+            alertDialogFragment.dismiss();
+        }
     }
 }
