@@ -48,6 +48,10 @@ public class InsightsFragmentTest {
         assertEquals(3, recyclerView.getAdapter().getItemCount());
     }
 
+    @Test
+    public void testGetActionBarTitle() {
+        assertEquals(testActivity.getString(R.string.RA_DLS_ps_tips_title), insightsFragment.getActionbarTitle());
+    }
     @After
     public void tearDown() {
         activityController.pause().stop().destroy();

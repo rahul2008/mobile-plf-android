@@ -31,13 +31,8 @@ public class InsightsFragment extends AbstractAppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateActionBar();
-    }
-
-    protected void updateActionBar() {
         ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(true);
     }
-
 
     @Override
     public String getActionbarTitle() {

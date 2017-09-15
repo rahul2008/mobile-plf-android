@@ -77,13 +77,8 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     @Override
     public void onResume() {
         super.onResume();
-        updateActionBar();
-    }
-
-    protected void updateActionBar() {
         ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
-
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -265,7 +260,9 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     }
 
     protected void removeApplianceListener() {
-        mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
+        if (mCommCentral != null && mCommCentral.getApplianceManager() != null) {
+            mCommCentral.getApplianceManager().removeApplianceListener(this.applianceListener);
+        }
     }
 
     @Override

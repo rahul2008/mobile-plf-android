@@ -15,6 +15,7 @@ import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,6 +58,18 @@ public class InsightsAdapterTest {
         assertEquals(holder.tvDetail.getText().toString(), context.getString(R.string.sleep_tip_desc_1));
     }
 
+    @Test
+    public void testGetItemCountWithNullList() {
+        insightsAdapter = new InsightsAdapter(context, null, null);
+        assertEquals(0, insightsAdapter.getItemCount());
+    }
+    @After
+    public void tearDown() {
+        insightsAdapter = null;
+        context = null;
+        holder = null;
+        listItemView = null;
+    }
     private ArrayList<String> insightsTitleItemList;
     private ArrayList<String> insightsDescItemList;
 

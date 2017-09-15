@@ -39,6 +39,8 @@ public class InsightsFragmentStateTest {
         insightsFragmentState = new InsightsFragmentState();
         activityController= Robolectric.buildActivity(TestActivity.class);
         launchActivity=activityController.create().start().get();
+        insightsFragmentState.init(launchActivity);
+        insightsFragmentState.updateDataModel();
         fragmentLauncher = new FragmentLauncher(launchActivity, R.id.frame_container, launchActivity);
     }
 

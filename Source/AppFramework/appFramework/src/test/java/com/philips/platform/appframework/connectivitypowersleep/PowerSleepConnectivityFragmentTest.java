@@ -126,6 +126,12 @@ public class PowerSleepConnectivityFragmentTest {
         verify(connectivityPresenter).onEvent(R.id.insights);
     }
 
+    @Test
+    public void getConnectivityPresenterTest() {
+        connectivityFragment = new PowerSleepConnectivityFragment();
+        testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment, null).commit();
+        assertNotNull(connectivityFragment.getConnectivityPresenter());
+    }
     public static class ConnectivityFragmentMock extends PowerSleepConnectivityFragment {
 
         @Override
