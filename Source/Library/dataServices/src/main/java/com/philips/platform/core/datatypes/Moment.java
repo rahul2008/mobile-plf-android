@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -30,10 +30,8 @@ public interface Moment extends BaseAppData, DateData, Serializable {
 
     void setDateTime(@NonNull DateTime dateTime);
 
-  //  Collection<? extends Measurement> getMeasurements();
-  Collection<? extends MeasurementGroup> getMeasurementGroups();
+    Collection<? extends MeasurementGroup> getMeasurementGroups();
 
-    //void addMeasurement(Measurement measurement);
     void addMeasurementGroup(MeasurementGroup measurementGroup);
 
     Collection<? extends com.philips.platform.core.datatypes.MomentDetail> getMomentDetails();

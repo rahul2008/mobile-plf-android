@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -10,9 +10,9 @@ package com.philips.platform.core.datatypes;
  * Enum class for Getting the Sync DataTypes
  */
 public enum SyncType {
-    INSIGHT(104,"insight"),
-    MOMENT(103,"moment"),
     UNKNOWN(-1, "UNKNOWN"),
+    INSIGHT(104, "insight"),
+    MOMENT(103, "moment"),
     SETTINGS(100, "Settings"),
     CHARACTERISTICS(101, "characteristics"),
     CONSENT(102, "consent");
@@ -27,6 +27,7 @@ public enum SyncType {
 
     /**
      * Get the SyncType from ID
+     *
      * @param id ID for getting SyncType
      * @return returns the SyncType for the given ID
      */
@@ -45,6 +46,7 @@ public enum SyncType {
 
     /**
      * Get the ID
+     *
      * @return returns the ID
      */
     public int getId() {
@@ -53,6 +55,7 @@ public enum SyncType {
 
     /**
      * Get the description of the SyncType
+     *
      * @return returns the description of the syncType
      */
     public String getDescription() {

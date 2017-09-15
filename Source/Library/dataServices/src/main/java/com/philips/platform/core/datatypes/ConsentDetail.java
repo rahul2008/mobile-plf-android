@@ -1,9 +1,8 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
-
 package com.philips.platform.core.datatypes;
 
 import java.io.Serializable;
@@ -18,12 +17,15 @@ public interface ConsentDetail extends BaseAppData, Serializable {
     String SMART_BABY_MONITOR = "smartBabyMonitor";
 
     void setStatus(String status);
+
     void setVersion(String version);
+
     void setDeviceIdentificationNumber(String deviceIdentificationNumber);
-    //ConsentDetailType getTableType();
+
     String getType();
 
     String getStatus();
+
     String getVersion();
 
     String getDeviceIdentificationNumber();

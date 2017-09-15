@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -24,6 +24,7 @@ public enum ConsentDetailStatusType {
 
     /**
      * Get ID of the Consent Status
+     *
      * @return returns the enum constant for the consent status
      */
     public int getId() {
@@ -32,6 +33,7 @@ public enum ConsentDetailStatusType {
 
     /**
      * Get the String description of the Consent Status
+     *
      * @return returns the description for the consent status
      */
     public String getDescription() {
@@ -40,6 +42,7 @@ public enum ConsentDetailStatusType {
 
     /**
      * Retuns ConsentDetailStatusType from the ID provided
+     *
      * @param id The ID for getting ConsentDetailStatusType
      * @return retuns ConsentDetailStatusType from the ID provided
      */

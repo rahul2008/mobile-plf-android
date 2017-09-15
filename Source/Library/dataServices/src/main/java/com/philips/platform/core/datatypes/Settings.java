@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -13,16 +13,18 @@ import java.io.Serializable;
  */
 public interface Settings extends BaseAppData, Serializable {
 
-     String UNIT ="Unit";
-     String LOCALE="Locale";
+    String UNIT = "Unit";
+    String LOCALE = "Locale";
 
     String getUnit();
+
     String getLocale();
 
     void setUnit(String unit);
+
     void setLocale(String locale);
 
-
     int getId();
+
     void setID(int id);
 }

@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * Data-Base Interface for creating InsightMetadata Object
  */
-public interface InsightMetadata extends Serializable{
+public interface InsightMetadata extends Serializable {
 
     String getKey();
 
