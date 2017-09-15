@@ -1,0 +1,54 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    apply from: "scripts/versions.gradle"
+
+    repositories {
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username "readonly"
+                password "123qweasdzxc"
+            }
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${config.kotlinVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:${config.kotlinVersion}"
+    }
+}
+
+allprojects {
+    repositories {
+
+        def companyMaven = { _url ->
+            maven {
+                credentials {
+                    username "readonly"
+                    password "123qweasdzxc"
+                }
+                url _url
+            }
+        }
+
+        companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote" ) // new JCenter (now working yet?)
+        companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local" ) // Adobe
+        companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-release-local") // CoCo's
+        companyMaven( "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-stage-local") // For platform 2.2.2
+    }
+
+    // Increasing number of errors displayed by JavaCompiler to 400, so that we can see root cause
+    // of Dagger or binding issues in logs
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xmaxerrs" << "400"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
