@@ -60,13 +60,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private String mJanRainEmail;
 
     private DeliveryModes mDeliveryMode;
-    private boolean mIsFromOnCreate = false;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mIsFromOnCreate = true;
-    }
 
     @SuppressWarnings("unchecked")
     @Override
@@ -81,9 +75,11 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         Bundle bundle = getArguments();
         mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
 
-        if (bundle.containsKey(IAPConstant.ADDRESS_LIST)) {
+       /* if (bundle.containsKey(IAPConstant.ADDRESS_LIST)) {
             mAddresses = (List<Addresses>) bundle.getSerializable(IAPConstant.ADDRESS_LIST);
         }
+
+        */
         mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
         mAddressListView.setAdapter(mAdapter);
         TextView tv_checkOutSteps = (TextView) view.findViewById(R.id.tv_checkOutSteps);
@@ -111,15 +107,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_address, true);
 
-        if (mIsFromOnCreate) {
-            mIsFromOnCreate = false;
-        } else {
-            if (isNetworkConnected()) {
-                getAddresses();
-            }
-            mAdapter.setAddresses(mAddresses);
-            mAdapter.notifyDataSetChanged();
+        if (isNetworkConnected()) {
+            getAddresses();
         }
+
     }
 
     private void getAddresses() {

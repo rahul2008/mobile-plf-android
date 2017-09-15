@@ -194,8 +194,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if (isPositionHeader(position)) {
-        } else if (isPositionFooter(position)) {
+
+        if(isPositionFooter(position)) {
             return TYPE_FOOTER;
         }
         return TYPE_ITEM;
