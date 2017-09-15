@@ -36,10 +36,13 @@ public class AppInfraMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_infra_main);
 //        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         mAppInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
+
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
-        componentIDTextView.setText(mAppInfra.getComponentId());
+        if (mAppInfra.getComponentId() != null)
+            componentIDTextView.setText(mAppInfra.getComponentId());
         final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);
-        versionTextView.setText(mAppInfra.getVersion());
+        if (mAppInfra.getVersion() != null)
+            versionTextView.setText(mAppInfra.getVersion());
         listView = (ListView) findViewById(R.id.listViewAppInfraComponents);
         listView.setAdapter(new AppInfraListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
