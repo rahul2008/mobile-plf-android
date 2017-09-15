@@ -25,6 +25,7 @@ import java.sql.SQLException;
 
 public class SavingMonitor extends EventMonitor {
     private static final String TAG = SavingMonitor.class.getSimpleName();
+
     @NonNull
     DBSavingInterface dbInterface;
 
@@ -40,6 +41,7 @@ public class SavingMonitor extends EventMonitor {
         this.dbUpdatingInterface = dbUpdatingInterface;
     }
 
+    //Moments
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentSaveRequest momentSaveRequest) throws SQLException {
         boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(), momentSaveRequest.getDbRequestListener());
@@ -55,15 +57,14 @@ public class SavingMonitor extends EventMonitor {
         boolean saved = dbInterface.saveMoments(momentSaveRequest.getMoments(), momentSaveRequest.getDbRequestListener());
         if (saved) {
             //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
-
         } else {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
 
+    //Consents
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseConsentSaveRequest consentSaveRequest) throws SQLException {
-
         boolean saved = dbInterface.saveConsentDetails(consentSaveRequest.getConsentDetails(), consentSaveRequest.getDbRequestListener());
         dbDeletingInterface.deleteSyncBit(SyncType.CONSENT);
         dbInterface.saveSyncBit(SyncType.CONSENT, true);
@@ -73,15 +74,15 @@ public class SavingMonitor extends EventMonitor {
         }
     }
 
+    //Settings
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {
-
         dbDeletingInterface.deleteSyncBit(SyncType.SETTINGS);
         dbInterface.saveSyncBit(SyncType.SETTINGS, true);
         dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(), databaseSettingsSaveRequest.getDbRequestListener());
-
     }
 
+    //Characteristics
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
         if (userCharacteristicsSaveRequest.getUserCharacteristicsList() == null)
@@ -95,7 +96,6 @@ public class SavingMonitor extends EventMonitor {
             dbInterface.postError(new Exception("Failed to insert"), userCharacteristicsSaveRequest.getDbRequestListener());
             return;
         }
-
         eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
                 userCharacteristicsSaveRequest.getUserCharacteristicsList()));
     }

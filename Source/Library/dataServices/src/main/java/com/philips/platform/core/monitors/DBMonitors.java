@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.core.monitors;
 
 import android.support.annotation.NonNull;
@@ -6,10 +11,6 @@ import com.philips.platform.core.Eventing;
 
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class DBMonitors {
     @NonNull
     private final List<EventMonitor> eventMonitors;

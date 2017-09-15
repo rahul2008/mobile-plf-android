@@ -21,6 +21,7 @@ import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
+import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.events.MomentDataSenderCreatedRequest;
 import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
@@ -28,7 +29,6 @@ import com.philips.platform.core.events.SettingsBackendSaveRequest;
 import com.philips.platform.core.events.SettingsBackendSaveResponse;
 import com.philips.platform.core.events.SyncBitUpdateRequest;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
-import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -59,7 +59,6 @@ public class UpdatingMonitor extends EventMonitor {
     @NonNull
     private final DBSavingInterface dbSavingInterface;
 
-
     @Inject
     InsightSegregator insightSegregator;
 
@@ -78,6 +77,7 @@ public class UpdatingMonitor extends EventMonitor {
         DataServicesManager.getInstance().getAppComponant().injectUpdatingMonitor(this);
     }
 
+    //Moments
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentUpdateRequest momentUpdateRequest) {
         Moment moment = momentUpdateRequest.getMoment();
@@ -105,22 +105,6 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final DatabaseConsentUpdateRequest consentUpdateRequest) {
-        consentUpdateRequest.getConsentDetails();
-        try {
-
-            final DBRequestListener<ConsentDetail> dbRequestListener = consentUpdateRequest.getDbRequestListener();
-            if (dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(), dbRequestListener)) {
-                dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(), false);
-                eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));
-            }
-
-        } catch (SQLException e) {
-            //Debug Log
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
@@ -132,6 +116,15 @@ public class UpdatingMonitor extends EventMonitor {
         } catch (SQLException e) {
             notifyDBFailure(e);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final MomentDataSenderCreatedRequest momentSaveRequest) {
+        List<? extends Moment> moments = momentSaveRequest.getList();
+        if (moments == null || moments.isEmpty()) {
+            return;
+        }
+        momentsSegregator.processCreatedMoment(moments, null);
     }
 
     private void notifyDBChangeSuccess(SyncType moment) {
@@ -148,13 +141,21 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    //Consents
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final MomentDataSenderCreatedRequest momentSaveRequest) {
-        List<? extends Moment> moments = momentSaveRequest.getList();
-        if (moments == null || moments.isEmpty()) {
-            return;
+    public void onEventBackGround(final DatabaseConsentUpdateRequest consentUpdateRequest) {
+        consentUpdateRequest.getConsentDetails();
+        try {
+
+            final DBRequestListener<ConsentDetail> dbRequestListener = consentUpdateRequest.getDbRequestListener();
+            if (dbUpdatingInterface.updateConsent(consentUpdateRequest.getConsentDetails(), dbRequestListener)) {
+                dbUpdatingInterface.updateSyncBit(SyncType.CONSENT.getId(), false);
+                eventing.post(new ConsentBackendSaveRequest((new ArrayList<>(consentUpdateRequest.getConsentDetails())), ConsentBackendSaveRequest.RequestType.SAVE));
+            }
+
+        } catch (SQLException e) {
+            //Debug Log
         }
-        momentsSegregator.processCreatedMoment(moments, null);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -169,6 +170,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    //Characteristics
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final UCDBUpdateFromBackendRequest userCharacteristicsSaveBackendRequest) throws SQLException {
         try {
@@ -186,6 +188,7 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    //Settings
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsUpdateRequest databaseSettingsUpdateRequest) throws SQLException {
         try {
@@ -212,15 +215,6 @@ public class UpdatingMonitor extends EventMonitor {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackGround(final SyncBitUpdateRequest syncBitUpdateRequest) throws SQLException {
-        try {
-            dbUpdatingInterface.updateSyncBit(syncBitUpdateRequest.getTableType().getId(), syncBitUpdateRequest.isSynced());
-        } catch (SQLException e) {
-            dbUpdatingInterface.updateFailed(e, null);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final SettingsBackendSaveResponse settingsBackendSaveResponse) throws SQLException {
         try {
             if (dbFetchingInterface.fetchDCSyncData(SyncType.SETTINGS) == null) {
@@ -242,6 +236,17 @@ public class UpdatingMonitor extends EventMonitor {
         }
     }
 
+    //Sync bit
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final SyncBitUpdateRequest syncBitUpdateRequest) throws SQLException {
+        try {
+            dbUpdatingInterface.updateSyncBit(syncBitUpdateRequest.getTableType().getId(), syncBitUpdateRequest.isSynced());
+        } catch (SQLException e) {
+            dbUpdatingInterface.updateFailed(e, null);
+        }
+    }
+
+    //Insights
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final FetchInsightsResponse updateInsightsBackendResponse) throws SQLException {
         try {

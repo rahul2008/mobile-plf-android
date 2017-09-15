@@ -10,12 +10,12 @@ import android.support.annotation.NonNull;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
-import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
-import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
+import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedConsentssResponse;
+import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
+import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
-import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
@@ -59,15 +59,7 @@ public class FetchingMonitor extends EventMonitor {
         DataServicesManager.getInstance().getAppComponant().injectFetchingMonitor(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(LoadLastMomentRequest event) {
-        try {
-            dbInterface.fetchLastMoment(event.getType(), event.getDbFetchRequestListner());
-        } catch (SQLException e) {
-            dbInterface.postError(e, event.getDbFetchRequestListner());
-        }
-    }
-
+    //Non-Sync data
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(GetNonSynchronizedDataRequest event) {
         Map<Class, List<?>> dataToSync = new HashMap<>();
@@ -76,12 +68,21 @@ public class FetchingMonitor extends EventMonitor {
         try {
             dataToSync = dbInterface.putUserCharacteristicsForSync(dataToSync);
         } catch (SQLException e) {
-            //Debug log
             dataToSync.put(Characteristics.class, null);
         }
         dataToSync = settingsSegregator.putSettingsForSync(dataToSync);
         dataToSync = insightSegregator.putInsightForSync(dataToSync);
         eventing.post(new GetNonSynchronizedDataResponse(event.getEventId(), dataToSync));
+    }
+
+    //Moments
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(LoadLastMomentRequest event) {
+        try {
+            dbInterface.fetchLastMoment(event.getType(), event.getDbFetchRequestListner());
+        } catch (SQLException e) {
+            dbInterface.postError(e, event.getDbFetchRequestListner());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
@@ -99,6 +100,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    //Consent
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadConsentsRequest event) {
         try {
@@ -116,22 +118,22 @@ public class FetchingMonitor extends EventMonitor {
         } catch (SQLException e) {
             //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
-
         eventing.post(new GetNonSynchronizedConsentssResponse(consentDetails));
     }
 
+    //Characteristics
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadUserCharacteristicsRequest loadUserCharacteristicsRequest) {
         try {
             dbInterface.fetchCharacteristics(loadUserCharacteristicsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
-            //Debug Log
+            dbInterface.postError(e, loadUserCharacteristicsRequest.getDbFetchRequestListner());
         }
     }
 
+    //Settings
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(LoadSettingsRequest loadSettingsRequest) {
-
         try {
             dbInterface.fetchSettings(loadSettingsRequest.getDbFetchRequestListner());
         } catch (SQLException e) {
@@ -139,6 +141,7 @@ public class FetchingMonitor extends EventMonitor {
         }
     }
 
+    //Insights
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(FetchInsightsFromDB fetchInsightsFromDB) {
         try {
@@ -147,5 +150,4 @@ public class FetchingMonitor extends EventMonitor {
             dbInterface.postError(e, fetchInsightsFromDB.getDbFetchRequestListner());
         }
     }
-
 }
