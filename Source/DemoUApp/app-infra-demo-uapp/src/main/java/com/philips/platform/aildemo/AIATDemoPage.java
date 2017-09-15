@@ -19,9 +19,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -35,11 +39,40 @@ public class AIATDemoPage extends AppCompatActivity  {
 
 	AppTaggingInterface.SocialMedium sSocialMedium;
 
+	byte[] plainByte;
+	byte[] encryptedByte;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tagging_demo_page);
+		AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+		SecureStorageInterface mSecureStorage = appInfra.getSecureStorage();
+
+		String enc = "12.000343242342";
+
+		try {
+			plainByte= enc.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}
+
+		SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+		encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+		try {
+			String encBytesString = new String(encryptedByte, "UTF-8");
+			Log.e("Encrypted Data",encBytesString);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
+		String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+		try {
+			String decBytesString = new String(plainByte, "UTF-8");
+			Log.e("Decrypted Data",decBytesString);
+		} catch (UnsupportedEncodingException e) {
+		}
+
 
 		key = (EditText) findViewById(R.id.tagg_key_field);
 		value = (EditText) findViewById(R.id.tagg_value_filed);

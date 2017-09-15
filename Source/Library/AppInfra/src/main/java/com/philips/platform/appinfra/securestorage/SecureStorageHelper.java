@@ -39,7 +39,7 @@ import javax.security.auth.x500.X500Principal;
 
 class SecureStorageHelper {
 
-    static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
+    static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
     private Context mContext;
@@ -167,8 +167,6 @@ class SecureStorageHelper {
                 generator.initialize(algorithmParameterSpec);
                 generator.generateKeyPair();
             }
-
-
             final KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(SINGLE_UNIVERSAL_KEY, null);
             final RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
             final Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
@@ -180,7 +178,6 @@ class SecureStorageHelper {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when gen k-pair"+e.getMessage());
         }
         return null;
-
     }
 
     boolean deleteEncryptedData(String key, String fileName) {

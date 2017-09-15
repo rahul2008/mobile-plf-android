@@ -11,18 +11,50 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 public class LanguagePackActivity extends AppCompatActivity {
 
     private  LanguagePackInterface mLanguagePack;
     private  AppInfraInterface mAppInfra;
     private TextView overviewfileStatus, activatedUrl;
+    byte[] plainByte;
+    byte[] encryptedByte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_pack);
         mLanguagePack = AILDemouAppInterface.getInstance().getAppInfra().getLanguagePack();
+        SecureStorageInterface mSecureStorage = AILDemouAppInterface.getInstance().getAppInfra().getSecureStorage();
+
+        String enc = "dsasdsa.000343242342";
+
+        try {
+            plainByte= enc.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+        }
+
+        SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+        encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+        try {
+            String encBytesString = new String(encryptedByte, "UTF-8");
+            Log.e("Encrypted Data",encBytesString);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
+        String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+        try {
+            String decBytesString = new String(plainByte, "UTF-8");
+            Log.e("Decrypted Data",decBytesString);
+        } catch (UnsupportedEncodingException e) {
+        }
+
         overviewfileStatus= (TextView) findViewById(R.id.overviewfileStatus);
         activatedUrl= (TextView) findViewById(R.id.activatedUrl);
 

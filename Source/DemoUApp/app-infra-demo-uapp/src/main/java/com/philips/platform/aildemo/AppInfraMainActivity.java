@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,11 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
@@ -29,6 +33,8 @@ public class AppInfraMainActivity extends AppCompatActivity {
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing", "Content Loader", "WhiteBox API", "Internet Check", "Language Pack",
             "Resolution locale","App Update","Key Bag"};
+    byte[] plainByte;
+    byte[] encryptedByte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,32 @@ public class AppInfraMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_infra_main);
 //        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         mAppInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
+        SecureStorageInterface mSecureStorage = mAppInfra.getSecureStorage();
+
+        String enc = "4324332423432432432435425435435346465464547657567.000343242342";
+
+        try {
+            plainByte= enc.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+        }
+
+        SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+        encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+        try {
+            String encBytesString = new String(encryptedByte, "UTF-8");
+            Log.e("Encrypted Data",encBytesString);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
+        String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+        try {
+            String decBytesString = new String(plainByte, "UTF-8");
+            Log.e("Decrypted Data",decBytesString);
+        } catch (UnsupportedEncodingException e) {
+        }
+
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
         componentIDTextView.setText(mAppInfra.getComponentId());
         final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);
