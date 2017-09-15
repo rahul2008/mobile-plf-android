@@ -132,8 +132,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
+        if (almostDonePresenter != null) {
+            almostDonePresenter.cleanUp();
+        }
         super.onDestroy();
-        almostDonePresenter.cleanUp();
     }
 
     @Override
