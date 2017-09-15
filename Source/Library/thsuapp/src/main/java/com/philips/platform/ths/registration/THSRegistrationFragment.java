@@ -40,7 +40,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
-    private ProgressBarButton mContinueButton;
+    protected ProgressBarButton mContinueButton;
     private  EditText mEditTextFirstName;
     private EditText mEditTextLastName;
     private EditText mDateOfBirth;
@@ -147,6 +147,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
         int id = view.getId();
         if(id == R.id.ths_continue){
             if(validateUserDetails()){
+                mContinueButton.showProgressIndicator();
                 mThsRegistrationPresenter.enrollUser(mDob,mEditTextFirstName.getText().toString(),
                         mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mStateSpinner.getSelectedItemPosition()));
             }
