@@ -75,12 +75,12 @@ class LoggingConfiguration {
         final Boolean isFileLogEnabled = isFileLogEnabled(loggingProperty);
         final Boolean isComponentLevelLogEnabled = isComponentLevelLogEnabled(loggingProperty);
 
-        mJavaLogger = getLogger(pComponentId); // returns new or existing log
+        mJavaLogger = getLogger(pComponentId); // returns new or existing log for the provided component id
         if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
-            final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig(loggingProperty);
             activateLogger(); // activating created logger
-            if (ComponentToBeLoggedList.contains(pComponentId)) {
-                if(isComponentLevelLogEnabled) {
+            if (isComponentLevelLogEnabled && !TextUtils.isEmpty(pComponentId)) {
+                final ArrayList<String> ComponentToBeLoggedList = getComponentsFromConfig(loggingProperty);
+                if (ComponentToBeLoggedList.contains(pComponentId)) {
                     // if given component listed under config's key 'logging.debugConfig'>'componentIds' then enable log
                     getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
                     enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
@@ -92,7 +92,7 @@ class LoggingConfiguration {
 
             } else {
                 // if component id is not present in configuration file, we enable logs considering it
-                // as application logs. Any component which do not create instance will fall back to this place
+                // as application logs and on disabling component level logging. Any component which do not create instance will fall back to this place
                 getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
                 enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
             }
