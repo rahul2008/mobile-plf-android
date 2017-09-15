@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
     package="com.philips.cdp2.ews">
 
     <application
@@ -12,7 +11,6 @@
 
         <activity
             android:name="com.philips.cdp2.ews.view.EWSActivity"
-            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/EWS">
             <intent-filter>
