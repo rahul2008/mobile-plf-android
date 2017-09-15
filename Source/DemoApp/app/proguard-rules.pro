@@ -82,11 +82,6 @@
 
 
 #Janrain lib
-#-keep public class com.janrain.android.** {*;}
-#-keep  class com.janrain.android.Jump$* {*;}
-#-keep class com.philips.cdp.registration.User$*{*;}
-#-keep  class com.janrain.android.capture.Capture$* {*;}
-
 
 -keep public class com.philips.cdp.security.SecurityHelper {
     public static void init(android.content.Context);
@@ -116,23 +111,11 @@
     public static void generateSecretKey();
 }
 
-
-#-keepclasseswithmembernames public class com.janrain.android.** {*;}
-#-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
-#-keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
-#-keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
-
-
-
 #Locale match
 -keep public class com.philips.cdp.localematch.** {*;}
 
-#Registration API
--keep class com.philips.cdp.registration.** {*;}
--dontwarn com.philips.cdp.registration.**
 
 #HSDP Lib
--keep  class com.philips.dhpclient.** {*;}
 -keep  class com.fasterxml.jackson.annotation.** {*;}
 -keep  class com.fasterxml.jackson.core.** {*;}
 -keep  class com.fasterxml.jackson.databind.** {*;}
