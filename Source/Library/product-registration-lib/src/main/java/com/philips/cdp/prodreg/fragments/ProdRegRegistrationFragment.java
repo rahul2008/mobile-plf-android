@@ -50,6 +50,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.text.DateFormat;
@@ -71,7 +72,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private ValidationEditText date_EditText;
     private ProdRegRegistrationController prodRegRegistrationController;
     private boolean textWatcherCalled = false;
-    private Button registerButton;
+    private ProgressBarButton registerButton;
     private FragmentActivity mActivity;
     //private Label tickIcon;
     //private Dialog dialog;
@@ -159,7 +160,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         date_EditText = (ValidationEditText) view.findViewById(R.id.prg_registerScreen_dateOfPurchase_validationEditText);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
         prSuccessConfigurableTextView = (Label) view.findViewById(R.id.prg_success_configurable_textView);
-        registerButton = (Button) view.findViewById(R.id.prg_registerScreen_register_button);
+        registerButton = (ProgressBarButton) view.findViewById(R.id.prg_registerScreen_register_button);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.prg_registerScreen_product_image);
         team_member_icon=(ImageView)view.findViewById(R.id.team_member_icon);
@@ -205,7 +206,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void onStart() {
-        //resetErrorDialogIfExists();
+   //     dismissLoadingDialog();
         super.onStart();
     }
 
@@ -267,6 +268,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private void showErrorMessageSerialNumber() {
         findSerialTextView.setVisibility(View.VISIBLE);
         if (field_serial.length() != 0 || (field_serial.length()==0 &&isRegisterButtonClicked)) {
+            registerButton.hideProgressIndicator();
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else {
@@ -286,6 +288,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageDate() {
         if(date_EditText.length() != 0 || (date_EditText.length()==0 &&isRegisterButtonClicked)) {
+            registerButton.hideProgressIndicator();
             date_input_field.showError();
             date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
                     ProdRegError.INVALID_DATE.getCode()).getDescription());
@@ -364,6 +367,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                registerButton.showProgressIndicator();
                 // registerButton.setEnabled(false);
                 isRegisterButtonClicked = true;
                 prodRegRegistrationController.registerProduct(date_EditText.getText().toString(),
@@ -416,9 +420,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void isValidSerialNumber(boolean validSerialNumber) {
-        if (validSerialNumber) {
-            findSerialTextView.setVisibility(View.GONE);
-        } else
+//        if (validSerialNumber) {
+//            findSerialTextView.setVisibility(View.GONE);
+//        } else
             showErrorMessageSerialNumber();
     }
 
@@ -531,44 +535,50 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     /** should be moved to dls dialog **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
-        View view = lf.inflate(R.layout.prodreg_already_registered_dialog, null);
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setDialogType(DialogConstants.TYPE_DIALOG)
-                .setDialogView(view)
-                .setCancelable(false);
-        alertDialogFragment = builder.create();
-        alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
-        Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
-        Label serialNumberRegisteredOn = (Label) view.findViewById(R.id.serial_number_registered_message);
-        Label serialNumberWarranty = (Label) view.findViewById(R.id.serial_number_warranty_message);
-        serialNumberTitle.setText(getString(R.string.PRG_This_Serial_No).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PRG_Already_Registered)));
-        Button changeSerialNumber = (Button) view.findViewById(R.id.button_continue);
-        Button closeDialog = (Button) view.findViewById(R.id.closeButton);
-        if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
-            serialNumberRegisteredOn.setVisibility(View.VISIBLE);
-            serialNumberRegisteredOn.setText(getString(R.string.PRG_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
-        }
-        if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
-            serialNumberWarranty.setVisibility(View.VISIBLE);
-            serialNumberWarranty.setText(getString(R.string.PRG_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
-        }
-        changeSerialNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                alertDialogFragment.dismiss();
-                clearFragmentStack();
-                handleCallBack(true);
-                unRegisterProdRegListener();
+        try {
+            LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+            LayoutInflater lf = layoutInflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+            View view = lf.inflate(R.layout.prodreg_already_registered_dialog, null);
+            final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                    .setDialogType(DialogConstants.TYPE_DIALOG)
+                    .setDialogView(view)
+                    .setCancelable(false);
+            alertDialogFragment = builder.create();
+            alertDialogFragment.show(getFragmentManager(), "prg_registerfrag");
+            Label serialNumberTitle = (Label) view.findViewById(R.id.serial_number_title_message);
+            Label serialNumberRegisteredOn = (Label) view.findViewById(R.id.serial_number_registered_message);
+            Label serialNumberWarranty = (Label) view.findViewById(R.id.serial_number_warranty_message);
+            serialNumberTitle.setText(getString(R.string.PRG_This_Serial_No).concat(" ").concat(registeredProduct.getSerialNumber()).concat(" ").concat(getString(R.string.PRG_Already_Registered)));
+            Button changeSerialNumber = (Button) view.findViewById(R.id.button_continue);
+            Button closeDialog = (Button) view.findViewById(R.id.closeButton);
+            if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
+                serialNumberRegisteredOn.setVisibility(View.VISIBLE);
+                serialNumberRegisteredOn.setText(getString(R.string.PRG_registered_on).concat(" ").concat(registeredProduct.getPurchaseDate()));
             }
-        });
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialogFragment.dismiss();
+            if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
+                serialNumberWarranty.setVisibility(View.VISIBLE);
+                serialNumberWarranty.setText(getString(R.string.PRG_warranty_until).concat(" ").concat(registeredProduct.getEndWarrantyDate()));
             }
-        });
+            changeSerialNumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    alertDialogFragment.dismiss();
+                    clearFragmentStack();
+                    handleCallBack(true);
+                    unRegisterProdRegListener();
+                }
+            });
+            closeDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialogFragment.dismiss();
+                    registerButton.hideProgressIndicator();
+                }
+            });
+        }catch (Exception e) {
+            ProdRegLogger.i("Exception ***", "" + e.getMessage());
+        }
+
     }
 
 

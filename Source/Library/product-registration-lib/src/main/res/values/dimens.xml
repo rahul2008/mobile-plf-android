@@ -5,6 +5,7 @@
     <dimen name="pr_margintop">24dp</dimen>
     <dimen name="pr_marginbottom">12dp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>
+    <dimen name="margin_bottom">24dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="prodreg_edittext_width">240dp</dimen>
     <dimen name="pr_e_value_sm">33dp</dimen>

@@ -37,6 +37,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginBottom="24dp"
             android:textSize="20sp"/>
     </RelativeLayout>
 
