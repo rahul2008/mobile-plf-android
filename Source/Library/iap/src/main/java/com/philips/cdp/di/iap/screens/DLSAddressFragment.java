@@ -339,7 +339,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onSetDeliveryAddress(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryAddress", Toast.LENGTH_SHORT).show();
-        msg.obj = IAPConstant.IAP_SUCCESS;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             Bundle bundle = getArguments();
             DeliveryModes deliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
@@ -363,7 +362,6 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
     @Override
     public void onSetDeliveryMode(Message msg) {
         Toast.makeText(mContext, "onSetDeliveryMode", Toast.LENGTH_SHORT).show();
-        msg.obj = IAPConstant.IAP_SUCCESS;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             if (CartModelContainer.getInstance().getBillingAddress() == null)
                 mPaymentController.getPaymentDetails();
