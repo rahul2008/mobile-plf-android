@@ -268,6 +268,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private void showErrorMessageSerialNumber() {
         findSerialTextView.setVisibility(View.VISIBLE);
         if (field_serial.length() != 0 || (field_serial.length()==0 &&isRegisterButtonClicked)) {
+            registerButton.hideProgressIndicator();
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
         } else {
@@ -287,6 +288,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageDate() {
         if(date_EditText.length() != 0 || (date_EditText.length()==0 &&isRegisterButtonClicked)) {
+            registerButton.hideProgressIndicator();
             date_input_field.showError();
             date_input_field.setErrorMessage(new ErrorHandler().getError(mActivity,
                     ProdRegError.INVALID_DATE.getCode()).getDescription());
@@ -570,6 +572,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 @Override
                 public void onClick(View v) {
                     alertDialogFragment.dismiss();
+                    registerButton.hideProgressIndicator();
                 }
             });
         }catch (Exception e) {
