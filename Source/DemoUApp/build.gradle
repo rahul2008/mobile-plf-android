@@ -177,14 +177,13 @@ dependencies {
 		transitive true 
     }
 	
-	def commlibAllModule = module(group: 'com.philips.cdp', name: 'commlib-all', version: versions.cba_commlibAll + objcdp.getVersionSuffix(), ext: 'aar') 
-	compile(dp ? project(':commlib-all') : commlibAllModule) 
+	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
+	compile(dp ? project(':commlib') : commlibModule)
 	{
 		exclude group: 'com.android.support'
-		transitive true 
     }
 	
-	def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.ccc_cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	def cloudcontrollerModule = module(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
     compile(dp ? project(':cloudcontroller') : cloudcontrollerModule) 
 	
     //Android Support libraries

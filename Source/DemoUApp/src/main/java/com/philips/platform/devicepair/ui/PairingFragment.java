@@ -5,10 +5,16 @@
 */
 package com.philips.platform.devicepair.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,33 +25,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.DefaultCloudController;
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
-import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.devicepair.R;
 import com.philips.platform.devicepair.devicesetup.SampleApplianceFactory;
-import com.philips.platform.devicepair.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.platform.devicepair.pojo.PairDevice;
 import com.philips.platform.devicepair.states.GetPairedDevicesState;
 import com.philips.platform.devicepair.states.StateContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PairingFragment extends DevicePairingBaseFragment implements IDevicePairingListener, SynchronisationCompleteListener {
+    private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
     private Context mContext;
     private PairingFragmentPresenter mLaunchFragmentPresenter;
 
-    private DiscoveryManager<?> mDiscoveryManager;
     private PairDevice mPairDevice;
 
     private Button mLogoutBtn;
@@ -59,6 +63,9 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private List<String> mDiscoveredDevices;
     private List<Appliance> mAppliancesList;
     private List<String> mPairedDevicesList;
+    private CommCentral commCentral;
+    private Runnable permissionCallback;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,19 +155,15 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             }
         });
 
-        mDiscoveryManager = DiscoveryManager.getInstance();
 
         return view;
     }
 
     private void initializeDiComm() {
-        final CloudController cloudController = new DefaultCloudController(getActivity().getApplicationContext(), new SampleKpsConfigurationInfo());
         final LanTransportContext lanTransportContext = new LanTransportContext(getActivity().getApplicationContext());
         final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
 
-        if (DICommClientWrapper.getContext() == null) {
-            DICommClientWrapper.initializeDICommLibrary(getActivity().getApplicationContext(), applianceFactory, null, cloudController);
-        }
+        commCentral = new CommCentral(applianceFactory, lanTransportContext);
     }
 
     @Override
@@ -178,25 +181,45 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             mStateContext.start();
         }
 
-        mDiscoveryManager.addDiscoveryEventListener(discoveryEventListener);
-        mDiscoveryManager.start();
+        commCentral.getApplianceManager().addApplianceListener(discoveryEventListener);
+        startDiscovery();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mDiscoveryManager.removeDiscoverEventListener(discoveryEventListener);
-        mDiscoveryManager.stop();
+        commCentral.getApplianceManager().removeApplianceListener(discoveryEventListener);
+        commCentral.stopDiscovery();
     }
 
-    private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
+    private ApplianceManager.ApplianceListener<Appliance> discoveryEventListener = new ApplianceManager.ApplianceListener<Appliance>() {
 
         @Override
-        public void onDiscoveredAppliancesListChanged() {
+        public void onApplianceFound(@NonNull Appliance appliance) {
             ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(mDiscoveryManager.getAllDiscoveredAppliances()));
+                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
+                }
+            });
+        }
+
+        @Override
+        public void onApplianceUpdated(@NonNull Appliance appliance) {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
+                }
+            });
+        }
+
+        @Override
+        public void onApplianceLost(@NonNull Appliance appliance) {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
                 }
             });
         }
@@ -263,15 +286,16 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         mAvailableDevicesAdapter.remove(deviceID);
     }
 
-    public List<String> getDiscoveredDevices(ArrayList<? extends Appliance> discoveredAppliances) {
+    public List<String> getDiscoveredDevices(Set<Appliance> discoveredAppliances) {
+        List<Appliance> setAsList = new ArrayList<>(discoveredAppliances);
         List<String> devices = new ArrayList<>();
 
         if (discoveredAppliances.size() == 0) {
             showAlertDialog(getString(R.string.no_appliances_found));
         } else {
-            for (int i = 0; i < discoveredAppliances.size(); i++) {
-                mAppliancesList.add(discoveredAppliances.get(i));
-                devices.add(discoveredAppliances.get(i).getNetworkNode().getCppId());
+            for (int i = 0; i < setAsList.size(); i++) {
+                mAppliancesList.add(setAsList.get(i));
+                devices.add(setAsList.get(i).getNetworkNode().getCppId());
             }
         }
         return devices;
@@ -429,6 +453,40 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
                 });
             }
         });
+    }
+
+    private void startDiscovery() {
+        try {
+            commCentral.startDiscovery();
+        } catch (MissingPermissionException e) {
+
+            acquirePermission(new Runnable() {
+                @Override
+                public void run() {
+                    startDiscovery();
+                }
+            });
+        }
+    }
+
+    private void acquirePermission(@NonNull Runnable permissionCallback) {
+        this.permissionCallback = permissionCallback;
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new Handler().post(this.permissionCallback);
+                }
+            }
+        }
     }
 
 }
