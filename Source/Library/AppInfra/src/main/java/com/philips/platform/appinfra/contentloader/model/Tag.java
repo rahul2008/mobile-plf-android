@@ -6,10 +6,10 @@ package com.philips.platform.appinfra.contentloader.model;
 
 public class Tag {
 
-    public Boolean isVisibleOnWeb;
-    public String name;
-    public String key;
-    public String id;
+    private Boolean isVisibleOnWeb;
+    private String name;
+    private String key;
+    private String id;
 
     public Boolean getVisibleOnWeb() {
         return isVisibleOnWeb;

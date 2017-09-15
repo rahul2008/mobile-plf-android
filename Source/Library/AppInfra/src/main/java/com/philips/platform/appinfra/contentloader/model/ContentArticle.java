@@ -30,8 +30,8 @@ public class ContentArticle implements ContentInterface {
     // private URL portraitimage;
     private String imageUrl;
     private String articleDescription;
-    public List<Tag> tags = new ArrayList<Tag>();
-    public List<String> tagIds = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
+    private List<String> tagIds = new ArrayList<>();
     //private List<Map<String,String>> tags;
     private String link;
     // private ASSET[] assets;
@@ -106,5 +106,97 @@ public class ContentArticle implements ContentInterface {
             }
         }
         return true;
+    }
+
+    public String getOverlay() {
+        return overlay;
+    }
+
+    public void setOverlay(String overlay) {
+        this.overlay = overlay;
+    }
+
+    public String getLinkurl() {
+        return linkurl;
+    }
+
+    public void setLinkurl(String linkurl) {
+        this.linkurl = linkurl;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getArticleDescription() {
+        return articleDescription;
+    }
+
+    public void setArticleDescription(String articleDescription) {
+        this.articleDescription = articleDescription;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public long getModDate() {
+        return modDate;
+    }
+
+    public void setModDate(long modDate) {
+        this.modDate = modDate;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<String> getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(List<String> tagIds) {
+        this.tagIds = tagIds;
     }
 }

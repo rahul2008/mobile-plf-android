@@ -8,10 +8,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -24,12 +27,41 @@ public class TimeSyncDemo extends AppCompatActivity {
     TimeInterface mTimeSyncInterface;
     Button refreshButton;
     SimpleDateFormat formatter;
+    byte[] plainByte;
+    byte[] encryptedByte;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timesync_demopage);
         AILDemouAppInterface.getInstance().getAppInfra().getTime().refreshTime();
+
+        SecureStorageInterface mSecureStorage = AILDemouAppInterface.getInstance().getAppInfra()
+                .getSecureStorage();
+
+        String enc = "4324332423432432432435425435435346465464547657567.000343242342";
+
+        try {
+            plainByte= enc.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+        }
+
+        SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+        encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+        try {
+            String encBytesString = new String(encryptedByte, "UTF-8");
+            Log.e("Encrypted Data",encBytesString);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
+        String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+        try {
+            String decBytesString = new String(plainByte, "UTF-8");
+            Log.e("Decrypted Data",decBytesString);
+        } catch (UnsupportedEncodingException e) {
+        }
         TextView localTimeTextView = (TextView) findViewById(R.id.localtime);
         final TextView localTimeTextvalue = (TextView) findViewById(R.id.localtimevalue);
 

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,11 +66,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     private Spinner requestTypeSpinner;
     private HashMap<String, String> parameters;
     private HomeCountryUpdateReceiver receiver;
+    byte[] plainByte;
+    byte[] encryptedByte;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appInfra = AILDemouAppInterface.getInstance().getAppInfra();
+
         mServiceDiscoveryInterface = appInfra.getServiceDiscovery();
         mOnGetServiceLocaleListener = this;
         mOnGetServiceUrlListener = this;
@@ -76,6 +81,32 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         mOnGetServiceUrlMapListener = this;
 
         setContentView(R.layout.service_discovery_demopage);
+        SecureStorageInterface mSecureStorage = appInfra.getSecureStorage();
+
+        String enc = "4324332423432432432435425435435346465464547657567.000343242342";
+
+        try {
+            plainByte= enc.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+        }
+
+        SecureStorageInterface.SecureStorageError sseStore = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+        encryptedByte=mSecureStorage.encryptData(plainByte,sseStore);
+        try {
+            String encBytesString = new String(encryptedByte, "UTF-8");
+            Log.e("Encrypted Data",encBytesString);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        byte[] plainData= mSecureStorage.decryptData(encryptedByte,sseStore);
+        String  result = Arrays.equals(plainByte,plainData)?"True":"False";
+        try {
+            String decBytesString = new String(plainByte, "UTF-8");
+            Log.e("Decrypted Data",decBytesString);
+        } catch (UnsupportedEncodingException e) {
+        }
+
         getUrl = (Button) findViewById(R.id.geturl);
         requestTypeSpinner = (Spinner) findViewById(R.id.requestspinner);
         ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
