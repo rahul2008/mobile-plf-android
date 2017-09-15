@@ -45,16 +45,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_margin_24"
                 android:text="@string/reg_verify_resend_mail_desc2"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
-                />
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_verify_resend_mail_edittext_label"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
-                />
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_activationresend_emailormobile_inputValidationLayout"
@@ -79,10 +77,11 @@
                 android:id="@+id/usr_mobileverification_resendmailtimer_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_margin_24"
                 android:layout_marginTop="@dimen/reg_margin_12dp"
                 android:indeterminate="false"
                 android:minWidth="@dimen/uid_progress_bar_min_width"
+                android:textSize="@dimen/reg_text_size_16"
                 android:progressDrawable="@drawable/uid_secondary_progress_bar"
                 android:secondaryProgress="100"
                 android:text="@string/no_email_yet"

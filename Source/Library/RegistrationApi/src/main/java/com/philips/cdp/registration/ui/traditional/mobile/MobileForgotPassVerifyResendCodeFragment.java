@@ -88,7 +88,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         redirectUri = bundle.getString(redirectUriKey);
         verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
         mobileVerifyResendCodePresenter.setRedirectUri(redirectUri);
-        View view = inflater.inflate(R.layout.reg_mobile_activation_resend_fragment, container, false);
+        View view = inflater.inflate(R.layout.reg_mobile_forgot_password_resend_fragment, container, false);
         ButterKnife.bind(this, view);
         handleOrientation(view);
         handler = new Handler();

@@ -96,7 +96,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         verificationSmsCodeURL = bundle.getString(verificationSmsCodeURLKey);
 
         mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
-        View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
+        View view = inflater.inflate(R.layout.reg_mobile_forgotpassword_verify_fragment, container, false);
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
