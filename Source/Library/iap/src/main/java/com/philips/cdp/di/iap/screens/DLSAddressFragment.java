@@ -145,6 +145,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         mContext = context;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        dismissProgressDialog();
+    }
 
     public static DLSAddressFragment createInstance(Bundle args, AnimationType animType) {
         DLSAddressFragment fragment = new DLSAddressFragment();

@@ -9,7 +9,6 @@
         android:layout_width="@dimen/uikit_modal_alert_dialog_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/uikit_modal_alert"
         android:orientation="vertical">
 
         <TextView
@@ -20,7 +19,6 @@
             android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
             android:layout_marginTop="@dimen/uikit_modal_alert_text_top_margin"
             android:text="@string/uikit_modal_alert_label"
-            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_label_text_size" />
 
         <TextView
@@ -32,7 +30,6 @@
             android:layout_marginStart="@dimen/uikit_modal_alert_button_left_margin"
             android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
             android:text="@string/uikit_modal_alert_message"
-            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
         <LinearLayout
