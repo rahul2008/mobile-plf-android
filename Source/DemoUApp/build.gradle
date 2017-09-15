@@ -199,7 +199,7 @@ dependencies {
             debugCompile project(path: ':cloudcontroller', configuration: 'debug')
             releaseCompile project(path: ':cloudcontroller', configuration: 'release')
         } else {
-            compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cml_commlib + objcdp.getVersionSuffix(), changing: true)
         }
     }
 
