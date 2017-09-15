@@ -1,20 +1,23 @@
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
+import java.net.URL;
 
 /**
  * Created by 310166779 on 12/14/2016.
@@ -84,11 +87,22 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
 
     }
 
-    private String getServiceLocatorUrl() {
-        String serviceLocatorLink = null;
-        serviceLocatorLink = getResources().getString(R.string.service_locator_url);
-        DigiCareLogger.i(TAG, "Service locator Url Link : " + serviceLocatorLink);
-        return serviceLocatorLink;
+    protected String getServiceLocatorUrl() {
+
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(DigitalCareConstants.SERVICE_ID_CC_ATOS, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.atos' - " + url);
+                DigitalCareConfigManager.getInstance().setAtosUrl(url.toString());
+            }
+
+            @Override
+            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
+                DigiCareLogger.v(TAG, "Error Response from Service Discovery :" + s);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
+            }
+        });
+        return DigitalCareConfigManager.getInstance().getAtosUrl();
     }
 
     @Override
