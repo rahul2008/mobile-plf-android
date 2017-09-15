@@ -9,22 +9,27 @@ package com.philips.platform.ths.appointment;
 import android.app.DatePickerDialog;
 
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSDateEnum;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class THSDatePickerFragmentUtility{
+public class THSDatePickerFragmentUtility {
     public static final String TAG = THSDatePickerFragmentUtility.class.getSimpleName();
 
     private Date date;
     private Calendar calendar;
     private THSBaseFragment mThsBaseFragment;
-    private boolean showPreviousDates;
+    private THSDateEnum thsDateEnum;
 
-    public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment, boolean showPreviousDates){
+    public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment, THSDateEnum thsDateEnum) {
         this.mThsBaseFragment = thsBaseFragment;
-        this.showPreviousDates = showPreviousDates;
+        this.thsDateEnum = thsDateEnum;
         initDateTimeFields();
+    }
+
+    public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment) {
+        this(thsBaseFragment,THSDateEnum.DEFAULT);
     }
 
 
@@ -38,16 +43,20 @@ public class THSDatePickerFragmentUtility{
         calendar.setTime(date);
         DatePickerDialog datePickerDialog = new DatePickerDialog(mThsBaseFragment.getContext(),
                 listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        if(showPreviousDates && datePickerDialog.getDatePicker()!=null) {
+
+        if (thsDateEnum.getValue() == THSDateEnum.HIDEPREVIOUSDATE.getValue()) {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        } else if (thsDateEnum.getValue() == THSDateEnum.HIDEFUTUREDATE.getValue()) {
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         }
+
         datePickerDialog.show();
 
         datePickerDialog.setCancelable(false);
     }
 
     public void setCalendar(int year, int month, int day) {
-        calendar.set(year,month,day);
+        calendar.set(year, month, day);
         date.setTime(calendar.getTimeInMillis());
     }
 }

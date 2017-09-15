@@ -47,7 +47,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/visit_reason"
                 style="@style/ths_title_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/help_visit"
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
@@ -68,7 +68,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/additional_comment"
                 style="@style/ths_list_item"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/checkbox_container"
                 android:layout_marginBottom="16dp"

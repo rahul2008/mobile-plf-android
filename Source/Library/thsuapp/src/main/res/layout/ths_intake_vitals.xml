@@ -46,7 +46,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/help_visit"
                 style="@style/ths_title_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="@dimen/ths_fab_margin"
@@ -61,18 +61,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/help_visit"
-                android:paddingLeft="@dimen/ths_fab_margin"
+                android:layout_marginStart="@dimen/ths_fab_margin"
                 android:text="@string/vitals_blood_pressure" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_vitals_weight_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/visit_reason"
                 android:layout_below="@id/help_visit"
                 android:layout_marginBottom="16dp"
-                android:layout_toRightOf="@+id/visit_reason"
-                android:paddingRight="@dimen/ths_fab_margin"
+                android:layout_toEndOf="@+id/visit_reason"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
                 android:paddingStart="@dimen/ths_address_bottom_margin"
                 android:text="@string/vitals_weight_text"
                 android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor" />
@@ -135,18 +135,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider_bp"
-                android:paddingLeft="@dimen/ths_fab_margin"
+                android:layout_marginStart="@dimen/ths_fab_margin"
                 android:text="@string/temperature" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_temp_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/additional_comment"
                 android:layout_below="@id/intake_diasystolic_container"
                 android:layout_marginBottom="16dp"
-                android:layout_toRightOf="@+id/additional_comment"
-                android:paddingRight="@dimen/ths_fab_margin"
+                android:layout_toEndOf="@+id/additional_comment"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
                 android:paddingStart="@dimen/ths_address_bottom_margin"
                 android:text="@string/vitals_temp_text"
                 android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor" />
@@ -182,11 +182,11 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/weight"
                 style="@style/ths_body_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider_temperature"
-                android:paddingLeft="@dimen/ths_fab_margin"
-                android:paddingRight="@dimen/ths_fab_margin"
+                android:layout_marginStart="@dimen/ths_fab_margin"
+                android:layout_marginEnd="@dimen/ths_fab_margin"
                 android:text="@string/weight" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout

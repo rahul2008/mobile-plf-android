@@ -29,13 +29,13 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
-
-import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
@@ -170,7 +170,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     @Override
     public void showNoProviderErrorDialog() {
-        alertDialogFragment = new AlertDialogFragment.Builder(getActivity()).setTitle(R.string.ths_provider_fetch_error)
+        alertDialogFragment = new AlertDialogFragment.Builder(UIDHelper.getPopupThemedContext(getContext())).setDialogType(DialogConstants.TYPE_ALERT).setTitle(R.string.ths_provider_fetch_error)
                 .setMessage(R.string.ths_provider_fetch_error_text).
                         setPositiveButton(R.string.ths_insurance_not_verified_confirm_primary_button_text, this).setCancelable(false).create();
         alertDialogFragment.show(getActivity().getSupportFragmentManager(),DIALOG_TAG);

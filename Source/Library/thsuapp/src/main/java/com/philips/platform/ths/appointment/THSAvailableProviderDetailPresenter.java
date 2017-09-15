@@ -25,6 +25,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     public void onEvent(int componentID) {
         if (componentID == R.id.calendar_container) {
 
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment,true);
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, THSDateEnum.HIDEPREVIOUSDATE);
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
 

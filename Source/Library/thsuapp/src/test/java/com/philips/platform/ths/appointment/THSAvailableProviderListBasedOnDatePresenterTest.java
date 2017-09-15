@@ -29,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -92,7 +91,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
         mThsAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(thsAvailableProviderListBasedOnDateFragmentMock,onDateSetChangedInterfaceMock);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onEvent() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
     }
