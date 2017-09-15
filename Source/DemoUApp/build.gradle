@@ -186,7 +186,7 @@ dependencies {
     compile(useProjectDependencies ? project(':ufw') : ufwModule)
 
     if (useProjectDependencies) {
-        compile project(':cml')
+        compile project(':commlib')
     } else {
         if (findProject(':commlib')) {
             debugCompile project(path: ':commlib', configuration: 'debug')
