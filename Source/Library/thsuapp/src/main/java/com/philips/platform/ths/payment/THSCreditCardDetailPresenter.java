@@ -131,7 +131,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 bundle.putInt("expirationMonth", Integer.parseInt(expirationMonth));
                 bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
             }catch (Exception e){
-                mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+                mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
             bundle.putString("CVVcode", CVVcode);
