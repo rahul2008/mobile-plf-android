@@ -7,6 +7,7 @@ package com.philips.platform.dscdemo.moments;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class MomentFragment extends DSBaseFragment
     private MomentPresenter mTemperaturePresenter;
     private MomentHelper mTemperatureMomentHelper;
     private AlarmManager alarmManager;
-
+    private ProgressDialog mProgressDialog;
 
     private ArrayList<? extends Moment> mMomentList = new ArrayList();
     private SharedPreferences mSharedPreferences;
@@ -98,6 +99,7 @@ public class MomentFragment extends DSBaseFragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mDataServicesManager = DataServicesManager.getInstance();
+
         mUser = new User(mContext);
         userRegistrationInterface = new UserRegistrationHandler(mContext, mUser);
         mTemperatureMomentHelper = new MomentHelper();
@@ -139,7 +141,7 @@ public class MomentFragment extends DSBaseFragment
         }
 
         if (!mSharedPreferences.getBoolean("isSynced", false)) {
-            showProgressDialog(getString(R.string.fetching_moments));
+            showProgressDialog();
         }
     }
 
@@ -173,6 +175,9 @@ public class MomentFragment extends DSBaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
         mAdapter = new MomentAdapter(getContext(), mMomentList, mTemperaturePresenter);
+
+        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setCancelable(false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -419,4 +424,16 @@ public class MomentFragment extends DSBaseFragment
         }
     }
 
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+            mProgressDialog.setMessage(getString(R.string.fetching_moments));
+            mProgressDialog.show();
+        }
+    }
 }

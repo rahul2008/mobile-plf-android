@@ -116,7 +116,7 @@ public abstract class DSBaseFragment extends Fragment implements BackEventListen
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }*/
 
-    public void showProgressDialog(final String message) {
+    /*public void showProgressDialog(final String message) {
         if (getActivity() != null && !(getActivity().isFinishing())) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -146,7 +146,7 @@ public abstract class DSBaseFragment extends Fragment implements BackEventListen
                 }
             });
         }
-    }
+    }*/
 
     public boolean isProgressShowing() {
         return (mProgressDialog != null && mProgressDialog.isShowing());

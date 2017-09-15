@@ -5,6 +5,8 @@
 */
 package com.philips.platform.dscdemo.consents;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,10 +34,12 @@ import java.util.List;
 public class ConsentFragment extends DSBaseFragment implements
         DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener {
 
+    private Context mContext;
     private ConsentAdapter mConsentAdapter;
     private ConsentPresenter mConsentPresenter;
     private DataServicesManager mDataServicesManager;
     private Button mBtnOk;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public int getActionbarTitleResId() {
@@ -61,6 +65,7 @@ public class ConsentFragment extends DSBaseFragment implements
         mConsentPresenter = new ConsentPresenter(this);
         ArrayList<? extends ConsentDetail> mConsentDetailList = new ArrayList<>();
         mConsentAdapter = new ConsentAdapter(mConsentDetailList, mConsentPresenter);
+        mProgressDialog = new ProgressDialog(mContext);
 
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.lv_consent_detail);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -81,6 +86,7 @@ public class ConsentFragment extends DSBaseFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -138,7 +144,7 @@ public class ConsentFragment extends DSBaseFragment implements
     }
 
     public void fetchConsent() {
-        showProgressDialog(getString(R.string.fetching_consent));
+        showProgressDialog();
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
@@ -196,6 +202,19 @@ public class ConsentFragment extends DSBaseFragment implements
                     Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+            mProgressDialog.setMessage(getString(R.string.fetching_consent));
+            mProgressDialog.show();
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+            mProgressDialog.dismiss();
         }
     }
 }

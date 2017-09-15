@@ -157,7 +157,6 @@ public class InsightFragment extends DSBaseFragment
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    dismissProgressDialog();
                     Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

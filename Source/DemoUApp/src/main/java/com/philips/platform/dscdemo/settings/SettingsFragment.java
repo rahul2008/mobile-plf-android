@@ -5,6 +5,8 @@
 */
 package com.philips.platform.dscdemo.settings;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,10 +33,12 @@ import java.util.List;
 public class SettingsFragment extends DSBaseFragment
         implements DBFetchRequestListner<Settings>, DBRequestListener<Settings>, DBChangeListener, View.OnClickListener {
 
+    private Context mContext;
     private SettingsPresenter mSettingsPresenter;
     private DataServicesManager mDataServicesManager;
     private Spinner mSpinner_Unit, mSpinner_Local;
     private Settings settings;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public int getActionbarTitleResId() {
@@ -57,6 +61,7 @@ public class SettingsFragment extends DSBaseFragment
         View rootView = inflater.inflate(R.layout.dialog_settings, container, false);
 
         mDataServicesManager = DataServicesManager.getInstance();
+        mProgressDialog = new ProgressDialog(mContext);
 
         Button mBtnOk = (Button) rootView.findViewById(R.id.btnOK);
         mBtnOk.setOnClickListener(this);
@@ -121,6 +126,7 @@ public class SettingsFragment extends DSBaseFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -183,7 +189,7 @@ public class SettingsFragment extends DSBaseFragment
     }
 
     public void fetchSettings() {
-        showProgressDialog(getString(R.string.fetching_settings));
+        showProgressDialog();
         DataServicesManager.getInstance().fetchUserSettings(this);
     }
 
@@ -211,5 +217,18 @@ public class SettingsFragment extends DSBaseFragment
     @Override
     public void onFetchFailure(final Exception exception) {
         refreshOnFailure(exception);
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+            mProgressDialog.setMessage(getString(R.string.fetching_settings));
+            mProgressDialog.show();
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
+            mProgressDialog.dismiss();
+        }
     }
 }
