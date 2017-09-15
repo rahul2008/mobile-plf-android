@@ -93,6 +93,8 @@ public class AppTagingConstants {
 	public static final String LOGOUT_SUCCESS = "logoutSuccess";
 
 	public static final String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
+	public static final String SUCCESS_RESEND_SMS_VERIFICATION = "successResendSMSVerification";
+
 
 	public static final String RESEND_VERIFICATION_MAIL_LINK_SENT = "We have sent an email to your email address to reset your password";
 

@@ -20,6 +20,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
@@ -52,6 +53,12 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @BindView(R2.id.usr_forgotpassword_rootLayout_scrollView)
     ScrollView layoutScrollView;
+
+    @BindView(R2.id.usr_forgotpassword_email_label)
+    Label usr_forgotpassword_email_label;
+
+    @BindView(R2.id.usr_forgotpassword_input_label)
+    Label usr_forgotpassword_input_label;
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
@@ -125,6 +132,10 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     }
 
     private void initUI() {
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
+            usr_forgotpassword_email_label.setText(R.string.reg_forgotpassword_input);
+            usr_forgotpassword_input_label.setText(R.string.reg_Forgot_Password_description_email);
+        }
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();
         userIdEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);

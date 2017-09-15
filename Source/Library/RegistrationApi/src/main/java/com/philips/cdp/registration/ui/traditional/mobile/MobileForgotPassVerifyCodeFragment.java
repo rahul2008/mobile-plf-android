@@ -173,7 +173,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.reg_SigIn_TitleTxt;
     }
 
     private void updateUiStatus() {
@@ -230,7 +230,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         redirectUri = redirectUri + "?code=" + verificationCodeValidationEditText.getText()
                 + "&token=" + responseToken;
     }
-
 
     @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {

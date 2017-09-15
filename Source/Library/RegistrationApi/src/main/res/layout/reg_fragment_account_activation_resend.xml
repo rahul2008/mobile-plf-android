@@ -9,13 +9,13 @@
     <ScrollView
         android:id="@+id/usr_activationresend_rootLayout_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
         <LinearLayout
             android:id="@+id/usr_activationresend_root_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/reg_layout_margin_top_24"
             android:orientation="vertical">
@@ -85,7 +85,7 @@
                 android:minWidth="@dimen/uid_progress_bar_min_width"
                 android:progressDrawable="@drawable/uid_secondary_progress_bar"
                 android:secondaryProgress="100"
-                android:text="@string/no_sms_yet"
+                android:text="@string/no_email_yet"
                 app:uidIsLinearProgressBar="true"
                 app:uidLabelPosition="bottom_left"/>
 
