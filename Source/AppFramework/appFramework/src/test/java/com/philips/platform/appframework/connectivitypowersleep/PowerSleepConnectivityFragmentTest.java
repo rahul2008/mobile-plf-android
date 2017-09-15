@@ -132,6 +132,12 @@ public class PowerSleepConnectivityFragmentTest {
         testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment, null).commit();
         assertNotNull(connectivityFragment.getConnectivityPresenter());
     }
+
+    @Test
+    public void getFragmentActivityTest() {
+        assertNotNull(connectivityFragment.getFragmentActivity());
+    }
+
     public static class ConnectivityFragmentMock extends PowerSleepConnectivityFragment {
 
         @Override
@@ -144,10 +150,6 @@ public class PowerSleepConnectivityFragmentTest {
             return bluetoothAdapter;
         }
 
-        @Override
-        protected void removeApplianceListener() {
-
-        }
     }
 
     @After
