@@ -89,21 +89,35 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     void saveCreditCardDetail() {
 
         String cardHolderName = mTHSCreditCardDetailFragment.mCardHolderNameEditText.getText().toString().trim();
+        if(null==cardHolderName || cardHolderName.isEmpty()){
+            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            return;
+        }
+
         String cardNumber = mTHSCreditCardDetailFragment.mCardNumberEditText.getText().toString().trim();
         boolean isCreditcardValid = validateCreditCardDetails(cardNumber);
         if (!isCreditcardValid) {
-            mTHSCreditCardDetailFragment.showToast("Invalid Credit card number");
+            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
             return;
         }
         String expirationMonth = mTHSCreditCardDetailFragment.mCardExpiryMonthEditText.getText().toString().trim();
-        //todo month validation
+        if(null==expirationMonth || expirationMonth.isEmpty()){
+            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            return;
+        }
 
         String expirationYear = mTHSCreditCardDetailFragment.mCardExpiryYearEditText.getText().toString().trim();
-        //todo year validation
+        if(null==expirationYear || expirationYear.isEmpty()){
+            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            return;
+        }
 
         String CVVcode = mTHSCreditCardDetailFragment.mCVCcodeEditText.getText().toString().trim();
-        //todo CVV validation
-        boolean isCVVvalid = true;//validateCVVnumber(cardNumber, CVVcode);
+        if(null==CVVcode || CVVcode.isEmpty()){
+            mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+            return;
+        }
+        boolean isCVVvalid = true;// validateCVVnumber(cardNumber, CVVcode); //todo validateCVVnumber always returns false
         if (!isCVVvalid) {
             mTHSCreditCardDetailFragment.showToast("Invalid CVV number");
             return;
@@ -113,8 +127,13 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             Bundle bundle = new Bundle();
             bundle.putString("cardHolderName", cardHolderName);
             bundle.putString("cardNumber", cardNumber);
-            bundle.putInt("expirationMonth", Integer.parseInt(expirationMonth));
-            bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
+            try {
+                bundle.putInt("expirationMonth", Integer.parseInt(expirationMonth));
+                bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
+            }catch (Exception e){
+                mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_all_fields_mandatory));
+                return;
+            }
             bundle.putString("CVVcode", CVVcode);
             if (null != mPaymentMethod && null != mPaymentMethod.getBillingAddress()) {
                 bundle.putParcelable("address", mPaymentMethod.getBillingAddress());

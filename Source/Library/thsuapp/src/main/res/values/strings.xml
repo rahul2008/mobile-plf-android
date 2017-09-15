@@ -231,5 +231,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Match making fragment strings-->
     <string name="ths_matchmaking_ok_button">Ok</string>
     <string name="ths_matchmaking_error">Error</string>
-    <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>
+    <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>All fields are mandatory
+    <string name="ths_error_all_fields_mandatory">All fields are mandatory</string>
 </resources>
