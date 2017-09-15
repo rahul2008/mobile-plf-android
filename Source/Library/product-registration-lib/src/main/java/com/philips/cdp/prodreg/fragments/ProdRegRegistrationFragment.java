@@ -5,7 +5,6 @@
 */
 package com.philips.cdp.prodreg.fragments;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,7 +33,6 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -96,7 +94,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             String mDate = prodRegUtil.getValidatedString(arg3);
             SimpleDateFormat dateFormat = new SimpleDateFormat(getResources().getString(R.string.date_format));
             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-            System.out.println("UTctime " + PRUiHelper.getInstance().getAppInfraInstance().getTime().getUTCTime());
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             try {
