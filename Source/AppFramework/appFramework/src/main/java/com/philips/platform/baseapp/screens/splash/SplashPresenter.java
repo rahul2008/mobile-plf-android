@@ -79,9 +79,6 @@ public class SplashPresenter extends AbstractUIBasePresenter implements UIStateL
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) uiView.getFragmentActivity().getApplicationContext();
     }
-    protected void finishActivity() {
-        uiView.finishActivityAffinity();
-    }
 
     @Override
     public void onStateComplete(BaseState baseState) {

@@ -29,11 +29,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
@@ -91,14 +92,14 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         // BluetoothAdapter through BluetoothManager.
         connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
         mBluetoothAdapter = getBluetoothAdapter();
-
     }
 
-    protected BluetoothAdapter getBluetoothAdapter(){
+    protected BluetoothAdapter getBluetoothAdapter() {
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         return bluetoothManager.getAdapter();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -123,47 +124,47 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         return rootView;
     }
 
-    protected ConnectivityPresenter getConnectivityPresenter(){
+    protected ConnectivityPresenter getConnectivityPresenter() {
         return new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()), getActivity());
     }
+
     /**
      * Setup comm central
      */
     protected CommCentral getCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
-        CommCentral commCentral=null;
+        CommCentral commCentral = null;
         try {
             final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
-            DICommApplianceFactory<BleReferenceAppliance> applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+            ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
             commCentral = new CommCentral(applianceFactory, bleTransportContext);
             commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
         } catch (TransportUnavailableException e) {
-            RALog.d(TAG,"Blutooth hardware unavailable");
+            RALog.d(TAG, "Blutooth hardware unavailable");
         }
         return commCentral;
     }
 
-    private final ApplianceManager.ApplianceListener<BleReferenceAppliance> applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
         @Override
-        public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
+        public void onApplianceFound(@NonNull Appliance foundAppliance) {
             RALog.d(TAG, "Device found :" + foundAppliance.getName());
-            bleScanDialogFragment.addDevice(foundAppliance);
+            bleScanDialogFragment.addDevice((BleReferenceAppliance) foundAppliance);
             Toast.makeText(mContext, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
-
         }
 
         @Override
-        public void onApplianceUpdated(@NonNull BleReferenceAppliance bleReferenceAppliance) {
-            // NOOP
+        public void onApplianceUpdated(@NonNull final Appliance appliance) {
+            //noop
         }
 
         @Override
-        public void onApplianceLost(@NonNull BleReferenceAppliance bleReferenceAppliance) {
+        public void onApplianceLost(@NonNull final Appliance appliance) {
+            //noop
         }
     };
-
 
     @Override
     public void onClick(final View v) {
@@ -183,7 +184,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
             default:
         }
     }
-
 
     /**
      * Start scanning nearby devices using given strategy
@@ -220,7 +220,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                 }
             }
         }, 100);
-
     }
 
     /**
@@ -242,9 +241,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                     if (bleScanDialogFragment.getDeviceCount() == 0) {
                         bleScanDialogFragment.dismiss();
                         Toast.makeText(mContext, R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
-
                     }
-
                 }
             }
         }
@@ -276,7 +273,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         dialog = ProgressDialog.show(mContext, "", message);
     }
 
-
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
         getActivity().runOnUiThread(new Runnable() {
@@ -294,7 +290,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                 }
             }
         });
-
     }
 
     @Override
@@ -306,7 +301,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                 Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -323,7 +317,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         }
     }
 
-
     private void checkForAccessFineLocation() {
 
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
@@ -336,7 +329,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
                     MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -372,7 +364,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
             handler.removeCallbacks(stopDiscoveryRunnable);
             handler.removeCallbacksAndMessages(null);
         }
-        mCommCentral=null;
+        mCommCentral = null;
         super.onDestroyView();
     }
 
@@ -382,8 +374,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
                 checkForAccessFineLocation();
-            }else{
-                Toast.makeText(mContext,"Please enable bluetooth",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(mContext, "Please enable bluetooth", Toast.LENGTH_SHORT).show();
             }
         }
     }
