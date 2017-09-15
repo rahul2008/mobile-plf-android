@@ -4,12 +4,12 @@
  */
 package com.philips.cdp2.ews.view;
 
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.FragmentEwsPressPlayFollowSetupDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
-import com.philips.cdp2.powersleep.R;
-import com.philips.cdp2.powersleep.databinding.FragmentEwsPressPlayFollowSetupDeviceBinding;
 
 import org.junit.Before;
 import org.junit.Test;

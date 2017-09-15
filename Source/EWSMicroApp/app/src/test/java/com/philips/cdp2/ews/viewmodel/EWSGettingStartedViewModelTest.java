@@ -4,11 +4,11 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
+import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
-import com.philips.cdp2.powersleep.BuildConfig;
 
 import org.junit.Before;
 import org.junit.Test;

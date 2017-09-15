@@ -4,12 +4,12 @@
  */
 package com.philips.cdp2.ews.view;
 
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSHomeWifiDisplayViewModel;
-import com.philips.cdp2.powersleep.R;
-import com.philips.cdp2.powersleep.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;

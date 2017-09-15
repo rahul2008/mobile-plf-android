@@ -12,7 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.philips.cdp2.powersleep.R;
+import com.philips.cdp2.ews.R;
 
 import org.junit.Before;
 import org.junit.Test;

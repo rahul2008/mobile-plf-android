@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.annotations.ConnectionErrorType;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
@@ -27,7 +28,6 @@ import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
-import com.philips.cdp2.powersleep.BuildConfig;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;

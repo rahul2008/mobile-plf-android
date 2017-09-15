@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.annotations.NetworkType;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
@@ -22,7 +23,6 @@ import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.dialog.ConnectionUnsuccessfulDialog;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
-import com.philips.cdp2.powersleep.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;

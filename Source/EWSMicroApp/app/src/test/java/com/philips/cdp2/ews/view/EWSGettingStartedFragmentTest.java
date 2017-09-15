@@ -4,12 +4,12 @@
  */
 package com.philips.cdp2.ews.view;
 
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.FragmentEwsGettingStartedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel;
-import com.philips.cdp2.powersleep.R;
-import com.philips.cdp2.powersleep.databinding.FragmentEwsGettingStartedBinding;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -4,12 +4,12 @@
  */
 package com.philips.cdp2.ews.view;
 
+import com.philips.cdp2.ews.BuildConfig;
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.TroubleshootHomeWifiFragmentBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.TroubleshootHomeWiFiViewModel;
-import com.philips.cdp2.powersleep.BuildConfig;
-import com.philips.cdp2.powersleep.R;
-import com.philips.cdp2.powersleep.databinding.TroubleshootHomeWifiFragmentBinding;
 
 import org.junit.Before;
 import org.junit.Test;

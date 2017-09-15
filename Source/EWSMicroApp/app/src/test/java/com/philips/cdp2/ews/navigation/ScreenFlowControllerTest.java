@@ -14,10 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.view.EWSBaseFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSProductSupportFragment;
-import com.philips.cdp2.powersleep.R;
 
 import org.junit.Before;
 import org.junit.Test;

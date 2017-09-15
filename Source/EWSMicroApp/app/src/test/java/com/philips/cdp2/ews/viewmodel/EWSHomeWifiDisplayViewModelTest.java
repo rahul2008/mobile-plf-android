@@ -6,11 +6,11 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.databinding.Observable;
 
+import com.philips.cdp2.ews.BR;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
-import com.philips.cdp2.powersleep.BR;
 
 import org.junit.Before;
 import org.junit.Test;

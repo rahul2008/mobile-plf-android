@@ -4,7 +4,7 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.common.util.Tagger;
+import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.communication.events.DiscoverApplianceEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;

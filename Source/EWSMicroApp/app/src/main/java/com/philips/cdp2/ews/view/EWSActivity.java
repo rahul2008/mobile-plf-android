@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;

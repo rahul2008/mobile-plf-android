@@ -4,7 +4,7 @@
  */
 package com.philips.cdp2.ews.viewmodel;
 
-import com.philips.cdp2.common.util.Tagger;
+import com.philips.cdp2.ews.common.util.Tagger;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.EWSProductSupportFragment;

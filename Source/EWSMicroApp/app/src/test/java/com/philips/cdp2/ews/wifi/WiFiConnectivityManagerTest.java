@@ -6,8 +6,8 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.powersleep.BuildConfig;
 
 import org.junit.Before;
 import org.junit.Rule;

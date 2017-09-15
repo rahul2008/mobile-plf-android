@@ -4,11 +4,11 @@
  */
 package com.philips.cdp2.ews.view;
 
+import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.databinding.FragmentBlinkingAccessPointBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
-import com.philips.cdp2.powersleep.R;
-import com.philips.cdp2.powersleep.databinding.FragmentBlinkingAccessPointBinding;
 
 import org.junit.Before;
 import org.junit.Test;
