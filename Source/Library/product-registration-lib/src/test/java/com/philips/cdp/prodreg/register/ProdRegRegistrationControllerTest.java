@@ -133,7 +133,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
         verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", "specialEvents", "extendWarrantyOption");
-        verify(registerControllerCallBacksMock).showLoadingDialog();
+//        verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
         verify(userWithProductsMock).registerProduct(registeredProductMock);
     }
@@ -146,7 +146,7 @@ public class ProdRegRegistrationControllerTest extends TestCase {
         UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         prodRegListener.onProdRegSuccess(registeredProductMock, userWithProductsMock);
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Product registered successfully");
-        verify(registerControllerCallBacksMock).dismissLoadingDialog();
+//        verify(registerControllerCallBacksMock).dismissLoadingDialog();
         verify(registerControllerCallBacksMock).showSuccessLayout();
 
         when(registeredProductMock.getProdRegError()).thenReturn(ProdRegError.PRODUCT_ALREADY_REGISTERED);
