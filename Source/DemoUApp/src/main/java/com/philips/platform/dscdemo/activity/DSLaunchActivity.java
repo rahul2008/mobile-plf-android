@@ -99,7 +99,6 @@ public class DSLaunchActivity extends AppCompatActivity
         int containerID = R.id.frame_container_user_reg;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
