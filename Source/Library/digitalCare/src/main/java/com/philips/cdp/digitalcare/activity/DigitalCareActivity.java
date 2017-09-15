@@ -11,16 +11,18 @@
 
 package com.philips.cdp.digitalcare.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * The Acitivity Class used while the component used as Activity Invoking.
@@ -33,6 +35,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getDlSThemeLauncher();
+        UIDHelper.injectCalligraphyFonts();
         if(savedInstanceState!=null){
             // if app killed by vm.
             savedInstanceState =null;
@@ -84,5 +87,10 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 
     private int getAnInt(Bundle bundleExtras, String startAnimationId) {
         return bundleExtras.getInt(startAnimationId);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
