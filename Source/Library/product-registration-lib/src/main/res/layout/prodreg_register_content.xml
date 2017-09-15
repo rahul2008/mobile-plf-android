@@ -56,6 +56,7 @@
             android:id="@+id/prg_registerScreen_serialNumber_validationLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             app:uidTextBoxValidationErrorText="@string/PPR_Invalid_SerialNum_ErrMsg">
 
@@ -75,8 +76,10 @@
             style="@style/UIDLabel.ProductRegistrationConnectSubTitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="2dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginStart="5dp"
+            android:drawableStart="@drawable/questionmark"
+            android:gravity="center"
             android:text="@string/PPR_Find_Serial_Number"
             />
     </LinearLayout>
@@ -109,7 +112,7 @@
                 style="@style/UIDLabel.ButtonTexts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_calender"
+                android:drawableEnd="@drawable/calendar"
                 android:hint="@string/PRG_Please_Select"
                 app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"/>
         </com.philips.platform.uid.view.widget.InputValidationLayout>
