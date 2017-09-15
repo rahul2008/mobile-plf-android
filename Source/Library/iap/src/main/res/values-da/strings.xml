@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Godkender adresse...</string>
 <string name="iap_fetching_payment">Henter betalingsoplysninger...</string>
 <string name="iap_select_delivery">Vælg forsendelsesmetode for denne ordre:</string>
+    <string name="iap_product_detail_title" translatable="false">Produkt detaljer</string>
 </resources>

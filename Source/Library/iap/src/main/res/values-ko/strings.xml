@@ -207,4 +207,5 @@
 <string name="iap_validating_address">주소 확인 중...</string>
 <string name="iap_fetching_payment">결제 세부 정보를 보내는 중...</string>
 <string name="iap_select_delivery">이 주문의 결제 방법 선택:</string>
+    <string name="iap_product_detail_title" translatable="false">제품 세부 정보</string>
 </resources>

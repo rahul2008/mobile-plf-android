@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Đang xác nhận địa chỉ...</string>
 <string name="iap_fetching_payment">Đang truy xuất chi tiết thanh toán...</string>
 <string name="iap_select_delivery">Vui lòng chọn phương thức giao hàng cho đơn hàng này:</string>
+    <string name="iap_product_detail_title" translatable="false">Thông tin chi tiết sản phẩm</string>
 </resources>

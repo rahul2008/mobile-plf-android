@@ -127,7 +127,7 @@
     <string name="iap_discount">discount</string>
 
     <!-- CVV -->
-    <string name="mastercard">Master card</string>
+    <string name="mastercard" translatable="false">Master card</string>
     <string name="iap_validity">Validity</string>
     <string name="iap_cvv_cvc">CVV/CVC</string>
     <string name="iap_txt_cvv_cvc">Enter CVV/CVC</string>
@@ -146,7 +146,7 @@
     <string name="iap_buy_now">Buy now</string>
     <string name="iap_product_added">Product added to your shopping cart</string>
     <string name="iap_go_to_checkout">Go to checkout</string>
-    <string name="iap_product_detail_title">Product details</string>
+    <string name="iap_product_detail_title" translatable="false">Product details</string>
 
 
     <!-- Retailers-->

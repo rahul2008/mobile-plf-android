@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Overuje sa adresa...</string>
 <string name="iap_fetching_payment">Načítavajú sa podrobnosti o platbe...</string>
 <string name="iap_select_delivery">Vyberte spôsob doručenia tejto objednávky:</string>
+    <string name="iap_product_detail_title" translatable="false">﻿Detaily produktu</string>
 </resources>

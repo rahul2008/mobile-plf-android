@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Tvirtinamas adresas...</string>
 <string name="iap_fetching_payment">Pateikiama apmokėjimo informacija...</string>
 <string name="iap_select_delivery">Pasirinkite šio užsakymo pristatymo būdą:</string>
+    <string name="iap_product_detail_title" translatable="false">Produkto Aprašymas</string>
 </resources>

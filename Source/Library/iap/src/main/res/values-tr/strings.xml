@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Adres Doğrulanıyor...</string>
 <string name="iap_fetching_payment">Ödeme Ayrıntıları Alınıyor...</string>
 <string name="iap_select_delivery">Lütfen bu siparişin teslimat yöntemini seçin:</string>
+    <string name="iap_product_detail_title" translatable="false">﻿Ürün Detayları</string>
 </resources>

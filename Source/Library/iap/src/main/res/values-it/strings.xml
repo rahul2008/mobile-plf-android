@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Convalida indirizzo...</string>
 <string name="iap_fetching_payment">Recupero dettagli di pagamento...</string>
 <string name="iap_select_delivery">Seleziona il metodo di spedizione per questo ordine:</string>
+    <string name="iap_product_detail_title" translatable="false">Dettagli del prodotto</string>
 </resources>

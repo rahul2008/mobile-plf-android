@@ -207,4 +207,5 @@
 <string name="iap_validating_address">يتم الآن التحقق من صحة العنوان...</string>
 <string name="iap_fetching_payment">يتم الآن إحضار تفاصيل الدفع...</string>
 <string name="iap_select_delivery">يُرجى تحديد طريقة التسليم لهذا الطلب:</string>
+    <string name="iap_product_detail_title" translatable="false">﻿تفاصيل المنتج</string>
 </resources>

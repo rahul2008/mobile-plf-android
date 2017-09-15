@@ -207,4 +207,5 @@
 <string name="iap_validating_address">A validar morada...</string>
 <string name="iap_fetching_payment">A obter detalhes de pagamento...</string>
 <string name="iap_select_delivery">Seleccione o método de entrega para esta encomenda:</string>
+    <string name="iap_product_detail_title" translatable="false">Detalhes do produto</string>
 </resources>

@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Adres valideren...</string>
 <string name="iap_fetching_payment">Betalingsgegevens ophalen...</string>
 <string name="iap_select_delivery">Selecteer uw leveringsmethode voor deze bestelling:</string>
+    <string name="iap_product_detail_title" translatable="false">Productdetails</string>
 </resources>

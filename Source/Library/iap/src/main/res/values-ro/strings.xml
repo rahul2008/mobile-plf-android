@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Se validează adresa...</string>
 <string name="iap_fetching_payment">Se preiau detaliile plăţii...</string>
 <string name="iap_select_delivery">Selectează metoda de livrare pentru această comandă:</string>
+    <string name="iap_product_detail_title" translatable="false">Detalii produs</string>
 </resources>

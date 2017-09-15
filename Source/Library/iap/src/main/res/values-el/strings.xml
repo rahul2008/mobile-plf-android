@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Γίνεται επαλήθευση της διεύθυνσης...</string>
 <string name="iap_fetching_payment">Γίνεται λήψη των στοιχείων πληρωμής...</string>
 <string name="iap_select_delivery">Επιλέξτε τρόπο παράδοσης για αυτήν την παραγγελία:</string>
+    <string name="iap_product_detail_title" translatable="false">Λεπτομέρειες προιόντος</string>
 </resources>

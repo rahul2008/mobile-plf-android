@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Notiek adreses pārbaude...</string>
 <string name="iap_fetching_payment">Nolasa maksājuma informāciju...</string>
 <string name="iap_select_delivery">Lūdzu, izvēlieties šī pasūtījuma piegādes veidu:</string>
+    <string name="iap_product_detail_title" translatable="false">﻿Produkta informācija</string>
 </resources>

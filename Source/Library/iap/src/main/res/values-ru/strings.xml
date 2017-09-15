@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Проверка адреса...</string>
 <string name="iap_fetching_payment">Получение сведений об оплате...</string>
 <string name="iap_select_delivery">Выберите способ доставки заказа:</string>
+    <string name="iap_product_detail_title" translatable="false">Информация о продукте</string>
 </resources>

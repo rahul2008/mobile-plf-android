@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Provjera adrese...</string>
 <string name="iap_fetching_payment">Dohvaćanje pojedinosti o plaćanju...</string>
 <string name="iap_select_delivery">Odaberite način dostave za ovu narudžbu:</string>
+    <string name="iap_product_detail_title" translatable="false">Detalji o proizvodu</string>
 </resources>

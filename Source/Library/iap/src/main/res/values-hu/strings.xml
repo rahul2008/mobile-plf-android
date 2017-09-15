@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Cím hitelesítése...</string>
 <string name="iap_fetching_payment">Fizetési adatok betöltése...</string>
 <string name="iap_select_delivery">Válasszon átvételi módot ehhez a megrendeléshez:</string>
+    <string name="iap_product_detail_title" translatable="false">﻿Termék leírás</string>
 </resources>

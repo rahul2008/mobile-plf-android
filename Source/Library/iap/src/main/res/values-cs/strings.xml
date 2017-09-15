@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Ověřování adresy...</string>
 <string name="iap_fetching_payment">Získávání podrobností platby...</string>
 <string name="iap_select_delivery">Vyberte způsob dodání pro tuto objednávku:</string>
+    <string name="iap_product_detail_title" translatable="false">Detaily produktu</string>
 </resources>

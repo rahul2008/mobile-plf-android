@@ -207,4 +207,5 @@
 <string name="iap_validating_address">Aadressi kinnitamine ...</string>
 <string name="iap_fetching_payment">Makseandmete hankimine ...</string>
 <string name="iap_select_delivery">Valige selle tellimuse tarneviis:</string>
+    <string name="iap_product_detail_title" translatable="false">﻿Toote üksikasjad</string>
 </resources>
