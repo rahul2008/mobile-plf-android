@@ -1,7 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.core.injection;
@@ -73,10 +73,6 @@ import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Module
 public class BackendModule {
@@ -145,8 +141,8 @@ public class BackendModule {
     Backend providesBackend(
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
-            @NonNull final SettingsMonitor settingsMonitor , @NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor, @NonNull final DevicePairingMonitor devicePairingMonitor , @NonNull final SubjectProfileMonitor subjectProfileMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor,devicePairingMonitor,subjectProfileMonitor);
+            @NonNull final SettingsMonitor settingsMonitor, @NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor, @NonNull final DevicePairingMonitor devicePairingMonitor, @NonNull final SubjectProfileMonitor subjectProfileMonitor) {
+        return new Backend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, insightMonitor, pushNotificationMonitor, devicePairingMonitor, subjectProfileMonitor);
     }
 
     @Provides
@@ -157,7 +153,7 @@ public class BackendModule {
             @NonNull final UserCharacteristicsFetcher userCharacteristicsFetcher,
             @NonNull final SettingsDataFetcher settingsDataFetcher,
             @NonNull final InsightDataFetcher insightDataFetcher) {
-        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher,settingsDataFetcher,insightDataFetcher);
+        List<DataFetcher> dataFetchers = Arrays.asList(momentsDataFetcher, consentsDataFetcher, userCharacteristicsFetcher, settingsDataFetcher, insightDataFetcher);
         if (fetchers != null && fetchers.size() != 0) {
             for (DataFetcher fetcher : fetchers) {
                 dataFetchers.add(fetcher);
@@ -175,7 +171,7 @@ public class BackendModule {
             @NonNull final SettingsDataSender settingsDataSender,
             @NonNull final InsightDataSender insightDataSender) {
 
-        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender,settingsDataSender,insightDataSender);
+        List dataSenders = Arrays.asList(momentsDataSender, consentDataSender, userCharacteristicsSender, settingsDataSender, insightDataSender);
         if (senders != null && senders.size() != 0) {
             for (DataSender sender : senders) {
                 dataSenders.add(sender);

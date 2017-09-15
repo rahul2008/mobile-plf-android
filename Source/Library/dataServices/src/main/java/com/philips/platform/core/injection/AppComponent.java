@@ -1,7 +1,7 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
+/* Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.platform.core.injection;
@@ -51,10 +51,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @Singleton
 @Component(modules = {ApplicationModule.class, BackendModule.class})
 public interface AppComponent {
