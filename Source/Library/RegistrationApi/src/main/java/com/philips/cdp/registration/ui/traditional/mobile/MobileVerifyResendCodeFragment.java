@@ -225,9 +225,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
+        hidePopup();
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -245,12 +243,15 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
    @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
-       if (popupWindow != null && popupWindow.isShowing()) {
-           popupWindow.dismiss();
-       }
+        hidePopup();
        getRegistrationFragment().onBackPressed();
     }
 
+    void hidePopup() {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
+    }
     @Override
     public Intent getServiceIntent() {
         return new Intent(context, HttpClientService.class);
@@ -390,6 +391,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+        hidePopup();
     }
 
     @Override
@@ -397,4 +399,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         super.onResume();
         EventBus.getDefault().register(this);
     }
+
+
 }

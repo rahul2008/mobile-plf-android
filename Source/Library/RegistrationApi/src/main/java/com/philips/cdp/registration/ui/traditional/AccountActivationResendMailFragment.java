@@ -170,18 +170,14 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @OnClick(R2.id.usr_activationresend_return_button)
     public void returnVerifyScreen() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
+        hidePopup();
         getRegistrationFragment().onBackPressed();
     }
 
     @OnClick(R2.id.usr_activationresend_emailResend_button)
     public void resendEmail() {
         RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
+        hidePopup();
         addEmailClicked(emailUser);
 
     }
@@ -435,6 +431,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public void onPause() {
         super.onPause();
+        hidePopup();
         EventBus.getDefault().unregister(this);
     }
 
@@ -442,5 +439,10 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+    }
+    void hidePopup() {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
     }
 }

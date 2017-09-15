@@ -204,6 +204,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+        hidePopup();
     }
 
     @Override
@@ -258,9 +259,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void verifyClicked() {
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
+        hidePopup();
         errorMessage.hideError();
         mobileVerifyResendCodePresenter.resendOTPRequest(
                 verificationSmsCodeURL, phoneNumberEditText.getText().toString());
@@ -269,9 +268,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
+        hidePopup();
         getRegistrationFragment().onBackPressed();
     }
 
@@ -385,6 +382,11 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         } else {
             popupWindow.showAtLocation(getActivity().
                     findViewById(R.id.ll_reg_root_container), Gravity.TOP, 0, 0);
+        }
+    }
+    void hidePopup() {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
         }
     }
 
