@@ -290,7 +290,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-        if (alertDialogFragment != null && getActivity() !=null && !getActivity().isDestroyed()) {
+        if (alertDialogFragment != null && getActivity() != null && !getActivity().isFinishing()) {
             alertDialogFragment.dismissAllowingStateLoss();
             alertDialogFragment = null;
         }

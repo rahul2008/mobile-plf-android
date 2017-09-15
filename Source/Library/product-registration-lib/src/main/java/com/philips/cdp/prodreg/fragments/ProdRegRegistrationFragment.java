@@ -423,6 +423,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 //        if (validSerialNumber) {
 //            findSerialTextView.setVisibility(View.GONE);
 //        } else
+        if(!validSerialNumber)
             showErrorMessageSerialNumber();
     }
 
