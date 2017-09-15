@@ -117,10 +117,10 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @OnClick(R2.id.usr_mergeScreen_logout_button)
     void showLogoutAlert() {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
-                .setDialogType(DialogConstants.TYPE_ALERT)
-                .setMessage("If you do not want to link your social media account to your account.Log out and then log in again using your Philips account details.")
-                .setPositiveButton("Cancel", v -> alertDialogFragment.dismiss())
-                .setNegativeButton("Yes, log out", v -> {
+                .setDialogType(DialogConstants.TYPE_DIALOG)
+                .setDialogLayout(R.layout.social_merge_dialog)
+                .setNegativeButton("Cancel", v -> alertDialogFragment.dismiss())
+                .setPositiveButton("Yes, log out", v -> {
                     alertDialogFragment.dismiss();
                     performAction();
                 })

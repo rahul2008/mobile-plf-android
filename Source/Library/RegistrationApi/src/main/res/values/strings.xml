@@ -363,5 +363,6 @@
 
     <string name="reg_country_region">Country or region</string>
     <string name="forgot_password_mail_sent_message">We\'ve just sent you an email to reset your password.\n\nThe email may not arrive immediately but it is on its way.</string>
+    <string name="social_merge_dialog_message">If you do not want to link your social media account to your account.Log out and then log in again using your Philips account details.</string>
 
 </resources>

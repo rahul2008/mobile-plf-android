@@ -63,6 +63,7 @@
                 android:id="@+id/usr_mergeScreen_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_SigIn_TitleTxt"

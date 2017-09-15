@@ -55,6 +55,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_loginScreen_password_label"
                 style="@style/UIDLabel.MarginTop"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password"/>
@@ -82,6 +83,7 @@
                 android:id="@+id/usr_mergeScreen_merge_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_Account_Merge_Merge_btntxt"
