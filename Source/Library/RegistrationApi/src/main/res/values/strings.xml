@@ -109,6 +109,7 @@
     <string name="reg_Verification_email_Message">We have sent you an email to verify your email address. It may take some time for the email to arrive.</string>
     <string name="reg_Forgot_Password_Title">Forgot password?</string>
     <string name="reg_Forgot_Password_description">No worries. We\'ll send you an email or SMS to reset your password now.</string>
+    <string name="reg_Forgot_Password_description_email">No worries. We\'ll send you an email to reset your password now.</string>
     <string name="reg_Merge_Account_Title">Merge your accounts</string>
     <string name="reg_Create_Account_PasswordHint_Length_lbltxt">8-32 characters</string>
     <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">Upper or lower case letters</string>
@@ -307,6 +308,8 @@
     <string name="reg_verify_resend_mail_button_resend">Resend the email</string>
     <string name="reg_verify_resend_mail_button_return">Thanks, I\'ve got it now</string>
     <string name="reg_verify_resend_mail_nav_title">Resend email</string>
+    <string name="reg_verify_resend_sms_nav_title">Resend SMS</string>
+
 
     <string name="reg_verify_resend_mail_intime_title"> Please have a little patience</string>
     <string name="reg_verify_resend_mail_intime_desc">We have sent your verification email less than a minute ago. It may take some time for the verification email to arrive in your mailbox.</string>
@@ -336,6 +339,8 @@
     <string name="start_screen_value_add">Set up your account or log in to get the most from your connected product.</string>
     <string name="lets_get_started">Let\'s get started</string>
     <string name="no_sms_yet">No SMS yet? Press resend!</string>
+    <string name="no_email_yet">No Email yet? Press resend!</string>
+
 
     <string name="no_sms_timer">"Please wait %s more seconds"</string>
     <string name="reg_verify_mobile_title">Confirm your phone number</string>

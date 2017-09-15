@@ -401,7 +401,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
-            emailResendTimerProgress.setText(mContext.getResources().getString(R.string.no_sms_yet));
+            emailResendTimerProgress.setText(mContext.getResources().getString(R.string.no_email_yet));
             mResendEmail.setEnabled(true);
             proceedResend = true;
         } else {
@@ -417,12 +417,13 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                     mUser.getEmail());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setContentView(view);
         }
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            popupWindow.showAsDropDown(getActivity().
-                    findViewById(R.id.usr_activationresend_root_layout));
+            popupWindow.showAtLocation(getActivity().
+                    findViewById(R.id.usr_activationresend_root_layout), Gravity.TOP, 0, 0);
         }
     }
 

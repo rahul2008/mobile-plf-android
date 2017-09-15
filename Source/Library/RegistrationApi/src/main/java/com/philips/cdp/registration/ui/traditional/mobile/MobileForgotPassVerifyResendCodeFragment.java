@@ -61,10 +61,15 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     private Handler handler;
 
+    private PopupWindow popupWindow;
+
     @Inject
     NetworkUtility networkUtility;
+
     private String verificationSmsCodeURL;
+
     private String mobileNumber;
+
     private String redirectUri;
 
     @Override
@@ -164,7 +169,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.reg_verify_resend_sms_nav_title;
     }
 
     private void updateUiStatus() {
@@ -189,23 +194,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         }
     }
 
-    private PopupWindow popupWindow;
-
-    public void viewOrHideNotificationBar() {
-        if (popupWindow == null) {
-            View view = getRegistrationFragment().getNotificationContentView(
-                    context.getResources().getString(R.string.reg_Resend_SMS_title),
-                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content));
-            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        } else {
-            popupWindow.showAsDropDown(getActivity().
-                    findViewById(R.id.ll_reg_root_container));
-        }
-    }
 
     @Subscribe
     public void onEvent(NotificationBarHandler event) {
@@ -382,5 +370,22 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         }
     }
 
+    public void viewOrHideNotificationBar() {
+        if (popupWindow == null) {
+            View view = getRegistrationFragment().getNotificationContentView(
+                    context.getResources().getString(R.string.reg_Resend_SMS_Success_Content)
+                    ,mobileNumber);
+            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setContentView(view);
+
+        }
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            popupWindow.showAtLocation(getActivity().
+                    findViewById(R.id.ll_reg_root_container), Gravity.TOP, 0, 0);
+        }
+    }
 
 }
