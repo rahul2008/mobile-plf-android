@@ -117,10 +117,12 @@
 
 #----------------------------Product Registration library Start Here -----------------------
 
-#DLS
--keep public class com.philips.platform.uid.** { *; }
--dontwarn com.philips.platform.uid.**
+-keep class com.philips.cdp.prodreg.model.** {*;}
+-keep class com.philips.cdp.prodreg.register.** {*;}
+-keep class com.philips.cdp.prodreg.localcache.** {*;}
+#----------------------------Product Registration library End Here -----------------------
 
+#----------------------------Product Registration DemoApp Start Here -----------------------
 
 -keepclassmembers enum * { *; }
 
@@ -134,12 +136,7 @@
     <init>(java.lang.Throwable);
 }
 
-
--keep class com.philips.cdp.prodreg.model.** {*;}
--keep class com.philips.cdp.prodreg.register.** {*;}
--keep class com.philips.cdp.prodreg.localcache.** {*;}
-#----------------------------Product Registration library Start Here -----------------------
-
+#----------------------------Product Registration DemoApp End Here -----------------------
 
 
 # App-framework
