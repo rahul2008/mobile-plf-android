@@ -37,7 +37,7 @@ public class EWSDependencyProvider {
         return instance;
     }
 
-    void initDependencies(@NonNull final AppInfraInterface appInfraInterface, final DiscoveryManager<? extends Appliance> discoveryManager,
+    public void initDependencies(@NonNull final AppInfraInterface appInfraInterface, final DiscoveryManager<? extends Appliance> discoveryManager,
                           @NonNull final Map<String, String> productKeyMap) {
         this.appInfraInterface = appInfraInterface;
         this.discoveryManager = discoveryManager;

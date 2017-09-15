@@ -40,18 +40,13 @@ public class EWSActivity extends UiKitActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ews_activity_main);
-
-        buildDependencyGraph();
-        screenFlowController.start(this, R.id.contentFrame, getRootFragment());
-        EWSTagger.collectLifecycleInfo(this);
-    }
-
-    private void buildDependencyGraph() {
         ewsComponent = DaggerEWSComponent.
                 builder().
                 eWSModule(new EWSModule(this)).build();
         ewsComponent.inject(this);
         ewsEventingChannel.start();
+        screenFlowController.start(this, R.id.contentFrame, getRootFragment());
+        EWSTagger.collectLifecycleInfo(this);
     }
 
     @Override
