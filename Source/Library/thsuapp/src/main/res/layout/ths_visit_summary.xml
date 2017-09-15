@@ -5,6 +5,7 @@
     android:background="?attr/uidSeparatorContentNormalBackgroundColor">
 
     <RelativeLayout
+        android:id="@+id/scroll_view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 

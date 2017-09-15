@@ -7,11 +7,16 @@
 package com.philips.platform.ths.settings;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.visit.VisitReport;
+import com.americanwell.sdk.entity.visit.VisitReportDetail;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.ths.R;
@@ -65,5 +70,28 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
     @Override
     public void onFailure(Throwable throwable) {
         mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
+    }
+
+    public void getVisitReportDetail(VisitReport visitReport){
+
+        try {
+            THSManager.getInstance().getVisitReportDetail(mThsVisitHistoryDetailFragment.getContext(), visitReport, new THSVisitReportDetailCallback<VisitReportDetail, SDKError>() {
+                @Override
+                public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
+                    mThsVisitHistoryDetailFragment.hideProgressBar();
+                    mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    mThsVisitHistoryDetailFragment.hideProgressBar();
+                    mThsVisitHistoryDetailFragment.showToast("Failed to get the details");
+                }
+            });
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

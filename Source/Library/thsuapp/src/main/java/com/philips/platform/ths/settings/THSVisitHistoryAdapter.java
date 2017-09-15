@@ -45,7 +45,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ths_scheduled_visits_list_item, parent, false);
+                .inflate(R.layout.ths_visit_history_layout, parent, false);
 
         return new THSVisitHistoryAdapter.CustomViewHolder(itemView);
     }
@@ -58,51 +58,17 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
         final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
         holder.mLabelAppointmrntDate.setText(date);
 
-        holder.mLinearLayoutButtonContainer.setVisibility(View.GONE);
-
-        holder.mLabelPracticeName.setText(visitReport.getConsumerName());
         holder.mLabelProviderName.setText(visitReport.getProviderName());
-
-
-        try {
-            THSManager.getInstance().getVisitReportDetail(mThsVisitHistoryFragment.getContext(), visitReport, new THSVisitReportDetailCallback<VisitReportDetail, SDKError>() {
-                @Override
-                public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
-                    mVisitReportDetail = visitReportDetail;
-                    if (visitReportDetail.getAssignedProviderInfo().hasImage()) {
-                        try {
-                            final Drawable drawable = ContextCompat.getDrawable(mThsVisitHistoryFragment.getContext(), R.drawable.doctor_placeholder);
-
-                            THSManager.getInstance().getAwsdk(holder.mImageViewCircularImageView.getContext()).
-                                    getPracticeProvidersManager().
-                                    newImageLoader(visitReportDetail.getAssignedProviderInfo(),
-                                            holder.mImageViewCircularImageView, ProviderImageSize.LARGE).placeholder(drawable).build().load();
-
-                        } catch (AWSDKInstantiationException | NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-
-                }
-            });
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(THSConstants.THS_VISIT_REPORT_DETAIL,mVisitReportDetail);
                 bundle.putParcelable(THSConstants.THS_VISIT_REPORT,mVisitReports.get(position));
                 mThsVisitHistoryFragment.addFragment(new THSVisitHistoryDetailFragment(),THSProviderDetailsFragment.TAG,bundle);
             }
         };
-        holder.mProviderLayout.setOnClickListener(listener);
+        holder.mLabelProviderName.setOnClickListener(listener);
     }
 
     @Override
@@ -113,20 +79,13 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         Label mLabelAppointmrntDate;
-        CircularImageView mImageViewCircularImageView;
         Label mLabelProviderName;
-        Label mLabelPracticeName;
-        RelativeLayout mProviderLayout;
-        LinearLayout mLinearLayoutButtonContainer;
 
         public CustomViewHolder(View view) {
             super(view);
             this.mLabelAppointmrntDate = (Label) view.findViewById(R.id.ths_appointment_date);
-            this.mImageViewCircularImageView = (CircularImageView) view.findViewById(R.id.ths_providerImage);
             this.mLabelProviderName = (Label) view.findViewById(R.id.providerNameLabel);
-            this.mLabelPracticeName = (Label) view.findViewById(R.id.practiceNameLabel);
-            this.mProviderLayout = (RelativeLayout) view.findViewById(R.id.provider_details_layout_container);
-            mLinearLayoutButtonContainer = (LinearLayout) view.findViewById(R.id.ths_button_container);
+            this.mLabelProviderName = (Label) view.findViewById(R.id.provider_details_layout_container);
         }
     }
 }
