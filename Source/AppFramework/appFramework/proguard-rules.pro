@@ -113,10 +113,34 @@
 -dontwarn com.google.gson.**
 
 
-#----------------------------Product Registration library -----------------------
--keep class com.philips.cdp.prodreg.** {*;}
--keep interface com.philips.cdp.prodreg.** {*;}
--keep enum com.philips.cdp.prodreg.** {*;}
+
+
+#----------------------------Product Registration library Start Here -----------------------
+
+#DLS
+-keep public class com.philips.platform.uid.** { *; }
+-dontwarn com.philips.platform.uid.**
+
+
+-keepclassmembers enum * { *; }
+
+#Eventbus
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+
+-keep class com.philips.cdp.prodreg.model.** {*;}
+-keep class com.philips.cdp.prodreg.register.** {*;}
+-keep class com.philips.cdp.prodreg.localcache.** {*;}
+#----------------------------Product Registration library Start Here -----------------------
+
+
 
 # App-framework
 -keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
