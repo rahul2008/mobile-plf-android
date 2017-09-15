@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.AppInfraLogEventID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,7 +132,6 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             String logLevel = releaseConfig.getString("logLevel");
             loggingConfiguration.getLoggerBasedOnConfig("DemoAppInfra", loggingProperty);
             verify(logManager).addLogger(logger);
-            verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
         } catch (JSONException e) {
             Log.e(getClass()+"","JsonException in component level logging");
         }
