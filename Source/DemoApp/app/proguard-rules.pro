@@ -82,10 +82,10 @@
 
 
 #Janrain lib
--keep public class com.janrain.android.** {*;}
--keep  class com.janrain.android.Jump$* {*;}
--keep class com.philips.cdp.registration.User$*{*;}
--keep  class com.janrain.android.capture.Capture$* {*;}
+#-keep public class com.janrain.android.** {*;}
+#-keep  class com.janrain.android.Jump$* {*;}
+#-keep class com.philips.cdp.registration.User$*{*;}
+#-keep  class com.janrain.android.capture.Capture$* {*;}
 
 
 -keep public class com.philips.cdp.security.SecurityHelper {
@@ -117,10 +117,10 @@
 }
 
 
--keepclasseswithmembernames public class com.janrain.android.** {*;}
--keepclasseswithmembernames public class com.janrain.android.Jump {*;}
--keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
--keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
+#-keepclasseswithmembernames public class com.janrain.android.** {*;}
+#-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
+#-keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
+#-keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
 
 
 
