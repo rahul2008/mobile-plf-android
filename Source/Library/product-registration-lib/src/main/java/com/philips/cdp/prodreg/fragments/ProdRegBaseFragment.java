@@ -291,13 +291,18 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     public void dismissProdRegLoadingDialog() {
-        final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
-            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
-            if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
-                alertDialogFragment.dismissAllowingStateLoss();
-                alertDialogFragment = null;
-            }
+////        final FragmentActivity activity = getActivity();
+////        if (activity != null && !activity.isFinishing()) {
+////            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("prg_dialog");
+////            if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
+////                alertDialogFragment.dismissAllowingStateLoss();
+////                alertDialogFragment = null;
+//            }
+//        }
+        if (alertDialogFragment != null && getActivity() != null && !getActivity().isFinishing()) {
+            alertDialogFragment.dismissAllowingStateLoss();
+            alertDialogFragment = null;
+
         }
     }
 
@@ -327,11 +332,19 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         alertDialogFragment.show(getFragmentManager(), tag);
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (alertDialogFragment != null && alertDialogFragment.getDialog().isShowing()) {
+//            alertDialogFragment.dismiss();
+//        }
+//    }
+
     @Override
-    public void onPause() {
-        super.onPause();
-        if (alertDialogFragment != null && alertDialogFragment.getDialog().isShowing()) {
-            alertDialogFragment.dismiss();
-        }
+    public void onDestroy() {
+        super.onDestroy();
+        dismissProdRegLoadingDialog();
+        dismissAlertOnError();
     }
+
 }
