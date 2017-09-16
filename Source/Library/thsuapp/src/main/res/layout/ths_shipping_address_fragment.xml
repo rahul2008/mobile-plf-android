@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:imeOptions="actionNext"
         android:inputType="text"
+        android:maxLines="1"
         android:layout_below="@+id/sa_address_line_one_text"
         android:layout_marginBottom="16dp"
         android:hint="Enter first address line" />
@@ -48,6 +49,7 @@
         android:layout_height="wrap_content"
         android:imeOptions="actionNext"
         android:inputType="text"
+        android:maxLines="1"
         android:layout_below="@+id/sa_address_line_two_text"
         android:layout_marginBottom="16dp"
         android:hint="(optional)" />
@@ -67,6 +69,7 @@
         android:layout_height="wrap_content"
         android:imeOptions="actionNext"
         android:inputType="text"
+        android:maxLines="1"
         android:layout_below="@id/sa_town_text"
         android:layout_marginBottom="16dp"
         android:hint="Enter yout town or city" />
