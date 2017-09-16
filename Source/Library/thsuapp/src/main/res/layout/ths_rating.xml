@@ -20,7 +20,7 @@
         android:layout_marginBottom="24dp"
         fontPath="fonts/centralesansbold.ttf"
         android:text="How was your visit?"
-        android:textSize="22sp"></com.philips.platform.uid.view.widget.Label>
+        android:textSize="22sp"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_provider_rating_label"
@@ -33,7 +33,7 @@
 
         android:text="Rate your provider"
 
-        ></com.philips.platform.uid.view.widget.Label>
+        />
 
     <com.philips.platform.uid.view.widget.RatingBar
         android:id="@+id/ths_provider_ratingbar"
@@ -59,7 +59,7 @@
         android:layout_marginBottom="24dp"
         android:text="Rate your overall experience"
 
-        ></com.philips.platform.uid.view.widget.Label>
+        />
 
     <com.philips.platform.uid.view.widget.RatingBar
         android:id="@+id/ths_visit_ratingbar"

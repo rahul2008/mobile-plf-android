@@ -33,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_payment_detail_card_owner_name_label"
         android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
-
+        android:inputType="text"
+        android:maxLines="1"
         android:hint="Enter card owner's name" />
 
 
@@ -50,7 +51,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_payment_detail_card_number_label"
-
         android:layout_marginBottom="@dimen/ths_margin_between_ui_control"
         android:digits="0123456789"
         android:inputType="number|none" />
@@ -154,5 +154,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/ths_margin_bottom"
-        android:text="Ok, continue"></com.philips.platform.uid.view.widget.Button>
+        android:text="Ok, continue"/>
 </RelativeLayout>

@@ -54,7 +54,7 @@
         android:layout_marginBottom="@dimen/ths_margin_bottom"
         android:lineSpacingExtra="4dp"
 
-        android:textSize="@dimen/ths_small_body_text"></com.philips.platform.uid.view.widget.Label>
+        android:textSize="@dimen/ths_small_body_text"/>
 
     <LinearLayout
         android:id="@+id/ths_cost_summary_divider_linearLayout"
@@ -63,7 +63,7 @@
         android:layout_below="@+id/ths_cost_summary_initial_visit_cost_label"
         android:layout_marginBottom="@dimen/ths_list_space"
         android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
     <com.philips.platform.uid.view.widget.Label
 
@@ -75,7 +75,7 @@
         android:text="Enter a promotion code here"
         android:textSize="@dimen/ths_body_text"
 
-        ></com.philips.platform.uid.view.widget.Label>
+        />
 
     <com.philips.platform.uid.view.widget.EditText
 
@@ -83,7 +83,8 @@
         android:layout_below="@+id/ths_cost_summary_promotion_code_title_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:inputType="text"
+        android:maxLines="1"
         android:layout_marginBottom="@dimen/ths_list_space" />
 
 
