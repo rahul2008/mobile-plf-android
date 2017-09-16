@@ -48,6 +48,11 @@ public class THSDatePickerFragmentUtility {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         } else if (thsDateEnum.getValue() == THSDateEnum.HIDEFUTUREDATE.getValue()) {
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        } else if(thsDateEnum.getValue() == THSDateEnum.HIDESIXMONTHSLATERDATE.getValue()){
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 15778476000L);
+        }else if (thsDateEnum.getValue() == THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE.getValue()){
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 15778476000L);
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         }
 
         datePickerDialog.show();
