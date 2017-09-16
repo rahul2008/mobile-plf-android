@@ -234,4 +234,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>All fields are mandatory
     <string name="ths_error_all_fields_mandatory">All fields are mandatory</string>
     <string name="ths_error_cc_expiry_date_detail_not_valid">Credit card expiry date not valid</string>
+
+    <!-- Registration Screen-->
+    <string name="something_went_wrong">Something went wrong !!!</string>
+    <string name="validation_failed">Validation Failed  - </string>
+
 </resources>
