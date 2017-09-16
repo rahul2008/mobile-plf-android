@@ -57,7 +57,7 @@
             android:textSize="@dimen/ths_small_body_text"
             android:paddingTop="@dimen/ths_body_text_padding"
             android:paddingBottom="@dimen/ths_body_text_padding"
-            android:layout_toLeftOf="@id/ths_arrow"
+            android:layout_toStartOf="@id/ths_arrow"
             android:layout_alignStart="@id/providerNameLabel" />
 
         <com.philips.platform.uid.view.widget.RatingBar
@@ -66,13 +66,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/practiceNameLabel"
+            android:layout_marginBottom="@dimen/uid_grid_title_padding"
+            android:layout_marginEnd="@dimen/uid_grid_title_padding"
+            android:layout_marginStart="@dimen/uid_grid_title_padding"
+            android:rating="3.6"
             android:stepSize=".1"
             android:textColor="?attr/uidLabelValueNormalTextColor"
-            android:visibility="gone"
-            android:layout_alignLeft="@id/practiceNameLabel"
-            android:layout_alignParentRight="true"
-            android:numStars="5"
             android:textSize="@dimen/uid_grid_descrption_size" />
+
 
     </RelativeLayout>
 
