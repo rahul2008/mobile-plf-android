@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
+import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -157,7 +158,7 @@ public class THSFileUtils {
             // rather than redownload
             final File attachment = downloadAttachment(context, fileAttachment);
             final MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-            final Uri uri = Uri.fromFile(attachment);
+            final Uri uri =  FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".com.philips.platform.ths", attachment);
 
             String type = "*/*";
             String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
@@ -167,7 +168,7 @@ public class THSFileUtils {
 
             final Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, type);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             try {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
