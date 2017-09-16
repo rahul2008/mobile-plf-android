@@ -112,9 +112,7 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.update_shipping_address) {
-            mTHSCreditCardBillingAddressPresenter.onEvent(R.id.update_shipping_address);
-        }
+            mTHSCreditCardBillingAddressPresenter.onEvent(v.getId());
 
     }
 }
