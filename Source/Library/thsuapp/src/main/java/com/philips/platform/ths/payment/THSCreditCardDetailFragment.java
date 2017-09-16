@@ -98,12 +98,6 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ths_payment_detail_continue_button) {
-            mTHSCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_continue_button);
-        } else if (v.getId() == R.id.ths_payment_detail_card_cvc_help) {
-            mTHSCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_card_cvc_help);
-        } else if (v.getId() == R.id.uid_dialog_positive_button) {
-            mTHSCreditCardDetailPresenter.onEvent(R.id.uid_dialog_positive_button);
-        }
+        mTHSCreditCardDetailPresenter.onEvent(v.getId());
     }
 }
