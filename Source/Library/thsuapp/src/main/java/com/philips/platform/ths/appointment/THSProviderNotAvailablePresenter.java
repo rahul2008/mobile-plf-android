@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.AvailableProvider;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
@@ -23,6 +26,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class THSProviderNotAvailablePresenter implements THSBasePresenter{
     private THSBaseFragment mThsBaseFragment;
@@ -63,21 +67,22 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
             THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
                 @Override
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
-                    if (availableProviders.getAvailableProvidersList() == null || availableProviders.getAvailableProvidersList().size() == 0) {
-                        ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails();
-                    } else if (!availableProviders.getAvailableProvidersList().contains(((THSProviderNotAvailableFragment) mThsBaseFragment).getProvider())) {
-                        ((THSProviderNotAvailableFragment) mThsBaseFragment).mThsAvailableProviderList = availableProviders;
-                        ((THSProviderNotAvailableFragment) mThsBaseFragment).refreshList();
-                        ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails();
+                    final THSAvailableProvider availableListContainsProviderChosen = isAvailableListContainsProviderChosen(availableProviders);
+
+                    if (availableProviders.getAvailableProvidersList() == null || availableProviders.getAvailableProvidersList().size() == 0 || availableListContainsProviderChosen == null) {
+                        ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails(availableProviders);
                     } else {
+                        new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, availableListContainsProviderChosen, date, practice);
+                    } /*else {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST, availableProviders);
                         bundle.putSerializable(THSConstants.THS_DATE, date);
                         bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
                         THSAvailableProviderListBasedOnDateFragment thsAvailableProviderListBasedOnDateFragment = new THSAvailableProviderListBasedOnDateFragment();
                         mThsBaseFragment.addFragment(thsAvailableProviderListBasedOnDateFragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
-                    }
+                    }*/
                 }
+
 
                 @Override
                 public void onFailure(Throwable throwable) {
@@ -87,6 +92,21 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
+    }
+
+    private THSAvailableProvider isAvailableListContainsProviderChosen(THSAvailableProviderList availableProviders) {
+
+        final List<AvailableProvider> availableProvidersList = availableProviders.getAvailableProviders().getAvailableProviders();
+        final Provider providerSelected = ((THSProviderNotAvailableFragment) mThsBaseFragment).getProvider();
+
+        for (AvailableProvider provider: availableProvidersList) {
+            if(provider.getProviderInfo().getFirstName().equalsIgnoreCase(providerSelected.getFirstName())){
+                THSAvailableProvider thsAvailableProvider = new THSAvailableProvider();
+                thsAvailableProvider.setAvailableProvider(provider);
+                return thsAvailableProvider;
+            }
+        }
+        return null;
     }
 
 }

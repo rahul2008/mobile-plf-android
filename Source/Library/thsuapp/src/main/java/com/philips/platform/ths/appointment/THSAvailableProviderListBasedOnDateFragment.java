@@ -67,7 +67,6 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mThsAvailableProviderList = bundle.getParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST);
         mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this, this);
         if (null != view) {
-
             recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
             mLabelNumberOfAvailableDoctors = (Label) view.findViewById(R.id.number_of_available_doctors);
             mLabelDate = (Label) view.findViewById(R.id.calendar_view);

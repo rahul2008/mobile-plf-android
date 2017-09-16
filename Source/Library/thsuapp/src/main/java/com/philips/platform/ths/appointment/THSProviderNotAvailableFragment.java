@@ -69,7 +69,8 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         this.mProvider = mProvider;
     }
 
-    public void updateProviderDetails() {
+    public void updateProviderDetails(THSAvailableProviderList thsAvailableProviderList) {
+        updateProviderAdapterList(thsAvailableProviderList);
         providerListItemLayoutBasedOnDate.setVisibility(View.VISIBLE);
         View view = getView();
         if(view == null)
