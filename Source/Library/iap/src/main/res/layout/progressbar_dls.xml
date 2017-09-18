@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/reg_layout_margin_20dp"
-        android:layout_marginTop="@dimen/reg_layout_margin_20dp"
+        android:layout_marginBottom="@dimen/iap_margin_20dp"
+        android:layout_marginTop="@dimen/iap_margin_20dp"
         android:gravity="center"
         android:orientation="horizontal">
 

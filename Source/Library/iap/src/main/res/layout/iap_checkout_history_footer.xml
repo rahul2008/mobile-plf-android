@@ -125,7 +125,7 @@
             android:id="@+id/delivery_ups_parcel_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
+            android:layout_marginBottom="@dimen/iap_margin_10dp"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right">
 
