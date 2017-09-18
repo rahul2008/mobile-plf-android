@@ -80,10 +80,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
 
         */
-        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+        mAdapter = new AddressSelectionAdapter(mAddresses);
         mAddressListView.setAdapter(mAdapter);
         TextView tv_checkOutSteps = (TextView) view.findViewById(R.id.tv_checkOutSteps);
-        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps),"1"));
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "1"));
 
         return view;
     }
@@ -189,7 +189,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-       handleDeliveryMode(msg, mAddressController);
+        handleDeliveryMode(msg, mAddressController);
     }
 
     @Override
@@ -211,8 +211,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
-            Bundle bundle=new Bundle();
-            bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS,true);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS, true);
             bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
 
             addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
