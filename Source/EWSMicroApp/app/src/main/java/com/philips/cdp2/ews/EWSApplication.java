@@ -19,7 +19,7 @@ import com.philips.platform.appinfra.AppInfra;
 import java.util.HashMap;
 
 
-public class TestApplication extends Application {
+public class EWSApplication extends Application {
 
 
     @Override
