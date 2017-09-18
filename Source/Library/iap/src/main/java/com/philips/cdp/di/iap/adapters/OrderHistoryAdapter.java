@@ -105,7 +105,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView mTime;
         private TextView mOrderNumber;
         private TextView mOrderState;
-        private RelativeLayout mOrderSummaryLayout;
         private LinearLayout mProductDetailsLayout;
 
         public OrderHistoryHolder(final View itemView) {
@@ -114,7 +113,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTime = (TextView) itemView.findViewById(R.id.tv_time);
             mOrderNumber = (TextView) itemView.findViewById(R.id.tv_order_number);
             mOrderState = (TextView) itemView.findViewById(R.id.tv_order_state);
-            mOrderSummaryLayout = (RelativeLayout) itemView.findViewById(R.id.order_summary);
             mProductDetailsLayout = (LinearLayout) itemView.findViewById(R.id.product_detail);
             mProductDetailsLayout.setOnClickListener(this);
         }

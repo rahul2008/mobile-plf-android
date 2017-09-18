@@ -1,12 +1,13 @@
 package com.philips.cdp.di.iap.response.carts;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class EntriesEntity {
+public class EntriesEntity implements Serializable{
 
     private BasePriceEntity basePrice;
     private int entryNumber;

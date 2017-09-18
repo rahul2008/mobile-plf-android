@@ -2,6 +2,10 @@ package com.philips.cdp.di.iap.analytics;
 
 public class IAPAnalyticsConstant {
 
+    private IAPAnalyticsConstant(){
+
+    }
+
     public static final String COMPONENT_NAME = "iap";
 
     public static final String PRODUCT_CATALOG_PAGE_NAME = "ProductCatalogPage";
@@ -79,6 +83,5 @@ public class IAPAnalyticsConstant {
     public static final String NO_PRODUCT_FOUND = "NoProductFound";
     public static final String No_IMAGES_FOUND = "NoImagesFound";
     public static final String PRODUCT_DESCRIPTION_MISSING = "ProductDescriptionMissing";
-//    public static final String INSUFFICIENT_STOCK_ERROR = "InsufficientStockError";
 }
 

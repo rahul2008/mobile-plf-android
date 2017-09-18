@@ -115,27 +115,6 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return null;
     }
 
-    private void bindCountView(final View view, final int position) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                final ShoppingCartData data = mData.get(position);
-
-                CountDropDown countPopUp = new CountDropDown(v, data.getStockLevel(), data
-                        .getQuantity(), new CountDropDown.CountUpdateListener() {
-                    @Override
-                    public void countUpdate(final int oldCount, final int newCount) {
-                        mSelectedItemPosition = position;
-                        mQuantityStatus = getQuantityStatus(newCount, oldCount);
-                        mNewCount = newCount;
-                        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
-                    }
-                });
-                mPopupWindow = countPopUp.getPopUpWindow();
-                countPopUp.show();
-            }
-        });
-    }
 
     public int getNewCount() {
         return mNewCount;
@@ -143,15 +122,6 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public int getQuantityStatusInfo() {
         return mQuantityStatus;
-    }
-
-    private int getQuantityStatus(int newCount, int oldCount) {
-        if (newCount > oldCount)
-            return 1;
-        else if (newCount < oldCount)
-            return 0;
-        else
-            return -1;
     }
 
     private void showProductDetails(final int selectedItem) {
@@ -242,7 +212,6 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if (null != mBillingAddress) {
                     String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                     shoppingCartFooter.mBillingName.setText(billingName);
-//                    shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress) + shoppingCartDataForProductDetailPage.getDeliveryAddressEntity().getCountry().getName());
                     shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress));
                 }
 
@@ -250,7 +219,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
-                    mProductName.setText("" + mData.get(i).getQuantity() + "x " + mData.get(i).getProductTitle().toString());
+                    mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }

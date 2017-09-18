@@ -1,10 +1,12 @@
 package com.philips.cdp.di.iap.response.carts;
 
+import java.io.Serializable;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class DeliveryModeEntity {
+public class DeliveryModeEntity implements Serializable{
     private String code;
 
     private DeliveryCostEntity deliveryCost;

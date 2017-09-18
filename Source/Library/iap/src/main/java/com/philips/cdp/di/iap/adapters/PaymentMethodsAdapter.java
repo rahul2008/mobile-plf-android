@@ -45,8 +45,9 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_payment_method_footer, parent, false);
                 return new PaymentMethodsFooterHolder(view);
 
+            default:
+                return viewHolder;
         }
-        return viewHolder;
     }
 
     @Override

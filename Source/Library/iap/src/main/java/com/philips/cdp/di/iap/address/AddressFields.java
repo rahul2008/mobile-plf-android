@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.address;
 
 import java.io.Serializable;
 
-public class AddressFields implements Serializable, Cloneable {
+public class AddressFields implements Serializable{
 
     private static final long serialVersionUID = 8533528348900570462L;
 
@@ -130,41 +130,4 @@ public class AddressFields implements Serializable, Cloneable {
         this.regionName = regionName;
     }
 
-    @Override
-    public AddressFields clone() {
-        AddressFields newFields = new AddressFields();
-        newFields.firstName = firstName;
-        newFields.lastName = lastName;
-        newFields.titleCode = titleCode;
-        newFields.countryIsocode = countryIsocode;
-        newFields.email = email;
-        newFields.line1 = line1;
-        newFields.line2 = line2;
-        newFields.postalCode = postalCode;
-        newFields.town = town;
-        newFields.phone1 = phone1;
-        newFields.phone2 = phone2;
-        newFields.regionIsoCode = regionIsoCode;
-        newFields.regionName = regionName;
-        return newFields;
-    }
-
-//    @Override
-//    public String toString() {
-//        if (titleCode == null && firstName == null && lastName == null && countryIsocode == null && email == null && line1 == null && line2 == null && postalCode == null && town == null && phone1 == null && phone2 == null && regionIsoCode == null && regionName == null)
-//            return null;
-//        return "titleCode " + titleCode
-//                + "first name = " + firstName
-//                + "lastName = " + lastName
-//                + "countryIsocode = " + countryIsocode
-//                + "email = " + email
-//                + "line1 = " + line1
-//                + "line2 = " + line2
-//                + "postalCode = " + postalCode
-//                + "town = " + town
-//                + "phone1 = " + phone1
-//                + "phone2 = " + phone2
-//                + "regionIsoCode = " + regionIsoCode
-//                + "regionName = " + regionName;
-//    }
 }

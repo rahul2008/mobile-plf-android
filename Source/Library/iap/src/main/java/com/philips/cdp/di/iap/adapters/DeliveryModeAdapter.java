@@ -26,7 +26,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     private DeliveryModeDialog.DialogListener mListener;
     private boolean isRadioBtnSelectedFirst;
 
-    public DeliveryModeAdapter(int txtViewResourceId, final List<DeliveryModes> modes,
+    public DeliveryModeAdapter(final List<DeliveryModes> modes,
                                View.OnClickListener confirmBtnClick,DeliveryModeDialog.DialogListener listener) {
         mModes = modes;
         mSelectedIndex = 0;

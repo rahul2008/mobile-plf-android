@@ -36,14 +36,9 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected ShoppingCartListener mLoadListener;
 
     public interface ShoppingCartListener<T> {
-        //void onLoadFinished(ArrayList<T> data);
 
         void onLoadFinished(ArrayList<? extends Object> data);
-
-        //void onLoadFinished(ShoppingCartData data);
-
         void onLoadError(Message msg);
-
         void onRetailerError(IAPNetworkError errorMsg);
     }
 
@@ -124,11 +119,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
             }
         }
     }
-
-    /*protected void dismissProgressDialog() {
-        if (isProgressDialogShowing())
-            Utility.dismissProgressDialog();
-    }*/
 
     @SuppressWarnings({"unchecked"})
     public void refreshList(ArrayList data) {

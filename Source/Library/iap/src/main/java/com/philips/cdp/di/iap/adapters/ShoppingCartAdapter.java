@@ -171,10 +171,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             String imageURL = cartData.getImageURL();
-            // shoppingCartProductHolder.mTvActualPrice.setText(cartData.getFormattedTotalPrice());
-            // shoppingCartProductHolder.mTvActualPrice.setPaintFlags(shoppingCartProductHolder.mTvActualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
-            shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
+            shoppingCartProductHolder.mTvQuantity.setText(Integer.toString(cartData.getQuantity()));
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
@@ -242,7 +240,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
-                    mProductName.setText("" + mData.get(i).getQuantity() + "x " + mData.get(i).getProductTitle().toString());
+                    mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }
@@ -340,21 +338,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTvQuantity;
         TextView mIvOptions;
         Button deleteBtn;
-        View itemView;
+        View shoppingCartView;
         View viewBottomSpace;
 
-        ShoppingCartProductHolder(final View itemView) {
-            super(itemView);
-            this.itemView=itemView;
-            mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
-            mTvPrice = (TextView) itemView.findViewById(R.id.price_label);
-            mTvActualPrice = (TextView) itemView.findViewById(R.id.actual_price);
-            mQuantityLayout = (RelativeLayout) itemView.findViewById(R.id.quantity_count_layout);
-            mTvAfterDiscountPrice = (TextView) itemView.findViewById(R.id.after_discount_price);
-            mTvQuantity = (TextView) itemView.findViewById(R.id.quantity_val);
-            mIvOptions = (TextView) itemView.findViewById(R.id.right_arrow);
-            deleteBtn = (Button) itemView.findViewById(R.id.delete_btn);
-            viewBottomSpace=(View)itemView.findViewById(R.id.bottom_space);
+        ShoppingCartProductHolder(final View shoppingCartView) {
+            super(shoppingCartView);
+            this.shoppingCartView = shoppingCartView;
+            mNetworkImage = (NetworkImageView) shoppingCartView.findViewById(R.id.image);
+            mTvPrice = (TextView) shoppingCartView.findViewById(R.id.price_label);
+            mTvActualPrice = (TextView) shoppingCartView.findViewById(R.id.actual_price);
+            mQuantityLayout = (RelativeLayout) shoppingCartView.findViewById(R.id.quantity_count_layout);
+            mTvAfterDiscountPrice = (TextView) shoppingCartView.findViewById(R.id.after_discount_price);
+            mTvQuantity = (TextView) shoppingCartView.findViewById(R.id.quantity_val);
+            mIvOptions = (TextView) shoppingCartView.findViewById(R.id.right_arrow);
+            deleteBtn = (Button) shoppingCartView.findViewById(R.id.delete_btn);
+            viewBottomSpace=(View) shoppingCartView.findViewById(R.id.bottom_space);
 
         }
     }

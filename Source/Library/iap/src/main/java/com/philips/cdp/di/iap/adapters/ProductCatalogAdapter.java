@@ -158,7 +158,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        //return mProductCatalogList.size();
         if(mProductCatalogList.size()==0){
 
             if(isSearchFocused()){

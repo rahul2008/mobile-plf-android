@@ -19,31 +19,31 @@ public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
 
     @Override
     public void getCurrentCartDetails() {
-
+    //Do nothing
     }
 
     @Override
     public void deleteProduct(final ShoppingCartData summary) {
-
+    //Do nothing
     }
 
     @Override
     public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
-
+    //Do nothing
     }
 
     @Override
     public void addProductToCart(Context context, String productCTN, IAPCartListener iapHandlerListener,  boolean isFromBuyNow) {
-
+    //Do nothing
     }
 
     @Override
     public void getProductCartCount(Context context, IAPCartListener iapHandlerListener) {
-
+    //Do nothing
     }
 
     @Override
     public void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener) {
-
+    //Do nothing
     }
 }

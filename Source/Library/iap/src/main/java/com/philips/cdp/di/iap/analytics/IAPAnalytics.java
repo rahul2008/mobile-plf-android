@@ -17,6 +17,10 @@ import java.util.Map;
 public class IAPAnalytics {
     public static AppTaggingInterface sAppTaggingInterface;
 
+    private IAPAnalytics(){
+
+    }
+
     public static void initIAPAnalytics(IAPDependencies dependencies) {
         sAppTaggingInterface =
                 dependencies.getAppInfra().getTagging().

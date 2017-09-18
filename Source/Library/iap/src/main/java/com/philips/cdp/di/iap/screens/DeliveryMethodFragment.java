@@ -22,7 +22,6 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
 
     private Context mContext;
     private RecyclerView mDeliveryRecyclerView;
-    private DeliveryModes mSelectedDeliveryMode;
     private AddressController mAddressController;
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
@@ -63,7 +62,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
     private void settingDataToAdapter() {
         List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
-        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(R.layout.iap_delivery_mode_spinner_item, mDeliveryModes, mConfirmBtnClick, this);
+        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mDeliveryModes, mConfirmBtnClick, this);
         mDeliveryRecyclerView.setAdapter(mDeliveryModeAdapter);
         mDeliveryModeAdapter.notifyDataSetChanged();
     }
@@ -72,14 +71,13 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
 
         @Override
         public void onClick(View view) {
-
+            //do nothing
         }
     };
 
     @Override
     public void onItemClick(int position) {
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        mSelectedDeliveryMode = deliveryModes.get(position);
 
         if (!isProgressDialogShowing())
             showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
@@ -89,32 +87,32 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
 
     @Override
     public void onGetRegions(Message msg) {
-
+    //do nothing
     }
 
     @Override
     public void onGetUser(Message msg) {
-
+    //do nothing
     }
 
     @Override
     public void onCreateAddress(Message msg) {
-
+    //do nothing
     }
 
     @Override
     public void onGetAddress(Message msg) {
-
+    //do nothing
     }
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-
+    //do nothing
     }
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-
+    //do nothing
     }
 
     @Override
