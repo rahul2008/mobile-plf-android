@@ -79,36 +79,17 @@ dependencies {
     compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
     compile "com.android.support:animated-vector-drawable:${versionsAndroid.support}"
     compile "com.android.support:cardview-v7:${versionsAndroid.support}"
-    compile "com.android.support:gridlayout-v7:${versionsAndroid.support}"
     compile "com.android.support:multidex:${versionsAndroid.multidex}"
+    compile 'net.danlew:android.joda:2.9.9'
 
     // Philips Dependencies
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: "${versionsPhilips.prg}", ext: 'aar', changing: true) {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: "${versionsPhilips.dsc}", ext: 'aar') {
-        exclude group: 'com.android.support'
-        exclude group: 'net.danlew'
-        transitive = true
-    }
     compile(group: 'com.philips.cdp', name: 'commlib-all', version: "${versionsPhilips.cba}", ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: "${versionsPhilips.uaf}", ext: 'aar'){
-        exclude group: 'com.android.support'
-    }
     compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}", ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: "${versionsPhilips.lcm}", ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'securedblibrary', version: "${versionsPhilips.sdb}", ext: 'aar'){
-        exclude group: 'com.android.support'
     }
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"

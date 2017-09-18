@@ -16,6 +16,8 @@ import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.platform.appinfra.AppInfra;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import java.util.HashMap;
 
 
@@ -26,6 +28,7 @@ public class EWSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //TODO fix the hashmap
+        JodaTimeAndroid.init(this); // TODO this should be removed in favor or Java's date API
         HashMap map = new HashMap<String, String>();
         map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
 

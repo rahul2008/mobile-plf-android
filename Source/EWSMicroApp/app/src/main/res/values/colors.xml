@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#ffffff</color>
+
     <color name="color_panel">#0D012334</color>
     <color name="cancel_dialog_background">#B3000000</color>
 
