@@ -280,6 +280,7 @@
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
 -dontpreverify
+-dontoptimize
 
 #attributes
 -keepattributes *Annotation*
