@@ -55,6 +55,9 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @BindView(R2.id.usr_mobileverification_resendsmstimer_progress)
     ProgressBarWithLabel usr_mobileverification_resendsmstimer_progress;
 
+    @BindView(R2.id.ll_reg_root_container)
+    LinearLayout fragmentRootLayout;
+
     private Context context;
 
     private MobileForgotPassVerifyResendCodePresenter mobileVerifyResendCodePresenter;
@@ -159,7 +162,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, errorMessage, width);
+        applyParams(config, fragmentRootLayout, width);
     }
 
     @Override

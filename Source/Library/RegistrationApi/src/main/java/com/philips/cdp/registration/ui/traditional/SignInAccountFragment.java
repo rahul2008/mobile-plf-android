@@ -85,7 +85,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_forgotPassword_button)
     Label resetPasswordLabel;
 
-
     @BindView(R2.id.usr_loginScreen_rootLayout_LinearLayout)
     LinearLayout usr_loginScreen_rootLayout_LinearLayout;
 
