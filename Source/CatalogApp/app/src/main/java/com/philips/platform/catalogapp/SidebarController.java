@@ -21,15 +21,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import com.philips.platform.catalogapp.dataUtils.SidebarRightListViewAdapter;
-import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDUtils;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
@@ -38,17 +34,18 @@ public class SidebarController {
     private Context context;
     private MainActivity mainActivity;
     private ViewDataBinding activityMainBinding;
-
     private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
     private RecyclerView contentThemedLeftRecyclerView;
     private RecyclerView navigationThemedLeftRecyclerView;
-    private ListView contentThemedRightListView;
-    private ListView navigationThemedRightListView;
+    private RecyclerView contentThemedRightRecyclerView;
+    private RecyclerView navigationThemedRightRecyclerView;
     private static final String LEFT_SELECTED_POSITION = "LEFT_SELECTED_POSITION";
+    private static final String RIGHT_SELECTED_POSITION = "RIGHT_SELECTED_POSITION";
     private static final String IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE";
     private static final String IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE = "IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE";
     private int leftRecyclerViewSelectedPosition = 0;
+    private int rightRecyclerViewSelectedPosition = 1;
     private boolean isNavigationThemedLeftContainerVisible;
     private boolean isNavigationThemedRightContainerVisible;
     private LinearLayout sidebarLeftRoot;
@@ -57,7 +54,7 @@ public class SidebarController {
     private SidebarNavigationViewContainer contentThemedRightSidebarRoot;
     private SidebarNavigationViewContainer navigationThemedRightSidebarRoot;
 
-    public SidebarController(final MainActivity mainActivity, final ViewDataBinding activityMainBinding) {
+    SidebarController(final MainActivity mainActivity, final ViewDataBinding activityMainBinding) {
         context = mainActivity;
         this.mainActivity = mainActivity;
         this.activityMainBinding = activityMainBinding;
@@ -78,7 +75,7 @@ public class SidebarController {
         navigationThemedRightSidebarRoot = (SidebarNavigationViewContainer) activityMainBinding.getRoot().findViewById(R.id.sidebar_navigation_themed_right_root);
 
         initLeftSidebarRecyclerViews();
-        initRightSidebarListViews();
+        initRightSidebarRecyclerViews();
 
         drawerToggle = setupDrawerToggle();
         drawerToggle.setDrawerIndicatorEnabled(false);
@@ -106,45 +103,21 @@ public class SidebarController {
         };
     }
 
-    private void initRightSidebarListViews() {
+    private void initRightSidebarRecyclerViews() {
 
-        contentThemedRightListView = (ListView) activityMainBinding.getRoot().findViewById(R.id.sidebar_content_themed_right_listview);
-        navigationThemedRightListView = (ListView) activityMainBinding.getRoot().findViewById(R.id.sidebar_navigation_themed_right_listview);
+        RecyclerViewSeparatorItemDecoration contentThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(context);
+        contentThemedRightRecyclerView = (RecyclerView) activityMainBinding.getRoot().findViewById(R.id.sidebar_content_themed_right_recyclerview);
+        contentThemedRightRecyclerView.setAdapter(new SidebarRightRecyclerViewAdapter(context.getResources().getStringArray(R.array.sidebar_right_menu_items), false));
+        contentThemedRightRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        contentThemedRightRecyclerView.addItemDecoration(contentThemedRightSeparatorItemDecoration);
+        contentThemedRightRecyclerView.setHasFixedSize(true);
 
-        ImageView sidebarRightImg = (ImageView) activityMainBinding.getRoot().findViewById(R.id.sidebar_right_header_image);
-        sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(context), 0, 0);
-
-        final SeparatorDrawable contentThemedSeparatorDrawable = new SeparatorDrawable(context);
-        contentThemedRightListView.setDivider(contentThemedSeparatorDrawable);
-        contentThemedRightListView.setDividerHeight(contentThemedSeparatorDrawable.getHeight());
-
-        ArrayAdapter contentThemedArrayAdapter = new SidebarRightListViewAdapter(context, R.layout.sidebar_right_listview_item, context.getResources().getStringArray(R.array.sidebar_right_menu_items), false);
-        contentThemedRightListView.setAdapter(contentThemedArrayAdapter);
-        contentThemedRightListView.setItemChecked(0, true);
-        contentThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                contentThemedRightListView.setItemChecked(position, true);
-                navigationThemedRightListView.setItemChecked(position, true);
-                sideBar.closeDrawer(GravityCompat.END);
-            }
-        });
-
-        final SeparatorDrawable navigationThemedSeparatorDrawable = new SeparatorDrawable(UIDHelper.getNavigationThemedContext(context));
-        navigationThemedRightListView.setDivider(navigationThemedSeparatorDrawable);
-        navigationThemedRightListView.setDividerHeight(navigationThemedSeparatorDrawable.getHeight());
-
-        ArrayAdapter navigationThemedArrayAdapter = new SidebarRightListViewAdapter(UIDHelper.getNavigationThemedContext(context), R.layout.sidebar_right_listview_item, context.getResources().getStringArray(R.array.sidebar_right_menu_items), true );
-        navigationThemedRightListView.setAdapter(navigationThemedArrayAdapter);
-        navigationThemedRightListView.setItemChecked(0, true);
-        navigationThemedRightListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                navigationThemedRightListView.setItemChecked(position, true);
-                contentThemedRightListView.setItemChecked(position, true);
-                sideBar.closeDrawer(GravityCompat.END);
-            }
-        });
+        RecyclerViewSeparatorItemDecoration navigationThemedRightSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(UIDHelper.getNavigationThemedContext(context));
+        navigationThemedRightRecyclerView = (RecyclerView) activityMainBinding.getRoot().findViewById(R.id.sidebar_navigation_themed_right_recyclerview);
+        navigationThemedRightRecyclerView.setAdapter(new SidebarRightRecyclerViewAdapter(context.getResources().getStringArray(R.array.sidebar_right_menu_items), true));
+        navigationThemedRightRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        navigationThemedRightRecyclerView.addItemDecoration(navigationThemedRightSeparatorItemDecoration);
+        navigationThemedRightRecyclerView.setHasFixedSize(true);
     }
 
     private void initLeftSidebarRecyclerViews() {
@@ -155,12 +128,12 @@ public class SidebarController {
         DataHolderView navigationThemedDataHolderView = getIconDataHolderView(UIDHelper.getNavigationThemedContext(context));
 
         contentThemedLeftRecyclerView = (RecyclerView) activityMainBinding.getRoot().findViewById(R.id.sidebar_content_themed_left_recyclerview);
-        contentThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(contentThemedDataHolderView.dataHolders, false));
+        contentThemedLeftRecyclerView.setAdapter(new SidebarLeftRecyclerViewAdapter(contentThemedDataHolderView.dataHolders, false));
         contentThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         contentThemedLeftRecyclerView.addItemDecoration(contentThemedSeparatorItemDecoration);
 
         navigationThemedLeftRecyclerView = (RecyclerView) activityMainBinding.getRoot().findViewById(R.id.sidebar_navigation_themed_left_recyclerview);
-        navigationThemedLeftRecyclerView.setAdapter(new SidebarRecyclerViewAdapter(navigationThemedDataHolderView.dataHolders, true));
+        navigationThemedLeftRecyclerView.setAdapter(new SidebarLeftRecyclerViewAdapter(navigationThemedDataHolderView.dataHolders, true));
         navigationThemedLeftRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         navigationThemedLeftRecyclerView.addItemDecoration(navigationThemedSeparatorItemDecoration);
     }
@@ -177,13 +150,13 @@ public class SidebarController {
         return dataHolderView;
     }
 
-    private class SidebarRecyclerViewAdapter extends RecyclerView.Adapter {
+    private class SidebarLeftRecyclerViewAdapter extends RecyclerView.Adapter {
 
         private ObservableArrayList<DataHolder> dataHolders;
         private LayoutInflater inflater;
         private boolean isNavigationContext;
 
-        private SidebarRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders, boolean isNavigationContext) {
+        private SidebarLeftRecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders, boolean isNavigationContext) {
             this.dataHolders = dataHolders;
             this.isNavigationContext = isNavigationContext;
         }
@@ -244,22 +217,114 @@ public class SidebarController {
         }
     }
 
+    private class SidebarRightRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private String[] itemArray;
+        private LayoutInflater inflater;
+        private boolean isNavigationContext;
+        private static final int TYPE_HEADER = 0;
+        private static final int TYPE_ITEM = 1;
+
+        private SidebarRightRecyclerViewAdapter(String[] itemObjects, boolean isNavigationContext) {
+            this.itemArray = itemObjects;
+            this.isNavigationContext = isNavigationContext;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if(isNavigationContext)
+                inflater = inflater.cloneInContext(UIDHelper.getNavigationThemedContext(parent.getContext()));
+
+            if (viewType == TYPE_HEADER) {
+                View layoutView = inflater.inflate(R.layout.sidebar_right_header_view, parent, false);
+                return new HeaderViewHolder(layoutView);
+            } else if (viewType == TYPE_ITEM) {
+                View layoutView = inflater.inflate(R.layout.sidebar_right_recyclerview_item, parent, false);
+                return new ItemViewHolder(layoutView);
+            }
+            throw new RuntimeException("No match for " + viewType + ".");
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+
+            String itemString;
+            holder.itemView.setSelected(rightRecyclerViewSelectedPosition == position);
+
+            if(holder instanceof ItemViewHolder){
+                //Since header view is on zero position, itemString is array position - 1
+                itemString = itemArray[position - 1];
+                ((ItemViewHolder) holder).itemLabel.setText(itemString);
+                ((ItemViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        contentThemedRightRecyclerView.getAdapter().notifyItemChanged(rightRecyclerViewSelectedPosition);
+                        navigationThemedRightRecyclerView.getAdapter().notifyItemChanged(rightRecyclerViewSelectedPosition);
+                        rightRecyclerViewSelectedPosition = position;
+                        holder.itemView.setSelected(true);
+                        contentThemedRightRecyclerView.getAdapter().notifyItemChanged(rightRecyclerViewSelectedPosition);
+                        navigationThemedRightRecyclerView.getAdapter().notifyItemChanged(rightRecyclerViewSelectedPosition);
+                        sideBar.closeDrawer(GravityCompat.END);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            //Since header view is on zero position, count is array length + 1
+            return itemArray.length + 1;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (isPositionHeader(position))
+                return TYPE_HEADER;
+            return TYPE_ITEM;
+        }
+
+        private boolean isPositionHeader(int position) {
+            return position == 0;
+        }
+
+        class HeaderViewHolder extends RecyclerView.ViewHolder{
+            ImageView sidebarRightImg;
+            HeaderViewHolder(View itemView) {
+                super(itemView);
+                sidebarRightImg = (ImageView) itemView.findViewById(R.id.sidebar_right_header_image);
+                sidebarRightImg.setPadding(0, UIDUtils.getStatusBarHeight(context), 0, 0);
+            }
+        }
+
+        class ItemViewHolder extends RecyclerView.ViewHolder{
+            Label itemLabel;
+            ItemViewHolder(View itemView) {
+                super(itemView);
+                itemLabel = (Label) itemView.findViewById(R.id.sidebar_right_recycler_item);
+            }
+        }
+    }
+
     public SideBar getSideBar() {
         return sideBar;
     }
 
-    public ActionBarDrawerToggle getDrawerToggle() {
+    ActionBarDrawerToggle getDrawerToggle() {
         return drawerToggle;
     }
 
-    public void onSaveInstance(final Bundle outState) {
+    void onSaveInstance(final Bundle outState) {
         outState.putInt(LEFT_SELECTED_POSITION, leftRecyclerViewSelectedPosition);
+        outState.putInt(RIGHT_SELECTED_POSITION, rightRecyclerViewSelectedPosition);
         outState.putBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE, isNavigationThemedLeftContainerVisible);
         outState.putBoolean(IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE, isNavigationThemedRightContainerVisible);
     }
 
-    public void initSidebarContainerState(final Bundle savedInstanceState) {
+    void restoreInstanceState(final Bundle savedInstanceState) {
         leftRecyclerViewSelectedPosition = savedInstanceState.getInt(LEFT_SELECTED_POSITION);
+        rightRecyclerViewSelectedPosition = savedInstanceState.getInt(RIGHT_SELECTED_POSITION);
         isNavigationThemedLeftContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_LEFT_CONTAINER_VISIBLE);
         isNavigationThemedRightContainerVisible = savedInstanceState.getBoolean(IS_NAVIGATION_THEMED_RIGHT_CONTAINER_VISIBLE);
         if(isNavigationThemedLeftContainerVisible){
@@ -319,5 +384,4 @@ public class SidebarController {
         }
         return sidebarBGColor;
     }
-
 }

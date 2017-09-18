@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
     <ImageView
@@ -20,8 +20,5 @@
         android:text="@string/sidebar_header_item"
         android:gravity="bottom"
         android:layout_marginBottom="@dimen/sidebar_right_avatar_top_bottom_margin"/>
-
-    <include
-        layout="@layout/uid_horizontal_separator" />
 
 </LinearLayout>
