@@ -22,7 +22,6 @@ import com.philips.platform.uid.view.widget.RadioButton;
 import java.util.List;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context mContext;
     private List<Addresses> mAddresses;
 
     private int mSelectedIndex=0; //As Oth position is taken by header
@@ -30,8 +29,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_FOOTER = 2;
 
 
-    public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
-        mContext = context;
+    public AddressSelectionAdapter(final List<Addresses> addresses) {
         mAddresses = addresses;
         mSelectedIndex = 0; //As Oth position is taken by header
     }
@@ -51,6 +49,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             case TYPE_FOOTER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_footer, parent, false);
                 return new AddressSelectionFooter(view);
+            default:
 
         }
         return viewHolder;
@@ -182,10 +181,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             setToggleStatus(toggle, getAdapterPosition());
             notifyDataSetChanged();
         }
-    }
-
-    private boolean isPositionHeader(int position) {
-        return position == 0;
     }
 
     private boolean isPositionFooter(int position) {

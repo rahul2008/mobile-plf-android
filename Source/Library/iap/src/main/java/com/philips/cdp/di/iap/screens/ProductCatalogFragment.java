@@ -61,7 +61,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private ProductCatalogAPI mPresenter;
     private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
 
-    private final int PAGE_SIZE = 20;
+    private final int page_size = 20;
     private int mTotalResults = 0;
     private int mCurrentPage = 0;
     private int mRemainingProducts = 0;
@@ -90,15 +90,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
         mBundle = getArguments();
-//        String currentCountryCode = HybrisDelegate.getInstance(mContext).getStore().getCountry();
-//        String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
-//        (mContext, IAPConstant.IAP_COUNTRY_KEY);
+
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
             return;
-            //returning because in Hybris, If CTN not present in Hybris, we need to return a from onCreate to onCreateView to show UI
-            // displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         } else {
             if (!isLocalData &&
                     CartModelContainer.getInstance().getProductList() != null
@@ -177,12 +173,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mSearchTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //Do nothing
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                //Do nothing
             }
 
             @Override
@@ -250,7 +246,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-       // CartModelContainer.getInstance().clearCategorisedProductList();
         EventHelper.getInstance().unregisterEventNotification
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
     }
@@ -276,7 +271,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 mPresenter = ControllerFactory.getInstance().
                         getProductCatalogPresenter(mContext, this);
 
-            if (!mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null)) {
+            if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
                 mIsProductsAvailable = false;
                 dismissProgressDialog();
             }
@@ -347,9 +342,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
             if (!checkIfEntryExists(data))
                 mProductCatalog.add(data);
         }
-        if (!mProductCatalog.isEmpty()) {
-
-        }
     }
 
     private boolean checkIfEntryExists(final ProductCatalogData data) {
@@ -377,24 +369,23 @@ public class ProductCatalogFragment extends InAppBaseFragment
             int visibleItemCount = lay.getChildCount();
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
 
-            if (!mIsLoading) {
-                //if scrolled beyond page size and we have more items to load
-                if ((visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
-                        && firstVisibleItemPosition >= 0
-                        && mRemainingProducts > PAGE_SIZE) {
-                    mIsLoading = true;
-                    IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", " +
-                            "firstvisibleItemPistion " + firstVisibleItemPosition +
-                            "itemCount " + lay.getItemCount());
-                    loadMoreItems();
-                }
+
+            if (!mIsLoading && (visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
+                    && firstVisibleItemPosition >= 0
+                    && mRemainingProducts > page_size) {
+                mIsLoading = true;
+                IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", " +
+                        "firstvisibleItemPistion " + firstVisibleItemPosition +
+                        "itemCount " + lay.getItemCount());
+                loadMoreItems();
             }
+
         }
     };
 
     @Override
     public void onSearchExpanded() {
-
+        //Do nothing
     }
 
     @Override

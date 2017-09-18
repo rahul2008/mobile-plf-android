@@ -80,7 +80,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         }
 
         */
-        mAdapter = new AddressSelectionAdapter(mContext, mAddresses);
+        mAdapter = new AddressSelectionAdapter(mAddresses);
         mAddressListView.setAdapter(mAdapter);
         TextView tv_checkOutSteps = (TextView) view.findViewById(R.id.tv_checkOutSteps);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps),"1"));
