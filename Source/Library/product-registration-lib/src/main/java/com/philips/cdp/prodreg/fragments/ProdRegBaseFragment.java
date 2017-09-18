@@ -284,7 +284,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                clearFragmentStack();
             }
         });
         Label close = (Label) view.findViewById(R.id.dialogDescription);
