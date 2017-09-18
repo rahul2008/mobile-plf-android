@@ -106,6 +106,7 @@ public class THSVisitHistoryAdapterTest {
     public void getItemCount() throws Exception {
         final int itemCount = mTHSVisitHistoryAdapter.getItemCount();
         assert itemCount == 1;
+
     }
 
  /*   @Test
