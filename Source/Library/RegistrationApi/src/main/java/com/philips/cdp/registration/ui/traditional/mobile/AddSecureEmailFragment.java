@@ -4,6 +4,7 @@ import android.content.res.*;
 import android.os.*;
 import android.text.*;
 import android.view.*;
+import android.widget.*;
 import android.widget.Button;
 
 import com.philips.cdp.registration.R;
@@ -38,6 +39,9 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     private AddSecureEmailPresenter addSecureEmailPresenter;
 
+    @BindView(R2.id.ll_reg_root_container)
+    LinearLayout regRootContainer;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MobileActivationFragment : onCreateView");
@@ -55,7 +59,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-
+        applyParams(config,regRootContainer,width);
     }
 
     @Override

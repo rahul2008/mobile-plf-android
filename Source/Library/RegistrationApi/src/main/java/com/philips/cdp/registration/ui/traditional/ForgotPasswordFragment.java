@@ -60,6 +60,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     @BindView(R2.id.usr_forgotpassword_input_label)
     Label usr_forgotpassword_input_label;
 
+    @BindView(R2.id.usr_forgotpassword_baseLayout_LinearLayout)
+    LinearLayout usrForgotPasswordBaseLayout;
+
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
     private final int BAD_RESPONSE_CODE = 7004;
@@ -168,7 +171,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mRegError, width);
+        applyParams(config, usrForgotPasswordBaseLayout, width);
     }
 
     private void handleUiState() {

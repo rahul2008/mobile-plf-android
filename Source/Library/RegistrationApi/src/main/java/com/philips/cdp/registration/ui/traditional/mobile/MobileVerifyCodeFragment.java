@@ -16,6 +16,7 @@ import android.os.*;
 import android.text.*;
 import android.text.style.*;
 import android.view.*;
+import android.widget.*;
 import android.widget.Button;
 
 import com.jakewharton.rxbinding2.widget.*;
@@ -59,6 +60,9 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @BindView(R2.id.usr_forgotpassword_inputId_ValidationEditText)
     ValidationEditText verificationCodeValidationEditText;
+
+    @BindView(R2.id.usr_activation_root_layout)
+    LinearLayout usrAccountRootLayout;
 
     private Context context;
 
@@ -123,7 +127,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, errorMessage, width);
+        applyParams(config, usrAccountRootLayout, width);
     }
 
     @Override

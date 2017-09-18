@@ -49,6 +49,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @BindView(R2.id.reg_error_msg)
     XRegError errorMessage;
 
+    @BindView(R2.id.ll_reg_root_container)
+    LinearLayout rootLayout;
+
     @BindView(R2.id.rl_reg_number_field)
     ValidationEditText phoneNumberEditText;
 
@@ -158,7 +161,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, errorMessage, width);
+        applyParams(config, rootLayout, width);
     }
 
     @Override
