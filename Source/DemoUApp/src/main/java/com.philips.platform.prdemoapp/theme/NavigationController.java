@@ -126,7 +126,7 @@ public class NavigationController {
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.replace(R.id.mainContainer, fragment, tag);
         transaction.addToBackStack(tag);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         toggleHamburgerIcon();
         return true;
     }

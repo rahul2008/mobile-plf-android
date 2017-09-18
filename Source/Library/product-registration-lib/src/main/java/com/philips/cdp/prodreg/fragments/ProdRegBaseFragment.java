@@ -217,13 +217,15 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
 
     protected void dismissAlertOnError() {
         final FragmentActivity activity = getActivity();
-        if (activity != null && !activity.isFinishing()) {
+        if (activity != null && !activity.isDestroyed()) {
             Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
             if (prev instanceof AlertDialogFragment && alertDialogFragment != null) {
-                alertDialogFragment.dismiss();
+                alertDialogFragment.dismissAllowingStateLoss();
                 alertDialogFragment = null;
             }
         }
+
+        
     }
 
     public boolean clearFragmentStack() {
@@ -283,7 +285,7 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                clearFragmentStack();
             }
         });
         Label close = (Label) view.findViewById(R.id.dialogDescription);
