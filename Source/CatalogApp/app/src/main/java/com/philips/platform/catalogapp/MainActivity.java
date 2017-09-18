@@ -183,7 +183,7 @@ public class MainActivity extends UIDActivity {
     protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         navigationController.initIconState(savedInstanceState);
-        sidebarController.initSidebarContainerState(savedInstanceState);
+        sidebarController.restoreInstanceState(savedInstanceState);
     }
 
     @Override

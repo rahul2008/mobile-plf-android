@@ -88,16 +88,11 @@
                 app:uidSidebarContextType="Content"
                 android:background="?attr/uidContentPrimaryBackgroundColor">
 
-                <ScrollView
-                    android:id="@+id/sidebar_content_themed_right_scroll"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sidebar_content_themed_right_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:overScrollMode="never">
-
-                    <include layout="@layout/sidebar_content_themed_right_container" />
-
-                </ScrollView>
+                    android:orientation="vertical"/>
 
             </com.philips.platform.catalogapp.SidebarNavigationViewContainer>
 
@@ -108,16 +103,11 @@
                 app:uidSidebarContextType="Navigation"
                 android:background="?attr/uidNavigationPrimaryBackgroundColor">
 
-                <ScrollView
-                    android:id="@+id/sidebar_navigation_themed_right_scroll"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sidebar_navigation_themed_right_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:overScrollMode="never">
-
-                    <include layout="@layout/sidebar_navigation_themed_right_container" />
-
-                </ScrollView>
+                    android:orientation="vertical"/>
 
             </com.philips.platform.catalogapp.SidebarNavigationViewContainer>
 
