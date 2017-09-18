@@ -27,8 +27,7 @@ import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
-import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 /**
  * Created by philips on 8/31/17.
@@ -43,8 +42,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private InputValidator inputValidatorFirstNameBilling;
     private InputValidationLayout mLlLastNameBilling;
     private InputValidator inputValidatorLastNameBilling;
-    private InputValidationLayout mLlSalutationBilling;
-    private InputValidator inputValidatorSalutationBilling;
     private InputValidationLayout mLlAddressLineOneBilling;
     private InputValidator inputValidatorAddressLineOneBilling;
     private InputValidationLayout mLlAddressLineTwoBilling;
@@ -56,11 +53,9 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
     private InputValidationLayout mLlCountryBilling;
     private InputValidator inputValidatorCountryBilling;
     private InputValidationLayout mlLStateBilling;
-    private InputValidator inputValidatorStateBilling;
     private InputValidationLayout mLlEmailBilling;
     private InputValidator inputValidatorEmailBilling;
     private InputValidationLayout mLlPhone1Billing;
-    private InputValidator inputValidatorPhoneBilling;
     private ValidationEditText mEtFirstNameBilling;
     private ValidationEditText mEtLastNameBilling;
     private ValidationEditText mEtSalutationBilling;
@@ -95,48 +90,48 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
         mLlFirstNameBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_first_name);
-        inputValidatorFirstNameBilling = getValidator(Validator.NAME_PATTERN);
+        inputValidatorFirstNameBilling = new InputValidator(Validator.NAME_PATTERN);
         mLlFirstNameBilling.setValidator(inputValidatorFirstNameBilling);
 
         mLlLastNameBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_last_name);
-        inputValidatorLastNameBilling = getValidator(Validator.NAME_PATTERN);
+        inputValidatorLastNameBilling = new InputValidator(Validator.NAME_PATTERN);
         mLlLastNameBilling.setValidator(inputValidatorLastNameBilling);
 
-        mLlSalutationBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_salutation);
-        inputValidatorSalutationBilling = getValidator(Validator.ADDRESS_PATTERN);
+        InputValidationLayout mLlSalutationBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_salutation);
+        InputValidator inputValidatorSalutationBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlSalutationBilling.setValidator(inputValidatorSalutationBilling);
 
         mLlAddressLineOneBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_address_line_one);
-        inputValidatorAddressLineOneBilling = getValidator(Validator.ADDRESS_PATTERN);
+        inputValidatorAddressLineOneBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOneBilling.setValidator(inputValidatorAddressLineOneBilling);
 
         mLlAddressLineTwoBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_address_line_two);
-        inputValidatorAddressLineTwoBilling = getValidator(Validator.ADDRESS_PATTERN);
+        inputValidatorAddressLineTwoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineTwoBilling.setValidator(inputValidatorAddressLineTwoBilling);
 
         mLlTownBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_town);
-        inputValidatorTownBilling = getValidator(Validator.TOWN_PATTERN);
+        inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
         mLlTownBilling.setValidator(inputValidatorTownBilling);
 
         mLlPostalCodeBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_postal_code);
-        inputValidatorPostalCodeBilling = getValidator(Validator.POSTAL_CODE_PATTERN);
+        inputValidatorPostalCodeBilling = new InputValidator(Validator.POSTAL_CODE_PATTERN);
         mLlPostalCodeBilling.setValidator(inputValidatorPostalCodeBilling);
 
 
         mLlCountryBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_country);
-        inputValidatorCountryBilling = getValidator(Validator.COUNTRY_PATTERN);
+        inputValidatorCountryBilling = new InputValidator(Validator.COUNTRY_PATTERN);
         mLlCountryBilling.setValidator(inputValidatorCountryBilling);
 
         mlLStateBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_state);
-        inputValidatorStateBilling = getValidator(Validator.NAME_PATTERN);
+        InputValidator inputValidatorStateBilling = new InputValidator(Validator.NAME_PATTERN);
         mlLStateBilling.setValidator(inputValidatorStateBilling);
 
         mLlEmailBilling = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_email);
-        inputValidatorEmailBilling = getValidator(Validator.EMAIL_PATTERN);
+        inputValidatorEmailBilling = new InputValidator(Validator.EMAIL_PATTERN);
         mLlEmailBilling.setValidator(inputValidatorEmailBilling);
 
         mLlPhone1Billing = (InputValidationLayout) rootView.findViewById(R.id.ll_billing_phone1);
-        inputValidatorPhoneBilling = getValidator(Validator.PHONE_NUMBER_PATTERN);
+        InputValidator inputValidatorPhoneBilling = new InputValidator(Validator.PHONE_NUMBER_PATTERN);
         mLlPhone1Billing.setValidator(inputValidatorPhoneBilling);
 
 
@@ -202,15 +197,6 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
                 return false;
             }
         });
-
-//        if (CartModelContainer.getInstance().getShippingAddressFields() != null) {
-//            billingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
-//            CartModelContainer.getInstance().setSwitchToBillingAddress(false);
-//            disableAllFields();
-//            prePopulateShippingAddress();
-//            mParentFragment.mBtnContinue.setEnabled(true);
-//        }
-
     }
 
     @Override
@@ -246,13 +232,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         billingAddressFields.setRegionIsoCode(regionCode);
     }
 
-    public void updateFields(HashMap<String, String> mAddressFieldsHashmap) {
+    public void updateFields(Map<String, String> mAddressFieldsHashmap) {
         if (mAddressFieldsHashmap == null) return;
-//        Bundle bundle = getArguments();
-//        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-//        if (null == mAddressFieldsHashmap) {
-//            return;
-//        }
         mParentFragment.mBtnContinue.setText(getString(R.string.iap_continue));
         mParentFragment.mBtnContinue.setEnabled(true);
         CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
@@ -287,13 +268,13 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
     private class IAPTextWatcher implements TextWatcher {
         private EditText mEditText;
-        private boolean isInAfterTextChanged;
 
         IAPTextWatcher(EditText editText) {
             mEditText = editText;
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //  Do nothing
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -304,9 +285,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
 
         public synchronized void afterTextChanged(Editable text) {
             if (mEditText == mEtPhone1Billing) {
-                isInAfterTextChanged = true;
                 validate(mEditText, false);
-                isInAfterTextChanged = false;
             }
         }
     }
@@ -322,6 +301,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do Nothing
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -510,21 +490,11 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mlLStateBilling.setVisibility(View.GONE);
         }
         mIgnoreTextChangeListener = false;
-      // enableAllFields();
-       // enableFocus();
-    }
-
-    private void enableAllFields() {
-        setFieldsEnabled(true);
     }
 
     void disableAllFields() {
         setFieldsEnabled(false);
         disableFocus();
-    }
-
-    private void enableFocus() {
-        setFieldsFocusable(true);
     }
 
     private void disableFocus() {
@@ -604,9 +574,5 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
             mIgnoreTextChangeListener = false;
             mEtPhone1Billing.setText(billingAddressFields.getPhone1());
         }
-    }
-
-    InputValidator getValidator(Pattern valid_regex_pattern) {
-        return new InputValidator(valid_regex_pattern);
     }
 }

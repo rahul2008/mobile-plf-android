@@ -28,7 +28,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 
@@ -287,9 +286,9 @@ public class Utility {
         return true;
     }
 
-    public static InputValidator getValidator(Pattern valid_regex_pattern) {
-        return new InputValidator(valid_regex_pattern);
-    }
+//    public static InputValidator new InputValidator(Pattern valid_regex_pattern) {
+//        return new InputValidator(valid_regex_pattern);
+//    }
 
     public static Drawable getImageArrow(Context mContext) {
         Drawable imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);

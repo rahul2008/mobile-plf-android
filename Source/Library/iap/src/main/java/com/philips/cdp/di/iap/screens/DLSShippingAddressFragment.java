@@ -33,8 +33,6 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import java.util.HashMap;
 
-import static com.philips.cdp.di.iap.utils.Utility.getValidator;
-
 public class DLSShippingAddressFragment extends InAppBaseFragment
         implements SalutationDropDown.SalutationListener,
         StateDropDown.StateListener {
@@ -45,8 +43,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private InputValidator inputValidatorFirstName;
     private InputValidationLayout mLlLastName;
     private InputValidator inputValidatorLastName;
-    private InputValidationLayout mLlSalutation;
-    private InputValidator inputValidatorSalutation;
     private InputValidationLayout mLlAddressLineOne;
     private InputValidator inputValidatorAddressLineOne;
     private InputValidationLayout mLlAddressLineTwo;
@@ -58,7 +54,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private InputValidationLayout mLlCountry;
     private InputValidator inputValidatorCountry;
     private InputValidationLayout mlLState;
-    private InputValidator inputValidatorState;
     private InputValidationLayout mLlEmail;
     private InputValidator inputValidatorEmail;
     private InputValidationLayout mLlPhone1;
@@ -71,7 +66,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     private ValidationEditText mEtTown;
     private ValidationEditText mEtPostalCode;
     private ValidationEditText mEtCountry;
-    public ValidationEditText mEtState;
+    private ValidationEditText mEtState;
     private ValidationEditText mEtEmail;
     private ValidationEditText mEtPhone1;
     private Validator mValidator;
@@ -97,57 +92,57 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         phoneNumberUtil = PhoneNumberUtil.getInstance();
 
         mLlFirstName = (InputValidationLayout) rootView.findViewById(R.id.ll_first_name);
-        inputValidatorFirstName = getValidator(Validator.NAME_PATTERN);
+        inputValidatorFirstName = new InputValidator(Validator.NAME_PATTERN);
         mLlFirstName.setValidator(inputValidatorFirstName);
 
 
         mLlLastName = (InputValidationLayout) rootView.findViewById(R.id.ll_last_name);
-        inputValidatorLastName = getValidator(Validator.NAME_PATTERN);
+        inputValidatorLastName = new InputValidator(Validator.NAME_PATTERN);
         mLlLastName.setValidator(inputValidatorLastName);
 
 
-        mLlSalutation = (InputValidationLayout) rootView.findViewById(R.id.ll_salutation);
-        inputValidatorSalutation = getValidator(Validator.ADDRESS_PATTERN);
+        InputValidationLayout mLlSalutation = (InputValidationLayout) rootView.findViewById(R.id.ll_salutation);
+        InputValidator inputValidatorSalutation = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlSalutation.setValidator(inputValidatorSalutation);
 
 
         mLlAddressLineOne = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_one);
-        inputValidatorAddressLineOne = getValidator(Validator.ADDRESS_PATTERN);
+        inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
 
 
         mLlAddressLineTwo = (InputValidationLayout) rootView.findViewById(R.id.ll_address_line_two);
-        inputValidatorAddressLineTwo = getValidator(Validator.ADDRESS_PATTERN);
+        inputValidatorAddressLineTwo = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
 
 
         mLlTown = (InputValidationLayout) rootView.findViewById(R.id.ll_town);
-        inputValidatorTown = getValidator(Validator.TOWN_PATTERN);
+        inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
         mLlTown.setValidator(inputValidatorTown);
 
 
         mLlPostalCode = (InputValidationLayout) rootView.findViewById(R.id.ll_postal_code);
-        inputValidatorPostalCode = getValidator(Validator.POSTAL_CODE_PATTERN);
+        inputValidatorPostalCode = new InputValidator(Validator.POSTAL_CODE_PATTERN);
         mLlPostalCode.setValidator(inputValidatorPostalCode);
 
 
         mLlCountry = (InputValidationLayout) rootView.findViewById(R.id.ll_country);
-        inputValidatorCountry = getValidator(Validator.COUNTRY_PATTERN);
+        inputValidatorCountry = new InputValidator(Validator.COUNTRY_PATTERN);
         mLlCountry.setValidator(inputValidatorCountry);
 
 
         mlLState = (InputValidationLayout) rootView.findViewById(R.id.ll_state);
-        inputValidatorState = getValidator(Validator.NAME_PATTERN);
+        InputValidator inputValidatorState = new InputValidator(Validator.NAME_PATTERN);
         mlLState.setValidator(inputValidatorState);
 
 
         mLlEmail = (InputValidationLayout) rootView.findViewById(R.id.ll_email);
-        inputValidatorEmail = getValidator(Validator.EMAIL_PATTERN);
+        inputValidatorEmail = new InputValidator(Validator.EMAIL_PATTERN);
         mLlEmail.setValidator(inputValidatorEmail);
 
 
         mLlPhone1 = (InputValidationLayout) rootView.findViewById(R.id.ll_phone1);
-        inputValidatorPhone = getValidator(Validator.PHONE_NUMBER_PATTERN);
+        inputValidatorPhone = new InputValidator(Validator.PHONE_NUMBER_PATTERN);
         mLlPhone1.setValidator(inputValidatorPhone);
 
 
@@ -235,29 +230,20 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     @Override
     public void stateRegionCode(String regionCode) {
-
         mRegionIsoCode = regionCode;
         shippingAddressFields.setRegionIsoCode(regionCode);
-       /* if (addressHashMap != null) {
-            addressHashMap.put(ModelConstants.REGION_ISOCODE, regionCode);
-        }*/
-
-//        if (!(this instanceof BillingAddressFragment)) {
-      /*  if (!mUseThisAddressCheckBox.isChecked()) {
-            CartModelContainer.getInstance().setRegionIsoCode(regionCode);
-        }*/
     }
 
 
     private class IAPTextWatcher implements TextWatcher {
         private EditText mEditText;
-        private boolean isInAfterTextChanged;
 
         public IAPTextWatcher(EditText editText) {
             mEditText = editText;
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do Nothing
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -268,9 +254,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         public synchronized void afterTextChanged(Editable text) {
             if (mEditText == mEtPhone1) {
-                isInAfterTextChanged = true;
                 validate(mEditText, false);
-                isInAfterTextChanged = false;
             }
         }
 
@@ -286,6 +270,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            //
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -354,14 +339,12 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
                 mLlTown.showError();
             }
         }
-        if (editText.getId() == R.id.et_phone1 && !hasFocus) {
-            if (mEtPhone1.getText() != null) {
-                result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
-                        , mEtPhone1.getText().toString());
-                if (!result) {
-                    mLlPhone1.setErrorMessage(R.string.iap_phone_error);
-                    mLlPhone1.showError();
-                }
+        if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null) {
+            result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
+                    , mEtPhone1.getText().toString());
+            if (!result) {
+                mLlPhone1.setErrorMessage(R.string.iap_phone_error);
+                mLlPhone1.showError();
             }
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
@@ -464,7 +447,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         shippingAddressFields.setEmail(mEtEmail.getText().toString());
 
 
-        //  if (this instanceof BillingAddressFragment)
         if (mlLState.getVisibility() == View.VISIBLE) {
             shippingAddressFields.setRegionIsoCode(mRegionIsoCode);
             shippingAddressFields.setRegionName(mEtState.getText().toString());
@@ -478,11 +460,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     void updateFields(HashMap<String, String> mAddressFieldsHashmap) {
 
         if (mAddressFieldsHashmap == null) return;
-//        Bundle bundle = getArguments();
-//        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-//        if (null == mAddressFieldsHashmap) {
-//            return;
-//        }
         mParentFragment.mBtnContinue.setText(getString(R.string.iap_save));
         CartModelContainer.getInstance().setAddressId(mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
 
@@ -506,12 +483,6 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         } else {
             mlLState.setVisibility(View.GONE);
         }
-
-//        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
-//                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
-//            addressHashMap.put(ModelConstants.REGION_ISOCODE,
-//                    mAddressFieldsHashmap.get(ModelConstants.REGION_CODE));
-//        }
     }
 
     public void handleError(Message msg) {
@@ -526,34 +497,32 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
     private void showErrorFromServer(Error error) {
 
-        if (error != null) {
-            if (error.getSubject() != null) {
-                if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
-                    mLlCountry.setValidator(inputValidatorCountry);
-                    mLlCountry.setErrorMessage(R.string.iap_country_error);
-                    mLlCountry.showError();
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
-                    mLlPostalCode.setValidator(inputValidatorPostalCode);
-                    mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
-                    mLlPostalCode.showError();
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
-                    mLlPhone1.setValidator(inputValidatorPhone);
-                    mLlPhone1.setErrorMessage(R.string.iap_phone_error);
-                    mLlPhone1.showError();
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
-                    mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
-                    mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
-                    mLlAddressLineOne.showError();
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
-                    mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
-                    mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
-                    mLlAddressLineTwo.showError();
-                }
-                NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                        getString(R.string.iap_ok), getString(R.string.iap_server_error),
-                        error.getMessage());
-                mParentFragment.mBtnContinue.setEnabled(false);
+        if (error != null && error.getSubject() != null) {
+            if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+                mLlCountry.setValidator(inputValidatorCountry);
+                mLlCountry.setErrorMessage(R.string.iap_country_error);
+                mLlCountry.showError();
+            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
+                mLlPostalCode.setValidator(inputValidatorPostalCode);
+                mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
+                mLlPostalCode.showError();
+            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_1)) {
+                mLlPhone1.setValidator(inputValidatorPhone);
+                mLlPhone1.setErrorMessage(R.string.iap_phone_error);
+                mLlPhone1.showError();
+            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_1)) {
+                mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
+                mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineOne.showError();
+            } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
+                mLlAddressLineTwo.setValidator(inputValidatorAddressLineTwo);
+                mLlAddressLineTwo.setErrorMessage(R.string.iap_address_error);
+                mLlAddressLineTwo.showError();
             }
+            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                    getString(R.string.iap_ok), getString(R.string.iap_server_error),
+                    error.getMessage());
+            mParentFragment.mBtnContinue.setEnabled(false);
         }
     }
 }
