@@ -337,11 +337,9 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView mTvActualPrice;
         TextView mTvAfterDiscountPrice;
         TextView mIvOptions;
-        View shoppingCartView;
 
         ShoppingCartProductHolder(final View itemView) {
             super(itemView);
-            this.shoppingCartView = itemView;
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mTvPrice = (TextView) itemView.findViewById(R.id.price_label);
             mTvActualPrice = (TextView) itemView.findViewById(R.id.actual_price);
