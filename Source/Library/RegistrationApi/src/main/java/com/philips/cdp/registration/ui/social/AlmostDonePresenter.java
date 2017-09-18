@@ -13,6 +13,7 @@ import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
+import org.greenrobot.eventbus.*;
 import org.json.*;
 
 import javax.inject.*;
@@ -117,6 +118,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
 
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
+        EventBus.getDefault().post(new LoginFailureNotification());
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();

@@ -20,6 +20,7 @@ import com.tencent.mm.sdk.modelbase.*;
 import com.tencent.mm.sdk.modelmsg.*;
 import com.tencent.mm.sdk.openapi.*;
 
+import org.greenrobot.eventbus.*;
 import org.json.*;
 
 import java.util.*;
@@ -227,6 +228,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                                               final String socialRegistrationToken) {
         RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
                 + prefilledRecord);
+        EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.createSocialAccount(prefilledRecord, socialRegistrationToken);
     }
 
@@ -236,6 +238,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
                                                 final String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                                 String existingIdpNameLocalized, final String emailId) {
 
+        EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.mergeSocialAccount(existingProvider, mergeToken, conflictingIdentityProvider, emailId);
 
 
@@ -254,6 +257,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
     public void onContinueSocialProviderLoginFailure(
             final UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
+        EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.SocialLoginFailure(userRegistrationFailureInfo);
 
     }
@@ -265,6 +269,7 @@ public class HomePresenter implements NetworkStateListener, SocialProviderLoginH
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         homeContract.loginFailed(userRegistrationFailureInfo);
     }
 

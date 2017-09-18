@@ -8,6 +8,8 @@ import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
+import org.greenrobot.eventbus.*;
+
 import javax.inject.*;
 
 public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkStateListener {
@@ -53,6 +55,7 @@ public class MergeAccountPresenter implements TraditionalLoginHandler, NetworkSt
 
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
             mergeAccountContract.mergePasswordFailure();
             return;

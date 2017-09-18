@@ -7,6 +7,8 @@ import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
+import org.greenrobot.eventbus.*;
+
 import javax.inject.*;
 
 /**
@@ -49,6 +51,7 @@ public class AccountActivationPresenter implements NetworkStateListener, Traditi
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         accountActivationContract.verificationError(userRegistrationFailureInfo.getErrorDescription());
         accountActivationContract.hideActivateSpinner();
         accountActivationContract.activateButtonEnable(true);

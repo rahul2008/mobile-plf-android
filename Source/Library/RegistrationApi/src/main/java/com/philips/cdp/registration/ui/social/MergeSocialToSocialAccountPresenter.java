@@ -8,6 +8,7 @@ import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.utils.*;
 
+import org.greenrobot.eventbus.*;
 import org.json.*;
 
 import javax.inject.*;
@@ -44,16 +45,19 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
 
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         mergeSocialToSocialAccountContract.mergeFailure(userRegistrationFailureInfo.getErrorDescription());
     }
 
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         mergeSocialToSocialAccountContract.mergeFailureIgnored();
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         mergeSocialToSocialAccountContract.mergeFailureIgnored();
     }
 
@@ -64,6 +68,7 @@ public class MergeSocialToSocialAccountPresenter implements NetworkStateListener
 
     @Override
     public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        EventBus.getDefault().post(new LoginFailureNotification());
         mergeSocialToSocialAccountContract.mergeFailureIgnored();
     }
 

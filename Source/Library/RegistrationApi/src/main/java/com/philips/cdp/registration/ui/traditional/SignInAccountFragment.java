@@ -39,6 +39,7 @@ import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.*;
 import com.squareup.okhttp.RequestBody;
 
+import org.greenrobot.eventbus.*;
 import org.json.*;
 
 import java.net.*;
@@ -412,7 +413,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
+        EventBus.getDefault().post(new LoginFailureNotification());
         handleLogInFailed(userRegistrationFailureInfo);
     }
 
