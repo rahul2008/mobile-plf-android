@@ -35,7 +35,6 @@ import java.util.Locale;
 public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistoryAdapter.CustomViewHolder>{
     List<VisitReport> mVisitReports;
     THSVisitHistoryFragment mThsVisitHistoryFragment;
-    VisitReportDetail mVisitReportDetail;
 
     public THSVisitHistoryAdapter(List<VisitReport> visitReports, THSVisitHistoryFragment thsVisitHistoryFragment) {
         mVisitReports = visitReports;
@@ -76,7 +75,7 @@ public class THSVisitHistoryAdapter extends RecyclerView.Adapter<THSVisitHistory
         return mVisitReports.size();
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         Label mLabelAppointmrntDate;
         Label mLabelProviderName;

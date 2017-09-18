@@ -116,7 +116,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         return mAppointmentList.size();
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    static class CustomViewHolder extends RecyclerView.ViewHolder {
         Label mLabelAppointmrntDate;
         CircularImageView mImageViewCircularImageView;
         Label mLabelProviderName;

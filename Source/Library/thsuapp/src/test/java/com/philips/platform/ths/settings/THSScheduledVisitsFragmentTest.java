@@ -1,0 +1,86 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
+package com.philips.platform.ths.settings;
+
+import com.americanwell.sdk.AWSDK;
+import com.americanwell.sdk.entity.SDKLocalDate;
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.visit.Appointment;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.ConsumerManager;
+import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
+import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@RunWith(CustomRobolectricRunnerAmwel.class)
+public class THSScheduledVisitsFragmentTest {
+
+    THSScheduledVisitsFragment mTHSScheduledVisitsFragment;
+
+    @Mock
+    Appointment appointmentMock;
+
+    @Mock
+    Consumer consumerMoxk;
+
+    @Mock
+    THSConsumer thsConsumerMock;
+
+    @Mock
+    ConsumerManager consumerManagerMock;
+
+    @Mock
+    ActionBarListener actionBarListenerMock;
+
+    @Mock
+    AWSDK awsdkMock;
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        THSManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        mTHSScheduledVisitsFragment = new  TestTHSScheduledVisitsFragmentMock();
+        mTHSScheduledVisitsFragment.setActionBarListener(actionBarListenerMock);
+    }
+
+    @Test
+    public void updateList(){
+        SupportFragmentTestUtil.startFragment(mTHSScheduledVisitsFragment);
+        List list = new ArrayList();
+        list.add(appointmentMock);
+        mTHSScheduledVisitsFragment.updateList(list);
+    }
+
+    @Test
+    public void refreshList(){
+        SupportFragmentTestUtil.startFragment(mTHSScheduledVisitsFragment);
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).getAppointments(any(Consumer.class),any(SDKLocalDate.class),any(SDKCallback.class));
+        verify(consumerManagerMock).getAppointments(any(Consumer.class),any(SDKLocalDate.class),any(SDKCallback.class));
+    }
+}

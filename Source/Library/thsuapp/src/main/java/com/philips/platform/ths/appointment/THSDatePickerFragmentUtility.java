@@ -43,11 +43,21 @@ public class THSDatePickerFragmentUtility {
         calendar.setTime(date);
         DatePickerDialog datePickerDialog = new DatePickerDialog(mThsBaseFragment.getContext(),
                 listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        Date today = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add( Calendar.MONTH, 6 );
+        long maxDate = c.getTime().getTime();
 
         if (thsDateEnum.getValue() == THSDateEnum.HIDEPREVIOUSDATE.getValue()) {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         } else if (thsDateEnum.getValue() == THSDateEnum.HIDEFUTUREDATE.getValue()) {
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        } else if(thsDateEnum.getValue()  == THSDateEnum.HIDESIXMONTHSLATERDATE.getValue()){
+            datePickerDialog.getDatePicker().setMaxDate(maxDate);
+        }else if (thsDateEnum.getValue() == THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE.getValue()){
+            datePickerDialog.getDatePicker().setMaxDate(maxDate);
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         }
 
         datePickerDialog.show();

@@ -28,7 +28,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/ths_waiting_room_title_label"
         android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
@@ -80,7 +80,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
         android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_progressbar_container"

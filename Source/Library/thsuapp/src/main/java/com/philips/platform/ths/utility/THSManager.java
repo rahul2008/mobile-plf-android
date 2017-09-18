@@ -303,6 +303,7 @@ public class THSManager {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 AmwellLog.i(AmwellLog.LOG,"validationFail");
+                thssdkValidatedCallback.onValidationFailure(map);
             }
 
             @Override
@@ -318,6 +319,7 @@ public class THSManager {
             @Override
             public void onFailure(Throwable throwable) {
                 AmwellLog.i(AmwellLog.LOG,"onFail");
+                thssdkValidatedCallback.onFailure(throwable);
             }
         });
     }
