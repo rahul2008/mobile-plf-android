@@ -71,14 +71,19 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
 
     @Override
     public void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle) {
-        fragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction;
-        fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
-        fragmentTransaction.addToBackStack(fragmentTag);
-        fragment.setFragmentLauncher(getFragmentLauncher());
-        fragment.setActionBarListener(getActionBarListener());
-        fragmentTransaction.commit();
+        //TODO: The try catch block will be removed when the loading will not be done on Back press
+        try {
+            fragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction;
+            fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
+            fragmentTransaction.addToBackStack(fragmentTag);
+            fragment.setFragmentLauncher(getFragmentLauncher());
+            fragment.setActionBarListener(getActionBarListener());
+            fragmentTransaction.commit();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override
