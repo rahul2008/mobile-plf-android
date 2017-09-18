@@ -43,7 +43,7 @@ public class THSScheduledVisitsAdapterTest {
     @Test
     public void onBindViewHolder() throws Exception {
         THSScheduledVisitsAdapter.CustomViewHolder customViewHolder = new THSScheduledVisitsAdapter.CustomViewHolder(viewMock);
-//        mTHSScheduledVisitsAdapter.onBindViewHolder(customViewHolder,0);
+       // mTHSScheduledVisitsAdapter.onBindViewHolder(customViewHolder,0);
     }
 
     @Test

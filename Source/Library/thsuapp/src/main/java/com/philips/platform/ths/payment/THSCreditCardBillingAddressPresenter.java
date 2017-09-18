@@ -108,7 +108,9 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
 
         } else {
             AmwellLog.i("updatePayment", "failed");
-            mTHSBillingAddressFragment.showToast(tHSSDKError.getSDKErrorReason().toString());
+            if(null!=tHSSDKError.getSDKErrorReason() && null!=tHSSDKError.getSDKErrorReason().toString()) {
+                mTHSBillingAddressFragment.showToast(tHSSDKError.getSDKErrorReason().toString());
+            }
         }
     }
 
