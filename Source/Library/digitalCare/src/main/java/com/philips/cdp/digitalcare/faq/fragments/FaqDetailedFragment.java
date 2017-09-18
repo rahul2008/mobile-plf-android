@@ -58,7 +58,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
         if (mView == null) {
-            mView = inflater.inflate(R.layout.consumercare_faq_webview, container, false);
+            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
 
         Map<String, String> contextData = new HashMap<String, String>();
