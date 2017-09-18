@@ -248,13 +248,13 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (mEditText != mEtPhone1) {
-                validate(mEditText, false);
+                validateShippingAddress(mEditText, false);
             }
         }
 
         public synchronized void afterTextChanged(Editable text) {
             if (mEditText == mEtPhone1) {
-                validate(mEditText, false);
+                validateShippingAddress(mEditText, false);
             }
         }
 
@@ -275,14 +275,14 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (mEditText != mEtPhone1 && !mIgnoreTextChangeListener) {
-                validate(mEditText, false);
+                validateShippingAddress(mEditText, false);
             }
         }
 
         public synchronized void afterTextChanged(Editable text) {
             if (mEditText == mEtPhone1 && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
-                validate(mEditText, false);
+                validateShippingAddress(mEditText, false);
                 isInAfterTextChanged = false;
             }
         }
@@ -316,7 +316,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
     }
 
 
-    public void validate(View editText, boolean hasFocus) {
+    public void validateShippingAddress(View editText, boolean hasFocus) {
         boolean result = true;
         if (editText.getId() == R.id.et_first_name && !hasFocus) {
             result = inputValidatorFirstName.isValidName(((EditText) editText).getText().toString());
