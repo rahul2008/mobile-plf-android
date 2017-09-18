@@ -41,16 +41,18 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter,THSGetPharma
 
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
-
+        uiView.hideProgressBar();
     }
 
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
+        uiView.hideProgressBar();
         uiView.setPharmacyList(pharmacies);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+        uiView.hideProgressBar();
 
     }
 }

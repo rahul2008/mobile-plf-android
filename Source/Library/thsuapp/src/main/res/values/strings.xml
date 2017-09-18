@@ -92,6 +92,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_continue_button_text">Continue</string>
     <string name="ths_pharmacy_phone_text">phone: </string>
     <string name="ths_pharmacy_email_text">email: </string>
+    <string name="ths_pharmacy_preferred_pharmacy_update">Preferred pharmacy updated</string>
+    <string name="ths_pharmacy_fetch_validation_error">Pharmacy list fetch validation error</string>
+    <string name="ths_pharmacy_fetch_error">Unable to fetch pharmacy list</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>

@@ -79,7 +79,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private CameraUpdate cu;
     private Label selectedPharmacyName, selectedPharmacyAddressLineOne, selectedPharmacyAddressLineTwo,
             selectedPharmacyState, selectedPharmacyZip, selectedPharmacyPhone, selectedPharmacyEmail, pharmacy_segment_control_one, pharmacy_segment_control_two;
-    private RelativeLayout selectedPharmacyLayout;
+    private RelativeLayout selectedPharmacyLayout, pharmacy_list_fragment_container;
     private SegmentControl pharmacyTypeLayout;
     private Animation slideUpFromBottomAnimation, slideDownFromBottomAnimation, slideUpFromTopAnimation, slideDownFromTopAnimation;
     private boolean handleBack = false;
@@ -92,6 +92,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private ActionBarListener actionBarListener;
     private List<Pharmacy> pharmaciesList = null;
     private Pharmacy searchedPharmacy;
+    private boolean isSearched = false;
 
     @Nullable
     @Override
@@ -106,6 +107,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name, true);
+        }
+        if (null != location && !isSearched) {
+            createCustomProgressBar(pharmacy_list_fragment_container, BIG);
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
         }
         return view;
     }
@@ -197,6 +202,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     public void findViewByIDs(View view) {
+        pharmacy_list_fragment_container = (RelativeLayout) view.findViewById(R.id.pharmacy_list_fragment_container);
         pharmacy_segment_control_one = (Label) view.findViewById(R.id.segment_control_view_one);
         pharmacy_segment_control_two = (Label) view.findViewById(R.id.segment_control_view_two);
         choosePharmacyButton = (Button) view.findViewById(R.id.choose_pharmacy_button);
@@ -230,19 +236,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.pharmacy_list_fragment_name), true);
-        }
-        if (null != location) {
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
-        }
-
-
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         if (null != pharmaciesList) {
@@ -267,7 +260,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      * This method handles the "choose pharmacy" button. This sets the customers preferred pharmacy.
      */
     public void setPreferredPharmacy() {
+
         thsPharmacyListPresenter.updateConsumerPreferredPharmacy(pharmacy);
+    }
+
+    @Override
+    public void showErrorToast(String errorMessage) {
+        showToast(errorMessage);
     }
 
     /**
@@ -276,7 +275,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void showMailOrderView() {
         pharmacy_segment_control_one.setSelected(false);
         pharmacy_segment_control_two.setSelected(true);
-        if(null != pharmaciesList) {
+        if (null != pharmaciesList) {
             updateView(filterList(pharmaciesList, PharmacyType.MailOrder));
         }
     }
@@ -288,7 +287,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void showRetailView() {
         pharmacy_segment_control_one.setSelected(true);
         pharmacy_segment_control_two.setSelected(false);
-        if(null != pharmaciesList) {
+        if (null != pharmaciesList) {
             updateView(filterList(pharmaciesList, PharmacyType.Retail));
         }
     }
@@ -548,7 +547,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PHARMACY_SEARCH_CONSTANT) {
+                isSearched = true;
                 pharmaciesList = data.getParcelableArrayListExtra(THSConstants.THS_SEARCH_PHARMACY_SELECTED);
+                if (null == pharmaciesList || pharmaciesList.size() == 0) {
+                    showToast(getString(R.string.ths_pharmacy_fetch_error));
+                }
                 updatePharmacyListView(pharmaciesList);
             }
         }
