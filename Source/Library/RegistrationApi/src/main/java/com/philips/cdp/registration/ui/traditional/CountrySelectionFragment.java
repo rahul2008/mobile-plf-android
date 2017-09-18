@@ -33,14 +33,18 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
 
 
-    private ArrayList<Country> masterList;
+    private ArrayList<Country> masterList = new ArrayList<>();
 
-    private ArrayList<Country> recentList;
+    private ArrayList<Country> recentList = new ArrayList<>();
 
-    private ArrayList<Country> filtredList;
+    private ArrayList<Country> filtredList = new ArrayList<>();
 
 
     private CountrySelectionListener listener;
+
+
+    public CountrySelectionFragment() {
+    }
 
 
     public CountrySelectionFragment(CountrySelectionListener listener, ArrayList<Country> rawMasterList, ArrayList<Country> recentList) {
@@ -103,6 +107,11 @@ public class CountrySelectionFragment extends RegistrationBaseFragment implement
         }
         countryListAdapter.notifyDataSetChanged();
         countryListView.scrollToPosition(0);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
