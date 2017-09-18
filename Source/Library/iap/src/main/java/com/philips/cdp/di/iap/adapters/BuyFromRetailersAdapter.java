@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
     private Context mContext;
     private FragmentManager mFragmentManager;
-    //private int mThemeBaseColor;
     private final ImageLoader mImageLoader;
     private ArrayList<StoreEntity> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
@@ -38,7 +37,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                                    ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener) {
         mContext = context;
         mFragmentManager = fragmentManager;
-        // mThemeBaseColor = Utility.getThemeColor(context);
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
         mStoreList = storeList;
@@ -61,11 +59,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
         if (productAvailability.equalsIgnoreCase("yes")) {
             holder.mProductAvailability.setText(mContext.getString(R.string.iap_in_stock));
-            // holder.mProductAvailability.setTextColor(mThemeBaseColor);
             holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_green_level_60));
         } else {
             holder.mProductAvailability.setText(mContext.getString(R.string.iap_out_of_stock));
-            // holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
             holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
         }
 

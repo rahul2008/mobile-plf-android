@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +21,14 @@ import com.philips.platform.uid.view.widget.RadioButton;
 import java.util.List;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context mContext;
     private List<Addresses> mAddresses;
 
-    private int mSelectedIndex=0; //As Oth position is taken by header
+    private int mSelectedIndex = 0; //As Oth position is taken by header
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
 
-    public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
-        mContext = context;
+    public AddressSelectionAdapter(final List<Addresses> addresses) {
         mAddresses = addresses;
         mSelectedIndex = 0; //As Oth position is taken by header
     }
@@ -40,25 +37,20 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
 
-        View view = null;
-        RecyclerView.ViewHolder viewHolder = null;
-        switch (viewType) {
-
-            case TYPE_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_item, parent, false);
-                return new AddressSelectionHolder(view);
-
-            case TYPE_FOOTER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_footer, parent, false);
-                return new AddressSelectionFooter(view);
-
+        View view;
+        if (viewType == TYPE_ITEM) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_item, parent, false);
+            return new AddressSelectionHolder(view);
+        } else if (viewType == TYPE_FOOTER) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_footer, parent, false);
+            return new AddressSelectionFooter(view);
         }
-        return viewHolder;
+        return null;
     }
 
     @Override
     public int getItemCount() {
-        return mAddresses.size()+1;
+        return mAddresses.size() + 1;
     }
 
     @Override
@@ -71,12 +63,12 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             AddressSelectionHolder addressSelectionHolder = (AddressSelectionHolder) holder;
             addressSelectionHolder.tvToggle.setText(address.getFirstName() + " " + address.getLastName());
             addressSelectionHolder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
-            updatePaymentButtonsVisibility(addressSelectionHolder.paymentOptions,addressSelectionHolder.delete, position);
+            updatePaymentButtonsVisibility(addressSelectionHolder.paymentOptions, addressSelectionHolder.delete, position);
             setToggleStatus(addressSelectionHolder.toggle, position);
             bindToggleButton(addressSelectionHolder, addressSelectionHolder.toggle);
             bindDeliverToThisAddress(addressSelectionHolder.deliverToThisAddress);
 
-            if(mAddresses.size()==1)addressSelectionHolder.delete.setEnabled(false);
+            if (mAddresses.size() == 1) addressSelectionHolder.delete.setEnabled(false);
             addressSelectionHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -112,10 +104,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-    private void updatePaymentButtonsVisibility(final ViewGroup paymentOptions,final Button dleteButton, final int position) {
+    private void updatePaymentButtonsVisibility(final ViewGroup paymentOptions, final Button dleteButton, final int position) {
         if (mSelectedIndex == position) {
             paymentOptions.setVisibility(View.VISIBLE);
-            if(this.getItemCount()== 1){
+            if (this.getItemCount() == 1) {
                 dleteButton.setEnabled(false);
             }
         } else {
@@ -150,7 +142,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
 
-
     public void setAddresses(final List<Addresses> data) {
         mSelectedIndex = 0;
         mAddresses = data;
@@ -164,15 +155,16 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         ViewGroup paymentOptions;
         Button edit;
         Button delete;
+
         public AddressSelectionHolder(final View view) {
             super(view);
             address = (TextView) view.findViewById(R.id.tv_address);
             toggle = (RadioButton) view.findViewById(R.id.rbtn_toggle);
-            tvToggle=(TextView)view.findViewById(R.id.tv_rbtn_toggle);
+            tvToggle = (TextView) view.findViewById(R.id.tv_rbtn_toggle);
             paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
             deliverToThisAddress = (Button) view.findViewById(R.id.btn_deliver_to_this_address);
-            edit=(Button)view.findViewById(R.id.btn_edit_address);
-            delete=(Button)view.findViewById(R.id.btn_delete_address);
+            edit = (Button) view.findViewById(R.id.btn_edit_address);
+            delete = (Button) view.findViewById(R.id.btn_delete_address);
             view.setOnClickListener(this);
         }
 
@@ -184,10 +176,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    private boolean isPositionHeader(int position) {
-        return position == 0;
-    }
-
     private boolean isPositionFooter(int position) {
         return position == mAddresses.size();
     }
@@ -195,7 +183,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
 
-        if(isPositionFooter(position)) {
+        if (isPositionFooter(position)) {
             return TYPE_FOOTER;
         }
         return TYPE_ITEM;
