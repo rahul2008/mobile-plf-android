@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="@dimen/reg_layout_margin_end_16"
-            android:layout_marginTop="@dimen/reg_margin_24"
+            android:paddingBottom="@dimen/reg_dimen_16dp"
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
@@ -128,7 +128,7 @@
                 android:id="@+id/usr_createScreen_passwordValidation_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_layout_margin_8dp"
+                android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/uid_signal_red_level_15"
-                    android:padding="@dimen/reg_margin_12dp"
+                    android:padding="@dimen/reg_dimen_12dp"
                     android:text="@string/reg_password_description"
                     android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
             </LinearLayout>
@@ -180,22 +180,22 @@
                 android:id="@+id/usr_createscreen_termsandconditions_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_layout_margin_10dp"
+                android:layout_marginTop="@dimen/reg_dimen_12dp"
                 android:text="@string/reg_TermsAndConditionsAcceptanceText"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_createscreen_termsandconditionsalert_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_layout_margin_10dp"
+                android:layout_marginTop="@dimen/reg_dimen_12dp"
                 android:visibility="gone"/>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
                 android:id="@+id/usr_createscreen_create_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
-                android:layout_marginTop="@dimen/reg_layout_margin_top_24"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_Create_Account_CreateMyPhilips_btntxt"
@@ -206,7 +206,7 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_bottom_16"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="Switch to login"
                 android:visibility="gone"
                 app:uidComponentType="Secondary"/>
@@ -215,7 +215,7 @@
                 android:id="@+id/usr_createscreen_error_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_layout_margin_top_24"/>
+                android:layout_marginTop="@dimen/reg_dimen_24dp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/reg_margin_bottom"

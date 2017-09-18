@@ -12,8 +12,8 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/country_selection_header_TextView"
-        android:layout_marginTop="@dimen/reg_margin_24"
-        android:layout_marginBottom="@dimen/reg_margin_24"
+        android:layout_marginTop="@dimen/reg_dimen_24dp"
+        android:layout_marginBottom="@dimen/reg_dimen_24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/reg_text_size_16"

@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:paddingBottom="@dimen/reg_margin_12dp"
+            android:paddingBottom="@dimen/reg_dimen_12dp"
             app:layout_constraintEnd_toStartOf="@id/uid_notification_icon"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"

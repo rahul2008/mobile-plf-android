@@ -18,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/reg_margin_24"
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_layout_margin_end_16">
+            android:paddingBottom="@dimen/reg_dimen_16dp">
 
             <LinearLayout
                 android:id="@+id/ll_reg_create_account_fields"
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="Log in now"
-                    android:textSize="@dimen/reg_title_text_size"
+                    android:textSize="@dimen/reg_dimen_20dp"
                     android:textStyle="bold"
                     fontPath="fonts/centralesansbold.ttf"/>
 
@@ -95,7 +95,7 @@
                 android:id="@+id/rl_reg_welcome_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_margin_24"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
                 >
 
                 <com.philips.platform.uid.view.widget.ProgressBarButton
@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:textSize="@dimen/reg_text_size_12"
-        android:layout_marginBottom="@dimen/reg_margin_24"
+        android:layout_marginBottom="@dimen/reg_dimen_24dp"
         android:text="@string/reg_TraditionalSignIn_ForgotPwd_btntxt"/>
 
     <LinearLayout

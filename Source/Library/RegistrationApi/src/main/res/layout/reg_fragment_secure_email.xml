@@ -19,16 +19,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/reg_layout_margin_top_24"
-            android:layout_marginStart="@dimen/reg_layout_margin_16dp"
-            android:layout_marginEnd="@dimen/reg_layout_margin_16dp"
-            android:layout_marginBottom="@dimen/reg_layout_margin_16dp">
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
+            android:layout_marginStart="@dimen/reg_dimen_16dp"
+            android:layout_marginEnd="@dimen/reg_dimen_16dp"
+            android:layout_marginBottom="@dimen/reg_dimen_16dp">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/reg_secure_data_title_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_recovery_title"
                 fontPath="fonts/centralesansbold.ttf"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
@@ -39,7 +39,7 @@
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_recovery_desc_one"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"/>
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
-                    android:layout_marginBottom="@dimen/reg_layout_margin_top_24"
+                    android:layout_marginBottom="@dimen/reg_dimen_24dp"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true"/>
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -74,7 +74,7 @@
                 android:id="@+id/btn_reg_secure_data_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:enabled="true"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_recovery_button1"
@@ -84,7 +84,7 @@
                 android:id="@+id/btn_reg_secure_data_email_later"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:text="@string/reg_SecureData_Maybe_Later"
                 app:uidComponentType="Secondary"/>
 

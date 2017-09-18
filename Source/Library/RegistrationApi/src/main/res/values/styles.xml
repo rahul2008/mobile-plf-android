@@ -64,7 +64,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
         <item name="android:textColor">@color/reg_text_heading_one_color</item>
-        <item name="android:textSize">@dimen/reg_title_text_size</item>
+        <item name="android:textSize">@dimen/reg_dimen_20dp</item>
         <item name="android:layout_marginTop">@dimen/reg_header_margin_top</item>
         <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
         <item name="android:paddingRight">@dimen/reg_layout_margin</item>

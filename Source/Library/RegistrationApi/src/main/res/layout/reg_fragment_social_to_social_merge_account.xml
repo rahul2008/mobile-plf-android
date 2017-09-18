@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/reg_margin_24"
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/reg_margin_24">
+            android:paddingBottom="@dimen/reg_dimen_24dp">
 
 
             <com.philips.platform.uid.view.widget.Label

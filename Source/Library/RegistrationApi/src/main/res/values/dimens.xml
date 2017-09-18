@@ -6,12 +6,6 @@
 
     <!-- DEFAULT screen margins, per the Android Design guidelines. -->
 
-    <dimen name="reg_layout_padding_left_16dp">16dp</dimen>
-    <dimen name="reg_layout_padding_right_16dp">16dp</dimen>
-    <dimen name="reg_layout_padding_top_16dp">16dp</dimen>
-    <dimen name="reg_layout_padding_bottom_16dp">16dp</dimen>
-    <dimen name="reg_layout_padding_16dp">16dp</dimen>
-    <dimen name="reg_layout_top">12dp</dimen>
 
 
 
@@ -61,7 +55,6 @@
     <dimen name="reg_et_hint_size">16sp</dimen>
 
     <!-- Home screen -->
-    <dimen name="reg_title_text_size">22sp</dimen>
     <dimen name="reg_header_margin_top">29dip</dimen>
     <dimen name="reg_title_text_size_medium">15sp</dimen>
     <dimen name="reg_title_text_size_small">13sp</dimen>
@@ -167,25 +160,14 @@
     <dimen name="reg_first_to_know_know">72dip</dimen>
     <dimen name="reg_text_padding_bottom">5dp</dimen>
 
-    <dimen name="reg_layout_margin_16dp">16dp</dimen>
-    <dimen name="reg_layout_margin_10dp">10dp</dimen>
-    <dimen name="reg_layout_margin_20dp">20dp</dimen>
-    <dimen name="reg_layout_margin_14dp">14dp</dimen>
-    <dimen name="reg_layout_margin_12dp">12dp</dimen>
-    <dimen name="reg_layout_margin_8dp">8dp</dimen>
-    <dimen name="reg_margin_24">24dp</dimen>
-    <dimen name="reg_margin_16dp">16dp</dimen>
-    <dimen name="reg_margin_12dp">12dp</dimen>
-
-    <dimen name="reg_layout_margin_bottom_16">16dp</dimen>
-    <dimen name="reg_layout_margin_start_16">16dp</dimen>
-    <dimen name="reg_layout_margin_end_16">16dp</dimen>
-    <dimen name="reg_layout_margin_top_24">24dp</dimen>
     <dimen name="reg_text_size_12">12sp</dimen>
     <dimen name="reg_text_size_20">20sp</dimen>
     <dimen name="reg_text_size_16">16sp</dimen>
     <dimen name="reg_dimen_8dp">8dp</dimen>
-
+    <dimen name="reg_dimen_12dp">12dp</dimen>
+    <dimen name="reg_dimen_16dp">16dp</dimen>
+    <dimen name="reg_dimen_20dp">20dp</dimen>
+    <dimen name="reg_dimen_24dp">24dp</dimen>
 
     <integer name="reg_et_verifycode_max_length">1</integer>
 

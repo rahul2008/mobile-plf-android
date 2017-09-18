@@ -18,17 +18,17 @@
             android:id="@+id/ll_reg_root_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/reg_margin_24"
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/reg_layout_margin_16dp"
-            android:paddingRight="@dimen/reg_layout_margin_16dp">
+            android:paddingLeft="@dimen/reg_dimen_16dp"
+            android:paddingRight="@dimen/reg_dimen_16dp">
 
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/tv_reg_verify_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="Did not receive a SMS?"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
@@ -39,7 +39,7 @@
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_Update_MobileNumber_Description_One"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"
@@ -49,7 +49,7 @@
                 android:id="@+id/tv_reg_verify_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_Update_MobileNumber_Description_two"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"
@@ -59,7 +59,7 @@
                 android:id="@+id/usr_mobileverification_resend_sms_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_8dp"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:text="@string/reg_phone_number"
                 reglib:fontPath="fonts/centralesansbook.ttf"
                 android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
@@ -87,8 +87,8 @@
                 android:id="@+id/usr_mobileverification_resendsmstimer_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_24"
-                android:layout_marginTop="@dimen/reg_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_24dp"
+                android:layout_marginTop="@dimen/reg_dimen_12dp"
                 android:indeterminate="false"
                 android:minWidth="@dimen/uid_progress_bar_min_width"
                 android:textSize="@dimen/reg_text_size_16"
@@ -102,7 +102,7 @@
                 android:id="@+id/btn_reg_resend_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_Resend_SMS_title"
@@ -112,7 +112,7 @@
                 android:id="@+id/btn_reg_code_received"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:text="@string/reg_Update_MobileNumber_Thanks_Got_It"
                 app:uidComponentType="Secondary"
                 />
@@ -128,7 +128,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_layout_margin_16dp"/>
+                android:layout_height="@dimen/reg_dimen_16dp"/>
 
         </LinearLayout>
     </ScrollView>

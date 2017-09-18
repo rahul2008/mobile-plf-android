@@ -17,15 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/reg_layout_margin_top_24"
+            android:layout_marginTop="@dimen/reg_dimen_24dp"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_activationresend_title_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:layout_marginTop="@dimen/reg_margin_24"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_verify_resend_mail_title"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"
@@ -35,7 +35,7 @@
                 android:id="@+id/usr_activationresend_email_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:text="@string/reg_verify_resend_mail_desc"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 />
@@ -43,7 +43,7 @@
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_24"
+                android:layout_marginBottom="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_verify_resend_mail_desc2"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
 
@@ -58,7 +58,7 @@
                 android:id="@+id/usr_activationresend_emailormobile_inputValidationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
@@ -77,8 +77,8 @@
                 android:id="@+id/usr_mobileverification_resendmailtimer_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_margin_24"
-                android:layout_marginTop="@dimen/reg_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_24dp"
+                android:layout_marginTop="@dimen/reg_dimen_12dp"
                 android:indeterminate="false"
                 android:minWidth="@dimen/uid_progress_bar_min_width"
                 android:textSize="@dimen/reg_text_size_16"
@@ -92,7 +92,7 @@
                 android:id="@+id/usr_activationresend_emailResend_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/reg_verify_resend_mail_button_resend"
@@ -102,7 +102,7 @@
                 android:id="@+id/usr_activationresend_return_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:text="@string/reg_verify_resend_mail_button_return"
                 app:uidComponentType="Secondary"/>
 
