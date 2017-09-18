@@ -166,12 +166,14 @@ public class HsdpUser {
                                             RegConstants.HSDP_LOWER_ERROR_BOUND)));
                 } else if (null!= dhpAuthenticationResponse.responseCode &&
                         dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
-                    getHsdpUserRecord().getAccessCredential().setExpiresIn(
-                            dhpAuthenticationResponse.expiresIn);
-                    getHsdpUserRecord().getAccessCredential().setRefreshToken
-                            (dhpAuthenticationResponse.refreshToken);
-                    getHsdpUserRecord().getAccessCredential().setAccessToken
-                            (dhpAuthenticationResponse.accessToken);
+                    if(null!= getHsdpUserRecord() && null!= getHsdpUserRecord().getAccessCredential()) {
+                        getHsdpUserRecord().getAccessCredential().setExpiresIn(
+                                dhpAuthenticationResponse.expiresIn);
+                        getHsdpUserRecord().getAccessCredential().setRefreshToken
+                                (dhpAuthenticationResponse.refreshToken);
+                        getHsdpUserRecord().getAccessCredential().setAccessToken
+                                (dhpAuthenticationResponse.accessToken);
+                    }
                     saveToDisk(new UserFileWriteListener() {
                         @Override
                         public void onFileWriteSuccess() {
@@ -184,8 +186,7 @@ public class HsdpUser {
                     handler.post(() -> {
                         RLog.i(RLog.HSDP, "onHsdpRefreshSuccess : response :" +
                                 dhpAuthenticationResponse.rawResponse.toString());
-                        ThreadUtils.postInMainThread(mContext,()->
-                        refreshHandler.onRefreshLoginSessionSuccess());
+                        ThreadUtils.postInMainThread(mContext, refreshHandler::onRefreshLoginSessionSuccess);
                     });
                 } else {
                     if (dhpAuthenticationResponse.responseCode != null &&
