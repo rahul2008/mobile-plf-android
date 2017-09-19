@@ -3,15 +3,12 @@ package com.philips.cdp.prodreg.register;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
@@ -19,11 +16,9 @@ import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import junit.framework.TestCase;
 
@@ -35,7 +30,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -353,7 +347,7 @@ public class UserWithProductsTest extends TestCase {
         registeredProducts.add(registeredProduct1);
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
-        assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product));
+        assertTrue(userWithProducts.isCtnRegistered(registeredProducts, product).getRegistrationState() == RegistrationState.REGISTERED);
     }
 
     @Test
@@ -374,7 +368,7 @@ public class UserWithProductsTest extends TestCase {
         registeredProducts.add(registeredProduct1);
         registeredProducts.add(registeredProduct2);
         registeredProducts.add(registeredProduct3);
-        assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product));
+        assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product).getRegistrationState()==RegistrationState.REGISTERED);
     }
 
 //    @Test
