@@ -384,4 +384,7 @@ public static <fields>;
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
+
+-dontwarn android.support.v7.view.menu.ListMenuItemView.**
+-dontwarn android.support.customtabs.CustomTabsIntent.**
 #------------------------------Application specific rules end  here------------------------------------
