@@ -83,43 +83,6 @@
 
 
 
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static void init(android.content.Context);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static java.lang.String objectToString(java.io.Serializable);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static java.lang.Object stringToObject(java.lang.String);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static void migrateUserData(java.lang.String);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static byte[] encrypt(java.lang.String);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static byte[] decrypt(byte[]);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static void generateSecretKey();
-}
-
-
-
-
-
-#Locale match
--keep public class com.philips.cdp.localematch.** {*;}
-
-
-
 #HSDP Lib
 -keep  class com.fasterxml.jackson.annotation.** {*;}
 -keep  class com.fasterxml.jackson.core.** {*;}
