@@ -82,7 +82,7 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
 
     @Override
     public boolean isUserLoggedIn() {
-        return user.isUserSignIn();
+        return new User(context).isUserSignIn();
     }
 
     @NonNull
@@ -103,6 +103,7 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
     @NonNull
     private UserProfile getUserProfileUserRegistrationPart() {
         final UserProfile userProfile;
+        User user = new User(context);
         userProfile = new UserProfile(user.getGivenName(), user.getFamilyName(), user.getEmail(), user.getHsdpUUID());
         return userProfile;
     }
