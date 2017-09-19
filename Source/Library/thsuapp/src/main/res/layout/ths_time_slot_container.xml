@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ths_time_slot_view"
     android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="wrap_content">
 
     <View

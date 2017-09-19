@@ -4,6 +4,7 @@
     android:id="@+id/providerDetailLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:paddingLeft="@dimen/ths_fab_margin"
     android:paddingRight="@dimen/ths_fab_margin">
 

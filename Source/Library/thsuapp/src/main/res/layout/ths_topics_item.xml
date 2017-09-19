@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:paddingRight="16dp">
 
     <com.philips.platform.uid.view.widget.CheckBox

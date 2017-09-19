@@ -6,8 +6,6 @@
     android:layout_marginRight="12dp"
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical"
-
-
     >
 
     <com.philips.platform.uid.view.widget.Label
