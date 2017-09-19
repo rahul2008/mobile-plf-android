@@ -137,7 +137,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         mActivity = getActivity();
         setRetainInstance(true);
         prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity);
-       // dismissLoadingDialog();
+        dismissLoadingDialog();
     }
 
     @SuppressWarnings("deprecation")
@@ -420,6 +420,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 //        if (validSerialNumber) {
 //            findSerialTextView.setVisibility(View.GONE);
 //        } else
+        if(!validSerialNumber)
             showErrorMessageSerialNumber();
     }
 

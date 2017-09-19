@@ -11,7 +11,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/serial_number_title_message"
-        style="@style/UIDLabel.ProductRegistrationProductHeaderTitleTheme"
+        style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""/>
@@ -36,17 +36,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/pr_c_value_sm"
+        android:layout_marginTop="@dimen/margin_bottom"
         >
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/button_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/pr_registration_margin_top"
             android:text="@string/PPR_Continue"
             />
 
