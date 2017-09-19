@@ -24,12 +24,14 @@ import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
-import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 
 
@@ -60,10 +62,6 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             Bundle bundle = new Bundle();
             bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
             mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle);
-        } else if (componentID == R.id.uid_dialog_positive_button) {
-            // matchmaking failed
-            mTHSCostSummaryFragment.alertDialogFragment.dismiss();
-            //mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG,0);
         } else if (componentID == R.id.ths_cost_summary_promotion_code_apply_button) {
             applyCouponCode(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
         }
@@ -168,13 +166,13 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     public void onCreateVisitFailure(Throwable var1) {
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(false);
         mTHSCostSummaryFragment.hideProgressBar();
-        showCostError(true, true, var1.toString());
+        showCreateVisitError(true, true,mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_provider_offline) );
     }
 
     @Override
     public void onCreateVisitValidationFailure(Map<String, ValidationReason> var1) {
         mTHSCostSummaryFragment.hideProgressBar();
-        showCostError(true, true, var1.toString());
+        showCreateVisitError(true, true, var1.toString());
     }
     // end of createVisit callbacks
 
@@ -258,18 +256,52 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     // end of getPayment callbacks
 
     private void showCostError(final boolean showLargeContent, final boolean isWithTitle, final String message) {
+        if(null!=mTHSCostSummaryFragment.alertDialogFragmentCouponCode){
+            mTHSCostSummaryFragment.alertDialogFragmentCouponCode.dismiss();
+        }
+        View.OnClickListener alertDialogFragmentCouponListener =  new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTHSCostSummaryFragment.alertDialogFragmentCouponCode.dismiss();
+
+            }
+        };
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
                 .setMessage(showLargeContent ? message : message).
-                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), mTHSCostSummaryFragment);
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), alertDialogFragmentCouponListener);
 
         if (isWithTitle) {
             builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));
 
         }
-        mTHSCostSummaryFragment.alertDialogFragment = builder.setCancelable(false).create();
-        mTHSCostSummaryFragment.alertDialogFragment.show(mTHSCostSummaryFragment.getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
+        mTHSCostSummaryFragment.alertDialogFragmentCouponCode = builder.setCancelable(false).create();
+        mTHSCostSummaryFragment.alertDialogFragmentCouponCode.setPositiveButtonListener(alertDialogFragmentCouponListener);
+        mTHSCostSummaryFragment.alertDialogFragmentCouponCode.show(mTHSCostSummaryFragment.getFragmentManager(), THS_COST_SUMMARY_COUPON_CODE_ERROR);
 
+    }
 
+    private void showCreateVisitError(final boolean showLargeContent, final boolean isWithTitle, final String message) {
+        if(null!=mTHSCostSummaryFragment.alertDialogFragmentCreateVisit){
+            mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.dismiss();
+        }
+        View.OnClickListener alertDialogFragmentCreateVisitListener =  new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.dismiss();
+                mTHSCostSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
+            }
+        };
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mTHSCostSummaryFragment.getFragmentActivity())
+                .setMessage(showLargeContent ? message : message).
+                        setPositiveButton(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_ok_button), alertDialogFragmentCreateVisitListener);
+
+        if (isWithTitle) {
+            builder.setTitle(mTHSCostSummaryFragment.getResources().getString(R.string.ths_matchmaking_error));
+
+        }
+        mTHSCostSummaryFragment.alertDialogFragmentCreateVisit = builder.setCancelable(false).create();
+        mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.setPositiveButtonListener(alertDialogFragmentCreateVisitListener);
+        mTHSCostSummaryFragment.alertDialogFragmentCreateVisit.show(mTHSCostSummaryFragment.getFragmentManager(), THS_COST_SUMMARY_CREATE_VISIT_ERROR);
     }
 
 

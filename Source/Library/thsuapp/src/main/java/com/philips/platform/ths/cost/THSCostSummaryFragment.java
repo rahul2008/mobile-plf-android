@@ -29,6 +29,8 @@ import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_ALE
 
 
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
+import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
 
 
 public class THSCostSummaryFragment extends THSBaseFragment implements View.OnClickListener {
@@ -63,7 +65,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     THSVisit thsVisit;
     protected THSPaymentMethod mTHSPaymentMethod;
 
-    AlertDialogFragment alertDialogFragment;
+    AlertDialogFragment alertDialogFragmentCreateVisit;
+    AlertDialogFragment alertDialogFragmentCouponCode;
 
     EditText mCouponCodeEdittext;
     Button mCouponCodeButton;
@@ -122,11 +125,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         super.onActivityCreated(savedInstanceState);
         createCustomProgressBar(mProgressbarContainer, BIG);
         actionBarListener = getActionBarListener();
-        alertDialogFragment = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_ALERT);
-        if (alertDialogFragment != null) {
-            alertDialogFragment.setPositiveButtonListener(this);
 
-        }
     }
 
     @Override
@@ -140,6 +139,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onStart() {
         super.onStart();
+        alertDialogFragmentCreateVisit = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_CREATE_VISIT_ERROR);
+        alertDialogFragmentCouponCode = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_COST_SUMMARY_COUPON_CODE_ERROR);
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_COST_SUMMARY, null, null);
         mPresenter.getPaymentMethod();
         mPresenter.fetchExistingSubscription();

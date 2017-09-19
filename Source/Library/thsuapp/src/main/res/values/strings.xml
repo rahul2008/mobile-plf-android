@@ -223,6 +223,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_free_visit_header">Your visit is</string>
     <string name="ths_cost_summary_free_visit_text">Free</string>
     <string name="ths_cost_summary_member_id">Member ID:</string>
+    <string name="ths_cost_summary_provider_offline">Provider is offline now</string>
 
     <!-- Pre Welcome Screen-->
     <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
