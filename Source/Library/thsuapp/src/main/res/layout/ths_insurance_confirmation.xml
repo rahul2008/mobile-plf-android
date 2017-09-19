@@ -3,6 +3,7 @@
     android:id="@+id/ths_insurance_confirmation_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_marginBottom="@dimen/ths_fab_margin"
     android:layout_marginLeft="@dimen/ths_fab_margin"
     android:layout_marginRight="@dimen/ths_fab_margin">

@@ -116,7 +116,10 @@ public class THSConstants {
     public static final String THS_RATE_PROVIDER_AND_VISIT = "rateProviderAndVisit";
     public static final String THS_VISIT_SUMMARY = "Wrap_up_summary";
     public static final String THS_VISIT_HISTORY= "visitHistory";
+    public static final String THS_COST_SUMMARY_CREATE_VISIT_ERROR = "Cost_summary_create_visit_error";
+    public static final String THS_COST_SUMMARY_COUPON_CODE_ERROR = "Cost_summary_coupon_code_error";
 
+    public static final String THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE = "createPaymentRequest.creditCardYear";
     // end of tagging constants
 
 

@@ -92,6 +92,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_continue_button_text">Continue</string>
     <string name="ths_pharmacy_phone_text">phone: </string>
     <string name="ths_pharmacy_email_text">email: </string>
+    <string name="ths_pharmacy_preferred_pharmacy_update">Preferred pharmacy updated</string>
+    <string name="ths_pharmacy_fetch_validation_error">Pharmacy list fetch validation error</string>
+    <string name="ths_pharmacy_fetch_error">Unable to fetch pharmacy list</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>
@@ -220,6 +223,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_cost_summary_free_visit_header">Your visit is</string>
     <string name="ths_cost_summary_free_visit_text">Free</string>
     <string name="ths_cost_summary_member_id">Member ID:</string>
+    <string name="ths_cost_summary_provider_offline">Provider is offline now</string>
 
     <!-- Pre Welcome Screen-->
     <string name="ths_video_consults">Video consults in just minutes, right on your smartphone \n<u>See how it works</u></string>
@@ -234,7 +238,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_matchmaking_error">Error</string>
     <string name="ths_matchmaking_error_cancelling">Error while cancelling match making</string>All fields are mandatory
     <string name="ths_error_all_fields_mandatory">All fields are mandatory</string>
-    <string name="ths_error_cc_expiry_date_detail_not_valid">Credit card expiry date not valid</string>
+    <string name="ths_error_cc_expiry_date_detail_not_valid">Invalid expiration date</string>
 
     <!-- Registration Screen-->
     <string name="something_went_wrong">Something went wrong !!!</string>

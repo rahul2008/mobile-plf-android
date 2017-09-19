@@ -4,6 +4,7 @@
     android:id="@+id/providerDetailLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:paddingLeft="@dimen/ths_fab_margin"
     android:paddingRight="@dimen/ths_fab_margin">
 
@@ -70,6 +71,7 @@
             android:layout_marginEnd="@dimen/uid_grid_title_padding"
             android:layout_marginStart="@dimen/uid_grid_title_padding"
             android:rating="3.6"
+            android:visibility="gone"
             android:stepSize=".1"
             android:textColor="?attr/uidLabelValueNormalTextColor"
             android:textSize="@dimen/uid_grid_descrption_size" />

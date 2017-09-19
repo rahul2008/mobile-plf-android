@@ -11,38 +11,33 @@
         android:id="@+id/ths_match_making_ProgressBarWithLabel_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:gravity="center">
-   <com.philips.platform.uid.view.widget.Label
-       android:id="@+id/ths_match_making_ProgressBar_message_label"
-       android:layout_marginTop="130dp"
-       android:layout_centerInParent="true"
-       android:gravity="center_horizontal"
+        android:gravity="center"
+        android:visibility="gone">
 
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content" />
-   </RelativeLayout>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_match_making_ProgressBar_message_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:layout_marginTop="130dp"
+            android:gravity="center_horizontal" />
+    </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeProviderLayout"
-        android:layout_below="@+id/ths_match_making_ProgressBarWithLabel_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomLayout">
-
-
+        android:layout_above="@+id/bottomLayout"
+        android:layout_below="@+id/ths_match_making_ProgressBarWithLabel_container">
 
         <ScrollView
-
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/dodProviderFound"
@@ -51,18 +46,18 @@
                     android:layout_height="48dp"
                     android:background="@color/uid_green_level_40"
                     android:gravity="center"
-                    android:visibility="gone"
                     android:text="We have found a provider for your visit"
                     android:textColor="@color/uid_level_white"
-                    android:textSize="16sp">
+                    android:textSize="16sp"
+                    android:visibility="gone">
 
                 </com.philips.platform.uid.view.widget.Label>
 
                 <RelativeLayout
                     android:id="@+id/providerDetailDListLayoutRelativeLayout"
-                    android:layout_below="@+id/dodProviderFound"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dodProviderFound">
 
                     <include
                         android:id="@+id/providerDetailDListLayout"

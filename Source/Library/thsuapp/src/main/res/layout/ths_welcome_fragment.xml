@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/init_container"
     android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent">
 
     <include
@@ -59,9 +60,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/ths_amwell_brand"
-           android:layout_marginTop="@dimen/ths_fab_margin"
+            android:layout_marginTop="@dimen/ths_fab_margin"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
+            android:background="@android:color/transparent"
             android:text="@string/ths_this_services_is_provided_by" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/ths_service_provided_by"
             android:layout_marginTop="@dimen/ths_fab_margin"
+            android:background="@android:color/transparent"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
             android:text="@string/ths_quick_visit" />

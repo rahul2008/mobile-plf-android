@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
@@ -30,6 +31,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public static final int SEARCH_EVENT_ID = 4000;
     private String zipSearchString = null;
     private List<Pharmacy> pharmacies;
+    private RelativeLayout linearLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.ths_pharmacy_search_fragment,container,false);
         searchPharmacy = (SearchBox) view.findViewById(R.id.ths_search_pharmacy_edittext);
+        linearLayout = (RelativeLayout) view.findViewById(R.id.searchPharmacyContainerView);
         searchPharmacy.setExpandListener(this);
         searchPharmacy.setQuerySubmitListener(this);
         searchPharmacy.setQuery(searchPharmacy.getQuery());
@@ -70,6 +73,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     @Override
     public void onQuerySubmit(CharSequence charSequence) {
         zipSearchString = String.valueOf(charSequence);
+        createCustomProgressBar(linearLayout,SMALL);
         thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
     }
 
