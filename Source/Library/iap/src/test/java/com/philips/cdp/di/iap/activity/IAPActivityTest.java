@@ -77,33 +77,40 @@ public class IAPActivityTest {
     @Test
     public void shouldNotApplied_DefaultTheme() throws Exception {
         int themeIndex = intent.getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, 0);
-        // activity = buildActivity(IAPActivity.class, intent).withIntent(intent).create().resume().get();
         startActivity(intent);
         Assert.assertEquals(themeIndex, 0);
+    }
+
+    @Test
+    public void shouldSaveInstanceIsNotnull() throws Exception {
+        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).get();
+        IAPActivity spyActivity = Mockito.spy(activity);
+
+        Mockito.doReturn(fragmentManagerMock).when(spyActivity).getSupportFragmentManager();
+        spyActivity.onCreate(mock(Bundle.class));
+
     }
 
     @Test
     public void shouldLandInProductCatalogScreen() throws Exception {
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 0);
         int landingIndex = intent.getIntExtra(IAPConstant.IAP_LANDING_SCREEN, 0);
-        // activity = buildActivity(IAPActivity.class, intent).withIntent(intent).create().resume().get();
         startActivity(intent);
         Assert.assertEquals(landingIndex, 0);
     }
 
-//    @Test
-//    public void shouldLandInShoppingCartFragment() throws Exception {
-//        intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 1);
-//        int landingIndex = intent.getIntExtra(IAPConstant.IAP_LANDING_SCREEN, 1);
-//        activity = buildActivity(IAPActivity.class, intent).withIntent(intent).create().resume().get();
-//        Assert.assertNotSame(landingIndex, 1);
-//    }
+    @Test
+    public void shouldLandInShoppingCartFragment() throws Exception {
+        intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 1);
+        int landingIndex = intent.getIntExtra(IAPConstant.IAP_LANDING_SCREEN, 1);
+        startActivity(intent);
+        Assert.assertEquals(landingIndex, 1);
+    }
 
     @Test
     public void shouldLandInPurchaseHistoryFragment() throws Exception {
         intent.putExtra(IAPConstant.IAP_LANDING_SCREEN, 2);
         int landingIndex = intent.getIntExtra(IAPConstant.IAP_LANDING_SCREEN, 2);
-        //activity = buildActivity(IAPActivity.class, intent).withIntent(intent).create().resume().get();
         startActivity(intent);
         Assert.assertEquals(landingIndex, 2);
     }
@@ -244,5 +251,12 @@ public class IAPActivityTest {
         spyActivity.onDestroy();
 
         verify(fragmentTransactionMock).replace(anyInt(), fragmentArgumentCaptor.capture(), anyString());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testShowFragment() throws Exception {
+
+        startActivity(intent);
+        activity.showFragment("ProductCatalog");
     }
 }
