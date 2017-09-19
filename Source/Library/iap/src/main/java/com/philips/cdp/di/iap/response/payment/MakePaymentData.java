@@ -6,9 +6,9 @@ package com.philips.cdp.di.iap.response.payment;
  */
 public class MakePaymentData {
 
-    private String worldpayUrl;
+    private String paymentProviderUrl;
 
     public String getWorldpayUrl() {
-        return worldpayUrl;
+        return paymentProviderUrl;
     }
 }

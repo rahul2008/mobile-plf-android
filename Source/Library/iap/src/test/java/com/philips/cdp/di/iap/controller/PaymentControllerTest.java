@@ -216,8 +216,6 @@ public class PaymentControllerTest {
         address.setPhone2("+1877-682-8207");
         address.setEmail("testinapp@mailinator.com");
         address.setRegionName("US");
-        address.clone();
-
         return address;
     }
 

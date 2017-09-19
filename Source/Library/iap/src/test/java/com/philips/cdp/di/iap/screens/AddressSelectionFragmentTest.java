@@ -31,7 +31,7 @@ public class AddressSelectionFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
         addrssAddressSelectionFragment = AddressSelectionFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);

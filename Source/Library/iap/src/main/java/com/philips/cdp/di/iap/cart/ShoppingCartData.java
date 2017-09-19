@@ -7,7 +7,10 @@ package com.philips.cdp.di.iap.cart;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-public class ShoppingCartData {
+
+import java.io.Serializable;
+
+public class ShoppingCartData implements Serializable {
 
     private EntriesEntity mEntry;
     private DeliveryModeEntity mDeliveryModeEntity;
