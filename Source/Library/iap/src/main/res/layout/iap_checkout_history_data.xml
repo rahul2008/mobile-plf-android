@@ -20,7 +20,7 @@
             android:id="@+id/product_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/reg_layout_margin_12dp"
+            android:layout_marginStart="@dimen/border12_margin"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/image">
 
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/price_label"
-                android:layout_marginTop="@dimen/reg_layout_margin_10dp"
+                android:layout_marginTop="@dimen/iap_margin_10dp"
                 android:layout_toRightOf="@+id/after_discount_price"
                 android:text="$777"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
