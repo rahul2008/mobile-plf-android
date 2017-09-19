@@ -54,6 +54,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         super.onCreate(savedInstanceState);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
+        progressDialog.setCancelable(false);
     }
 
     public void initDLS() {
