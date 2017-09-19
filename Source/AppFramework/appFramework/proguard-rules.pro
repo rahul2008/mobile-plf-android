@@ -422,3 +422,85 @@ public static <fields>;
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
+
+
+#-------------------------Registration Starts -------------------------
+
+
+
+#Wechat
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+
+
+## New rules for EventBus 3.0.x ##
+# http://greenrobot.org/eventbus/documentation/proguard/
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+
+
+##General and network
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-dontwarn org.apache.**
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,Exceptions
+
+
+#Hockey app and enabling excpetion catching
+-keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+
+
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+
+
+#HSDP Lib
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
+
+
+#GSM
+-keep  class com.google.android.gms.* { public *; }
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+
+#webkit
+-keep  class android.net.http.SslError
+-keep  class android.webkit.WebViewClient
+
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
+
+#notification
+-dontwarn android.app.Notification
+-dontwarn okio.**
+-keep class com.squareup.** { *; }
+-keep class java.nio.**
+-keep class org.codehaus.**
+
+-dontwarn com.janrain.android.**
+-dontwarn java.nio.**
+
+-keepattributes Signature
+-keepattributes InnerClasses,EnclosingMethod
+
+#-------------------------Registration Ends -------------------------
