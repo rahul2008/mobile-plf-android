@@ -92,6 +92,9 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_continue_button_text">Continue</string>
     <string name="ths_pharmacy_phone_text">phone: </string>
     <string name="ths_pharmacy_email_text">email: </string>
+    <string name="ths_pharmacy_preferred_pharmacy_update">Preferred pharmacy updated</string>
+    <string name="ths_pharmacy_fetch_validation_error">Pharmacy list fetch validation error</string>
+    <string name="ths_pharmacy_fetch_error">Unable to fetch pharmacy list</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>
@@ -168,6 +171,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Welcome Screen-->
     <string name="ths_see_provider">See a provider online, anytime</string>
     <string name="ths_quick_visit">The easiest way to get a quick visit with a licensed provider.</string>
+    <string name="ths_this_services_is_provided_by">This service is provided by</string>
     <string name="ths_see_doctor">Go to see a provider</string>
     <string name="ths_appointments">Appointments</string>
     <string name="ths_visit_history">Visit history</string>

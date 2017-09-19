@@ -12,7 +12,6 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
@@ -64,16 +63,24 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     }
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
+        thsPharmacyListViewListener.hideProgressBar();
+        thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_validation_error));
 
     }
 
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
+        thsPharmacyListViewListener.hideProgressBar();
+        if(null == pharmacies || pharmacies.size() == 0){
+            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+        }
         thsPharmacyListViewListener.updatePharmacyListView(pharmacies);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+        thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+        thsPharmacyListViewListener.hideProgressBar();
 
     }
 
@@ -88,12 +95,14 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
 
     @Override
     public void onUpdateSuccess(SDKError sdkError) {
+        thsPharmacyListViewListener.hideProgressBar();
         thsPharmacyListViewListener.validateForMailOrder(pharmacy);
-        ((THSBaseFragment)thsPharmacyListViewListener).showToast("Preferred pharmacy updated");
+        thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_preferred_pharmacy_update));
     }
 
     @Override
     public void onUpdateFailure(Throwable throwable) {
+        thsPharmacyListViewListener.hideProgressBar();
 
     }
 }

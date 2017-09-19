@@ -39,15 +39,38 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/ths_fab_margin"
             android:layout_marginRight="@dimen/ths_fab_margin"
+            android:layout_marginBottom="@dimen/ths_image_size"
+            android:layout_marginTop="@dimen/ths_image_size"
             android:text="@string/ths_see_doctor" />
+
+        <ImageView
+            android:id="@+id/ths_amwell_brand"
+            android:layout_width="wrap_content"
+            android:layout_above="@id/ths_start"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
+            android:src="@mipmap/amwell_white_logo"
+            android:layout_marginTop="@dimen/ths_checkbox_bottom_margin"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_service_provided_by"
+            style="@style/ths_body_text_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/ths_amwell_brand"
+           android:layout_marginTop="@dimen/ths_fab_margin"
+            android:paddingLeft="@dimen/ths_fab_margin"
+            android:paddingRight="@dimen/ths_fab_margin"
+            android:text="@string/ths_this_services_is_provided_by" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ths_quick"
             style="@style/ths_body_text_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/ths_start"
-            android:layout_marginBottom="@dimen/ths_image_size"
+            android:layout_above="@id/ths_service_provided_by"
+            android:layout_marginTop="@dimen/ths_fab_margin"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
             android:text="@string/ths_quick_visit" />
@@ -58,7 +81,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/ths_quick"
-            android:layout_marginBottom="@dimen/ths_fab_margin"
             android:enabled="false"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
