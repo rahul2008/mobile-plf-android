@@ -29,12 +29,9 @@ public class EWSApplication extends Application {
         super.onCreate();
         //TODO fix the hashmap
         JodaTimeAndroid.init(this); // TODO this should be removed in favor or Java's date API
-        HashMap map = new HashMap<String, String>();
-        map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
 
         DICommClientWrapper.initializeDICommLibrary(getApplicationContext(),
                 new BEApplianceFactory(new LanTransportContext(getApplicationContext())), null, null);
 
-        EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), DiscoveryManager.getInstance(),map);
     }
 }
