@@ -4,7 +4,8 @@
  */
 package com.philips.cl.di.common.ssdp.controller;
 
-import com.philips.cdp.dicommclient.util.DICommLog;
+import android.util.Log;
+
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 import com.philips.cl.di.common.ssdp.contants.XmlParserConstants;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
@@ -121,6 +122,7 @@ public class BaseUrlParser {
 				flag = true;
 			}
 			return flag;
+
 		}
 
 		/**
@@ -135,7 +137,7 @@ public class BaseUrlParser {
 			super.startDocument();
 
 			mStringBuilder = new StringBuilder(16);
-			devicesList = new ArrayList<>();
+			devicesList = new ArrayList<SSDPdevice>();
 		}
 
 		/**
@@ -163,7 +165,7 @@ public class BaseUrlParser {
 						throws SAXException {
 			super.startElement(uri, localName, qName, attributes);
 
-			if (isEqual(qName, XmlParserConstants.DEVICE)) {
+			if (isEqual(localName, XmlParserConstants.DEVICE)) {
 				mSsdpDevice = new SSDPdevice();
 				devicesList.add(mSsdpDevice);
 				devicesCount++;
@@ -181,7 +183,7 @@ public class BaseUrlParser {
 	public List<SSDPdevice> getDevicesList() {
 		if (null != devicesList) {
 			for (SSDPdevice ssdPdevice : devicesList) {
-				DICommLog.i("SSDPdevice", "Device Information:  "
+				Log.i("SSDPdevice", "Device Information:  " 
 						+ "    getManufacturer()= " + ssdPdevice.getManufacturer()
 						+ "    getManufacturerURL= " + ssdPdevice.getManufacturerURL()
 						+ "    getModelDescription= " + ssdPdevice.getModelDescription()
@@ -209,8 +211,6 @@ public class BaseUrlParser {
 			try {
 				final SAXParserFactory factory = SAXParserFactory.newInstance();
 				if (null != factory) {
-					factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
-					factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 					final SAXParser parser = factory.newSAXParser();
 					if (null != parser) {
 						inputStream = new ByteArrayInputStream(xmlToParse.getBytes("UTF-8"));
@@ -221,18 +221,18 @@ public class BaseUrlParser {
 					}
 				}
 			} catch (final ParserConfigurationException e) {
-                DICommLog.e(ConnectionLibContants.LOG_TAG, "ParserConfigurationException in parse device info ssdp" + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "ParserConfigurationException in parse device info ssdp" + e.getMessage());
 			} catch (final SAXException e) {
-                DICommLog.e(ConnectionLibContants.LOG_TAG, "SAXException in parse device info ssdp " + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "SAXException in parse device info ssdp " + e.getMessage());
 			} catch (final IOException e) {
-                DICommLog.e(ConnectionLibContants.LOG_TAG, "IOException in parse device info ssdp" + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "IOException in parse device info ssdp" + e.getMessage());
 			} finally {
 				try {
 					if (null != inputStream) {
 						inputStream.close();
 					}
 				} catch (final IOException e) {
-                    DICommLog.e(ConnectionLibContants.LOG_TAG, "IOException ssdp close input stream" + e.getMessage());
+					Log.e(ConnectionLibContants.LOG_TAG, "IOException ssdp close input stream" + e.getMessage());
 				}
 			}
 		}
