@@ -16,9 +16,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
@@ -64,7 +64,7 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
         CommCentral commCentral=null;
         try {
             final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
-            DICommApplianceFactory<BleReferenceAppliance> applianceFactory = new BleReferenceApplianceFactory(bleTransportContext, deviceType);
+            ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext, deviceType);
 
             commCentral = new CommCentral(applianceFactory, bleTransportContext);
             commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
@@ -74,7 +74,7 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
         return commCentral;
     }
 
-    protected final ApplianceManager.ApplianceListener<BleReferenceAppliance> applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    protected final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
         @Override
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
             RALog.d(TAG, "Device found :" + foundAppliance.getName());

@@ -7,9 +7,7 @@
 package com.philips.platform.appframework.connectivity;
 
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -24,10 +22,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.ConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
