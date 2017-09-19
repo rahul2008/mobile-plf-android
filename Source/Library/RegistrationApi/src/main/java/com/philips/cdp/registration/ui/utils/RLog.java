@@ -57,7 +57,6 @@ public class RLog {
         mLoggingInterface = URInterface.getComponent().getLoggingInterface();
         mLoggingInterface = mLoggingInterface.createInstanceForComponent("usr", RegistrationHelper.getRegistrationApiVersion());
         mAppTaggingInterface = URInterface.getComponent().getAppTaggingInterface();
-        mAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 
     /**
