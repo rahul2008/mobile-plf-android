@@ -3,6 +3,7 @@
     android:id="@+id/ths_payment_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_marginLeft="@dimen/ths_fab_margin"
     android:layout_marginRight="@dimen/ths_fab_margin"
     android:orientation="vertical">
@@ -23,8 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_payment_detail_title_label"
-
-
         android:text="Name" />
 
     <com.philips.platform.uid.view.widget.EditText

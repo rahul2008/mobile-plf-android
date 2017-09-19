@@ -3,6 +3,7 @@
     android:id="@+id/shipping_address_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_margin="16dp"
     android:orientation="vertical">
 

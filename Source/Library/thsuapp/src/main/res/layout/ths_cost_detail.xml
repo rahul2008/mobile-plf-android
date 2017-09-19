@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/cost_container"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/ths_margin_bottom"
     android:layout_marginLeft="@dimen/ths_fab_margin"

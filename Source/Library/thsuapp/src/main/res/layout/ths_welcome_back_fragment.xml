@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/uid_grid_title_padding"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     >
 
     <com.philips.platform.uid.view.widget.Label

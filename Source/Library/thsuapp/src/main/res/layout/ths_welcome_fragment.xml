@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/init_container"
     android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent">
 
     <include
