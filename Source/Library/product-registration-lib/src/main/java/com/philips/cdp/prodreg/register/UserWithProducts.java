@@ -207,10 +207,11 @@ public class UserWithProducts {
         return new RegisteredProductsListener() {
             @Override
             public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
-                if (!isCtnRegistered(registeredProducts, registeredProduct)) {
+                RegisteredProduct ctnRegistered = isCtnRegistered(registeredProducts, registeredProduct);
+                if (ctnRegistered.getRegistrationState() != RegistrationState.REGISTERED) {
                     registeredProduct.getProductMetadata(mContext, getUserProduct().getMetadataListener(registeredProduct));
                 } else {
-                    updateWithCallBack(registeredProduct, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
+                    updateWithCallBack(ctnRegistered, ProdRegError.PRODUCT_ALREADY_REGISTERED, RegistrationState.REGISTERED);
                 }
             }
         };
@@ -263,13 +264,13 @@ public class UserWithProducts {
         return purchaseDate != null && purchaseDate.length() > 0;
     }
 
-    protected boolean isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
+    protected RegisteredProduct isCtnRegistered(final List<RegisteredProduct> registeredProducts, final RegisteredProduct registeredProduct) {
         for (RegisteredProduct result : registeredProducts) {
             if (registeredProduct.getCtn().equalsIgnoreCase(result.getCtn()) && registeredProduct.getSerialNumber().equals(result.getSerialNumber()) && result.getRegistrationState() == RegistrationState.REGISTERED) {
-                return true;
+                return result;
             }
         }
-        return false;
+        return registeredProduct;
     }
 
     protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct registeredProduct) {
