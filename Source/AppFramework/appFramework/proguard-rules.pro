@@ -38,73 +38,6 @@
 #--------------------------------Hockey--------------------------------
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
 
-#--------------------------------Registration--------------------------------
--keep class com.philips.cdp.registration.** {*;}
-
--keep public class javax.net.ssl.**
--keepclassmembers public class javax.net.ssl.** {*;}
--keepclassmembers public class org.apache.http.** {*;}
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
-
-#GMS (Registration)
--keep  class com.google.android.gms.* { public *; }
-
-#Webkit (Registration)
--keep  class android.net.http.SslError
--keep  class android.webkit.WebViewClient
-
-
-#Janrain (Registration)
--keep public class com.janrain.android.** {*;}
--keep  class com.janrain.android.Jump$* {*;}
--keep class com.philips.cdp.registration.User$*{*;}
--keep  class com.janrain.android.capture.Capture$* {*;}
-
-
--dontwarn com.android.volley.**
--dontwarn com.squareup.okhttp.**
--dontwarn java.nio.file.**
--dontwarn okio.**
-
--dontwarn com.facebook.android.BuildConfig
-
--dontwarn android.support.**
--dontwarn android.support.v8.**
--dontwarn com.philips.cdp.registration.**
--dontwarn com.philips.cdp.platform.**
--dontwarn org.apache.**
--dontwarn android.webkit.WebView
--dontwarn android.net.http.SslError
--dontwarn android.webkit.WebViewClient
-
-#notification (Registration)
--dontwarn android.app.Notification
-
--keepclasseswithmembernames class * {
-    native <methods>;
-}
--dontwarn com.google.android.gms.**
--dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
-
-# --------------------------WeChat---------------------------------
-
--keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
-
--keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
-
--keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
-
--keep class com.philips.platform.baseapp.base.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
-
--keep class com.tencent.mm.sdk.** {
-      *;
-  }
-
 
 # ----------------------------Gson specific classes --------------------------
 -keep class sun.misc.Unsafe { *; }
@@ -430,3 +363,109 @@ public static <fields>;
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
+
+#Needed for Registration
+-keep class com.philips.platform.baseapp.base.wxapi.** {*;}
+-keep class com.philips.platform.referenceapp.wxapi.** {*;}
+-keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
+-keep class com.tencent.mm.sdk.** {
+      *;
+  }
+
+
+#------------------------------------Registration Start
+
+#Wechat
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+
+
+## New rules for EventBus 3.0.x ##
+# http://greenrobot.org/eventbus/documentation/proguard/
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+
+
+#Janrain lib
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static void init(android.content.Context);
+}
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static java.lang.String objectToString(java.io.Serializable);
+}
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static java.lang.Object stringToObject(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static void migrateUserData(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static byte[] encrypt(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static byte[] decrypt(byte[]);
+}
+
+-keep public class com.philips.cdp.security.SecurityHelper {
+    public static void generateSecretKey();
+}
+
+#Locale match
+-keep public class com.philips.cdp.localematch.** {*;}
+
+
+#HSDP Lib
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
+
+
+#GSM
+-keep  class com.google.android.gms.* { public *; }
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+
+#webkit
+-keep  class android.net.http.SslError
+-keep  class android.webkit.WebViewClient
+
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
+
+#notification
+-dontwarn android.app.Notification
+-dontwarn okio.**
+-keep class com.squareup.** { *; }
+-keep class java.nio.**
+-keep class org.codehaus.**
+
+-dontwarn com.janrain.android.**
+-dontwarn java.nio.**
+
+-keepattributes Signature
+-keepattributes InnerClasses,EnclosingMethod
+
+#--------------------------------------------------Registration End
+
