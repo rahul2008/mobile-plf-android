@@ -2,13 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:fillViewport="true">
 
     <RelativeLayout
         android:id="@+id/ths_insurance_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_marginLeft="@dimen/ths_fab_margin"
         android:layout_marginRight="@dimen/ths_fab_margin">
 

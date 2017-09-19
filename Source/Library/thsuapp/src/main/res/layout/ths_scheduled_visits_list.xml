@@ -3,6 +3,7 @@
     android:id="@+id/providerListItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label

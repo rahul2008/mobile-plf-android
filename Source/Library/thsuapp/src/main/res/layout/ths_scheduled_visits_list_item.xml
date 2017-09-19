@@ -3,6 +3,7 @@
     android:id="@+id/ths_scheduled_visits_list_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical"
     android:paddingTop="16dp">
 
