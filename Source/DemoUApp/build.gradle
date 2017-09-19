@@ -187,6 +187,7 @@ dependencies {
 
     if (useProjectDependencies) {
         compile project(':commlib')
+        compile project(':cloudcontroller')
     } else {
         if (findProject(':commlib')) {
             debugCompile project(path: ':commlib', configuration: 'debug')
