@@ -364,6 +364,9 @@ public static <fields>;
    public void *(android.view.MenuItem);
 }
 
+#App Needs
+-dontwarn android.support.v8.**
+
 #Needed for Registration
 -keep class com.philips.platform.baseapp.base.wxapi.** {*;}
 -keep class com.philips.platform.referenceapp.wxapi.** {*;}
@@ -399,40 +402,6 @@ public static <fields>;
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
 -keep public class com.philips.cdp.tagging.** {*;}
-
-
-#Janrain lib
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static void init(android.content.Context);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static java.lang.String objectToString(java.io.Serializable);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static java.lang.Object stringToObject(java.lang.String);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static void migrateUserData(java.lang.String);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static byte[] encrypt(java.lang.String);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static byte[] decrypt(byte[]);
-}
-
--keep public class com.philips.cdp.security.SecurityHelper {
-    public static void generateSecretKey();
-}
-
-#Locale match
--keep public class com.philips.cdp.localematch.** {*;}
 
 
 #HSDP Lib
