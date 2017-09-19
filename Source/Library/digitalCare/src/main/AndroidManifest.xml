@@ -33,5 +33,17 @@
         </activity>
 
         <service android:name="com.philips.cdp.digitalcare.productdetails.DownloadPDFService" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.philips.cdp.digitalcare.ccpdffilesprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/dcc_pdf_filepath" />
+        </provider>
+
+
     </application>
 </manifest>

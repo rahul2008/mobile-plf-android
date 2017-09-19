@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -97,8 +98,11 @@ public class DownloadAndShowPDFHelper {
         try {
             DigiCareLogger.d(TAG, " manualUrl " + manualFilename);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-            intent.setPackage(PACKAGENAME_ADOBE_READER);
+            //intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+            //intent.setPackage(PACKAGENAME_ADOBE_READER);
+            intent.setDataAndType(FileProvider.getUriForFile(ctx, "com.philips.cdp.digitalcare.ccpdffilesprovider", file), "application/pdf");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             ctx.startActivity(intent);
             DigiCareLogger.d(TAG, "Opening Manual PDF in Adobe Reader - " + manualFilename);
         } catch (Exception e) {
@@ -110,7 +114,7 @@ public class DownloadAndShowPDFHelper {
     private void showAcrobatReaderNotInstalledDialog(final Context ctx) {
         DigiCareLogger.d(TAG, "Showing Adobe reader not installed dialog");
 
-        mAlertDialog = new AlertDialog.Builder(mContext);
+        mAlertDialog = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
         mAlertDialog.setMessage(mContext.getResources().getString(R.string.PdfWarningMessage));
 
         mAlertDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
