@@ -25,6 +25,9 @@ import android.widget.Toast;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.ConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
@@ -74,7 +77,6 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
         // BluetoothAdapter through BluetoothManager.
         connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
         mBluetoothAdapter = getBluetoothAdapter();
-
     }
 
     @Override
@@ -101,7 +103,7 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
         return rootView;
     }
 
-    protected ConnectivityPresenter getConnectivityPresenter(){
+    protected ConnectivityPresenter getConnectivityPresenter() {
         return new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()), getActivity());
     }
 
@@ -118,7 +120,6 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
             default:
         }
     }
-
 
     /**
      * Start scanning nearby devices using given strategy
@@ -155,7 +156,6 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
                 }
             }
         }, 100);
-
     }
 
     /**
@@ -193,7 +193,6 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
         dialog = ProgressDialog.show(mContext, "", message);
     }
 
-
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
         getActivity().runOnUiThread(new Runnable() {
@@ -211,7 +210,6 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
                 }
             }
         });
-
     }
 
     @Override
@@ -223,7 +221,6 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
                 Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -254,7 +251,7 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
             handler.removeCallbacks(stopDiscoveryRunnable);
             handler.removeCallbacksAndMessages(null);
         }
-        mCommCentral=null;
+        mCommCentral = null;
         super.onDestroyView();
     }
 

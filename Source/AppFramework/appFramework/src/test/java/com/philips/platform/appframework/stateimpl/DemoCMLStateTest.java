@@ -7,41 +7,22 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
+import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.demouapp.CommlibUapp;
-import com.philips.platform.CustomRobolectricRunner;
-import com.philips.platform.TestActivity;
-import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.R;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.robolectric.Robolectric;
-import org.robolectric.android.controller.ActivityController;
-import org.robolectric.annotation.Config;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by Abhishek Gadewar on 08/08/17.
- */
-@RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
 public class DemoCMLStateTest {
 
     private DemoCMLState demoCMLState;
-    private ActivityController<TestActivity> activityController;
-    private TestActivity testActivity;
-    private FragmentLauncher fragmentLauncher;
 
     @Mock
     private CommlibUapp commlibUapp;
@@ -49,38 +30,29 @@ public class DemoCMLStateTest {
     @Mock
     Context context;
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-
     @Before
     public void setUp() throws Exception {
-        demoCMLState=new DemoCMLStateMock();
-        activityController= Robolectric.buildActivity(TestActivity.class);
-        testActivity=activityController.create().start().get();
-        fragmentLauncher = new FragmentLauncher(testActivity, R.id.frame_container, testActivity);
-    }
+        initMocks(this);
 
-    @After
-    public void tearDown() throws Exception {
-        activityController.pause().stop().destroy();
-        testActivity=null;
-        fragmentLauncher=null;
-        demoCMLState=null;
+        ContextProvider.setTestingContext(context);
+
+        demoCMLState = new DemoCMLStateMock();
     }
 
     @Test
     public void navigate() throws Exception {
         demoCMLState.init(context);
         demoCMLState.updateDataModel();
-        demoCMLState.navigate(fragmentLauncher);
-        verify(commlibUapp).launch(any(UiLauncher.class),any(UappLaunchInput.class));
+
+        demoCMLState.navigate(null);
+
+        verify(commlibUapp).launch(any(UiLauncher.class), any(UappLaunchInput.class));
     }
 
-    private class DemoCMLStateMock extends DemoCMLState{
+    private class DemoCMLStateMock extends DemoCMLState {
         @Override
         public CommlibUapp getCommLibUApp() {
             return commlibUapp;
         }
     }
-
 }
