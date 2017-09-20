@@ -168,7 +168,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onCreateAddress(Message msg) {
-
+        //Do Nothing
     }
 
     @Override
@@ -329,11 +329,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unregisterEvents();
@@ -348,16 +343,16 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetPaymentDetails(Message msg) {
-
+        // Do Nothing
     }
 
     @Override
     public void onGetRegions(Message msg) {
-
+        // Do Nothing
     }
 
     @Override
     public void onGetUser(Message msg) {
-
+        // Do Nothing
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,15 +26,19 @@ public class CancelOrderFragmentTest {
     @Before
     public void setUp() {
         initMocks(this);
-
+        final Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER,"df");
+        bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING,"df");
+        bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING,"df");
+        cancelOrderFragment = CancelOrderFragment.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
         mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
-        cancelOrderFragment = CancelOrderFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+
         SupportFragmentTestUtil.startFragment(cancelOrderFragment);
     }
 
