@@ -137,7 +137,7 @@ publishing {
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                def resolvedArtifacts = configurations.default.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
                     dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
@@ -148,6 +148,8 @@ publishing {
         }
     }
 }
+
+
 
 android {
     compileSdkVersion versions.sdk
