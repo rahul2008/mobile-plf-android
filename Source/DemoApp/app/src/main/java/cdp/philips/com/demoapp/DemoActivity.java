@@ -85,8 +85,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
         int containerID = R.id.user_reg_frame_container;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
-        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-        urLaunchInput.setAccountSettings(true);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
