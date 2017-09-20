@@ -212,10 +212,11 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserRegistrationComplete(Activity activity) {
         setUrCompleted();
-        if (null != activity) {
+        if (null != activity && userObject.isUserSignIn()) {
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
             getApplicationContext().getIap().isCartVisible();
+
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
                 RALog.d(PushNotificationManager.TAG, "Polling is enabled");
@@ -227,6 +228,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
                 PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
             }
+        }
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             BaseState baseState = null;
             try {
@@ -241,7 +243,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
             }
         }
-    }
+
 
     @Override
     public void updateDataModel() {
