@@ -56,6 +56,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @BindView(R2.id.usr_createScreen_lastName_textField)
     ValidationEditText usr_createScreen_lastName_textField;
 
+    @BindView(R2.id.usr_createScreen_lastName_label)
+    Label lastNamelabel;
+
     @BindView(R2.id.usr_createScreen_firstName_inputValidation)
     InputValidationLayout usr_createScreen_firstName_inputValidation;
 
@@ -120,7 +123,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     boolean isValidFirstname;
 
-    boolean isValidLastame;
+    boolean isValidLastame = true;
 
 
     @Override
@@ -190,6 +193,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         handleOrientation(view);
         trackCreateAccountTime = System.currentTimeMillis();
         return view;
+    }
+
+    void setContentConfig(){
+        if (null != getRegistrationFragment().getContentConfiguration()) {
+            if (getRegistrationFragment().getContentConfiguration().getEnableLastName()) {
+                usr_createScreen_lastName_textField.setVisibility(View.VISIBLE);
+                lastNamelabel.setVisibility(View.VISIBLE);
+                isValidLastame = false;
+            }
+        }
     }
 
     private int passwordValidation(int strength) {
@@ -270,6 +283,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     private void initUI(View view) {
         consumeTouch(view);
+        setContentConfig();
         RegUtility.linkifyTermsandCondition(usr_createscreen_termsandconditions_checkbox, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         RegUtility.linkifyPhilipsNews(usr_createscreen_marketingmails_checkbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
