@@ -45,13 +45,14 @@ public class DescriptionParser {
 
     public void parse(@NonNull final String xmlToParse) {
         final XmlPullParser parser = Xml.newPullParser();
-
         final InputStream inputStream;
+
         try {
             inputStream = new ByteArrayInputStream(xmlToParse.getBytes("UTF-8"));
             parser.setInput(inputStream, null);
             parser.nextTag();
 
+            devices.clear();
             readDescription(parser);
         } catch (XmlPullParserException | IOException e) {
             DICommLog.e(ConnectionLibContants.LOG_TAG, "Error while parsing device description XML: " + e.getMessage());
