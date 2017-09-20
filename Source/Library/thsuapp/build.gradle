@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply from: 'build-awsdk-dependencies.gradle'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'jacoco'
 
@@ -59,9 +58,6 @@ archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
-        maven {url "https://clojars.org/repo/"}
         maven {
             url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
             credentials {
@@ -241,7 +237,9 @@ dependencies {
 		transitive = true
 	}
 
-    compile(group: 'com.philips.cdp', name: 'awsdk', version: '3.1.1', ext: 'aar')
+    compile(group: 'com.americanwell', name: 'awsdk', version: '3.1.1', ext: 'aar'){
+        transitive = true
+    }
 
     compile 'com.android.support:support-fragment:25.3.1'
 
