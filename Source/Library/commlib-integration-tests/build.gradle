@@ -10,6 +10,7 @@ buildscript { bs ->
 
     apply from: "$project.common/project-build.gradle", to: bs
     apply from: "$project.common/module.gradle"
+    apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
     repositories {
         maven {
             url repos.jcenter
@@ -18,8 +19,31 @@ buildscript { bs ->
                 password = "123qweasdzxc"
             }
         }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath(builddeps.cdpSCM)
     }
 }
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
 
 repositories {
     maven {
@@ -30,14 +54,7 @@ repositories {
         }
     }
     maven {
-        url repos.release
-        credentials {
-            username = "readonly"
-            password = "123qweasdzxc"
-        }
-    }
-    maven {
-        url repos.snapshot
+        url objcdp.getArtifactoryUrl()
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
