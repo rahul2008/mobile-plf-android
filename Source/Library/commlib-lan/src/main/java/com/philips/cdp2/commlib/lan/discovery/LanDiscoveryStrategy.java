@@ -7,14 +7,11 @@ package com.philips.cdp2.commlib.lan.discovery;
 
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.discovery.SsdpDiscovery;
-import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
@@ -25,11 +22,8 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
-import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
-import com.philips.cl.di.common.ssdp.controller.InternalMessage;
-import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.ssdp.SSDPControlPoint;
+import com.philips.ssdp.SSDPDevice;
 
 import java.util.Collections;
 import java.util.Set;
@@ -62,34 +56,18 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private boolean isStartRequested;
 
-    private final Handler.Callback ssdpCallback = new Handler.Callback() {
+    private final SSDPControlPoint.DeviceListener deviceListener = new SSDPControlPoint.DeviceListener() {
+        @Override
+        public void onDeviceAvailable(SSDPDevice ssdpDevice) {
+            onDeviceDiscovered(ssdpDevice);
+        }
 
         @Override
-        public boolean handleMessage(Message msg) {
-            if (msg == null) {
-                return false;
-            }
-            boolean isHandled = false;
-
-            final DeviceModel device = (DeviceModel) ((InternalMessage) msg.obj).obj;
-
-            synchronized (LOCK) {
-                switch (DiscoveryMessageID.getID(msg.what)) {
-                    case DEVICE_DISCOVERED:
-                        onDeviceDiscovered(device);
-                        isHandled = true;
-                        break;
-                    case DEVICE_LOST:
-                        onDeviceLost(device);
-                        isHandled = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return isHandled;
+        public void onDeviceUnavailable(SSDPDevice ssdpDevice) {
+            onDeviceLost(ssdpDevice);
         }
     };
+
     private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
         public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
@@ -130,7 +108,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @VisibleForTesting
     SsdpDiscovery createSsdpDiscovery() {
-        return new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
+        final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
+        ssdpControlPoint.addDeviceListener(deviceListener);
+
+        return ssdpControlPoint;
     }
 
     @Override
@@ -167,8 +148,8 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
-        final NetworkNode networkNode = createNetworkNode(deviceModel);
+    void onDeviceDiscovered(@NonNull SSDPDevice device) {
+        final NetworkNode networkNode = createNetworkNode(device);
         if (networkNode == null) {
             return;
         }
@@ -193,8 +174,8 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    void onDeviceLost(@NonNull DeviceModel deviceModel) {
-        final NetworkNode networkNode = createNetworkNode(deviceModel);
+    void onDeviceLost(@NonNull SSDPDevice ssdpDevice) {
+        final NetworkNode networkNode = createNetworkNode(ssdpDevice);
         if (networkNode == null) {
             return;
         }
@@ -210,14 +191,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @VisibleForTesting
     @Nullable
-    NetworkNode createNetworkNode(@NonNull DeviceModel deviceModel) {
-        SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
-        if (ssdpDevice == null) {
-            return null;
-        }
+    NetworkNode createNetworkNode(@NonNull SSDPDevice ssdpDevice) {
 
         final String cppId = ssdpDevice.getCppId();
-        final String ipAddress = deviceModel.getIpAddress();
+        final String ipAddress = ssdpDevice.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();
         final String deviceType = ssdpDevice.getModelName();
         final String homeSsid = getHomeSsid();
@@ -225,7 +202,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String modelNumber = ssdpDevice.getModelNumber();
 
         try {
-            bootId = Long.parseLong(deviceModel.getBootId());
+            bootId = Long.parseLong(ssdpDevice.getBootId());
         } catch (NumberFormatException ignored) {
         }
 
