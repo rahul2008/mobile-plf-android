@@ -211,8 +211,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        setUrCompleted();
-        if (null != activity && userObject.isUserSignIn()) {
+        if (null != activity && getUserObject(activity).isUserSignIn()) {
+            setUrCompleted();
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
             getApplicationContext().getIap().isCartVisible();
