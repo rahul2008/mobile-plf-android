@@ -181,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_TermsAndConditionsAcceptanceText"/>
+                android:text="@string/reg_DLS_TermsAndConditionsAcceptanceText"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_createscreen_termsandconditionsalert_view"
@@ -207,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="Switch to login"
+                android:text="@string/reg_DLS_SwitchToLogin_Txt"
                 android:visibility="gone"
                 app:uidComponentType="Secondary"/>
 

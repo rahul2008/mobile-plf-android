@@ -137,7 +137,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     private void initUI() {
         if (RegistrationHelper.getInstance().isMobileFlow()) {
             usr_forgotpassword_email_label.setText(R.string.reg_forgotpassword_input);
-            usr_forgotpassword_input_label.setText(R.string.reg_Forgot_Password_description_email);
+            usr_forgotpassword_input_label.setText(R.string.reg_DLS_Forgot_Password_Body_With_Phone_No);
         }
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         userIdEditText.requestFocus();

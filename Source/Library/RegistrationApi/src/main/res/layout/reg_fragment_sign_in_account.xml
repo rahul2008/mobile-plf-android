@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="Log in now"
+                    android:text="@string/reg_DLS_TraditionalSignIn_SignInWithMyPhilips_lbltxt"
                     android:textSize="@dimen/reg_dimen_20dp"
                     android:textStyle="bold"
                     fontPath="fonts/centralesansbold.ttf"/>

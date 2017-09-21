@@ -19,13 +19,13 @@
     <string name="reg_JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
     <string name="reg_SigIn_TitleTxt">Log In</string>
     <string name="reg_RegBaseViewNav_TitleTxt">Account</string>
-    <string name="reg_RegCreateAccount_NavTitle">Create Account</string>
+    <!--<string name="reg_RegCreateAccount_NavTitle">Create Account</string>-->
     <string name="reg_NameField_ErrorText">Please enter your first name.</string>
     <string name="reg_kemailFieldErrorText">Please enter a valid email address.</string>
     <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">This email address is already in use. Please enter a different one, or go back and log in with this email address.</string>
     <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a Philips account or a social media account.\nPlease go back to the \'Log in\' step, or use an other email address.</string>
     <string name="reg_PrivacyNoticeText">Privacy Notice</string>
-    <string name="reg_TermsAndConditionsText">Terms and Conditions</string>
+    <!--<string name="reg_TermsAndConditionsText">Terms and Conditions</string>-->
     <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Please verify your email address through the activation link sent to your email account</string>
     <string name="reg_RegVerifyEmailView_VerificationEmailText">We have sent an email to: %s. It may take some time for the email to arrive.</string>
     <string name="reg_RegSignWith_Lbltxt">Log in with</string>
@@ -34,7 +34,7 @@
     <string name="reg_EmailAddPlaceHolder_txtField">Enter email address</string>
     <string name="reg_TraditionalSignIn_PwdPlaceHolder_txtFiled">Enter password</string>
     <string name="reg_TraditionalSignIn_Resend_lbltxt">Press “Resend” button if you have not received an email.</string>
-    <string name="reg_TraditionalSignIn_ForgotPwd_btntxt">Forgot Password</string>
+    <!--<string name="reg_TraditionalSignIn_ForgotPwd_btntxt">Forgot Password</string>-->
     <string name="reg_Resend_btntxt">Resend</string>
     <string name="reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt">No worries! You do not need a Philips password. You have logged in with a social provider previously.</string>
     <string name="reg_TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Sorry to make you click twice. You have previously logged in with a social provider. Please go back to the Log in-step’, and log in with your social provider.</string>
@@ -174,7 +174,7 @@
     <string name="reg_Opt_In_Join_Now">Join now %s</string>
     <string name="reg_Opt_In_Over_Peers">over 140,000 of your peers!</string>
     <string name="reg_Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
-    <string name="reg_Opt_In_Count_Me_In">Ok, count me in</string>
+    <!--<string name="reg_Opt_In_Count_Me_In">Ok, count me in</string>-->
     <string name="reg_Opt_In_No_Thanks">No thanks</string>
     <string name="reg_Resend_SMS_title">Resend SMS</string>
     <string name="reg_Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
@@ -251,7 +251,7 @@
     <string name="reg_Loading_Text">Loading...</string>
     <string name="reg_Update_MobileNumber_Title">Did not receive an SMS?</string>
     <string name="reg_Update_MobileNumber_Description_One">It may take some time for the SMS with the code to arrive.</string>
-    <string name="reg_Update_MobileNumber_Description_Two">Check if your phone number is correct and press the resend button.</string>
+    <!--<string name="reg_Update_MobileNumber_Description_Two">Check if your phone number is correct and press the resend button.</string>-->
     <string name="reg_Update_MobileNumber_Thanks_Got_It">Thanks, I got it.</string>
     <string name="reg_Update_MobileNumber_Verification_SMS_Sent">Verification SMS sent</string>
     <string name="reg_Update_MobileNumber_Verification_SMS_Description">It may take some time for the SMS with the verification code to arrive.</string>
@@ -376,7 +376,6 @@
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
-    <string name="Activation_explain_value_to_user">We go through this process for your security.</string>
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
 
@@ -392,78 +391,70 @@
     <string name="unknown">unknown</string>
 
 
-    <string name="reg_password_description">Password must have at least 8 characters with a mix of letters (A-Z, a-z), digits(0-9) and/or symbols (_.@$).</string>
-    <string name="reg_almost_description1">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>
-    <string name="reg_almost_description2">Subscribe to our newsletter to receive exclusive promotions and coupons and be the first to know about new products.</string>
-    <string name="reg_Resend_mail_btntxt">I haven\'t received an email</string>
-    <string name="reg_almost_verify_alert_title">Email needs to be verified</string>
-    <string name="reg_almost_verify_alert_content">Please click on the link in the email we\'ve sent you.</string>
-    <string name="reg_almost_verify_alert_content2">The email may not arrive immediately but it is on its way.</string>
+    <!--<string name="reg_password_description">Password must have at least 8 characters with a mix of letters (A-Z, a-z), digits(0-9) and/or symbols (_.@$).</string>-->
+    <!--<string name="reg_almost_description1">To be able to complete your login and verify that you are a real person, we need an email address or mobile number.</string>-->
+    <!--<string name="reg_almost_description2">Subscribe to our newsletter to receive exclusive promotions and coupons and be the first to know about new products.</string>-->
+    <!--<string name="reg_almost_verify_alert_title">Email needs to be verified</string>-->
+    <!--<string name="reg_almost_verify_alert_content">Please click on the link in the email we\'ve sent you.</string>-->
+    <!--<string name="reg_almost_verify_alert_content2">The email may not arrive immediately but it is on its way.</string>-->
     <string name="reg_almost_verify_alert_button">I\'ll check again</string>
 
     
-    <string name="reg_verify_resend_mail_title">Haven\'t received the verification email?</string>
-    <string name="reg_verify_resend_mail_desc">Sometimes it takes a little while for the verification email to arrive. It may be that it has landed in your spam folder.</string>
-    <string name="reg_verify_resend_mail_desc2">If it isn\'t there please check the address below is correct and click the resend button to receive the link again.</string>
-    <string name="reg_verify_resend_mail_edittext_label">Your email address</string>
-    <string name="reg_verify_resend_mail_button_resend">Resend the email</string>
-    <string name="reg_verify_resend_mail_button_return">Thanks, I\'ve got it now</string>
-    <string name="reg_verify_resend_mail_nav_title">Resend email</string>
-    <string name="reg_verify_resend_sms_nav_title">Resend SMS</string>
+    <!--<string name="reg_verify_resend_mail_title">Haven\'t received the verification email?</string>-->
+    <!--<string name="reg_verify_resend_mail_desc">Sometimes it takes a little while for the verification email to arrive. It may be that it has landed in your spam folder.</string>-->
+    <!--<string name="reg_verify_resend_mail_desc2">If it isn\'t there please check the address below is correct and click the resend button to receive the link again.</string>-->
+    <!--<string name="reg_verify_resend_mail_edittext_label">Your email address</string>-->
+    <!--<string name="reg_verify_resend_mail_button_resend">Resend the email</string>-->
+    <!--<string name="reg_verify_resend_mail_button_return">Thanks, I\'ve got it now</string>-->
+    <!--<string name="reg_verify_resend_mail_nav_title">Resend email</string>-->
+    <!--<string name="reg_verify_resend_sms_nav_title">Resend SMS</string>-->
 
 
-    <string name="reg_verify_resend_mail_intime_title"> Please have a little patience</string>
-    <string name="reg_verify_resend_mail_intime_desc">We have sent your verification email less than a minute ago. It may take some time for the verification email to arrive in your mailbox.</string>
-    <string name="reg_verify_resend_mail_intime_desc2">Look in your spam folder as well.</string>
-    <string name="reg_verify_resend_mail_intime_button_ok">OK</string>
-    <string name="reg_verify_resend_mail_sent">A new verification email has been sent to </string>
+    <!--<string name="reg_verify_resend_mail_intime_title"> Please have a little patience</string>-->
+    <!--<string name="reg_verify_resend_mail_intime_desc">We have sent your verification email less than a minute ago. It may take some time for the verification email to arrive in your mailbox.</string>-->
+    <!--<string name="reg_verify_resend_mail_intime_desc2">Look in your spam folder as well.</string>-->
+    <!--<string name="reg_verify_resend_mail_intime_button_ok">OK</string>-->
+    <!--<string name="reg_verify_resend_mail_sent">A new verification email has been sent to </string>-->
 
-    <string name='reg_forgotpassword_send'>Send</string>
-    <string name="reg_forgotpassword_input">Email or phone number</string>
-    <string name="reg_forgotpassword_dialog_title">Reset Password</string>
-    <string name="reg_forgotpassword_dialog_desc1">We\'ve just sent you an email to reset your password.</string>
+    <!--<string name='reg_forgotpassword_send'>Send</string>-->
+    <!--<string name="reg_forgotpassword_dialog_title">Reset Password</string>-->
+    <!--<string name="reg_forgotpassword_dialog_desc1">We\'ve just sent you an email to reset your password.</string>-->
     <string name="reg_forgotpassword_dialog_desc2">This email may not arrive immediately but it is on its way.</string>
     <string name="reg_forgotpassword_dialog_button">Back to log in</string>
 
 
-    <string name="reg_philips_communication_content1">As a result of your consent, Philips group companies may contact you with promotional communication via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. This data may include:</string>
-    <string name="reg_philips_communication_content2">Data you gave us\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.</string>
-    <string name="reg_philips_communication_content4">Data we get from your interactions with Philips\nData about your interactions and usage of the Philips digital channels, such as social media, websites, email, apps and connected products. This data may include: IP address. cookies, device information, communications you click on, location details, and websites you visit</string>
-    <string name="reg_philips_communication_content6">Philips will give you the opportunity to withdraw your consent at any time. For more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>
+    <!--<string name="reg_philips_communication_content1">As a result of your consent, Philips group companies may contact you with promotional communication via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. This data may include:</string>-->
+    <!--<string name="reg_philips_communication_content2">Data you gave us\nData that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.</string>-->
+    <!--<string name="reg_philips_communication_content4">Data we get from your interactions with Philips\nData about your interactions and usage of the Philips digital channels, such as social media, websites, email, apps and connected products. This data may include: IP address. cookies, device information, communications you click on, location details, and websites you visit</string>-->
+    <!--<string name="reg_philips_communication_content6">Philips will give you the opportunity to withdraw your consent at any time. For more information, please read the Philips Privacy notice and the Philips Cookie notice.</string>-->
 
 
 
 
-    <string name="usr_email_invalid">Please enter a valid email address</string>
+    <!--<string name="usr_email_invalid">Please enter a valid email address</string>-->
     <string name="usr_country_prefix">Country:</string>
-    <string name="getting_started">Getting started</string>
-    <string name="start_screen_value_add">Set up your account or log in to get the most from your connected product.</string>
-    <string name="lets_get_started">Let\'s get started</string>
-    <string name="no_sms_yet">No SMS yet? Press resend!</string>
+    <!--<string name="no_sms_yet">No SMS yet? Press resend!</string>-->
     <string name="no_email_yet">No Email yet? Press resend!</string>
 
 
-    <string name="no_sms_timer">"Please wait %s more seconds"</string>
-    <string name="reg_verify_mobile_title">Confirm your phone number</string>
-    <string name="reg_verify_mobile_desc1">We\'ve just sent an SMS with a six digit code to your phone number </string>
-    <string name="reg_verify_mobile_desc2">Please enter the code to activate your account.</string>
-    <string name="reg_verify_mobile_verify_button">Verify code</string>
+    <!--<string name="no_sms_timer">"Please wait %s more seconds"</string>-->
+    <!--<string name="reg_verify_mobile_title">Confirm your phone number</string>-->
+    <!--<string name="reg_verify_mobile_desc1">We\'ve just sent an SMS with a six digit code to your phone number </string>-->
+    <!--<string name="reg_verify_mobile_desc2">Please enter the code to activate your account.</string>-->
+    <!--<string name="reg_verify_mobile_verify_button">Verify code</string>-->
 
-    <string name="reg_recovery_title">Recovery email</string>
-    <string name="reg_recovery_desc_one">In case we need to reach you about unusual activity on your account or to reset your password if you get locked out. Please add your email here.</string>
-    <string name="reg_recovery_button1">Add my recovery email</string>
+    <!--<string name="reg_recovery_title">Recovery email</string>-->
+    <!--<string name="reg_recovery_desc_one">In case we need to reach you about unusual activity on your account or to reset your password if you get locked out. Please add your email here.</string>-->
+    <!--<string name="reg_recovery_button1">Add my recovery email</string>-->
 
-    <string name="reg_email">Email</string>
-    <string name="reg_phone_number">Phone number</string>
-    <string name="reg_firstname">First name</string>
-    <string name="reg_lastname">Last name</string>
-    <string name="reg_password">Password</string>
-    <string name="reg_password_strength_weak">Weak</string>
-    <string name="reg_password_strength_strong">Strong</string>
-    <string name="reg_password_strength_medium">Medium</string>
+    <!--<string name="reg_email">Email</string>-->
+    <!--<string name="reg_phone_number">Phone number</string>-->
+    <!--<string name="reg_password_strength_weak">Weak</string>-->
+    <!--<string name="reg_password_strength_strong">Strong</string>-->
+    <!--<string name="reg_password_strength_medium">Medium</string>-->
 
-    <string name="reg_country_region">Country or region</string>
+    <!--<string name="reg_country_region">Country or region</string>-->
     <string name="forgot_password_mail_sent_message">We\'ve just sent you an email to reset your password.\n\nThe email may not arrive immediately but it is on its way.</string>
-    <string name="social_merge_dialog_message">If you do not want to link your social media account to your account.Log out and then log in again using your Philips account details.</string>
+    <!--<string name="social_merge_dialog_message">If you do not want to link your social media account to your account.Log out and then log in again using your Philips account details.</string>-->
 
 </resources>
