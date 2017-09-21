@@ -356,6 +356,9 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com/");
+        initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
+
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 

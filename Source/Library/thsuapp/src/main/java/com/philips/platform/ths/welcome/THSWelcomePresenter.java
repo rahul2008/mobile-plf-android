@@ -209,6 +209,7 @@ class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Voi
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        uiBaseView.showToast(uiBaseView.getString(R.string.something_went_wrong));
+        uiBaseView.hideProgressBar();
     }
 }

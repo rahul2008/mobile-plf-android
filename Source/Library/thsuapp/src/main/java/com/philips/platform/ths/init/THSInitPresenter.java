@@ -42,7 +42,10 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     THSInitFragment mThsInitFragment;
 
+    boolean isRefreshTokenRequestedBefore = false;
+
     THSInitPresenter(THSInitFragment thsInitFragment) {
+        isRefreshTokenRequestedBefore = false;
         mThsInitFragment = thsInitFragment;
     }
 
@@ -55,7 +58,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         User user = new User(mThsInitFragment.getContext());
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
-            showError();
+            showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
             return;
         }
         try {
@@ -126,7 +129,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        mThsInitFragment.hideProgressBar();
     }
 
    /* private void launchPreWelcomeScreen(){
@@ -143,10 +146,12 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+            if (checkIfRefreshTokenWasTriedBefore()) return;
+            isRefreshTokenRequestedBefore = true;
             refreshToken();
             return;
         }
-
+        
         try {
             if (thsAuthentication.needsToCompleteEnrollment()) {
                 THSManager.getInstance().completeEnrollment(mThsInitFragment.getContext(), thsAuthentication, this);
@@ -156,6 +161,16 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         } catch (AWSDKInstantiationException e) {
 
         }
+    }
+
+    private boolean checkIfRefreshTokenWasTriedBefore() {
+        if(isRefreshTokenRequestedBefore){
+            isRefreshTokenRequestedBefore = false;
+            mThsInitFragment.hideProgressBar();
+            showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
+            return true;
+        }
+        return false;
     }
 
 
@@ -201,9 +216,8 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
     }
 
-    public void showError() {
+    public void showError(String message) {
         AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) mThsInitFragment.getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
-        final String message = mThsInitFragment.getString(R.string.ths_user_not_logged_in);
         if (null != alertDialogFragmentUserNotLoggedIn) {
             alertDialogFragmentUserNotLoggedIn.dismiss();
         }
