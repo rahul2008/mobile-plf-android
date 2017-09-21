@@ -25,7 +25,7 @@ node('Android') {
 
             Slack.notify('#conartists') {
                 stage('Build') {
-                    sh "$gradle generateJavadocPublicApi saveResDep assemble testDebug"
+                    sh "$gradle generateJavadocPublicApi saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat assemble testDebug"
                 }
 
                 stage("Gather reports") {
@@ -48,19 +48,19 @@ node('Android') {
                     for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
                         def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
                         stage("Publish $lib") {
-                            sh "$libgradle assembleRelease saveResDep zipDocuments artifactoryPublish"
+                            sh "$libgradle assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish"
                         }
                     }
 
                     stage("Publish demouapp") {
-                        sh "cd Source/DemoUApp && ./gradlew -u generatePomFileForAarPublication artifactoryPublish"
+                        sh "cd Source/DemoUApp && ./gradlew -u assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat generatePomFileForAarPublication artifactoryPublish"
                     }
                 }
 
                 stage('Archive results') {
                     archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                     archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
-                    archiveArtifacts '**/dependencies.lock'
+                    archiveArtifacts '**/dependencies*.lock'
 
                     sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
                     archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true

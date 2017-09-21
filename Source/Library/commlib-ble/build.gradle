@@ -185,7 +185,6 @@ dependencies {
     compile deps.support.supportv4
     provided deps.support.annotations
 
-    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
     def suffix = objcdp.getVersionSuffix()
 
     if (findProject(':bluelib')) {
@@ -200,7 +199,7 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$shortversion$suffix") { changing = true }
+            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
         }
     }
 

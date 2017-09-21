@@ -156,7 +156,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     provided deps.support.annotations
 
-    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
     def suffix = objcdp.getVersionSuffix()
 
     for (dep in [':cloudcontroller-api']) {
@@ -164,14 +163,14 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$shortversion$suffix") { changing = true }
+            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
         }
     }
 
     if (findProject(":commlib-testutils")) {
         testCompile project(path: ':commlib-testutils', configuration: 'debug')
     } else {
-        testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
+        testCompile("$group:commlib-testutils:$versions.cml_commlib$suffix") { changing = true }
     }
 
     testCompile deps.junit

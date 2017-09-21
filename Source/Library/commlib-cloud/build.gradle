@@ -184,7 +184,6 @@ task generateJavadocPublicApi(type: Javadoc) {
 dependencies {
     provided deps.support.annotations
 
-    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
     def suffix = objcdp.getVersionSuffix()
 
     for (dep in [':commlib-api', ':cloudcontroller-api']) {
@@ -192,7 +191,7 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$shortversion$suffix") { changing = true }
+            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
         }
     }
 
@@ -200,7 +199,7 @@ dependencies {
         if (findProject(dep)) {
             testCompile project(path: dep, configuration: 'debug')
         } else {
-            testCompile("$group$dep:$shortversion$suffix") { changing = true }
+            testCompile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
         }
     }
 
