@@ -754,7 +754,7 @@ public class THSManager {
         });
     }
 
-    public void getLegaltext(Context context, LegalText legalText, final THSNoticeOfPrivacyPracticesCallBack thsNoticeOfPrivacyPracticesCallBack) throws AWSDKInstantiationException {
+    /*public void getLegaltext(Context context, LegalText legalText, final THSNoticeOfPrivacyPracticesCallBack thsNoticeOfPrivacyPracticesCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getLegalText(legalText, new SDKCallback<String, SDKError>() {
             @Override
             public void onResponse(String s, SDKError sdkError) {
@@ -767,7 +767,7 @@ public class THSManager {
             }
         });
     }
-
+*/
     public void getPharmacies(Context context, final THSConsumer thsConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
             @Override
