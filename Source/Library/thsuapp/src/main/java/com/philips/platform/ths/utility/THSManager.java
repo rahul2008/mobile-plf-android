@@ -1384,20 +1384,26 @@ public class THSManager {
         });
     }
 
-    public void cancelMatchMaking(Context context, THSVisitContext thsVisitContext, final THSCancelMatchMakingCallback<Void, THSSDKError> tHSCancelMatchMakingCallback)throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext.getVisitContext(), new SDKCallback<Void, SDKError>() {
-            @Override
-            public void onResponse(Void aVoid, SDKError sdkError) {
-                THSSDKError thssdkError = new THSSDKError();
-                thssdkError.setSdkError(sdkError);
-                tHSCancelMatchMakingCallback.onCancelMatchMakingResponse(aVoid,thssdkError);
-            }
+    public void cancelMatchMaking(Context context, THSVisitContext thsVisitContext)throws AWSDKInstantiationException {
+        try {
+            getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext.getVisitContext(), new SDKCallback<Void, SDKError>() {
+                @Override
+                public void onResponse(Void aVoid, SDKError sdkError) {
+                    if (null == sdkError) {
+                        AmwellLog.v("cancelMatchMaking", "success");
+                    } else {
+                        AmwellLog.v("cancelMatchMaking", "failure");
+                    }
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                tHSCancelMatchMakingCallback.onCancelMatchMakingFailure(throwable);
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    AmwellLog.v("cancelMatchMaking", "failure");
+                }
+            });
+        }catch(Exception e){
+            AmwellLog.v("cancelMatchMaking", "failure");
+        }
 
     }
     public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
