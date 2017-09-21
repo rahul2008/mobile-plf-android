@@ -60,6 +60,15 @@ node('Android') {
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i];
+                    }
+                }
+            }
+
             stage('Clean up workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
