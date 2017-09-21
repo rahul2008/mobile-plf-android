@@ -287,9 +287,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         List<Appliance> setAsList = new ArrayList<>(discoveredAppliances);
         List<String> devices = new ArrayList<>();
 
-        if (discoveredAppliances.size() == 0) {
-            showAlertDialog(getString(R.string.no_appliances_found));
-        } else {
+        if (discoveredAppliances.size() > 0) {
             for (int i = 0; i < setAsList.size(); i++) {
                 mAppliancesList.add(setAsList.get(i));
                 devices.add(setAsList.get(i).getNetworkNode().getCppId());
