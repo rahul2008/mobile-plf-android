@@ -62,7 +62,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mContext = context;
         mResources = context.getResources();
         mData = shoppingCartData;
-        setCountArrow(context, true);
         mOutOfStock = isOutOfStock;
     }
 
@@ -314,6 +313,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage() {
         return shoppingCartDataForProductDetailPage;
+    }
+
+
+    public void setTheProductDataForDisplayingInProductDetailPage(ShoppingCartData shoppingCartData) {
+        shoppingCartDataForProductDetailPage=shoppingCartData;
     }
 
     public boolean isFreeDelivery() {

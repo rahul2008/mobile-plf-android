@@ -198,7 +198,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
-            startProductDetailFragment();
+            startProductDetailFragment(mAdapter);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
@@ -222,7 +222,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
           }
         }
 
-    private void startProductDetailFragment() {
+    void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());

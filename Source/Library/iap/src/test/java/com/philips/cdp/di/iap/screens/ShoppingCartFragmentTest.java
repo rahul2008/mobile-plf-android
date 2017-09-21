@@ -6,15 +6,29 @@ import android.os.Bundle;
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
+import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.ProductEntity;
+import com.philips.cdp.di.iap.response.carts.StockEntity;
+import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
@@ -23,6 +37,9 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 public class ShoppingCartFragmentTest {
     private Context mContext;
     ShoppingCartFragment shoppingCartFragment;
+
+    @Mock
+    EntriesEntity mockEntriesEntity;
 
     @Before
     public void setUp() {
@@ -57,71 +74,73 @@ public class ShoppingCartFragmentTest {
         shoppingCartFragment.onDestroyView();
     }
 
-    /*   @Test
+    @Test(expected = NullPointerException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithBUTTON_STATE_CHANGEDString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.BUTTON_STATE_CHANGED.toString());
-    }*/
+    }
 
-/*    @Test
+   @Test(expected = NullPointerException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithPRODUCT_DETAIL_FRAGMENTString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.PRODUCT_DETAIL_FRAGMENT);
-    }*/
+    }
 
-/*    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithIAP_LAUNCH_PRODUCT_CATALOGString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
-    }*/
+    }
 
-  /*  @Test
+    @Test(expected = NullPointerException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithIAP_DELETE_PRODUCTString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.IAP_DELETE_PRODUCT);
-    }*/
+    }
 
     @Test
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithIAP_EDIT_DELIVERY_MODEString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.IAP_EDIT_DELIVERY_MODE);
     }
 
- /*   @Test
+    @Test(expected = NullPointerException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithIAP_UPDATE_PRODUCT_COUNTString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
-    }*/
+    }
 
-   /* @Test
+    @Test(expected = IllegalStateException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithIAP_DELETE_PRODUCT_CONFIRMString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM);
-    }*/
+    }
 
-    /*  @Override
-    public void onEventReceived(final String event) {
-        dismissProgressDialog();
-        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
-            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG);
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
-            mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
-            startProductDetailFragment();
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
-            showProductCatalogFragment(ShoppingCartFragment.TAG);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
-            }
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_UPDATE_PRODUCT_COUNT)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-                mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
-                        mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
-            }
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
+    @Test
+    public void shouldStart_ProductDetailFragment() throws Exception {
 
-            addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    AddressSelectionFragment.TAG);
-        }else if(event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
-            Utility.showActionDialog(mContext,getString(R.string.iap_remove_product),getString(R.string.iap_cancel)
-                    ,null,getString(R.string.iap_product_remove_description),getFragmentManager(),this);
-          }
-        }*/
+
+        StockEntity stockEntity=new StockEntity();
+        stockEntity.setStockLevel(3);
+        ProductEntity productEntity=new ProductEntity();
+        productEntity.setStock(stockEntity);
+
+        EntriesEntity entriesEntity=new EntriesEntity();
+
+        entriesEntity.setProduct(productEntity);
+
+        ShoppingCartData shoppingCartData=new ShoppingCartData(entriesEntity,new DeliveryModeEntity());
+        ArrayList<ShoppingCartData> shoppingCartDataArrayList=new ArrayList<>();
+        shoppingCartDataArrayList.add(shoppingCartData);
+
+
+        ShoppingCartAdapter mAdapter = new ShoppingCartAdapter(mContext, shoppingCartDataArrayList, new ShoppingCartAdapter.OutOfStockListener() {
+            @Override
+            public void onOutOfStock(boolean isOutOfStock) {
+
+            }
+        });
+
+
+
+        shoppingCartData.setStockLevel(3);
+        mAdapter.setTheProductDataForDisplayingInProductDetailPage(shoppingCartData);
+        shoppingCartFragment.startProductDetailFragment(mAdapter);
+
+    }
+
 
 }

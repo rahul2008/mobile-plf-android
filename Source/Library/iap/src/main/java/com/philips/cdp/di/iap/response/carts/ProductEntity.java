@@ -42,6 +42,10 @@ public class ProductEntity {
         return url;
     }
 
+    public void setStock(StockEntity stock) {
+        this.stock = stock;
+    }
+
     public List<CategoriesEntity> getCategories() {
         return categories;
     }

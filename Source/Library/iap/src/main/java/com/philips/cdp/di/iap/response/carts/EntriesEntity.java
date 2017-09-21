@@ -41,4 +41,8 @@ public class EntriesEntity implements Serializable{
     public boolean isUpdateable() {
         return updateable;
     }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
 }
