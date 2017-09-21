@@ -27,6 +27,9 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -208,6 +211,24 @@ public class GroomHelperTest extends AppInfraInstrumentation {
         } catch (JSONException e) {
             Log.e("error "," in json structure");
         }
+    }
+
+    public void testMapResponse() {
+        Map<String, ServiceDiscoveryService> stringServiceDiscoveryServiceMap = new HashMap<>();
+        List<AIKMService> aiKmServices = new ArrayList<>();
+        ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
+
+        serviceDiscoveryService.init("en_GB", "some_url");
+        stringServiceDiscoveryServiceMap.put("service_id", serviceDiscoveryService);
+        Map<String, ServiceDiscoveryService> map = new HashMap<>();
+        map.put("service_id.kindex", null);
+        groomHelper.mapResponse(map, aiKmServices, stringServiceDiscoveryServiceMap);
+        assertEquals(aiKmServices.get(0).getAIKMapError(), AIKMService.AIKMapError.NO_SERVICE_FOUND);
+        ServiceDiscoveryService serviceDiscoveryServiceKindex = new ServiceDiscoveryService();
+        map.put("service_id.kindex", serviceDiscoveryServiceKindex);
+        aiKmServices = new ArrayList<>();
+        groomHelper.mapResponse(map, aiKmServices, stringServiceDiscoveryServiceMap);
+        assertEquals(aiKmServices.get(0).getAIKMapError(), AIKMService.AIKMapError.NO_URL_FOUND);
     }
 
 

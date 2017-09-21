@@ -99,7 +99,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
     }
 
 
-    public void testFetchSefrviceIDfromConfigAndURLfromSD() {
+    public void testFetchServiceIDFromConfigAndURLfromSD() {
         // fetch language pack service id from config
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
         String languagePackServiceId = (String) mConfigInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
