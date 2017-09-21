@@ -399,13 +399,13 @@ public class IAPHandlerTest {
         mMockIAPHandler.getIAPErrorCode(msg);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testInitPreRequisite() throws Exception{
-        mMockIAPHandler.initIAPRequisite();
+    @Test
+    public void testInitPreRequisite() throws Exception {
+        mMockIAPHandler.initPreRequisite();
     }
 
     @Test(expected = NullPointerException.class)
-    public void testInitIAPRequisite() throws Exception{
+    public void testInitIAPRequisite() throws Exception {
         mMockIAPHandler.initIAPRequisite();
     }
 

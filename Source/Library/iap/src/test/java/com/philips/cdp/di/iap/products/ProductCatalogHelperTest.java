@@ -5,11 +5,8 @@
 package com.philips.cdp.di.iap.products;
 
 import android.content.Context;
-import android.os.Message;
 
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.response.products.PaginationEntity;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,29 +18,13 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-public class ProductCatalogHelperTest implements ProductCatalogPresenter.ProductCatalogListener, AbstractModel.DataLoadListener {
+public class ProductCatalogHelperTest {
     @Mock
     Context mContext;
-
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-
-    }
-
-    @Override
-    public void onLoadFinished(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity) {
-
-    }
-
-    @Override
-    public void onLoadError(IAPNetworkError error) {
-
-    }
+    @Mock
+    ProductCatalogPresenter.ProductCatalogListener mockProductCatalogListener;
+    @Mock
+    AbstractModel.DataLoadListener mockDataLoadListener;
 
     @Test
     public void testProductCtn() {
@@ -57,6 +38,6 @@ public class ProductCatalogHelperTest implements ProductCatalogPresenter.Product
             data.add(i, catalogData);
         }
 
-        assertEquals(2, new ProductCatalogHelper(mContext, this, this).getProductCTNs(data).size());
+        assertEquals(2, new ProductCatalogHelper(mContext, mockProductCatalogListener, mockDataLoadListener).getProductCTNs(data).size());
     }
 }
