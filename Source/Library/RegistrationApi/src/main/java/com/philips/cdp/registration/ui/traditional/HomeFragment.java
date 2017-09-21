@@ -312,7 +312,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
     @Override
     public int getTitleResourceId() {
-        return R.string.getting_started;
+        return R.string.reg_DLS_StratScreen_Nav_Title_Txt;
     }
 
     private ClickableSpan countryClickListener = new ClickableSpan() {
@@ -522,7 +522,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.usr_country_prefix), text));
+        mCountryDisplay.setText(String.format("%s %s", getString(R.string.reg_Country)+":", text));
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
     }
 
