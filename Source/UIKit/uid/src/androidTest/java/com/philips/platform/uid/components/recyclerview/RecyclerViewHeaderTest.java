@@ -63,7 +63,7 @@ public class RecyclerViewHeaderTest {
 
     @Test
     public void verifyHeaderHeight() {
-        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_item_one_line_height);
+        int expectedHeight = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.recyclerview_header_height);
         getHeader().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 

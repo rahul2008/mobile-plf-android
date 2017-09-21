@@ -148,7 +148,7 @@
 
     <!-- RecyclerView -->
     <dimen name="uid_recyclerview_margin_left_right">16dp</dimen>
-    <dimen name="uid_recyclerview_header_height">48dp</dimen>
+    <dimen name="uid_recyclerview_header_height">40dp</dimen>
     <dimen name="uid_recyclerview_header_text_size">14sp</dimen>
     <dimen name="uid_recyclerview_item_title_text_size">16sp</dimen>
     <dimen name="uid_recyclerview_item_subtitle_text_size">14sp</dimen>

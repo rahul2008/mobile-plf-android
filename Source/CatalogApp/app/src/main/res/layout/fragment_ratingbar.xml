@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:text="@string/ratingbar_input"/>
 
             <!--Applied Input style to Rating Bar from UIDRatingBar styles.-->
@@ -45,7 +45,7 @@
                 android:text="@string/ratingbar_reset"/>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/ratingbar_display"/>
 
@@ -73,7 +73,7 @@
                 android:rating="4.5"/>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:text="@string/ratingbar_mini_display"/>
 

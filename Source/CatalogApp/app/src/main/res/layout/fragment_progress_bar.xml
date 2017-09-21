@@ -47,7 +47,7 @@
 
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:text="@string/progress_bar_circular_small_subtitle"/>
 
             <LinearLayout
@@ -103,7 +103,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:text="@string/progress_bar_circular_medium_subtitle"/>
 
             <LinearLayout
@@ -159,7 +159,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:text="@string/progress_bar_circular_large_subtitle"/>
 
             <LinearLayout
@@ -220,7 +220,7 @@
                 android:background="?attr/uidContentPrimaryBackgroundColor"/>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:text="@string/progress_bar_linear_subtitle"/>
 
             <View

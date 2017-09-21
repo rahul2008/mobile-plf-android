@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/ButtonsCategoryStyle"
+            style="@style/UIDHeader"
             android:text="@string/primary_social_media_icons"/>
 
         <GridView
@@ -32,7 +32,7 @@
         </GridView>
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/ButtonsCategoryStyle"
+            style="@style/UIDHeader"
             android:text="@string/white_social_media_icons"
             android:visibility="@{fragment.supportsWhiteSocialIcons()? View.VISIBLE : View.GONE}"/>
 

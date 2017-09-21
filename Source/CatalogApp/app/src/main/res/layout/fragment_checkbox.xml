@@ -40,7 +40,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/ButtonsCategoryStyle"
+                style="@style/UIDHeader"
                 android:text="@string/checkbox_check_box"/>
 
             <LinearLayout
@@ -81,7 +81,7 @@
                     android:text="@string/checkbox_check_item_3"/>
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/ButtonsCategoryStyle"
+                    style="@style/UIDHeader"
                     android:layout_marginBottom="@dimen/checkbox_list_margin_top_bottom"
                     android:text="@string/checkbox_check_multi_line"/>
 
