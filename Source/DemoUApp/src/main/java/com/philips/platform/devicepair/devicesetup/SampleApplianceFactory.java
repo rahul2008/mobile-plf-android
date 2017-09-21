@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
@@ -28,7 +28,7 @@ public class SampleApplianceFactory implements ApplianceFactory {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedDeviceTypes().contains("");
+        return networkNode.isValid();
     }
 
     @Override

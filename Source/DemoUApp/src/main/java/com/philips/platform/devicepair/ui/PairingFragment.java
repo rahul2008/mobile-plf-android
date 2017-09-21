@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
@@ -52,10 +52,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     private PairDevice mPairDevice;
 
-    private Button mLogoutBtn;
-    private ListView mAvailableDevicesListView;
-    private ListView mPairedDevicesListView;
-
     private ArrayAdapter<String> mAvailableDevicesAdapter;
     private ArrayAdapter<String> mPairedDevicesAdapter;
 
@@ -66,6 +62,38 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private CommCentral commCentral;
     private Runnable permissionCallback;
 
+    private ApplianceManager.ApplianceListener<Appliance> applianceListener = new ApplianceManager.ApplianceListener<Appliance>() {
+
+        @Override
+        public void onApplianceFound(@NonNull Appliance appliance) {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
+                }
+            });
+        }
+
+        @Override
+        public void onApplianceUpdated(@NonNull Appliance appliance) {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
+                }
+            });
+        }
+
+        @Override
+        public void onApplianceLost(@NonNull Appliance appliance) {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
+                }
+            });
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +134,8 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         mAppliancesList = new ArrayList<>();
 
         mAvailableDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
-            public View getView(final int position, final View convertView, final ViewGroup parent) {
+            @NonNull
+            public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
                 return view;
@@ -114,14 +143,15 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         };
 
         mPairedDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
-            public View getView(final int position, final View convertView, final ViewGroup parent) {
+            @NonNull
+            public View getView(final int position, final View convertView, @NonNull final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
                 return view;
             }
         };
 
-        mLogoutBtn = (Button) view.findViewById(R.id.logout);
+        Button mLogoutBtn = (Button) view.findViewById(R.id.logout);
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +159,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             }
         });
 
-        mAvailableDevicesListView = (ListView) view.findViewById(R.id.available_devices);
+        ListView mAvailableDevicesListView = (ListView) view.findViewById(R.id.available_devices);
         mAvailableDevicesListView.setAdapter(mAvailableDevicesAdapter);
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -145,7 +175,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             }
         });
 
-        mPairedDevicesListView = (ListView) view.findViewById(R.id.paired_devices);
+        ListView mPairedDevicesListView = (ListView) view.findViewById(R.id.paired_devices);
         mPairedDevicesListView.setAdapter(mPairedDevicesAdapter);
         mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -181,49 +211,16 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
             mStateContext.start();
         }
 
-        commCentral.getApplianceManager().addApplianceListener(discoveryEventListener);
+        commCentral.getApplianceManager().addApplianceListener(applianceListener);
         startDiscovery();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        commCentral.getApplianceManager().removeApplianceListener(discoveryEventListener);
+        commCentral.getApplianceManager().removeApplianceListener(applianceListener);
         commCentral.stopDiscovery();
     }
-
-    private ApplianceManager.ApplianceListener<Appliance> discoveryEventListener = new ApplianceManager.ApplianceListener<Appliance>() {
-
-        @Override
-        public void onApplianceFound(@NonNull Appliance appliance) {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
-                }
-            });
-        }
-
-        @Override
-        public void onApplianceUpdated(@NonNull Appliance appliance) {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
-                }
-            });
-        }
-
-        @Override
-        public void onApplianceLost(@NonNull Appliance appliance) {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
-                }
-            });
-        }
-    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

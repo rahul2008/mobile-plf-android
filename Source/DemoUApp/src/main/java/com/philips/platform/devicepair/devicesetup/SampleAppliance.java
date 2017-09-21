@@ -1,4 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
@@ -11,7 +11,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 class SampleAppliance extends Appliance {
 
-    static final String DEVICE_TYPE = "";
+    static final String DEVICE_TYPE = "ReferenceNode";
 
     SampleAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
