@@ -21,7 +21,7 @@ import java.util.List;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
-class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNoticeOfPrivacyPracticesCallBack {
+class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
     private THSBaseView uiBaseView;
     protected THSVisitContext mTHSVisitContext;
     private StringBuilder mStringBuilder;
@@ -37,14 +37,16 @@ class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNotic
     void showLegalTextForNOPP() {
         List<LegalText> legalTextList = mTHSVisitContext.getLegalTexts();
         for (LegalText legalText : legalTextList) {
-            try{
-            THSManager.getInstance().getLegaltext(uiBaseView.getFragmentActivity(), legalText,this);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
+            if (legalText.isRequired()) {
+                mStringBuilder.append(legalText.getLegalText());
+                mStringBuilder.append(System.getProperty("line.separator"));
+                mStringBuilder.append(System.getProperty("line.separator"));
             }
         }
-
-
+        final Spanned text = getSpannedText();
+        if (null != text) {
+            ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).legalTextsLabel.setText(text);
+        }
     }
 
     @Override
@@ -53,8 +55,17 @@ class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNotic
     }
 
 
+    @SuppressWarnings("deprecation")
+    private Spanned getSpannedText() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(mStringBuilder.toString(), FROM_HTML_MODE_LEGACY); // for 24 api and more
+        } else {
+            return Html.fromHtml(mStringBuilder.toString());
+        }
+    }
+
     //callbacks
-    @Override
+    /*@Override
     public void onNoticeOfPrivacyPracticesReceivedSuccess(String string, SDKError sDKError) {
         ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).hideProgressBar();
         if (null != string) {
@@ -65,17 +76,8 @@ class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNotic
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private Spanned getSpannedText() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-           return Html.fromHtml(mStringBuilder.toString(), FROM_HTML_MODE_LEGACY); // for 24 api and more
-        } else {
-            return Html.fromHtml(mStringBuilder.toString());
-        }
-    }
-
     @Override
     public void onNoticeOfPrivacyPracticesReceivedFailure(Throwable throwable) {
         ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).hideProgressBar();
-    }
+    }*/
 }
