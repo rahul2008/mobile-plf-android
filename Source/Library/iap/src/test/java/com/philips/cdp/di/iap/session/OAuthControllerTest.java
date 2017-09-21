@@ -4,13 +4,14 @@
  */
 package com.philips.cdp.di.iap.session;
 
-import android.os.Message;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.OAuthRequest;
 import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
+import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
@@ -18,7 +19,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.ByteArrayOutputStream;
@@ -32,19 +35,38 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class OAuthControllerTest {
-    OAuthController mOAuthController;
+    private OAuthController mOAuthController;
+
+    @Spy
+    private OAuthController spyOAuthController;
 
     @Mock
-    RefreshOAuthRequest mRefreshOAuthRequest;
+    private RefreshOAuthRequest mRefreshOAuthRequest;
 
     @Mock
-    AbstractModel model;
+    private OAuthRequest mOAuthRequest;
+    @Mock
+    private AbstractModel model;
+
+    @Mock
+    private StoreListener mStore;
+
+    @Mock
+    HurlStack mRetryHurlStack;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         TestUtils.getStubbedHybrisDelegate();
+        TestUtils.getStubbedStore();
+
+//        Mockito.when(mOAuthRequest.getrefreshToken()).thenReturn("3424dfsdf");
+//        Mockito.when(mRefreshOAuthRequest.getUrl()).thenReturn("http://refresh");
+//        Mockito.when(mRefreshOAuthRequest.getMethod()).thenReturn(1);
         mOAuthController = new OAuthController();
+        spyOAuthController = Mockito.spy(mOAuthController);
+        // spyOAuthController.getAccessToken();
+
     }
 
 
@@ -65,17 +87,7 @@ public class OAuthControllerTest {
 
     @Test(expected = RuntimeException.class)
     public void requestSyncRefreshToken() throws Exception {
-        mOAuthController.requestSyncRefreshToken(mRefreshOAuthRequest, new RequestListener() {
-            @Override
-            public void onSuccess(Message msg) {
-
-            }
-
-            @Override
-            public void onError(Message msg) {
-
-            }
-        });
+        mOAuthController.requestSyncRefreshToken(mRefreshOAuthRequest, null);
     }
 
     @Test(expected = NullPointerException.class)

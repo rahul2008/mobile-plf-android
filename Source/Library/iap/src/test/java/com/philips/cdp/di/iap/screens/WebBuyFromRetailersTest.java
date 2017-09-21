@@ -36,4 +36,20 @@ public class WebBuyFromRetailersTest {
         webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
     }
+
+
+    @Test(expected = NullPointerException.class)
+    public void shouldOnViewCreated() {
+       // webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+        webBuyFromRetailers.onViewCreated(null, null);
+        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldOnResume() {
+        // webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+        webBuyFromRetailers.onResume();
+        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
+    }
+
 }

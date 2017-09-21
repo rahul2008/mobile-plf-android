@@ -24,7 +24,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 public abstract class WebFragment extends InAppBaseFragment {
 
-    public static final String TAG = WebPaymentFragment.class.getName();
+    public static final String TAG = WebFragment.class.getName();
     protected WebView mWebView;
     private String mUrl;
     private ProgressBar mProgress;

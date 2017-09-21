@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class WebTrackUrlTest {
     private Context mContext;
     WebTrackUrl webTrackUrl;
+    private Bundle bundle;
 
     @Before
     public void setUp() {
@@ -29,12 +31,30 @@ public class WebTrackUrlTest {
         mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
+        bundle = new Bundle();
+
     }
 
 
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
-        webTrackUrl = WebTrackUrl.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         SupportFragmentTestUtil.startFragment(webTrackUrl);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldgetWebUrl() {
+        bundle.getString(IAPConstant.ORDER_TRACK_URL);
+        webTrackUrl = WebTrackUrl.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
+        webTrackUrl.getWebUrl();
+        SupportFragmentTestUtil.startFragment(webTrackUrl);
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldgetWebUrlNull() {
+        webTrackUrl = WebTrackUrl.createInstance(null, InAppBaseFragment.AnimationType.NONE);
+        webTrackUrl.getWebUrl();
+        SupportFragmentTestUtil.startFragment(webTrackUrl);
+
     }
 }

@@ -21,11 +21,6 @@ public class WebTrackUrl extends WebFragment {
         return bundle.getString(IAPConstant.ORDER_TRACK_URL);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     public static WebTrackUrl createInstance(Bundle args, AnimationType animType) {
         WebTrackUrl fragment = new WebTrackUrl();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
