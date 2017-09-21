@@ -45,7 +45,6 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        createCustomProgressBar(mRelativeLayoutNopContainer,BIG);
         ((THSNoticeOfPrivacyPracticesPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
     }
 

@@ -266,8 +266,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public boolean handleBackEvent() {
         if (THSManager.getInstance().isMatchMakingVisit()) {
-            showToast("Cancelling MatchMaking...");
             providerDetailsPresenter.cancelMatchMaking();
+            getActivity().getSupportFragmentManager().popBackStack();
             return true;
         } else {
             return super.handleBackEvent();

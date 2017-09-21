@@ -48,7 +48,7 @@ import java.util.List;
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
-class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback, THSCancelMatchMakingCallback<Void, THSSDKError> {
+class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback {
 
     private THSProviderDetailsViewInterface viewInterface;
 
@@ -335,27 +335,11 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     void cancelMatchMaking() {
         try {
-            THSManager.getInstance().cancelMatchMaking(mThsBaseFragment.getContext(), THSManager.getInstance().getPthVisitContext(), this);
+            THSManager.getInstance().cancelMatchMaking(mThsBaseFragment.getContext(), THSManager.getInstance().getPthVisitContext());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
 
-    // start of cancel MatchMaker callback
-    @Override
-    public void onCancelMatchMakingResponse(Void aVoid, THSSDKError thssdkError) {
-        if (null == thssdkError.getSdkError()) {
-            mThsBaseFragment.getActivity().getSupportFragmentManager().popBackStack();
-        }
-
-    }
-
-    @Override
-    public void onCancelMatchMakingFailure(Throwable throwable) {
-        THSManager.getInstance().setMatchMakingVisit(false);
-        mThsBaseFragment.showToast(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_cancelling));
-        mThsBaseFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
-    }
-    // start of cancel MatchMaker callback
 }
