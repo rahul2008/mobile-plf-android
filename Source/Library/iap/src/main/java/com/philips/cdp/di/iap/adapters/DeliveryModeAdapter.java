@@ -22,15 +22,15 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
 
     private List<DeliveryModes> mModes;
     private int mSelectedIndex;
-    private View.OnClickListener mConfirmBtnClick;
+  //  private View.OnClickListener mConfirmBtnClick;
     private DeliveryModeDialog.DialogListener mListener;
     private boolean isRadioBtnSelectedFirst;
 
     public DeliveryModeAdapter(final List<DeliveryModes> modes,
-                               View.OnClickListener confirmBtnClick,DeliveryModeDialog.DialogListener listener) {
+                               DeliveryModeDialog.DialogListener listener) {
         mModes = modes;
         mSelectedIndex = 0;
-        mConfirmBtnClick = confirmBtnClick;
+       // mConfirmBtnClick = confirmBtnClick;
         mListener = listener;
     }
 
@@ -113,7 +113,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             deliveryConfirmBtn = (Button) view.findViewById(R.id.iap_delivery_confirm_btn);
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
             view.setOnClickListener(this);
-            deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
+          //  deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
         }
 
         @Override

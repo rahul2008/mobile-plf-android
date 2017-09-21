@@ -14,16 +14,17 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.Utility;
 
-public class WebPaymentFragment extends WebFragment implements
-        TwoButtonDialogFragment.TwoButtonDialogListener {
+public class WebPaymentFragment extends WebFragment implements AlertListener {
 
     public static final String TAG = WebPaymentFragment.class.getName();
     private Context mContext;
-    private TwoButtonDialogFragment mDialogFragment;
+   // private TwoButtonDialogFragment mDialogFragment;
     private boolean mIsPaymentFailed;
 
     private static final String SUCCESS_KEY = "successURL";
@@ -100,13 +101,15 @@ public class WebPaymentFragment extends WebFragment implements
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
-            if (!mIsPaymentFailed)
-                mDialogFragment = null;
+//            if (!mIsPaymentFailed)
+//                mDialogFragment = null;
             mIsPaymentFailed = true;
-            showTwoButtonDialog(mContext.getString(R.string.iap_payment_failed_title),
-                    mContext.getString(R.string.iap_payment_failed_message),
-                    mContext.getString(R.string.iap_try_again),
-                    mContext.getString(R.string.iap_cancel));
+//            showTwoButtonDialog(mContext.getString(R.string.iap_payment_failed_title),
+//                    mContext.getString(R.string.iap_payment_failed_message),
+//                    mContext.getString(R.string.iap_try_again),
+//                    mContext.getString(R.string.iap_cancel));
+            Utility.showActionDialog(mContext, getString(R.string.iap_try_again), getString(R.string.iap_cancel)
+                    , mContext.getString(R.string.iap_payment_failed_title), getString(R.string.iap_payment_failed_message), getFragmentManager(), this);
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
@@ -120,35 +123,55 @@ public class WebPaymentFragment extends WebFragment implements
     @Override
     public boolean handleBackEvent() {
         mIsPaymentFailed = false;
-        showTwoButtonDialog(mContext.getString(R.string.iap_cancel_order_title),
-                mContext.getString(R.string.iap_cancel_payment),
-                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel));
+//        showTwoButtonDialog(mContext.getString(R.string.iap_cancel_order_title),
+//                mContext.getString(R.string.iap_cancel_payment),
+//                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel));
+        Utility.showActionDialog(mContext, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel), mContext.getString(R.string.iap_cancel_order_title), mContext.getString(R.string.iap_cancel_payment), getFragmentManager(), this);
         return true;
     }
 
-    private void showTwoButtonDialog(String title, String description, String positiveText, String negativeText) {
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, title);
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION, description);
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, positiveText);
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, negativeText);
+//    private void showTwoButtonDialog(String title, String description, String positiveText, String negativeText) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, title);
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION, description);
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, positiveText);
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, negativeText);
+//
+//        try {
+//            if (mDialogFragment == null) {
+//                mDialogFragment = new TwoButtonDialogFragment();
+//                mDialogFragment.setArguments(bundle);
+//                mDialogFragment.setOnDialogClickListener(this);
+//                mDialogFragment.setShowsDialog(false);
+//            }
+//            mDialogFragment.show(getFragmentManager(), "TwoButtonDialog");
+//            mDialogFragment.setShowsDialog(true);
+//        } catch (Exception e) {
+//            IAPLog.e(IAPLog.LOG, e.getMessage());
+//        }
+//    }
 
-        try {
-            if (mDialogFragment == null) {
-                mDialogFragment = new TwoButtonDialogFragment();
-                mDialogFragment.setArguments(bundle);
-                mDialogFragment.setOnDialogClickListener(this);
-                mDialogFragment.setShowsDialog(false);
-            }
-            mDialogFragment.show(getFragmentManager(), "TwoButtonDialog");
-            mDialogFragment.setShowsDialog(true);
-        } catch (Exception e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
+//    @Override
+//    public void onPositiveButtonClicked() {
+//
+//    }
+//
+//    @Override
+//    public void onNegativeButtonClicked() {
+//
+//    }
+
+    private void handleNavigation() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
+        if (fragment != null) {
+            moveToVerticalAppByClearingStack();
+        } else {
+            showProductCatalogFragment(WebPaymentFragment.TAG);
         }
     }
 
     @Override
-    public void onPositiveButtonClicked() {
+    public void onPositiveBtnClick() {
         if (mIsPaymentFailed) {
             //PlaceOrder Again instead handle navigation
             handleNavigation();
@@ -160,18 +183,9 @@ public class WebPaymentFragment extends WebFragment implements
     }
 
     @Override
-    public void onNegativeButtonClicked() {
+    public void onNegativeBtnClick() {
         if (mIsPaymentFailed) {
             handleNavigation();
-        }
-    }
-
-    private void handleNavigation() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
-        if (fragment != null) {
-            moveToVerticalAppByClearingStack();
-        } else {
-            showProductCatalogFragment(WebPaymentFragment.TAG);
         }
     }
 }

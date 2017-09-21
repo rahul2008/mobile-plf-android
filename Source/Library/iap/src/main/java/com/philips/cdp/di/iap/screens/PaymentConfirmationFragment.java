@@ -22,14 +22,14 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.HashMap;
 
 public class PaymentConfirmationFragment extends InAppBaseFragment
-        implements TwoButtonDialogFragment.TwoButtonDialogListener {
+        implements AlertListener {
     public static final String TAG = PaymentConfirmationFragment.class.getName();
     private Context mContext;
 
@@ -37,7 +37,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     private TextView mConfirmWithEmail;
     private TextView mOrderNumber;
 
-    private TwoButtonDialogFragment mDialog;
+    //private TwoButtonDialogFragment mDialog;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -87,30 +87,31 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
 
     @Override
     public boolean handleBackEvent() {
-        ShowDialogOnBackPressed();
+       // ShowDialogOnBackPressed();
+        Utility.showActionDialog(mContext, mContext.getString(R.string.iap_ok),mContext.getString(R.string.iap_cancel),mContext.getString(R.string.iap_continue_shopping_description),mContext.getString(R.string.iap_cancel_order_title), getFragmentManager(),this);
         return true;
     }
 
-    private void ShowDialogOnBackPressed() {
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, mContext.getString(R.string.iap_cancel_order_title));
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION,
-                mContext.getString(R.string.iap_continue_shopping_description));
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, mContext.getString(R.string.iap_ok));
-        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, mContext.getString(R.string.iap_cancel));
-        if (mDialog == null) {
-            mDialog = new TwoButtonDialogFragment();
-            mDialog.setOnDialogClickListener(this);
-            mDialog.setArguments(bundle);
-            mDialog.setShowsDialog(false);
-        }
-        try {
-            mDialog.show(getFragmentManager(), "TwoButtonDialog");
-            mDialog.setShowsDialog(true);
-        } catch (Exception e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
-        }
-    }
+//    private void ShowDialogOnBackPressed() {
+//        Bundle bundle = new Bundle();
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, mContext.getString(R.string.iap_cancel_order_title));
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION,
+//                mContext.getString(R.string.iap_continue_shopping_description));
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, mContext.getString(R.string.iap_ok));
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, mContext.getString(R.string.iap_cancel));
+//        if (mDialog == null) {
+//            mDialog = new TwoButtonDialogFragment();
+//            mDialog.setOnDialogClickListener(this);
+//            mDialog.setArguments(bundle);
+//            mDialog.setShowsDialog(false);
+//        }
+//        try {
+//            mDialog.show(getFragmentManager(), "TwoButtonDialog");
+//            mDialog.setShowsDialog(true);
+//        } catch (Exception e) {
+//            IAPLog.e(IAPLog.LOG, e.getMessage());
+//        }
+//    }
 
     private void updatePaymentFailureUI() {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
@@ -165,20 +166,30 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         }
     }
 
-    @Override
-    public void onPositiveButtonClicked() {
-        handleExit();
-    }
-
-    @Override
-    public void onNegativeButtonClicked() {
-        //NOP
-    }
+//    @Override
+//    public void onPositiveButtonClicked() {
+//        handleExit();
+//    }
+//
+//    @Override
+//    public void onNegativeButtonClicked() {
+//        //NOP
+//    }
 
     public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
         PaymentConfirmationFragment fragment = new PaymentConfirmationFragment();
         bundle.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onPositiveBtnClick() {
+        handleExit();
+    }
+
+    @Override
+    public void onNegativeBtnClick() {
+        // Do Nothing
     }
 }

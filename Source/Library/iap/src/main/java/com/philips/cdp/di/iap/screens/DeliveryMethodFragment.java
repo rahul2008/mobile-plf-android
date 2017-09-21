@@ -62,18 +62,18 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements Deliver
     private void settingDataToAdapter() {
         List<DeliveryModes> mDeliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         if (mDeliveryModes == null) return;
-        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mDeliveryModes, mConfirmBtnClick, this);
+        DeliveryModeAdapter mDeliveryModeAdapter = new DeliveryModeAdapter(mDeliveryModes, this);
         mDeliveryRecyclerView.setAdapter(mDeliveryModeAdapter);
         mDeliveryModeAdapter.notifyDataSetChanged();
     }
 
-    private View.OnClickListener mConfirmBtnClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            //do nothing
-        }
-    };
+//    private View.OnClickListener mConfirmBtnClick = new View.OnClickListener() {
+//
+//        @Override
+//        public void onClick(View view) {
+//            //do nothing
+//        }
+//    };
 
     @Override
     public void onItemClick(int position) {
