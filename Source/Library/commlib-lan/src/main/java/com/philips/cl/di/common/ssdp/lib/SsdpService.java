@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cl.di.common.ssdp.lib;
 
 import android.os.Handler;
@@ -10,7 +15,7 @@ import android.text.TextUtils;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
-import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
+import com.philips.cl.di.common.ssdp.controller.DescriptionParser;
 import com.philips.cl.di.common.ssdp.controller.MessageController;
 import com.philips.cl.di.common.ssdp.models.DeviceListModel;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -68,7 +73,7 @@ public class SsdpService extends HandlerThread {
 
     private boolean isSocketOpen;
 
-    private final BaseUrlParser mBaseParser;
+    private final DescriptionParser descriptionParser;
 
     private DeviceListModel deviceListModel;
 
@@ -99,19 +104,13 @@ public class SsdpService extends HandlerThread {
                 }
             }
         }
-
         return sInstance;
     }
 
     private final Set<String> lostDevices = new HashSet<String>();
     private final Runnable mDiscovery = new Runnable() {
-        /** */
         private static final int DELAY_LOOP_COUNT = 1;
-        /** */
         private int loopCount = 0;
-
-        /** */
-
 
         @Override
         public void run() {
@@ -160,9 +159,9 @@ public class SsdpService extends HandlerThread {
     }
 
     {
-        mDiscoveredDevicesSet = new HashSet<String>();
-        mDeviceDiscoverdCounterMap = new Hashtable<String, Integer>();
-        mBaseParser = new BaseUrlParser();
+        mDiscoveredDevicesSet = new HashSet<>();
+        mDeviceDiscoverdCounterMap = new Hashtable<>();
+        descriptionParser = new DescriptionParser();
         serviceState = DiscoveryServiceState.STOPPED;
         isDiscoveryStarted = false;
         deviceListModel = new DeviceListModel();
@@ -192,11 +191,11 @@ public class SsdpService extends HandlerThread {
                     DICommLog.i(ConnectionLibContants.LOG_TAG, "ssdp description url: " + location);
                     final String xmlDescription = SSDPUtils.getHTTP(new URL(location));
                     DICommLog.i(ConnectionLibContants.LOG_TAG, location + "  xmlDescription:  " + xmlDescription);
-                    mBaseParser.parse(xmlDescription);
-                    final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
+                    descriptionParser.parse(xmlDescription);
+                    final List<SSDPdevice> deviceList = descriptionParser.getDevicesList();
 
                     if ((deviceList != null) && (deviceList.size() > 0)) {
-                        final DeviceModel rootPhilipsDevice = getRootPhilipsDevice(mBaseParser.getDevicesList(), device);
+                        final DeviceModel rootPhilipsDevice = getRootPhilipsDevice(descriptionParser.getDevicesList(), device);
 
                         if ((rootPhilipsDevice != null) && (mMessageController != null)) {
                             mMessageController.sendInternalMessage(DiscoveryMessageID.DEVICE_DISCOVERED, rootPhilipsDevice);
