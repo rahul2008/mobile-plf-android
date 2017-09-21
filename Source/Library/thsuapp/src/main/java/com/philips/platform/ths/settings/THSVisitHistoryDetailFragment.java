@@ -113,7 +113,6 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         mRelativeLayoutDownloadReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // mThsVisitHistoryPresenter.onEvent(R.id.ths_pdf_container);
                 THSDownloadReportPrivacyNoticeFragment tHSDownloadReportPrivacyNoticeFragment = new THSDownloadReportPrivacyNoticeFragment();
                 tHSDownloadReportPrivacyNoticeFragment.setPresenter(mThsVisitHistoryPresenter);
                 tHSDownloadReportPrivacyNoticeFragment.show(getFragmentManager(),"TAG");

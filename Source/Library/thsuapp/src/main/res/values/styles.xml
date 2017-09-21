@@ -222,4 +222,9 @@
         <item name="android:textColor">?attr/uidContentPrimaryBackgroundColor</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+    <style name="ths_alpha">
+        <item name="android:background">?attr/uidTrackDetailNormalOnBackgroundColor</item>
+        <item name="android:alpha">0.3</item>
+    </style>
 </resources>

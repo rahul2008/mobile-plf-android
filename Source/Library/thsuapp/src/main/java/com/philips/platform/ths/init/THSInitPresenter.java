@@ -6,11 +6,17 @@
 
 package com.philips.platform.ths.init;
 
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.view.View;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
@@ -23,17 +29,20 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
+
 public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>, THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack {
 
     THSInitFragment mThsInitFragment;
 
-    THSInitPresenter(THSInitFragment thsInitFragment){
+    THSInitPresenter(THSInitFragment thsInitFragment) {
         mThsInitFragment = thsInitFragment;
     }
 
@@ -43,8 +52,14 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     }
 
     protected void initializeAwsdk() {
+        User user = new User(mThsInitFragment.getContext());
+        if (user == null || !user.isUserSignIn()) {
+            mThsInitFragment.hideProgressBar();
+            showError();
+            return;
+        }
         try {
-            AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
+            AmwellLog.i(AmwellLog.LOG, "Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(mThsInitFragment.getContext(), this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -52,7 +67,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             e.printStackTrace();
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
-        }catch (AWSDKInitializationException e) {
+        } catch (AWSDKInitializationException e) {
             e.printStackTrace();
         }
     }
@@ -72,9 +87,9 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     }
 
     private void checkForUserExisitance() {
-        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
+        AmwellLog.i(AmwellLog.LOG, "Initialize - UI updated");
         try {
-            THSManager.getInstance().checkConsumerExists(mThsInitFragment.getContext(),this);
+            THSManager.getInstance().checkConsumerExists(mThsInitFragment.getContext(), this);
             //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -84,17 +99,17 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     @Override
     public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
         SDKError sdkError = thssdkError.getSdkError();
-        if(null != sdkError){
+        if (null != sdkError) {
             mThsInitFragment.hideProgressBar();
-            if(null != sdkError.getSDKErrorReason()) {
+            if (null != sdkError.getSDKErrorReason()) {
                 mThsInitFragment.showToast(sdkError.getSDKErrorReason().name());
             }
             return;
         }
 
-        if(aBoolean){
+        if (aBoolean) {
             authenticateUser();
-        }else {
+        } else {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.popSelfBeforeTransition();
             launchPreWelcomeScreen();
@@ -103,7 +118,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     private void authenticateUser() {
         try {
-            THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(),this);
+            THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -122,7 +137,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     private void launchPreWelcomeScreen() {
 
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
-        mThsInitFragment.addFragment(thsPreWelcomeFragment,THSRegistrationFragment.TAG,null);
+        mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null);
     }
 
     @Override
@@ -178,11 +193,40 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
         mThsInitFragment.popSelfBeforeTransition();
         THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
-        mThsInitFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG,null);
+        mThsInitFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null);
     }
 
     @Override
     public void onError(Throwable throwable) {
         mThsInitFragment.hideProgressBar();
+    }
+
+    public void showError() {
+        AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) mThsInitFragment.getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
+        final String message = mThsInitFragment.getString(R.string.ths_user_not_logged_in);
+        if (null != alertDialogFragmentUserNotLoggedIn) {
+            alertDialogFragmentUserNotLoggedIn.dismiss();
+        }
+
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsInitFragment.getFragmentActivity());
+        builder.setMessage(message);
+        builder.setTitle(mThsInitFragment.getResources().getString(R.string.ths_matchmaking_error));
+
+        alertDialogFragmentUserNotLoggedIn = builder.setCancelable(false).create();
+        View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentUserNotLoggedIn);
+        builder.setPositiveButton(mThsInitFragment.getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
+        alertDialogFragmentUserNotLoggedIn.setPositiveButtonListener(onClickListener);
+        alertDialogFragmentUserNotLoggedIn.show(mThsInitFragment.getFragmentManager(), THS_USER_NOT_LOGGED_IN);
+    }
+
+    @NonNull
+    private View.OnClickListener getOnClickListener(final AlertDialogFragment finalAlertDialogFragmentStartVisit) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mThsInitFragment.popFragmentByTag(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                finalAlertDialogFragmentStartVisit.dismiss();
+            }
+        };
     }
 }

@@ -244,4 +244,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="something_went_wrong">Something went wrong !!!</string>
     <string name="validation_failed">Validation Failed  - </string>
 
+    <!-- Generic -->
+    <string name="ths_user_not_logged_in">Please Sign In ...</string>
+    <string name="early_for_appointment">Too early for the appointment. Please try 15 minutes before the appointment time</string>
+
 </resources>
