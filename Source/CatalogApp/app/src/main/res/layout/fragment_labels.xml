@@ -20,7 +20,7 @@
 
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:text="@string/page_title_label"/>
 
 

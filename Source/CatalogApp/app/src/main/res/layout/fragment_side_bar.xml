@@ -25,7 +25,7 @@
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDHeader"
+                    style="@style/UIDLabel.Header"
                     android:text="@string/sidebar_location"/>
 
                 <com.philips.platform.uid.view.widget.RadioGroup
@@ -46,7 +46,7 @@
                 </com.philips.platform.uid.view.widget.RadioGroup>
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDHeader"
+                    style="@style/UIDLabel.Header"
                     android:text="@string/sidebar_bg_color"/>
 
                 <com.philips.platform.uid.view.widget.RadioGroup

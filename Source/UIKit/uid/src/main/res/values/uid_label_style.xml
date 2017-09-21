@@ -175,8 +175,8 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
     </style>
-    
-    <style name="UIDHeader" parent="UIDLabel.RecyclerViewHeaderText">
+
+    <style name="UIDLabel.Header" parent="UIDLabel.RecyclerViewHeaderText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">start|center_vertical</item>

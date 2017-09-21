@@ -38,7 +38,7 @@
         android:orientation="vertical">
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDHeader"
+            style="@style/UIDLabel.Header"
             android:text="@string/date_picker"/>
 
         <LinearLayout
@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDHeader"
+            style="@style/UIDLabel.Header"
             android:text="@string/range_picker"/>
 
         <LinearLayout
@@ -161,7 +161,7 @@
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDHeader"
+            style="@style/UIDLabel.Header"
             android:text="@string/timeslot_picker"
             android:visibility="@{fragment.disableTimePicker}"/>
 

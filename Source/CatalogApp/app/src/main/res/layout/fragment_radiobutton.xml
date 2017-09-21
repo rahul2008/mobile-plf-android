@@ -41,7 +41,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:text="@string/checkbox_check_box"/>
 
             <LinearLayout
@@ -74,7 +74,7 @@
                 </com.philips.platform.uid.view.widget.RadioGroup>
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDHeader"
+                    style="@style/UIDLabel.Header"
                     android:text="@string/checkbox_check_multi_line"/>
 
                 <com.philips.platform.uid.view.widget.RadioGroup

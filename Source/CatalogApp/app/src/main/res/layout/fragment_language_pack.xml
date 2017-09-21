@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:text="@string/language_pack_label"/>
 
             <com.philips.platform.uid.view.widget.CheckBox

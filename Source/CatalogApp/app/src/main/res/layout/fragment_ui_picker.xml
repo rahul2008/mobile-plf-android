@@ -16,7 +16,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/menu_lable"
-            style="@style/UIDHeader"
+            style="@style/UIDLabel.Header"
             android:text="@string/menu_uipicker"/>
 
         <LinearLayout

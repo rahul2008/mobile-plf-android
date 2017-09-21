@@ -44,7 +44,7 @@
                 </LinearLayout>
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDHeader"
+                    style="@style/UIDLabel.Header"
                     android:text="@string/normal_size" />
 
                 <LinearLayout
@@ -77,7 +77,7 @@
                     </FrameLayout>
 
                     <com.philips.platform.uid.view.widget.Label
-                        style="@style/UIDHeader"
+                        style="@style/UIDLabel.Header"
                         android:layout_marginBottom="@dimen/notifaction_badge_margin_top_bottom"
                         android:text="@string/small_size" />
 

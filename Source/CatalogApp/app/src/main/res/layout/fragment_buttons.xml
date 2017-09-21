@@ -92,7 +92,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:text="@string/buttons"/>
 
             <!--Extra wide buttons-->
@@ -160,7 +160,7 @@
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDHeader"
+                    style="@style/UIDLabel.Header"
                     android:text="@string/buttons_text_left_aligned_category"/>
 
                 <com.philips.platform.uid.view.widget.Button
@@ -226,7 +226,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:text="@string/buttons_icon_only"/>
 
             <!--Icon only buttons-->
@@ -260,12 +260,12 @@
             </LinearLayout>
 
             <RelativeLayout
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:onClick="@{(v) -> frag.showGridFragment()}"
                 android:visibility="@{frag.isButtonsEnabled? View.VISIBLE: View.GONE}">
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDHeader"
+                    style="@style/UIDLabel.Header"
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
                     android:paddingEnd="0dp"
@@ -315,7 +315,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDHeader"
+                style="@style/UIDLabel.Header"
                 android:text="@string/buttons_progress"/>
 
             <LinearLayout
