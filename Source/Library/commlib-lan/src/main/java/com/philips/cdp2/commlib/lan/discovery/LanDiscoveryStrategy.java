@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.dicommclient.discovery.SsdpDiscovery;
+import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
@@ -22,8 +22,8 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
-import com.philips.ssdp.SSDPControlPoint;
-import com.philips.ssdp.SSDPDevice;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
+import com.philips.cdp2.commlib.ssdp.SSDPDevice;
 
 import java.util.Collections;
 import java.util.Set;
@@ -38,7 +38,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private static final Object LOCK = new Object();
 
     @NonNull
-    private final SsdpDiscovery ssdp;
+    private final SSDPDiscovery ssdp;
 
     @NonNull
     private final LanDeviceCache deviceCache;
@@ -107,7 +107,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     }
 
     @VisibleForTesting
-    SsdpDiscovery createSsdpDiscovery() {
+    SSDPDiscovery createSsdpDiscovery() {
         final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
         ssdpControlPoint.addDeviceListener(deviceListener);
 
@@ -192,7 +192,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     @VisibleForTesting
     @Nullable
     NetworkNode createNetworkNode(@NonNull SSDPDevice ssdpDevice) {
-
         final String cppId = ssdpDevice.getCppId();
         final String ipAddress = ssdpDevice.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();

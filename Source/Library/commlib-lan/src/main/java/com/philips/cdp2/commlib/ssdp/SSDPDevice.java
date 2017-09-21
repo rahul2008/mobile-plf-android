@@ -2,7 +2,8 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.ssdp;
+
+package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -16,14 +17,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashSet;
-import java.util.Set;
+import java.nio.charset.Charset;
 
-import static com.philips.ssdp.SSDPUtils.CHARSET_UTF8;
+import static org.xmlpull.v1.XmlPullParser.END_TAG;
+import static org.xmlpull.v1.XmlPullParser.START_TAG;
+import static org.xmlpull.v1.XmlPullParser.TEXT;
 
 public final class SSDPDevice {
 
     private static final String TAG = "SSDPDevice";
+
+    private static final DescriptionParser PARSER = new DescriptionParser();
 
     // Device properties
     private boolean isSecure;
@@ -41,16 +45,15 @@ public final class SSDPDevice {
     private String presentationUrl;
     private String serialNumber;
     private String udn;
-    private Set<Icon> iconList = new HashSet<>();
 
-    private final class Parser {
+    private static class DescriptionParser {
+        private static final String NAMESPACE = "urn:schemas-upnp-org:device-1-0";
+
         private static final String BOOT_ID = "bootId";
         private static final String CPP_ID = "cppId";
         private static final String DEVICE = "device";
         private static final String DEVICE_TYPE = "deviceType";
         private static final String FRIENDLY_NAME = "friendlyName";
-        private static final String ICON = "icon";
-        private static final String ICON_LIST = "iconList";
         private static final String IP_ADDRESS = "ipAddress";
         private static final String MANUFACTURER = "manufacturer";
         private static final String MANUFACTURER_URL = "manufacturerURL";
@@ -63,170 +66,122 @@ public final class SSDPDevice {
         private static final String SERIAL_NUMBER = "serialNumber";
         private static final String UDN = "UDN";
 
-        Parser(@NonNull final String descriptor) throws IOException, XmlPullParserException {
-            parseDevice(descriptor);
+        SSDPDevice parse(String description) throws IOException, XmlPullParserException {
+            return parseDevice(description);
         }
 
-        private void parseDevice(String descriptor) throws IOException, XmlPullParserException {
-            InputStream stream = new ByteArrayInputStream(descriptor.getBytes(CHARSET_UTF8));
+        private SSDPDevice parseDevice(@NonNull final String description) throws IOException, XmlPullParserException {
+            InputStream stream = new ByteArrayInputStream(description.getBytes(Charset.forName("UTF-8")));
 
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            final XmlPullParser parser = Xml.newPullParser();
             parser.setInput(stream, null);
             parser.nextTag();
-            parser.require(XmlPullParser.START_TAG, null, ROOT);
+            parser.require(START_TAG, NAMESPACE, ROOT);
 
-            while (parser.next() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
+            while (parser.next() != END_TAG) {
+                if (parser.getEventType() != START_TAG) {
                     continue;
                 }
 
                 switch (parser.getName()) {
                     case DEVICE:
-                        readDevice(parser);
-                        break;
+                        return readDevice(parser);
                     default:
                         skipTag(parser);
                         break;
                 }
             }
             stream.close();
+
+            return null;
         }
 
-        private void readDevice(XmlPullParser parser) throws IOException, XmlPullParserException {
-            parser.require(XmlPullParser.START_TAG, null, DEVICE);
+        private SSDPDevice readDevice(XmlPullParser parser) throws IOException, XmlPullParserException {
+            parser.require(START_TAG, NAMESPACE, DEVICE);
 
-            while (parser.next() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
+            SSDPDevice device = new SSDPDevice();
+
+            while (parser.next() != END_TAG) {
+                if (parser.getEventType() != START_TAG) {
                     continue;
                 }
 
                 switch (parser.getName()) {
                     case BOOT_ID:
-                        SSDPDevice.this.bootId = readTag(parser, BOOT_ID);
+                        device.bootId = readTag(parser, BOOT_ID);
                         break;
                     case CPP_ID:
-                        SSDPDevice.this.cppId = readTag(parser, CPP_ID);
+                        device.cppId = readTag(parser, CPP_ID);
                         break;
                     case DEVICE_TYPE:
-                        SSDPDevice.this.deviceType = readTag(parser, DEVICE_TYPE);
+                        device.deviceType = readTag(parser, DEVICE_TYPE);
                         break;
                     case FRIENDLY_NAME:
-                        SSDPDevice.this.friendlyName = readTag(parser, FRIENDLY_NAME);
-                        break;
-                    case ICON_LIST:
-                        readIconList(parser);
+                        device.friendlyName = readTag(parser, FRIENDLY_NAME);
                         break;
                     case IP_ADDRESS:
-                        SSDPDevice.this.ipAddress = readTag(parser, IP_ADDRESS);
+                        device.ipAddress = readTag(parser, IP_ADDRESS);
                         break;
                     case MANUFACTURER:
-                        SSDPDevice.this.manufacturer = readTag(parser, MANUFACTURER);
+                        device.manufacturer = readTag(parser, MANUFACTURER);
                         break;
                     case MANUFACTURER_URL:
-                        SSDPDevice.this.manufacturerUrl = readTag(parser, MANUFACTURER_URL);
+                        device.manufacturerUrl = readTag(parser, MANUFACTURER_URL);
                         break;
                     case MODEL_DESCRIPTION:
-                        SSDPDevice.this.modelDescription = readTag(parser, MODEL_DESCRIPTION);
+                        device.modelDescription = readTag(parser, MODEL_DESCRIPTION);
                         break;
                     case MODEL_NAME:
-                        SSDPDevice.this.modelName = readTag(parser, MODEL_NAME);
+                        device.modelName = readTag(parser, MODEL_NAME);
                         break;
                     case MODEL_NUMBER:
-                        SSDPDevice.this.modelNumber = readTag(parser, MODEL_NUMBER);
+                        device.modelNumber = readTag(parser, MODEL_NUMBER);
                         break;
                     case MODEL_URL:
-                        SSDPDevice.this.modelUrl = readTag(parser, MODEL_URL);
+                        device.modelUrl = readTag(parser, MODEL_URL);
                         break;
                     case PRESENTATION_URL:
-                        SSDPDevice.this.presentationUrl = readTag(parser, PRESENTATION_URL);
+                        device.presentationUrl = readTag(parser, PRESENTATION_URL);
                         break;
                     case SERIAL_NUMBER:
-                        SSDPDevice.this.serialNumber = readTag(parser, SERIAL_NUMBER);
+                        device.serialNumber = readTag(parser, SERIAL_NUMBER);
                         break;
                     case UDN:
-                        SSDPDevice.this.udn = readTag(parser, UDN);
+                        device.udn = readTag(parser, UDN);
                         break;
                     default:
                         skipTag(parser);
                         break;
                 }
             }
-        }
-
-        private void readIconList(XmlPullParser parser) throws IOException, XmlPullParserException {
-            parser.require(XmlPullParser.START_TAG, null, ICON_LIST);
-
-            while (parser.next() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
-                String name = parser.getName();
-
-                if (ICON.equals(name)) {
-                    SSDPDevice.this.iconList.add(readIcon(parser));
-                }
-            }
-        }
-
-        private Icon readIcon(XmlPullParser parser) throws IOException, XmlPullParserException {
-            final Icon icon = new Icon();
-            parser.require(XmlPullParser.START_TAG, null, ICON);
-
-            while (parser.next() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
-
-                switch (parser.getName()) {
-                    case Icon.MIMETYPE:
-                        icon.mimetype = readTag(parser, Icon.MIMETYPE);
-                        break;
-                    case Icon.DEPTH:
-                        icon.depth = Integer.valueOf(readTag(parser, Icon.DEPTH));
-                        break;
-                    case Icon.WIDTH:
-                        icon.width = Integer.valueOf(readTag(parser, Icon.WIDTH));
-                        break;
-                    case Icon.HEIGHT:
-                        icon.height = Integer.valueOf(readTag(parser, Icon.HEIGHT));
-                        break;
-                    case Icon.URL:
-                        icon.url = readTag(parser, Icon.URL);
-                        break;
-                    default:
-                        skipTag(parser);
-                        break;
-                }
-            }
-            return icon;
+            return device;
         }
 
         private String readTag(XmlPullParser parser, String tag) throws IOException, XmlPullParserException {
             String result = "";
-            parser.require(XmlPullParser.START_TAG, null, tag);
+            parser.require(START_TAG, NAMESPACE, tag);
 
-            if (parser.next() == XmlPullParser.TEXT) {
+            if (parser.next() == TEXT) {
                 result = parser.getText();
                 parser.nextTag();
             }
-            parser.require(XmlPullParser.END_TAG, null, tag);
+            parser.require(END_TAG, NAMESPACE, tag);
 
             return result;
         }
 
         private void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
+            if (parser.getEventType() != START_TAG) {
                 throw new IllegalStateException();
             }
             int depth = 1;
 
             while (depth != 0) {
                 switch (parser.next()) {
-                    case XmlPullParser.END_TAG:
+                    case END_TAG:
                         depth--;
                         break;
-                    case XmlPullParser.START_TAG:
+                    case START_TAG:
                         depth++;
                         break;
                 }
@@ -234,33 +189,36 @@ public final class SSDPDevice {
         }
     }
 
-    private final class Icon {
-        static final String MIMETYPE = "mimetype";
-        static final String WIDTH = "width";
-        static final String HEIGHT = "height";
-        static final String DEPTH = "depth";
-        static final String URL = "url";
-
-        public String mimetype;
-        public int width;
-        public int height;
-        public int depth;
-        public String url;
-    }
-
-    private SSDPDevice(@NonNull final String descriptor) throws IOException, XmlPullParserException {
-        new Parser(descriptor);
-    }
-
-    public static SSDPDevice create(@NonNull final String descriptor, String ipAddress, boolean isSecure) {
+    public static SSDPDevice create(@NonNull final String description, String ipAddress, boolean isSecure) {
         SSDPDevice device = null;
         try {
-            device = new SSDPDevice(descriptor);
+            device = PARSER.parse(description);
             device.ipAddress = ipAddress;
             device.isSecure = isSecure;
         } catch (XmlPullParserException | IOException e) {
-            Log.e(TAG, "Error parsing descriptor.", e);
+            Log.e(TAG, "Error parsing description.", e);
         }
+        return device;
+    }
+
+    public static SSDPDevice create(String bootId, String cppId, String deviceType, String friendlyName, String manufacturer, String manufacturerUrl, String modelDescription, String modelName, String modelNumber, String modelUrl, String presentationUrl, String serialNumber, String udn, String ipAddress, boolean isSecure) {
+        SSDPDevice device = new SSDPDevice();
+        device.bootId = bootId;
+        device.cppId = cppId;
+        device.deviceType = deviceType;
+        device.friendlyName = friendlyName;
+        device.manufacturer = manufacturer;
+        device.manufacturerUrl = manufacturerUrl;
+        device.modelDescription = modelDescription;
+        device.modelName = modelName;
+        device.modelNumber = modelNumber;
+        device.modelUrl = modelUrl;
+        device.presentationUrl = presentationUrl;
+        device.serialNumber = serialNumber;
+        device.udn = udn;
+        device.ipAddress = ipAddress;
+        device.isSecure = isSecure;
+
         return device;
     }
 
@@ -282,10 +240,6 @@ public final class SSDPDevice {
 
     public String getFriendlyName() {
         return this.friendlyName;
-    }
-
-    public Set<Icon> getIconList() {
-        return iconList;
     }
 
     public String getIpAddress() {
@@ -336,7 +290,7 @@ public final class SSDPDevice {
             if (Modifier.isStatic(field.getModifiers())) {
                 continue;
             }
-            builder.append(field.getName() + ": [");
+            builder.append(field.getName()).append(": [");
 
             try {
                 builder.append(field.get(this));

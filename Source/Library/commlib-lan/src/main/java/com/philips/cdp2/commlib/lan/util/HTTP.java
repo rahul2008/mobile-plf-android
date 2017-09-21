@@ -2,7 +2,8 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.ssdp;
+
+package com.philips.cdp2.commlib.lan.util;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -27,11 +28,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
-import static com.philips.ssdp.SSDPUtils.PROTOCOL_HTTPS;
-
 public final class HTTP {
 
     private static final String TAG = "HTTP";
+    public static final String PROTOCOL_HTTPS = "https";
 
     private static HTTP instance;
 
@@ -39,7 +39,7 @@ public final class HTTP {
     private final Executor executor = Executors.newSingleThreadExecutor();
     private URLConnection urlConnection;
 
-    public interface HttpResponseCallback {
+    public interface RequestCallback {
         void onResponse(String response);
 
         void onError(String message, Throwable reason);
@@ -64,7 +64,7 @@ public final class HTTP {
         return instance;
     }
 
-    public void get(@NonNull final URL url, final int timeout, final HttpResponseCallback callback) {
+    public void get(@NonNull final URL url, final int timeout, final RequestCallback callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {

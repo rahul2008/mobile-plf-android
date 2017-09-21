@@ -2,13 +2,14 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.ssdp;
+
+package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.philips.cdp.dicommclient.discovery.SsdpDiscovery;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.util.HTTP;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,6 +20,7 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,28 +28,29 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import static com.philips.ssdp.SSDPMessage.HOST;
-import static com.philips.ssdp.SSDPMessage.MAX_WAIT_TIME;
-import static com.philips.ssdp.SSDPMessage.MESSAGE_TYPE_FOUND;
-import static com.philips.ssdp.SSDPMessage.MESSAGE_TYPE_NOTIFY;
-import static com.philips.ssdp.SSDPMessage.MESSAGE_TYPE_SEARCH;
-import static com.philips.ssdp.SSDPMessage.NAMESPACE;
-import static com.philips.ssdp.SSDPMessage.NAMESPACE_DISCOVER;
-import static com.philips.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
-import static com.philips.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALIVE;
-import static com.philips.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
-import static com.philips.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
-import static com.philips.ssdp.SSDPMessage.SEARCH_TARGET;
-import static com.philips.ssdp.SSDPMessage.SEARCH_TARGET_ALL;
-import static com.philips.ssdp.SSDPMessage.SSDP_HOST;
-import static com.philips.ssdp.SSDPMessage.SSDP_PORT;
-import static com.philips.ssdp.SSDPUtils.CHARSET_UTF8;
-import static com.philips.ssdp.SSDPUtils.PROTOCOL_HTTPS;
+import static com.philips.cdp2.commlib.lan.util.HTTP.PROTOCOL_HTTPS;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.HOST;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MAX_WAIT_TIME;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_FOUND;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_NOTIFY;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_SEARCH;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NAMESPACE;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NAMESPACE_DISCOVER;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALIVE;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_ALL;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 
-public class SSDPControlPoint implements SsdpDiscovery {
+public class SSDPControlPoint implements SSDPDiscovery {
     private static final String TAG = "SSDPControlPoint";
 
-    private static final int MAX_WAIT_TIME_IN_SECONDS = 1;
+    private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
+
+    private static final int DEFAULT_WAIT_TIME_IN_SECONDS = 5;
     private static final int TIMEOUT = 3000;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
@@ -59,10 +62,11 @@ public class SSDPControlPoint implements SsdpDiscovery {
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
     private Set<SSDPDevice> discoveredDevices = new CopyOnWriteArraySet<>();
+    private int maxWaitTimeInSeconds = -1;
 
     @Override
     public void start() {
-        startDiscovery("TODO", MAX_WAIT_TIME_IN_SECONDS);
+        startDiscovery();
     }
 
     @Override
@@ -72,7 +76,7 @@ public class SSDPControlPoint implements SsdpDiscovery {
 
     @Override
     public boolean isStarted() {
-        return false;
+        return discoveryThread != null;
     }
 
     public interface DeviceListener {
@@ -120,6 +124,7 @@ public class SSDPControlPoint implements SsdpDiscovery {
                     }
                 }
             }
+            DICommLog.d(TAG, "DiscoveryThread finished.");
         }
 
         void finish() {
@@ -136,10 +141,10 @@ public class SSDPControlPoint implements SsdpDiscovery {
 
             try {
                 final SSDPMessage searchMessage = new SSDPMessage(MESSAGE_TYPE_SEARCH);
-                searchMessage.getHeaders().put(SEARCH_TARGET, SSDPControlPoint.this.searchTarget);
+                searchMessage.getHeaders().put(SEARCH_TARGET, searchTarget);
                 searchMessage.getHeaders().put(HOST, SSDP_HOST);
                 searchMessage.getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
-                searchMessage.getHeaders().put(MAX_WAIT_TIME, String.valueOf(MAX_WAIT_TIME_IN_SECONDS));
+                searchMessage.getHeaders().put(MAX_WAIT_TIME, String.valueOf(maxWaitTimeInSeconds));
 
                 final String searchMessageString = searchMessage.toString();
                 Log.d(TAG, searchMessageString);
@@ -171,10 +176,15 @@ public class SSDPControlPoint implements SsdpDiscovery {
         });
     }
 
-    public synchronized void startDiscovery(final String searchTarget, final int maxWaitTimeInSeconds) {
+    private void startDiscovery() {
+        startDiscovery(null, DEFAULT_WAIT_TIME_IN_SECONDS);
+    }
+
+    private synchronized void startDiscovery(final String searchTarget, final int maxWaitTimeInSeconds) {
         if (maxWaitTimeInSeconds < 1 || maxWaitTimeInSeconds > 5) {
             throw new IllegalArgumentException("Max wait time should be a value between 1 and 5 inclusive.");
         }
+        this.maxWaitTimeInSeconds = maxWaitTimeInSeconds;
         startDiscoveryThread();
 
         if (this.searchTask == null) {
@@ -188,7 +198,7 @@ public class SSDPControlPoint implements SsdpDiscovery {
         }
     }
 
-    public synchronized void stopDiscovery() {
+    private synchronized void stopDiscovery() {
         if (this.searchTask != null) {
             searchTask.cancel();
             searchTask = null;
@@ -235,15 +245,15 @@ public class SSDPControlPoint implements SsdpDiscovery {
     private void createDevice(final SSDPMessage message) throws MalformedURLException {
         final URL descriptionUrl = new URL(message.get(SSDPMessage.LOCATION));
 
-        HTTP.getInstance().get(descriptionUrl, TIMEOUT, new HTTP.HttpResponseCallback() {
+        HTTP.getInstance().get(descriptionUrl, TIMEOUT, new HTTP.RequestCallback() {
             @Override
-            public void onResponse(String response) {
-                DICommLog.d(TAG, "Got HTTP response: " + response );
+            public void onResponse(String description) {
+                DICommLog.d(TAG, "Got HTTP response: " + description);
 
                 String ipAddress = descriptionUrl.getHost();
                 boolean isSecure = descriptionUrl.getProtocol().equals(PROTOCOL_HTTPS);
 
-                final SSDPDevice device = SSDPDevice.create(response, ipAddress, isSecure);
+                final SSDPDevice device = SSDPDevice.create(description, ipAddress, isSecure);
                 if (device == null) {
                     return;
                 }
