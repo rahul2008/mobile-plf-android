@@ -6,21 +6,12 @@
 
 package com.philips.platform.ths.init;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
-
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.login.THSAuthentication;
-import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
-import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -29,23 +20,15 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
-import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
-
-public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>, THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack {
+public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
 
     THSInitFragment mThsInitFragment;
 
-    boolean isRefreshTokenRequestedBefore = false;
-
     THSInitPresenter(THSInitFragment thsInitFragment) {
-        isRefreshTokenRequestedBefore = false;
         mThsInitFragment = thsInitFragment;
     }
 
@@ -58,7 +41,7 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         User user = new User(mThsInitFragment.getContext());
         if (user == null || !user.isUserSignIn()) {
             mThsInitFragment.hideProgressBar();
-            showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
             return;
         }
         try {
@@ -109,21 +92,12 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
             }
             return;
         }
-
         if (aBoolean) {
-            authenticateUser();
+            launchWelcomeScreen();
         } else {
             mThsInitFragment.hideProgressBar();
             mThsInitFragment.popSelfBeforeTransition();
             launchPreWelcomeScreen();
-        }
-    }
-
-    private void authenticateUser() {
-        try {
-            THSManager.getInstance().authenticateMutualAuthToken(mThsInitFragment.getContext(), this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
         }
     }
 
@@ -132,76 +106,11 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.hideProgressBar();
     }
 
-   /* private void launchPreWelcomeScreen(){
-        THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
-        mThsInitFragment.addFragment(thsPreWelcomeFragment,THSPreWelcomeFragment.TAG,null);
-    }*/
+
 
     private void launchPreWelcomeScreen() {
-
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
         mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null);
-    }
-
-    @Override
-    public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
-        if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
-            if (checkIfRefreshTokenWasTriedBefore()) return;
-            isRefreshTokenRequestedBefore = true;
-            refreshToken();
-            return;
-        }
-        
-        try {
-            if (thsAuthentication.needsToCompleteEnrollment()) {
-                THSManager.getInstance().completeEnrollment(mThsInitFragment.getContext(), thsAuthentication, this);
-            } else {
-                THSManager.getInstance().getConsumerObject(mThsInitFragment.getContext(), thsAuthentication.getAuthentication(), this);
-            }
-        } catch (AWSDKInstantiationException e) {
-
-        }
-    }
-
-    private boolean checkIfRefreshTokenWasTriedBefore() {
-        if(isRefreshTokenRequestedBefore){
-            isRefreshTokenRequestedBefore = false;
-            mThsInitFragment.hideProgressBar();
-            showError(mThsInitFragment.getString(R.string.ths_user_not_authenticated));
-            return true;
-        }
-        return false;
-    }
-
-
-    private void refreshToken() {
-        THSManager.getInstance().getUser(mThsInitFragment.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-                authenticateUser();
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(int i) {
-                mThsInitFragment.showToast("Refresh Signon failed with the following status code " + i + " please logout and login again");
-                mThsInitFragment.hideProgressBar();
-            }
-
-            @Override
-            public void onRefreshLoginSessionInProgress(String s) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onLoginFailure(Throwable var1) {
-        mThsInitFragment.hideProgressBar();
-    }
-
-    @Override
-    public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
-        launchWelcomeScreen();
     }
 
     private void launchWelcomeScreen() {
@@ -211,36 +120,5 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
         mThsInitFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null);
     }
 
-    @Override
-    public void onError(Throwable throwable) {
-        mThsInitFragment.hideProgressBar();
-    }
 
-    public void showError(String message) {
-        AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) mThsInitFragment.getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
-        if (null != alertDialogFragmentUserNotLoggedIn) {
-            alertDialogFragmentUserNotLoggedIn.dismiss();
-        }
-
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsInitFragment.getFragmentActivity());
-        builder.setMessage(message);
-        builder.setTitle(mThsInitFragment.getResources().getString(R.string.ths_matchmaking_error));
-
-        alertDialogFragmentUserNotLoggedIn = builder.setCancelable(false).create();
-        View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentUserNotLoggedIn);
-        builder.setPositiveButton(mThsInitFragment.getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
-        alertDialogFragmentUserNotLoggedIn.setPositiveButtonListener(onClickListener);
-        alertDialogFragmentUserNotLoggedIn.show(mThsInitFragment.getFragmentManager(), THS_USER_NOT_LOGGED_IN);
-    }
-
-    @NonNull
-    private View.OnClickListener getOnClickListener(final AlertDialogFragment finalAlertDialogFragmentStartVisit) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mThsInitFragment.popFragmentByTag(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                finalAlertDialogFragmentStartVisit.dismiss();
-            }
-        };
-    }
 }

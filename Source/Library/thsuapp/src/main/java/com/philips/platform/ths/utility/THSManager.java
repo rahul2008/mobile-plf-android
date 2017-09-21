@@ -149,6 +149,7 @@ public class THSManager {
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
 
+    private boolean mIsReturningUser = true;
 
 
     @VisibleForTesting
@@ -275,6 +276,7 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().checkConsumerExists(getUser(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
+                setIsReturningUser(aBoolean);
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
                 thsCheckConsumerExistsCallback.onResponse(aBoolean,thssdkError);
@@ -308,6 +310,7 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                setIsReturningUser(true);
                 THSConsumer thsConsumer = new THSConsumer();
                 thsConsumer.setConsumer(consumer);
                 setPTHConsumer(thsConsumer);
@@ -1418,5 +1421,13 @@ public class THSManager {
             }
         });
 
+    }
+
+    public boolean isReturningUser() {
+        return mIsReturningUser;
+    }
+
+    public void setIsReturningUser(boolean firstTimeUser) {
+        mIsReturningUser = firstTimeUser;
     }
 }

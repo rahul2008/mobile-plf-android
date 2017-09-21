@@ -55,8 +55,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_fragment, container, false);
 
-
-
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mRelativeLayoutAppointments = (RelativeLayout)view.findViewById(R.id.appointments);
         mRelativeLayoutVisitHostory  = (RelativeLayout) view.findViewById(R.id.visit_history);
@@ -74,9 +72,8 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
 
         mButton.setEnabled(false);
         mButton.setOnClickListener(this);
-
-        createCustomProgressBar(mRelativeLayoutInitContainer, BIG);
-        presenter.initializeAwsdk();
+        
+        presenter.getStarted();
 
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
@@ -101,18 +98,15 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         int i = view.getId();
         if (i == R.id.appointments) {
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_SCHEDULE_APPOINTMENT);
-            createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.appointments);
         }else if(i == R.id.visit_history){
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HISTORY_PAGE);
-            createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.visit_history);
         }else if(i == R.id.how_it_works){
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HOW_IT_WORKS);
             presenter.onEvent(R.id.how_it_works);
         }else if(i == R.id.ths_start){
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_PRACTICE_PAGE);
-            createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.ths_start);
         }
     }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/available_provider_details_container"
     android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:orientation="vertical">
@@ -29,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomLayout"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:layout_below="@+id/ths_match_making_ProgressBarWithLabel_container">
 
         <ScrollView

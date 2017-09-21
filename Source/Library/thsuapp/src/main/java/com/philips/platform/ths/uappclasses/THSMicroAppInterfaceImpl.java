@@ -56,7 +56,7 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         thsBaseFragment.setArguments(bundle);
         thsBaseFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
         thsBaseFragment.setFragmentLauncher(fragmentLauncher);
-        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), thsBaseFragment, THSInitFragment.TAG).
+        fragmentTransaction.add(fragmentLauncher.getParentContainerResourceID(), thsBaseFragment, THSInitFragment.TAG).
                 addToBackStack(THSInitFragment.TAG).commitAllowingStateLoss();
     }
 }
