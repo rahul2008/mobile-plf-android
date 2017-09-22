@@ -207,5 +207,7 @@
     <string name="iap_validating_address">يتم الآن التحقق من صحة العنوان...</string>
     <string name="iap_fetching_payment">يتم الآن إحضار تفاصيل الدفع...</string>
     <string name="iap_select_delivery">يُرجى تحديد طريقة التسليم لهذا الطلب:</string>
-    <string name="iap_product_detail_title">﻿تفاصيل المنتج</string>
+    <string name="iap_product_detail_title"> تفاصيل المنتج</string>
+    <string name="iap_zero_results_found">لم يتم العثور على أي نتيجة ل</string>
+    <string name="iap_zero_results_message"> يسمح ذلك بتصفية قائمة المنتجات التي نقدّمها. يرجى التأكد من عدم وجود أخطاء إملائية في مصطلح عامل التصفية</string>
 </resources>

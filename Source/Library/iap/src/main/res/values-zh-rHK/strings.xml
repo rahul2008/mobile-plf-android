@@ -207,5 +207,7 @@
     <string name="iap_validating_address"></string>
     <string name="iap_fetching_payment"></string>
     <string name="iap_select_delivery"></string>
-    <string name="iap_product_detail_title">产品详情</string>
+    <string name="iap_product_detail_title">產品詳細資料</string>
+    <string name="iap_zero_results_found"> 此條件找到 0 個結果：%s</string>
+    <string name="iap_zero_results_message"> 系統將以此資料篩選產品清單，請檢查您要搜尋的字詞拼寫正確</string>
 </resources>

@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Проверка адреса...</string>
     <string name="iap_fetching_payment">Получение сведений об оплате...</string>
     <string name="iap_select_delivery">Выберите способ доставки заказа:</string>
-    <string name="iap_product_detail_title">Информация о продукте</string>
+    <string name="iap_product_detail_title">Сведения о приборе</string>
+    <string name="iap_zero_results_found"> Найдено 0 результатов по запросу: %s</string>
+    <string name="iap_zero_results_message"> Применяется фильтр для списка продуктов. Убедитесь, что запрос не содержит опечаток.</string>
 </resources>

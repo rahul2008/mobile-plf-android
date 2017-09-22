@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Ověřování adresy...</string>
     <string name="iap_fetching_payment">Získávání podrobností platby...</string>
     <string name="iap_select_delivery">Vyberte způsob dodání pro tuto objednávku:</string>
-    <string name="iap_product_detail_title">Detaily produktu</string>
+    <string name="iap_product_detail_title">Podrobnosti o výrobku</string>
+    <string name="iap_zero_results_found">0 výsledků pro %s</string>
+    <string name="iap_zero_results_message">Zde se filtruje seznamu výrobků. Zkontrolujte, že vámi zadaný výraz neobsahuje žádné překlepy.</string>
 </resources>

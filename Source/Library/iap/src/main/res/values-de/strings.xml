@@ -209,4 +209,6 @@
     <string name="iap_select_delivery"></string>
 
     <string name="iap_product_detail_title">Produktdetails</string>
+    <string name="iap_zero_results_found">0 Ergebnisse gefunden für %s</string>
+    <string name="iap_zero_results_message"> Diese Funktion filtert unsere Produktliste. Bitte stellen Sie sicher, dass sich keine Rechtschreibfehler im Suchbegriff befinden.</string>
 </resources>

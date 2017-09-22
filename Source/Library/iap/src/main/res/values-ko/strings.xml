@@ -207,5 +207,7 @@
     <string name="iap_validating_address">주소 확인 중...</string>
     <string name="iap_fetching_payment">결제 세부 정보를 보내는 중...</string>
     <string name="iap_select_delivery">이 주문의 결제 방법 선택:</string>
-    <string name="iap_product_detail_title">제품 세부 정보</string>
+    <string name="iap_product_detail_title">제품정보</string>
+    <string name="iap_zero_results_found"> %s 에 대한 검색 결과 없음</string>
+    <string name="iap_zero_results_message"> 제품 리스트를 필터링합니다. 필터 용어에 오타가 없는지 확인하십시오.</string>
 </resources>

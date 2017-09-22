@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Перевірка адреси...</string>
     <string name="iap_fetching_payment">Отримання реквізитів для оплати...</string>
     <string name="iap_select_delivery">Виберіть спосіб доставки для цього замовлення:</string>
-    <string name="iap_product_detail_title">Деталі продукту</string>
+    <string name="iap_product_detail_title">Детальніше про виріб</string>
+    <string name="iap_zero_results_found"> 0 результатів знайдено для %s</string>
+    <string name="iap_zero_results_message"> Це фільтрує наш список виробів. Перевірте, чи термін фільтра не містить помилок</string>
 </resources>

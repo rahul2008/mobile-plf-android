@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Godkender adresse...</string>
     <string name="iap_fetching_payment">Henter betalingsoplysninger...</string>
     <string name="iap_select_delivery">Vælg forsendelsesmetode for denne ordre:</string>
-    <string name="iap_product_detail_title">Produkt detaljer</string>
+    <string name="iap_product_detail_title">Produktoplysninger</string>
+    <string name="iap_zero_results_found">0 resultater fundet for %s</string>
+    <string name="iap_zero_results_message"> Dette filtrerer vores produktliste. Kontroller, at der ikke er stavefejl i dit søgeord</string>
 </resources>
