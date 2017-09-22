@@ -109,13 +109,13 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     @Override
     public void startSearchPharmacy() {
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null);
+        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null, true);
     }
 
     @Override
     public void startEditShippingAddress() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null);
+        addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null, true);
     }
 
     @Override

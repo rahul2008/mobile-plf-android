@@ -25,7 +25,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;
@@ -108,7 +107,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mVisit);
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
-            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle);
+            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle, true);
         }else{
             // video call does completed succesfully so sending back user is
             THSManager.getInstance().setVisitContext(null);

@@ -27,7 +27,7 @@ public class THSInitFragment extends THSBaseFragment{
         initializeSDK(view);
         ActionBarListener actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar(getString(R.string.ths_terms_and_conditions),true);
+            actionBarListener.updateActionBar(getString(R.string.ths_welcome),true);
         }
         return view;
     }
@@ -38,8 +38,12 @@ public class THSInitFragment extends THSBaseFragment{
     }
 
     public void popSelfBeforeTransition() {
-        if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
-            getActivity().getSupportFragmentManager().popBackStack();
+        try {
+            if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        }catch (IllegalStateException exception){
+
         }
     }
 }

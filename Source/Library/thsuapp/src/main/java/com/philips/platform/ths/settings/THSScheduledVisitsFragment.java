@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -22,7 +23,10 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class THSScheduledVisitsFragment extends THSBaseFragment {
     public static final String TAG = THSScheduledVisitsFragment.class.getSimpleName();
@@ -56,8 +60,12 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     }
 
     private void getAppointments() {
+
+        Calendar calendar = Calendar.getInstance();
+        SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+
         try {
-            mThsSchedulesVisitsPresenter.getAppointmentsSince(null);
+            mThsSchedulesVisitsPresenter.getAppointmentsSince(sdkLocalDate);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

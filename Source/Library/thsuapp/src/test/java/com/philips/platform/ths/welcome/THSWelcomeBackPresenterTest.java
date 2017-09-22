@@ -17,8 +17,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,7 +40,7 @@ public class THSWelcomeBackPresenterTest {
         THSWelcomeBackPresenter thsWelcomeBackPresenter = new THSWelcomeBackPresenter(thsWelcomeBackFragmentMock);
         when(thsWelcomeBackFragmentMock.getProvider()).thenReturn(providerMock);
         thsWelcomeBackPresenter.onEvent(R.id.ths_get_started);
-        verify(thsWelcomeBackFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class));
+        verify(thsWelcomeBackFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
 }

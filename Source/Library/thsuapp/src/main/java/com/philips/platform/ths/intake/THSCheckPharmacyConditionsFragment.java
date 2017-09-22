@@ -123,10 +123,10 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             getActivity().getSupportFragmentManager().popBackStack();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                addFragment(fragment, THSCostSummaryFragment.TAG, null);
+                addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
             } else {
                 final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
             }
         }
     }
@@ -156,20 +156,20 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
-        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
+        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null, true);
     }
 
     private void showPharmacySearch() {
         getActivity().getSupportFragmentManager().popBackStack();
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
+        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
         getActivity().getSupportFragmentManager().popBackStack();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
+        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null, true);
     }
 
     @Override

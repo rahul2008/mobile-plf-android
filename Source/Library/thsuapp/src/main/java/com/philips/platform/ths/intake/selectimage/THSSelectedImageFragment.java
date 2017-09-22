@@ -127,7 +127,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     }
 
     @Override
-    public void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle) {
+    public void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle, boolean isReplace) {
 
     }
 

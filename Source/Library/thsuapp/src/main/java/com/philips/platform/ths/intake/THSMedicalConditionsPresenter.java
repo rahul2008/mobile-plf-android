@@ -43,7 +43,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     private void launchFollowUpFragment() {
         final THSFollowUpFragment fragment = new THSFollowUpFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
-        thsBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, null);
+        thsBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, null, true);
     }
 
     public void getConditions() throws AWSDKInstantiationException {

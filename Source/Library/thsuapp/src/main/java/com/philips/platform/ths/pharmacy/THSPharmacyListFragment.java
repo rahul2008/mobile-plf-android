@@ -141,7 +141,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         thsSearchFragment.setActionBarListener(getActionBarListener());
         Bundle bundle = new Bundle();
         bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
-        addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle);
+        addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle, true);
     }
 
     @Override
@@ -389,17 +389,17 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
         if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-            addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
         } else {
             final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-            addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+            addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
         }
     }
 
     public void showShippingFragment() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
-        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null);
+        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
     }
 
     private void setMarkerOnMap(final List<Pharmacy> pharmacies) {

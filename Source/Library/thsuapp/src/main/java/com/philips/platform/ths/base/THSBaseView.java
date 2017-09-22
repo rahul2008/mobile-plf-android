@@ -13,6 +13,6 @@ public interface THSBaseView {
     void finishActivityAffinity();
     FragmentActivity getFragmentActivity();
     int getContainerID();
-    void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle);
+    void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle, boolean isReplace);
     void popFragmentByTag(String fragmentTag,int flag);
 }

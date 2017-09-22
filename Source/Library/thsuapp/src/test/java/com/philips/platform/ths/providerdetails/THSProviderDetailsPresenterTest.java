@@ -30,6 +30,7 @@ import org.mockito.MockitoAnnotations;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -147,7 +148,7 @@ public class THSProviderDetailsPresenterTest {
     @Test
     public void onEventdetailsButtonOne(){
         providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
-        verify(thsBaseFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class));
+        verify(thsBaseFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
     @Test(expected = NullPointerException.class)

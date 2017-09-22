@@ -6,11 +6,8 @@
 
 package com.philips.platform.ths.welcome;
 
-import android.os.Bundle;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
@@ -20,95 +17,34 @@ import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
-import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
-        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
+class THSWelcomePresenter implements THSBasePresenter,
+        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack{
     private THSBaseFragment uiBaseView;
-    protected boolean isFirstTimeUser = false;
-    private int THS_LAUNCH_INPUT = -1;
+    boolean isRefreshTokenRequestedBefore;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
+        isRefreshTokenRequestedBefore = false;
         this.uiBaseView = uiBaseView;
     }
 
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            THS_LAUNCH_INPUT = THSConstants.THS_SCHEDULED_VISITS;
-            if(!isFirstTimeUser) {
-                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null);
-            }else {
-                launchAmwellRegistrationFragment();
-            }
+            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.visit_history) {
-            THS_LAUNCH_INPUT = THSConstants.THS_VISITS_HISTORY;
-            if(!isFirstTimeUser) {
-                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null);
-            }else {
-                launchAmwellRegistrationFragment();
-            }
+            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
-        }else if(componentID == R.id.ths_start){
-            THS_LAUNCH_INPUT = THSConstants.THS_PRACTICES;
-            if(!isFirstTimeUser) {
-                launchPractice();
-            }else {
-                launchAmwellRegistrationFragment();
-            }
-        }
-    }
-
-    private void launchAmwellRegistrationFragment() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THS_LAUNCH_INPUT);
-        THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
-        uiBaseView.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,bundle);
-    }
-
-    private void checkForUserExisitance() {
-        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
-        try {
-            checkIfUserExisits();
-            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"rohit.nihal@philips.com","Philips@123",null,this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void initializeAwsdk() {
-        try {
-            AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
-            THSManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
-        } catch (MalformedURLException | URISyntaxException | AWSDKInstantiationException | AWSDKInitializationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-
-    public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
-        checkForUserExisitance();
-    }
-
-    @Override
-    public void onInitializationFailure(Throwable var1) {
-        uiBaseView.hideProgressBar();
-        if (uiBaseView.getContext() != null) {
-            (uiBaseView).showToast("Init Failed!!!!!");
+        } else if (componentID == R.id.ths_start) {
+            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
         }
     }
 
@@ -116,6 +52,8 @@ class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Voi
     public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
 
         if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+            if (checkIfRefreshTokenWasTriedBefore()) return;
+            isRefreshTokenRequestedBefore = true;
             refreshToken();
             return;
         }
@@ -151,10 +89,6 @@ class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Voi
         });
     }
 
-    private void checkIfUserExisits() throws AWSDKInstantiationException {
-        THSManager.getInstance().checkConsumerExists(uiBaseView.getContext(),this);
-    }
-
     @Override
     public void onLoginFailure(Throwable var1) {
         uiBaseView.hideProgressBar();
@@ -166,37 +100,14 @@ class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Voi
         ((THSWelcomeFragment)uiBaseView).updateView();
     }
 
-    private void launchPractice() {
-        AmwellLog.d("Login","Consumer object received");
-        final THSPracticeFragment fragment = new THSPracticeFragment();
-        fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
-        uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
-    }
-
     @Override
     public void onError(Throwable throwable) {
         uiBaseView.hideProgressBar();
     }
 
-    @Override
-    public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
-        SDKError sdkError = thssdkError.getSdkError();
-        if(null != sdkError){
-            uiBaseView.hideProgressBar();
-            if(null != sdkError.getSDKErrorReason()) {
-                uiBaseView.showToast(sdkError.getSDKErrorReason().name());
-            }
-            return;
-        }
 
-        if(aBoolean){
-            authenticateUser();
-            isFirstTimeUser = false;
-        }else {
-            isFirstTimeUser = true;
-            uiBaseView.hideProgressBar();
-            ((THSWelcomeFragment)uiBaseView).updateView();
-        }
+    public void getStarted() {
+        authenticateUser();
     }
 
     private void authenticateUser() {
@@ -207,8 +118,13 @@ class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Voi
         }
     }
 
-    @Override
-    public void onFailure(Throwable throwable) {
-
+    private boolean checkIfRefreshTokenWasTriedBefore() {
+        if(isRefreshTokenRequestedBefore){
+            isRefreshTokenRequestedBefore = false;
+            uiBaseView.hideProgressBar();
+            uiBaseView.showError(uiBaseView.getString(R.string.ths_user_not_authenticated));
+            return true;
+        }
+        return false;
     }
 }

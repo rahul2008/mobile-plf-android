@@ -8,6 +8,8 @@ package com.philips.platform.ths.welcome;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
+import com.philips.platform.ths.utility.THSManager;
 
 public class THSPreWelcomePresenter implements THSBasePresenter{
     THSPreWelcomeFragment mThsPreWelcomeFragment;
@@ -18,8 +20,13 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
     @Override
     public void onEvent(int componentID) {
         if(componentID == R.id.ths_go_see_provider){
-            THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
-            mThsPreWelcomeFragment.addFragment(thsWelcomeFragment,THSWelcomeFragment.TAG,null);
+            if (THSManager.getInstance().isReturningUser()) {
+                THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
+                mThsPreWelcomeFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
+            }else {
+                THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
+                mThsPreWelcomeFragment.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null, false);
+            }
         }
     }
 }

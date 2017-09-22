@@ -1,8 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+<RelativeLayout
     android:id="@+id/init_container"
     android:layout_width="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <include
         android:id="@+id/how_it_works"
@@ -31,7 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/appointments"
         android:paddingBottom="@dimen/ths_image_size"
-        android:background="@drawable/ths_welcome">
+        android:background="@drawable/ths_welcome"
+        style="@style/ths_alpha"
+       >
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ths_start"
@@ -42,6 +49,7 @@
             android:layout_marginRight="@dimen/ths_fab_margin"
             android:layout_marginBottom="@dimen/ths_image_size"
             android:layout_marginTop="@dimen/ths_image_size"
+            app:uidComponentType="Secondary"
             android:text="@string/ths_see_doctor" />
 
         <ImageView
@@ -87,8 +95,10 @@
             android:enabled="false"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
+            android:layout_marginTop="@dimen/ths_conditions_margin_top"
             android:text="@string/ths_see_provider"
             android:textSize="@dimen/ths_see_provider" />
 
     </RelativeLayout>
 </RelativeLayout>
+</ScrollView>

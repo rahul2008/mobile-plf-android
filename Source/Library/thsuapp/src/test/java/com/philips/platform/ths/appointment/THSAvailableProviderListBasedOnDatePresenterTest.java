@@ -30,7 +30,9 @@ import org.mockito.MockitoAnnotations;
 import java.util.Date;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -123,7 +125,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
     @Test
     public void launchAvailableProviderDetailFragment() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(thsProviderInfoMock,dateMock,practiceMock);
-        verify(thsAvailableProviderListBasedOnDateFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsAvailableProviderListBasedOnDateFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
 }

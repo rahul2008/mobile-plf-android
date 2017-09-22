@@ -62,7 +62,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
        // providerListFragment.setPracticeAndConsumer(practice,mConsumer);
         providerListFragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
-        ((THSPracticeFragment)uiBaseView).addFragment(providerListFragment,THSProvidersListFragment.TAG,bundle);
+        ((THSPracticeFragment)uiBaseView).addFragment(providerListFragment,THSProvidersListFragment.TAG,bundle, false);
        /* providerListFragment.setActionBarListener(getActionBarListener());
 
          getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();

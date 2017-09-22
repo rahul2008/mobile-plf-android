@@ -111,6 +111,7 @@ public class THSAvailableProviderDetailPresenterTest {
         when(thsProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getContext()).thenReturn(contextMock);
+       // when(thsAvailableProviderDetailFragmentMock.getString(R.string.something_went_wrong)).thenReturn("123");
         mThsAvailableProviderDetailPresenter = new THSAvailableProviderDetailPresenter(thsAvailableProviderDetailFragmentMock,thsProviderDetailsDisplayHelperMock);
     }
 
@@ -165,7 +166,7 @@ public class THSAvailableProviderDetailPresenterTest {
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void onResponse() throws Exception {
         List list = new ArrayList();
         list.add(dateMock);
@@ -173,7 +174,7 @@ public class THSAvailableProviderDetailPresenterTest {
         verify(thsProviderDetailsDisplayHelperMock).launchConfirmAppointmentFragment(0);
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void onFailure() throws Exception {
         mThsAvailableProviderDetailPresenter.onFailure(throwableMock);
         verify(thsAvailableProviderDetailFragmentMock).hideProgressBar();

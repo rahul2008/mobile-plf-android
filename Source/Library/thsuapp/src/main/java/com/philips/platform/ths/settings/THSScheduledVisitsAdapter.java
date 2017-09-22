@@ -8,6 +8,7 @@ package com.philips.platform.ths.settings;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,15 +32,20 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_EARLY_FOR_APPOINTMENT;
 import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
 
 public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduledVisitsAdapter.CustomViewHolder>  {
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
     AlertDialogFragment alertDialogFragment;
+    final int FIFTEEN = 15;
 
     public THSScheduledVisitsAdapter(List<Appointment> appointments, THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mAppointmentList = appointments;
@@ -61,7 +67,9 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         final Provider assignedProvider = appointment.getAssignedProvider();
         final PracticeInfo practiceInfo = appointment.getAssignedProvider().getPracticeInfo();
         final Long scheduledStartTime = appointment.getSchedule().getScheduledStartTime();
-        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
+
+        final Date dateScheduled = new Date(scheduledStartTime);
+        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(dateScheduled).toString();
         holder.mLabelAppointmrntDate.setText(date);
 
         holder.mLabelPracticeName.setText(assignedProvider.getSpecialty().getName());
@@ -89,11 +97,26 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         holder.mStartVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putLong(THSConstants.THS_DATE,scheduledStartTime);
-                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practiceInfo);
-                bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
-                mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG,bundle);
+
+                Calendar currentCalendar = Calendar.getInstance();
+                Date dateCurrent = currentCalendar.getTime();
+                final long utcCurrentMilliseconds = dateCurrent.getTime();
+
+                Calendar scheduledCalendar = Calendar.getInstance();
+                scheduledCalendar.setTime(dateScheduled);
+                Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
+
+                if(utcCurrentMilliseconds>utcScheduledMilliseconds){
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
+                }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);
+                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practiceInfo);
+                    bundle.putParcelable(THSConstants.THS_PROVIDER, appointment.getAssignedProvider());
+                    mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG, bundle, false);
+                }
             }
         });
 
@@ -103,11 +126,18 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
                 bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practiceInfo);
-                mThsScheduledVisitsFragment.addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
+                mThsScheduledVisitsFragment.addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle, false);
             }
         };
         holder.mProviderLayout.setOnClickListener(listener);
 
+    }
+
+    private boolean isUserArrivedEarly(long utcCurrentMilliseconds, Long utcScheduledMilliseconds) {
+        if (Math.abs(utcScheduledMilliseconds - utcCurrentMilliseconds) > TimeUnit.MINUTES.toMillis(FIFTEEN)) {
+            return true;
+        }
+        return false;
     }
 
 

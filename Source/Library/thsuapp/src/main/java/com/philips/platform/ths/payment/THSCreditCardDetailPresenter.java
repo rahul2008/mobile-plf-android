@@ -7,8 +7,6 @@
 package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
@@ -174,7 +172,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 }
                 final THSCreditCardBillingAddressFragment fragment = new THSCreditCardBillingAddressFragment();
                 fragment.setFragmentLauncher(mTHSCreditCardDetailFragment.getFragmentLauncher());
-                mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle);
+                mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle, true);
             }
 
         }

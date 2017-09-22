@@ -7,8 +7,10 @@
 package com.philips.platform.ths.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.ProgressBar;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 
 public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener {
@@ -70,18 +76,22 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     }
 
     @Override
-    public void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle) {
+    public void addFragment(THSBaseFragment fragment, String fragmentTag, Bundle bundle, boolean isReplace) {
         //TODO: The try catch block will be removed when the loading will not be done on Back press
         try {
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction;
             fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
+            if(isReplace) {
+                fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
+            }else {
+                fragmentTransaction.add(getContainerID(), fragment, fragmentTag);
+            }
             fragmentTransaction.addToBackStack(fragmentTag);
             fragment.setFragmentLauncher(getFragmentLauncher());
             fragment.setActionBarListener(getActionBarListener());
             fragmentTransaction.commit();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -140,5 +150,32 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     @Override
     public boolean handleBackEvent() {
         return false;
+    }
+
+    public void showError(String message) {
+        AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
+        if (null != alertDialogFragmentUserNotLoggedIn) {
+            alertDialogFragmentUserNotLoggedIn.dismiss();
+        }
+
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity());
+        builder.setMessage(message);
+        builder.setTitle(getResources().getString(R.string.ths_matchmaking_error));
+
+        alertDialogFragmentUserNotLoggedIn = builder.setCancelable(false).create();
+        View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentUserNotLoggedIn);
+        builder.setPositiveButton(getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
+        alertDialogFragmentUserNotLoggedIn.setPositiveButtonListener(onClickListener);
+        alertDialogFragmentUserNotLoggedIn.show(getFragmentManager(), THS_USER_NOT_LOGGED_IN);
+    }
+
+    @NonNull
+    private View.OnClickListener getOnClickListener(final AlertDialogFragment finalAlertDialogFragmentStartVisit) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalAlertDialogFragmentStartVisit.dismiss();
+            }
+        };
     }
 }

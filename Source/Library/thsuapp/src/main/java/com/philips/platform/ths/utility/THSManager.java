@@ -149,6 +149,7 @@ public class THSManager {
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
 
+    private boolean mIsReturningUser = true;
 
 
     @VisibleForTesting
@@ -275,6 +276,7 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().checkConsumerExists(getUser(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
+                setIsReturningUser(aBoolean);
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
                 thsCheckConsumerExistsCallback.onResponse(aBoolean,thssdkError);
@@ -308,6 +310,7 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                setIsReturningUser(true);
                 THSConsumer thsConsumer = new THSConsumer();
                 thsConsumer.setConsumer(consumer);
                 setPTHConsumer(thsConsumer);
@@ -355,6 +358,9 @@ public class THSManager {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
+
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com/");
+        initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
 
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
@@ -1250,7 +1256,11 @@ public class THSManager {
                 return " ";
             }
         }
-        return propertyForKey.toString();
+        if(propertyForKey!=null) {
+            return propertyForKey.toString();
+        }else {
+            return " ";
+        }
     }
 
     private AppInfraInterface getAppInfra() {
@@ -1421,5 +1431,13 @@ public class THSManager {
             }
         });
 
+    }
+
+    public boolean isReturningUser() {
+        return mIsReturningUser;
+    }
+
+    public void setIsReturningUser(boolean firstTimeUser) {
+        mIsReturningUser = firstTimeUser;
     }
 }

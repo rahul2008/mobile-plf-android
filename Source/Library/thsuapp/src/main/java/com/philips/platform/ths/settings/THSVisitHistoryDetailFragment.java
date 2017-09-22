@@ -13,8 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
@@ -113,7 +111,6 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
         mRelativeLayoutDownloadReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // mThsVisitHistoryPresenter.onEvent(R.id.ths_pdf_container);
                 THSDownloadReportPrivacyNoticeFragment tHSDownloadReportPrivacyNoticeFragment = new THSDownloadReportPrivacyNoticeFragment();
                 tHSDownloadReportPrivacyNoticeFragment.setPresenter(mThsVisitHistoryPresenter);
                 tHSDownloadReportPrivacyNoticeFragment.show(getFragmentManager(),"TAG");
@@ -178,7 +175,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,visitReportDetail.getAssignedProviderInfo());
                 bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,visitReportDetail.getAssignedProviderInfo().getPracticeInfo());
-                addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
+                addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle, false);
             }
         });
     }

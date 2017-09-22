@@ -99,7 +99,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                                                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPractice());
                                                     bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
                                                     bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
-                                                    mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle);
+                                                    mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
                                                     mThsBaseFragment.hideProgressBar();
                                                 } else {
                                                     dateList = dates;
@@ -177,11 +177,24 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onResponse(Object o, SDKError sdkError) {
-        mthsProviderDetailsDisplayHelper.launchConfirmAppointmentFragment(position);
+        if(sdkError == null) {
+            mthsProviderDetailsDisplayHelper.launchConfirmAppointmentFragment(position);
+        }else {
+            if(sdkError.getSDKErrorReason()!=null && sdkError.getSDKErrorReason().name()!=null) {
+                mThsBaseFragment.showError(sdkError.getSDKErrorReason().name());
+            }else {
+                mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
+            }
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+        if (throwable!=null && throwable.getMessage()!=null) {
+            mThsBaseFragment.showToast(throwable.getMessage());
+        }else {
+            mThsBaseFragment.showToast(mThsBaseFragment.getString(R.string.something_went_wrong));
+        }
         mThsBaseFragment.hideProgressBar();
     }
 
@@ -208,6 +221,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onValidationFailure(Map var1) {
-
+        mThsBaseFragment.showToast(var1.toString());
     }
 }
