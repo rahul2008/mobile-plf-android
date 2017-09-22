@@ -24,8 +24,8 @@
         android:layout_below="@+id/pth_insurance_confirmation_situation"
 
         android:layout_marginTop="25dp"
-        android:text="Choose one of these optios:"
-        android:textColor="@color/uidColorBlack"
+        android:text="Choose one of these options:"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
         android:textSize="@dimen/ths_body_text"
         fontPath="fonts/centralesansbold.ttf"/>
 

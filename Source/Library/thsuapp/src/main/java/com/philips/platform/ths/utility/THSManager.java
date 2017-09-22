@@ -760,7 +760,7 @@ public class THSManager {
         });
     }
 
-    public void getLegaltext(Context context, LegalText legalText, final THSNoticeOfPrivacyPracticesCallBack thsNoticeOfPrivacyPracticesCallBack) throws AWSDKInstantiationException {
+    /*public void getLegaltext(Context context, LegalText legalText, final THSNoticeOfPrivacyPracticesCallBack thsNoticeOfPrivacyPracticesCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getLegalText(legalText, new SDKCallback<String, SDKError>() {
             @Override
             public void onResponse(String s, SDKError sdkError) {
@@ -773,7 +773,7 @@ public class THSManager {
             }
         });
     }
-
+*/
     public void getPharmacies(Context context, final THSConsumer thsConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
             @Override
@@ -1394,20 +1394,26 @@ public class THSManager {
         });
     }
 
-    public void cancelMatchMaking(Context context, THSVisitContext thsVisitContext, final THSCancelMatchMakingCallback<Void, THSSDKError> tHSCancelMatchMakingCallback)throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext.getVisitContext(), new SDKCallback<Void, SDKError>() {
-            @Override
-            public void onResponse(Void aVoid, SDKError sdkError) {
-                THSSDKError thssdkError = new THSSDKError();
-                thssdkError.setSdkError(sdkError);
-                tHSCancelMatchMakingCallback.onCancelMatchMakingResponse(aVoid,thssdkError);
-            }
+    public void cancelMatchMaking(Context context, THSVisitContext thsVisitContext)throws AWSDKInstantiationException {
+        try {
+            getAwsdk(context).getVisitManager().cancelMatchmaking(thsVisitContext.getVisitContext(), new SDKCallback<Void, SDKError>() {
+                @Override
+                public void onResponse(Void aVoid, SDKError sdkError) {
+                    if (null == sdkError) {
+                        AmwellLog.v("cancelMatchMaking", "success");
+                    } else {
+                        AmwellLog.v("cancelMatchMaking", "failure");
+                    }
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                tHSCancelMatchMakingCallback.onCancelMatchMakingFailure(throwable);
-            }
-        });
+                @Override
+                public void onFailure(Throwable throwable) {
+                    AmwellLog.v("cancelMatchMaking", "failure");
+                }
+            });
+        }catch(Exception e){
+            AmwellLog.v("cancelMatchMaking", "failure");
+        }
 
     }
     public void applyCouponCode(Context context, THSVisit thsVisit, String couponCode, final ApplyCouponCallback<Void, THSSDKError> applyCouponCallback) throws AWSDKInstantiationException{
