@@ -60,7 +60,6 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
-import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
@@ -213,7 +212,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         if (i == R.id.select_from_gallery) {
             userChosenTask = getString(R.string.ths_intake_symptoms_choose_from_library);
             dialog.dismiss();
-            requestPermission();
+            requestWritePermission();
         }
         if (i == R.id.camera_image) {
             userChosenTask = getString(R.string.ths_intake_symptoms_take_photo);
@@ -253,11 +252,15 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                             Manifest.permission.CAMERA},
                     REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA);
         } else {
-            if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_take_photo))) {
-                cameraIntent();
-            } else if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_choose_from_library))) {
-                galleryIntent();
-            }
+            chooseUserTask();
+        }
+    }
+
+    private void chooseUserTask() {
+        if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_take_photo))) {
+            cameraIntent();
+        } else if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_choose_from_library))) {
+            galleryIntent();
         }
     }
 
@@ -269,7 +272,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-            thsSymptomsPresenter.fetchHealthDocuments();
+            chooseUserTask();
         }
     }
 
@@ -356,17 +359,15 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_take_photo)))
-                        cameraIntent();
-                    else if (userChosenTask.equals(getString(R.string.ths_intake_symptoms_choose_from_library)))
-                        galleryIntent();
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    chooseUserTask();
                 } else {
                     showToast(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
                 }
                 break;
             case REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    chooseUserTask();
                 } else {
                     showToast(getString(R.string.ths_intake_symptoms_image_selection_permission_denied));
                 }
