@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_EARLY_FOR_APPOINTMENT;
 import static com.philips.platform.ths.visit.THSWaitingRoomFragment.CANCEL_VISIT_ALERT_DIALOG_TAG;
@@ -44,6 +45,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
     List<Appointment> mAppointmentList;
     THSScheduledVisitsFragment mThsScheduledVisitsFragment;
     AlertDialogFragment alertDialogFragment;
+    final int FIFTEEN = 15;
 
     public THSScheduledVisitsAdapter(List<Appointment> appointments, THSScheduledVisitsFragment thsScheduledVisitsFragment) {
         mAppointmentList = appointments;
@@ -65,7 +67,9 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         final Provider assignedProvider = appointment.getAssignedProvider();
         final PracticeInfo practiceInfo = appointment.getAssignedProvider().getPracticeInfo();
         final Long scheduledStartTime = appointment.getSchedule().getScheduledStartTime();
-        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(scheduledStartTime).toString();
+
+        final Date dateScheduled = new Date(scheduledStartTime);
+        final String date = new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(dateScheduled).toString();
         holder.mLabelAppointmrntDate.setText(date);
 
         holder.mLabelPracticeName.setText(assignedProvider.getSpecialty().getName());
@@ -94,21 +98,18 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
             @Override
             public void onClick(View view) {
 
-                Calendar c = Calendar.getInstance();
+                Calendar currentCalendar = Calendar.getInstance();
+                Date dateCurrent = currentCalendar.getTime();
+                final long utcCurrentMilliseconds = dateCurrent.getTime();
 
-                Date dateCurrent = new Date();
-                c.setTime(dateCurrent);
-                int utcCurrentOffset = c.get(Calendar.ZONE_OFFSET) + c.get(Calendar.DST_OFFSET);
-                Long utcCurrentMilliseconds = c.getTimeInMillis() + utcCurrentOffset;
+                Calendar scheduledCalendar = Calendar.getInstance();
+                scheduledCalendar.setTime(dateScheduled);
+                Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
-                Date dateScheduled = new Date(scheduledStartTime);
-                c.setTime(dateScheduled);
-                int utcScheduledOffsets = c.get(Calendar.ZONE_OFFSET) + c.get(Calendar.DST_OFFSET);
-                Long utcScheduledMilliseconds = c.getTimeInMillis() + utcScheduledOffsets;
-
-
-                if(utcCurrentMilliseconds < utcScheduledMilliseconds && utcScheduledMilliseconds-utcCurrentMilliseconds>15000000){
-                    showError();
+                if(utcCurrentMilliseconds>utcScheduledMilliseconds){
+                    showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
+                }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
+                    showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);
@@ -130,6 +131,13 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         };
         holder.mProviderLayout.setOnClickListener(listener);
 
+    }
+
+    private boolean isUserArrivedEarly(long utcCurrentMilliseconds, Long utcScheduledMilliseconds) {
+        if (Math.abs(utcScheduledMilliseconds - utcCurrentMilliseconds) > TimeUnit.MINUTES.toMillis(FIFTEEN)) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -197,14 +205,14 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         alertDialogFragment.setNegativeButtonListener(negativeButtonListener);
     }
 
-    public void showError() {
+    public void showError(String message) {
         AlertDialogFragment alertDialogFragmentStartVisit = (AlertDialogFragment) mThsScheduledVisitsFragment.getFragmentManager().findFragmentByTag(THS_EARLY_FOR_APPOINTMENT);
         if (null != alertDialogFragmentStartVisit) {
             alertDialogFragmentStartVisit.dismiss();
         }
 
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsScheduledVisitsFragment.getFragmentActivity());
-        builder.setMessage(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
+        builder.setMessage(message);
         builder.setTitle(mThsScheduledVisitsFragment.getResources().getString(R.string.ths_matchmaking_error));
 
         alertDialogFragmentStartVisit = builder.setCancelable(false).create();
