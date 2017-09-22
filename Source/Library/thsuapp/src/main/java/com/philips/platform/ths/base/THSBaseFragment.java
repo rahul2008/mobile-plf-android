@@ -175,7 +175,6 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
             @Override
             public void onClick(View v) {
                 finalAlertDialogFragmentStartVisit.dismiss();
-                popFragmentByTag(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         };
     }

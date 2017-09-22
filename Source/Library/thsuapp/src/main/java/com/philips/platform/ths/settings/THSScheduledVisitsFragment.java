@@ -60,9 +60,8 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     }
 
     private void getAppointments() {
-        Date date = new Date();
+
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
         SDKLocalDate sdkLocalDate = new SDKLocalDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 
         try {

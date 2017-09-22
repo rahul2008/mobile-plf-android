@@ -107,9 +107,9 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 Long utcScheduledMilliseconds = scheduledCalendar.getTime().getTime();
 
                 if(utcCurrentMilliseconds>utcScheduledMilliseconds){
-                    showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.late_for_appointment));
                 }else if(isUserArrivedEarly(utcCurrentMilliseconds, utcScheduledMilliseconds)){
-                    showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
+                    mThsScheduledVisitsFragment.showError(mThsScheduledVisitsFragment.getString(R.string.early_for_appointment));
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);
@@ -203,33 +203,5 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
         alertDialogFragment.show(mThsScheduledVisitsFragment.getFragmentManager(), CANCEL_VISIT_ALERT_DIALOG_TAG);
         alertDialogFragment.setPositiveButtonListener(positiveButtonListener);
         alertDialogFragment.setNegativeButtonListener(negativeButtonListener);
-    }
-
-    public void showError(String message) {
-        AlertDialogFragment alertDialogFragmentStartVisit = (AlertDialogFragment) mThsScheduledVisitsFragment.getFragmentManager().findFragmentByTag(THS_EARLY_FOR_APPOINTMENT);
-        if (null != alertDialogFragmentStartVisit) {
-            alertDialogFragmentStartVisit.dismiss();
-        }
-
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsScheduledVisitsFragment.getFragmentActivity());
-        builder.setMessage(message);
-        builder.setTitle(mThsScheduledVisitsFragment.getResources().getString(R.string.ths_matchmaking_error));
-
-        alertDialogFragmentStartVisit = builder.setCancelable(false).create();
-        View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentStartVisit);
-        builder.setPositiveButton(mThsScheduledVisitsFragment.getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
-        alertDialogFragmentStartVisit.setPositiveButtonListener(onClickListener);
-        alertDialogFragmentStartVisit.show(mThsScheduledVisitsFragment.getFragmentManager(), THS_EARLY_FOR_APPOINTMENT);
-    }
-
-    @NonNull
-    private View.OnClickListener getOnClickListener(final AlertDialogFragment finalAlertDialogFragmentStartVisit) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finalAlertDialogFragmentStartVisit.dismiss();
-
-            }
-        };
     }
 }
