@@ -197,8 +197,8 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
 
 
         mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
-        mStateDropDown = new StateDropDown(mContext, mEtState, this);
-
+        mStateDropDown = new StateDropDown(this);
+        mStateDropDown.createPopUp(mEtState,mContext);
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

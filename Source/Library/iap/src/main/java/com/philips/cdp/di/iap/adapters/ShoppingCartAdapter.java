@@ -63,6 +63,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mResources = context.getResources();
         mData = shoppingCartData;
         mOutOfStock = isOutOfStock;
+        //setCountArrow(context,true);
     }
 
     private void setCountArrow(final Context context, final boolean isEnable) {
@@ -108,7 +109,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onClick(final View v) {
                 final ShoppingCartData data = mData.get(position);
 
-                CountDropDown countPopUp = new CountDropDown(v, data.getStockLevel(), data
+                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), data.getStockLevel(), data
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
@@ -118,6 +119,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
+                countPopUp.createPopUp();
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
@@ -333,7 +335,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
+     class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
         TextView mTvPrice;
         TextView mTvActualPrice;
@@ -361,7 +363,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
+     class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
         TextView mDeliveryPrice;
         TextView mVatValue;
         TextView mVatInclusiveValue;

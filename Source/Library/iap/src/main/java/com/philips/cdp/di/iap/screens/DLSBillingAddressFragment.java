@@ -188,7 +188,8 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         });
 
         mEtStateBilling.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
-        mStateDropDownBilling = new StateDropDown(mContext, mEtStateBilling, this);
+        mStateDropDownBilling = new StateDropDown(this);
+        mStateDropDownBilling.createPopUp(mEtStateBilling,mContext);
         mEtStateBilling.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
