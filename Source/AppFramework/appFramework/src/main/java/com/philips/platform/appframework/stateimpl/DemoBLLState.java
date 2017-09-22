@@ -8,17 +8,17 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
-import android.widget.Toast;
 
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppSettings;
+import com.example.cdpp.bluelibexampleapp.uapp.DefaultBleDemoMicroAppDependencies;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-/**
- * Created by philips on 04/07/17.
- */
+import static com.janrain.android.engage.JREngage.getApplicationContext;
 
-public class DemoBLLState extends BaseState {
+public class DemoBLLState extends DemoBaseState {
     private Context context;
 
     public DemoBLLState() {
@@ -27,13 +27,16 @@ public class DemoBLLState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        //TODO:Needs to launch blue lib demo micro app
+        BleDemoMicroAppInterface uAppInterface = BleDemoMicroAppInterface.getInstance();
+        uAppInterface.init(new DefaultBleDemoMicroAppDependencies(context.getApplicationContext()), new BleDemoMicroAppSettings(getApplicationContext()));// pass App-infra instance instead of null
+
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
     }
 
     @Override
     public void init(Context context) {
         this.context = context;
-        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
     }
 
     @Override
