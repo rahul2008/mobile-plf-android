@@ -82,12 +82,12 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction;
             fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(getContainerID(), fragment, fragmentTag);
+            fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
             fragmentTransaction.addToBackStack(fragmentTag);
             fragment.setFragmentLauncher(getFragmentLauncher());
             fragment.setActionBarListener(getActionBarListener());
             fragmentTransaction.commit();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

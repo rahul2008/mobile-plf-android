@@ -19,14 +19,8 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
-import com.philips.platform.ths.practice.THSPracticeFragment;
-import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
-import com.philips.platform.ths.settings.THSVisitHistoryFragment;
-import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.Calendar;

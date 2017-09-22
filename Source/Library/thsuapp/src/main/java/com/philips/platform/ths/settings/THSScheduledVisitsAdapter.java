@@ -22,7 +22,6 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;

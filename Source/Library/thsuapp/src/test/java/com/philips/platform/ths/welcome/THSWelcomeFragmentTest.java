@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
@@ -50,6 +51,9 @@ public class THSWelcomeFragmentTest {
     ActionBarListener actionBarListenerMock;
 
     @Mock
+    User userMock;
+
+    @Mock
     FragmentLauncher fragmentLauncherMock;
 
     @Mock
@@ -80,6 +84,9 @@ public class THSWelcomeFragmentTest {
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
         //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
         mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
+
+        THSManager.getInstance().TEST_FLAG = true;
+        THSManager.getInstance().setUser(userMock);
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
     }
 

@@ -25,7 +25,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;

@@ -6,26 +6,16 @@
 
 package com.philips.platform.ths.settings;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.VisitReport;
-import com.americanwell.sdk.entity.visit.VisitReportDetail;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
-import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;

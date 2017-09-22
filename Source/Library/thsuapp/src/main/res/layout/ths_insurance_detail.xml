@@ -9,8 +9,9 @@
         android:id="@+id/ths_insurance_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/ths_fab_margin"
-        android:layout_marginRight="@dimen/ths_fab_margin">
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin">
 
 
         <com.philips.platform.uid.view.widget.Label

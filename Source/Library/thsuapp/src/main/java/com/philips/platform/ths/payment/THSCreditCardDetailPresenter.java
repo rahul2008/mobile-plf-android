@@ -7,8 +7,6 @@
 package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;

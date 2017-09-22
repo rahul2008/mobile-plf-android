@@ -15,7 +15,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
-import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;

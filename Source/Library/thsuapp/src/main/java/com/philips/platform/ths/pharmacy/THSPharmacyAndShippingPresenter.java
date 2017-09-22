@@ -6,17 +6,12 @@
 
 package com.philips.platform.ths.pharmacy;
 
-import android.os.Bundle;
-
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.utility.THSManager;
-
-import static com.philips.platform.ths.utility.THSConstants.IS_INSURANCE_AVAILABLE_KEY;
 
 public class THSPharmacyAndShippingPresenter implements THSBasePresenter {
 

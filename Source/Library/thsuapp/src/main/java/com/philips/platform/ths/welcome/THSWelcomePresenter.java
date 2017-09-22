@@ -6,11 +6,8 @@
 
 package com.philips.platform.ths.welcome;
 
-import android.os.Bundle;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
@@ -20,17 +17,11 @@ import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
-import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import javax.net.ssl.HttpsURLConnection;
 
