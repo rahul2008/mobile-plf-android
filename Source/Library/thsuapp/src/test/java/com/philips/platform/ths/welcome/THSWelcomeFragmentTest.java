@@ -5,7 +5,9 @@ import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -30,6 +32,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -68,6 +71,9 @@ public class THSWelcomeFragmentTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+    @Mock
+    AppConfigurationInterface appConfigurationInterfaceMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -77,6 +83,8 @@ public class THSWelcomeFragmentTest {
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
+        when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
         mActivity = Robolectric.buildActivity(THSLaunchActivityTestMock.class).create().get();
@@ -85,8 +93,14 @@ public class THSWelcomeFragmentTest {
         //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
         mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
 
+
+
         THSManager.getInstance().TEST_FLAG = true;
         THSManager.getInstance().setUser(userMock);
+
+        when(userMock.getHsdpUUID()).thenReturn("123");
+        when(userMock.getHsdpAccessToken()).thenReturn("123");
+
         SupportFragmentTestUtil.startFragment(mWelcomeFragment);
     }
 
@@ -122,6 +136,7 @@ public class THSWelcomeFragmentTest {
 
     @Test
     public void handleBackEvent() throws Exception {
+
         Assert.assertEquals(mWelcomeFragment.handleBackEvent(), false);
     }
 

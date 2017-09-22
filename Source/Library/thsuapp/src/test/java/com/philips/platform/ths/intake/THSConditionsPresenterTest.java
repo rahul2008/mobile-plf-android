@@ -27,8 +27,10 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -101,7 +103,7 @@ public class THSConditionsPresenterTest {
     @Test
     public void onEventSkipBtn() throws Exception {
         thsMedicalConditionsPresenter.onEvent(R.id.conditions_skip);
-        verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class), true);
+        verify(pTHBaseViewMock, atLeast(1)).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
     @Test

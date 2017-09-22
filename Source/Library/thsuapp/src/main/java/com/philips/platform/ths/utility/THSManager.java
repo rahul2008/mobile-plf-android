@@ -1256,7 +1256,11 @@ public class THSManager {
                 return " ";
             }
         }
-        return propertyForKey.toString();
+        if(propertyForKey!=null) {
+            return propertyForKey.toString();
+        }else {
+            return " ";
+        }
     }
 
     private AppInfraInterface getAppInfra() {

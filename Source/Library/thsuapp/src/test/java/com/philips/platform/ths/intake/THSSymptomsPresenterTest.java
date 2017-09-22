@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -210,7 +211,7 @@ public class THSSymptomsPresenterTest {
     @Test
     public void onEventTest(){
         pthSymptomsPresenter.onEvent(R.id.continue_btn);
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
     @Test

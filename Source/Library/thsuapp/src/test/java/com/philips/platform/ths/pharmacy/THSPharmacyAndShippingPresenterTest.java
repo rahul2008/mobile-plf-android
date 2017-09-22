@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,6 +59,6 @@ public class THSPharmacyAndShippingPresenterTest {
         thsPharmacyAndShippingPresenter.onEvent(R.id.ps_edit_consumer_shipping_address);
         verify(thsPharmacyShippingViewInterface).startEditShippingAddress();
         thsPharmacyAndShippingPresenter.onEvent(R.id.ths_ps_continue_button);
-        verify(thsPharmacyShippingViewInterface).addFragment(any(THSBaseFragment.class),any(String.class),any(Bundle.class), true);
+        verify(thsPharmacyShippingViewInterface).addFragment(any(THSBaseFragment.class),any(String.class),any(Bundle.class), anyBoolean());
     }
 }

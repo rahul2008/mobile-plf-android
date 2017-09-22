@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -89,13 +91,13 @@ public class THSMedicationPresenterTest {
     @Test
     public void onEvent_ths_existing_medicine_footer_relative_layout() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
-        verify(thsMedicationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
+        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
     @Test
     public void onEvent_ths_intake_medication_skip_step_label() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
-        verify(thsMedicationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
+        verify(thsMedicationFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 
     @Test
