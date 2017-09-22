@@ -19,7 +19,7 @@ ext.versions = [
 		sdb_securedblibrary        : "1.3.0",
 		ths_telehealth             : "2.1.0",
 		uaf_uAppFwLib              : "1.7.0",
-		uid_uid                    : "0.1.1",
+		uid_uid                    : "1.0.0",
 		uit_uikitLib               : "3.10.0",
 		usr_registrationApi        : "11.0.0",
 		usr_jump                   : "7.0.0",
