@@ -174,8 +174,8 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popFragmentByTag(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 finalAlertDialogFragmentStartVisit.dismiss();
+                popFragmentByTag(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         };
     }

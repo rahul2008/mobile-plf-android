@@ -38,8 +38,12 @@ public class THSInitFragment extends THSBaseFragment{
     }
 
     public void popSelfBeforeTransition() {
-        if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
-            getActivity().getSupportFragmentManager().popBackStack();
+        try {
+            if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        }catch (IllegalStateException exception){
+
         }
     }
 }
