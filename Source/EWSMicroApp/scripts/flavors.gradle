@@ -3,28 +3,24 @@ android {
 
     productFlavors {
         dev {
-            applicationIdSuffix ".dev"
             buildConfigField "String", "HSDPConfigurationShared", "\"bf133f9a-9161-11e6-ae22-56b6b6499611\""
             buildConfigField "String", "HSDPConfigurationSecret", "\"0ca3bddd404650466eaffbf6f45600901882677672fe15a138bfe72902d5bbb23d378becbb18d8c57c15a6e462e5ba0fb9f6d963fcd82f575a18ae5131c76444\""
             buildConfigField "boolean", "IS_PRODUCTION", "false"
             buildConfigField "String", "CQ5_APP_MIN_VERSION_URL", "\"https://www.philips.com/c-dam/b2c/apps/11400/master/asset-feed/version_check_dev.json\""
         }
         eval {
-            applicationIdSuffix ".evaluation"
             buildConfigField "String", "HSDPConfigurationShared", "\"1dc17704-0c42-4850-a1c8-64eb19b8be11\""
             buildConfigField "String", "HSDPConfigurationSecret", "\"f8ed00d608ee6c8660f7f32dbc30b6eda18fa9eb3ff2c5f3089c193f6b7fb02785f6d44c90fc8f45dd4e0d1faf8ef4be7e7f85e8853959e08f2dec17ecc1c1af\""
             buildConfigField "boolean", "IS_PRODUCTION", "false"
             buildConfigField "String", "CQ5_APP_MIN_VERSION_URL", "\"https://www.philips.com/c-dam/b2c/apps/11400/master/asset-feed/version_check_eval.json\""
         }
         staging{
-            applicationIdSuffix ".staging"
             buildConfigField "String", "HSDPConfigurationShared", "\"1dc17704-0c42-4850-a1c8-64eb19b8be11\""
             buildConfigField "String", "HSDPConfigurationSecret", "\"f8ed00d608ee6c8660f7f32dbc30b6eda18fa9eb3ff2c5f3089c193f6b7fb02785f6d44c90fc8f45dd4e0d1faf8ef4be7e7f85e8853959e08f2dec17ecc1c1af\""
             buildConfigField "boolean", "IS_PRODUCTION", "false"
             buildConfigField "String", "CQ5_APP_MIN_VERSION_URL", "\"https://www.philips.com/c-dam/b2c/apps/11400/master/asset-feed/version_check_stag.json\""
         }
         tst{
-            applicationIdSuffix ".test"
             buildConfigField "String", "HSDPConfigurationShared", "\"bf133f9a-9161-11e6-ae22-56b6b6499611\""
             buildConfigField "String", "HSDPConfigurationSecret", "\"0ca3bddd404650466eaffbf6f45600901882677672fe15a138bfe72902d5bbb23d378becbb18d8c57c15a6e462e5ba0fb9f6d963fcd82f575a18ae5131c76444\""
             buildConfigField "boolean", "IS_PRODUCTION", "false"
