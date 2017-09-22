@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Validation de l\'adresse...</string>
     <string name="iap_fetching_payment">Recherche des détails du paiement...</string>
     <string name="iap_select_delivery">Sélectionnez un mode de livraison pour cette commande :</string>
-    <string name="iap_product_detail_title">﻿Détails du produit</string>
+    <string name="iap_product_detail_title">Détails produit</string>
+    <string name="iap_zero_results_found"> 0 résultat trouvé pour %s</string>
+    <string name="iap_zero_results_message"> Cela permet de filtrer notre liste de produits. Veuillez vérifier qu\'il n\'y a pas d\'erreurs dans votre filtre.</string>
 </resources>

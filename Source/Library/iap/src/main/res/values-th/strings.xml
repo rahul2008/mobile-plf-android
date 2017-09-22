@@ -207,5 +207,7 @@
     <string name="iap_validating_address">กำลังตรวจสอบที่อยู่...</string>
     <string name="iap_fetching_payment">กำลังดึงรายละเอียดการชำระเงิน...</string>
     <string name="iap_select_delivery">โปรดเลือกวิธีการจัดส่งสินค้าสำหรับการสั่งซื้อครั้งนี้:</string>
-    <string name="iap_product_detail_title">﻿รายละเอียดสินค้า</string>
+    <string name="iap_product_detail_title">﻿รายละเอียดผลิตภัณฑ์</string>
+    <string name="iap_zero_results_found">ไม่พบผลลัพธ์สำหรับ %s</string>
+    <string name="iap_zero_results_message"> นี่เป็นการกรองรายการผลิตภัณฑ์ของเรา โปรดตรวจทานให้ดีว่าคำกรองของคุณไม่มีการพิมพ์ผิด</string>
 </resources>

@@ -208,4 +208,6 @@
     <string name="iap_fetching_payment">Se preiau detaliile plăţii...</string>
     <string name="iap_select_delivery">Selectează metoda de livrare pentru această comandă:</string>
     <string name="iap_product_detail_title">Detalii produs</string>
+    <string name="iap_zero_results_found"> Niciun rezultat găsit pentru %s</string>
+    <string name="iap_zero_results_message"> Aceasta ne filtrează lista de produse. Verifică dacă nu sunt greşeli de ortografie în termenul de filtrare</string>
 </resources>

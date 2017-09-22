@@ -207,5 +207,6 @@
     <string name="iap_validating_address">מאמת כתובת...</string>
     <string name="iap_fetching_payment">מביא פרטי תשלום...</string>
     <string name="iap_select_delivery">בחר את אמצעי המשלוח שלך להזמנה זו:</string>
-    <string name="iap_product_detail_title">﻿פרטי מוצר</string>
+    <string name="iap_product_detail_title"> פרטי המוצר</string>
+    <string name="iap_zero_results_found"> נמצאו 0 תוצאות עבור </string>
 </resources>

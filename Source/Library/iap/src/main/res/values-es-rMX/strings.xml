@@ -208,4 +208,6 @@
     <string name="iap_fetching_payment">Obteniendo detalles de pago…</string>
     <string name="iap_select_delivery">Seleccione el método de entrega para este pedido:</string>
     <string name="iap_product_detail_title">Detalles del producto</string>
+    <string name="iap_zero_results_found">Se encontraron 0 resultados para %s</string>
+    <string name="iap_zero_results_message"> Esto se utiliza para filtrar nuestra lista de productos. Verifica que no haya errores tipográficos en tu término del filtro</string>
 </resources>

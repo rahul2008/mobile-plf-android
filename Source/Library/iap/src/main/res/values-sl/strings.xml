@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Preverjanje naslova ...</string>
     <string name="iap_fetching_payment">Pridobivanje podatkov o plačilu ...</string>
     <string name="iap_select_delivery">Izberite način dostave za to naročilo:</string>
-    <string name="iap_product_detail_title">Podrobnosti produkta</string>
+    <string name="iap_product_detail_title">Podrobnosti izdelka</string>
+    <string name="iap_zero_results_found"> 0 rezultatov za %s</string>
+    <string name="iap_zero_results_message"> S tem boste filtrirali naš seznam izdelkov. Zagotovite, da v izrazu za filtriranje ni napak</string>
 </resources>

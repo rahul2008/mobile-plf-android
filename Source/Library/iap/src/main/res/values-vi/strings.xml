@@ -207,5 +207,7 @@
     <string name="iap_validating_address">Đang xác nhận địa chỉ...</string>
     <string name="iap_fetching_payment">Đang truy xuất chi tiết thanh toán...</string>
     <string name="iap_select_delivery">Vui lòng chọn phương thức giao hàng cho đơn hàng này:</string>
-    <string name="iap_product_detail_title">Thông tin chi tiết sản phẩm</string>
+    <string name="iap_product_detail_title">Chi tiết sản phẩm</string>
+    <string name="iap_zero_results_found"> Tìm thấy 0 kết quả cho %s</string>
+    <string name="iap_zero_results_message"> Từ khóa này sẽ lọc danh sách sản phẩm của chúng tôi. Vui lòng kiểm tra để đảm bảo không có lỗi chính tả nào trong từ khóa lọc của bạn</string>
 </resources>
