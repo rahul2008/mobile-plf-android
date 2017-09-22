@@ -95,7 +95,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
-            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle);
+            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
             }
         return super.onOptionsItemSelected(item);
     }
@@ -124,7 +124,6 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
         }
-        mRelativeLayoutContainer.setVisibility(RelativeLayout.INVISIBLE);
         THSProviderListPresenter.fetchProviderList(consumer, practice);
     }
 
@@ -141,7 +140,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                 pthProviderDetailsFragment.setTHSProviderEntity(item);
                 pthProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
                 pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-                addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null);
+                addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null, true);
             }
         });
         recyclerView.setAdapter(THSProvidersListAdapter);
@@ -192,7 +191,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
-            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle);
+            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
         }
         else if(i == R.id.uid_dialog_positive_button){
             alertDialogFragment.dismiss();

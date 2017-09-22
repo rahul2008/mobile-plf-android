@@ -101,7 +101,7 @@ public class THSConditionsPresenterTest {
     @Test
     public void onEventSkipBtn() throws Exception {
         thsMedicalConditionsPresenter.onEvent(R.id.conditions_skip);
-        verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
+        verify(pTHBaseViewMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class), true);
     }
 
     @Test

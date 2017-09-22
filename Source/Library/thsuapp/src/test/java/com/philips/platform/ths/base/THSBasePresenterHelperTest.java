@@ -46,7 +46,7 @@ public class THSBasePresenterHelperTest {
     @Test
     public void launchAvailableProviderDetailFragment() throws Exception {
         mTHSBasePresenterHelper.launchAvailableProviderDetailFragment(thsBaseFragmentMock,thsProviderEntityMock,dateMock,practiceMock);
-        verify(thsBaseFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsBaseFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
     }
 
 }

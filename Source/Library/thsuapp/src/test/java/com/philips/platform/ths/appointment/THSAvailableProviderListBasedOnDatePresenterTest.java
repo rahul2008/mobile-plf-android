@@ -123,7 +123,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
     @Test
     public void launchAvailableProviderDetailFragment() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(thsProviderInfoMock,dateMock,practiceMock);
-        verify(thsAvailableProviderListBasedOnDateFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsAvailableProviderListBasedOnDateFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
     }
 
 }

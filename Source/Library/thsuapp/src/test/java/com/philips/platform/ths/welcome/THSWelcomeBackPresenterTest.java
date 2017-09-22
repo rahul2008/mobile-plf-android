@@ -39,7 +39,7 @@ public class THSWelcomeBackPresenterTest {
         THSWelcomeBackPresenter thsWelcomeBackPresenter = new THSWelcomeBackPresenter(thsWelcomeBackFragmentMock);
         when(thsWelcomeBackFragmentMock.getProvider()).thenReturn(providerMock);
         thsWelcomeBackPresenter.onEvent(R.id.ths_get_started);
-        verify(thsWelcomeBackFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class));
+        verify(thsWelcomeBackFragmentMock).addFragment(any(THSSymptomsFragment.class),anyString(),any(Bundle.class), true);
     }
 
 }

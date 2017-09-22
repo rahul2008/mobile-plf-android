@@ -36,7 +36,7 @@ public class THSPreWelcomePresenterTest {
     @Test
     public void onEvent() throws Exception {
         mTHSPreWelcomePresenter.onEvent(R.id.ths_go_see_provider);
-        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsPreWelcomeFragment).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
     }
 
 }

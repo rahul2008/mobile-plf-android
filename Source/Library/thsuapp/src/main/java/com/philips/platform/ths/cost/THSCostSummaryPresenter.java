@@ -50,18 +50,18 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             THSWaitingRoomFragment thsWaitingRoomFragment = new THSWaitingRoomFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mTHSCostSummaryFragment.thsVisit.getVisit());
-            mTHSCostSummaryFragment.addFragment(thsWaitingRoomFragment, THSWaitingRoomFragment.TAG, bundle);
+            mTHSCostSummaryFragment.addFragment(thsWaitingRoomFragment, THSWaitingRoomFragment.TAG, bundle, true);
 
         } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout || componentID == R.id.ths_cost_summary_add_payment_method_button) {
             final THSCreditCardDetailFragment fragment = new THSCreditCardDetailFragment();
             fragment.setFragmentLauncher(mTHSCostSummaryFragment.getFragmentLauncher());
-            mTHSCostSummaryFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, null);
+            mTHSCostSummaryFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, null, true);
 
         } else if (componentID == R.id.ths_cost_summary_insurance_detail_framelayout) {
             THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
-            mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle);
+            mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle, true);
         } else if (componentID == R.id.ths_cost_summary_promotion_code_apply_button) {
             applyCouponCode(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
         }

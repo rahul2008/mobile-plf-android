@@ -175,7 +175,7 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,visitReportDetail.getAssignedProviderInfo());
                 bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,visitReportDetail.getAssignedProviderInfo().getPracticeInfo());
-                addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle);
+                addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle, true);
             }
         });
     }

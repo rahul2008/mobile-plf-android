@@ -115,7 +115,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
                     final THSAvailableProviderListBasedOnDateFragment fragment = new THSAvailableProviderListBasedOnDateFragment();
                     fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                    mThsBaseFragment.addFragment(fragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
+                    mThsBaseFragment.addFragment(fragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle, true);
                     mThsBaseFragment.hideProgressBar();
                 }
             };
@@ -135,7 +135,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         bundle.putParcelable(THSConstants.THS_ON_DEMAND,onDemandSpecialties.get(0));
         final THSSymptomsFragment fragment = new THSSymptomsFragment();
         fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-        mThsBaseFragment.addFragment(fragment,THSSymptomsFragment.TAG,bundle);
+        mThsBaseFragment.addFragment(fragment,THSSymptomsFragment.TAG,bundle, true);
         mThsBaseFragment.hideProgressBar();
     }
 

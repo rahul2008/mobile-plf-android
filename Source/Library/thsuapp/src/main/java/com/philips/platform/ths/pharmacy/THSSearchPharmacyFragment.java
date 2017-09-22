@@ -96,7 +96,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     protected void callPharmacyListFragment() {
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setPharmaciesList(pharmacies);
-        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null);
+        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null, true);
     }
 
     @Override

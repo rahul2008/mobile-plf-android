@@ -161,7 +161,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     @Override
     public void launchMedicationFragment() {
         THSMedicationFragment fragment = new THSMedicationFragment();
-        addFragment(fragment, THSMedicationFragment.TAG, null);
+        addFragment(fragment, THSMedicationFragment.TAG, null, true);
     }
 
     @Override

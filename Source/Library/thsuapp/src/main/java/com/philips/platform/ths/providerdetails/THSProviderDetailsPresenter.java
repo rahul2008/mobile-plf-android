@@ -97,7 +97,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
         if (componentID == R.id.detailsButtonOne) {
             if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
-                mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
+                mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
                 THSConsumer THSConsumer = new THSConsumer();
                 THSConsumer.setConsumer(viewInterface.getConsumerInfo());
@@ -107,7 +107,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                 THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
                 thsSymptomsFragment.setConsumerObject(THSConsumer);
                 thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
+                mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle, true);
             }
 
         } else if (componentID == R.id.detailsButtonTwo) {
@@ -152,7 +152,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                     bundle.putParcelable(THSConstants.THS_PROVIDER, viewInterface.getProvider());
                     bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, viewInterface.getTHSProviderInfo());
                     thsAvailableProviderDetailFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                    mThsBaseFragment.addFragment(thsAvailableProviderDetailFragment, THSAvailableProviderDetailFragment.TAG, bundle);
+                    mThsBaseFragment.addFragment(thsAvailableProviderDetailFragment, THSAvailableProviderDetailFragment.TAG, bundle, true);
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
@@ -234,7 +234,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
             bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSProviderDetailsFragment) mThsBaseFragment).getProviderEntitiy());
             final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
             fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle);
+            mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
             mThsBaseFragment.hideProgressBar();
         } else {
             new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, viewInterface.getTHSProviderInfo(),

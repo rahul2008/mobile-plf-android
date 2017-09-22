@@ -210,7 +210,7 @@ public class THSSymptomsPresenterTest {
     @Test
     public void onEventTest(){
         pthSymptomsPresenter.onEvent(R.id.continue_btn);
-        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(pTHBaseViewMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
     }
 
     @Test

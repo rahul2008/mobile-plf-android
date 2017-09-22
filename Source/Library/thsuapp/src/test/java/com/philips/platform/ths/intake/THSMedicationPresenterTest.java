@@ -89,13 +89,13 @@ public class THSMedicationPresenterTest {
     @Test
     public void onEvent_ths_existing_medicine_footer_relative_layout() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
-        verify(thsMedicationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsMedicationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
     }
 
     @Test
     public void onEvent_ths_intake_medication_skip_step_label() throws Exception {
         mTHSMedicationPresenter.onEvent(R.id.ths_intake_medication_skip_step_label);
-        verify(thsMedicationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class));
+        verify(thsMedicationFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), true);
     }
 
     @Test

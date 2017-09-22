@@ -252,7 +252,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         } else {
             THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             //fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
         }
     }
 

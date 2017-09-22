@@ -40,7 +40,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
                 bundle = new Bundle();
                 bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
             }
-            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle);
+            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle, true);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
             Subscription currentSubscription = THSManager.getInstance().getPTHConsumer().getConsumer().getSubscription();
@@ -72,7 +72,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
 
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             fragment.setFragmentLauncher(mTHSInsuranceConfirmationFragment.getFragmentLauncher());
-            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
         }
     }
 

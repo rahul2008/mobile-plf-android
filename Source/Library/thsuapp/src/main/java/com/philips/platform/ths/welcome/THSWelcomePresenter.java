@@ -38,13 +38,13 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null);
+            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null);
+            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            launchPractice();
+            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
         }
     }
 
@@ -98,13 +98,6 @@ class THSWelcomePresenter implements THSBasePresenter,
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
         ((THSWelcomeFragment)uiBaseView).updateView();
-    }
-
-    private void launchPractice() {
-        AmwellLog.d("Login","Consumer object received");
-        final THSPracticeFragment fragment = new THSPracticeFragment();
-        fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
-        uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
     }
 
     @Override

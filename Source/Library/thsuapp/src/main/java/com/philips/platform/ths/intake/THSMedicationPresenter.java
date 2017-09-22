@@ -43,11 +43,11 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             tHSSearchFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.MEDICATION_SEARCH_CONSTANT);
-            mTHSBaseFragment.addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle);
+            mTHSBaseFragment.addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle, true);
         } else if (componentID == ths_intake_medication_skip_step_label) {
             final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null);
+            mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
         }
 
     }
@@ -103,7 +103,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         // addF
         final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
         fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null);
+        ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
 
     }
     //////////////// end of call backs for update medicines//////////////

@@ -32,7 +32,7 @@ public class THSWelcomeBackPresenter implements THSBasePresenter {
 
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
-            mThsWelcomeBackFragment.addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,bundle);
+            mThsWelcomeBackFragment.addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,bundle, true);
         }
     }
 }

@@ -66,7 +66,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
             mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
             return;
         }
-        mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG,null);
+        mTHSBaseFragment.addFragment(new THSWelcomeFragment(), THSWelcomeFragment.TAG,null, true);
     }
 
     @Override

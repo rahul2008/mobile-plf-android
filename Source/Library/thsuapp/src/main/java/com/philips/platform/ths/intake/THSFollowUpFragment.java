@@ -85,7 +85,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void showNoticeOfPrivacyFragment() {
         final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
-        addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
+        addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null, true);
     }
 
     @Override
@@ -106,12 +106,12 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void showProviderDetailsFragment() {
         THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
-        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
+        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
     }
 
     @Override
     public void showConditionsFragment() {
-        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null);
+        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
     }
 
     @Override

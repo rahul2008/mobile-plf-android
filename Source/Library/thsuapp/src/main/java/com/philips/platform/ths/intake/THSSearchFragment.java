@@ -215,7 +215,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
         pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
         pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
+        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
 
     }
 

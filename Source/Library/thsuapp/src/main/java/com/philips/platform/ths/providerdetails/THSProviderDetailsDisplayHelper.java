@@ -304,7 +304,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         bundle.putString(THSConstants.THS_SET_REMINDER_EXTRA_KEY, "" + thsProviderDetailsViewInterface.getReminderTime());
         final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
-        thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG, bundle);
+        thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG, bundle, true);
     }
 
     public void setReminderValue(String reminderTime) {

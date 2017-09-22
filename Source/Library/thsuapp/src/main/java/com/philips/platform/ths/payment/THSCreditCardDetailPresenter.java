@@ -172,7 +172,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 }
                 final THSCreditCardBillingAddressFragment fragment = new THSCreditCardBillingAddressFragment();
                 fragment.setFragmentLauncher(mTHSCreditCardDetailFragment.getFragmentLauncher());
-                mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle);
+                mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle, true);
             }
 
         }

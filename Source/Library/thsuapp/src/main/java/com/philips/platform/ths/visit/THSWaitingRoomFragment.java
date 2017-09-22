@@ -107,7 +107,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mVisit);
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
-            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle);
+            addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle, true);
         }else{
             // video call does completed succesfully so sending back user is
             THSManager.getInstance().setVisitContext(null);

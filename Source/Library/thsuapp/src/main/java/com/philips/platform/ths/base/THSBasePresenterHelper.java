@@ -25,6 +25,6 @@ public class THSBasePresenterHelper {
         THSAvailableProviderDetailFragment fragment = new THSAvailableProviderDetailFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
         fragment.setTHSProviderEntity(thsProviderInfo);
-        thsBaseFragment.addFragment(fragment, THSAvailableProviderDetailFragment.TAG,bundle);
+        thsBaseFragment.addFragment(fragment, THSAvailableProviderDetailFragment.TAG,bundle, true);
     }
 }
