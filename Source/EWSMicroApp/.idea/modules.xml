@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/EWSLib/EWSLib.iml" filepath="$PROJECT_DIR$/EWSLib/EWSLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/EWSMicroApp.iml" filepath="$PROJECT_DIR$/EWSMicroApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/EWSMicroApp.iml" filepath="$PROJECT_DIR$/EWSMicroApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demoapplication/demoapplication.iml" filepath="$PROJECT_DIR$/demoapplication/demoapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ews/ews.iml" filepath="$PROJECT_DIR$/ews/ews.iml" />
     </modules>
   </component>
 </project>
