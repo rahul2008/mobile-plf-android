@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.americanwell.sdk.entity.billing.PaymentMethod;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
@@ -155,8 +156,17 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             if (!"0".equals(costStringArray[1])) { // if decimal part is zero then dont show
                 mTHSCostSummaryFragment.costSmallLabel.setText(String.valueOf("." + costStringArray[1]));
             }
-            String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
-            mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
+            String couponCode = mTHSCostSummaryFragment.thsVisit.getCouponCodeApplied();
+            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            if ((consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) || (null != couponCode && !couponCode.isEmpty())) {
+                mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.VISIBLE);
+                String initialCostString = String.format(mTHSCostSummaryFragment.getResources().getString(R.string.ths_cost_summary_initial_Partial_cover_cost), "$" + String.valueOf(thsVisit.getInitialVisitCost()));
+                mTHSCostSummaryFragment.mInitialVisitCostLabel.setText(initialCostString);
+            }else{
+                // if No insurance and No Coupon
+                mTHSCostSummaryFragment.mInitialVisitCostLabel.setVisibility(View.GONE);
+            }
+
         }
         mTHSCostSummaryFragment.mCostSummaryContinueButton.setEnabled(true);
         mTHSCostSummaryFragment.mCouponCodeButton.setEnabled(true);
