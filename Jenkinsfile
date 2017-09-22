@@ -28,7 +28,7 @@ node ('android&&docker') {
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
             '''
             }
-			if (params.PSRAbuild || (BranchName =~ /master|release.*/))  {
+			if (params.PSRAbuild || (BranchName =~ /master|release\/platform_.*/))  {
 			stage ('build PSRA') {
             sh '''#!/bin/bash -l
                 chmod -R 775 .
@@ -46,7 +46,7 @@ node ('android&&docker') {
                 '''
             }
             
-            if (params.PSRAbuild || (BranchName =~ /master|develop|release.*/)) {
+            if (params.PSRAbuild || (BranchName =~ /master|develop|release\/platform_.*/)) {
                 stage('publish') {
                     echo "publish to artifactory"
                     sh '''#!/bin/bash -l
@@ -73,7 +73,7 @@ node ('android&&docker') {
                 ''' 
             }
             stage('Trigger E2E Test'){
-                if (BranchName =~ /master|develop|release.*/) {
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
 		    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
                     if (BranchName =~ /develop.*/) {
                         BranchName = "develop"
