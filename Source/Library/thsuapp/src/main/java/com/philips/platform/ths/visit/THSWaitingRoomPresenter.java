@@ -65,7 +65,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
                 ///////////
                 ProviderInfo providerInfo = mTHSWaitingRoomFragment.mVisit.getAssignedProvider();
-                if (providerInfo.hasImage()) {
+
                     try {
                         THSManager.getInstance().getAwsdk(mTHSWaitingRoomFragment.getFragmentActivity()).
                                 getPracticeProvidersManager().
@@ -76,7 +76,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
                     } catch (AWSDKInstantiationException e) {
                         e.printStackTrace();
                     }
-                }
+
                 ////////////
             }
             Integer patientWaitingCount = mTHSWaitingRoomFragment.mVisit.getPatientsAheadOfYou();
