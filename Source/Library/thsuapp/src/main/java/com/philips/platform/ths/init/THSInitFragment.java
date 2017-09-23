@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class THSInitFragment extends THSBaseFragment{
@@ -38,8 +39,12 @@ public class THSInitFragment extends THSBaseFragment{
     }
 
     public void popSelfBeforeTransition() {
-        if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
-            getActivity().getSupportFragmentManager().popBackStack();
+        try {
+            if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        }catch (IllegalStateException ex){
+            AmwellLog.e(AmwellLog.LOG,ex.getMessage());
         }
     }
 }
