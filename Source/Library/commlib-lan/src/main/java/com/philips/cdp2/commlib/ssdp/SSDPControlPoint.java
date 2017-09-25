@@ -50,7 +50,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
     private static final int DEFAULT_WAIT_TIME_IN_SECONDS = 5;
-    private static final int TIMEOUT = 3000;
+    private static final int DESCRIPTION_TIMEOUT_MILLIS = 3000;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
     private DatagramSocket socket;
@@ -243,7 +243,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private void createDevice(final SSDPMessage message) throws MalformedURLException {
         final URL descriptionUrl = new URL(message.get(SSDPMessage.LOCATION));
 
-        HTTP.getInstance().get(descriptionUrl, TIMEOUT, new HTTP.RequestCallback() {
+        HTTP.getInstance().get(descriptionUrl, DESCRIPTION_TIMEOUT_MILLIS, new HTTP.RequestCallback() {
             @Override
             public void onResponse(String description) {
                 String ipAddress = descriptionUrl.getHost();

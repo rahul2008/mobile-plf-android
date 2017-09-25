@@ -6,7 +6,6 @@
 package com.philips.cdp2.commlib.lan.util;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,7 +76,7 @@ public final class HTTP {
                         try {
                             initializeSslFactory();
                         } catch (final NoSuchAlgorithmException | KeyManagementException e) {
-                            Log.e(TAG, "Error initializing secure connection.", e);
+                            throw new IOException("Error creating a secure connection.", e);
                         }
                         ((HttpsURLConnection) urlConnection).setHostnameVerifier(hostnameVerifier);
                         ((HttpsURLConnection) urlConnection).setSSLSocketFactory(sslContext.getSocketFactory());
