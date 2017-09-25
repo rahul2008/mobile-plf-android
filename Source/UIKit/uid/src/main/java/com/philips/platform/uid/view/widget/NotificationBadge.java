@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewOutlineProvider;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDOutlineProvider;
 
 
 /**
@@ -96,9 +97,7 @@ public class NotificationBadge extends AppCompatTextView {
         setTextChangeListener();
         float elevation = context.getResources().getDimensionPixelSize(R.dimen.uid_notificationbadge_elevation);
         setElevation(elevation);
-        //setTranslationZ(elevation);
-        //setShadowLayer(2, 1, 1, );
-        setOutlineProvider(new CircleOutlineProvider());
+        setOutlineProvider(new UIDOutlineProvider());
     }
 
     private void setTextChangeListener() {
@@ -120,19 +119,5 @@ public class NotificationBadge extends AppCompatTextView {
             public void afterTextChanged(Editable s) {
             }
         });
-    }
-
-    /**
-     * ViewOutlineProvider which sets the outline to be an oval which fits the view bounds.
-     */
-    private class CircleOutlineProvider extends ViewOutlineProvider {
-        @Override
-        public void getOutline(View view, Outline outline) {
-            getBackground().getOutline(outline);
-            outline.setAlpha(1);
-            //outline.offset(0,20);
-           // outline.set(0, 0, view.getWidth() , view.getHeight() , getContext().getResources().getDimensionPixelSize(R.dimen.uid_notificationbadge_default_radius));
-//            outline.setOval(0, 0, view.getWidth() , view.getHeight() , getContext().getResources().getDimensionPixelSize(R.dimen.uid_notificationbadge_default_radius));
-        }
     }
 }

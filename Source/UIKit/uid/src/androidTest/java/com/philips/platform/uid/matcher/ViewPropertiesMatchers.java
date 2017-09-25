@@ -259,4 +259,14 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<? super View> isSameElevation(final float elevation) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                setValues(view.getElevation(), elevation);
+                return areEqual();
+            }
+        };
+    }
 }
