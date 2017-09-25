@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
+import com.philips.platform.uid.utils.BackgroundOutlineProvider;
+
 
 /**
  * Implementation for a customized Notification Badge</b>
@@ -89,6 +91,7 @@ public class NotificationBadge extends AppCompatTextView {
     public NotificationBadge(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setTextChangeListener();
+        setOutlineProvider(new BackgroundOutlineProvider());
     }
 
     private void setTextChangeListener() {

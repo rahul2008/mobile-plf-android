@@ -25,6 +25,7 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
+import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.NotificationBadge;
@@ -101,6 +102,11 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, badge.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(badge));
     }
 
+    @Test
+    public void verifyViewDefaultElevation() {
+        float expectedElevation = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_notificationbadge_elevation);
+        getNotificationBadgeTextLayout().check(matches(ViewPropertiesMatchers.isSameElevation(expectedElevation)));
+    }
 
 // below are the small notification Badge test case
 
@@ -144,6 +150,12 @@ public class DefaultNotificationBadgeTest extends BaseTest {
         ViewGroup parent = (ViewGroup) View.inflate(activity, com.philips.platform.uid.test.R.layout.layout_notification_default_badge, null);
         NotificationBadge badge = (NotificationBadge) parent.findViewById(com.philips.platform.uid.test.R.id.uid_text_default);
         assertTrue(TextViewPropertiesMatchers.isSameTypeface(activity, badge.getTypeface(), TestConstants.FONT_PATH_CS_BOOK).matches(badge));
+    }
+
+    @Test
+    public void verifyViewSmallElevation() {
+        float expectedElevation = testResources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_notificationbadge_elevation);
+        getNotificationSmallBadgeTextLayout().check(matches(ViewPropertiesMatchers.isSameElevation(expectedElevation)));
     }
 
     private ViewInteraction getNotificationBadgeTextLayout() {
