@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_almost_description2"
+                android:text="@string/reg_DLS_Almost_Done_TextField_Text"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"/>
 
@@ -46,7 +46,7 @@
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_email"
+                android:text="@string/reg_DLS_Email_Label_Text"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"
                 android:visibility="gone"/>
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_Receive_Philips_News_lbltxt"/>
+                android:text="@string/reg_DLS_OptIn_Promotional_Message_Line1"/>
 
             <!--temp: Actual value yet to be given by designer-->
             <View
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_TermsAndConditionsAcceptanceText"/>
+                android:text="@string/reg_DLS_TermsAndConditionsAcceptanceText"/>
 
             <!--temp: Actual value yet to be given by designer-->
             <View

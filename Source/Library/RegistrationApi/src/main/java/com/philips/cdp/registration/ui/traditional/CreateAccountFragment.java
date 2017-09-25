@@ -204,17 +204,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_strong), strengthMeterStrong, true, R.color.uid_green_level_30,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
             return 0;
         } else if (strength == strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
                     R.drawable.reg_password_strength_weak, R.string.reg_EmptyField_ErrorMsg, false);
         }
         return 0;
@@ -275,7 +275,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_createscreen_emailormobile_label.setText(R.string.reg_phone_number);
+            usr_createscreen_emailormobile_label.setText(R.string.reg_DLS_Phonenumber_Label_Text);
             usr_createscreen_emailormobile_textfield.setInputType(InputType.TYPE_CLASS_PHONE);
         }
 
@@ -450,7 +450,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.reg_DLS_URCreateAccount_NavTitle;
     }
 
     @Override

@@ -419,7 +419,7 @@
     <!--<string name='reg_forgotpassword_send'>Send</string>-->
     <!--<string name="reg_forgotpassword_dialog_title">Reset Password</string>-->
     <!--<string name="reg_forgotpassword_dialog_desc1">We\'ve just sent you an email to reset your password.</string>-->
-    <string name="reg_forgotpassword_dialog_desc2">This email may not arrive immediately but it is on its way.</string>
+    <!--<string name="reg_forgotpassword_dialog_desc2">This email may not arrive immediately but it is on its way.</string>-->
     <string name="reg_forgotpassword_dialog_button">Back to log in</string>
 
 

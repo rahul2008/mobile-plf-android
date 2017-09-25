@@ -245,7 +245,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleUiState();
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_loginScreen_email_label.setText(R.string.reg_forgotpassword_input);
+            usr_loginScreen_email_label.setText(R.string.reg_DLS_Email_Phone_Label_Text);
         }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
@@ -368,7 +368,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.reg_TraditionalSignIn_SignInWithMyPhilips_lbltxt;
     }
 
     private void signIn() {

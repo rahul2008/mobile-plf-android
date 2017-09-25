@@ -233,7 +233,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_OptIn_NavTitle;
+        return R.string.reg_Opt_In_Be_The_First;
     }
 
     @Override

@@ -136,7 +136,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     private void initUI() {
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_forgotpassword_email_label.setText(R.string.reg_forgotpassword_input);
+            usr_forgotpassword_email_label.setText(R.string.reg_CreateAccount_Email_PhoneNumber);
             usr_forgotpassword_input_label.setText(R.string.reg_DLS_Forgot_Password_Body_With_Phone_No);
         }
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
@@ -237,9 +237,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
-        showDialog(context.getResources().getString(R.string.reg_forgotpassword_dialog_title),
-                context.getResources().getString(R.string.reg_forgotpassword_dialog_desc1),
-                context.getResources().getString(R.string.reg_forgotpassword_dialog_desc2),
+        showDialog(context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Title),
+                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line1),
+                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line2),
                 context.getResources().getString(R.string.reg_forgotpassword_dialog_button),
                 getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();

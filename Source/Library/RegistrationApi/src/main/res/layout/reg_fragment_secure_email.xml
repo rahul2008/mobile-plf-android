@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_recovery_title"
+                android:text="@string/reg_DLS_AddRecovery_Title_Text"
                 fontPath="fonts/centralesansbold.ttf"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_text_size_20"/>
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_recovery_desc_one"
+                android:text="@string/reg_DLS_AddRecovery_Description_Text"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"/>
 
@@ -50,7 +50,7 @@
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_verify_resend_mail_edittext_label"
+                android:text="@string/reg_DLS_AddRecovery_EnterEmail_Text"
                 android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:textSize="@dimen/reg_text_size_16"/>
 
@@ -78,8 +78,8 @@
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:enabled="true"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_recovery_button1"
-                app:uidProgressIndicatorButtonText="@string/reg_recovery_button1"/>
+                app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_AddRecovery_AddRecovery_Button_Title"
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_AddRecovery_AddRecovery_Button_Title"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/btn_reg_secure_data_email_later"

@@ -191,7 +191,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailEditText.setVisibility(View.VISIBLE);
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description1));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_TextField_Text));
         continueButton.setEnabled(false);
 
     }
@@ -231,7 +231,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void showMarketingOptCheck() {
         marketingOptCheck.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description2));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_DLS_Almost_Done_Marketing_OptIn_Text));
     }
 
     @Override
