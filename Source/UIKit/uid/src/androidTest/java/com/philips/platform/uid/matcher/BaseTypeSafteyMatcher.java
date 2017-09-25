@@ -33,7 +33,7 @@ public abstract class BaseTypeSafteyMatcher<T> extends TypeSafeMatcher<T> {
 
     protected boolean floatEqual(float delta) {
         try {
-            Assert.assertEquals((float)expected, (float)actual, 0.5f);
+            Assert.assertEquals((float)expected, (float)actual, delta);
         } catch (AssertionError ae) {
             return false;
         }
