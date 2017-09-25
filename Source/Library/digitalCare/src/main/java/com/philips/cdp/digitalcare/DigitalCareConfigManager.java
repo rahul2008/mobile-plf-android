@@ -19,30 +19,31 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.di.DigiCareComponent;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
-//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-//import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.BuildConfig;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Locale;
+
+//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+//import com.philips.cdp.productselection.launchertype.UiLauncher;
+//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 
 
 public class DigitalCareConfigManager {
@@ -77,6 +78,7 @@ public class DigitalCareConfigManager {
     private String country = null;
     private static int DLS_THEME;
     private static ThemeConfiguration themeConfiguration;
+    private DigiCareComponent digiCareComponent;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -447,6 +449,14 @@ public class DigitalCareConfigManager {
 
     public int getDlsTheme(){
         return DLS_THEME;
+    }
+
+    public void setDigiCareComponent(DigiCareComponent digicareComponent) {
+        this.digiCareComponent = digicareComponent;
+    }
+
+    public DigiCareComponent getDigiCareComponent() {
+        return digiCareComponent;
     }
 
 }

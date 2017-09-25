@@ -1,24 +1,28 @@
 package com.philips.cdp.digitalcare;
 
+import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.digitalcare.di.CCInputModule;
+import com.philips.cdp.digitalcare.di.CCModule;
+import com.philips.cdp.digitalcare.di.DaggerDigiCareComponent;
+import com.philips.cdp.digitalcare.di.DigiCareComponent;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
-//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 
 /**
  *
@@ -30,6 +34,9 @@ public class CcInterface implements UappInterface {
 
 
     private static final String TAG = CcInterface.class.getSimpleName();
+
+    Context context;
+    private AppInfraInterface appInfra;
 
     /**
      * initialise the consumer care library
@@ -43,7 +50,8 @@ public class CcInterface implements UappInterface {
 
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
                 , ccDependencies.getAppInfra());
-
+        this.context = ccSettings.getContext();
+        appInfra = ccDependencies.getAppInfra();
     }
 
     /**
@@ -61,6 +69,12 @@ public class CcInterface implements UappInterface {
         DigitalCareConfigManager.getInstance().registerCcListener(ccLaunchInput.getConsumerCareListener());
         DigitalCareConfigManager.getInstance().setLiveChatUrl(ccLaunchInput.getLiveChatUrl());
 
+        DigiCareComponent digicareComponent = DaggerDigiCareComponent.builder()
+                .cCModule(new CCModule(context, appInfra))
+                .cCInputModule(new CCInputModule(ccLaunchInput))
+                .build();
+
+        DigitalCareConfigManager.getInstance().setDigiCareComponent(digicareComponent);
 
         if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
 

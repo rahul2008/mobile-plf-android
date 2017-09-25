@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,10 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
+import com.philips.cdp.digitalcare.di.servicediscovery.HomeCountryPreference;
+import com.philips.cdp.digitalcare.di.servicediscovery.ServicesWithCountryPreference;
 import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
+import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
@@ -42,36 +44,32 @@ import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.SubcategoryModel;
-import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+
+import javax.inject.Inject;
+
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 
 
 /**
@@ -100,6 +98,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mProgressDialog = null;
+
+    @Inject
+    ServicesWithCountryPreference servicesWithCountryPreference;
+
+    @Inject
+    HomeCountryPreference homeCountryPreference;
+
     protected ResponseCallback categoryResponseCallbak = new ResponseCallback() {
         @Override
         public void onResponseReceived(String response) {
@@ -136,6 +141,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isSupportScreenLaunched = true;
+        DigitalCareConfigManager.getInstance().getDigiCareComponent().inject(this);
     }
 
     @Override
@@ -808,73 +814,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     }
 
     private void initialiseServiceDiscoveryRequests() {
-
-        //initializeCountry();
-        ArrayList<String> var1 = new ArrayList<>();
-        var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
-        var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
-        var1.add(DigitalCareConstants.SERVICE_ID_CC_PRX_CATEGORY);
-        var1.add(DigitalCareConstants.SERVICE_ID_CC_PRODUCTREVIEWURL);
-
-        HashMap<String, String> hm = new HashMap<String, String>();
-
-        hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_REVIEWURL, DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
-
-        hm.put(DigitalCareConstants.KEY_APPNAME, getAppName());
-
-        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-
-                ServiceDiscoveryService serviceDiscoveryService = map.get("cc.prx.category");
-                if (serviceDiscoveryService != null) {
-                    DigitalCareConfigManager.getInstance().setSubCategoryUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.prx.category' - " + serviceDiscoveryService.getConfigUrls());
-                }
-
-                serviceDiscoveryService = map.get("cc.productreviewurl");
-                if (serviceDiscoveryService != null) {
-                    DigitalCareConfigManager.getInstance().setProductReviewUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.d(TAG, "Response from Service Discovery : Service ID : 'cc.productreviewurl' - " + serviceDiscoveryService.getConfigUrls());
-                }
-
-                executeSubcategoryRequest();
-
-                if (mProgressDialog != null && isAdded()) {
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.cancel();
-                        mProgressDialog.dismiss();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                DigiCareLogger.v(TAG, "Error Response from Service Discovery :" + s);
-                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
-            }
-        }, hm);
+        servicesWithCountryPreference.initialiseSD(getAppName());
     }
 
     private void initializeCountry() {
-
-
-        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                DigitalCareConfigManager.getInstance().setCountry(s);
-                DigiCareLogger.v(TAG,"Response from Service Discovery : Home Country - "+s);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                DigiCareLogger.v(TAG,"Error response from Service Discovery : Home Country - "+s);
-            }
-        });
+        homeCountryPreference.initHomeCountry();
     }
-
 }
