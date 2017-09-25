@@ -97,6 +97,10 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
 
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
+
+        TextView tv_checkOutSteps = (TextView) rootView.findViewById(R.id.tv_checkOutSteps);
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "3"));
+
         mPaymentController = new PaymentController(mContext, this);
         bundle = getArguments();
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
