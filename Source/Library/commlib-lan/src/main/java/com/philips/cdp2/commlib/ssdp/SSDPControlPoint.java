@@ -25,8 +25,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import static com.philips.cdp2.commlib.lan.util.HTTP.PROTOCOL_HTTPS;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.HOST;
@@ -44,6 +42,7 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_ALL;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public class SSDPControlPoint implements SSDPDiscovery {
     private static final String TAG = "SSDPControlPoint";
@@ -58,9 +57,8 @@ public class SSDPControlPoint implements SSDPDiscovery {
     private String searchTarget;
     private TimerTask searchTask;
     private DiscoveryThread discoveryThread;
-    private final Executor executor = Executors.newSingleThreadExecutor();
 
-    private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
+    private Set<SSDPDeviceListener> SSDPDeviceListeners = new CopyOnWriteArraySet<>();
     private Set<SSDPDevice> discoveredDevices = new CopyOnWriteArraySet<>();
     private int maxWaitTimeInSeconds = -1;
 
@@ -79,7 +77,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
         return discoveryThread != null;
     }
 
-    public interface DeviceListener {
+    public interface SSDPDeviceListener {
         void onDeviceAvailable(SSDPDevice device);
 
         void onDeviceUnavailable(SSDPDevice device);
@@ -160,7 +158,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
     }
 
     public SSDPControlPoint() {
-        this.executor.execute(new Runnable() {
+        newSingleThreadExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 if (socket == null) {
@@ -210,12 +208,12 @@ public class SSDPControlPoint implements SSDPDiscovery {
         destroySocket();
     }
 
-    public boolean addDeviceListener(final @NonNull DeviceListener listener) {
-        return this.deviceListeners.add(listener);
+    public boolean addDeviceListener(final @NonNull SSDPDeviceListener listener) {
+        return this.SSDPDeviceListeners.add(listener);
     }
 
-    public boolean removeDeviceListener(final @NonNull DeviceListener listener) {
-        return this.deviceListeners.remove(listener);
+    public boolean removeDeviceListener(final @NonNull SSDPDeviceListener listener) {
+        return this.SSDPDeviceListeners.remove(listener);
     }
 
     private void destroySocket() {
@@ -248,8 +246,6 @@ public class SSDPControlPoint implements SSDPDiscovery {
         HTTP.getInstance().get(descriptionUrl, TIMEOUT, new HTTP.RequestCallback() {
             @Override
             public void onResponse(String description) {
-                DICommLog.d(TAG, "Got HTTP response: " + description);
-
                 String ipAddress = descriptionUrl.getHost();
                 boolean isSecure = descriptionUrl.getProtocol().equals(PROTOCOL_HTTPS);
 
@@ -285,13 +281,13 @@ public class SSDPControlPoint implements SSDPDiscovery {
     }
 
     private void notifyDeviceAvailable(SSDPDevice device) {
-        for (DeviceListener listener : deviceListeners) {
+        for (SSDPDeviceListener listener : SSDPDeviceListeners) {
             listener.onDeviceAvailable(device);
         }
     }
 
     private void notifyDeviceUnavailable(SSDPDevice device) {
-        for (DeviceListener listener : deviceListeners) {
+        for (SSDPDeviceListener listener : SSDPDeviceListeners) {
             listener.onDeviceUnavailable(device);
         }
     }

@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.SSDPDeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -35,8 +36,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private static final long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
 
-    private static final Object LOCK = new Object();
-
     @NonNull
     private final SSDPDiscovery ssdp;
 
@@ -56,7 +55,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private boolean isStartRequested;
 
-    private final SSDPControlPoint.DeviceListener deviceListener = new SSDPControlPoint.DeviceListener() {
+    private final SSDPDeviceListener ssdpDeviceListener = new SSDPDeviceListener() {
         @Override
         public void onDeviceAvailable(SSDPDevice ssdpDevice) {
             onDeviceDiscovered(ssdpDevice);
@@ -79,9 +78,13 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private void handleDiscoveryStateChanged() {
         if (isConnected && isStartRequested) {
             ssdp.start();
+
+            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
         } else {
             if (ssdp.isStarted()) {
                 ssdp.stop();
+
+                DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
             }
         }
     }
@@ -109,7 +112,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     @VisibleForTesting
     SSDPDiscovery createSsdpDiscovery() {
         final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
-        ssdpControlPoint.addDeviceListener(deviceListener);
+        ssdpControlPoint.addDeviceListener(ssdpDeviceListener);
 
         return ssdpControlPoint;
     }
@@ -133,8 +136,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         handleDiscoveryStateChanged();
 
         deviceCache.resetTimers();
-
-        DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
     }
 
     @Override
@@ -143,8 +144,6 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         handleDiscoveryStateChanged();
 
         deviceCache.stopTimers();
-
-        DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
     }
 
     @VisibleForTesting
@@ -163,10 +162,10 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
 
         if (this.deviceCache.contains(networkNode.getCppId())) {
-            DICommLog.d(DICommLog.SSDP, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            DICommLog.d(DICommLog.DISCOVERY, "Updated device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.getCacheData(networkNode.getCppId()).resetTimer();
         } else {
-            DICommLog.d(DICommLog.SSDP, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+            DICommLog.d(DICommLog.DISCOVERY, "Discovered device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
             deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
         }
 
@@ -184,7 +183,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private void handleNetworkNodeLost(final @NonNull NetworkNode networkNode) {
         deviceCache.remove(networkNode.getCppId());
-        DICommLog.i(DICommLog.SSDP, "Lost device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
+        DICommLog.i(DICommLog.DISCOVERY, "Lost device - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
 
         notifyNetworkNodeLost(networkNode);
     }

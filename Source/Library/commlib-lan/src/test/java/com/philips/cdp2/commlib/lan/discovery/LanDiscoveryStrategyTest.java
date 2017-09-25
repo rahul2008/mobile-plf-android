@@ -301,16 +301,23 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         verify(ssdpDiscoveryMock, times(1)).stop();
     }
 
-    private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String deviceType, final @NonNull String modelNumber) {
-        final SSDPDevice ssdpDevice = SSDPDevice.create(null, cppId, deviceType, "Coffee Maker 9000", null, null, null, null, modelNumber, null, null, null, null, "1.2.3.4", false);
+    private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
+        final SSDPDevice device = new SSDPDevice();
 
-        return ssdpDevice;
+        device.setCppId(cppId);
+        device.setModelName(modelName);
+        device.setModelNumber(modelNumber);
+        device.setFriendlyName("Coffee Maker 9000");
+        device.setIpAddress("1.2.3.4");
+
+        return device;
     }
 
-    private SSDPDevice createInvalidSsdpDevice(final @NonNull String cppId, final @NonNull String deviceType, final @NonNull String modelNumber) {
-        final SSDPDevice ssdpDevice = SSDPDevice.create(null, cppId, deviceType, "Coffee Maker 9000", null, null, null, null, modelNumber, null, null, null, null, null, false);
+    private SSDPDevice createInvalidSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
+        final SSDPDevice device = createSsdpDevice(cppId, modelName, modelNumber);
+        device.setIpAddress("INVALID");
 
-        return ssdpDevice;
+        return device;
     }
 
     private void ensureDiscoveryIsStarted() throws MissingPermissionException {

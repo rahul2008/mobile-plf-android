@@ -39,7 +39,7 @@ public class DICommLog {
     public static final String PAIRING = "Pairing";
     public static final String SUBSCRIPTION = "Subscription";
     public static final String PARSER = "DataParser";
-    public static final String DISCOVERY = "DiscoveryManager";
+    public static final String DISCOVERY = "LanDiscovery";
     public static final String NETWORKMONITOR = "NetworkMonitor";
     public static final String UDP = "UDPSocket";
     public static final String SSDPHELPER = "SsdpHelper";

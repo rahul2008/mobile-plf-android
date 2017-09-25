@@ -6,6 +6,7 @@
 package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.Xml;
 
@@ -23,13 +24,49 @@ import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
 
+/**
+ * The type Ssdp device.
+ * <p>
+ * <p>
+ * Example description:
+ * <pre>
+ * {@code <root xmlns="urn:schemas-upnp-org:device-1-0">
+ *   <specVersion>
+ *     <major>1</major>
+ *     <minor>0</minor>
+ *   </specVersion>
+ *   <URLBase>http://192.168.1.49:80/</URLBase>
+ *   <device>
+ *     <deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>
+ *     <friendlyName>Hue Bridge (192.168.1.49)</friendlyName>
+ *     <manufacturer>Royal Philips Electronics</manufacturer>
+ *     <manufacturerURL>http://www.philips.com</manufacturerURL>
+ *     <modelDescription>Philips hue Personal Wireless Lighting</modelDescription>
+ *     <modelName>Philips hue bridge 2015</modelName>
+ *     <modelNumber>BSB002</modelNumber>
+ *     <modelURL>http://www.meethue.com</modelURL>
+ *     <serialNumber>00178840316f</serialNumber>
+ *     <UDN>uuid:2f402f80-da50-11e1-9b23-00178840316f</UDN>
+ *     <presentationURL>index.html</presentationURL>
+ *     <iconList>
+ *       <icon>
+ *         <mimetype>image/png</mimetype>
+ *         <height>48</height>
+ *         <width>48</width>
+ *         <depth>24</depth>
+ *         <url>hue_logo_0.png</url>
+ *       </icon>
+ *     </iconList>
+ *   </device>
+ * </root> }
+ * </pre>
+ */
 public final class SSDPDevice {
 
     private static final String TAG = "SSDPDevice";
 
     private static final DescriptionParser PARSER = new DescriptionParser();
 
-    // Device properties
     private boolean isSecure;
     private String bootId;
     private String cppId;
@@ -66,12 +103,13 @@ public final class SSDPDevice {
         private static final String SERIAL_NUMBER = "serialNumber";
         private static final String UDN = "UDN";
 
+        @Nullable
         SSDPDevice parse(String description) throws IOException, XmlPullParserException {
             return parseDevice(description);
         }
 
         private SSDPDevice parseDevice(@NonNull final String description) throws IOException, XmlPullParserException {
-            InputStream stream = new ByteArrayInputStream(description.getBytes(Charset.forName("UTF-8")));
+            final InputStream stream = new ByteArrayInputStream(description.getBytes(Charset.forName("UTF-8")));
 
             final XmlPullParser parser = Xml.newPullParser();
             parser.setInput(stream, null);
@@ -201,85 +239,124 @@ public final class SSDPDevice {
         return device;
     }
 
-    public static SSDPDevice create(String bootId, String cppId, String deviceType, String friendlyName, String manufacturer, String manufacturerUrl, String modelDescription, String modelName, String modelNumber, String modelUrl, String presentationUrl, String serialNumber, String udn, String ipAddress, boolean isSecure) {
-        SSDPDevice device = new SSDPDevice();
-        device.bootId = bootId;
-        device.cppId = cppId;
-        device.deviceType = deviceType;
-        device.friendlyName = friendlyName;
-        device.manufacturer = manufacturer;
-        device.manufacturerUrl = manufacturerUrl;
-        device.modelDescription = modelDescription;
-        device.modelName = modelName;
-        device.modelNumber = modelNumber;
-        device.modelUrl = modelUrl;
-        device.presentationUrl = presentationUrl;
-        device.serialNumber = serialNumber;
-        device.udn = udn;
-        device.ipAddress = ipAddress;
-        device.isSecure = isSecure;
-
-        return device;
-    }
-
     public boolean isSecure() {
         return isSecure;
     }
 
+    public void setSecure(boolean secure) {
+        isSecure = secure;
+    }
+
     public String getBootId() {
-        return this.bootId;
+        return bootId;
+    }
+
+    public void setBootId(String bootId) {
+        this.bootId = bootId;
     }
 
     public String getCppId() {
-        return this.cppId;
+        return cppId;
+    }
+
+    public void setCppId(String cppId) {
+        this.cppId = cppId;
     }
 
     public String getDeviceType() {
         return deviceType;
     }
 
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
     public String getFriendlyName() {
-        return this.friendlyName;
+        return friendlyName;
+    }
+
+    public void setFriendlyName(String friendlyName) {
+        this.friendlyName = friendlyName;
     }
 
     public String getIpAddress() {
-        return this.ipAddress;
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     public String getManufacturer() {
         return manufacturer;
     }
 
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
     public String getManufacturerUrl() {
         return manufacturerUrl;
+    }
+
+    public void setManufacturerUrl(String manufacturerUrl) {
+        this.manufacturerUrl = manufacturerUrl;
     }
 
     public String getModelDescription() {
         return modelDescription;
     }
 
+    public void setModelDescription(String modelDescription) {
+        this.modelDescription = modelDescription;
+    }
+
     public String getModelName() {
-        return this.modelName;
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 
     public String getModelNumber() {
-        return this.modelNumber;
+        return modelNumber;
+    }
+
+    public void setModelNumber(String modelNumber) {
+        this.modelNumber = modelNumber;
     }
 
     public String getModelUrl() {
         return modelUrl;
     }
 
+    public void setModelUrl(String modelUrl) {
+        this.modelUrl = modelUrl;
+    }
+
     public String getPresentationUrl() {
         return presentationUrl;
+    }
+
+    public void setPresentationUrl(String presentationUrl) {
+        this.presentationUrl = presentationUrl;
     }
 
     public String getSerialNumber() {
         return serialNumber;
     }
 
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     public String getUdn() {
         return udn;
+    }
+
+    public void setUdn(String udn) {
+        this.udn = udn;
     }
 
     @Override
