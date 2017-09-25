@@ -11,6 +11,7 @@ public class MockIAPUser extends IAPUser{
     public MockIAPUser(HybrisStore store) {
         HybrisStore mHybrisStore = store;
         IAPUser mJanRainUser = new IAPUser();
+
     }
 
     public String getJanRainID() {

@@ -56,9 +56,8 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
 
     @Override
     public void onClick(View v) {
-        if (v == mContinueShoppingBtn) {
+        if (v.getId() == R.id.btn_continue_shopping) {
             if (!isNetworkConnected()) return;
-           // showProductCatalogFragment(EmptyPurchaseHistoryFragment.TAG);
             addFragment(ProductCatalogFragment.createInstance(new Bundle(),
                     AnimationType.NONE), ProductCatalogFragment.TAG);
 

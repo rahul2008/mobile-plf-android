@@ -11,6 +11,7 @@ import com.android.volley.TimeoutError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.iapHandler.HybrisHandler;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -24,6 +25,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class HybrisHandlerTest {
@@ -83,18 +85,22 @@ public class HybrisHandlerTest {
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void testGetCompleteProductListWhenStoreNotInitialized() throws Exception {
-//        //TestUtils.getStubbedHybrisDelegate();
-//        mHybrisHandler.getCompleteProductList(mIAPListener);
-//    }
+    @Test
+    public void testGetCompleteProductListWhenStoreNotInitialized() throws Exception {
+        //TestUtils.getStubbedHybrisDelegate();
+        mHybrisHandler.getCompleteProductList(mIAPListener);
+    }
 
     @Test
     public void testGetProductCount() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getProductCartCount(mIAPListener);
     }
-
+    @Test
+    public void testGetProductCountWhenStoreIsNotInitilized() throws Exception {
+//        TestUtils.getStubbedHybrisDelegate();
+        mHybrisHandler.getProductCartCount(mIAPListener);
+    }
     @Test
     public void testIAPErrorCodeForUnknownError() throws Exception {
         assertEquals(IAPConstant.IAP_ERROR_UNKNOWN, mHybrisHandler.getIAPErrorCode(new Message()));
@@ -107,9 +113,9 @@ public class HybrisHandlerTest {
         assertEquals(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT, mHybrisHandler.getIAPErrorCode(msg));
     }
 
-//    @Test
-//    public void testStoreInitializationWithHybrisInitialization(){
-//        TestUtils.getStubbedHybrisDelegate();
-//        assertTrue(HybrisDelegate.getInstance().getStore().isStoreInitialized());
-//    }
+    @Test
+    public void testStoreInitializationWithHybrisInitialization(){
+        TestUtils.getStubbedHybrisDelegate();
+        assertTrue(HybrisDelegate.getInstance().getStore().isStoreInitialized());
+    }
 }

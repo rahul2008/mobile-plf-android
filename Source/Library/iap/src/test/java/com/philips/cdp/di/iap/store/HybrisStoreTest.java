@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -192,7 +193,14 @@ public class HybrisStoreTest {
     }
 
     @Test
-    public void testCreateNewUser(){
+    public void testCreateNewUser() {
         mStore.createNewUser(mContext);
     }
+
+    @Test
+    public void testGetCountryUS() {
+        CartModelContainer.getInstance().setCountry("US");
+        assertEquals("US", mStore.getCountry());
+    }
+
 }

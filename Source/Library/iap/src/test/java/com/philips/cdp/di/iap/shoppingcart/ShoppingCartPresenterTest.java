@@ -589,6 +589,18 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mNetworkController.sendFailure(new VolleyError());
     }
 
+
+    @Test
+    public void testBuyProductWhenTotalItemnullOrZero() throws JSONException {
+
+        mShoppingCartPresenter = new ShoppingCartPresenter();
+        mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
+        mShoppingCartPresenter.buyProduct(mContext, "HX9003/63", Mockito.mock(IAPCartListener.class));
+        JSONObject obj = new JSONObject(TestUtils.readFile(ShoppingCartPresenterTest
+                .class, "get_carts_response_entries_zero.txt"));
+        mNetworkController.sendSuccess(obj);
+    }
+
     @Test
     public void testGetRetailersInformation() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);

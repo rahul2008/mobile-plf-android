@@ -54,7 +54,7 @@ public class IAPInterfaceTest {
         Assert.assertNotNull(mIAPSettings);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testLaunch() {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
@@ -64,7 +64,7 @@ public class IAPInterfaceTest {
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input, blackListedRetailer);
         mIAPSettings.setUseLocalData(true);
         mIapInterface.init(mIAPDependencies, mIAPSettings);
-        mIapInterface.launch(new FragmentLauncher(activity, R.id.cart_container, Mockito.mock(ActionBarListener.class)), iapLaunchInput);
+        mIapInterface.launch(new FragmentLauncher(activity, R.id.fl_mainFragmentContainer, Mockito.mock(ActionBarListener.class)), iapLaunchInput);
     }
 
     @Test
