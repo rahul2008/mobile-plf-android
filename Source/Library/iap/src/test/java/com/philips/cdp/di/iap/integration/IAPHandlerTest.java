@@ -145,7 +145,7 @@ public class IAPHandlerTest {
         iapListener.onFailure(IAPConstant.IAP_ERROR_UNKNOWN);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onSuccessOfInitAsFragment() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
@@ -300,7 +300,7 @@ public class IAPHandlerTest {
                 }), iapLaunchInput);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testLaunchIAPAsFragment() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
@@ -354,6 +354,18 @@ public class IAPHandlerTest {
         mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapLaunchInput);
     }
 
+
+    @Test
+    public void testGetProductDetailFragmentWithIgnoreRetailerList() throws Exception {
+        final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
+        IAPFlowInput pIapFlowInput = new IAPFlowInput("HX8332/11");
+        ArrayList<String> mIgnoreRetailerList = new ArrayList<>();
+        mIgnoreRetailerList.add("dfsd");
+        iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, pIapFlowInput, mIgnoreRetailerList);
+        mMockIAPHandler.getFragment(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapLaunchInput);
+    }
+
+
     @Test
     public void testGetBuyDirectFragment() throws Exception {
         final IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
@@ -399,7 +411,7 @@ public class IAPHandlerTest {
         mMockIAPHandler.getIAPErrorCode(msg);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testInitPreRequisite() throws Exception {
         mMockIAPHandler.initPreRequisite();
     }

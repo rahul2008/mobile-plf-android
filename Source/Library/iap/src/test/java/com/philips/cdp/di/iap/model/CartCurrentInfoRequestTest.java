@@ -57,6 +57,7 @@ public class CartCurrentInfoRequestTest {
         Assert.assertEquals(response.getClass(), Carts.class);
     }
 
+
     @Test
     public void testonPostSuccess() {
         AbstractModel.DataLoadListener listener = Mockito.mock(AbstractModel.DataLoadListener.class);

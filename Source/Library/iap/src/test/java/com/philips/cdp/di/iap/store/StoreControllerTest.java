@@ -19,9 +19,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class StoreControllerTest {
@@ -46,7 +44,7 @@ public class StoreControllerTest {
 
     @Test
     public void matchMockedPILLocaleIsReturned() {
-       // mWebsStoreConfig.mPILLocale = mock(PILLocale.class);
+        // mWebsStoreConfig.mPILLocale = mock(PILLocale.class);
 //        when(mWebsStoreConfig.mPILLocale.getLocaleCode()).thenReturn(NetworkURLConstants.LOCALE);
         MockStoreController config = new MockStoreController(mContext, mStoreConfiguration);
         config.getLocale();
@@ -100,5 +98,15 @@ public class StoreControllerTest {
 
             }
         };
+    }
+
+    @Test
+    public void verifygenerateStoreUrls() {
+        mStoreConfiguration.generateStoreUrls();
+    }
+
+    @Test
+    public void verifygetWebStoreConfig() {
+        mStoreConfiguration.getWebStoreConfig(mContext);
     }
 }
