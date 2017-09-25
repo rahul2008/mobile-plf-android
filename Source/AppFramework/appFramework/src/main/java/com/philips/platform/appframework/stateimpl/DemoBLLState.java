@@ -8,15 +8,15 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
 import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppSettings;
 import com.example.cdpp.bluelibexampleapp.uapp.DefaultBleDemoMicroAppDependencies;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-
-import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class DemoBLLState extends DemoBaseState {
     private Context context;
@@ -27,16 +27,35 @@ public class DemoBLLState extends DemoBaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        BleDemoMicroAppInterface uAppInterface = BleDemoMicroAppInterface.getInstance();
-        uAppInterface.init(new DefaultBleDemoMicroAppDependencies(context.getApplicationContext()), new BleDemoMicroAppSettings(getApplicationContext()));// pass App-infra instance instead of null
+        BleDemoMicroAppInterface uAppInterface = getBleUApp();
+        uAppInterface.init(getUappDependencies(),
+                getUappSettings());// pass App-infra instance instead of null
+        uAppInterface.launch(getUiLauncher(), null);
+    }
 
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                getDLSThemeConfiguration(context.getApplicationContext()), 0, null), null);
+    @NonNull
+    protected ActivityLauncher getUiLauncher() {
+        return new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                getDLSThemeConfiguration(context.getApplicationContext()), 0, null);
+    }
+
+    @NonNull
+    protected BleDemoMicroAppSettings getUappSettings() {
+        return new BleDemoMicroAppSettings(context);
+    }
+
+    @NonNull
+    protected DefaultBleDemoMicroAppDependencies getUappDependencies() {
+        return new DefaultBleDemoMicroAppDependencies(context);
     }
 
     @Override
     public void init(Context context) {
         this.context = context;
+    }
+
+    protected BleDemoMicroAppInterface getBleUApp() {
+        return BleDemoMicroAppInterface.getInstance();
     }
 
     @Override
