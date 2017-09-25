@@ -265,7 +265,7 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(final View view) {
                 setValues(view.getElevation(), elevation);
-                return areEqual();
+                return floatEqual(0.5f);
             }
         };
     }
