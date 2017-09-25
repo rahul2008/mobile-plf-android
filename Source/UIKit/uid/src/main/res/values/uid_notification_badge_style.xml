@@ -9,7 +9,7 @@
         <item name="android:gravity">center|center_horizontal</item>
         <item name="android:layout_gravity">top|right</item>
         <item name="android:visibility">invisible</item>
-
+        <item name="android:elevation">@dimen/uid_notificationbadge_elevation</item>
 
         <item name="android:textSize">@dimen/uid_notificationbadge_default_textSize</item>
         <item name="android:background">@drawable/uid_default_notificationbadge_background</item>
