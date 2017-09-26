@@ -53,7 +53,6 @@ import static com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel.APPLIANCE_P
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.isA;
@@ -273,7 +272,7 @@ public class EWSWiFiConnectViewModelTest {
 
     @Test
     public void shouldNotConnectIfWeAreInUnknownWifi() throws Exception {
-        when(wifiUtilMock.getCurrentWifiState()).thenReturn(WiFiUtil.UKNOWN_WIFI);
+        when(wifiUtilMock.getCurrentWifiState()).thenReturn(WiFiUtil.UNKNOWN_WIFI);
 
         viewModel.onStart();
 

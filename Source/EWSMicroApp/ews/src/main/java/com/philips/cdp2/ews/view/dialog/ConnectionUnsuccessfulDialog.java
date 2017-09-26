@@ -6,26 +6,26 @@
 package com.philips.cdp2.ews.view.dialog;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.EwsDeviceConnUnsuccesfulBinding;
+import com.philips.cdp2.ews.databinding.EwsDeviceConnUnsuccessfulBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.viewmodel.ConnectionUnsuccessfulViewModel;
 
 import javax.inject.Inject;
 
-public class ConnectionUnsuccessfulDialog extends BaseDialogFragment<EwsDeviceConnUnsuccesfulBinding> {
+public class ConnectionUnsuccessfulDialog extends BaseDialogFragment<EwsDeviceConnUnsuccessfulBinding> {
 
     @Inject
     ConnectionUnsuccessfulViewModel viewModel;
 
     @Override
-    protected void bindViewModel(final EwsDeviceConnUnsuccesfulBinding viewDataBinding) {
+    protected void bindViewModel(final EwsDeviceConnUnsuccessfulBinding viewDataBinding) {
         viewModel.setDialogDismissListener(this);
         viewDataBinding.setViewModel(viewModel);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.ews_device_conn_unsuccesful;
+        return R.layout.ews_device_conn_unsuccessful;
     }
 
     @Override

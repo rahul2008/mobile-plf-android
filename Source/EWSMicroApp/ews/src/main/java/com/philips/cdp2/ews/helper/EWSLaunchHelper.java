@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.helper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp2.ews.EWSApplication;
@@ -18,7 +17,6 @@ import com.philips.cdp2.ews.microapp.EWSLauncherInput;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.HashMap;

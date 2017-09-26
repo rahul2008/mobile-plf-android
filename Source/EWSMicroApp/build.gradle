@@ -16,8 +16,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${versionsExternal.dexCount}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${config.kotlinVersion}"
-        classpath "org.jetbrains.kotlin:kotlin-android-extensions:${config.kotlinVersion}"
     }
 }
 

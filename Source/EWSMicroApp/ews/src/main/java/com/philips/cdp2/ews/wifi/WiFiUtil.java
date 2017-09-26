@@ -26,7 +26,7 @@ import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
 public class WiFiUtil {
 
     public static final String DEVICE_SSID = "PHILIPS Setup";
-    public static final String UKNOWN_SSID = "<unknown ssid>";
+    public static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;
 
     private String homeWiFiSSID;
@@ -34,10 +34,10 @@ public class WiFiUtil {
 
     public static final int HOME_WIFI = 1;
     public static final int WRONG_WIFI = 2;
-    public static final int UKNOWN_WIFI = 3;
+    public static final int UNKNOWN_WIFI = 3;
     public static final int DEVICE_HOTSPOT_WIFI = 4;
 
-    @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UKNOWN_WIFI})
+    @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UNKNOWN_WIFI})
     public @interface WiFiState {
     }
 
@@ -77,8 +77,8 @@ public class WiFiUtil {
     int getCurrentWifiState() {
         String currentWifi = getConnectedWiFiSSID();
 
-        if (homeWiFiSSID == null || currentWifi == null || currentWifi.equalsIgnoreCase(UKNOWN_SSID)) {
-            return UKNOWN_WIFI;
+        if (homeWiFiSSID == null || currentWifi == null || currentWifi.equalsIgnoreCase(UNKNOWN_SSID)) {
+            return UNKNOWN_WIFI;
         } else if (currentWifi.contains(DEVICE_SSID)) {
             return DEVICE_HOTSPOT_WIFI;
         } else if (currentWifi.contains(homeWiFiSSID)) {
@@ -88,7 +88,7 @@ public class WiFiUtil {
             EWSLogger.d(EWS_STEPS, "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " + homeWiFiSSID);
             return WRONG_WIFI;
         }
-        return UKNOWN_WIFI;
+        return UNKNOWN_WIFI;
     }
 
     public void setHotSpotWiFiSSID(String ssid) {

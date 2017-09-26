@@ -122,7 +122,7 @@ public class WiFiUtilTest {
     public void shouldReturnWrongWifiWhenWifiStateIsUnknown() throws Exception {
         stubSSID(UKNOWN_SSID);
 
-        assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.UKNOWN_WIFI);
+        assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.UNKNOWN_WIFI);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class WiFiUtilTest {
         wiFiUtil.getCurrentHomeWiFiSSID();
         stubSSID(UKNOWN_SSID);
 
-        assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.UKNOWN_WIFI);
+        assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.UNKNOWN_WIFI);
     }
 
     @Test

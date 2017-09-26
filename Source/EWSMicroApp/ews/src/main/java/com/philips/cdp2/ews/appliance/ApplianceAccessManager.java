@@ -42,7 +42,7 @@ public class ApplianceAccessManager {
     private EWSGenericAppliance appliance;
     ApplianceSessionDetailsInfo sessionDetailsInfo;
     private String homeWiFiSSID;
-    DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
+    private DICommPortListener<WifiPort> wifiPortListener = new DICommPortListener<WifiPort>() {
 
         @Override
         public void onPortUpdate(final WifiPort port) {

@@ -12,7 +12,6 @@ android {
         renderscriptSupportModeEnabled true
         multiDexEnabled true
         testApplicationId "com.philips.platform.appframework.test"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     sourceSets {
         main.res.srcDirs += 'src/main/res-ews'
@@ -60,16 +59,8 @@ android {
 }
 
 
-android.defaultConfig.manifestPlaceholders = [
-        'appAuthRedirectScheme': 'not.used.right.now'  // in future add google client id (ex: ex:com.googleusercontent.apps.3pxxxxxxxxxxx-xxxxxxx)
-]
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
     // Android/Google
     compile "com.android.support:support-annotations:${versionsAndroid.support}"
     compile "com.android.support:design:${versionsAndroid.support}"
@@ -100,7 +91,6 @@ dependencies {
     testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
     testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib-jre7:${config.kotlinVersion}"
     testCompile("com.nhaarman:mockito-kotlin:${versionsExternal.mockitoKotlin}") {
         exclude group: 'org.mockito'
     }

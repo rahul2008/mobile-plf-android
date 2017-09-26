@@ -25,6 +25,7 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -38,7 +39,7 @@ public class EWSActivity extends UiKitActivity {
 
     EWSComponent ewsComponent;
 
-    public static final int DEVICE_CONNECTION_TIMEOUT = 30000;
+    public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
 
 
