@@ -55,7 +55,6 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     private PowerSleepConnectivityPresenter connectivityPresenter;
 
     private final String BLE_SCAN_DIALOG_TAG = "BleScanDialog";
-    private final int DEVICE_DISCOVERY_TIMEOUT = 30000;
     private final String SYNCED_DATE_FORMAT = "MMM d, hh:mm a";
     private final String SLEEP_PROGRESS_VIEW_PROPERTY = "scoreAngle";
     private final int PROGRESS_SCORE_MAX = 360;
@@ -127,7 +126,7 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
         ConnectivityUtils.hideSoftKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.powersleep_sync:
-                launchBlutoothActivity();
+                launchBluetoothActivity();
                 break;
             case R.id.insights:
                 connectivityPresenter.onEvent(R.id.insights);
@@ -169,13 +168,13 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
                         });
 
                         mCommCentral.startDiscovery();
-                        handler.postDelayed(stopDiscoveryRunnable, DEVICE_DISCOVERY_TIMEOUT);
+                        handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
                     } catch (MissingPermissionException e) {
                         RALog.e(TAG, "Permission missing");
                     }
                 }
             }
-        }, 100);
+        }, START_DISCOVERY_TIME);
 
     }
 
@@ -217,12 +216,12 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        RALog.d(TAG, "Device Error : " + s);
+        RALog.d(TAG, "Device Error : " + error.getErrorMessage() + ", "+s);
         Toast.makeText(getContext(), getString(R.string.RA_DLS_data_fetch_error), Toast.LENGTH_LONG).show();
     }
 
     private void setLastSyncDate() {
-        SimpleDateFormat syncFormat = new SimpleDateFormat(SYNCED_DATE_FORMAT, Locale.ENGLISH);
+        SimpleDateFormat syncFormat = new SimpleDateFormat();
         syncUpdated.setText(getString(R.string.label_last_synced, syncFormat.format(new Date(System.currentTimeMillis()))));
     }
 

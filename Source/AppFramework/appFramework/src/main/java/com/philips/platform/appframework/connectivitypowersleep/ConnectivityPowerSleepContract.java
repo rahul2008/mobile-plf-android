@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 
-public class ConnectivityPowerSleepContract {
+public interface ConnectivityPowerSleepContract {
 
     interface View {
 

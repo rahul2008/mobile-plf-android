@@ -41,6 +41,11 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
 
+
+    protected static final int STOP_DISCOVERY_TIMEOUT = 30000;
+
+    protected static final int START_DISCOVERY_TIME = 100;
+
     protected CommCentral mCommCentral;
 
     @Override
@@ -91,7 +96,7 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
         }
     };
 
-    protected void launchBlutoothActivity() {
+    protected void launchBluetoothActivity() {
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
@@ -166,4 +171,10 @@ public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseF
     protected abstract boolean isFragmentLive();
 
     protected abstract void startDiscovery();
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCommCentral = null;
+    }
 }

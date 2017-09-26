@@ -106,7 +106,7 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
         ConnectivityUtils.hideSoftKeyboard(getActivity());
         switch (v.getId()) {
             case R.id.start_connectivity_button:
-                launchBlutoothActivity();
+                launchBluetoothActivity();
                 break;
             case R.id.get_momentumvalue_button:
                 connectivityPresenter.processMoment(editText.getText().toString());
@@ -142,16 +142,15 @@ public class ConnectivityFragment extends ConnectivityBaseFragment implements Vi
                         });
 
                         mCommCentral.startDiscovery();
-                        handler.postDelayed(stopDiscoveryRunnable, 30000);
+                        handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
                         updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                     } catch (MissingPermissionException e) {
                         RALog.e(TAG, "Permission missing");
                     }
                 }
             }
-        }, 100);
+        }, START_DISCOVERY_TIME);
     }
-
     /**
      * Check if fragment is live
      *
