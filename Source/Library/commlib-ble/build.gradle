@@ -185,14 +185,13 @@ dependencies {
     compile deps.support.supportv4
     provided deps.support.annotations
 
-    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
     def suffix = objcdp.getVersionSuffix()
 
     if (findProject(':bluelib')) {
         debugCompile project(path: ':bluelib', configuration: 'debug')
         releaseCompile project(path: ':bluelib', configuration: 'release')
     } else {
-        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix())
+        compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bll_shinelib + objcdp.getVersionSuffix(), changing: true)
     }
 
     for (dep in [':commlib-api']) {
@@ -200,7 +199,7 @@ dependencies {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$shortversion$suffix") { changing = true }
+            compile("$group$dep:$versions.cml_commlib$suffix") { changing = true }
         }
     }
 
