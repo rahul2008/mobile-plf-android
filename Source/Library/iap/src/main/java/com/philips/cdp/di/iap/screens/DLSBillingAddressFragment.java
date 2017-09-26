@@ -193,7 +193,7 @@ public class DLSBillingAddressFragment extends InAppBaseFragment
         mEtStateBilling.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Utility.hideKeypad(mContext);
+                Utility.hideKeypad(getActivity());
                 mStateDropDownBilling.show();
                 return false;
             }

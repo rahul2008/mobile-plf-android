@@ -202,7 +202,7 @@ public class DLSShippingAddressFragment extends InAppBaseFragment
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Utility.hideKeypad(mContext);
+                Utility.hideKeypad(getActivity());
                 mStateDropDown.show();
                 return false;
             }

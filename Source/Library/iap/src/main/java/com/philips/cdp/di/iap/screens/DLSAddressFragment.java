@@ -181,7 +181,7 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        Utility.hideKeypad(mContext);
+        Utility.hideKeypad(getActivity());
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             //Edit and save address

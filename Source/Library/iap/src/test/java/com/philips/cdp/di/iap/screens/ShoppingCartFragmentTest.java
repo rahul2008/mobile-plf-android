@@ -115,7 +115,7 @@ public class ShoppingCartFragmentTest {
         shoppingCartFragment.onEventReceived(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldStart_ProductDetailFragment() throws Exception {
 
 
@@ -145,12 +145,12 @@ public class ShoppingCartFragmentTest {
         mAdapter.getNewCount();
         mAdapter.getSelectedItemPosition();
 //        mAdapter.onCreateViewHolder(any(ViewGroup.class),0);
-        mAdapter.onBindViewHolder(,0);
+       // mAdapter.onBindViewHolder(,0);
 
         shoppingCartFragment.startProductDetailFragment(mAdapter);
 
     }
 
 
-    ShoppingCartAdapter.
+    //ShoppingCartAdapter.
 }

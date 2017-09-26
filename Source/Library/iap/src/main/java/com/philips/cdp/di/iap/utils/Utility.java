@@ -34,20 +34,14 @@ import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 public class Utility {
     public static final String TAG = Utility.class.getName();
 
-    public static void hideKeypad(Context pContext) {
+    public static void hideKeypad(Activity pContext) {
         InputMethodManager inputMethodManager = (InputMethodManager)
                 pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        if (null != ((Activity) pContext).getCurrentFocus()) {
-            inputMethodManager.hideSoftInputFromWindow(((Activity) pContext).getCurrentFocus().getWindowToken(),
+        if (null != (pContext).getCurrentFocus()) {
+            inputMethodManager.hideSoftInputFromWindow(pContext.getCurrentFocus().getWindowToken(),
                     0);
         }
-    }
-
-    public static void showKeypad(Context pContext, EditText editText) {
-        InputMethodManager inputMethodManager = (InputMethodManager)
-                pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(editText, 0);
     }
 
     public static String formatAddress(final String address) {
@@ -77,18 +71,11 @@ public class Utility {
         return mThemeBaseColor;
     }
 
-    public static void addCountryInPreference(Context pContext, String key, String value) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
+    public static void addCountryInPreference( SharedPreferences sharedPreferences, String key, String value) {
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         prefsEditor.putString(key, value);
         prefsEditor.apply();
     }
-
-    public static String getCountryFromPreferenceForKey(Context pContext, String key) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
-        return sharedPreferences.getString(key, null);
-    }
-
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
         if (!TextUtils.isEmpty(code)) {
             sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
@@ -105,7 +92,7 @@ public class Utility {
         return sb.toString();
     }
 
-    private static boolean isNotNullNorEmpty(String field) {
+    static boolean isNotNullNorEmpty(String field) {
         return !TextUtils.isEmpty(field);
     }
 
@@ -179,7 +166,7 @@ public class Utility {
                     @Override
                     public void onClick(View view) {
                         alertListener.onPositiveBtnClick();
-                        dismissAlertFragmentDialog(pFragmentManager);
+                        dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
                     }
               }
         );
@@ -187,18 +174,18 @@ public class Utility {
             @Override
             public void onClick(View view) {
                 alertListener.onNegativeBtnClick();
-                dismissAlertFragmentDialog(pFragmentManager);
+                dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
             }
         });
         alertDialogFragment = builder.setCancelable(false).create();
         alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
     }
 
-    private static void dismissAlertFragmentDialog(FragmentManager fragmentManager) {
+    static void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment,FragmentManager fragmentManager) {
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
-            final AlertDialogFragment alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
+            alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
             alertDialogFragment.dismiss();
         }
     }
@@ -291,9 +278,9 @@ public class Utility {
 //    }
 
     public static Drawable getImageArrow(Context mContext) {
-        Drawable imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
         int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
+        Drawable imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
         imageArrow.setBounds(0, 0, width, height);
         return imageArrow;
     }

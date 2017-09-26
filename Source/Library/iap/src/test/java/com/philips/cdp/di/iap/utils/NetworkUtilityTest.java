@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import junit.framework.TestCase;
 
@@ -22,7 +23,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NetworkUtilityTest extends TestCase {
 
@@ -76,4 +79,29 @@ public class NetworkUtilityTest extends TestCase {
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
+    @Mock
+    Context contextMock;
+
+    @Mock
+    FragmentManager fragmentManagerMock;
+
+    @Test(expected = NullPointerException.class)
+    public void shouldShowAlertDialog() throws Exception {
+        NetworkUtility.getInstance().showDLSDialog(contextMock,"Hi","Hi","Hi",fragmentManagerMock);
+    }
+
+    @Mock
+    AlertDialogFragment alertDialogFragmentMock;
+
+    @Test
+    public void shouldDismissProgressDialog() throws Exception {
+        NetworkUtility.getInstance().dismissAlertFragmentDialog(alertDialogFragmentMock,fragmentManagerMock);
+
+    }
+
+    @Test
+    public void testShouldDissMissAlertFragmentWhenItIsNull() throws Exception {
+     when(fragmentManagerMock.findFragmentByTag(ALERT_DIALOG_TAG)).thenReturn(alertDialogFragmentMock);
+        NetworkUtility.getInstance().dismissAlertFragmentDialog(null,fragmentManagerMock);
+    }
 }
