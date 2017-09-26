@@ -218,8 +218,8 @@
                 android:layout_marginTop="@dimen/reg_dimen_24dp"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/reg_margin_bottom"
-                android:layout_marginTop="20dip"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

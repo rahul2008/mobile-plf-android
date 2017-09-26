@@ -240,7 +240,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
         showDialog(context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Title),
                 context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line1),
                 context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Message_Line2),
-                context.getResources().getString(R.string.reg_forgotpassword_dialog_button),
+                context.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title),
                 getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();
         mRegError.hideError();
