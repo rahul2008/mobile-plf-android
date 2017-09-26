@@ -15,104 +15,85 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-#--------------------------------demouapp--------------------------------
--dontwarn com.philips.cdp2.demouapp.fragment.MismatchedPinAppliancesFragment
--dontwarn com.philips.cdp2.demouapp.fragment.port.DevicePortFragment$2
 
--verbose
+#-------------------------Registration Starts -------------------------
 
-#--------------------------------Volley--------------------------------
--keep class com.android.volley.** { *; }
--keep interface com.android.volley.** { *; }
--keep class org.apache.commons.logging.**
--keep class com.squareup.okhttp.** { *; }
--keep class okio.** { *; }
+#Wechat
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
 
-#--------------------------------Gson--------------------------------
--keep class sun.misc.Unsafe { *; }
 
-#--------------------------------Tagging--------------------------------
--keep class com.adobe.mobile.** {*;}
--keep class com.philips.cdp.tagging.** {*;}
+## New rules for EventBus 3.0.x ##
+# http://greenrobot.org/eventbus/documentation/proguard/
 
-#--------------------------------Hockey--------------------------------
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
-#--------------------------------Registration--------------------------------
--keep class com.philips.cdp.registration.** {*;}
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
 
+
+
+##General and network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
+-dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,Exceptions
 
-#GMS (Registration)
+
+#Hockey app and enabling excpetion catching
+-keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+
+
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+
+
+#HSDP Lib
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
+
+
+#GSM
 -keep  class com.google.android.gms.* { public *; }
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
-#Webkit (Registration)
+#webkit
 -keep  class android.net.http.SslError
 -keep  class android.webkit.WebViewClient
 
-
-#Janrain (Registration)
--keep public class com.janrain.android.** {*;}
--keep  class com.janrain.android.Jump$* {*;}
--keep class com.philips.cdp.registration.User$*{*;}
--keep  class com.janrain.android.capture.Capture$* {*;}
-
-
--dontwarn com.android.volley.**
--dontwarn com.squareup.okhttp.**
--dontwarn java.nio.file.**
--dontwarn okio.**
-
--dontwarn com.facebook.android.BuildConfig
-
--dontwarn android.support.**
--dontwarn android.support.v8.**
--dontwarn com.philips.cdp.registration.**
--dontwarn com.philips.cdp.platform.**
--dontwarn org.apache.**
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
 
-#notification (Registration)
+#notification
 -dontwarn android.app.Notification
+-dontwarn okio.**
+-keep class com.squareup.** { *; }
+-keep class java.nio.**
+-keep class org.codehaus.**
 
--keepclasseswithmembernames class * {
-    native <methods>;
-}
--dontwarn com.google.android.gms.**
--dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+-dontwarn com.janrain.android.**
+-dontwarn java.nio.**
 
-# --------------------------WeChat---------------------------------
+-keepattributes Signature
+-keepattributes InnerClasses,EnclosingMethod
 
--keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
-
--keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
-
--keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
-
--keep class com.philips.platform.baseapp.base.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.** {*;}
-
--keep class com.philips.platform.referenceapp.wxapi.WXEntryActivity
-
--keep class com.tencent.mm.sdk.** {
-      *;
-  }
-
-
-# ----------------------------Gson specific classes --------------------------
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.** {*;}
--keep class com.google.gson.examples.android.model.** { *; }
--dontwarn com.google.gson.**
-
-
+#-------------------------Registration Ends -------------------------
 
 
 #----------------------------Product Registration library Start Here -----------------------
@@ -126,10 +107,9 @@
 
 -keepclassmembers enum * { *; }
 
-#Eventbus
--keepclassmembers class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
+#Webkit (Registration)
+-keep  class android.net.http.SslError
+-keep  class android.webkit.WebViewClient
 
 # Only required if you use AsyncExecutor
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
@@ -139,76 +119,7 @@
 #----------------------------Product Registration DemoApp End Here -----------------------
 
 
-# App-framework
--keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
-
-
-##--------------- ORMLite  ----------
-
-# Keep ORMLite specifics
--keep class com.j256.**
--keepclassmembers class com.j256.** { *; }
--keep enum com.j256.**
--keepclassmembers enum com.j256.** { *; }
--keep interface com.j256.**
--keepclassmembers interface com.j256.** { *; }
-
--keep @com.j256.ormlite.table.DatabaseTable class * { *; }
-
--dontwarn org.slf4j.**
--dontwarn org.apache.log4j.**
--dontwarn org.apache.commons.logging.**
--dontwarn org.apache.commons.codec.binary.**
--dontwarn javax.persistence.**
--dontwarn javax.lang.**
--dontwarn javax.annotation.**
--dontwarn javax.tools.**
-
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
--dontwarn com.squareup.okhttp.**
--dontwarn retrofit.**
--dontwarn okio.**
--dontwarn rx.**
--dontwarn android.app.Notification
-
-#-----------------Green Robot Eventbus-----------------------
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keep class de.greenrobot.event.** { *; }
--keep class de.greenrobot.** { *; }
--keepclassmembers class ** {
-    public void onEvent(**);
-}
--keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
-
-##--------------- Jodatime  ----------
-
--dontwarn org.joda.convert.**
--dontwarn org.joda.time.**
--keep class org.joda.time.** { *; }
--keep interface org.joda.time.** { *; }
-
-##-------------- Retrofit -------------
-
--keep class com.squareup.** { *; }
--keep interface com.squareup.** { *; }
--keep class retrofit.** { *; }
--keep interface retrofit.** { *;}
-
-#---------------- Sqlcipher -------------------------
--keep class net.sqlcipher.** {*;}
--keep interface net.sqlcipher.** { *; }
--keep class net.sqlcipher.database.** {*;}
--keep interface net.sqlcipher.database.** { *; }
--keep enum net.sqlcipher.**
--keepclassmembers enum net.sqlcipher.** { *; }
-
-#-----------------------------Secure DB--------------------------------
--keep public class com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper.**{ public *;}
-
-#-------------------Dataservices starts here-----------------------------------------
+#---------------------------Dataservices starts here-----------------------------------------
 #Pojo classes required by Retorfit to reflect the response
 
 #Data-Services Moments
@@ -250,45 +161,74 @@
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
 -keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
 
-#------------------Data Services ends here----------------------------------------------------
+# Keep ORMLite specifics
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
 
-#HSDP Lib
--keep  class com.philips.dhpclient.** {*;}
--keep  class com.fasterxml.jackson.annotation.** {*;}
--keep  class com.fasterxml.jackson.core.** {*;}
--keep  class com.fasterxml.jackson.databind.** {*;}
+-keep @com.j256.ormlite.table.DatabaseTable class * { *; }
 
-#--------------------Tagging--------------------
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.binary.**
+-dontwarn javax.persistence.**
+-dontwarn javax.lang.**
+-dontwarn javax.annotation.**
+-dontwarn javax.tools.**
 
--keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+
+-dontwarn com.squareup.okhttp.**
+-dontwarn retrofit.**
+-dontwarn okio.**
+-dontwarn rx.**
+-dontwarn android.app.Notification
+
+#Green Robot Eventbus
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class de.greenrobot.event.** { *; }
+-keep class de.greenrobot.** { *; }
+-keepclassmembers class ** {
+    public void onEvent(**);
+}
+-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
+
+# Jodatime
+
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
+
+# Retrofit
+
+-keep class com.squareup.** { *; }
+-keep interface com.squareup.** { *; }
+-keep class retrofit.** { *; }
+-keep interface retrofit.** { *;}
+
+# Sqlcipher
+-keep class net.sqlcipher.** {*;}
+-keep interface net.sqlcipher.** { *; }
+-keep class net.sqlcipher.database.** {*;}
+-keep interface net.sqlcipher.database.** { *; }
+-keep enum net.sqlcipher.**
+-keepclassmembers enum net.sqlcipher.** { *; }
 
 
-#--------------------Network--------------------
--keep class org.apache.http.** { *; }
--keep class android.net.http.** { *; }
+#----------------------------------Data Services ends here-------------------
 
-#UIKit
--keep class com.shamanland.** {*;}
--keep class uk.co.chrisjenx.** {*;}
+#-----UIKit
+#-keep class com.shamanland.** {*;}
+#-keep class uk.co.chrisjenx.** {*;}
 
 
-#--------------------GooglePLayServices--------------------
-
--keep class android.support.** {*;}
--keep class android.view.** {*;}
-
--keep interface android.support.v13.app.** { *; }
--keep public class * extends android.support.v13.**
--keep public class * extends android.app.Fragment
--keep class com.philips.cdp.uikit.customviews.**
-
--dontwarn com.google.android.gms.**
-
--dontwarn  org.w3c.dom.bootstrap.DOMImplementationRegistry
--dontwarn android.view.**
--dontwarn android.media.session
--dontwarn android.app.**
 
 #------------------------- Consumer Care starts -------------------------
 
@@ -350,6 +290,15 @@
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
 
+#UappFramework
+-keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
+
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.** {*;}
+-keep class com.google.gson.examples.android.model.** { *; }
+-dontwarn com.google.gson.**
+
+
 #-----------------------------app infra ends here-----------------------------------
 
 #-----------------------------PRX starts here-----------------------------------
@@ -369,6 +318,9 @@
 
 #------------------------------Application specific rules start here------------------------------------
 #Detail info at https://www.guardsquare.com/en/proguard/manual/examples#application
+
+-verbose
+
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -401,6 +353,8 @@
     <init>(...);
 }
 
+-dontwarn com.google.android.gms.**
+
 # Keep android view
 
 -keep public class * extends android.view.View {
@@ -430,3 +384,7 @@ public static <fields>;
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
+
+-dontwarn android.support.v7.view.menu.**
+-dontwarn android.support.customtabs.**
+#------------------------------Application specific rules end  here------------------------------------

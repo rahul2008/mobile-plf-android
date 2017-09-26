@@ -138,6 +138,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     public void setListener() {
         if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).isUserSignIn()) {
             RALog.d(TAG, "Setting Listener");
+            ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);
         } else {
             RALog.d(TAG, "User not signed in");
