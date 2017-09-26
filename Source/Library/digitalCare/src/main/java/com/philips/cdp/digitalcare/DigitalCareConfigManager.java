@@ -288,7 +288,7 @@ public class DigitalCareConfigManager {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
                         (AnalyticsConstants.COMPONENT_NAME_CC, com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
-        taggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+
         return taggingInterface;
     }
 

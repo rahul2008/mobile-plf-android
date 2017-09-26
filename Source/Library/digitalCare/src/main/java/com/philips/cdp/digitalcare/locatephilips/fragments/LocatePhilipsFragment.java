@@ -396,7 +396,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         initView();
                     }
                 }
-            },2000);
+            },0);
         }
     }
 

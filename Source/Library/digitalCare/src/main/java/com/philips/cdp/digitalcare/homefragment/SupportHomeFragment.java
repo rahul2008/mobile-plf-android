@@ -426,7 +426,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().
                 getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage(ccConfigManager.getPreviousPageNameForTagging());
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
 
         ProductModelSelectionHelper.getInstance().
                 setProductSelectionListener(new ProductSelectionListener() {
@@ -478,7 +477,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().
                 getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage(ccConfigManager.getPreviousPageNameForTagging());
-        aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().
                 getUiLauncher();
         uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getDlsThemeConfiguration(), uiLauncher.getUiKitTheme(), null);
