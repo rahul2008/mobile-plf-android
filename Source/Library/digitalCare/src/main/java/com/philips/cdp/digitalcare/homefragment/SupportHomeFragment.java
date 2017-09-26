@@ -653,6 +653,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         ArrayList<MenuItem> menus = new ArrayList<>();
         for (int i = 0; i < titles.length(); i++) {
             menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
+
+            if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
+                    getHardCodedProductList().length > 1 && (menus.get(i).mText == R.string.Change_Selected_Product) && isProductSelected()) {
+                menus.remove(i);
+            }
+
         }
         return menus;
     }
