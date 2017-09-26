@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SSDPDeviceTest extends RobolectricTest {
 
-    private static final String TEST_DESCRIPTION_XML = "<root xmlns=\"urn:schemas-upnp-org:device-1-0\">" +
+    private static final String HUE_BRIDGE_DESCRIPTION = "<root xmlns=\"urn:schemas-upnp-org:device-1-0\">" +
             "<specVersion><major>1</major><minor>0</minor></specVersion>" +
             "<URLBase>http://192.168.1.100:80/</URLBase>" +
             "<device>" +
@@ -26,21 +26,28 @@ public class SSDPDeviceTest extends RobolectricTest {
             "<modelNumber>BSB002</modelNumber>" +
             "<modelURL>http://www.meethue.com</modelURL>" +
             "<serialNumber>00123456789</serialNumber>" +
-            "<cppId>01234abcd56789</cppId>" +
             "<UDN>uuid:2f402f80-da50-11e1-9b23-00123456789f</UDN>" +
             "<presentationURL>index.html</presentationURL>" +
             "<iconList><icon><mimetype>image/png</mimetype><height>48</height><width>48</width><depth>24</depth><url>hue_logo_0.png</url></icon></iconList>" +
             "</device>" +
             "</root>";
 
+    public static final String AIRPURIFIER_DESCRIPTION = "<?xml version=\"1.0\"?><root xmlns=\"urn:schemas-upnp-org:device-1-0\"><specVersion><major>1</major><minor>1</minor></specVersion><device><deviceType>urn:philips-com:device:DiProduct:1</deviceType><friendlyName>AirPurifier For Test</friendlyName><manufacturer>Royal Philips Electronics</manufacturer><modelName>AirPurifier</modelName><UDN>uuid:12345678-1234-1234-1234-1c5a6b6c74c0</UDN><cppId>1c5a6bfffe6c74c0</cppId></device></root>";
+    public static final String ALMOST_CORRECT_DESCRIPTION = "<?xml version=\"1.0\"?>\"<!DOCTYPE lolz []><root xmlns=\"urn:schemas-upnp-org:device-1-0\"><specVersion><major>1</major><minor>1</minor></specVersion><device><deviceType>urn:philips-com:device:DiProduct:1</deviceType><friendlyName>Airpurifier still next to Lui</friendlyName><manufacturer>Royal Philips Electronics</manufacturer><modelName>AirPurifier</modelName><UDN>uuid:12345678-1234-1234-1234-1c5a6b6c74c0</UDN><cppId>1c5a6bfffe6c74c0</cppId></device></root>";
+    public static final String INVALID_DESCRIPTION = "<?xml version=\"1.0\"?>\n" +
+            "<!DOCTYPE lolz [\n" +
+            "<!ENTITY lol \"lol\">\n" +
+            "<!ENTITY lol2 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n" +
+            "<!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\"> <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\"> <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\"> <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\"> <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\"> <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\"> <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\"> ]>\n" +
+            "<lolz>&lol9;</lolz>";
+
     private static final String TEST_IP_ADDRESS = "1.2.3.4";
 
     @Test
-    public void testCreate() {
+    public void testCreateGenericDevice() {
         boolean isSecure = true;
-        final SSDPDevice device = SSDPDevice.create(TEST_DESCRIPTION_XML, TEST_IP_ADDRESS, isSecure);
+        final SSDPDevice device = SSDPDevice.create(HUE_BRIDGE_DESCRIPTION, TEST_IP_ADDRESS, isSecure);
 
-        assertThat(device.getCppId()).isEqualTo("01234abcd56789");
         assertThat(device.getDeviceType()).isEqualTo("urn:schemas-upnp-org:device:Basic:1");
         assertThat(device.getFriendlyName()).isEqualTo("Hue Bridge (192.168.1.100)");
         assertThat(device.getManufacturer()).isEqualTo("Royal Philips Electronics");
@@ -56,4 +63,22 @@ public class SSDPDeviceTest extends RobolectricTest {
         assertThat(device.isSecure()).isEqualTo(isSecure);
     }
 
+    @Test
+    public void testCreateDiCommDevice() {
+        boolean isSecure = true;
+        final SSDPDevice device = SSDPDevice.create(AIRPURIFIER_DESCRIPTION, TEST_IP_ADDRESS, isSecure);
+
+        assertThat(device.getDeviceType()).isEqualTo("urn:philips-com:device:DiProduct:1");
+        assertThat(device.getCppId()).isEqualTo("1c5a6bfffe6c74c0");
+    }
+
+    @Test
+    public void testAlmostCorrectDescription() {
+        final SSDPDevice shouldWorkJustFine = SSDPDevice.create(ALMOST_CORRECT_DESCRIPTION, TEST_IP_ADDRESS, false);
+    }
+
+    @Test
+    public void testInvalidDescription() {
+        final SSDPDevice shouldNotCrashTheParser = SSDPDevice.create(INVALID_DESCRIPTION, TEST_IP_ADDRESS, false);
+    }
 }
