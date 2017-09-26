@@ -35,7 +35,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
@@ -55,7 +54,6 @@ public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment imp
     private PowerSleepConnectivityPresenter connectivityPresenter;
 
     private final String BLE_SCAN_DIALOG_TAG = "BleScanDialog";
-    private final String SYNCED_DATE_FORMAT = "MMM d, hh:mm a";
     private final String SLEEP_PROGRESS_VIEW_PROPERTY = "scoreAngle";
     private final int PROGRESS_SCORE_MAX = 360;
     private final int PROGRESS_PERCENTAGE_MAX = 100;
