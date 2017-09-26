@@ -7,23 +7,24 @@ package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class SSDPMessage {
+class SSDPMessage {
 
-    private static final String NEWLINE = "\r\n";
+    static final String SEPARATOR = ": ";
+    static final String NEWLINE = "\r\n";
 
-    public static final String SSDP_HOST = "239.255.255.250";
-    public static final int SSDP_PORT = 1900;
+    static final String SSDP_HOST = "239.255.255.250";
+    static final int SSDP_PORT = 1900;
 
     private static final int TYPE_SEARCH = 0;
     private static final int TYPE_NOTIFY = 1;
     private static final int TYPE_FOUND = 2;
 
-    public static final String MESSAGE_TYPE_SEARCH = "M-SEARCH * HTTP/1.1";
-    public static final String MESSAGE_TYPE_NOTIFY = "NOTIFY * HTTP/1.1";
-    public static final String MESSAGE_TYPE_FOUND = "HTTP/1.1 200 OK";
+    static final String MESSAGE_TYPE_SEARCH = "M-SEARCH * HTTP/1.1";
+    static final String MESSAGE_TYPE_NOTIFY = "NOTIFY * HTTP/1.1";
+    static final String MESSAGE_TYPE_FOUND = "HTTP/1.1 200 OK";
 
     private static final String[] MESSAGE_TYPES = {
             MESSAGE_TYPE_SEARCH,
@@ -31,38 +32,34 @@ public final class SSDPMessage {
             MESSAGE_TYPE_FOUND
     };
 
-    public static final String USN = "USN";
-    public static final String CACHE_CONTROL = "CACHE-CONTROL";
-    public static final String HOST = "HOST";
-    public static final String LOCATION = "LOCATION";
-    public static final String NAMESPACE = "MAN";
-    public static final String MAX_WAIT_TIME = "MX";
-    public static final String SEARCH_TARGET = "ST";
-    public static final String SERVER = "SERVER";
-    public static final String NOTIFICATION_TYPE = "NT";
-    public static final String NOTIFICATION_SUBTYPE = "NTS";
-    public static final String USER_AGENT = "USER-AGENT";
+    static final String USN = "USN";
+    static final String CACHE_CONTROL = "CACHE-CONTROL";
+    static final String HOST = "HOST";
+    static final String LOCATION = "LOCATION";
+    static final String NAMESPACE = "MAN";
+    static final String MAX_WAIT_TIME = "MX";
+    static final String SEARCH_TARGET = "ST";
+    static final String SERVER = "SERVER";
+    static final String NOTIFICATION_TYPE = "NT";
+    static final String NOTIFICATION_SUBTYPE = "NTS";
+    static final String USER_AGENT = "USER-AGENT";
 
-    public static final String BOOT_ID = "BOOTID.UPNP.ORG";
-    public static final String CONFIG_ID = "CONFIGID.UPNP.ORG";
-    public static final String NEXT_BOOT_ID = "NEXTBOOTID.UPNP.ORG";
-    public static final String SEARCH_PORT = "SEARCHPORT.UPNP.ORG";
+    static final String NAMESPACE_DISCOVER = "\"ssdp:discover\"";
 
-    public static final String NAMESPACE_DISCOVER = "\"ssdp:discover\"";
+    static final String NOTIFICATION_SUBTYPE_ALIVE = "ssdp:alive";
+    static final String NOTIFICATION_SUBTYPE_BYEBYE = "ssdp:byebye";
+    static final String NOTIFICATION_SUBTYPE_UPDATE = "ssdp:update";
 
-    public static final String NOTIFICATION_SUBTYPE_ALIVE = "ssdp:alive";
-    public static final String NOTIFICATION_SUBTYPE_BYEBYE = "ssdp:byebye";
-    public static final String NOTIFICATION_SUBTYPE_UPDATE = "ssdp:update";
-
-    public static final String SEARCH_TARGET_ALL = "ssdp:all";
-    public static final String SEARCH_TARGET_UPNP_ROOTDEVICE = "upnp:rootdevice";
-    public static final String SEARCH_TARGET_URN = "urn:%s";
-    public static final String SEARCH_TARGET_UUID = "uuid:%s";
+    static final String SEARCH_TARGET_ALL = "ssdp:all";
+    static final String SEARCH_TARGET_DICOMM = "urn:philips-com:device:DiProduct:1";
+    static final String SEARCH_TARGET_UPNP_ROOTDEVICE = "upnp:rootdevice";
+    static final String SEARCH_TARGET_URN = "urn:%s";
+    static final String SEARCH_TARGET_UUID = "uuid:%s";
 
     private final int type;
     private Map<String, String> headers;
 
-    public SSDPMessage(@NonNull final String messageString) {
+    SSDPMessage(@NonNull final String messageString) {
         final String lines[] = messageString.split(NEWLINE);
         String line = lines[0].trim();
 
@@ -89,15 +86,11 @@ public final class SSDPMessage {
         }
     }
 
-    public synchronized Map<String, String> getHeaders() {
+    synchronized Map<String, String> getHeaders() {
         if (this.headers == null) {
-            this.headers = new HashMap<>();
+            this.headers = new LinkedHashMap<>();
         }
         return this.headers;
-    }
-
-    public int getType() {
-        return this.type;
     }
 
     public String get(String key) {
@@ -108,10 +101,6 @@ public final class SSDPMessage {
         return getHeaders().put(key, value);
     }
 
-    public boolean isSearchTarget(String searchTarget) {
-        return getHeaders().get(SEARCH_TARGET).equals(searchTarget);
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -119,7 +108,7 @@ public final class SSDPMessage {
 
         for (Map.Entry<String, String> entry : getHeaders().entrySet()) {
             builder.append(entry.getKey())
-                    .append(": ")
+                    .append(SEPARATOR)
                     .append(entry.getValue())
                     .append(NEWLINE);
         }

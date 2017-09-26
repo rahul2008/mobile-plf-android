@@ -6,10 +6,11 @@
 package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.lan.util.HTTP;
+import com.philips.cdp2.commlib.lan.util.HTTP.RequestCallback;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -22,12 +23,14 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import static com.philips.cdp2.commlib.lan.util.HTTP.PROTOCOL_HTTPS;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.HOST;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MAX_WAIT_TIME;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_FOUND;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MESSAGE_TYPE_NOTIFY;
@@ -39,62 +42,75 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_ALI
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_BYEBYE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.NOTIFICATION_SUBTYPE_UPDATE;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET;
-import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_ALL;
+import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SEARCH_TARGET_DICOMM;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
+import static java.lang.Thread.currentThread;
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
 public class SSDPControlPoint implements SSDPDiscovery {
     private static final String TAG = "SSDPControlPoint";
 
     private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
-    private static final int DEFAULT_WAIT_TIME_IN_SECONDS = 5;
+    private static final int SEARCH_INTERVAL_SECONDS = 5;
     private static final int DESCRIPTION_TIMEOUT_MILLIS = 3000;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
     private DatagramSocket socket;
-    private String searchTarget;
-    private TimerTask searchTask;
-    private DiscoveryThread discoveryThread;
 
-    private Set<SSDPDeviceListener> SSDPDeviceListeners = new CopyOnWriteArraySet<>();
+    private ScheduledExecutorService searchExecutor = newSingleThreadScheduledExecutor();
+    private SearchTask searchTask;
+    private ScheduledFuture searchTaskFuture;
+
+    private ScheduledExecutorService discoveryExecutor = newSingleThreadScheduledExecutor();
+    private Runnable discoveryTask;
+    private ScheduledFuture discoveryTaskFuture;
+
+    private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
     private Set<SSDPDevice> discoveredDevices = new CopyOnWriteArraySet<>();
-    private int maxWaitTimeInSeconds = -1;
 
-    @Override
-    public void start() {
-        startDiscovery();
-    }
-
-    @Override
-    public void stop() {
-        stopDiscovery();
-    }
-
-    @Override
-    public boolean isStarted() {
-        return discoveryThread != null;
-    }
-
-    public interface SSDPDeviceListener {
+    public interface DeviceListener {
         void onDeviceAvailable(SSDPDevice device);
 
         void onDeviceUnavailable(SSDPDevice device);
     }
 
-    private final class DiscoveryThread extends Thread {
-        private boolean isFinished;
+    private final class SearchTask implements Runnable {
 
-        private DiscoveryThread() {
-            super("SSDPDiscoveryThread");
+        @Override
+        public void run() {
+            if (socket == null) {
+                return;
+            }
+
+            try {
+                final SSDPMessage searchMessage = new SSDPMessage(MESSAGE_TYPE_SEARCH);
+                searchMessage.getHeaders().put(SEARCH_TARGET, SEARCH_TARGET_DICOMM);
+                searchMessage.getHeaders().put(HOST, SSDP_HOST);
+                searchMessage.getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
+                searchMessage.getHeaders().put(MAX_WAIT_TIME, String.valueOf(SEARCH_INTERVAL_SECONDS));
+
+                final String searchMessageString = searchMessage.toString();
+                DICommLog.d(DICommLog.SSDP, searchMessageString);
+
+                final byte[] bytes = searchMessageString.getBytes(CHARSET_UTF8);
+                final DatagramPacket requestPacket = new DatagramPacket(bytes, bytes.length, ssdpAddress);
+
+                socket.send(requestPacket);
+            } catch (IOException e) {
+                DICommLog.e(DICommLog.SSDP, "Error sending search message: " + e.getMessage());
+            }
         }
+    }
+
+    private final class DiscoveryTask implements Runnable {
 
         @Override
         public void run() {
             byte[] buffer = new byte[1024];
 
-            while (!isFinished && !isInterrupted()) {
+            while (!currentThread().isInterrupted()) {
                 if (socket == null || socket.isClosed()) {
                     return;
                 }
@@ -114,109 +130,92 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
                     final String payloadString = new String(payload, CHARSET_UTF8);
                     final SSDPMessage message = new SSDPMessage(payloadString);
-                    Log.d(TAG, message.toString());
+                    DICommLog.d(DICommLog.SSDP, message.toString());
 
-                    try {
-                        createDevice(message);
-                    } catch (MalformedURLException ignored) {
-                    }
+                    handleMessage(message);
                 }
-            }
-            DICommLog.d(TAG, "DiscoveryThread finished.");
-        }
-
-        void finish() {
-            isFinished = true;
-        }
-    }
-
-    private final class SearchTask extends TimerTask {
-        @Override
-        public void run() {
-            if (socket == null) {
-                return;
-            }
-
-            try {
-                final SSDPMessage searchMessage = new SSDPMessage(MESSAGE_TYPE_SEARCH);
-                searchMessage.getHeaders().put(SEARCH_TARGET, searchTarget);
-                searchMessage.getHeaders().put(HOST, SSDP_HOST);
-                searchMessage.getHeaders().put(NAMESPACE, NAMESPACE_DISCOVER);
-                searchMessage.getHeaders().put(MAX_WAIT_TIME, String.valueOf(maxWaitTimeInSeconds));
-
-                final String searchMessageString = searchMessage.toString();
-                Log.d(TAG, searchMessageString);
-
-                byte[] bytes = searchMessageString.getBytes(CHARSET_UTF8);
-
-                final DatagramPacket requestPacket = new DatagramPacket(bytes, bytes.length, ssdpAddress);
-                socket.send(requestPacket);
-            } catch (IOException e) {
-                Log.e(TAG, "Error sending search message.", e);
             }
         }
     }
 
     public SSDPControlPoint() {
-        newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                if (socket == null) {
-                    try {
-                        socket = new DatagramSocket(null);
-                        socket.setReuseAddress(true);
-                        socket.bind(null);
-                    } catch (SocketException e) {
-                        throw new IllegalStateException("Error creating socket.");
-                    }
-                }
+        setupSocket();
+    }
+
+    @Override
+    public void start() {
+        startDiscovery();
+        startSearch();
+    }
+
+    @Override
+    public void stop() {
+        stopSearch();
+        stopDiscovery();
+    }
+
+    @Override
+    public boolean isStarted() {
+        return discoveryTaskFuture != null && !discoveryTaskFuture.isDone();
+    }
+
+    private void setupSocket() {
+        if (socket == null) {
+            try {
+                socket = new DatagramSocket(null);
+                socket.setReuseAddress(true);
+                socket.bind(null);
+            } catch (SocketException e) {
+                throw new IllegalStateException("Error creating socket.");
             }
-        });
+        }
     }
 
     private void startDiscovery() {
-        startDiscovery(null, DEFAULT_WAIT_TIME_IN_SECONDS);
-    }
-
-    private synchronized void startDiscovery(final String searchTarget, final int maxWaitTimeInSeconds) {
-        if (maxWaitTimeInSeconds < 1 || maxWaitTimeInSeconds > 5) {
-            throw new IllegalArgumentException("Max wait time should be a value between 1 and 5 inclusive.");
-        }
-        this.maxWaitTimeInSeconds = maxWaitTimeInSeconds;
-        startDiscoveryThread();
-
-        if (this.searchTask == null) {
-            this.searchTarget = (searchTarget == null) ? SEARCH_TARGET_ALL : searchTarget;
-            this.searchTask = new SearchTask();
+        if (this.discoveryTask == null) {
+            this.discoveryTask = new DiscoveryTask();
 
             try {
-                new Timer().scheduleAtFixedRate(this.searchTask, 0, maxWaitTimeInSeconds * 1000);
+                discoveryTaskFuture = discoveryExecutor.schedule(this.discoveryTask, 0, TimeUnit.SECONDS);
             } catch (IllegalStateException ignored) {
             }
         }
     }
 
-    private synchronized void stopDiscovery() {
-        if (this.searchTask != null) {
-            searchTask.cancel();
+    private void stopDiscovery() {
+        if (discoveryTaskFuture != null) {
+            discoveryTaskFuture.cancel(true);
+            discoveryTaskFuture = null;
+        }
+    }
+
+    private void startSearch() {
+        if (this.searchTask == null) {
+            this.searchTask = new SearchTask();
+
+            try {
+                searchTaskFuture = searchExecutor.scheduleAtFixedRate(this.searchTask, 0, SEARCH_INTERVAL_SECONDS, TimeUnit.SECONDS);
+            } catch (IllegalStateException ignored) {
+            }
+        }
+    }
+
+    private void stopSearch() {
+        if (searchTaskFuture != null) {
+            searchTaskFuture.cancel(true);
             searchTask = null;
         }
-        stopDiscoveryThread();
+    }
+
+    public boolean addDeviceListener(final @NonNull DeviceListener listener) {
+        return this.deviceListeners.add(listener);
+    }
+
+    public boolean removeDeviceListener(final @NonNull DeviceListener listener) {
+        return this.deviceListeners.remove(listener);
     }
 
     public void destroy() {
-        destroySocket();
-    }
-
-    public boolean addDeviceListener(final @NonNull SSDPDeviceListener listener) {
-        return this.SSDPDeviceListeners.add(listener);
-    }
-
-    public boolean removeDeviceListener(final @NonNull SSDPDeviceListener listener) {
-        return this.SSDPDeviceListeners.remove(listener);
-    }
-
-    private void destroySocket() {
         if (socket == null) {
             return;
         }
@@ -225,25 +224,19 @@ public class SSDPControlPoint implements SSDPDiscovery {
         socket = null;
     }
 
-    private synchronized void startDiscoveryThread() {
-        if (discoveryThread == null) {
-            discoveryThread = new DiscoveryThread();
-            discoveryThread.start();
-        }
-    }
+    @VisibleForTesting
+    void handleMessage(final SSDPMessage message) {
+        final URL descriptionUrl;
+        final String location = message.get(LOCATION);
 
-    private synchronized void stopDiscoveryThread() {
-        if (this.discoveryThread == null) {
+        try {
+            descriptionUrl = new URL(location);
+        } catch (MalformedURLException e) {
+            DICommLog.e(DICommLog.SSDP, "Invalid description location: " + location);
             return;
         }
-        this.discoveryThread.finish();
-        this.discoveryThread = null;
-    }
 
-    private void createDevice(final SSDPMessage message) throws MalformedURLException {
-        final URL descriptionUrl = new URL(message.get(SSDPMessage.LOCATION));
-
-        HTTP.getInstance().get(descriptionUrl, DESCRIPTION_TIMEOUT_MILLIS, new HTTP.RequestCallback() {
+        createHttp().get(descriptionUrl, DESCRIPTION_TIMEOUT_MILLIS, new RequestCallback() {
             @Override
             public void onResponse(String description) {
                 String ipAddress = descriptionUrl.getHost();
@@ -275,19 +268,24 @@ public class SSDPControlPoint implements SSDPDiscovery {
 
             @Override
             public void onError(String message, Throwable reason) {
-                DICommLog.e(TAG, "Error obtaining description: " + message + ", reason: " + reason.getMessage());
+                DICommLog.e(DICommLog.SSDP, "Error obtaining description: " + message + ", reason: " + reason.getMessage());
             }
         });
     }
 
+    @VisibleForTesting
+    HTTP createHttp() {
+        return HTTP.getInstance();
+    }
+
     private void notifyDeviceAvailable(SSDPDevice device) {
-        for (SSDPDeviceListener listener : SSDPDeviceListeners) {
+        for (DeviceListener listener : deviceListeners) {
             listener.onDeviceAvailable(device);
         }
     }
 
     private void notifyDeviceUnavailable(SSDPDevice device) {
-        for (SSDPDeviceListener listener : SSDPDeviceListeners) {
+        for (DeviceListener listener : deviceListeners) {
             listener.onDeviceUnavailable(device);
         }
     }

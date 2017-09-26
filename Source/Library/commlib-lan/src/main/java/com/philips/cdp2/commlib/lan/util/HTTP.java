@@ -18,8 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -27,15 +26,16 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
-public final class HTTP {
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
-    private static final String TAG = "HTTP";
+public class HTTP {
+
     public static final String PROTOCOL_HTTPS = "https";
 
     private static HTTP instance;
 
     private SSLContext sslContext;
-    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = newCachedThreadPool();
     private URLConnection urlConnection;
 
     public interface RequestCallback {
@@ -64,7 +64,7 @@ public final class HTTP {
     }
 
     public void get(@NonNull final URL url, final int timeout, final RequestCallback callback) {
-        executor.execute(new Runnable() {
+        executor.submit(new Runnable() {
             @Override
             public void run() {
                 BufferedReader reader = null;

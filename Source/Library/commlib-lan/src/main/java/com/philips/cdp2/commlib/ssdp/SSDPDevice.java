@@ -35,18 +35,18 @@ import static org.xmlpull.v1.XmlPullParser.TEXT;
  *     <major>1</major>
  *     <minor>0</minor>
  *   </specVersion>
- *   <URLBase>http://192.168.1.49:80/</URLBase>
+ *   <URLBase>http://192.168.1.100:80/</URLBase>
  *   <device>
  *     <deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>
- *     <friendlyName>Hue Bridge (192.168.1.49)</friendlyName>
+ *     <friendlyName>Hue Bridge (192.168.1.100)</friendlyName>
  *     <manufacturer>Royal Philips Electronics</manufacturer>
  *     <manufacturerURL>http://www.philips.com</manufacturerURL>
  *     <modelDescription>Philips hue Personal Wireless Lighting</modelDescription>
  *     <modelName>Philips hue bridge 2015</modelName>
  *     <modelNumber>BSB002</modelNumber>
  *     <modelURL>http://www.meethue.com</modelURL>
- *     <serialNumber>00178840316f</serialNumber>
- *     <UDN>uuid:2f402f80-da50-11e1-9b23-00178840316f</UDN>
+ *     <serialNumber>00123456789f</serialNumber>
+ *     <UDN>uuid:2f402f80-da50-11e1-9b23-00123456789f</UDN>
  *     <presentationURL>index.html</presentationURL>
  *     <iconList>
  *       <icon>

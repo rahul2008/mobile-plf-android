@@ -70,9 +70,6 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     @Captor
     ArgumentCaptor<NetworkNode> networkNodeCaptor;
 
-    @Captor
-    private ArgumentCaptor<AvailabilityListener<ConnectivityMonitor>> availabilityListenerCaptor;
-
     private LanDiscoveryStrategy strategyUnderTest;
 
     private AvailabilityListener<ConnectivityMonitor> availabilityListener;

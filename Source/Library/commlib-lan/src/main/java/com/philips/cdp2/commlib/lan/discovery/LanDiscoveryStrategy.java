@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.SSDPDeviceListener;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -55,7 +55,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private boolean isStartRequested;
 
-    private final SSDPDeviceListener ssdpDeviceListener = new SSDPDeviceListener() {
+    private final DeviceListener deviceListener = new DeviceListener() {
         @Override
         public void onDeviceAvailable(SSDPDevice ssdpDevice) {
             onDeviceDiscovered(ssdpDevice);
@@ -112,7 +112,7 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     @VisibleForTesting
     SSDPDiscovery createSsdpDiscovery() {
         final SSDPControlPoint ssdpControlPoint = new SSDPControlPoint();
-        ssdpControlPoint.addDeviceListener(ssdpDeviceListener);
+        ssdpControlPoint.addDeviceListener(deviceListener);
 
         return ssdpControlPoint;
     }
