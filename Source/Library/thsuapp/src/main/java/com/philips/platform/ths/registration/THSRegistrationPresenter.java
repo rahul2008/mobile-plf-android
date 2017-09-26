@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumer, SDKPasswordError>{
+public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKPasswordError>{
 
     private THSBaseFragment mTHSBaseFragment;
 
@@ -60,7 +60,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     @Override
-    public void onResponse(THSConsumer thsConsumer, SDKPasswordError sdkPasswordError) {
+    public void onResponse(THSConsumerWrapper thsConsumerWrapper, SDKPasswordError sdkPasswordError) {
         ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
         if(sdkPasswordError!=null){
             mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());

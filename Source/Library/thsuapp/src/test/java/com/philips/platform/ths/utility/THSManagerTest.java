@@ -46,7 +46,7 @@ import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.THSRegistrationDetailCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
@@ -73,7 +73,7 @@ import static org.mockito.Mockito.when;
 public class THSManagerTest {
     THSManager THSManager;
 
-    THSConsumer mTHSConsumer;
+    THSConsumerWrapper mTHSConsumerWrapper;
 
     Consumer mConsumer;
 
@@ -116,7 +116,7 @@ public class THSManagerTest {
     ProviderInfo providerInfoMock;
 
     @Mock
-    THSConsumer THSConsumerMock;
+    THSConsumerWrapper THSConsumerWrapperMock;
 
     @Mock
     AWSDK awsdkMock;
@@ -226,9 +226,9 @@ public class THSManagerTest {
         mConsumer = getConsumer();
         practice = getPractice();
         providerInfo = THSProviderInfo;
-        mTHSConsumer = new THSConsumer();
-        mTHSConsumer.setConsumer(getConsumer());
-        THSManager.setPTHConsumer(mTHSConsumer);
+        mTHSConsumerWrapper = new THSConsumerWrapper();
+        mTHSConsumerWrapper.setConsumer(getConsumer());
+        THSManager.setPTHConsumer(mTHSConsumerWrapper);
     }
 
     @Test
@@ -290,7 +290,7 @@ public class THSManagerTest {
 
     @Test
     public void getVisitContext() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
         THSManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
@@ -304,7 +304,7 @@ public class THSManagerTest {
 
     @Test
     public void getVisitContextOnFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
         THSManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
@@ -318,9 +318,9 @@ public class THSManagerTest {
 
 /*    @Test
     public void getVitals() throws AWSDKInstantiationException {
-        THSManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerWrapperMock);
         when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
-        when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         THSManager.getVitals(contextMock, thsVitalCallBackMock);
 
@@ -333,9 +333,9 @@ public class THSManagerTest {
 
  /*   @Test
     public void getVitalsOnFailure() throws AWSDKInstantiationException {
-        THSManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerWrapperMock);
         when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
-        when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         THSManager.getVitals(contextMock, thsVitalCallBackMock);
 
@@ -348,9 +348,9 @@ public class THSManagerTest {
 
     @Test
     public void getConditions() throws AWSDKInstantiationException {
-        THSManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerWrapperMock);
 
-        when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
 
@@ -365,9 +365,9 @@ public class THSManagerTest {
 
     @Test
     public void getOnFailure() throws AWSDKInstantiationException {
-        THSManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerWrapperMock);
 
-        when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
 
@@ -413,10 +413,10 @@ public class THSManagerTest {
 
     @Test
     public void getConsumerTest(){
-        THSManager.setPTHConsumer(mTHSConsumer);
-        THSConsumer consumer = THSManager.getPTHConsumer();
+        THSManager.setPTHConsumer(mTHSConsumerWrapper);
+        THSConsumerWrapper consumer = THSManager.getPTHConsumer();
         assertThat(consumer).isNotNull();
-        assertThat(consumer).isInstanceOf(THSConsumer.class);
+        assertThat(consumer).isInstanceOf(THSConsumerWrapper.class);
     }
 
     public void getMedicationTest() throws AWSDKInstantiationException {

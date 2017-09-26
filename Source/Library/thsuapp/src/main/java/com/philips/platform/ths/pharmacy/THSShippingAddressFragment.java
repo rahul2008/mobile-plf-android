@@ -20,7 +20,7 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -31,7 +31,7 @@ import java.util.List;
 public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static String TAG = THSShippingAddressFragment.class.getSimpleName();
-    private THSConsumer thsConsumer;
+    private THSConsumerWrapper thsConsumerWrapper;
     private Address address;
     private EditText addressLineOne, addressLineTwo, postalCode, town;
     private Button updateAddressButton;
@@ -80,8 +80,8 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         return THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
     }
 
-    public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
-        this.thsConsumer = thsConsumer;
+    public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {
+        this.thsConsumerWrapper = thsConsumerWrapper;
         this.address = address;
     }
 

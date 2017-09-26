@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_visit_for"
+        style="@style/ths_list_item_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
+        android:paddingLeft="@dimen/ths_fab_margin"
+        android:paddingRight="@dimen/ths_fab_margin"
+        android:textSize="@dimen/ths_body_text" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ths_recycler_view_practice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_id_practice_label"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
+

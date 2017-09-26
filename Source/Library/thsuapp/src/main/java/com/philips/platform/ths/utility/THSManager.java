@@ -36,7 +36,6 @@ import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.insurance.SubscriptionUpdateRequest;
-import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -81,7 +80,6 @@ import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSConditionsList;
 import com.philips.platform.ths.intake.THSMedication;
 import com.philips.platform.ths.intake.THSMedicationCallback;
-import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesCallBack;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConditionsCallback;
@@ -108,7 +106,6 @@ import com.philips.platform.ths.pharmacy.THSUpdateShippingAddressCallback;
 import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
-import com.philips.platform.ths.providerdetails.THSCancelMatchMakingCallback;
 import com.philips.platform.ths.providerdetails.THSFetchEstimatedCostCallback;
 import com.philips.platform.ths.providerdetails.THSMatchMakingCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
@@ -117,7 +114,8 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.ThsConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
@@ -145,10 +143,10 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 public class THSManager {
     private static THSManager sTHSManager = null;
     private AWSDK mAwsdk = null;
-    private THSConsumer mTHSConsumer = null;
+    private THSConsumerWrapper mTHSConsumerWrapper = null;
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
-
+    private ThsConsumer mThsConsumer;
     private boolean mIsReturningUser = true;
 
 
@@ -186,12 +184,12 @@ public class THSManager {
     }
 
 
-    public THSConsumer getPTHConsumer() {
-        return mTHSConsumer;
+    public THSConsumerWrapper getPTHConsumer() {
+        return mTHSConsumerWrapper;
     }
 
-    public void setPTHConsumer(THSConsumer mTHSConsumer) {
-        this.mTHSConsumer = mTHSConsumer;
+    public void setPTHConsumer(THSConsumerWrapper mTHSConsumerWrapper) {
+        this.mTHSConsumerWrapper = mTHSConsumerWrapper;
     }
 
 
@@ -232,8 +230,7 @@ public class THSManager {
     }
 
     public void authenticateMutualAuthToken(Context context,final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
-        User user = getUser(context);
-        String token = user.getHsdpUUID()+":" + getAppName() +":"+ user.getHsdpAccessToken();
+        String token = getThsConsumer().getHsdpUUID()+":" + getAppName() +":"+ getThsConsumer().getHsdoToken();
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
@@ -258,9 +255,9 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),null,null,null, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
+                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+                thsConsumerWrapper.setConsumer(consumer);
+                setPTHConsumer(thsConsumerWrapper);
                 thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
             }
 
@@ -273,7 +270,7 @@ public class THSManager {
 
     public void checkConsumerExists(final Context context, final THSCheckConsumerExistsCallback<Boolean, THSSDKError> thsCheckConsumerExistsCallback) throws AWSDKInstantiationException {
 
-        getAwsdk(context).getConsumerManager().checkConsumerExists(getUser(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
+        getAwsdk(context).getConsumerManager().checkConsumerExists(getThsConsumer().getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
                 setIsReturningUser(aBoolean);
@@ -297,7 +294,7 @@ public class THSManager {
         return new User(context);
     }
 
-    public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumer, SDKPasswordError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumerWrapper, SDKPasswordError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getConsumerEnrollment(context, dateOfBirth, firstName, lastName, gender, state);
 
         getAwsdk(context).getConsumerManager().enrollConsumer(newConsumerEnrollment,
@@ -311,11 +308,11 @@ public class THSManager {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
                 setIsReturningUser(true);
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
+                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+                thsConsumerWrapper.setConsumer(consumer);
+                setPTHConsumer(thsConsumerWrapper);
                 AmwellLog.i(AmwellLog.LOG,"onGetPaymentMethodResponse");
-                thssdkValidatedCallback.onResponse(thsConsumer,sdkPasswordError);
+                thssdkValidatedCallback.onResponse(thsConsumerWrapper,sdkPasswordError);
 
             }
 
@@ -331,17 +328,12 @@ public class THSManager {
     private ConsumerEnrollment getConsumerEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, State state) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewConsumerEnrollment();
         newConsumerEnrollment.setAcceptedDisclaimer(true);
-        final User user = getUser(context);
-        newConsumerEnrollment.setSourceId(user.getHsdpUUID());
-        newConsumerEnrollment.setConsumerAuthKey(user.getHsdpUUID());
 
-        newConsumerEnrollment.setEmail(user.getEmail());
+        newConsumerEnrollment.setSourceId(getThsConsumer().getHsdpUUID());
+        newConsumerEnrollment.setConsumerAuthKey(getThsConsumer().getHsdpUUID());
 
-        if(user.getPassword()!=null) {
-            newConsumerEnrollment.setPassword(user.getPassword());
-        }else {
-            newConsumerEnrollment.setPassword("Password123*");
-        }
+        newConsumerEnrollment.setEmail(getThsConsumer().getEmail());
+        newConsumerEnrollment.setPassword("Password123*");
 
         newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
 
@@ -528,9 +520,9 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
+                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+                thsConsumerWrapper.setConsumer(consumer);
+                setPTHConsumer(thsConsumerWrapper);
                 THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
             }
 
@@ -619,7 +611,7 @@ public class THSManager {
         });
     }
 
-    public void updateConsumer(Context context, String updatedPhone, final THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> pthUpdateConsumer) throws AWSDKInstantiationException {
+    public void updateConsumer(Context context, String updatedPhone, final THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> pthUpdateConsumer) throws AWSDKInstantiationException {
         ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer().getConsumer());
         consumerUpdate.setPhone(updatedPhone);
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
@@ -631,14 +623,14 @@ public class THSManager {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
 
-                THSConsumer thsConsumer = new THSConsumer();
-                thsConsumer.setConsumer(consumer);
-                setPTHConsumer(thsConsumer);
+                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+                thsConsumerWrapper.setConsumer(consumer);
+                setPTHConsumer(thsConsumerWrapper);
 
                 THSSDKPasswordError pthSDKError = new THSSDKPasswordError();
                 pthSDKError.setSdkPasswordError(sdkPasswordError);
 
-                pthUpdateConsumer.onUpdateConsumerResponse(thsConsumer,pthSDKError);
+                pthUpdateConsumer.onUpdateConsumerResponse(thsConsumerWrapper,pthSDKError);
             }
 
             @Override
@@ -774,8 +766,8 @@ public class THSManager {
         });
     }
 */
-    public void getPharmacies(Context context, final THSConsumer thsConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 thsGetPharmaciesCallback.onValidationFailure(map);
@@ -793,8 +785,8 @@ public class THSManager {
         });
     }
 
-    public void getPharmacies(Context context, final THSConsumer thsConsumer, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(Context context, final THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumerWrapper.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                 thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
@@ -1439,5 +1431,13 @@ public class THSManager {
 
     public void setIsReturningUser(boolean firstTimeUser) {
         mIsReturningUser = firstTimeUser;
+    }
+
+    public ThsConsumer getThsConsumer() {
+        return mThsConsumer;
+    }
+
+    public void setThsConsumer(ThsConsumer mThsConsumer) {
+        this.mThsConsumer = mThsConsumer;
     }
 }

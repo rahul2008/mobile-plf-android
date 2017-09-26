@@ -11,7 +11,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
-public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
+public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
     private THSFollowUpViewInterface thsFollowUpViewInterfaces;
 
@@ -74,17 +74,17 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     }
 
     @Override
-    public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
+    public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumerWrapper, THSSDKPasswordError sdkPasswordError) {
         thsFollowUpViewInterfaces.hideProgressButton();
-        //update signleton THSManager THSConsumer member
+        //update signleton THSManager THSConsumerWrapper member
         THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step5PhoneNumberAdded");
-        THSManager.getInstance().setPTHConsumer(thsConsumer);
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
             thsFollowUpViewInterfaces.showProviderDetailsFragment();
         } else {
             thsFollowUpViewInterfaces.showConditionsFragment();
         }
-        //update singleton THSManager THSConsumer member
+        //update singleton THSManager THSConsumerWrapper member
 
 
     }

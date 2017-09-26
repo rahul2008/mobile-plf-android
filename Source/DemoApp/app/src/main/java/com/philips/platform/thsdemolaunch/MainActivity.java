@@ -21,8 +21,10 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.ths.registration.dependantregistration.ThsConsumer;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
@@ -37,6 +39,9 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -152,7 +157,35 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     private void launchAmwell() {
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
-        PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
+
+        User user = new User(this);
+        ThsConsumer thsConsumer = new ThsConsumer();
+
+        ThsConsumer baby = new ThsConsumer();
+        baby.setFirstname("Vardhan");
+        baby.setLastname("Hosur");
+        baby.setHsdoToken(user.getHsdpAccessToken());
+        baby.setGender(Gender.MALE);
+        baby.setEmail(user.getEmail());
+        baby.setDob(new Date());
+        baby.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78");
+
+        ArrayList dependants = new ArrayList();
+        dependants.add(baby);
+
+        thsConsumer.setDob(user.getDateOfBirth());
+        thsConsumer.setEmail(user.getEmail());
+        thsConsumer.setFirstname(user.getDisplayName());
+        thsConsumer.setGender(Gender.FEMALE);
+        thsConsumer.setHsdoToken(user.getHsdpAccessToken());
+        thsConsumer.setLastname(user.getFamilyName());
+        thsConsumer.setDependents(dependants);
+        thsConsumer.setHsdpUUID(user.getHsdpUUID());
+
+
+        final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra());
+        uappDependencies.setThsConsumer(thsConsumer);
+        PTHMicroAppInterface.init(uappDependencies, new THSMicroAppSettings(this.getApplicationContext()));
         PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
     }
 

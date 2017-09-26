@@ -33,7 +33,7 @@ import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
@@ -77,8 +77,8 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-        THSConsumer thsConsumer = new THSConsumer();
-        thsConsumer.setConsumer(viewInterface.getConsumerInfo());
+        THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+        thsConsumerWrapper.setConsumer(viewInterface.getConsumerInfo());
         try {
             THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
         } catch (AWSDKInstantiationException e) {
@@ -99,13 +99,13 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
-                THSConsumer THSConsumer = new THSConsumer();
-                THSConsumer.setConsumer(viewInterface.getConsumerInfo());
+                THSConsumerWrapper THSConsumerWrapper = new THSConsumerWrapper();
+                THSConsumerWrapper.setConsumer(viewInterface.getConsumerInfo());
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
                 bundle.putParcelable(THSConstants.THS_PROVIDER, viewInterface.getProvider());
                 THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
-                thsSymptomsFragment.setConsumerObject(THSConsumer);
+                thsSymptomsFragment.setConsumerObject(THSConsumerWrapper);
                 thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
                 mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle, true);
             }

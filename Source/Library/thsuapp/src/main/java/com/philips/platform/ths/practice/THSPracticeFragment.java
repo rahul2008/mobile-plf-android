@@ -39,8 +39,6 @@ public class THSPracticeFragment extends THSBaseFragment{
     private THSPracticeRecyclerViewAdapter thsPracticeRecyclerViewAdapter;
     private ActionBarListener actionBarListener;
     private RelativeLayout mRealtiveLayoutPracticeContainer;
-    private Button mBtnAppointment;
-    private Button mVisitBtn;
 
 
     @Nullable

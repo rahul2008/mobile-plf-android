@@ -18,8 +18,7 @@ import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.cost.THSCostSummaryFragment;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -30,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -59,7 +57,7 @@ public class THSCreditCardBillingAddressPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumermock;
+    THSConsumerWrapper thsConsumermockWrapper;
 
     @Mock
     THSPaymentMethod thsPaymentMethodMock;
@@ -97,8 +95,8 @@ public class THSCreditCardBillingAddressPresenterTest {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdk);
         when(thsCreditCardBillingAddressFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumermock);
-        when(thsConsumermock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumermockWrapper);
+        when(thsConsumermockWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         mTHSCreditCardBillingAddressPresenter = new THSCreditCardBillingAddressPresenter(thsCreditCardBillingAddressFragment);
     }

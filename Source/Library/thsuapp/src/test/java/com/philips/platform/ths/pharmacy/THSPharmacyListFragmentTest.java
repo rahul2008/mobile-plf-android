@@ -11,7 +11,7 @@ import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.intake.THSVisitContext;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -38,7 +38,7 @@ public class THSPharmacyListFragmentTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumer thsConsumer;
+    THSConsumerWrapper thsConsumerWrapper;
 
     @Mock
     THSVisitContext pthVisitContext;
@@ -79,12 +79,12 @@ public class THSPharmacyListFragmentTest {
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
 
-        when(thsConsumer.getConsumer()).thenReturn(consumerMock);
+        when(thsConsumerWrapper.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
         thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setActionBarListener(actionBarListenerMock);
-        thsShippingAddressFragment.setConsumerAndAddress(thsConsumer,address);
+        thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper,address);
         thsShippingAddressFragment.setFragmentLauncher(fragmentLauncherMock);
 
         thsPharmacyListFragment = new THSPharmacyListFragment();
