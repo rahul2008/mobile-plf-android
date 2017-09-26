@@ -55,7 +55,6 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/INDEX.LIST'
     }
-    apply from: "../scripts/flavors.gradle"
 }
 
 

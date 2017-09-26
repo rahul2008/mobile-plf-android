@@ -118,7 +118,7 @@ public class Logger {
     }
 
     private static void safeLog(final int lvl, final String tag, final String message) {
-        if (logger != null && !BuildConfig.IS_PRODUCTION) {
+        if (logger != null && BuildConfig.DEBUG) {
             logger.log(lvl, tag, message);
         }
     }
