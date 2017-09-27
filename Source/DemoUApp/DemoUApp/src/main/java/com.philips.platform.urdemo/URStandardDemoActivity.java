@@ -179,7 +179,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     restoredText = Configuration.PRODUCTION.getValue();
                     //  RegistrationSampleApplication.getInstance().initRegistration(Configuration.PRODUCTION);
                 } else if (checkedId == R.id.Stagging) {
-                    Toast.makeText(getApplicationContext(), "choice: Stagging",
+                    Toast.makeText(getApplicationContext(), "choice: Staging",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.STAGING.getValue();
                 }
