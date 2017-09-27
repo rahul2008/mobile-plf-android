@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -80,5 +81,10 @@ public class DemoBLLStateTest {
         protected BleDemoMicroAppSettings getUappSettings() {
             return bleDemoMicroAppSettings;
         }
+    }
+
+    @After
+    public void tearDown(){
+        demoBLLState = null;
     }
 }
