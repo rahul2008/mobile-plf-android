@@ -40,6 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -241,15 +242,6 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
     }
 
     @Test
-    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenSsdpDiscoveryShouldBeStopped() throws MissingPermissionException {
-        ensureDiscoveryIsStarted();
-
-        strategyUnderTest.stop();
-
-        verify(ssdpDiscoveryMock).stop();
-    }
-
-    @Test
     public void givenDiscoveryIsNotStartedWhenTransportBecomesAvailableThenSsdpIsNotStarted() {
         //setup arranges discovery to not be started
 
@@ -275,7 +267,7 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, times(1)).start();
+        verify(ssdpDiscoveryMock, atLeastOnce()).start();
     }
 
     @Test
@@ -285,17 +277,28 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
 
         strategyUnderTest.start();
 
-        verify(ssdpDiscoveryMock, times(1)).start();
+        verify(ssdpDiscoveryMock, atLeastOnce()).start();
     }
 
     @Test
-    public void givenTransportIsAvailableAndDiscoveryIsStartedWhenTransportBecomesUnavailableThenSsdpIsStopped() throws MissingPermissionException {
-        ensureDiscoveryIsStarted();
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenTransportBecomesUnavailable_thenSsdpIsStopped() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
 
         when(connectivityMonitorMock.isAvailable()).thenReturn(false);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
 
-        verify(ssdpDiscoveryMock, times(1)).stop();
+        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
+    }
+
+    @Test
+    public void givenTransportIsAvailableAndDiscoveryIsStarted_whenStoppingDiscovery_thenSsdpIsStopped() throws MissingPermissionException {
+        ensureConnectivityIsAvailable();
+        strategyUnderTest.start();
+
+        strategyUnderTest.stop();
+
+        verify(ssdpDiscoveryMock, atLeastOnce()).stop();
     }
 
     private SSDPDevice createSsdpDevice(final @NonNull String cppId, final @NonNull String modelName, final @NonNull String modelNumber) {
@@ -317,10 +320,8 @@ public class LanDiscoveryStrategyTest extends RobolectricTest {
         return device;
     }
 
-    private void ensureDiscoveryIsStarted() throws MissingPermissionException {
+    private void ensureConnectivityIsAvailable() throws MissingPermissionException {
         when(connectivityMonitorMock.isAvailable()).thenReturn(true);
         availabilityListener.onAvailabilityChanged(connectivityMonitorMock);
-        strategyUnderTest.start();
-        when(ssdpDiscoveryMock.isStarted()).thenReturn(true);
     }
 }

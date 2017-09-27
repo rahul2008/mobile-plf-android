@@ -7,8 +7,9 @@ package com.philips.cdp2.commlib.ssdp;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.util.Xml;
+
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -18,15 +19,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.nio.charset.Charset;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
+import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
 
 /**
  * The type Ssdp device.
- * <p>
  * <p>
  * Example description:
  * <pre>
@@ -61,9 +63,8 @@ import static org.xmlpull.v1.XmlPullParser.TEXT;
  * </root> }
  * </pre>
  */
+@SuppressWarnings("WeakerAccess, unused")
 public final class SSDPDevice {
-
-    private static final String TAG = "SSDPDevice";
 
     private static final DescriptionParser PARSER = new DescriptionParser();
 
@@ -84,9 +85,10 @@ public final class SSDPDevice {
     private String udn;
 
     private static class DescriptionParser {
-        private static final String NAMESPACE = "urn:schemas-upnp-org:device-1-0";
 
+        private static final String NAMESPACE = "urn:schemas-upnp-org:device-1-0";
         private static final String BOOT_ID = "bootId";
+
         private static final String CPP_ID = "cppId";
         private static final String DEVICE = "device";
         private static final String DEVICE_TYPE = "deviceType";
@@ -104,33 +106,35 @@ public final class SSDPDevice {
         private static final String UDN = "UDN";
 
         @Nullable
-        SSDPDevice parse(String description) throws IOException, XmlPullParserException {
-            return parseDevice(description);
-        }
-
-        private SSDPDevice parseDevice(@NonNull final String description) throws IOException, XmlPullParserException {
-            final InputStream stream = new ByteArrayInputStream(description.getBytes(Charset.forName("UTF-8")));
-
+        SSDPDevice parseDevice(final @NonNull InputStream in) {
             final XmlPullParser parser = Xml.newPullParser();
-            parser.setInput(stream, null);
-            parser.nextTag();
-            parser.require(START_TAG, NAMESPACE, ROOT);
 
-            while (parser.next() != END_TAG) {
-                if (parser.getEventType() != START_TAG) {
-                    continue;
+            try {
+                parser.setInput(in, null);
+                parser.nextTag();
+                parser.require(START_TAG, NAMESPACE, ROOT);
+
+                while (parser.next() != END_TAG) {
+                    if (parser.getEventType() != START_TAG) {
+                        continue;
+                    }
+
+                    switch (parser.getName()) {
+                        case DEVICE:
+                            return readDevice(parser);
+                        default:
+                            skipTag(parser);
+                            break;
+                    }
                 }
-
-                switch (parser.getName()) {
-                    case DEVICE:
-                        return readDevice(parser);
-                    default:
-                        skipTag(parser);
-                        break;
+            } catch (XmlPullParserException | IOException e) {
+                DICommLog.e(SSDP, "Error parsing description: " + e.getMessage());
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException ignored) {
                 }
             }
-            stream.close();
-
             return null;
         }
 
@@ -225,18 +229,40 @@ public final class SSDPDevice {
                 }
             }
         }
+
     }
 
-    public static SSDPDevice create(@NonNull final String description, String ipAddress, boolean isSecure) {
-        SSDPDevice device = null;
+    /**
+     * Create an SSDPDiscovery device instance from the supplied URL.
+     * <p>
+     * The URL should point to the description XML on the actual device.
+     *
+     * @param descriptionUrl the description url
+     * @return the SSDPDiscovery device
+     */
+    @Nullable
+    static SSDPDevice createFromUrl(final @NonNull URL descriptionUrl) {
         try {
-            device = PARSER.parse(description);
-            device.ipAddress = ipAddress;
-            device.isSecure = isSecure;
-        } catch (XmlPullParserException | IOException e) {
-            Log.e(TAG, "Error parsing description.", e);
+            final InputStream in = descriptionUrl.openStream();
+
+            return PARSER.parseDevice(in);
+        } catch (IOException e) {
+            DICommLog.e(SSDP, "Error opening description from URL: " + e.getMessage());
         }
-        return device;
+        return null;
+    }
+
+    /**
+     * Create an SSDPDiscovery device instance from the supplied XML string.
+     *
+     * @param descriptionXml the description xml string
+     * @return the SSDPDiscovery device
+     */
+    @Nullable
+    static SSDPDevice createFromXml(final @NonNull String descriptionXml) {
+        final InputStream in = new ByteArrayInputStream(descriptionXml.getBytes(StandardCharsets.UTF_8));
+
+        return PARSER.parseDevice(in);
     }
 
     public boolean isSecure() {

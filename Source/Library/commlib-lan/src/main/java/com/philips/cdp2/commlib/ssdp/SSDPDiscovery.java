@@ -9,6 +9,4 @@ public interface SSDPDiscovery {
     void start();
 
     void stop();
-
-    boolean isStarted();
 }

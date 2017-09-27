@@ -11,8 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
-import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
@@ -24,7 +22,9 @@ import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.ssdp.SSDPControlPoint;
+import com.philips.cdp2.commlib.ssdp.SSDPControlPoint.DeviceListener;
 import com.philips.cdp2.commlib.ssdp.SSDPDevice;
+import com.philips.cdp2.commlib.ssdp.SSDPDiscovery;
 
 import java.util.Collections;
 import java.util.Set;
@@ -81,11 +81,9 @@ public class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
             DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery started.");
         } else {
-            if (ssdp.isStarted()) {
-                ssdp.stop();
+            ssdp.stop();
 
-                DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
-            }
+            DICommLog.d(DICommLog.DISCOVERY, "SSDP discovery stopped.");
         }
     }
 

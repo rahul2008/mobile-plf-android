@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.lan.util.HTTP;
-import com.philips.cdp2.commlib.lan.util.HTTP.RequestCallback;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -21,14 +19,14 @@ import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static com.philips.cdp2.commlib.lan.util.HTTP.PROTOCOL_HTTPS;
+import static com.philips.cdp.dicommclient.util.DICommLog.SSDP;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.HOST;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.LOCATION;
 import static com.philips.cdp2.commlib.ssdp.SSDPMessage.MAX_WAIT_TIME;
@@ -48,23 +46,22 @@ import static com.philips.cdp2.commlib.ssdp.SSDPMessage.SSDP_PORT;
 import static java.lang.Thread.currentThread;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
+/**
+ * SSDPDiscovery control point.
+ * <p>
+ * As defined in the UPnP specification, control points (CPs) are devices which use UPnP protocols to control UPnP controlled devices (CDs).
+ */
 public class SSDPControlPoint implements SSDPDiscovery {
-    private static final String TAG = "SSDPControlPoint";
-
-    private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
     private static final int SEARCH_INTERVAL_SECONDS = 5;
-    private static final int DESCRIPTION_TIMEOUT_MILLIS = 3000;
 
     private final SocketAddress ssdpAddress = new InetSocketAddress(SSDP_HOST, SSDP_PORT);
     private DatagramSocket socket;
 
     private ScheduledExecutorService searchExecutor = newSingleThreadScheduledExecutor();
-    private SearchTask searchTask;
     private ScheduledFuture searchTaskFuture;
 
     private ScheduledExecutorService discoveryExecutor = newSingleThreadScheduledExecutor();
-    private Runnable discoveryTask;
     private ScheduledFuture discoveryTaskFuture;
 
     private Set<DeviceListener> deviceListeners = new CopyOnWriteArraySet<>();
@@ -76,7 +73,7 @@ public class SSDPControlPoint implements SSDPDiscovery {
         void onDeviceUnavailable(SSDPDevice device);
     }
 
-    private final class SearchTask implements Runnable {
+    private final Runnable searchTask = new Runnable() {
 
         @Override
         public void run() {
@@ -92,19 +89,19 @@ public class SSDPControlPoint implements SSDPDiscovery {
                 searchMessage.getHeaders().put(MAX_WAIT_TIME, String.valueOf(SEARCH_INTERVAL_SECONDS));
 
                 final String searchMessageString = searchMessage.toString();
-                DICommLog.d(DICommLog.SSDP, searchMessageString);
+                DICommLog.d(SSDP, searchMessageString);
 
-                final byte[] bytes = searchMessageString.getBytes(CHARSET_UTF8);
+                final byte[] bytes = searchMessageString.getBytes(StandardCharsets.UTF_8);
                 final DatagramPacket requestPacket = new DatagramPacket(bytes, bytes.length, ssdpAddress);
 
                 socket.send(requestPacket);
             } catch (IOException e) {
-                DICommLog.e(DICommLog.SSDP, "Error sending search message: " + e.getMessage());
+                DICommLog.e(SSDP, "Error sending search message: " + e.getMessage());
             }
         }
-    }
+    };
 
-    private final class DiscoveryTask implements Runnable {
+    private final Runnable discoveryTask = new Runnable() {
 
         @Override
         public void run() {
@@ -121,22 +118,22 @@ public class SSDPControlPoint implements SSDPDiscovery {
                 } catch (IOException ignored) {
                     return;
                 }
-                final String response = new String(responsePacket.getData(), CHARSET_UTF8);
+                final String response = new String(responsePacket.getData(), StandardCharsets.UTF_8);
 
                 if (response.startsWith(MESSAGE_TYPE_FOUND) || response.startsWith(MESSAGE_TYPE_NOTIFY)) {
                     int length = responsePacket.getLength();
                     byte[] payload = new byte[length];
                     ByteBuffer.wrap(responsePacket.getData(), 0, length).get(payload);
 
-                    final String payloadString = new String(payload, CHARSET_UTF8);
+                    final String payloadString = new String(payload, StandardCharsets.UTF_8);
                     final SSDPMessage message = new SSDPMessage(payloadString);
-                    DICommLog.d(DICommLog.SSDP, message.toString());
+                    DICommLog.d(SSDP, message.toString());
 
                     handleMessage(message);
                 }
             }
         }
-    }
+    };
 
     public SSDPControlPoint() {
         setupSocket();
@@ -154,11 +151,6 @@ public class SSDPControlPoint implements SSDPDiscovery {
         stopDiscovery();
     }
 
-    @Override
-    public boolean isStarted() {
-        return discoveryTaskFuture != null && !discoveryTaskFuture.isDone();
-    }
-
     private void setupSocket() {
         if (socket == null) {
             try {
@@ -172,38 +164,28 @@ public class SSDPControlPoint implements SSDPDiscovery {
     }
 
     private void startDiscovery() {
-        if (this.discoveryTask == null) {
-            this.discoveryTask = new DiscoveryTask();
-
-            try {
-                discoveryTaskFuture = discoveryExecutor.schedule(this.discoveryTask, 0, TimeUnit.SECONDS);
-            } catch (IllegalStateException ignored) {
-            }
+        try {
+            discoveryTaskFuture = discoveryExecutor.schedule(discoveryTask, 0, TimeUnit.SECONDS);
+        } catch (IllegalStateException ignored) {
         }
     }
 
     private void stopDiscovery() {
         if (discoveryTaskFuture != null) {
             discoveryTaskFuture.cancel(true);
-            discoveryTaskFuture = null;
         }
     }
 
     private void startSearch() {
-        if (this.searchTask == null) {
-            this.searchTask = new SearchTask();
-
-            try {
-                searchTaskFuture = searchExecutor.scheduleAtFixedRate(this.searchTask, 0, SEARCH_INTERVAL_SECONDS, TimeUnit.SECONDS);
-            } catch (IllegalStateException ignored) {
-            }
+        try {
+            searchTaskFuture = searchExecutor.scheduleAtFixedRate(searchTask, 0, SEARCH_INTERVAL_SECONDS, TimeUnit.SECONDS);
+        } catch (IllegalStateException ignored) {
         }
     }
 
     private void stopSearch() {
         if (searchTaskFuture != null) {
             searchTaskFuture.cancel(true);
-            searchTask = null;
         }
     }
 
@@ -232,50 +214,38 @@ public class SSDPControlPoint implements SSDPDiscovery {
         try {
             descriptionUrl = new URL(location);
         } catch (MalformedURLException e) {
-            DICommLog.e(DICommLog.SSDP, "Invalid description location: " + location);
+            DICommLog.e(SSDP, "Invalid description location: " + location);
             return;
         }
 
-        createHttp().get(descriptionUrl, DESCRIPTION_TIMEOUT_MILLIS, new RequestCallback() {
-            @Override
-            public void onResponse(String description) {
-                String ipAddress = descriptionUrl.getHost();
-                boolean isSecure = descriptionUrl.getProtocol().equals(PROTOCOL_HTTPS);
+        final SSDPDevice device = SSDPDevice.createFromUrl(descriptionUrl);
+        if (device == null) {
+            return;
+        }
 
-                final SSDPDevice device = SSDPDevice.create(description, ipAddress, isSecure);
-                if (device == null) {
-                    return;
-                }
+        final String ipAddress = descriptionUrl.getHost();
+        final boolean isSecure = descriptionUrl.getProtocol().equals("https");
 
-                if (discoveredDevices.add(device)) {
-                    String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
+        device.setIpAddress(ipAddress);
+        device.setSecure(isSecure);
 
-                    if (notificationSubType == null) {
+        if (discoveredDevices.add(device)) {
+            String notificationSubType = message.get(NOTIFICATION_SUBTYPE);
+
+            if (notificationSubType == null) {
+                notifyDeviceAvailable(device);
+            } else {
+                switch (notificationSubType) {
+                    case NOTIFICATION_SUBTYPE_ALIVE:
+                    case NOTIFICATION_SUBTYPE_UPDATE:
                         notifyDeviceAvailable(device);
-                    } else {
-                        switch (notificationSubType) {
-                            case NOTIFICATION_SUBTYPE_ALIVE:
-                            case NOTIFICATION_SUBTYPE_UPDATE:
-                                notifyDeviceAvailable(device);
-                                break;
-                            case NOTIFICATION_SUBTYPE_BYEBYE:
-                                notifyDeviceUnavailable(device);
-                                break;
-                        }
-                    }
+                        break;
+                    case NOTIFICATION_SUBTYPE_BYEBYE:
+                        notifyDeviceUnavailable(device);
+                        break;
                 }
             }
-
-            @Override
-            public void onError(String message, Throwable reason) {
-                DICommLog.e(DICommLog.SSDP, "Error obtaining description: " + message + ", reason: " + reason.getMessage());
-            }
-        });
-    }
-
-    @VisibleForTesting
-    HTTP createHttp() {
-        return HTTP.getInstance();
+        }
     }
 
     private void notifyDeviceAvailable(SSDPDevice device) {
