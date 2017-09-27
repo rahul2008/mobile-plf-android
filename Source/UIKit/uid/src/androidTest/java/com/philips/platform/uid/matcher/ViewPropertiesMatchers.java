@@ -11,7 +11,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.hamcrest.Matcher;
 
 @SuppressWarnings("ReturnOfInnerClass")
@@ -265,7 +264,7 @@ public class ViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(final View view) {
                 setValues(view.getElevation(), elevation);
-                return floatEqual(0.5f);
+                return floatEqual(1f);
             }
         };
     }
