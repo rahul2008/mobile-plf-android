@@ -142,6 +142,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                 mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
                 mWebView.getSettings().setAllowFileAccessFromFileURLs(true);
                 mWebView.getSettings().setDomStorageEnabled(true);
+                mWebView.getSettings().setBuiltInZoomControls(true);
             }
             mWebView.setWebChromeClient(new WebChromeClient() {
 

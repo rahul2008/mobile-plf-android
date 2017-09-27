@@ -90,6 +90,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
             webView.getSettings().setAllowFileAccessFromFileURLs(true);
             webView.getSettings().setDomStorageEnabled(true);
+            webView.getSettings().setBuiltInZoomControls(true);
         }
 
         webView.setWebViewClient(new WebViewClient() {

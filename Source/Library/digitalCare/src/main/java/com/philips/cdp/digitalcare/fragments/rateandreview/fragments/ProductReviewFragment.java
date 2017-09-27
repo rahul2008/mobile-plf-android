@@ -73,8 +73,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         if (productPageUri == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            mProductReviewWebView.getSettings().setDomStorageEnabled(true);
-            mProductReviewWebView.getSettings().setBuiltInZoomControls(true);
             setWebSettingForWebview(getProductPageUri(), mProductReviewWebView, mProgressBar);
         }
     }
