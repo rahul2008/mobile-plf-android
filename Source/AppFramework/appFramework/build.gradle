@@ -475,8 +475,6 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'pluginreferenceboard', version: '3.2.0'+ objcdp.getVersionSuffix(), ext: 'aar')
-
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
     testCompile 'junit:junit:4.12'
