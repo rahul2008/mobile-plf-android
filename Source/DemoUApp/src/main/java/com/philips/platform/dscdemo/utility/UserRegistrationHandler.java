@@ -10,17 +10,15 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.core.datatypes.UserProfile;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
+import com.philips.platform.dscdemo.DemoAppManager;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 @Singleton
 public class UserRegistrationHandler implements UserRegistrationInterface {
@@ -140,10 +138,8 @@ public class UserRegistrationHandler implements UserRegistrationInterface {
 
     @Override
     public String getHSDPUrl() {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        AppInfra gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        Object propertyForKey = gAppInfra.getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL, URConfigurationConstants.UR, configError);
+        Object propertyForKey = DemoAppManager.getInstance().getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL,
+                URConfigurationConstants.UR, new AppConfigurationInterface.AppConfigurationError());
         return propertyForKey.toString();
     }
 
