@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 class SSDPMessage {
 
     static final String SEPARATOR = ": ";
