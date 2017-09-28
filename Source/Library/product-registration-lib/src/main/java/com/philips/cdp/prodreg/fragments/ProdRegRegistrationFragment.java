@@ -264,10 +264,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageSerialNumber() {
         findSerialTextView.setVisibility(View.VISIBLE);
-        if (field_serial.length() != 0 || (field_serial.length()==0 &&isRegisterButtonClicked)) {
+        if (field_serial.length()==0 &&isRegisterButtonClicked) {
             registerButton.hideProgressIndicator();
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PPR_Please_Enter_SerialNum_Txtfldtxt));
+        } else if (field_serial.length() != 0) {
+            registerButton.hideProgressIndicator();
+            serial_input_field.showError();
+            serial_input_field.setErrorMessage(getString(R.string.PPR_Invalid_SerialNum_ErrMsg));
         } else {
             serial_input_field.hideError();
         }
