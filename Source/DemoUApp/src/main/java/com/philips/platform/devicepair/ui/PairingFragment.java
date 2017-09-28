@@ -200,10 +200,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     public void onResume() {
         super.onResume();
 
-        //For testing
-       /* List<String> test = new ArrayList<>();
-        test.add("1c5a6bfffecc9127");
-        updateDiscoveredDevices(test);*/
         if (!isProgressShowing()) {
             showProgressDialog(getString(R.string.get_paired_device));
             StateContext mStateContext = new StateContext();
@@ -227,20 +223,12 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         super.onActivityCreated(savedInstanceState);
     }
 
-    //For testing
-    /*private PairDevice getTestDeviceDetails() {
-        mPairDevice = new PairDevice();
-        mPairDevice.setDeviceID("1c5a6bfffecc9127");
-        mPairDevice.setDeviceType("urn:philips-com:device:DiProduct:1");
-        return mPairDevice;
-    }*/
-
     private PairDevice getDeviceDetails(String id) {
         for (int i = 0; i < mAppliancesList.size(); i++) {
             if (mAppliancesList.get(i).getNetworkNode().getCppId().equalsIgnoreCase(id)) {
                 mPairDevice = new PairDevice();
                 mPairDevice.setDeviceID(mAppliancesList.get(i).getNetworkNode().getCppId());
-                mPairDevice.setDeviceType(mAppliancesList.get(i).getDeviceType());
+                mPairDevice.setDeviceType(mAppliancesList.get(i).getNetworkNode().getDeviceType());
                 return mPairDevice;
             }
         }
@@ -408,7 +396,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     @Override
     public void onSyncComplete() {
-//        mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
+//        mLaunchFragmentPresenter.pairDevice(getTepastDeviceDetails(), PairingFragment.this);
     }
 
     @Override
