@@ -367,4 +367,31 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
         this.prevPage = prevPage;
     }
 
+    void getAdobeLogLevelEnabled(){
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                .AppConfigurationError();
+        /*if (mAppInfra.getConfigInterface() != null) {*/
+            try {
+                final Object loglevelEnabled = mAppInfra.getConfigInterface().getPropertyForKey
+                        ("enableAdobeLogs", "appinfra", configError);
+
+                if(loglevelEnabled!=null && loglevelEnabled instanceof Boolean) {
+                    final Boolean adobeLogLevelEnabled = (Boolean) loglevelEnabled;
+                    if(adobeLogLevelEnabled){
+                        Config.setDebugLogging(true);
+                    }
+                    else
+                    {
+                        Config.setDebugLogging(false);
+
+                    }
+
+                }
+
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
+            }
+        //}
+    }
 }
