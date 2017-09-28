@@ -6,6 +6,7 @@
 
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -81,6 +82,14 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         videoView.setListener(this);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setVideoViewHeight();
+        }
     }
 
     public void fetchVideoDataSource() {

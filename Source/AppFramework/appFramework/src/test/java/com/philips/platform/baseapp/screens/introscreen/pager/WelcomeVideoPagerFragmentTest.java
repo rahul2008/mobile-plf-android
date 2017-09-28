@@ -1,6 +1,8 @@
 package com.philips.platform.baseapp.screens.introscreen.pager;
 
+import android.content.res.Configuration;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.philips.platform.CustomRobolectricRunner;
@@ -18,12 +20,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -113,6 +117,29 @@ public class WelcomeVideoPagerFragmentTest {
     public void setUserVisibleHintForFalseConditionTest() {
         welcomeVideoPagerFragment.setUserVisibleHint(false);
         assertFalse(welcomeVideoPagerFragment.isVideoPlaying());
+    }
+
+    @Test
+    public void testVideoViewResizeOnConfigurationChange() {
+        final int initialHeight = textureVideoView.getLayoutParams().height;
+
+        // toggle orientation 
+        int currentOrientation = welcomeVideoPagerFragment.getActivity().getResources().getConfiguration().orientation;
+        int toOrientation = (currentOrientation == Configuration.ORIENTATION_PORTRAIT) ?
+                Configuration.ORIENTATION_LANDSCAPE : Configuration.ORIENTATION_PORTRAIT;
+        RuntimeEnvironment.application.getResources().getConfiguration().orientation = toOrientation;
+
+        thumbNail.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int finalHeight = textureVideoView.getLayoutParams().height;
+                assertNotEquals(initialHeight, finalHeight);
+                textureVideoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
+        welcomeVideoPagerFragment.onConfigurationChanged(RuntimeEnvironment.application.getResources().getConfiguration());
+
     }
 
     @After
