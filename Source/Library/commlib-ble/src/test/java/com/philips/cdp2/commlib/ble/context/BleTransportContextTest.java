@@ -6,6 +6,7 @@ import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import org.junit.Before;
@@ -16,6 +17,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.philips.cdp2.commlib.ble.context.BleTransportContext.APP_INFRA;
+import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOGGING_DEBUG_CONFIG;
+import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOGGING_RELEASE_CONFIG;
 import static com.philips.pins.shinelib.utility.SHNLogger.registerLogger;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.PRODUCTION;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.STAGING;
@@ -46,8 +53,8 @@ public class BleTransportContextTest {
     }
 
     @Test
-    public void givenAppStateIsProductionWhenTransportContextIsCreatedThenLoggerIsNotRegistered() throws Exception {
-        setupAppInfraToReturnAppState(PRODUCTION);
+    public void givenAppStateIsProductionAndConsoleLogEnabledWhenTransportContextIsCreatedThenLoggerIsNotRegistered() throws Exception {
+        setupAppInfraToReturnAppState(PRODUCTION, true);
 
         constructBleTransportContext();
 
@@ -56,12 +63,32 @@ public class BleTransportContextTest {
     }
 
     @Test
-    public void givenAppStateIsNotProductionWhenTransportContextIsCreatedThenLoggerIsRegistered() throws Exception {
-        setupAppInfraToReturnAppState(STAGING);
+    public void givenAppStateIsNotProductionAndConsoleLogEnabledWhenTransportContextIsCreatedThenLoggerIsRegistered() throws Exception {
+        setupAppInfraToReturnAppState(STAGING, true);
 
         constructBleTransportContext();
 
         PowerMockito.verifyStatic(atLeastOnce());
+        registerLogger(any(SHNLogger.LoggerImplementation.class));
+    }
+
+    @Test
+    public void givenAppStateIsProductionAndConsoleLogDisabledWhenTransportContextIsCreatedThenLoggerIsNotRegistered() throws Exception {
+        setupAppInfraToReturnAppState(PRODUCTION, false);
+
+        constructBleTransportContext();
+
+        PowerMockito.verifyStatic(never());
+        registerLogger(any(SHNLogger.LoggerImplementation.class));
+    }
+
+    @Test
+    public void givenAppStateIsNotProductionAndConsoleLogDisabledWhenTransportContextIsCreatedThenLoggerIsRegistered() throws Exception {
+        setupAppInfraToReturnAppState(STAGING, false);
+
+        constructBleTransportContext();
+
+        PowerMockito.verifyStatic(never());
         registerLogger(any(SHNLogger.LoggerImplementation.class));
     }
 
@@ -79,7 +106,7 @@ public class BleTransportContextTest {
         };
     }
 
-    private void setupAppInfraToReturnAppState(final AppIdentityInterface.AppState state) {
+    private void setupAppInfraToReturnAppState(final AppIdentityInterface.AppState state, final boolean consoleLogEnabled) {
         when(mockedAppInfra.getAppIdentity()).thenReturn(new AppIdentityInterface() {
             @Override
             public String getAppName() {
@@ -114,6 +141,41 @@ public class BleTransportContextTest {
             @Override
             public String getServiceDiscoveryEnvironment() {
                 return null;
+            }
+        });
+
+        final Map<String, Object> loggingConfig = new HashMap<>();
+        loggingConfig.put("consoleLogEnabled", consoleLogEnabled);
+
+        when(mockedAppInfra.getConfigInterface()).thenReturn(new AppConfigurationInterface() {
+
+            @Override
+            public Object getPropertyForKey(String key, String group, AppConfigurationError appConfigurationError) throws IllegalArgumentException {
+                if (group.equals(APP_INFRA) && (key.equals(LOGGING_DEBUG_CONFIG) || key.equals(LOGGING_RELEASE_CONFIG))) {
+                    return loggingConfig;
+                }
+
+                return null;
+            }
+
+            @Override
+            public boolean setPropertyForKey(String s, String s1, Object o, AppConfigurationError appConfigurationError) throws IllegalArgumentException {
+                return false;
+            }
+
+            @Override
+            public Object getDefaultPropertyForKey(String s, String s1, AppConfigurationError appConfigurationError) throws IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public void refreshCloudConfig(OnRefreshListener onRefreshListener) {
+
+            }
+
+            @Override
+            public void resetConfig() {
+
             }
         });
     }

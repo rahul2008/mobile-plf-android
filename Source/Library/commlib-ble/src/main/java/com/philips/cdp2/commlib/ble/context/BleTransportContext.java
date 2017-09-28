@@ -47,9 +47,9 @@ public class BleTransportContext implements TransportContext<BleTransportContext
 
     private boolean isAvailable;
 
-    private static final String LOGGING_DEBUG_CONFIG = "logging.debugConfig";
-    private static final String LOGGING_RELEASE_CONFIG = "logging.releaseConfig";
-    private static final String APP_INFRA = "appinfra";
+    static final String LOGGING_DEBUG_CONFIG = "logging.debugConfig";
+    static final String LOGGING_RELEASE_CONFIG = "logging.releaseConfig";
+    static final String APP_INFRA = "appinfra";
     private static final String CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
