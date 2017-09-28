@@ -18,13 +18,16 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib_ble.BuildConfig;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
@@ -43,6 +46,11 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private boolean isAvailable;
+
+    static final String LOGGING_DEBUG_CONFIG = "logging.debugConfig";
+    static final String LOGGING_RELEASE_CONFIG = "logging.releaseConfig";
+    static final String APP_INFRA = "appinfra";
+    private static final String CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
         @Override
@@ -79,7 +87,17 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         }
 
         appInfra = createAppInfra(context);
-        if (appInfra.getAppIdentity().getAppState() != PRODUCTION) {
+        AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
+
+        Map<String, Object> loggingConfig;
+        String loggingConfigKey = BuildConfig.DEBUG ? LOGGING_DEBUG_CONFIG : LOGGING_RELEASE_CONFIG;
+        loggingConfig = (Map<String, Object>) appInfra.getConfigInterface().getPropertyForKey(loggingConfigKey, APP_INFRA, configurationError);
+        boolean consoleLoggingEnabled = true;
+        if (loggingConfig != null && loggingConfig.containsKey(CONSOLE_LOG_ENABLED)) {
+            consoleLoggingEnabled = (boolean) loggingConfig.get(CONSOLE_LOG_ENABLED);
+        }
+
+        if (!(appInfra.getAppIdentity().getAppState() == PRODUCTION || !consoleLoggingEnabled)) {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
         }
 
