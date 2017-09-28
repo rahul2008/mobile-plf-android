@@ -440,14 +440,14 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
     RegistrationContentConfiguration registrationContentConfiguration;
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
-        String valueForRegistration = "sample";
+        String valueForRegistrationTitle = "sample";
         String valueForEmailVerification = "sample";
-        String optInTitleText = getResources().getString(R.string.reg_Opt_In_Be_The_First);
-        String optInQuessionaryText = getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
-        String optInDetailDescription = getResources().getString(R.string.reg_Opt_In_Special_Offers);
+        String optInTitleText = getResources().getString(R.string.reg_DLS_OptIn_Navigation_Bar_Title);
+        String optInQuessionaryText = getResources().getString(R.string.reg_DLS_OptIn_Header_Label);
+        String optInDetailDescription = getResources().getString(R.string.reg_DLS_Optin_Body_Line1);
         String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText = getResources().getString(R.string.reg_OptIn_NavTitle);
-        registrationContentConfiguration = new RegistrationContentConfiguration();
+        String optInTitleBarText = getResources().getString(R.string.reg_DLS_OptIn_Navigation_Bar_Title);
+        RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
         registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
