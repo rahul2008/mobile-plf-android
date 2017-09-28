@@ -368,14 +368,5 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Adicionar o meu endereço de e-mail de recuperação</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Talvez mais tarde</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Introduza o código para repor a palavra-passe da conta.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text">No seguimento do seu consentimento, as empresas do grupo Philips poderão contactá-lo com informações promocionais via correio electrónico, SMS e outros canais digitais, como aplicações móveis e redes sociais. Para poder adaptar as comunicações às suas preferências e ao seu comportamento e para lhe fornecer a melhor experiência personalizada, poderemos proceder à análise e combinação dos seus dados pessoais. Estes dados poderão incluir: 
-
-Dados que nos forneceu
-Dados que partilhou connosco activamente, tais como: o seu nome, data de nascimento ou idade, endereço de correio electrónico, endereço postal, país, género, número de telefone, perfil de rede social.
-
-Dados que obtivemos das suas interacções com a Philips
-Dados sobre as suas interacções e utilização dos canais digitais da Philips, como redes sociais, Web sites, correio electrónico, aplicações e produtos conectados. Estes dados podem incluir: endereço IP, cookies, informações de dispositivos, comunicações onde clicou, detalhes de localização e Web sites que visitou
-
-A Philips permite-lhe cancelar o seu consentimento a qualquer momento.
-Para obter mais informações, leia a Política de privacidade da Philips e a Declaração de cookies da Philips.</string>
+<string name="reg_DLS_PhilipsNews_Description_Text">No seguimento do seu consentimento, as empresas do grupo Philips poderão contactá-lo com informações promocionais via correio electrónico, SMS e outros canais digitais, como aplicações móveis e redes sociais. Para poder adaptar as comunicações às suas preferências e ao seu comportamento e para lhe fornecer a melhor experiência personalizada, poderemos proceder à análise e combinação dos seus dados pessoais. Estes dados poderão incluir: \n\nDados que nos forneceu\nDados que partilhou connosco activamente, tais como: o seu nome, data de nascimento ou idade, endereço de correio electrónico, endereço postal, país, género, número de telefone, perfil de rede social.\n\nDados que obtivemos das suas interacções com a Philips\nDados sobre as suas interacções e utilização dos canais digitais da Philips, como redes sociais, Web sites, correio electrónico, aplicações e produtos conectados. Estes dados podem incluir: endereço IP, cookies, informações de dispositivos, comunicações onde clicou, detalhes de localização e Web sites que visitou\n\nA Philips permite-lhe cancelar o seu consentimento a qualquer momento.\nPara obter mais informações, leia a Política de privacidade da Philips e a Declaração de cookies da Philips.</string>
 </resources>

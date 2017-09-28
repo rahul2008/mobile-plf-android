@@ -78,9 +78,9 @@ public class RegUtility {
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
                                           final Activity activity, ClickableSpan
                                                   receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
+        String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
         String doesThisMeanStr =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
+        receivePhilipsNews = receivePhilipsNews +"\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
@@ -89,9 +89,9 @@ public class RegUtility {
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
-        String doesThisMeanStr = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
+        String receivePhilipsNews = activity.getString(R.string.reg_DLS_OptIn_Promotional_Message_Line1);
+        String doesThisMeanStr =  activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews +"\n" + doesThisMeanStr;
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = "\n" + activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
