@@ -1,0 +1,72 @@
+<resources>
+
+    <!-- DEFAULT screen margins, per the Android Design guidelines. -->
+    <bool name="isTablet">true</bool>
+    <dimen name="reg_layout_margin">25dp</dimen>
+    <dimen name="reg_layout_margin_port">120dp</dimen>
+    <dimen name="reg_layout_margin_land">255dp</dimen>
+    <dimen name="reg_layout_padding_top">8dp</dimen>
+
+    <dimen name="reg_title_text_size_largest">50sp</dimen>
+
+    <dimen name="reg_actionbar_title_text_size">21dp</dimen>
+    <dimen name="reg_font_button_text_margin_left">75dp</dimen>
+    <dimen name="reg_support_btn_height">60dp</dimen>
+    <dimen name="reg_prod_reg_btn_height">55dp</dimen>
+    <dimen name="reg_actionbar_height">55dp</dimen>
+
+    <dimen name="reg_account_margin_bottom">30dp</dimen>
+
+    <!-- Header -->
+
+    <dimen name="reg_header_height">50dip</dimen>
+    <dimen name="reg_header_title_size">24sp</dimen>
+    <dimen name="reg_header_iv_back_padding">14dip</dimen>
+    <dimen name="reg_header_title_margin_right">42dip</dimen>
+
+    <!-- Edit Text -->
+    <dimen name="reg_et_height">45dip</dimen>
+    <dimen name="reg_et_hint_size">20sp</dimen>
+    <dimen name="reg_err_alert_width">33dp</dimen>
+    <dimen name="reg_top_arrow_margin_right">5dip</dimen>
+    <dimen name="reg_up_arrow_margin_top">-15dip</dimen>
+
+    <!-- Home screen -->
+    <dimen name="reg_header_margin_top">32dip</dimen>
+    <dimen name="reg_title_text_size_medium">20sp</dimen>
+    <dimen name="reg_title_text_size_small">14sp</dimen>
+    <dimen name="reg_margin_bottom">14dp</dimen>
+    <dimen name="reg_title_text_size_medium_neg">-17sp</dimen>
+
+    <!-- button -->
+    <dimen name="reg_btn_height">50dip</dimen>
+    <dimen name="btn_reg_text_size">17sp</dimen>
+
+    <!-- progress Bar -->
+    <dimen name="reg_pb_padding">7dip</dimen>
+
+    <!-- error mapping -->
+    <dimen name="reg_err_mapping_padding">13dip</dimen>
+    <dimen name="reg_left_arrow_margin_right">-7dip</dimen>
+    <dimen name="reg_left_arrow_margin_left">-16dip</dimen>
+
+    <dimen name="reg_password_hint_middle_gap">6dip</dimen>
+    <dimen name="reg_password_hint_hor_gap">8dip</dimen>
+    <dimen name="reg_password_hint_correct_text_size">13sp</dimen>
+
+    <!-- font Icon size -->
+    <dimen name="reg_provider_icon_size">29sp</dimen>
+    <dimen name="reg_error_alert_size">23sp</dimen>
+    <dimen name="reg_back_arrow_size">20sp</dimen>
+
+    <dimen name="reg_check_size">11dp</dimen>
+
+    <!--Padding for edit text field-->
+    <dimen name="reg_edit_text_field_padding">9dip</dimen>
+    <dimen name="reg_terms_condition_error_pdding">45dip</dimen>
+    <dimen name="reg_error_mapping_pdding">14dip</dimen>
+    <dimen name="reg_field_error_left_margin">13dip</dimen>
+    <dimen name="reg_close_icon_size">16sp</dimen>
+    <dimen name="reg_close_icon_padding_top">0dip</dimen>
+
+</resources>
