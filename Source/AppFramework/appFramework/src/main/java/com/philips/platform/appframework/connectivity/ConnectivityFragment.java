@@ -275,21 +275,23 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
 
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!TextUtils.isEmpty(measurementvalue)) {
-                        editText.setText(measurementvalue);
-                    } else {
-                        editText.setText(Integer.toString(-1));
+        if (isFragmentLive()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (!TextUtils.isEmpty(measurementvalue)) {
+                            editText.setText(measurementvalue);
+                        } else {
+                            editText.setText(Integer.toString(-1));
+                        }
+                    } catch (Exception e) {
+                        RALog.d(DEVICE_DATAPARSING,
+                                e.getMessage());
                     }
-                } catch (Exception e) {
-                    RALog.d(DEVICE_DATAPARSING,
-                            e.getMessage());
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
