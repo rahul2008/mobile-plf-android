@@ -33,9 +33,6 @@ public class ConnectPhoneToDeviceAPModeFragmentTest {
     private ConnectPhoneToDeviceAPModeFragment<EWSPressPlayAndFollowSetupViewModel, FragmentEwsPressPlayFollowSetupDeviceBinding> fragment;
 
     @Mock
-    private FragmentEwsPressPlayFollowSetupDeviceBinding viewModelBinderMock;
-
-    @Mock
     private EWSComponent ewsComponentMock;
 
     @Mock

@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.TroubleshootConnectionUnsuccessfulBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.TroubleshootConnectionUnsuccessfulViewModel;
@@ -24,7 +23,6 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -34,8 +32,6 @@ public class TroubleshootConnectionUnsuccessfulFragmentTest {
     private TroubleshootConnectionUnsuccessfulFragment subject;
     private static final int HIERARCHY_LEVEL = 6;
 
-    @Mock
-    private TroubleshootConnectionUnsuccessfulBinding viewModelBinderMock;
     @Mock
     private EWSComponent ewsComponentMock;
     @Mock
@@ -58,12 +54,6 @@ public class TroubleshootConnectionUnsuccessfulFragmentTest {
             }
         }).when(ewsComponentMock).inject(subject);
         subject.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        subject.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

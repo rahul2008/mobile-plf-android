@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentChooseSetupStateBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.ChooseSetupStateViewModel;
@@ -18,15 +17,12 @@ import org.mockito.stubbing.Answer;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ChooseSetupStateFragmentTest {
 
     private ChooseSetupStateFragment fragment;
 
-    @Mock
-    private FragmentChooseSetupStateBinding viewModelBinderMock;
     @Mock
     private EWSComponent ewsComponentMock;
     @Mock
@@ -49,12 +45,6 @@ public class ChooseSetupStateFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

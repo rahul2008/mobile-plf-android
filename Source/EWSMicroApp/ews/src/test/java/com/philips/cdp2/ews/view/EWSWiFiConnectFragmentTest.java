@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentEwsConnectDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel;
@@ -24,9 +23,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class EWSWiFiConnectFragmentTest {
 
     private EWSWiFiConnectFragment fragment;
-
-    @Mock
-    private FragmentEwsConnectDeviceBinding viewModelBinderMock;
 
     @Mock
     private EWSComponent ewsComponentMock;

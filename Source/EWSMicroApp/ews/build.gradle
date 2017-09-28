@@ -11,10 +11,6 @@ android {
         renderscriptTargetApi config.targetSdk
         renderscriptSupportModeEnabled true
         multiDexEnabled true
-        testApplicationId "com.philips.platform.appframework.test"
-    }
-    sourceSets {
-        main.res.srcDirs += 'src/main/res-ews'
     }
     dataBinding {
         enabled = true

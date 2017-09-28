@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentEwsPressPlayFollowSetupDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -25,7 +24,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
@@ -33,9 +31,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class EWSPressPlayAndFollowSetupFragmentTest {
 
     private EWSPressPlayAndFollowSetupFragment fragment;
-
-    @Mock
-    private FragmentEwsPressPlayFollowSetupDeviceBinding viewModelBinderMock;
 
     @Mock
     private EWSComponent ewsComponentMock;
@@ -61,12 +56,6 @@ public class EWSPressPlayAndFollowSetupFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

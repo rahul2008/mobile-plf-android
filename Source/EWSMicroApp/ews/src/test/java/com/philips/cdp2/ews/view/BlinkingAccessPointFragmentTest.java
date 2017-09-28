@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentBlinkingAccessPointBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
@@ -19,15 +18,12 @@ import org.mockito.stubbing.Answer;
 import static junit.framework.Assert.assertSame;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BlinkingAccessPointFragmentTest {
 
     private BlinkingAccessPointFragment fragment;
 
-    @Mock
-    private FragmentBlinkingAccessPointBinding viewModelBinderMock;
     @Mock
     private EWSComponent ewsComponentMock;
     @Mock
@@ -50,12 +46,6 @@ public class BlinkingAccessPointFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

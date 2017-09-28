@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentEwsHomeWifiDisplayScreenBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -37,9 +36,6 @@ public class EWSHomeWifiDisplayFragmentTest {
     private EWSHomeWifiDisplayFragment fragment;
 
     @Mock
-    private FragmentEwsHomeWifiDisplayScreenBinding viewModelBinderMock;
-
-    @Mock
     private EWSComponent ewsComponentMock;
 
     @Mock
@@ -68,13 +64,6 @@ public class EWSHomeWifiDisplayFragmentTest {
         PowerMockito.mockStatic(EWSDependencyProvider.class);
         when(EWSDependencyProvider.getInstance()).thenReturn(dependencyProviderMock);
         when(dependencyProviderMock.getTaggingInterface()).thenReturn(mock(AppTaggingInterface.class));
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
-        verify(viewModelMock).setHierarchyLevel(fragment.getHierarchyLevel());
     }
 
     @Test

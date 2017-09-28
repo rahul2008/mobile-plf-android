@@ -5,29 +5,27 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentEwsWifiPairedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(RobolectricTestRunner.class)
 public class EWSWiFiPairedFragmentTest {
 
     private EWSWiFiPairedFragment fragment;
-
-    @Mock
-    private FragmentEwsWifiPairedBinding viewModelBinderMock;
 
     @Mock
     private EWSComponent ewsComponentMock;
@@ -51,12 +49,6 @@ public class EWSWiFiPairedFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

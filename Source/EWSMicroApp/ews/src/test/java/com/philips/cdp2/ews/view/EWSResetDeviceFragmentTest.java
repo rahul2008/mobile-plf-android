@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentEwsResetWulDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.EWSResetDeviceViewModel;
@@ -19,15 +18,12 @@ import org.mockito.stubbing.Answer;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class EWSResetDeviceFragmentTest {
 
     private EWSResetDeviceFragment fragment;
 
-    @Mock
-    private FragmentEwsResetWulDeviceBinding viewModelBinderMock;
     @Mock
     private EWSComponent ewsComponentMock;
     @Mock
@@ -50,12 +46,6 @@ public class EWSResetDeviceFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

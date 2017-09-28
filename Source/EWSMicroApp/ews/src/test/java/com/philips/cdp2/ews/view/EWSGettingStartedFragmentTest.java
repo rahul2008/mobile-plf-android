@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.FragmentEwsGettingStartedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -28,8 +27,6 @@ public class EWSGettingStartedFragmentTest {
     private EWSGettingStartedFragment fragment;
 
     @Mock
-    private FragmentEwsGettingStartedBinding viewModelBinderMock;
-    @Mock
     private EWSComponent ewsComponentMock;
     @Mock
     private EWSGettingStartedViewModel viewModelMock;
@@ -51,13 +48,6 @@ public class EWSGettingStartedFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
-        verify(viewModelMock).setHierarchyLevel(fragment.getHierarchyLevel());
     }
 
     @Test

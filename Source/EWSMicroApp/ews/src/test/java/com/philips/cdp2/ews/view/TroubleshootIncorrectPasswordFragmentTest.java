@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.TroubleshootIncorrectPasswordBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.TroubleshootIncorrectPasswordViewModel;
@@ -23,7 +22,6 @@ import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -33,8 +31,6 @@ public class TroubleshootIncorrectPasswordFragmentTest {
     private TroubleshootIncorrectPasswordFragment subject;
     private static final int HIERARCHY_LEVEL = 7;
 
-    @Mock
-    private TroubleshootIncorrectPasswordBinding viewModelBinderMock;
     @Mock
     private EWSComponent ewsComponentMock;
     @Mock
@@ -57,12 +53,6 @@ public class TroubleshootIncorrectPasswordFragmentTest {
             }
         }).when(ewsComponentMock).inject(subject);
         subject.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        subject.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

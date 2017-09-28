@@ -6,7 +6,6 @@ package com.philips.cdp2.ews.view;
 
 import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.databinding.TroubleshootWrongWifiFragmentBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.viewmodel.TroubleshootWrongWiFiViewModel;
@@ -22,7 +21,6 @@ import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -32,8 +30,6 @@ public class TroubleshootWrongWiFiFragmentTest {
     private static final int HIERARCHY_LEVEL = 7;
     private TroubleshootWrongWiFiFragment fragment;
 
-    @Mock
-    private TroubleshootWrongWifiFragmentBinding viewModelBinderMock;
     @Mock
     private EWSComponent ewsComponentMock;
     @Mock
@@ -56,12 +52,6 @@ public class TroubleshootWrongWiFiFragmentTest {
             }
         }).when(ewsComponentMock).inject(fragment);
         fragment.inject(ewsComponentMock);
-    }
-
-    @Test
-    public void shouldBindDataWhenAsked() throws Exception {
-        fragment.bindViewModel(viewModelBinderMock);
-        verify(viewModelBinderMock).setViewModel(viewModelMock);
     }
 
     @Test

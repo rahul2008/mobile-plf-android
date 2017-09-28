@@ -1,1 +1,1 @@
-include ':ews', ':demoapplication', ':EWSLib'
+include ':ews', ':demoapplication'
