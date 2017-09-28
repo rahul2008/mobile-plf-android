@@ -172,7 +172,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_verify_resend_sms_nav_title;
+        return R.string.reg_Resend_SMS_title;
     }
 
     private void updateUiStatus() {
@@ -303,7 +303,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
                 ((60 - timeRemaining) * 100) / 60);
         String timeRemainingAsString = Integer.toString(timeRemaining);
         usr_mobileverification_resendsmstimer_progress.setText(
-                String.format(getResources().getString(R.string.no_sms_timer), timeRemainingAsString));
+                String.format(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
         disableResendButton();
     }
 
@@ -363,7 +363,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             usr_mobileverification_resendsmstimer_progress.setSecondaryProgress(progress);
-            usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.no_sms_yet));
+            usr_mobileverification_resendsmstimer_progress.setText(getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
             updateResendTime(timeLeft);

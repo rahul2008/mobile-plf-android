@@ -111,8 +111,8 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     private void setDescription() {
-        String normalText = getString(R.string.reg_verify_mobile_desc1);
-        SpannableString str = new SpannableString(normalText + " "+ mobileNumber);
+        String normalText = getString(R.string.reg_DLS_VerifySMS_Description_Text);
+        SpannableString str = new SpannableString(String.format(normalText, mobileNumber));
         str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length(), str.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         verifyPasswordDesc1.setText(str);

@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-                android:text="@string/reg_firstname"/>
+                android:text="@string/reg_DLS_First_Name_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_firstName_inputValidation"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-                android:text="@string/reg_lastname"/>
+                android:text="@string/reg_DLS_Last_Name_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_lastName_inputValidation"
@@ -79,7 +79,7 @@
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelDescriptorNormalTextColor"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_email"/>
+                android:text="@string/reg_DLS_Email_Label_Text"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createscreen_emailormobile_inputValidationLayout"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-                android:text="@string/reg_password"/>
+                android:text="@string/reg_DLS_Password_lbltxt"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_createScreen_password_inputValidationField"
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/uid_signal_red_level_15"
                     android:padding="@dimen/reg_dimen_12dp"
-                    android:text="@string/reg_password_description"
+                    android:text="@string/reg_Password_Guidelines"
                     android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
             </LinearLayout>
 
@@ -181,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_TermsAndConditionsAcceptanceText"/>
+                android:text="@string/reg_DLS_TermsAndConditionsAcceptanceText"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_createscreen_termsandconditionsalert_view"
@@ -198,8 +198,8 @@
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_Create_Account_CreateMyPhilips_btntxt"
-                app:uidProgressIndicatorButtonText="@string/reg_Create_Account_CreateMyPhilips_btntxt"/>
+                app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_createscreen_switchtologin_button"
@@ -207,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="Switch to login"
+                android:text="@string/reg_DLS_SwitchToLogin_Txt"
                 android:visibility="gone"
                 app:uidComponentType="Secondary"/>
 
@@ -218,8 +218,8 @@
                 android:layout_marginTop="@dimen/reg_dimen_24dp"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/reg_margin_bottom"
-                android:layout_marginTop="20dip"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

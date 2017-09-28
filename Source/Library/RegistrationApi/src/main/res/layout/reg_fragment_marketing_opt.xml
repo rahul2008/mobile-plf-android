@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
+                android:text="@string/reg_DLS_OptIn_Header_Label"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_error_alert_size"
                 fontPath="fonts/centralesansbold.ttf"/>
@@ -82,7 +82,7 @@
                 android:enabled="false"
                 android:textStyle="normal"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonText="@string/reg_Opt_In_Count_Me_In"/>
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_OptIn_Button1_Title"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_marketingScreen_maybeLater_button"
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_Opt_In_May_Be_later"
+                android:text="@string/reg_DLS_OptIn_Button2_Title"
                 android:textStyle="normal"
                 app:uidComponentType="Secondary"/>
 

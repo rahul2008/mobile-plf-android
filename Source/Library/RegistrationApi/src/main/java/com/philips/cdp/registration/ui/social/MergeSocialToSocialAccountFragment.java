@@ -119,14 +119,14 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.social_merge_dialog)
-                .setNegativeButton("Cancel", v -> alertDialogFragment.dismiss())
-                .setPositiveButton("Yes, log out", v -> {
+                .setNegativeButton(mContext.getString(R.string.reg_Social_Merge_Cancel_btntxt), v -> alertDialogFragment.dismiss())
+                .setPositiveButton(mContext.getString(R.string.reg_DLS_Merge_Accounts_Logout_Dialog__Button_Title), v -> {
                     alertDialogFragment.dismiss();
                     performAction();
                 })
                 .setDimLayer(DialogConstants.DIM_STRONG)
                 .setCancelable(false);
-        builder.setTitle("Don't connect social media accounts");
+        builder.setTitle(mContext.getString(R.string.reg_DLS_Merge_Accounts_Logout_Dialog_Title));
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), null);
 
