@@ -119,29 +119,6 @@ public class WelcomeVideoPagerFragmentTest {
         assertFalse(welcomeVideoPagerFragment.isVideoPlaying());
     }
 
-    @Test
-    public void testVideoViewResizeOnConfigurationChange() {
-        final int initialHeight = textureVideoView.getLayoutParams().height;
-
-        // toggle orientation 
-        int currentOrientation = welcomeVideoPagerFragment.getActivity().getResources().getConfiguration().orientation;
-        int toOrientation = (currentOrientation == Configuration.ORIENTATION_PORTRAIT) ?
-                Configuration.ORIENTATION_LANDSCAPE : Configuration.ORIENTATION_PORTRAIT;
-        RuntimeEnvironment.application.getResources().getConfiguration().orientation = toOrientation;
-
-        thumbNail.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int finalHeight = textureVideoView.getLayoutParams().height;
-                assertNotEquals(initialHeight, finalHeight);
-                textureVideoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
-
-        welcomeVideoPagerFragment.onConfigurationChanged(RuntimeEnvironment.application.getResources().getConfiguration());
-
-    }
-
     @After
     public void tearDown() {
         activityController.pause().stop().destroy();
