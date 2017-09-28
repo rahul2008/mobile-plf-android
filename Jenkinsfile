@@ -19,7 +19,7 @@ node ('android&&docker') {
                 step([$class: 'StashNotifier'])
             }
 
-    		if (BranchName =~ /master|develop|release.*/) {
+    		if (BranchName =~ /master|develop|release\/platform_.*/) {
     			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 .
@@ -46,7 +46,7 @@ node ('android&&docker') {
             	'''
             }
 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
