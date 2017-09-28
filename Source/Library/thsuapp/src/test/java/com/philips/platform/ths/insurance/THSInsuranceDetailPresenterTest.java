@@ -176,18 +176,7 @@ public class THSInsuranceDetailPresenterTest {
     @Test
     public void onGetInsuranceResponse() throws Exception {
         thsInsuranceDetailPresenter.onGetInsuranceResponse(thsSubscriptionMock,thssdkError);
-       /* when(thssdkError.getSdkError()).thenReturn(sdkErrorMock);
-        when(thsSubscriptionMock.getSubscription()).thenReturn(SubscriptionMock);
-        when(SubscriptionMock.getHealthPlan()).thenReturn(healthPlanMock);
-        when(healthPlanMock.getName()).thenReturn("Health Plan Name");
-        when(healthPlanMock.isUsesSuffix()).thenReturn(true);
-        when(SubscriptionMock.getSubscriberId()).thenReturn("subscriber ID");
-        when(SubscriptionMock.getSubscriberSuffix()).thenReturn("suffix");
-        when(SubscriptionMock.getRelationship()).thenReturn(relationshipMock);
-        when(relationshipMock.isPrimarySubscriber()).thenReturn(false);
-        when(SubscriptionMock.getPrimarySubscriberFirstName()).thenReturn("first name");
-        when(SubscriptionMock.getPrimarySubscriberLastName()).thenReturn("last name");
-        when(SubscriptionMock.getPrimarySubscriberDateOfBirth()).thenReturn(SDKLocalDate.valueOf("1992-05-12"));*/
+
 
 
         //THSInsuranceDetailFragment fragment = THSInsuranceDetailFragment.class.newInstance();

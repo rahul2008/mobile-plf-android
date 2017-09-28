@@ -62,7 +62,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     boolean isLaunchedFromCostSummary = false;
     private ActionBarListener actionBarListener;
     private RelativeLayout mProgressbarContainer;
-    private THSInsuranceDetailPresenter mPresenter;
+    protected THSInsuranceDetailPresenter mPresenter;
     private AlertDialog.Builder mAlertDialog;
     private Button detailContinueButton;
     private Button detailSkipButton;
