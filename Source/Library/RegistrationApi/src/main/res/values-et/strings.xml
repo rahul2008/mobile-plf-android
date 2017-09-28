@@ -368,8 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Lisa taastamise e-posti aadress</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Võib-olla hiljem</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Palun sisestage konto parooli lähtestamiseks kood.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">Teie nõusolekule tuginedes võivad Philipsi kontserni ettevõtted teile e-kirja, SMSi või muude digitaalsete kanalite kaudu (nt mobiilirakendused ja sotsiaalmeedia) saata reklaamkirju. Selleks, et saaksime teile saata teie eelistustele ja tarbimiskäitumisele vastavaid teavitusi ja pakkuda teile parimat ja personaalset kogemust, võime teie isikuandmeid analüüsida ja kombineerida. Need andmed võivad hõlmata:
+ 
+Andmeid, mida meile annate
+Andmeid, mida soovite meiega aktiivselt jagada, näiteks teie nimi, sünniaeg või vanus, e-posti aadress, füüsiline aadress, riik, sugu, telefoninumber, suhtlusvõrgustiku profiil.
+ 
+Andmeid, mida me teie suhtlemisest Philipsiga kogume
+Andmeid teie tegevuse ja Philipsi digitaalsete kanalite (nt sotsiaalmeedia, veebilehed, e-kirjad, rakendused ja nendega seotud tooted) kasutamise kohta. Need andmed võivad hõlmata järgmist: IP-aadress, küpsised, teave seadme kohta, teated, millele olete klõpsanud, asukoha andmed ja külastatavad veebilehed.
+ 
+Philips annab teile võimaluse igal ajal oma nõusoleku tagasi võtta.
+Lisateabe saamiseks lugege palun Philipsi privaatsusavaldust ja küpsiste teadet.</string>
 </resources>

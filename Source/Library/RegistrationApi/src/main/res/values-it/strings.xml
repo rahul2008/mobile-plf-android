@@ -368,8 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Aggiungi l\'e-mail di recupero</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Forse più tardi</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Inserisci il codice per reimpostare la password del tuo account.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">Gavę jūsų sutikimą, „Philips group“ priklausančios įmonės gali pateikti jums reklaminių pranešimų el. paštu, SMS žinute arba kitais skaitmeniniais kanalais, pvz., per mobiliesiems skirtas programas ir socialinius tinklus. Siekdami pateikti jūsų poreikius geriausiai atitinkančius pasiūlymus, mes analizuosime ir derinsime jūsų asmeninius duomenis. Šie duomenys apima: 
+
+Duomenis, kuriuos mums pateikiate
+Duomenis, kuriais norite aktyviai su mumis dalintis, pvz., vardas, gimimo metai arba amžius, el. pašto adresas, adresas, šalis, lytis, telefono numeris, socialinių tinklų profilis.
+
+Duomenis, kuriuos gauname jums naudojantis „Philips“
+Duomenis apie jūsų naudojamus „Philips“ skaitmeninius kanalus, pvz., socialiniai tinklai, svetainės, el. paštas, programos ir susiję gaminiai. Šie duomenys apima: IP adresą, slapukus, įrenginio informaciją, jūsų spustelėtus pranešimus, vietos informaciją ir jūsų lankomas svetaines
+
+„Philips“ palieka jums galimybę bet kada atšaukti savo sutikimą.
+Jei reikia daugiau informacijos, perskaitykite „Philips“ privatumo nuostatas ir „Philips“ slapukų nuostatas.</string>
 </resources>

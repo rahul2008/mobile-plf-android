@@ -84,7 +84,6 @@
                 android:textSize="@dimen/reg_text_size_16"
                 android:progressDrawable="@drawable/uid_secondary_progress_bar"
                 android:secondaryProgress="100"
-                android:text="@string/no_email_yet"
                 app:uidIsLinearProgressBar="true"
                 app:uidLabelPosition="bottom_left"/>
 

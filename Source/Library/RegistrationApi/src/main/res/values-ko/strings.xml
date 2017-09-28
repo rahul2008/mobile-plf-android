@@ -368,8 +368,5 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">복구 이메일 추가</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">나중에</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">해당 코드를 입력하여 계정 암호를 재설정하십시오.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">귀하께서 동의하신 결과로 필립스 그룹은 홍보를 위해 이메일, SMS 및 모바일 앱, 소셜 미디어 등의 기타 디지털 채널을 통해 귀하께 연락을 드릴 수 있습니다. 귀하의 선호도와 행동 양식을 기반으로 한 맞춤형 커뮤니케이션 및 최고의 맞춤형 경험을 제공하기 위해 귀하의 개인정보를 분석하고 조합할 수 있습니다. 이러한 정보에는 다음이 포함됩니다.  귀하께서 제공하신 정보 당사와 공유하신 개인 정보에는 이름, 생년월일, 나이, 이메일 주소, 자택/회사 주소, 국가, 성별, 전화번호, 소셜 미디어 프로필 등이 있습니다.  필립스와의 소통 과정에서 취득된 정보 소셜 미디어, 웹 사이트, 이메일, 앱, 연계 제품 등 필립스 디지털 채널과의 소통 및 디지털 채널 사용을 통해 제공된 정보로, IP 주소, 쿠키, 장치 정보, 클릭한 커뮤니케이션, 위치 정보, 방문한 웹 사이트 등이 해당됩니다.  언제라도 동의를 철회하실 수 있습니다. 자세한 내용은 개인정보 보호정책 및 필립스 쿠키 정책을 참조하십시오.</string>
 </resources>

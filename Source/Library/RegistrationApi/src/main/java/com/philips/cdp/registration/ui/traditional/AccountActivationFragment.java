@@ -256,7 +256,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
                 mContext.getResources().getString(
                         R.string.reg_DLS_Email_Verify_Alert_Body_Line2),
                 mContext.getResources().getString(
-                        R.string.reg_almost_verify_alert_button)
+                        R.string.reg_Ok_Btn_Txt)
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 

@@ -397,7 +397,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
-            emailResendTimerProgress.setText(mContext.getResources().getString(R.string.no_email_yet));
+            //Temp: Actual text is not available in localization hence kept empty for time being.
+            emailResendTimerProgress.setText("");
             mResendEmail.setEnabled(true);
             proceedResend = true;
         } else {

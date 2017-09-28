@@ -368,8 +368,6 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Přidat e-mail pro obnovení</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Možná později</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Zadejte kód k resetování hesla účtu.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">Na základě vašeho souhlasu vás mohou společnosti skupiny Philips kontaktovat s reklamními zprávami prostřednictvím e-mailu, SMS a jiných digitálních kanálů, jako jsou mobilní aplikace a sociální média. Abychom vám mohli tyto zprávy přizpůsobit na míru a poskytnout vám tu nejlepší, individuální zkušenost, analyzujeme a kombinujeme vaše osobní údaje. Tyto údaje mohou zahrnovat:
+ Vámi poskytované údaje Údaje, které s námi aktivně sdílíte: vaše jméno, datum narození či věk, e-mailová adresa, adresa bydliště, země, pohlaví, telefonní číslo, profily na sociálních médiích.  Údaje získané z vašich interakcí se společností Philips Údaje o vašich interakcích a používání digitálních prostředků Philips, jako jsou sociální média, webové stránky, e-mail, aplikace a připojené výrobky. Tyto údaje mohou zahrnovat: IP adresu, soubory cookie, informace o zařízení, zprávy, na které kliknete, údaje o poloze a navštívené webové stránky.  Společnost Philips vám dává možnost svůj souhlas kdykoliv zrušit. Více informací naleznete Oznámení o ochraně osobních společnosti Philips a Oznámení o souborech cookie společnosti Philips.</string>
 </resources>

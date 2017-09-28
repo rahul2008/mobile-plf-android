@@ -368,8 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">הוסף כתובת דוא\"ל לשחזור</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">אולי מאוחר יותר</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">הזן את הקוד לשחזור סיסמת החשבון.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">כתוצאה מהסכמתך, חברות הקבוצה של פיליפס עשויות ליצור עמך קשר באמצעות תקשורת פרסומית באמצעות דואר אלקטרוני, SMS וערוצים דיגיטליים אחרים, כגון אפליקציות לנייד ומדיה חברתית.כדי להתאים את התקשורת להעדפותיך ולהתנהגותך ולספק לך את החוויה הטובה ביותר, אישית, אנו עשויים לנתח ולשלב את הנתונים האישיים שלך.הנתונים עשויים לכלול:
+
+הנתונים שאתה נותן לנו
+נתונים שברצונך לשתף איתנו באופן פעיל כגון: שמך, תאריך לידה או גיל, כתובת דוא\"ל, כתובת פיזית, ארץ, מין, מספר טלפון, פרופיל מדיה חברתית.
+
+הנתונים שאנו מקבלים מהאינטראקציות שלך עם פיליפס
+נתונים על האינטראקציות והשימוש בערוצים הדיגיטליים של פיליפס, כגון מדיה חברתית, אתרי אינטרנט, הודעות דוא\"ל, אפליקציות ומוצרים מחוברים. נתונים אלה עשויים לכלול: כתובת IP, קובצי Cookie, פרטי מכשיר, תקשורת שאתה לוחץ עליה, פרטי מיקום ואתרים שבהם אתה מבקר
+
+פיליפס תיתן לך את ההזדמנות לבטל את הסכמתך בכל עת.
+לקבלת מידע נוסף, קרא את הודעת הפרטיות של Philips ואת הודעת ה- Cookie של Philips. </string>
 </resources>

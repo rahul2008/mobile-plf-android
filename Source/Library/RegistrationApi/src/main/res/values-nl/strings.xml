@@ -368,11 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Mijn herstel-e-mail toevoegen</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Misschien later</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Voer de code in om uw accountwachtwoord opnieuw in te stellen.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One">Door uw toestemming kunnen de bedrijven uit de Philips-groep u promotionele berichten sturen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. Deze gegevens kunnen bestaan uit: </string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two">Gegevens die u ons verstrekt. Gegevens die u met ons hebt gedeeld, zoals uw naam, geboortedatum of leeftijd, e-mailadres, woonadres, land, geslacht, telefoonnummer, social-mediaprofiel.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three">Gegevens die wij hebben verkregen via uw interactie met Philips
-Gegevens over uw interactie met en gebruik van de digitale kanalen van Philips, zoals social media, websites, e-mails, apps en gerelateerde producten. Deze gegevens kunnen bestaan uit: IP-adres, cookies, apparaatinformatie, berichten waarop u klikt, locatiegegevens en websites die u bezoekt</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four">U kunt uw toestemming aan Philips op ieder gewenst moment intrekken.
-Lees voor meer informatie de Philips-privacyverklaring en de Philips-cookieverklaring.
-</string>
+<string name="reg_DLS_PhilipsNews_Description_Text">Door uw toestemming kunnen de bedrijven uit de Philips-groep u promotionele berichten sturen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. Deze gegevens kunnen bestaan uit: 
+
+Gegevens die u ons verstrekt
+Gegevens die u met ons hebt gedeeld, zoals uw naam, geboortedatum of leeftijd, e-mailadres, woonadres, land, geslacht, telefoonnummer, social-mediaprofiel.
+
+Gegevens die wij hebben verkregen via uw interactie met Philips
+Gegevens over uw interactie met en gebruik van de digitale kanalen van Philips, zoals social media, websites, e-mails, apps en gerelateerde producten. Deze gegevens kunnen bestaan uit: IP-adres, cookies, apparaatinformatie, berichten waarop u klikt, locatiegegevens en websites die u bezoekt
+
+U kunt uw toestemming aan Philips op ieder gewenst moment intrekken.
+Lees voor meer informatie de Philips-privacyverklaring en de Philips-cookieverklaring.</string>
 </resources>

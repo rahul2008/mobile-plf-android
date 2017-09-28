@@ -368,11 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Pievienot manu atkopšanas e-pastu</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Varbūt vēlāk</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Lūdzu, ievadiet kodu, lai atiestatītu sava konta paroli.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One">Jūsu piekrišanas rezultātā Philips grupas uzņēmumi var nosūtīt jums reklāmas piedāvājumus, izmantojot e-pastu, īsziņas un citos digitālos kanālus, piemēram, mobilās lietotnes un sociālos tīklus. Lai pielāgotu saziņu jūsu izvēlēm un darbībām tā nodrošinot vislabāko, personalizēto pieredzi, mēs varam analizēt un jūsu personas datus. Šie dati var ietvert:</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two">Jūsu norādītie dati
-Dati, kurus vēlaties aktīvi mums sniegt: jūsu vārds un uzvārds, dzimšanas datums vai vecums, e-pasta adrese, faktiskā adrese, valsts, dzimums, tālruņa numurs, sociālā tīkla profils.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three">Dati, kurus mēs iegūstam no jūsu mijiedarbības ar Philips
-Dati par jūsu mijiedarbību ar Philips digitālajiem kanāliem un to lietojumu, piemēram, sociālajiem tīkliem, tīmekļa vietnēm, e-pasta ziņojumiem, lietotnēm un pievienotajiem produktiem. Šie dati var ietvert: IP adresi, sīkfailus, ierīces informāciju, saziņas kanālus, uz kuriem noklikšķināts, atrašanās vietas informāciju un apmeklētās tīmekļa vietnes.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four">Philips sniegs jums iespēju jebkurā brīdī atteikties no piekrišanas.
-Papildinformāciju, lūdzu, lasiet Philips paziņojumā par konfidencialitāti Philips paziņojumā par sīkfailiem.</string>
+<string name="reg_DLS_PhilipsNews_Description_Text">Jūsu piekrišanas rezultātā Philips grupas uzņēmumi var nosūtīt jums reklāmas piedāvājumus, izmantojot e-pastu, īsziņas un citos digitālos kanālus, piemēram, mobilās lietotnes un sociālos tīklus. Lai pielāgotu saziņu jūsu izvēlēm un darbībām tā nodrošinot vislabāko, personalizēto pieredzi, mēs varam analizēt un jūsu personas datus. Šie dati var ietvert:
+ 
+Jūsu norādītie dati
+Dati, kurus vēlaties aktīvi mums sniegt: jūsu vārds un uzvārds, dzimšanas datums vai vecums, e-pasta adrese, faktiskā adrese, valsts, dzimums, tālruņa numurs, sociālā tīkla profils.
+ 
+Dati, kurus mēs iegūstam no jūsu mijiedarbības ar Philips
+Dati par jūsu mijiedarbību ar Philips digitālajiem kanāliem un to lietojumu, piemēram, sociālajiem tīkliem, tīmekļa vietnēm, e-pasta ziņojumiem, lietotnēm un pievienotajiem produktiem. Šie dati var ietvert: IP adresi, sīkfailus, ierīces informāciju, saziņas kanālus, uz kuriem noklikšķināts, atrašanās vietas informāciju un apmeklētās tīmekļa vietnes.
+ 
+Philips sniegs jums iespēju jebkurā brīdī atteikties no piekrišanas.
+Papildinformāciju, lūdzu, lasiet Philips paziņojumā par konfidencialitāti Philips paziņojumā par sīkfailiem.</string>
 </resources>

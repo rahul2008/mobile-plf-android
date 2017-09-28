@@ -368,8 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">添加我的恢复电子邮箱</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">以后再用</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">请输入代码以重置您的帐户密码。</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three"></string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four"></string>
+<string name="reg_DLS_PhilipsNews_Description_Text">在您同意的前提下，飞利浦集团可能会通过电子邮件、短信以及移动APP和社交媒体等其他数字渠道与您联系，为您提供推广与促销资讯。 为了能够依据您的偏好和习惯量身定制宣传内容并提供最佳的个性化体验，我们可能会分析和合并您的个人资料。 这些资料可能包括：
+ 
+您向我们提供的资料
+您主动分享的资料，如：姓名、出生日期或年龄、电子邮件地址、实际地址、国家/地区、性别、电话号码、社交媒体个人资料。
+ 
+我们通过您与飞利浦的互动获得的资料
+有关您的互动活动和使用飞利浦数字频道（如社交媒体、网站、电子邮件、应用程序APP和互联产品）的资料。 这些资料可能包括：IP 地址、Cookie、设备信息、您点击的信息、位置详细信息以及您访问的网站
+ 
+飞利浦将为您提供随时撤回许可的机会。
+有关更多信息，请阅读飞利浦隐私声明 和飞利浦 Cookie 声明。</string>
 </resources>

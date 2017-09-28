@@ -368,11 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">Legg til e-post for gjenoppretting</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Kanskje senere</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Angi koden for å tilbakestille kontopassordet.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One">Gruppen av selskaper som Philips er en del av, kan som følge av ditt samtykke kontakte deg med salgsfremmende kommunikasjon via e-post, SMS og andre digitale kanaler, som mobilapper og sosiale medier. Vi kan analysere og kombinere personopplysningene dine for å gi deg en personlig tilpasset opplevelse og skreddersy kommunikasjonen etter preferansene dine og forbrukeratferden din. Disse opplysningene kan inkludere følgende: </string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two">Opplysningene du gir oss.
-Opplysningene som du aktivt deler med oss, for eksempel navn, fødselsdato eller alder, e-postadresse, adresse, land, kjønn, telefonnummer, profiler i sosiale medier.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three">Opplysningene vi får fra samhandlingen din med Philips.
-Opplysninger om din samhandling med og bruk av Philips\' digitale kanaler, for eksempel sosiale medier, nettsteder, e-post, apper og tilkoblede produkter. Disse opplysningene kan inkludere: IP-adresse, informasjonskapsler, enhetsinformasjon, kommunikasjoner du klikker på, opplysninger om sted og nettsteder du besøker.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four">Philips gir deg anledning til å trekke tilbake samtykket ditt når som helst.
+<string name="reg_DLS_PhilipsNews_Description_Text">Gruppen av selskaper som Philips er en del av, kan som følge av ditt samtykke kontakte deg med salgsfremmende kommunikasjon via e-post, SMS og andre digitale kanaler, som mobilapper og sosiale medier. Vi kan analysere og kombinere personopplysningene dine for å gi deg en personlig tilpasset opplevelse og skreddersy kommunikasjonen etter preferansene dine og forbrukeratferden din. Disse opplysningene kan inkludere følgende: 
+
+Opplysningene du gir oss.
+Opplysningene som du aktivt deler med oss, for eksempel navn, fødselsdato eller alder, e-postadresse, adresse, land, kjønn, telefonnummer, profiler i sosiale medier.
+
+Opplysningene vi får fra samhandlingen din med Philips.
+Opplysninger om din samhandling med og bruk av Philips\' digitale kanaler, for eksempel sosiale medier, nettsteder, e-post, apper og tilkoblede produkter. Disse opplysningene kan inkludere: IP-adresse, informasjonskapsler, enhetsinformasjon, kommunikasjoner du klikker på, opplysninger om sted og nettsteder du besøker.
+
+Philips gir deg anledning til å trekke tilbake samtykket ditt når som helst.
 For mer informasjon kan du lese merknad om personvern fra Philips og merknad om informasjonskapsler fra Philips.</string>
 </resources>

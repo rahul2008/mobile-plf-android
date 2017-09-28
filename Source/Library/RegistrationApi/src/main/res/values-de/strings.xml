@@ -368,11 +368,14 @@
 <string name="reg_DLS_AddRecovery_AddRecovery_Button_Title">E-Mail-Adresse zur Kontowiederherstellung hinzufügen</string>
 <string name="reg_DLS_AddRecovery_MaybeLater_Button_Title">Vielleicht später</string>
 <string name="reg_DLS_ResetAccount_EnterCode_Text">Geben Sie den Code ein, um Ihr Passwort zurückzusetzen.</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_One">Mit Ihrer Zustimmung können die Unternehmen der Philips Group Ihnen Werbemitteilungen per E-Mail, SMS und über andere digitale Kanäle, wie mobile Apps und soziale Medien, zukommen lassen. Damit wir die Mitteilungen an Ihre Interessen und Ihr Verhalten anpassen und Ihnen ein optimal personalisiertes Erlebnis bieten können, analysieren und kombinieren wir möglicherweise Ihre persönlichen Daten. Diese Daten können Folgendes umfassen:</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Two">Daten, die Sie uns zur Verfügung stellen
-Daten, die Sie aktiv mit uns teilen möchten, z. B.: Name, Geburtsdatum oder Alter, E-Mail-Adresse, Postanschrift, Land, Geschlecht, Telefonnummer, Profil in sozialen Netzwerken</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Three">Daten, die wir durch Ihre Interaktionen mit Philips beziehen
-Daten über Ihre Interaktionen und Ihre Nutzung der digitalen Philips Kanäle wie soziale Medien, Websites, E-Mails, Apps und vernetzte Produkte Diese Daten können Folgendes umfassen: IP-Adresse, Cookies, Geräteinformationen, von Ihnen angeklickte Informationen, Standortdetails und von Ihnen besuchte Websites</string>
-<string name="reg_DLS_PhilipsNews_Description_Text_Four">Sie erhalten von Philips die Gelegenheit, Ihre Zustimmung jederzeit zu widerrufen.
+<string name="reg_DLS_PhilipsNews_Description_Text">Mit Ihrer Zustimmung können die Unternehmen der Philips Group Ihnen Werbemitteilungen per E-Mail, SMS und über andere digitale Kanäle, wie mobile Apps und soziale Medien, zukommen lassen. Damit wir die Mitteilungen an Ihre Interessen und Ihr Verhalten anpassen und Ihnen ein optimal personalisiertes Erlebnis bieten können, analysieren und kombinieren wir möglicherweise Ihre persönlichen Daten. Diese Daten können Folgendes umfassen: 
+
+Daten, die Sie uns zur Verfügung stellen
+Daten, die Sie aktiv mit uns teilen möchten, z. B.: Name, Geburtsdatum oder Alter, E-Mail-Adresse, Postanschrift, Land, Geschlecht, Telefonnummer, Profil in sozialen Netzwerken
+
+Daten, die wir durch Ihre Interaktionen mit Philips beziehen
+Daten über Ihre Interaktionen und Ihre Nutzung der digitalen Philips Kanäle wie soziale Medien, Websites, E-Mails, Apps und vernetzte Produkte Diese Daten können Folgendes umfassen: IP-Adresse, Cookies, Geräteinformationen, von Ihnen angeklickte Informationen, Standortdetails und von Ihnen besuchte Websites
+
+Sie erhalten von Philips die Gelegenheit, Ihre Zustimmung jederzeit zu widerrufen.
 Um weitere Informationen zu erhalten, lesen Sie die Philips Datenschutzrichtlinie und die Philips Cookie-Richtlinie.</string>
 </resources>
