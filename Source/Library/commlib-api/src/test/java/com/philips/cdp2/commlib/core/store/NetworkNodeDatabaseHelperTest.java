@@ -140,6 +140,14 @@ public class NetworkNodeDatabaseHelperTest extends RobolectricTest {
     }
 
     @Test
+    public void whenStartingFromDatabaseVersion1_AndUpgrade_ThenDataShouldBeCorrect() throws Exception {
+        final SQLiteDatabase database = prepareSqliteDatabase(1, version1);
+        // TODO Insert data in 'database' before running upgrade command
+        // TODO Run upgrade statement
+        // TODO Verify inserted data to be intact
+    }
+
+    @Test
     public void whenStartingFromDatabaseVersion2_AndUpgrade_ThenDatabaseStructureShouldBeCorrect() throws Exception {
         verifyDatabaseUpgrade(2, version2);
     }
@@ -164,8 +172,18 @@ public class NetworkNodeDatabaseHelperTest extends RobolectricTest {
         verifyDatabaseUpgrade(6, version6);
     }
 
-    private void verifyDatabaseUpgrade(int version, String networkNodeTableStructure) {
-        networkNodeDatabaseHelper = new NetworkNodeDatabaseHelper(RuntimeEnvironment.application, version) {
+    private void verifyDatabaseUpgrade(int oldVersion, String networkNodeTableStructure) {
+        final SQLiteDatabase database = prepareSqliteDatabase(oldVersion, networkNodeTableStructure);
+
+        networkNodeDatabaseHelper.onUpgrade(database, oldVersion, DB_VERSION);
+
+        Set<String> columnNames = getColumns(database);
+        assertEquals(DB_SCHEMA, columnNames);
+    }
+
+    @NonNull
+    private SQLiteDatabase prepareSqliteDatabase(final int oldVersion, String networkNodeTableStructure) {
+        networkNodeDatabaseHelper = new NetworkNodeDatabaseHelper(RuntimeEnvironment.application, oldVersion) {
             @Override
             void onBeforeUpgrade(SQLiteDatabase db, int currentVersion) {
                 logTableColumns(db, currentVersion);
@@ -180,11 +198,7 @@ public class NetworkNodeDatabaseHelperTest extends RobolectricTest {
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
-
-        networkNodeDatabaseHelper.onUpgrade(database, version, DB_VERSION);
-
-        Set<String> columnNames = getColumns(database);
-        assertEquals(DB_SCHEMA, columnNames);
+        return database;
     }
 
     @NonNull
