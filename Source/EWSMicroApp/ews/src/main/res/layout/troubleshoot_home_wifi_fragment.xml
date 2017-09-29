@@ -1,0 +1,58 @@
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.philips.cdp2.ews.viewmodel.TroubleshootHomeWiFiViewModel"/>
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/e">
+
+        <TextView
+            android:id="@+id/label_ews_home_network_title"
+            style="@style/EWS.Txt.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/label_ews_home_network_title"/>
+
+        <TextView
+            android:id="@+id/label_ews_home_network_body"
+            style="@style/EWS.Txt.HtmlBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_ews_home_network_title"
+            android:layout_marginTop="@dimen/e"
+            tools:text="@string/label_ews_home_network_body"
+            />
+
+        <ImageView
+            style="@style/EWS.ImageScale"
+            android:id="@+id/ews_paired_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_ews_home_network_body"
+            android:layout_marginTop="@dimen/d"
+            app:srcCompat="@drawable/ews_home_network"
+            tools:ignore="ContentDescription"/>
+    </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>
