@@ -56,15 +56,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_cppId() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
         assertEquals("Some Cpp Id", cppId);
 
@@ -76,15 +73,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_bootId() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
         assertEquals(1337L, bootId);
 
@@ -96,15 +90,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_encryptionKey() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
         assertEquals("Some Encryption Key", encryptionKey);
 
@@ -116,15 +107,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_name() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
         assertEquals("Some Device Name", name);
 
@@ -136,15 +124,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_lastKnownNetwork() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LAST_KNOWN_NETWORK));
         assertEquals("Some Network Name", lastKnownNetwork);
 
@@ -156,24 +141,16 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_isPaired() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+        Cursor cursor = getReadableDatabaseCursor();
+        int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
+        assertEquals(2, pairedStatus);
 
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-
-            int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
-            assertEquals(2, pairedStatus);
-        }
-
-        if(cursor != null && !cursor.isClosed()) {
+        if(!cursor.isClosed()) {
             cursor.close();
         }
     }
@@ -181,15 +158,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_lastPairedTime() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
         assertEquals(-1L, lastPairedTime);
 
@@ -201,15 +175,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_ipAddress() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
         assertEquals("Some IP Address", ipAddress);
 
@@ -221,15 +192,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_deviceType() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
         assertEquals("Some Device Type", deviceType);
 
@@ -241,15 +209,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_modelId() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
         assertEquals("Some Model Id", modelId);
 
@@ -261,15 +226,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_https() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         short https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS));
         assertEquals(1, https);
 
@@ -281,15 +243,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_pin() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
         assertEquals("Some PIN", pin);
 
@@ -301,15 +260,12 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
     @Test
     public void whenStartingFromDatabaseVersion5_AndUpgrade_ThenDataShouldBeCorrect_mismatchedPin() throws Exception {
         final SQLiteDatabase database = prepareSqliteDatabase(OLD_VERSION, version5);
-
         ContentValues data = createContentValues();
-
         database.insertWithOnConflict(TABLE_NETWORK_NODE, null, data, SQLiteDatabase.CONFLICT_REPLACE);
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
         Cursor cursor = getReadableDatabaseCursor();
-
         String mismatchedPin = cursor.getString(cursor.getColumnIndex(KEY_MISMATCHED_PIN));
         assertEquals(null, mismatchedPin);
 
