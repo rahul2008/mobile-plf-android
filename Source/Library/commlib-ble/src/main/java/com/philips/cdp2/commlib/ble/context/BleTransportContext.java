@@ -15,6 +15,7 @@ import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.context.CommlibExternalDependencies;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
@@ -42,14 +43,14 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
-    private final AppInfraInterface appInfra;
     private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private boolean isAvailable;
 
-    static final String LOGGING_DEBUG_CONFIG = "logging.debugConfig";
-    static final String LOGGING_RELEASE_CONFIG = "logging.releaseConfig";
-    static final String APP_INFRA = "appinfra";
+    static final String LOG_CONFIG_DEBUG = "logging.debugConfig";
+    static final String LOG_CONFIG_RELEASE = "logging.releaseConfig";
+    static final String LOG_CONFIG_PROPERTY_APPINFRA = "appinfra";
+
     private static final String CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
     private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
@@ -59,6 +60,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
             notifyAvailabilityListeners();
         }
     };
+    private CommlibExternalDependencies dependencies;
 
     /**
      * Instantiates a new BleTransportContext.
@@ -86,20 +88,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
 
-        appInfra = createAppInfra(context);
-        AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-
-        Map<String, Object> loggingConfig;
-        String loggingConfigKey = BuildConfig.DEBUG ? LOGGING_DEBUG_CONFIG : LOGGING_RELEASE_CONFIG;
-        loggingConfig = (Map<String, Object>) appInfra.getConfigInterface().getPropertyForKey(loggingConfigKey, APP_INFRA, configurationError);
-        boolean consoleLoggingEnabled = true;
-        if (loggingConfig != null && loggingConfig.containsKey(CONSOLE_LOG_ENABLED)) {
-            consoleLoggingEnabled = (boolean) loggingConfig.get(CONSOLE_LOG_ENABLED);
-        }
-
-        if (!(appInfra.getAppIdentity().getAppState() == PRODUCTION || !consoleLoggingEnabled)) {
-            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
-        }
+        setupLogger();
 
         shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         shnCentral.registerShnCentralListener(shnCentralListener);
@@ -107,6 +96,33 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
         discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner());
         isAvailable = shnCentral.isBluetoothAdapterEnabled();
+    }
+
+    private void setupLogger() {
+        boolean isLogEnabled = true;
+
+        final AppInfraInterface appInfra = dependencies.getAppInfra();
+
+        if (appInfra != null) {
+            boolean isAppInfraStateProduction = appInfra.getAppIdentity().getAppState() == PRODUCTION;
+            boolean isAppInfraUsingConsoleLog = true;
+
+            final String logConfigKey = BuildConfig.DEBUG ? LOG_CONFIG_DEBUG : LOG_CONFIG_RELEASE;
+            final AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
+            final Map<String, Object> appInfraLogConfig = (Map<String, Object>) appInfra.getConfigInterface().getPropertyForKey(logConfigKey, LOG_CONFIG_PROPERTY_APPINFRA, configurationError);
+
+            if (appInfraLogConfig != null && appInfraLogConfig.containsKey(CONSOLE_LOG_ENABLED)) {
+                isAppInfraUsingConsoleLog = (boolean) appInfraLogConfig.get(CONSOLE_LOG_ENABLED);
+            }
+
+            if (isAppInfraStateProduction || !isAppInfraUsingConsoleLog) {
+                isLogEnabled = false;
+            }
+        }
+
+        if (isLogEnabled) {
+            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        }
     }
 
     @Override
@@ -118,6 +134,11 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     @Override
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
+    }
+
+    @Override
+    public void setDependencies(@NonNull CommlibExternalDependencies dependencies) {
+        this.dependencies = dependencies;
     }
 
     @Override

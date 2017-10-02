@@ -18,6 +18,7 @@ import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
+import com.philips.cdp2.commlib.core.context.CommlibExternalDependencies;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
@@ -81,6 +82,9 @@ public class BleDiscoveryStrategyTestSteps {
 
     @Mock
     private Context contextMock;
+
+    @Mock
+    private CommlibExternalDependencies dependenciesMock;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -148,7 +152,7 @@ public class BleDiscoveryStrategyTestSteps {
         };
         setTestingContext(contextMock);
 
-        commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
+        commCentral = new CommCentral(dependenciesMock, testApplianceFactory, bleTransportContext);
     }
 
     private static String createCppId() {

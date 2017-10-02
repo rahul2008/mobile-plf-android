@@ -17,6 +17,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.context.CommlibExternalDependencies;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
@@ -93,6 +94,10 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new CloudCommunicationStrategy(networkNode, cloudController, connectivityMonitor);
+    }
+
+    @Override
+    public void setDependencies(@NonNull CommlibExternalDependencies externalDependencies) {
     }
 
     /**

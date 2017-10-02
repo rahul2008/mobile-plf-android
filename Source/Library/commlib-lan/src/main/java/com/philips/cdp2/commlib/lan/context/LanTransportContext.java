@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.context.CommlibExternalDependencies;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
@@ -80,6 +81,10 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new LanCommunicationStrategy(networkNode, deviceCache, connectivityMonitor);
+    }
+
+    @Override
+    public void setDependencies(@NonNull CommlibExternalDependencies dependencies) {
     }
 
     /**

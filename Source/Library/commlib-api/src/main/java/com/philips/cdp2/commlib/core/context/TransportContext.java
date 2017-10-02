@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
@@ -28,6 +29,20 @@ public interface TransportContext<A extends Availability> extends Availability<A
     @Nullable
     DiscoveryStrategy getDiscoveryStrategy();
 
+    /**
+     * Create a communication strategy for the provided {@link NetworkNode}.
+     *
+     * @param networkNode the network node
+     * @return the communication strategy
+     */
     @NonNull
     CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode);
+
+    /**
+     * Sets dependencies. This method should be invoked by {@link CommCentral} when it registers this
+     * TransportContext.
+     *
+     * @param dependencies the dependencies object.
+     */
+    void setDependencies(@NonNull CommlibExternalDependencies dependencies);
 }

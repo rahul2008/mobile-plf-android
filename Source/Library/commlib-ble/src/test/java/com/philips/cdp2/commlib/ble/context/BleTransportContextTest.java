@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
@@ -20,9 +25,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp2.commlib.ble.context.BleTransportContext.APP_INFRA;
-import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOGGING_DEBUG_CONFIG;
-import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOGGING_RELEASE_CONFIG;
+import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOG_CONFIG_PROPERTY_APPINFRA;
+import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOG_CONFIG_DEBUG;
+import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOG_CONFIG_RELEASE;
 import static com.philips.pins.shinelib.utility.SHNLogger.registerLogger;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.PRODUCTION;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.STAGING;
@@ -151,7 +156,7 @@ public class BleTransportContextTest {
 
             @Override
             public Object getPropertyForKey(String key, String group, AppConfigurationError appConfigurationError) throws IllegalArgumentException {
-                if (group.equals(APP_INFRA) && (key.equals(LOGGING_DEBUG_CONFIG) || key.equals(LOGGING_RELEASE_CONFIG))) {
+                if (group.equals(LOG_CONFIG_PROPERTY_APPINFRA) && (key.equals(LOG_CONFIG_DEBUG) || key.equals(LOG_CONFIG_RELEASE))) {
                     return loggingConfig;
                 }
 

@@ -14,6 +14,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.context.CommlibExternalDependencies;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
@@ -29,6 +30,8 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
     public DefaultCommlibUappDependencies() {
         final Context context = ContextProvider.get();
 
+        final CommlibExternalDependencies externalDependencies = new CommlibExternalDependencies(getAppInfra());
+
         final CloudController cloudController = setupCloudController(context);
         final CloudTransportContext cloudTransportContext = new CloudTransportContext(context, cloudController);
 
@@ -36,7 +39,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         final LanTransportContext lanTransportContext = new LanTransportContext(context);
         final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
 
-        this.commCentral = new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
+        this.commCentral = new CommCentral(externalDependencies, applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
     }
 
     @NonNull
