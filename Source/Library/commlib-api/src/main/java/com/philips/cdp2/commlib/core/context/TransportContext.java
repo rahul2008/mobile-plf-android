@@ -12,6 +12,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.Availability;
 
@@ -39,10 +40,10 @@ public interface TransportContext<A extends Availability> extends Availability<A
     CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode);
 
     /**
-     * Sets dependencies. This method should be invoked by {@link CommCentral} when it registers this
+     * Sets the runtime configuration object. This method should be invoked by {@link CommCentral} when it registers this
      * TransportContext.
      *
-     * @param dependencies the dependencies object.
+     * @param runtimeConfiguration the runtime configuration object.
      */
-    void setDependencies(@NonNull CommlibExternalDependencies dependencies);
+    void setRuntimeConfiguration(@NonNull RuntimeConfiguration runtimeConfiguration);
 }

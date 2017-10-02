@@ -10,7 +10,7 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
-import com.philips.cdp2.commlib.core.context.CommlibExternalDependencies;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -57,7 +57,7 @@ public class CommCentralTest {
     private Context contextMock;
 
     @Mock
-    CommlibExternalDependencies dependenciesMock;
+    RuntimeConfiguration runtimeConfigurationMock;
 
     private CommCentral commCentral;
     private Set<String> emptyDeviceTypes = Collections.emptySet();
@@ -76,7 +76,7 @@ public class CommCentralTest {
 
         setTestingContext(contextMock);
 
-        commCentral = new CommCentral(dependenciesMock, applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
+        commCentral = new CommCentral(runtimeConfigurationMock, applianceFactoryMock, someTransportContextMock, anotherTransportContextMock);
     }
 
     @Test

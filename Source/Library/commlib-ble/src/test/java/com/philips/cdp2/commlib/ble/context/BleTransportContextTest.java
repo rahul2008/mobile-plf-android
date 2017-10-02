@@ -25,9 +25,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOG_CONFIG_PROPERTY_APPINFRA;
-import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOG_CONFIG_DEBUG;
-import static com.philips.cdp2.commlib.ble.context.BleTransportContext.LOG_CONFIG_RELEASE;
+import static com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration.CONFIG_KEY_CONSOLE_LOG_ENABLED;
+import static com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration.CONFIG_KEY_LOG_CONFIG_DEBUG;
+import static com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration.CONFIG_PROPERTY_APPINFRA;
+import static com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration.CONFIG_KEY_LOG_CONFIG_RELEASE;
 import static com.philips.pins.shinelib.utility.SHNLogger.registerLogger;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.PRODUCTION;
 import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.AppState.STAGING;
@@ -150,13 +151,13 @@ public class BleTransportContextTest {
         });
 
         final Map<String, Object> loggingConfig = new HashMap<>();
-        loggingConfig.put("consoleLogEnabled", consoleLogEnabled);
+        loggingConfig.put(CONFIG_KEY_CONSOLE_LOG_ENABLED, consoleLogEnabled);
 
         when(mockedAppInfra.getConfigInterface()).thenReturn(new AppConfigurationInterface() {
 
             @Override
             public Object getPropertyForKey(String key, String group, AppConfigurationError appConfigurationError) throws IllegalArgumentException {
-                if (group.equals(LOG_CONFIG_PROPERTY_APPINFRA) && (key.equals(LOG_CONFIG_DEBUG) || key.equals(LOG_CONFIG_RELEASE))) {
+                if (group.equals(CONFIG_PROPERTY_APPINFRA) && (key.equals(CONFIG_KEY_LOG_CONFIG_DEBUG) || key.equals(CONFIG_KEY_LOG_CONFIG_RELEASE))) {
                     return loggingConfig;
                 }
 
