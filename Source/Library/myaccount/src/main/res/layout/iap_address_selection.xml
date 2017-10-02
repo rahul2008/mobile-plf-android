@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/iap_match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <include
+        layout="@layout/checkout_steps"
+        android:id="@+id/tv_checkout_header_steps"/>
+
+    <include
+        layout="@layout/iap_header"
+        android:id="@+id/iap_address_selection_header"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shipping_addresses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>

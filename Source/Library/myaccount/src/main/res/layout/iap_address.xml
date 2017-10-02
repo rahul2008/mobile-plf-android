@@ -1,0 +1,74 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/tv_checkout_header_steps"
+            layout="@layout/checkout_steps" />
+
+        <fragment
+            android:id="@+id/fragment_shipping_address"
+            android:name="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
+            android:layout_width="match_parent"
+            android:tag="com.philips.cdp.di.iap.screens.DLSShippingAddressFragment"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right" />
+
+        <com.philips.platform.uid.view.widget.CheckBox
+            android:id="@+id/use_this_address_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border12_margin"
+            android:checked="true"
+            android:text="Use this address as my billing address" />
+
+        <fragment
+            android:id="@+id/fragment_billing_address"
+            android:name="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="com.philips.cdp.di.iap.screens.DLSBillingAddressFragment"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right">
+
+        </fragment>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_continue"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border8_margin"
+            android:enabled="false"
+            android:text="@string/iap_continue"
+            app:uidComponentType="Primary" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_cancel"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/border12_margin"
+            android:layout_marginEnd="@dimen/border16_margin_left_right"
+            android:layout_marginStart="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border8_margin"
+            android:text="@string/iap_cancel"
+            app:uidComponentType="Secondary" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:width="10dp"
+        android:height="5dp"
+        android:viewportWidth="10"
+        android:viewportHeight="5"
+        app:uikit_vc_viewportWidth="10"
+        app:uikit_vc_viewportHeight="5"
+    >
+    <group
+        android:name="picker">
+        <path
+            android:name="arrow"
+            android:fillColor="@color/uikit_enricher4"
+            android:pathData="M-0.000,0.000 L10.000,0.000 L5.000,5.000 L-0.000,0.000 Z"
+
+            app:uikit_vc_fillColor="@color/uikit_enricher4"
+            app:uikit_vc_pathData="M-0.000,0.000 L10.000,0.000 L5.000,5.000 L-0.000,0.000 Z"/>
+    </group>
+</vector>
