@@ -10,7 +10,7 @@ jacoco {
 }
 
 def coverageSourceDirs = [
-        '../iap/src/main/java'
+        '../myaccount/src/main/java'
 ]
 
 buildscript {
@@ -51,7 +51,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "iap"
+archivesBaseName = "myaccount"
 
 allprojects {
     repositories {
@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.iap_iap)
+version = objcdp.getVersion(versions.myaccount_myaccount)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -164,7 +164,7 @@ android {
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
-        testApplicationId "com.philips.cdp.di.iap.test"
+        testApplicationId "com.philips.cdp.myaccount.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
@@ -341,7 +341,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: '../myaccount/build/intermediates/classes/debug',
 //            excludes: ['**/R.class',
 //                       '**/R$*.class',
 //                       '**/BuildConfig.*',

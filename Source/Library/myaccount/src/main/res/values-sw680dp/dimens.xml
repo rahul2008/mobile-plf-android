@@ -1,5 +1,0 @@
-<resources>
-    <dimen name="iap_match_parent">648dp</dimen>
-
-    <dimen name="iap_shopping_cart_btn_margin">0dp</dimen>
-</resources>

@@ -10,9 +10,6 @@
         android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.DLS">
-        <activity
-            android:name=".activity.IAPActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            />
+
     </application>
 </manifest>
