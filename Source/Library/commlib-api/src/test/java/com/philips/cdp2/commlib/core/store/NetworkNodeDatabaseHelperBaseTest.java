@@ -34,6 +34,14 @@ abstract public class NetworkNodeDatabaseHelperBaseTest extends RobolectricTest 
         }
     }
 
+    @NonNull
+    Cursor getReadableDatabaseCursor() {
+        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
+        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+
     void verifyDatabaseUpgrade(int oldVersion, String networkNodeTableStructure) {
         final SQLiteDatabase database = prepareSqliteDatabase(oldVersion, networkNodeTableStructure);
 

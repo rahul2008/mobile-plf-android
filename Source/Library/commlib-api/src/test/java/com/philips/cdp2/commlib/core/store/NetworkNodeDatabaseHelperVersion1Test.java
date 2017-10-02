@@ -63,10 +63,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
         assertEquals("Some Cpp Id", cppId);
@@ -86,10 +83,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
         assertEquals(1337L, bootId);
@@ -109,10 +103,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
         assertEquals("Some Encryption Key", encryptionKey);
@@ -132,10 +123,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
         assertEquals("Some Device Name", name);
@@ -155,10 +143,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LAST_KNOWN_NETWORK));
         assertEquals("Some Network Name", lastKnownNetwork);
@@ -178,10 +163,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
         assertEquals(2, pairedStatus);
@@ -201,10 +183,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
         assertEquals(-1L, lastPairedTime);
@@ -224,10 +203,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
         assertEquals("Some IP Address", ipAddress);
@@ -247,10 +223,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
         assertEquals("Some Model Name", deviceType);
@@ -270,10 +243,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
         assertEquals("Some Model Type", modelId);
@@ -293,10 +263,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         short https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS));
         assertEquals(0, https);
@@ -316,10 +283,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
         assertEquals(null, pin);
@@ -339,10 +303,7 @@ public class NetworkNodeDatabaseHelperVersion1Test extends NetworkNodeDatabaseHe
 
         networkNodeDatabaseHelper.onUpgrade(database, OLD_VERSION, DB_VERSION);
 
-        final SQLiteDatabase upgradedDatabase =  networkNodeDatabaseHelper.getReadableDatabase();
-        Cursor cursor = upgradedDatabase.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-
-        cursor.moveToFirst();
+        Cursor cursor = getReadableDatabaseCursor();
 
         String mismatchedPin = cursor.getString(cursor.getColumnIndex(KEY_MISMATCHED_PIN));
         assertEquals(null, mismatchedPin);
