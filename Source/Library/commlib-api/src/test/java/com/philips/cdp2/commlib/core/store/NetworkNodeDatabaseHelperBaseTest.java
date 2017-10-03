@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.cdp2.commlib.core.store;
 
 import android.database.Cursor;
@@ -18,10 +22,6 @@ import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.DB_V
 import static com.philips.cdp2.commlib.core.store.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 import static org.junit.Assert.assertEquals;
 
-/*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
 abstract public class NetworkNodeDatabaseHelperBaseTest extends RobolectricTest {
 
     NetworkNodeDatabaseHelper networkNodeDatabaseHelper;
