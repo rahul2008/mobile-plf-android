@@ -32,7 +32,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPassVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -644,16 +644,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         } else {
             if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
-                mRegError.setError(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
-                mRegError.setVisibility(View.VISIBLE);
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.EMAIL_NOT_VERIFIED);
+                AccountActivationFragment fragment = new AccountActivationFragment();
+                getRegistrationFragment().addFragment(fragment);
             } else {
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.MOBILE_NUMBER_NOT_VERIFIED);
-                mRegError.setError(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Mobile_Verification));
-                mRegError.setVisibility(View.VISIBLE);
+                MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
+                getRegistrationFragment().addFragment(fragment);
             }
         }
-
     }
 
     private OnClickListener mContinueVerifyBtnClick = view -> {
