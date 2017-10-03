@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.philips.cdp2.ews.viewmodel.ConnectionUnsuccessfulViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/d">
+
+        <TextView
+            android:id="@+id/connection_unsuccessful_title"
+            style="@style/EWS.Txt.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d"
+            android:layout_marginStart="@dimen/d"
+            android:layout_marginTop="@dimen/e"
+            android:text="@string/label_ews_connection_unsuccesful_title"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/connection_unsuccessful_body"
+            style="@style/EWS.Txt.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/connection_unsuccessful_title"
+            android:layout_marginBottom="@dimen/e"
+            android:layout_marginEnd="@dimen/d"
+            android:layout_marginStart="@dimen/d"
+            android:layout_marginTop="@dimen/d"
+            android:text="@string/label_ews_connection_unsuccesful_body"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/unsuccessful_next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/connection_unsuccessful_body"
+            android:layout_marginEnd="@dimen/d"
+            android:layout_marginStart="@dimen/d"
+            android:onClick="@{() -> viewModel.dismissDialog()}"
+            android:text="@string/button_ews_connection_unsuccesful_try_again"/>
+
+    </RelativeLayout>
+
+</layout>
