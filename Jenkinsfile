@@ -1,61 +1,82 @@
-#!/usr/bin/env groovy																											
-
+#!/usr/bin/env groovy                                                                                                           
 BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+    pipelineTriggers([cron('0 * * * *')]),
 ])
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
+def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def errors = []
 
-node ('android&&docker') {
-	timestamps {
-		try {
-            stage ('Checkout') {
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/iap-android-in-app-purchase']]])
-                step([$class: 'StashNotifier'])
-            }
-            if (BranchName =~ /master|develop|release\/platform_.*/) {
-                stage ('build') {
-                sh '''#!/bin/bash -l
-                    chmod -R 775 .
-                    cd ./Source/DemoApp 
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test  zipDocuments artifactoryPublish
-                '''
-                }
-            } else { 
-                stage ('build') {
-                sh '''#!/bin/bash -l
-                    chmod -R 775 . 
-                    cd ./Source/DemoApp 
-                    ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
-                '''
-                }
-            }
-			stage ('save dependencies list') {
-            sh '''#!/bin/bash -l
-            	chmod -R 775 . 
-                cd ./Source/DemoApp 
-                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-            	cd ../Library 
-                ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-            '''
+node ('opa') {
+    timestamps {
+        try {
+		    stage('Cleaning workspace before build') {
+				step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: false])
             }
 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'iap'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-                }            
+			stage ('Checkout') {
+                checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/opa-android']]]
             }
+			
+			stage ('update') {
+			//	sh '''#!/bin/bash -l
+			//	    echo Updating
+			//		set -e
+			//	    echo Reset
+			//		git submodule foreach --recursive git reset --hard
+			//		echo Update components
+			//		bash ./update_components.sh pull
+			//	'''
+			}
+
+			stage ('build') {
+				sh '''#!/bin/bash -l
+					set -e
+					chmod -R 755 . 
+					#do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
+					./gradlew --refresh-dependencies clean 
+					./gradlew assembleRelease
+				'''
+			}
+			stage ('unit test') {
+				sh '''#!/bin/bash -l
+					set -e
+					chmod -R 755 . 
+					#do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
+					./gradlew :ail:cC :uid:createDebugCoverageReport :icf:test :usr:cC :usr:test :iap:test :dcc:cC :dcc:testRelease :pse:cC :ufw:test :prg:test :prg:jacocoTestReport :dsc:testReleaseUnitTest :dpr:test :rap:testAppFrameworkHamburgerReleaseUnitTest :commlib:test :bluelib:test :commlib-all:testDebug :commlib-all:pitestDebug :sdb:cC
+				'''
+			}
+			stage ('lint') {
+				sh '''#!/bin/bash -l
+					set -e
+					chmod -R 755 . 
+					#do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
+					./gradlew :ail:lint :uit:lint :icf:lint :usr:lint :iap:lint :dcc:lint :pse:lint :prg:lint :dsc:lintRelease :dpr:lint :cloudcontroller-api:lintDebug :commlib:lintDebug :bluelib:lintDebug :commlib-all:lintDebug
+				    #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
+				'''
+			}
+			stage ('publish') {
+				sh '''#!/bin/bash -l
+					set -e
+					./gradlew artifactoryPublish :rap:printArtifactoryApkPath
+				'''
+			}
+			stage ('push success to OPA archive') {
+				sh '''#!/bin/bash -l
+					set -e
+					git push --set-upstream origin develop
+				'''
+			}			
+			// stage('E2E test') {
+			// 	APK_NAME = readFile("apkname.txt").trim()
+			// 	echo "APK_NAME = ${APK_NAME}"
+			// 	build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_develop", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: true
+			// }
+			
         } catch(err) {
             errors << "errors found: ${err}"      
         } finally {
@@ -67,22 +88,14 @@ node ('android&&docker') {
                     }
                 }                
             } 
-            stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
-                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-                archiveArtifacts '**/*dependencies*.lock'
-            }    
             stage('informing') {
-                step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
-            stage('Cleaning workspace') {
-                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-            }
-        }
-	} // end timestamps
+            //stage('Cleaning workspace') {
+            //    step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            //}
+        }         
+    } // end timestamps
 } // end node ('android')
 
 node('master') {
