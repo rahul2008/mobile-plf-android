@@ -19,24 +19,28 @@ android {
         unitTests.returnDefaultValues = true
     }
     buildTypes {
-        buildTypes {
-            release {
-                minifyEnabled true
-                shrinkResources true
-                debuggable false
-                testCoverageEnabled false
-                proguardFile 'proguard-rules.pro'
-            }
-            debug {
-                minifyEnabled false
-                shrinkResources false
-                debuggable true
-                testCoverageEnabled false
-                proguardFile 'proguard-rules.pro'
-            }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            testCoverageEnabled false
+            proguardFile 'proguard-rules.pro'
         }
-
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled false
+        }
     }
+
+    libraryVariants.all { variant ->
+        variant.assemble.doLast {
+            copyLib.execute()
+        }
+    }
+
+
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -51,6 +55,21 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/INDEX.LIST'
     }
+
+
+
+}
+
+
+
+task copyLib(type: Copy) {
+    print("Copies aar files from output to the sample project directory")
+    description "Copies aar files from output to the sample project directory"
+
+    from("$buildDir/outputs/aar") {
+        include '*debug.aar'
+    }
+    into '../ewsBinaryModule'
 }
 
 

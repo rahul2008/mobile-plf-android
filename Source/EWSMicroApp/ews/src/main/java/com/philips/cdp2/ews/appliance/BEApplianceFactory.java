@@ -47,6 +47,7 @@ public class BEApplianceFactory implements DICommApplianceFactory<BEAppliance> {
     public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(BEAppliance.DEVICE_TYPE);
+            add(BEAppliance.PRODUCT_STUB);
         }});
     }
 
