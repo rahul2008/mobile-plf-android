@@ -30,8 +30,7 @@ public class BEApplianceFactory implements DICommApplianceFactory<BEAppliance> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        boolean isBrightEyesModel = getSupportedDeviceTypes().contains(networkNode.getDeviceType());
-        return isBrightEyesModel;
+        return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
     }
 
     @Override
