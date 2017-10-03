@@ -389,8 +389,10 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
                 }
 
             } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
+                if (mAppInfra != null) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                            AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
+                }
             }
         //}
     }
