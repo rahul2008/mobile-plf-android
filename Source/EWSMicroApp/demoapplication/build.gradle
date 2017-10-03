@@ -15,6 +15,9 @@ android {
         enabled = true
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -25,6 +28,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
+    compile project(':ews')
     compile('com.philips.cdp:commlib-all:1.4.1-rc.20170831141519@aar') {
         exclude group: 'com.android.support'
         transitive = true
@@ -44,5 +48,4 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile project(':ewsBinaryModule')
 }

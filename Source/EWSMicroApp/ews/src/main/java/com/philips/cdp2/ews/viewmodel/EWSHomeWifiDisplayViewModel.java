@@ -9,22 +9,21 @@ import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.BR;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
 
 public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
-    private ScreenFlowController screenFlowController;
-    private WiFiUtil wiFiUtil;
+    @NonNull private final Navigator navigator;
+    @NonNull private final WiFiUtil wiFiUtil;
     private int hierarchyLevel;
 
     @Inject
-    public EWSHomeWifiDisplayViewModel(@NonNull final ScreenFlowController screenFlowController, @NonNull final WiFiUtil wiFiUtil) {
-        this.screenFlowController = screenFlowController;
+    public EWSHomeWifiDisplayViewModel(@NonNull final Navigator navigator,
+                                       @NonNull final WiFiUtil wiFiUtil) {
+        this.navigator = navigator;
         this.wiFiUtil = wiFiUtil;
     }
 
@@ -39,10 +38,11 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
 
     public void onNoButtonClicked() {
-        screenFlowController.showFragment(TroubleshootHomeWiFiFragment.getInstance(hierarchyLevel + 1));
+//        screenFlowController.showFragment(TroubleshootHomeWiFiFragment.getInstance(hierarchyLevel + 1));
     }
     public void onYesButtonClicked() {
-        screenFlowController.showFragment(new EWSDevicePowerOnFragment());
+//        screenFlowController.showFragment(new EWSDevicePowerOnFragment());
+        navigator.navigateToDevicePoweredOnConfirmationScreen();
     }
 
     public void setHierarchyLevel(final int hierarchyLevel) {

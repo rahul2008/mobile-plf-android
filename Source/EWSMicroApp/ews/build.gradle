@@ -18,25 +18,24 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    buildTypes {
-        buildTypes {
-            release {
-                minifyEnabled true
-                shrinkResources true
-                debuggable false
-                testCoverageEnabled false
-                proguardFile 'proguard-rules.pro'
-            }
-            debug {
-                minifyEnabled false
-                shrinkResources false
-                debuggable true
-                testCoverageEnabled false
-                proguardFile 'proguard-rules.pro'
-            }
-        }
 
+    buildTypes {
+//        release {
+//            minifyEnabled true
+//            shrinkResources true
+//            debuggable false
+//            testCoverageEnabled false
+//            proguardFile 'proguard-rules.pro'
+//        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled false
+        }
     }
+
+
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'

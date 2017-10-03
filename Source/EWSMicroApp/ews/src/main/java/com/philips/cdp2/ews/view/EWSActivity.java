@@ -19,7 +19,8 @@ import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.navigation.FragmentNavigator;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
@@ -31,17 +32,18 @@ import javax.inject.Inject;
 
 public class EWSActivity extends UiKitActivity {
 
-    @Inject
-    ScreenFlowController screenFlowController;
+    public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
+    public static final String EWS_STEPS = "EWS_STEPS";
+
+//    @Inject
+//    ScreenFlowController screenFlowController;
 
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
     EWSComponent ewsComponent;
 
-    public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
-    public static final String EWS_STEPS = "EWS_STEPS";
-
+    private Navigator navigator;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -52,17 +54,21 @@ public class EWSActivity extends UiKitActivity {
         setContentView(R.layout.ews_activity_main);
         ewsComponent = DaggerEWSComponent.
                 builder().
-                eWSModule(new EWSModule(EWSActivity.this)).build();
+                eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager())).build();
         ewsComponent.inject(this);
         ewsEventingChannel.start();
-        screenFlowController.start(this, R.id.contentFrame, getRootFragment());
+//        screenFlowController.start(this, R.id.contentFrame, getRootFragment());
+
         EWSTagger.collectLifecycleInfo(this);
+
+        navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()));
+        navigator.navigateToGettingStartedScreen();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        screenFlowController.stop();
+//        screenFlowController.stop();
         ewsEventingChannel.stop();
         ewsComponent = null;
         EWSTagger.pauseLifecycleInfo();
@@ -71,18 +77,18 @@ public class EWSActivity extends UiKitActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            screenFlowController.homeButtonPressed();
-            return true;
-        }
+//        if (item.getItemId() == android.R.id.home) {
+//            screenFlowController.homeButtonPressed();
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if (!screenFlowController.onBackPressed()) {
+//        if (!screenFlowController.onBackPressed()) {
             super.onBackPressed();
-        }
+//        }
     }
 
     public Fragment getRootFragment() {

@@ -6,27 +6,25 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.view.ChooseSetupStateFragment;
-import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
+import com.philips.cdp2.ews.navigation.Navigator;
 
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
 public class EWSDevicePowerOnViewModel {
 
-    private ScreenFlowController screenFlowController;
+    @NonNull private final Navigator navigator;
 
     @Inject
-    public EWSDevicePowerOnViewModel(@NonNull final ScreenFlowController screenFlowController) {
-        this.screenFlowController = screenFlowController;
+    public EWSDevicePowerOnViewModel(@NonNull final Navigator navigator) {
+        this.navigator = navigator;
     }
 
     public void onYesButtonClicked() {
-        screenFlowController.showFragment(new EWSPressPlayAndFollowSetupFragment());
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
     public void onNoButtonClicked() {
-        screenFlowController.showFragment(new ChooseSetupStateFragment());
+//        screenFlowController.showFragment(new ChooseSetupStateFragment());
     }
 }
