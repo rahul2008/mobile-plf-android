@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.commlib.cloud.context;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -64,8 +63,8 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
 
     private boolean isAvailable;
 
-    public CloudTransportContext(final @NonNull Context context, @NonNull final CloudController cloudController) {
-        this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_MOBILE, TYPE_WIFI);
+    public CloudTransportContext(final @NonNull RuntimeConfiguration runtimeConfiguration, @NonNull final CloudController cloudController) {
+        this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_MOBILE, TYPE_WIFI);
         this.connectivityMonitor.addAvailabilityListener(availabilityListener);
 
         CloudTransportContext.cloudController = cloudController;
@@ -94,9 +93,6 @@ public class CloudTransportContext implements TransportContext<CloudTransportCon
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new CloudCommunicationStrategy(networkNode, cloudController, connectivityMonitor);
-    }
-
-    public void setRuntimeConfiguration(@NonNull RuntimeConfiguration runtimeConfiguration) {
     }
 
     /**

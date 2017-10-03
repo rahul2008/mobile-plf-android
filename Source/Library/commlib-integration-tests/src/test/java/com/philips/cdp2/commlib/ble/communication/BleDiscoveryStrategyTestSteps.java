@@ -18,7 +18,6 @@ import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
@@ -33,13 +32,16 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.powermock.reflect.Whitebox;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -83,9 +85,6 @@ public class BleDiscoveryStrategyTestSteps {
     @Mock
     private Context contextMock;
 
-    @Mock
-    private RuntimeConfiguration runtimeConfigurationMock;
-
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
@@ -117,6 +116,11 @@ public class BleDiscoveryStrategyTestSteps {
                 return null;
             }
         });
+    }
+
+    @After
+    public void tearDown() {
+        Whitebox.setInternalState(CommCentral.class, "REFERENCE", new WeakReference<CommCentral>(null));
     }
 
     @Given("^a BlueLib mock$")
@@ -152,7 +156,7 @@ public class BleDiscoveryStrategyTestSteps {
         };
         setTestingContext(contextMock);
 
-        commCentral = new CommCentral(runtimeConfigurationMock, testApplianceFactory, bleTransportContext);
+        commCentral = new CommCentral(testApplianceFactory, bleTransportContext);
     }
 
     private static String createCppId() {

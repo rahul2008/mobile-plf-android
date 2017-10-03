@@ -19,12 +19,11 @@ import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -35,13 +34,10 @@ import java.util.concurrent.Executors;
  */
 public class BleTransportContext implements TransportContext<BleTransportContext> {
 
-    @NonNull
-    private RuntimeConfiguration runtimeConfiguration;
-
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
-    private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
+    private Set<Availability.AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private boolean isAvailable;
 
@@ -59,35 +55,35 @@ public class BleTransportContext implements TransportContext<BleTransportContext
      * This constructor implicitly disables the showing of a popup when BLE is turned off.
      * </p>
      *
-     * @param context the context
+     * @param runtimeConfiguration the runtime configuration object
      */
-    public BleTransportContext(@NonNull final Context context) {
-        this(context, false);
+    public BleTransportContext(final @NonNull RuntimeConfiguration runtimeConfiguration) {
+        this(runtimeConfiguration, false);
     }
 
     /**
      * Instantiates a new BleTransportContext.
      *
-     * @param context                   the context
+     * @param runtimeConfiguration      the runtime configuration object
      * @param showPopupIfBLEIsTurnedOff the show popup if BLE is turned off
      * @throws TransportUnavailableException the transport unavailable exception
      */
-    public BleTransportContext(@NonNull final Context context, boolean showPopupIfBLEIsTurnedOff) {
-        try {
-            this.shnCentral = createBlueLib(context, showPopupIfBLEIsTurnedOff);
-        } catch (SHNBluetoothHardwareUnavailableException e) {
-            throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
-        }
-
+    public BleTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration, boolean showPopupIfBLEIsTurnedOff) {
         if (runtimeConfiguration.isLogEnabled()) {
             SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+        }
+
+        try {
+            this.shnCentral = createBlueLib(runtimeConfiguration.getContext(), showPopupIfBLEIsTurnedOff);
+        } catch (SHNBluetoothHardwareUnavailableException e) {
+            throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
 
         shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
         shnCentral.registerShnCentralListener(shnCentralListener);
 
         deviceCache = new BleDeviceCache(Executors.newSingleThreadScheduledExecutor());
-        discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner());
+        discoveryStrategy = new BleDiscoveryStrategy(runtimeConfiguration.getContext(), deviceCache, shnCentral.getShnDeviceScanner());
         isAvailable = shnCentral.isBluetoothAdapterEnabled();
     }
 
@@ -100,10 +96,6 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     @Override
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
-    }
-
-    public void setRuntimeConfiguration(@NonNull RuntimeConfiguration runtimeConfiguration) {
-        this.runtimeConfiguration = runtimeConfiguration;
     }
 
     @Override
@@ -134,10 +126,5 @@ public class BleTransportContext implements TransportContext<BleTransportContext
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);
 
         return builder.create();
-    }
-
-    @VisibleForTesting
-    AppInfraInterface createAppInfra(final Context context) {
-        return new AppInfra.Builder().build(context);
     }
 }

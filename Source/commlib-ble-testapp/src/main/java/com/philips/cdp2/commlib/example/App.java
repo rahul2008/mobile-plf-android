@@ -20,12 +20,12 @@ public final class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        final BleTransportContext bleTransportContext = new BleTransportContext(this, false);
+        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(this, null);
+
+        final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, false);
         final ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
-        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(null);
-
-        this.commCentral = new CommCentral(runtimeConfiguration, applianceFactory, bleTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, bleTransportContext);
     }
 
     public CommCentral getCommCentral() {

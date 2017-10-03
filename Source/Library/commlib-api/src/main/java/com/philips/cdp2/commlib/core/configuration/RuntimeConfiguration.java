@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.commlib.core.configuration;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp2.commlib_api.BuildConfig;
@@ -18,6 +20,8 @@ import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.App
 @SuppressWarnings("unchecked")
 public class RuntimeConfiguration {
 
+    private Context context;
+
     public static final String CONFIG_PROPERTY_APPINFRA = "appinfra";
 
     public static final String CONFIG_KEY_LOG_CONFIG_DEBUG = "logging.debugConfig";
@@ -26,7 +30,8 @@ public class RuntimeConfiguration {
 
     private AppInfraInterface appInfraInterface;
 
-    public RuntimeConfiguration(final @Nullable AppInfraInterface appInfra) {
+    public RuntimeConfiguration(final @NonNull Context context, final @Nullable AppInfraInterface appInfra) {
+        this.context = context;
         this.appInfraInterface = appInfra;
     }
 
@@ -51,5 +56,9 @@ public class RuntimeConfiguration {
             isLogEnabled = false;
         }
         return isLogEnabled;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

@@ -30,16 +30,17 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
     public DefaultCommlibUappDependencies() {
         final Context context = ContextProvider.get();
 
-        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(getAppInfra());
+        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, getAppInfra());
 
         final CloudController cloudController = setupCloudController(context);
-        final CloudTransportContext cloudTransportContext = new CloudTransportContext(context, cloudController);
 
-        final BleTransportContext bleTransportContext = new BleTransportContext(context, true);
-        final LanTransportContext lanTransportContext = new LanTransportContext(context);
+        final CloudTransportContext cloudTransportContext = new CloudTransportContext(runtimeConfiguration, cloudController);
+        final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
+        final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
+
         final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
 
-        this.commCentral = new CommCentral(runtimeConfiguration, applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, bleTransportContext, lanTransportContext, cloudTransportContext);
     }
 
     @NonNull

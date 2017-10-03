@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.commlib.lan.context;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -55,11 +54,11 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     private boolean isAvailable;
     private Set<AvailabilityListener<LanTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
-    public LanTransportContext(@NonNull final Context context) {
-        this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_WIFI);
+    public LanTransportContext(@NonNull final RuntimeConfiguration runtimeConfiguration) {
+        this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(runtimeConfiguration.getContext(), TYPE_WIFI);
         this.connectivityMonitor.addAvailabilityListener(lanAvailabilityListener);
 
-        this.wifiNetworkProvider = WifiNetworkProvider.get(context);
+        this.wifiNetworkProvider = WifiNetworkProvider.get(runtimeConfiguration.getContext());
 
         this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
         this.discoveryStrategy = createLanDiscoveryStrategy();
@@ -81,9 +80,6 @@ public class LanTransportContext implements TransportContext<LanTransportContext
     @NonNull
     public CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new LanCommunicationStrategy(networkNode, deviceCache, connectivityMonitor);
-    }
-
-    public void setRuntimeConfiguration(@NonNull RuntimeConfiguration runtimeConfiguration) {
     }
 
     /**
