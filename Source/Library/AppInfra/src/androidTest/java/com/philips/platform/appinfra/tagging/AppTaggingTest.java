@@ -98,6 +98,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 
         mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
         appInfraMock = mock(AppInfra.class);
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
         appTagging=new AppTagging(appInfraMock) {
             @Override
             AppTaggingHandler getAppTaggingHandler() {
@@ -115,13 +116,13 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 
     public void testCheckForSslConnection() {
         final boolean sslValue =mAppTaggingHandler.checkForSslConnection();
-                if (sslValue) {
-                    assertTrue(sslValue);
-                    when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-                    verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
-                } else {
-                    assertFalse(sslValue);
-                }
+        if (sslValue) {
+            assertTrue(sslValue);
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
+        } else {
+            assertFalse(sslValue);
+        }
 
     }
 
@@ -280,7 +281,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair,true);
         }
-      }
+    }
 
     public void testMockTrackActionWithInfo() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
@@ -465,7 +466,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             assertNull(jSONObject);
         }
     }
-      public void testgetTrackingIdentifier() {
+    public void testgetTrackingIdentifier() {
         assertNotNull(mAppTagging.getTrackingIdentifier());
     }
 
