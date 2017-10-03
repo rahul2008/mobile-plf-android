@@ -52,6 +52,8 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Bundle bundle = new Bundle();
             thsBaseFragment.setArguments(bundle);
+            thsBaseFragment.setFragmentLauncher(fragmentLauncher);
+            thsBaseFragment.setActionBarListener(this);
             fragmentTransaction.replace(R.id.uappFragmentLayout, thsBaseFragment, THSInitFragment.TAG).
                     addToBackStack(THSInitFragment.TAG).commitAllowingStateLoss();
         }
