@@ -65,9 +65,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
         assertEquals("Some Cpp Id", cppId);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -82,9 +80,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
         assertEquals(1337L, bootId);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -99,9 +95,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
         assertEquals("Some Encryption Key", encryptionKey);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -116,9 +110,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
         assertEquals("Some Device Name", name);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -133,9 +125,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LAST_KNOWN_NETWORK));
         assertEquals("Some Network Name", lastKnownNetwork);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -150,9 +140,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
         assertEquals(2, pairedStatus);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -167,9 +155,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
         assertEquals(-1L, lastPairedTime);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -184,9 +170,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
         assertEquals("Some IP Address", ipAddress);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -201,9 +185,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
         assertEquals("Some Device Type", deviceType);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -218,9 +200,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
         assertEquals("Some Model Id", modelId);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -235,9 +215,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         short https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS));
         assertEquals(1, https);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -252,9 +230,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
         assertEquals("Some PIN", pin);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @Test
@@ -269,9 +245,7 @@ public class NetworkNodeDatabaseHelperVersion5Test extends NetworkNodeDatabaseHe
         String mismatchedPin = cursor.getString(cursor.getColumnIndex(KEY_MISMATCHED_PIN));
         assertEquals(null, mismatchedPin);
 
-        if(!cursor.isClosed()) {
-            cursor.close();
-        }
+        closeCursor(cursor);
     }
 
     @NonNull
