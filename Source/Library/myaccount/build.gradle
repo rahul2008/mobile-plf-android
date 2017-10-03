@@ -234,7 +234,8 @@ dependencies {
 	
     //Coco
 	def dp = project.ext.has('useprojectdependencies')
-	
+
+
 	def uitModule = module(group: 'com.philips.cdp', name: 'uikitLib', version: versions.uit_uikitLib + objcdp.getVersionSuffix(), ext: 'aar') 
 	compile(dp ? project(':uit') : uitModule) 
 	{
@@ -246,20 +247,8 @@ dependencies {
 	{
 		transitive = true
 	}
-	
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'	
 
-	def usrModule = module(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':usr') : usrModule) 
-	{
-		transitive = true
-	}
-
-	def prxModule = module(group: 'com.philips.cdp', name: 'prx', version: versions.prx_prx + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-	compile(dp ? project(':prx') : prxModule) 	
-	{
-		transitive = true
-	}
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // Tests
     testCompile 'junit:junit:4.12'
