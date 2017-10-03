@@ -110,14 +110,14 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     private void launchPreWelcomeScreen() {
         THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
-        mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, false);
+        mThsInitFragment.addFragment(thsPreWelcomeFragment, THSRegistrationFragment.TAG, null, true);
     }
 
     private void launchWelcomeScreen() {
         mThsInitFragment.hideProgressBar();
         mThsInitFragment.popSelfBeforeTransition();
         THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
-        mThsInitFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
+        mThsInitFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, true);
     }
 
 

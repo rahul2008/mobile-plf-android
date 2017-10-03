@@ -22,10 +22,10 @@ public class THSPreWelcomePresenter implements THSBasePresenter{
         if(componentID == R.id.ths_go_see_provider){
             if (THSManager.getInstance().isReturningUser()) {
                 THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
-                mThsPreWelcomeFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
+                mThsPreWelcomeFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, true);
             }else {
                 THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
-                mThsPreWelcomeFragment.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null, false);
+                mThsPreWelcomeFragment.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null, true);
             }
         }
     }

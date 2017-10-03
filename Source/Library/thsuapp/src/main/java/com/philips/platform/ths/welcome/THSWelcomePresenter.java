@@ -20,7 +20,6 @@ import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
-import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -38,13 +37,13 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, true);
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, true);
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, true);
         }
     }
 
