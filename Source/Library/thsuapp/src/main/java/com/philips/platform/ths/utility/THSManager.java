@@ -30,6 +30,7 @@ import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
+import com.americanwell.sdk.entity.enrollment.DependentEnrollment;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.HealthPlan;
@@ -297,6 +298,32 @@ public class THSManager {
     public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumerWrapper, SDKPasswordError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getConsumerEnrollment(context, dateOfBirth, firstName, lastName, gender, state);
 
+        if(getThsConsumer().getDependents()!=null && getThsConsumer().getDependents().size()>0){
+            for(ThsConsumer thsConsumer : getThsConsumer().getDependents()) {
+
+                final DependentEnrollment newDependantEnrollment = getDependantEnrollment(context, thsConsumer.getDob(),thsConsumer.getFirstname(),thsConsumer.getLastname(),Gender.MALE);
+
+               getAwsdk(context).getConsumerManager().enrollDependent(newDependantEnrollment, new SDKValidatedCallback<Consumer, SDKError>() {
+                   @Override
+                   public void onValidationFailure(Map<String, ValidationReason> map) {
+                       AmwellLog.i(AmwellLog.LOG,"validationFail");
+                       thssdkValidatedCallback.onValidationFailure(map);
+                   }
+
+                   @Override
+                   public void onResponse(Consumer consumer, SDKError sdkError) {
+
+                   }
+
+                   @Override
+                   public void onFailure(Throwable throwable) {
+                       AmwellLog.i(AmwellLog.LOG,"onFail");
+                       thssdkValidatedCallback.onFailure(throwable);
+                   }
+               });
+            }
+        }
+
         getAwsdk(context).getConsumerManager().enrollConsumer(newConsumerEnrollment,
                 new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
@@ -342,6 +369,25 @@ public class THSManager {
         newConsumerEnrollment.setLastName(lastName);
 
         newConsumerEnrollment.setLegalResidence(state);
+        return newConsumerEnrollment;
+    }
+
+    @NonNull
+    private DependentEnrollment getDependantEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender) throws AWSDKInstantiationException {
+        final DependentEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewDependentEnrollment(getPTHConsumer().getConsumer());
+
+        newConsumerEnrollment.setSourceId(getThsConsumer().getHsdpUUID());
+
+
+
+
+        newConsumerEnrollment.setDob(SDKLocalDate.valueOf(dateOfBirth));
+
+        newConsumerEnrollment.setFirstName(firstName);
+        newConsumerEnrollment.setGender(gender);
+        newConsumerEnrollment.setLastName(lastName);
+
+
         return newConsumerEnrollment;
     }
 
