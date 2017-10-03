@@ -33,7 +33,7 @@ node ('android&&docker') {
                     ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testReleaseUnitTest
                 '''
             }
-            if (BranchName =~ /master|develop|release.*/) {
+            if (BranchName =~ /master|develop|release\/platform_.*/) {
                 stage ('publish') {
                     echo "publish to artifactory"
                     sh '''#!/bin/bash -l
@@ -53,7 +53,7 @@ node ('android&&docker') {
                 '''
             }
 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
