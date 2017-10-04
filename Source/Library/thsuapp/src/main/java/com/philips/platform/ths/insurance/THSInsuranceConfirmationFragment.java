@@ -29,8 +29,8 @@ import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_CONFIR
 public class THSInsuranceConfirmationFragment extends THSBaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     public static final String TAG = THSInsuranceConfirmationFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
-    private THSInsuranceConfirmationPresenter mPresenter;
-    private RadioGroup mConfirmationRadioGroup;
+    protected THSInsuranceConfirmationPresenter mPresenter;
+    protected RadioGroup mConfirmationRadioGroup;
     private int mConfirmationRadioButtonSelectedID;
     private Button confirmationContinueButton;
     boolean isLaunchedFromCostSummary = false;

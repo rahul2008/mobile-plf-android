@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
-    private THSBaseFragment mTHSBaseFragment;
+    protected THSBaseFragment mTHSBaseFragment;
 
     THSInsuranceDetailPresenter(THSInsuranceDetailFragment tHSInsuranceDetailFraagment) {
         this.mTHSBaseFragment = tHSInsuranceDetailFraagment;
@@ -201,7 +201,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         }
     }
 
-    private void showInsuranceNotVerifiedDialog() {
+    protected void showInsuranceNotVerifiedDialog() {
         THSInsuranceNotVerifiedDialogFragment thsInsuranceNotVerifiedDialogFragment = new THSInsuranceNotVerifiedDialogFragment();
         thsInsuranceNotVerifiedDialogFragment.setPresenter(this);
         thsInsuranceNotVerifiedDialogFragment.show(mTHSBaseFragment.getFragmentManager(), THSInsuranceNotVerifiedDialogFragment.TAG);

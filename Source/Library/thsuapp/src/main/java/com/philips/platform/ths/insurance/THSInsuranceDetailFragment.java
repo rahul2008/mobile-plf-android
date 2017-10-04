@@ -176,12 +176,16 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
             } else {
                 relationship = mInsuranceRelationship;
             }
-            String firstName = (firstNameEditBox.getText() == null) ? null : firstNameEditBox.getText().toString().trim();
-            String lastName = (lastNameEditBox.getText() == null) ? null : lastNameEditBox.getText().toString().trim();
-            String dob = (relationDOBEditBox.getText() == null) ? null : relationDOBEditBox.getText().toString().trim();
+            String firstName = null;
+            String lastName = null;
+            String dob = null;
             if (!relationship.isPrimarySubscriber()) {
-                mPresenter.updateTHSInsuranceSubscription(mHealthPlan, subscriberIDEditBox.getText().toString().trim(), mSuffixEditText.getText().toString().trim(), relationship, firstName, lastName, dob);
+                firstName = (firstNameEditBox.getText() == null) ? null : firstNameEditBox.getText().toString().trim();
+                lastName = (lastNameEditBox.getText() == null) ? null : lastNameEditBox.getText().toString().trim();
+                dob = (relationDOBEditBox.getText() == null) ? null : relationDOBEditBox.getText().toString().trim();
             }
+            mPresenter.updateTHSInsuranceSubscription(mHealthPlan, subscriberIDEditBox.getText().toString().trim(), mSuffixEditText.getText().toString().trim(), relationship, firstName, lastName, dob);
+
 
         } else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext) {
 
