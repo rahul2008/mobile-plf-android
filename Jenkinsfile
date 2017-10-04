@@ -14,7 +14,7 @@ node('Android') {
 
 //            Slack = load 'Source/common/jenkins/Slack.groovy'
 //            Pipeline = load 'Source/common/jenkins/Pipeline.groovy'
-            def gradle = 'cd Source/Source/app && ./gradlew -PenvCode=${JENKINS_ENV}'
+            def gradle = 'cd Source/Library/ && ./gradlew -PenvCode=${JENKINS_ENV}'
 
             //def cucumber_path = 'Source/Library/build/cucumber-reports'
             //def cucumber_filename = 'cucumber-report-android-commlib.json'
@@ -42,7 +42,7 @@ node('Android') {
 //                boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release/platform_") || env.BRANCH_NAME.startsWith("master"))
 //                if (publishing) {
 //                    for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
-//                        def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
+//                        def libgradle = "cd Source/Library/ews/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
 //                        stage("Publish $lib") {
 //                            sh "$libgradle assembleRelease saveResDep zipDocuments artifactoryPublish"
 //                        }
@@ -54,8 +54,8 @@ node('Android') {
 //                }
 
                 stage('Archive results') {
-//                    archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
-                    archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+                    archiveArtifacts artifacts: Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+                    archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
                     archiveArtifacts '**/dependencies.lock'
 
 //                    sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
