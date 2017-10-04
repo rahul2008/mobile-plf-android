@@ -1,7 +1,7 @@
 
 node('Android') {
-def errors = []
     timestamps {
+        def errors = []
         try {
 
             stage('Checkout') {
@@ -33,11 +33,11 @@ def errors = []
     } 
 }
 
-node('master') {
-    stage('Cleaning workspace') {
-        def wrk = pwd() + "@script/"
-        dir("${wrk}") {
-            deleteDir()
-        }
-    }
-}
+//node('master') {
+//    stage('Cleaning workspace') {
+//        def wrk = pwd() + "@script/"
+//        dir("${wrk}") {
+//            deleteDir()
+//        }
+//    }
+//}
