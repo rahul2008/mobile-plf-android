@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
-    private THSBaseFragment mTHSBaseFragment;
+    protected THSBaseFragment mTHSBaseFragment;
 
     THSInsuranceDetailPresenter(THSInsuranceDetailFragment tHSInsuranceDetailFraagment) {
         this.mTHSBaseFragment = tHSInsuranceDetailFraagment;
@@ -78,34 +78,24 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         }
     }
 
-    private void updateTHSInsuranceSubscription() {
+     void updateTHSInsuranceSubscription(HealthPlan healthPlan, String subscriberId, String suffix,Relationship relationship,String firstName, String lastName,String dob) {
         try {
             ///////validate
 
             ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressbar();
             THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
             final Subscription subscription = thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest().getSubscription();
-            subscription.setHealthPlan(((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan);
-            subscription.setSubscriberId(((THSInsuranceDetailFragment) mTHSBaseFragment).subscriberIDEditBox.getText().toString().trim());
-            if (((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan.isUsesSuffix()) {
-
-                subscription.setSubscriberSuffix(((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.getText().toString().trim());
-            }
-            Relationship relationship;
-            if (!((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.isChecked()) {
-                relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mTHSRelationshipList.getRelationShipList().get(0);// primary subscriber by default
-
-            } else {
-                relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship;
+            subscription.setHealthPlan(healthPlan);
+            subscription.setSubscriberId(subscriberId);
+            if (healthPlan.isUsesSuffix()) {
+                subscription.setSubscriberSuffix(suffix);
             }
             subscription.setRelationship(relationship);
             if (!relationship.isPrimarySubscriber()) {
-                subscription.setPrimarySubscriberFirstName(((THSInsuranceDetailFragment) mTHSBaseFragment).firstNameEditBox.getText().toString().trim());
-                subscription.setPrimarySubscriberLastName(((THSInsuranceDetailFragment) mTHSBaseFragment).lastNameEditBox.getText().toString().trim());
-                subscription.setPrimarySubscriberDateOfBirth(SDKLocalDate.valueOf(((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.getText().toString().trim()));
+                subscription.setPrimarySubscriberFirstName(firstName);
+                subscription.setPrimarySubscriberLastName(lastName);
+                subscription.setPrimarySubscriberDateOfBirth(SDKLocalDate.valueOf((dob)));
             }
-
-
             Map<String, ValidationReason> errors = new HashMap<>();
             THSManager.getInstance().validateSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity(), thsSubscriptionUpdateRequest, errors);
             if (errors.isEmpty()) {
@@ -122,7 +112,6 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                     missingFields = missingFields + array[array.length-1]+ "     ";
                     it.remove(); // avoids a ConcurrentModificationException
                 }
-
                 mTHSBaseFragment.showToast(missingFields +" Field(s) Required");
             }
         } catch (Exception e) {
@@ -151,8 +140,6 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
                 THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
                 updateInsurance(thsSubscriptionUpdateRequest); // empty SubscriptionUpdateRequest
             }
-        } else if (componentID == R.id.ths_insurance_detail_continue_button) {
-            updateTHSInsuranceSubscription();
         } else if (componentID == R.id.ths_confirmation_dialog_primary_button) {  // continue without Insurance verification
             showCostSummaryFragment();
         } else if (componentID == R.id.ths_confirmation_dialog_secondary_button_label) {
@@ -167,50 +154,8 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     @Override
     public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
         mTHSBaseFragment.hideProgressBar();
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
-        Subscription subscription = tHSSubscription.getSubscription();
-        if (null != subscription) {
-            if (subscription.getHealthPlan() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan = subscription.getHealthPlan();
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).insuranceEditBox.setText(subscription.getHealthPlan().getName());
-            }
-            if (subscription.getHealthPlan() != null && subscription.getHealthPlan().isUsesSuffix() && subscription.getSubscriberId() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).subscriberIDEditBox.setText(subscription.getSubscriberId());
-            }
-            if (subscription.getHealthPlan().isUsesSuffix()) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixLabel.setVisibility(View.VISIBLE);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setVisibility(View.VISIBLE);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setText(subscription.getSubscriberSuffix());
-            } else {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixLabel.setVisibility(View.GONE);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setVisibility(View.GONE);
-            }
-            if (subscription.getRelationship().isPrimarySubscriber()) {
-                //if user is  a primary subscriber
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(false);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
-            } else {
-                //if user is NOT a primary subscriber
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(true);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
-            }
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).updateInsuranceUI(tHSSubscription);
 
-            if (subscription.getRelationship() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship = subscription.getRelationship();
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).relationshipEditBox.setText(subscription.getRelationship().getName());
-            }
-            if (subscription.getPrimarySubscriberFirstName() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).firstNameEditBox.setText(subscription.getPrimarySubscriberFirstName());
-            }
-            if (subscription.getPrimarySubscriberLastName() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).lastNameEditBox.setText(subscription.getPrimarySubscriberLastName());
-            }
-            if (subscription.getPrimarySubscriberDateOfBirth() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.setText(subscription.getPrimarySubscriberDateOfBirth().toString());
-            }
-
-
-        }
     }
 
 
@@ -256,7 +201,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         }
     }
 
-    private void showInsuranceNotVerifiedDialog() {
+    protected void showInsuranceNotVerifiedDialog() {
         THSInsuranceNotVerifiedDialogFragment thsInsuranceNotVerifiedDialogFragment = new THSInsuranceNotVerifiedDialogFragment();
         thsInsuranceNotVerifiedDialogFragment.setPresenter(this);
         thsInsuranceNotVerifiedDialogFragment.show(mTHSBaseFragment.getFragmentManager(), THSInsuranceNotVerifiedDialogFragment.TAG);
