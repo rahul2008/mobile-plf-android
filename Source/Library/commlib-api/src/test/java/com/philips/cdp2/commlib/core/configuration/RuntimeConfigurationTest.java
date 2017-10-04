@@ -43,6 +43,8 @@ public class RuntimeConfigurationTest {
     @Mock
     private AppConfigurationInterface appConfigurationInterfaceMock;
 
+    private final Map<String, Object> logConfig = new HashMap<>();
+
     private RuntimeConfiguration runtimeConfiguration;
 
     @Before
@@ -53,6 +55,7 @@ public class RuntimeConfigurationTest {
 
         when(appInfraInterfaceMock.getAppIdentity()).thenReturn(appIdentityMock);
         when(appInfraInterfaceMock.getConfigInterface()).thenReturn(appConfigurationInterfaceMock);
+        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);
 
         runtimeConfiguration = new RuntimeConfiguration(contextMock, appInfraInterfaceMock);
     }
@@ -61,10 +64,7 @@ public class RuntimeConfigurationTest {
     public void givenAppStateIsProduction_andConsoleLoggingIsEnabled_thenLogIsDisabled() {
         when(appIdentityMock.getAppState()).thenReturn(PRODUCTION);
 
-        Map<String, Object> logConfig = new HashMap<String, Object>() {{
-            put(CONFIG_KEY_CONSOLE_LOG_ENABLED, true);
-        }};
-        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);
+        logConfig.put(CONFIG_KEY_CONSOLE_LOG_ENABLED, true);
 
         assertThat(runtimeConfiguration.isLogEnabled()).isFalse();
     }
@@ -73,10 +73,7 @@ public class RuntimeConfigurationTest {
     public void givenAppStateIsProduction_andConsoleLoggingIsDisabled_thenLogIsDisabled() {
         when(appIdentityMock.getAppState()).thenReturn(PRODUCTION);
 
-        Map<String, Object> logConfig = new HashMap<String, Object>() {{
-            put(CONFIG_KEY_CONSOLE_LOG_ENABLED, false);
-        }};
-        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);
+        logConfig.put(CONFIG_KEY_CONSOLE_LOG_ENABLED, false);
 
         assertThat(runtimeConfiguration.isLogEnabled()).isFalse();
     }
@@ -85,10 +82,7 @@ public class RuntimeConfigurationTest {
     public void givenAppStateIsNotProduction_andConsoleLoggingIsEnabled_thenLogIsEnabled() {
         when(appIdentityMock.getAppState()).thenReturn(STAGING);
 
-        Map<String, Object> logConfig = new HashMap<String, Object>() {{
-            put(CONFIG_KEY_CONSOLE_LOG_ENABLED, true);
-        }};
-        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);
+        logConfig.put(CONFIG_KEY_CONSOLE_LOG_ENABLED, true);
 
         assertThat(runtimeConfiguration.isLogEnabled()).isTrue();
     }
@@ -97,10 +91,7 @@ public class RuntimeConfigurationTest {
     public void givenAppStateIsNotProduction_andConsoleLoggingIsDisabled_thenLogIsDisabled() {
         when(appIdentityMock.getAppState()).thenReturn(STAGING);
 
-        Map<String, Object> logConfig = new HashMap<String, Object>() {{
-            put(CONFIG_KEY_CONSOLE_LOG_ENABLED, false);
-        }};
-        when(appConfigurationInterfaceMock.getPropertyForKey(anyString(), anyString(), any(AppConfigurationError.class))).thenReturn(logConfig);
+        logConfig.put(CONFIG_KEY_CONSOLE_LOG_ENABLED, false);
 
         assertThat(runtimeConfiguration.isLogEnabled()).isFalse();
     }
