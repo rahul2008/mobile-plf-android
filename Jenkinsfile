@@ -1,6 +1,6 @@
-def errors = []
 
 node('Android') {
+def errors = []
     timestamps {
         try {
 
