@@ -63,10 +63,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mResources = context.getResources();
         mData = shoppingCartData;
         mOutOfStock = isOutOfStock;
-        //setCountArrow(context,true);
+       // setCountArrow(context,true);
     }
 
-    private void setCountArrow(final Context context, final boolean isEnable) {
+    public void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
             countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
             countArrow.setColorFilter(new
