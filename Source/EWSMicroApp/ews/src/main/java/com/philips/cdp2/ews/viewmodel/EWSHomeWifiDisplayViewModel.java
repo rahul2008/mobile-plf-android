@@ -18,7 +18,6 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
     @NonNull private final Navigator navigator;
     @NonNull private final WiFiUtil wiFiUtil;
-    private int hierarchyLevel;
 
     @Inject
     public EWSHomeWifiDisplayViewModel(@NonNull final Navigator navigator,
@@ -38,14 +37,10 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
 
 
     public void onNoButtonClicked() {
-//        screenFlowController.showFragment(TroubleshootHomeWiFiFragment.getInstance(hierarchyLevel + 1));
-    }
-    public void onYesButtonClicked() {
-//        screenFlowController.showFragment(new EWSDevicePowerOnFragment());
-        navigator.navigateToDevicePoweredOnConfirmationScreen();
+        navigator.navigateToWifiTroubleShootingScreen();
     }
 
-    public void setHierarchyLevel(final int hierarchyLevel) {
-        this.hierarchyLevel = hierarchyLevel;
+    public void onYesButtonClicked() {
+        navigator.navigateToDevicePoweredOnConfirmationScreen();
     }
 }

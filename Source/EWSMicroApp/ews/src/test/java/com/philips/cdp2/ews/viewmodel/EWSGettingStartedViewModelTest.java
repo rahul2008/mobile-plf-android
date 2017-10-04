@@ -45,22 +45,12 @@ public class EWSGettingStartedViewModelTest {
         verify(navigatorMock).navigateToHomeNetworkConfirmationScreen();
     }
 
-//    @Test
-//    public void shouldNavigateToTroubleshootHomeWiFiScreenIfWifiIsDisabledWhenClickedOnGettingStartedButton() throws Exception {
-//        final int currentFragmentHierarchyLevelInStack = 2;
-//        final ArgumentCaptor<TroubleshootHomeWiFiFragment> fragmentCaptor = ArgumentCaptor.forClass(TroubleshootHomeWiFiFragment.class);
-//
-//        viewModel.setHierarchyLevel(currentFragmentHierarchyLevelInStack);
-//        stubHomeWiFiStatus(false);
-//
-//        verify(navigatorMock).showFragment(fragmentCaptor.capture());
-//
-//        TroubleshootHomeWiFiFragment troubleshootHomeWiFiFragment = fragmentCaptor.getValue();
-//        int hierarchyLevel = troubleshootHomeWiFiFragment.getArguments().getInt(TroubleshootHomeWiFiFragment.HIERARCHY_LEVEL);
-//
-//        assertEquals(currentFragmentHierarchyLevelInStack + 1, hierarchyLevel);
-//        verify(navigatorMock).showFragment(isA(TroubleshootHomeWiFiFragment.class));
-//    }
+    @Test
+    public void shouldNavigateToTroubleshootHomeWiFiScreenIfWifiIsDisabledWhenClickedOnGettingStartedButton() throws Exception {
+        stubHomeWiFiStatus(false);
+
+        verify(navigatorMock).navigateToWifiTroubleShootingScreen();
+    }
 
     @Test
     public void shouldFinishActivityBackWhenAsked() throws Exception {

@@ -27,7 +27,6 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Override
     protected void bindViewModel(final FragmentEwsHomeWifiDisplayScreenBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
-        viewModel.setHierarchyLevel(getHierarchyLevel());
     }
 
     @Override

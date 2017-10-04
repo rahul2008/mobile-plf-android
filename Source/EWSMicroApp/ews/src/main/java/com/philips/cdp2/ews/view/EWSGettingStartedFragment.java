@@ -28,7 +28,6 @@ public class EWSGettingStartedFragment extends EWSBaseFragment<FragmentEwsGettin
     @Override
     protected void bindViewModel(final FragmentEwsGettingStartedBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
-        viewModel.setHierarchyLevel(getHierarchyLevel());
     }
 
     @Override

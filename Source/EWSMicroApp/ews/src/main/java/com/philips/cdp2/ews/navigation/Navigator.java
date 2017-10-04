@@ -1,6 +1,7 @@
 package com.philips.cdp2.ews.navigation;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
@@ -9,6 +10,7 @@ import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 
 public class Navigator {
 
@@ -19,27 +21,35 @@ public class Navigator {
     }
 
     public void navigateToGettingStartedScreen() {
-        fragmentNavigator.push(new EWSGettingStartedFragment(), R.id.contentFrame);
+        pushFragment(new EWSGettingStartedFragment());
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {
-        fragmentNavigator.push(new EWSHomeWifiDisplayFragment(), R.id.contentFrame);
+        pushFragment(new EWSHomeWifiDisplayFragment());
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
-        fragmentNavigator.push(new EWSDevicePowerOnFragment(), R.id.contentFrame);
+        pushFragment(new EWSDevicePowerOnFragment());
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
-        fragmentNavigator.push(new EWSPressPlayAndFollowSetupFragment(), R.id.contentFrame);
+        pushFragment(new EWSPressPlayAndFollowSetupFragment());
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen() {
-        fragmentNavigator.push(new EWSWiFiConnectFragment(), R.id.contentFrame);
+        pushFragment(new EWSWiFiConnectFragment());
     }
 
     public void navigateToPairingSuccessScreen() {
-        fragmentNavigator.push(new EWSWiFiPairedFragment(), R.id.contentFrame);
+        pushFragment(new EWSWiFiPairedFragment());
+    }
+
+    public void navigateToWifiTroubleShootingScreen() {
+        pushFragment(new TroubleshootHomeWiFiFragment());
+    }
+
+    private void pushFragment(@NonNull Fragment fragment) {
+        fragmentNavigator.push(fragment, R.id.contentFrame);
     }
 
 }

@@ -55,10 +55,9 @@ public class EWSHomeWifiDisplayViewModelTest {
 
     @Test
     public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
-        viewModel.setHierarchyLevel(1);
         viewModel.onNoButtonClicked();
 
-//        verify(navigatorMock).showFragment(isA(TroubleshootHomeWiFiFragment.class));
+        verify(navigatorMock).navigateToWifiTroubleShootingScreen();
     }
 
     @Test

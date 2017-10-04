@@ -10,6 +10,7 @@ import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,9 +76,16 @@ public class NavigatorTest {
         verifyFragmentPushed(EWSWiFiPairedFragment.class);
     }
 
-    private void verifyFragmentPushed(@NonNull Class klass) {
+    @Test
+    public void itShouldPushWifiTroubleShootingScreenWhenNavigating() throws Exception {
+        subject.navigateToWifiTroubleShootingScreen();
+
+        verifyFragmentPushed(TroubleshootHomeWiFiFragment.class);
+    }
+
+    private void verifyFragmentPushed(@NonNull Class clazz) {
         ArgumentCaptor<Fragment> captor = ArgumentCaptor.forClass(Fragment.class);
         verify(mockFragmentNavigator).push(captor.capture(), eq(R.id.contentFrame));
-        assertEquals(klass, captor.getValue().getClass());
+        assertEquals(clazz, captor.getValue().getClass());
     }
 }

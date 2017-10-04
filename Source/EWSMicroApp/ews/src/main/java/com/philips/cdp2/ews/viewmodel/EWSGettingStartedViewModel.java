@@ -17,7 +17,6 @@ public class EWSGettingStartedViewModel {
 
     @NonNull private final Navigator navigator;
     @NonNull private final WiFiUtil wiFiUtil;
-    private int hierarchyLevel;
 
     @Inject
     public EWSGettingStartedViewModel(@NonNull final Navigator navigator,
@@ -30,12 +29,8 @@ public class EWSGettingStartedViewModel {
         if (wiFiUtil.isHomeWiFiEnabled()) {
             navigator.navigateToHomeNetworkConfirmationScreen();
         } else {
-//            screenFlowController.showFragment(TroubleshootHomeWiFiFragment.getInstance(hierarchyLevel + 1));
+            navigator.navigateToWifiTroubleShootingScreen();
         }
-    }
-
-    public void setHierarchyLevel(final int hierarchyLevel) {
-        this.hierarchyLevel = hierarchyLevel;
     }
 
     public void onBackPressed() {
