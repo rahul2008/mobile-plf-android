@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.demoapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +15,15 @@ import android.view.View;
 
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CommlibUapp commlibUapp;
+    private final CommlibUapp commlibUapp = CommlibUapp.get();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        commlibUapp = CommlibUapp.get();
-        commlibUapp.init(new DefaultCommlibUappDependencies(), new UappSettings(getApplicationContext()));
+        final Context context = getApplicationContext();
+        final AppInfraInterface appInfraInterface = new AppInfra.Builder().build(context);
+
+        commlibUapp.init(new DefaultCommlibUappDependencies(context, appInfraInterface), new UappSettings(getApplicationContext()));
     }
 
     @Override
