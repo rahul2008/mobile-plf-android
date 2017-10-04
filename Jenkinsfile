@@ -53,13 +53,13 @@ node('Android') {
 //                    }
 //                }
                 
-                def libgradle = "cd Source/Library/ews/ && ./gradlew -p ews assembleDebug"
-                def demoapp = "cd Source/Library/demoapplication/ && ./gradlew -p demoapplication assembleDebug"
+                def libgradle = "cd Source/Library/ews/ && ./gradlew -u :ews:assembleDebug"
+                def demoapp = "cd Source/Library/demoapplication/ && ./gradlew -u :demoapplication:assembleDebug"
 
                 stage('Archive results') {
                     archiveArtifacts artifacts: Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                     archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
-                    archiveArtifacts '**/dependencies.lock'
+//                    archiveArtifacts '**/dependencies.lock'
 
 //                    sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
 //                    archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
