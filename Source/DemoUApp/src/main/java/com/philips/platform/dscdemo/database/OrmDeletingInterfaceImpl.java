@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.database;
 
 import android.support.annotation.NonNull;
@@ -20,10 +25,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     @NonNull
@@ -35,7 +36,7 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @NonNull
     private final OrmFetchingInterfaceImpl fetching;
 
-    NotifyDBRequestListener notifyDBRequestListener;
+    private NotifyDBRequestListener notifyDBRequestListener;
 
     @Inject
     public OrmDeletingInterfaceImpl(@NonNull final OrmDeleting ormDeleting,
@@ -46,12 +47,14 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
+    //Delete All
     @Override
     public void deleteAll(DBRequestListener dbRequestListener) throws SQLException {
         ormDeleting.deleteAll();
         notifyDBRequestListener.notifyPrepareForDeletion(dbRequestListener);
     }
 
+    //Moments
     @Override
     public void markAsInActive(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         if (isMomentSyncedToBackend(moment)) {
@@ -75,6 +78,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     }
 
     @Override
+    public void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException {
+        List<? extends Moment> moments = fetching.fetchMoments(null);
+        markMomentsAsInActive((List<Moment>) moments, dbRequestListener);
+    }
+
+    @Override
     public void deleteMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormDeleting.ormDeleteMoment((OrmMoment) moment);
         notifyDBRequestListener.notifySuccess(dbRequestListener, (OrmMoment) moment, SyncType.MOMENT);
@@ -82,7 +91,6 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
 
     @Override
     public boolean deleteMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-
         boolean isDeleted = ormDeleting.deleteMoments(moments, dbRequestListener);
         if (isDeleted) {
             notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
@@ -104,17 +112,6 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
     @Override
     public void deleteMeasurementGroup(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         ormDeleting.deleteMeasurementGroups((OrmMoment) moment);
-    }
-
-    @Override
-    public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
-        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
-    }
-
-    @Override
-    public void deleteAllMoments(DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        List<? extends Moment> moments = fetching.fetchMoments(null);
-        markMomentsAsInActive((List<Moment>) moments, dbRequestListener);
     }
 
     private boolean isMomentSyncedToBackend(final Moment moment) {
@@ -140,6 +137,12 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         moment.setSynced(false);
         moment.getSynchronisationData().setInactive(true);
         saveMoment(moment, dbRequestListener);
+    }
+
+    //User characteristics
+    @Override
+    public void deleteUserCharacteristics() throws SQLException {
+        ormDeleting.deleteCharacteristics();
     }
 
     //Insights
@@ -174,13 +177,16 @@ public class OrmDeletingInterfaceImpl implements DBDeletingInterface {
         notifyDBRequestListener.notifyDBChange(SyncType.INSIGHT);
     }
 
+    //Sync
     @Override
     public int deleteSyncBit(SyncType syncType) throws SQLException {
         return ormDeleting.deleteSyncBit(syncType);
     }
 
+    //Post Error
     @Override
-    public void deleteUserCharacteristics() throws SQLException {
-        ormDeleting.deleteCharacteristics();
+    public void deleteFailed(Exception e, DBRequestListener dbRequestListener) {
+        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
     }
+
 }
