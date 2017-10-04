@@ -3,14 +3,18 @@ package com.philips.platform.ths.intake;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,9 +24,15 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
@@ -47,6 +57,8 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mCurrentLocation;
+    Intent gpsSettingsIntent;
+    private final static int REQUEST_CHECK_SETTINGS_GPS=0x1;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -63,6 +75,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         }
         createLocationRequest();
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), 0, this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -85,6 +98,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart fired ..............");
+        getLocationUpdate();
         mGoogleApiClient.connect();
     }
 
@@ -92,26 +106,22 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop fired ..............");
-        mGoogleApiClient.disconnect();
-        Log.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
-    }
+        if(mGoogleApiClient!=null) {
+            if (mGoogleApiClient.isConnected()) {
+                stopLocationUpdates();
+                mGoogleApiClient.stopAutoManage(getActivity());
+                mGoogleApiClient.disconnect();
+            }
+        }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        stopLocationUpdates();
+
+        Log.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
     }
 
     protected void stopLocationUpdates() {
         FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
         Log.d(TAG, "Location update stopped .......................");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getLocationUpdate();
     }
 
     private void checkIfPharmacyRequired() {
@@ -196,13 +206,75 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
         } else {
-            Toast.makeText(getActivity(), "GPS not enables: going to search pharmacy", Toast.LENGTH_SHORT).show();
-            showPharmacySearch();
+            Toast.makeText(getActivity(), "GPS not enables: going to settings GPS", Toast.LENGTH_SHORT).show();
+            gpsSettingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(gpsSettingsIntent);
         }
 
 
         // mGoogleApiClient, mLocationRequest, this);
         Log.d(TAG, "Location update started ..............: ");
+    }
+
+    private void getMyLocation(){
+        if(mGoogleApiClient!=null) {
+            if (mGoogleApiClient.isConnected()) {
+                int permissionLocation = ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+                if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                    LocationRequest locationRequest = new LocationRequest();
+                    locationRequest.setInterval(3000);
+                    locationRequest.setFastestInterval(3000);
+                    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                            .addLocationRequest(locationRequest);
+                    builder.setAlwaysShow(true);
+                    LocationServices.FusedLocationApi
+                            .requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+                    PendingResult result =
+                            LocationServices.SettingsApi
+                                    .checkLocationSettings(mGoogleApiClient, builder.build());
+                    result.setResultCallback(new ResultCallback() {
+
+                        @Override
+                        public void onResult(@NonNull Result result) {
+                            final Status status = result.getStatus();
+                            switch (status.getStatusCode()) {
+                                case LocationSettingsStatusCodes.SUCCESS:
+                                    // All location settings are satisfied.
+                                    // You can initialize location requests here.
+                                    int permissionLocation = ContextCompat
+                                            .checkSelfPermission(getActivity(),
+                                                    Manifest.permission.ACCESS_FINE_LOCATION);
+                                    if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+                                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, THSCheckPharmacyConditionsFragment.this);
+                                    }
+                                    break;
+                                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                                    // Location settings are not satisfied.
+                                    // But could be fixed by showing the user a dialog.
+                                    try {
+                                        // Show the dialog by calling startResolutionForResult(),
+                                        // and check the result in onActivityResult().
+                                        // Ask to turn on GPS automatically
+                                        status.startResolutionForResult(getActivity(),
+                                                REQUEST_CHECK_SETTINGS_GPS);
+                                    } catch (IntentSender.SendIntentException e) {
+                                        // Ignore the error.
+                                    }
+                                    break;
+                                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                                    // Location settings are not satisfied. However, we have no way to fix the
+                                    // settings so we won't show the dialog.
+                                    //finish();
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
     }
 
     private boolean checkIfGPSProviderAvailable() {
@@ -235,6 +307,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_LOCATION) {
+
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocationUpdate();
             } else {
@@ -242,6 +315,12 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 showToast("Permission denied : Going to search");
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     private void getLocationUpdate() {
