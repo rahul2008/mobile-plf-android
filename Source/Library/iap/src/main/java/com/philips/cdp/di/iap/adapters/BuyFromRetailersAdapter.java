@@ -23,9 +23,9 @@ import com.shamanland.fonticon.FontIconTextView;
 import java.util.ArrayList;
 
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
-    private Context mContext;
-    private FragmentManager mFragmentManager;
-    private final ImageLoader mImageLoader;
+    private  Context mContext;
+    private  FragmentManager mFragmentManager;
+    private  ImageLoader mImageLoader;
     private ArrayList<StoreEntity> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
 
@@ -37,8 +37,6 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                                    ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener) {
         mContext = context;
         mFragmentManager = fragmentManager;
-        mImageLoader = NetworkImageLoader.getInstance(mContext)
-                .getImageLoader();
         mStoreList = storeList;
         mBuyFromRetailersListener = pBuyFromRetailersListener;
     }
@@ -84,12 +82,14 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         getNetworkImage(holder, imageURL);
     }
 
-    private void tagOnSelectRetailer(StoreEntity storeEntity) {
+    void tagOnSelectRetailer(StoreEntity storeEntity) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
                 storeEntity.getName());
     }
 
     private void getNetworkImage(final RetailerViewHolder retailerHolder, final String imageURL) {
+        mImageLoader = NetworkImageLoader.getInstance(mContext)
+                .getImageLoader();
         mImageLoader.get(imageURL, ImageLoader.getImageListener(retailerHolder.mLogo,
                 R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));

@@ -1,7 +1,9 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
@@ -61,7 +63,7 @@ public class ProductCatalogFragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void shouldNotDisplayCategorizedProductlist() {
-        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, "US");
+        Utility.addCountryInPreference(PreferenceManager.getDefaultSharedPreferences(mContext), IAPConstant.IAP_COUNTRY_KEY, "US");
         productCatalogFragment = ProductCatalogFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         productCatalogFragment.setActionBarListener(Mockito.mock(ActionBarListener.class), mockIAPListener);
         startFragment(productCatalogFragment);

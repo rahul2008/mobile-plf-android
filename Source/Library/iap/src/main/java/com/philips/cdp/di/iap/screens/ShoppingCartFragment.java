@@ -294,6 +294,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mData = (ArrayList<ShoppingCartData>) data;
         onOutOfStock(false);
         mAdapter = new ShoppingCartAdapter(mContext, mData, this);
+        mAdapter.setCountArrow(mContext,true);
         if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
             updateCount(mData.get(0).getDeliveryItemsQuantity());
         }

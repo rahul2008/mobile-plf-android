@@ -59,26 +59,8 @@ public class InputValidator extends Validator implements InputValidationLayout.V
 
     @Override
     public boolean validate(CharSequence msg) {
-//        if (msg.toString().trim().equalsIgnoreCase("")) {
-//            return false;
-//        }
         Matcher matcher = valid_regex_pattern.matcher(msg);
         return matcher.find();
     }
-//
-//    public boolean validatePhoneNumber(EditText mEtPhone1, String country, String number) {
-//        try {
-//            PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-//            Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(number, country);
-//            boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
-//            String formattedPhoneNumber = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
-//            mEtPhone1.setText(formattedPhoneNumber);
-//            mEtPhone1.setSelection(mEtPhone1.getText().length());
-//            // return inputValidatorTown.isValidPhoneNumber(mEtTown.getText().toString());
-//            return isValid;
-//        } catch (Exception e) {
-//            IAPLog.d("ShippingAddressFragment", "NumberParseException");
-//        }
-//        return false;
-//    }
+
 }

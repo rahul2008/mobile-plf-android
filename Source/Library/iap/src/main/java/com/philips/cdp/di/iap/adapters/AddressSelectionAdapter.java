@@ -86,7 +86,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    private void bindAddNewAddress(final View newAddress) {
+    void bindAddNewAddress(final View newAddress) {
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -95,7 +95,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-    private void bindDeliverToThisAddress(Button deliver) {
+    void bindDeliverToThisAddress(Button deliver) {
         deliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -104,7 +104,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-    private void updatePaymentButtonsVisibility(final ViewGroup paymentOptions, final Button dleteButton, final int position) {
+    void updatePaymentButtonsVisibility(final ViewGroup paymentOptions, final Button dleteButton, final int position) {
         if (mSelectedIndex == position) {
             paymentOptions.setVisibility(View.VISIBLE);
             if (this.getItemCount() == 1) {
@@ -115,7 +115,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    private void setToggleStatus(final RadioButton toggle, final int position) {
+    void setToggleStatus(final RadioButton toggle, final int position) {
         if (mSelectedIndex == position) {
             toggle.setChecked(true);
         } else {
@@ -189,7 +189,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         return TYPE_ITEM;
     }
 
-    private class AddressSelectionFooter extends RecyclerView.ViewHolder {
+    class AddressSelectionFooter extends RecyclerView.ViewHolder {
 
         public AddressSelectionFooter(View view) {
             super(view);

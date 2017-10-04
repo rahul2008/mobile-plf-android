@@ -36,18 +36,21 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
         void countUpdate(int oldCount, int newCount);
     }
 
-    public CountDropDown(View anchor, int end, int currentCount, CountUpdateListener listener) {
-        this(anchor, 1, end, currentCount, listener);
+    public CountDropDown(View anchor,Context context, int end, int currentCount, CountUpdateListener listener) {
+        this(anchor,context, 1, end, currentCount, listener);
     }
 
-    public CountDropDown(View anchor, int start, int end, int currentCount, CountUpdateListener listener) {
-        Context context = anchor.getContext();
+    Context context;
+    View anchor;
+
+    CountDropDown(View anchor, Context context,int start, int end, int currentCount, CountUpdateListener listener) {
+        this.context = context;
         mUpdateListener = listener;
         mStart = start;
         mEnd = end;
         mCurrent = currentCount;
         mCurrentViewIndex = currentCount - mStart;
-        createPopUp(anchor, context);
+        this.anchor=anchor;
     }
 
     public void show() {
@@ -75,7 +78,7 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
         mPopUp.dismiss();
     }
 
-    private void createPopUp(final View anchor, final Context context) {
+   public void createPopUp() {
         List<RowItem> rowItems = getRowItems();
         Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
         mPopUp = new UIPicker(popupThemedContext);
@@ -104,7 +107,7 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
 
     //To highlight the selected index, we need custom adapter.
     //Must be removed if we don't support this feature
-    private class CountAdapter extends PopupOverAdapter {
+     class CountAdapter extends PopupOverAdapter {
         public CountAdapter(final Context context, final int resource, final List objects) {
             super(context, resource, objects);
         }

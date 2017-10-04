@@ -90,7 +90,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         return IAPConstant.IAP_ERROR_UNKNOWN;
     }
 
-    protected boolean isStoreInitialized() {
+    public boolean isStoreInitialized() {
         return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
     }
 }

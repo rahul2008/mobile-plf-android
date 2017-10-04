@@ -4,21 +4,12 @@
  */
 package com.philips.cdp.di.iap.utils;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public class IAPLog {
     public final static String LOG = "iap";
     public static boolean isLoggingEnabled = false;
     public static LoggingInterface sAppLoggingInterface;
-
-    public static void initIAPLog(IAPDependencies dependencies) {
-        sAppLoggingInterface = dependencies.getAppInfra().getLogging().
-                createInstanceForComponent(IAPAnalyticsConstant.COMPONENT_NAME, BuildConfig.VERSION_NAME);
-        enableLogging(true);
-    }
 
     public static void enableLogging(boolean enableLog) {
         isLoggingEnabled = enableLog;

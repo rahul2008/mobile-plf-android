@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
 import android.os.Message;
+import android.preference.PreferenceManager;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
@@ -193,7 +194,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, "en_US");
+        Utility.addCountryInPreference(PreferenceManager.getDefaultSharedPreferences(mContext), IAPConstant.IAP_COUNTRY_KEY, "en_US");
         mProductCatalogPresenter.getCompleteProductList(this);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest

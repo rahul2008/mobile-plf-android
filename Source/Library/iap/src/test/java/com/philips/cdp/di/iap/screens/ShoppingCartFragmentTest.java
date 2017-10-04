@@ -2,6 +2,8 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
@@ -27,6 +29,7 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -37,6 +40,9 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 public class ShoppingCartFragmentTest {
     private Context mContext;
     ShoppingCartFragment shoppingCartFragment;
+
+    @Mock
+    ShoppingCartAdapter.OutOfStockListener outOfStockListenerMock;
 
     @Mock
     EntriesEntity mockEntriesEntity;
@@ -127,20 +133,24 @@ public class ShoppingCartFragmentTest {
         shoppingCartDataArrayList.add(shoppingCartData);
 
 
-        ShoppingCartAdapter mAdapter = new ShoppingCartAdapter(mContext, shoppingCartDataArrayList, new ShoppingCartAdapter.OutOfStockListener() {
-            @Override
-            public void onOutOfStock(boolean isOutOfStock) {
-
-            }
-        });
-
-
+        ShoppingCartAdapter mAdapter = new ShoppingCartAdapter(mContext, shoppingCartDataArrayList, outOfStockListenerMock );
 
         shoppingCartData.setStockLevel(3);
         mAdapter.setTheProductDataForDisplayingInProductDetailPage(shoppingCartData);
+
+        mAdapter.getItemCount();
+        mAdapter.getItemViewType(0);
+        mAdapter.getItemViewType(1);
+        mAdapter.getQuantityStatusInfo();
+        mAdapter.getNewCount();
+        mAdapter.getSelectedItemPosition();
+//        mAdapter.onCreateViewHolder(any(ViewGroup.class),0);
+       // mAdapter.onBindViewHolder(,0);
+
         shoppingCartFragment.startProductDetailFragment(mAdapter);
 
     }
 
 
+    //ShoppingCartAdapter.
 }

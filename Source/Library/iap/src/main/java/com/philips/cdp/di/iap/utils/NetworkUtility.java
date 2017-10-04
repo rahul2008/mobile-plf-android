@@ -54,26 +54,7 @@ public class NetworkUtility {
         if (!((Activity) context).isFinishing()) {
             showDLSDialog(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager);
         }
-           /* if (mModalAlertDemoFragment == null) {
-                mModalAlertDemoFragment = new ErrorDialogFragment();
-                mModalAlertDemoFragment.setShowsDialog(false);
-            }
 
-            if (mModalAlertDemoFragment.getShowsDialog()) {
-                return;
-            }
-            Bundle bundle = new Bundle();
-            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, pButtonText);
-            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE, pErrorString);
-            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION, pErrorDescription);
-            try {
-                mModalAlertDemoFragment.setArguments(bundle);
-                mModalAlertDemoFragment.show(pFragmentManager, "NetworkErrorDialog");
-                mModalAlertDemoFragment.setShowsDialog(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
@@ -133,13 +114,13 @@ public class NetworkUtility {
         return error;
     }
 
-    private void showDLSDialog(final Context context, String pButtonText, String pErrorString, String pErrorDescription, final FragmentManager pFragmentManager) {
+    void showDLSDialog(final Context context, String pButtonText, String pErrorString, String pErrorDescription, final FragmentManager pFragmentManager) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
                 .setMessage(pErrorDescription).
                         setPositiveButton(pButtonText, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                dismissAlertFragmentDialog(pFragmentManager);
+                                dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
                             }
                         });
 
@@ -150,11 +131,11 @@ public class NetworkUtility {
 
     }
 
-    private void dismissAlertFragmentDialog(FragmentManager fragmentManager) {
+    void dismissAlertFragmentDialog(AlertDialogFragment alertDialogFragment,FragmentManager fragmentManager) {
         if (alertDialogFragment != null) {
             alertDialogFragment.dismiss();
         } else {
-            final AlertDialogFragment alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
+            alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
             alertDialogFragment.dismiss();
         }
     }

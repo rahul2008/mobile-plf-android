@@ -346,7 +346,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             public void onClick(final View v) {
                 // final ShoppingCartData data = mData.get(position);
 
-                CountDropDown countPopUp = new CountDropDown(v, stockLevel, quantity, new CountDropDown.CountUpdateListener() {
+                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), stockLevel, quantity, new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
                         // mSelectedItemPosition = position;
@@ -355,6 +355,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         EventHelper.getInstance().notifyEventOccurred(IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
+                countPopUp.createPopUp();
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
