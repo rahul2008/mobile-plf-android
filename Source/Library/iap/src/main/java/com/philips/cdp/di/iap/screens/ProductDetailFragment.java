@@ -429,15 +429,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void buyFromRetailers(ArrayList<StoreEntity> storeEntities) {
         if (!isNetworkConnected()) return;
         Bundle bundle = new Bundle();
-        if (storeEntities.size() == 1 && (storeEntities.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
+        final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
+        if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
             addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG);
         } else {
-            final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
+
             bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST));
             bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, removedBlacklistedRetailers);
-            if (removedBlacklistedRetailers.size() == 0) {
+            if (removedBlacklistedRetailers.isEmpty()) {
                 onRetailerError(NetworkUtility.getInstance().
                         createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
             } else {
@@ -664,12 +665,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         dismissProgressDialog();
 
 
-        if (data!=null && data.get(0) instanceof ShoppingCartData) {
+        if (data != null && data.get(0) instanceof ShoppingCartData) {
 
             final ShoppingCartData shoppingCartData = getShoppingCartDataFromCTN(data);
-            if(shoppingCartData!=null){
+            if (shoppingCartData != null) {
                 mQuantity.setText(shoppingCartData.getQuantity() + "");
-            }else{
+            } else {
                 getFragmentManager().popBackStack();
             }
 
@@ -684,9 +685,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         final String lCtn = mBundle.getString(IAPConstant.PRODUCT_CTN);
 
-        for(ShoppingCartData shoppingCartData:(ArrayList<ShoppingCartData>)data){
+        for (ShoppingCartData shoppingCartData : (ArrayList<ShoppingCartData>) data) {
 
-            if(shoppingCartData.getCtnNumber().equalsIgnoreCase(lCtn))return shoppingCartData;
+            if (shoppingCartData.getCtnNumber().equalsIgnoreCase(lCtn)) return shoppingCartData;
         }
 
         return null;
@@ -731,7 +732,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
                 mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
             }
-        }else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
             if (!isProgressDialogShowing()) {
                 showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
                 ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
