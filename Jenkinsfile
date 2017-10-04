@@ -62,7 +62,6 @@ node('Android') {
 
 //                    sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
 //                    archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
-                  // archiveArtifacts '**/dependencies.lock'
 
                 }
             //}
