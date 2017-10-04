@@ -7,7 +7,8 @@ package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
@@ -43,15 +44,17 @@ public class EWSActivity extends UiKitActivity {
 
     EWSComponent ewsComponent;
 
-    private Navigator navigator;
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO Do something about this onCreate()
         HashMap map = new HashMap<String, String>();
         map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
         EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), DiscoveryManager.getInstance(),map);
         setContentView(R.layout.ews_activity_main);
+
+        setUpToolBar();
+
         ewsComponent = DaggerEWSComponent.
                 builder().
                 eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager())).build();
@@ -61,8 +64,19 @@ public class EWSActivity extends UiKitActivity {
 
         EWSTagger.collectLifecycleInfo(this);
 
-        navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()));
+        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()));
         navigator.navigateToGettingStartedScreen();
+    }
+
+    private void setUpToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.ews_toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
     }
 
     @Override
@@ -89,10 +103,6 @@ public class EWSActivity extends UiKitActivity {
 //        if (!screenFlowController.onBackPressed()) {
             super.onBackPressed();
 //        }
-    }
-
-    public Fragment getRootFragment() {
-        return Fragment.instantiate(this, EWSGettingStartedFragment.class.getName());
     }
 
     @NonNull
