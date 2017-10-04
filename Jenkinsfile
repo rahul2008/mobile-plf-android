@@ -21,7 +21,9 @@ node('Android') {
 
 //            Slack.notify('#conartists') {
                 stage('Build') {
-                    sh "$gradle generateJavadocPublicApi saveResDep assembleDebug"
+                    def libgradle = "cd Source/Library/ && ./gradlew -u :ews:assembleDebug"
+                    def demoapp = "cd Source/Library/ && ./gradlew -u :demoapplication:assembleDebug"
+
                 }
 
 //                stage("Gather reports") {
@@ -53,9 +55,7 @@ node('Android') {
 //                    }
 //                }
                 
-                def libgradle = "cd Source/Library/ && ./gradlew -u :ews:assembleDebug"
-                def demoapp = "cd Source/Library/ && ./gradlew -u :demoapplication:assembleDebug"
-
+            
                 stage('Archive results') {
                     archiveArtifacts artifacts: Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                     archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
