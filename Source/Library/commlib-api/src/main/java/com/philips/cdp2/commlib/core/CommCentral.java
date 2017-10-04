@@ -35,7 +35,7 @@ import static java.util.Objects.requireNonNull;
 public final class CommCentral {
     private static final String TAG = "CommCentral";
 
-    private static WeakReference<CommCentral> REFERENCE = new WeakReference<>(null);
+    private static WeakReference<CommCentral> instanceWeakReference = new WeakReference<>(null);
 
     private static final AppIdProvider APP_ID_PROVIDER = new AppIdProvider();
 
@@ -64,8 +64,8 @@ public final class CommCentral {
      *                          provide {@link DiscoveryStrategy}s. You will need at least one!
      */
     public CommCentral(@NonNull ApplianceFactory applianceFactory, @Nullable ApplianceDatabase applianceDatabase, @NonNull final TransportContext... transportContexts) {
-        if (REFERENCE.get() == null) {
-            REFERENCE = new WeakReference<>(this);
+        if (instanceWeakReference.get() == null) {
+            instanceWeakReference = new WeakReference<>(this);
         } else {
             throw new UnsupportedOperationException("Only one instance allowed.");
         }

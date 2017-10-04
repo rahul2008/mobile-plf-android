@@ -120,7 +120,7 @@ public class BleDiscoveryStrategyTestSteps {
 
     @After
     public void tearDown() {
-        Whitebox.setInternalState(CommCentral.class, "REFERENCE", new WeakReference<CommCentral>(null));
+        Whitebox.setInternalState(CommCentral.class, "instanceWeakReference", new WeakReference<CommCentral>(null));
     }
 
     @Given("^a BlueLib mock$")

@@ -19,7 +19,6 @@ import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
@@ -37,7 +36,7 @@ public class BleTransportContext implements TransportContext<BleTransportContext
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
-    private Set<Availability.AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
+    private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private boolean isAvailable;
 

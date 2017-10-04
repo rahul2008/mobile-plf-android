@@ -20,15 +20,14 @@ import static com.philips.platform.appinfra.appidentity.AppIdentityInterface.App
 @SuppressWarnings("unchecked")
 public class RuntimeConfiguration {
 
-    private Context context;
-
-    public static final String CONFIG_PROPERTY_APPINFRA = "appinfra";
-
-    public static final String CONFIG_KEY_LOG_CONFIG_DEBUG = "logging.debugConfig";
-    public static final String CONFIG_KEY_LOG_CONFIG_RELEASE = "logging.releaseConfig";
-    public static final String CONFIG_KEY_CONSOLE_LOG_ENABLED = "consoleLogEnabled";
+    private static final String CONFIG_PROPERTY_APPINFRA = "appinfra";
+    private static final String CONFIG_KEY_LOG_DEBUG = "logging.debugConfig";
+    private static final String CONFIG_KEY_LOG_RELEASE = "logging.releaseConfig";
+    private static final String CONFIG_KEY_CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
     private AppInfraInterface appInfraInterface;
+
+    private Context context;
 
     public RuntimeConfiguration(final @NonNull Context context, final @Nullable AppInfraInterface appInfra) {
         this.context = context;
@@ -44,7 +43,7 @@ public class RuntimeConfiguration {
         boolean isAppInfraStateProduction = appInfraInterface.getAppIdentity().getAppState() == PRODUCTION;
         boolean isAppInfraUsingConsoleLog = true;
 
-        final String logConfigKey = BuildConfig.DEBUG ? CONFIG_KEY_LOG_CONFIG_DEBUG : CONFIG_KEY_LOG_CONFIG_RELEASE;
+        final String logConfigKey = BuildConfig.DEBUG ? CONFIG_KEY_LOG_DEBUG : CONFIG_KEY_LOG_RELEASE;
         final AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
         final Map<String, Object> appInfraLogConfig = (Map<String, Object>) appInfraInterface.getConfigInterface().getPropertyForKey(logConfigKey, CONFIG_PROPERTY_APPINFRA, configurationError);
 
