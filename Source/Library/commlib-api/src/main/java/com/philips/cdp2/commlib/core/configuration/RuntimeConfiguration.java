@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.core.configuration;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.commlib_api.BuildConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -23,7 +24,9 @@ public class RuntimeConfiguration {
     private static final String CONFIG_PROPERTY_APPINFRA = "appinfra";
     private static final String CONFIG_KEY_LOG_DEBUG = "logging.debugConfig";
     private static final String CONFIG_KEY_LOG_RELEASE = "logging.releaseConfig";
-    private static final String CONFIG_KEY_CONSOLE_LOG_ENABLED = "consoleLogEnabled";
+
+    @VisibleForTesting
+    static final String CONFIG_KEY_CONSOLE_LOG_ENABLED = "consoleLogEnabled";
 
     private AppInfraInterface appInfraInterface;
 
