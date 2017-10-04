@@ -28,7 +28,7 @@ import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,7 +73,6 @@ public class THSInsuranceDetailFragmentTest {
 
     @Mock
     Relationship relationshipMock;
-
 
 
     @Mock
@@ -134,6 +133,13 @@ public class THSInsuranceDetailFragmentTest {
 
     }
 
+    @Mock
+    AppInfraInterface appInfraInterface;
+
+    @Mock
+    AppTaggingInterface appTaggingInterface;
+
+
     @Test
     public void onDOBClick() throws Exception {
         SupportFragmentTestUtil.startFragment(thsInsuranceDetailFragment);
@@ -164,13 +170,32 @@ public class THSInsuranceDetailFragmentTest {
         assertTrue(viewById.performClick());
     }
 
-    
+    @Test
+    public void onSkipClick() throws Exception {
+        SupportFragmentTestUtil.startFragment(thsInsuranceDetailFragment);
+        thsInsuranceDetailFragment.mPresenter = THSInsuranceDetailPresenterMock;
+        thsInsuranceDetailFragment.setFragmentLauncher(fragmentLauncherMock);
 
-    @Mock
-    AppInfraInterface appInfraInterface;
+        final View viewById = thsInsuranceDetailFragment.getView().findViewById(R.id.ths_insurance_detail_skip_button);
+        assertTrue(viewById.performClick());
+        verify(THSInsuranceDetailPresenterMock, atLeastOnce()).onEvent(R.id.ths_insurance_detail_skip_button);
+    }
 
-    @Mock
-    AppTaggingInterface appTaggingInterface;
+    @Test
+    public void onContinueClick() throws Exception {
+        SupportFragmentTestUtil.startFragment(thsInsuranceDetailFragment);
+        thsInsuranceDetailFragment.mPresenter = THSInsuranceDetailPresenterMock;
+        thsInsuranceDetailFragment.setFragmentLauncher(fragmentLauncherMock);
+
+        thsInsuranceDetailFragment.mTHSRelationshipList.getRelationShipList().add(relationshipMock);
+        final View viewById = thsInsuranceDetailFragment.getView().findViewById(R.id.ths_insurance_detail_continue_button);
+        assertTrue(viewById.performClick());
+
+        thsInsuranceDetailFragment.mInsuranceRelationship = relationshipMock;
+        thsInsuranceDetailFragment.mNotPrimarySubscriberCheckBox.setChecked(true);
+        final View viewById1 = thsInsuranceDetailFragment.getView().findViewById(R.id.ths_insurance_detail_continue_button);
+        assertTrue(viewById1.performClick());
+    }
 
 
     @Test

@@ -117,7 +117,7 @@ public class THSInsuranceConfirmationPresenterTest {
             mMethod.setAccessible(true);
             mMethod.invoke(thsInsuranceConfirmationPresenter,thsInsuranceConfirmationPresenter.getSubscriptionUpdateRequestWithoutVistContext());
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            Assert.fail();
         }
 
     }
