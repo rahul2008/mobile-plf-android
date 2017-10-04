@@ -14,7 +14,7 @@ node('Android') {
 
 //            Slack = load 'Source/common/jenkins/Slack.groovy'
 //            Pipeline = load 'Source/common/jenkins/Pipeline.groovy'
-            def gradle = 'cd Source/Library/ && ./gradlew -PenvCode=${JENKINS_ENV}'
+              def gradle = 'cd Source/Library/demooapplication && ./gradlew assembleDebug'
 
             //def cucumber_path = 'Source/Library/build/cucumber-reports'
             //def cucumber_filename = 'cucumber-report-android-commlib.json'
@@ -52,6 +52,9 @@ node('Android') {
 //                        sh "cd Source && ./gradlew -u :commlib-demouapp:generatePomFileForAarPublication :commlib-demouapp:artifactoryPublish"
 //                    }
 //                }
+                
+                def libgradle = "cd Source/Library/ews/ && ./gradlew -p ews assembleDebug"
+                def demoapp = "cd Source/Library/demoapplication/ && ./gradlew -p demoapplication assembleDebug"
 
                 stage('Archive results') {
                     archiveArtifacts artifacts: Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
