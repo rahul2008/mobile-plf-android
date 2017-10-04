@@ -19,12 +19,10 @@ import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,11 +39,11 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
 
     static final int APPLIANCE_PAIR_TIME_OUT = 60000;
 
-    private final ApplianceSessionDetailsInfo sessionDetailsInfo;
-    private final WiFiUtil wiFiUtil;
-    private final EventBus eventBus;
-    private final ScreenFlowController screenFlowController;
-    private final ConnectionEstablishDialogFragment connectingDialog;
+    @NonNull private final ApplianceSessionDetailsInfo sessionDetailsInfo;
+    @NonNull private final WiFiUtil wiFiUtil;
+    @NonNull private final EventBus eventBus;
+    @NonNull private final Navigator navigator;
+    @NonNull private final ConnectionEstablishDialogFragment connectingDialog;
 
     public ObservableField<String> password;
     private Fragment fragment;
@@ -61,13 +59,13 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     public EWSWiFiConnectViewModel(@NonNull final WiFiUtil wiFiUtil,
                                    @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
                                    @NonNull @Named("ews.event.bus") final EventBus eventBus,
-                                   @NonNull final ScreenFlowController screenFlowController,
+                                   @NonNull final Navigator navigator,
                                    @NonNull final ConnectionEstablishDialogFragment connectingDialog,
                                    @NonNull final Handler handler) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.eventBus = eventBus;
-        this.screenFlowController = screenFlowController;
+        this.navigator = navigator;
         this.connectingDialog = connectingDialog;
         this.handler = handler;
         this.password = new ObservableField<>("");
@@ -112,7 +110,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
         dismissDialog();
         removeTimeoutRunnable();
         EWSCallbackNotifier.getInstance().onApplianceDiscovered(sessionDetailsInfo.getCppId());
-        screenFlowController.showFragment(new EWSWiFiPairedFragment());
+        navigator.navigateToPairingSuccessScreen();
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -124,7 +122,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     private void showConnectionUnsuccessful() {
         dismissDialog();
         removeTimeoutRunnable();
-        screenFlowController.showFragment(new TroubleshootConnectionUnsuccessfulFragment());
+//        screenFlowController.showFragment(new TroubleshootConnectionUnsuccessfulFragment());
     }
 
     protected void dismissDialog() {

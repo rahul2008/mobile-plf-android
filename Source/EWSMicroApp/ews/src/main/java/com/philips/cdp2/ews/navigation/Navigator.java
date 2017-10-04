@@ -8,6 +8,7 @@ import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
+import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 
 public class Navigator {
 
@@ -35,6 +36,10 @@ public class Navigator {
 
     public void navigateToConnectToDeviceWithPasswordScreen() {
         fragmentNavigator.push(new EWSWiFiConnectFragment(), R.id.contentFrame);
+    }
+
+    public void navigateToPairingSuccessScreen() {
+        fragmentNavigator.push(new EWSWiFiPairedFragment(), R.id.contentFrame);
     }
 
 }

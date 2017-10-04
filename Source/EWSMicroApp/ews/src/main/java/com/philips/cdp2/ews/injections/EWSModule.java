@@ -120,10 +120,10 @@ public class EWSModule {
     EWSWiFiConnectViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
                                                          @NonNull final ApplianceSessionDetailsInfo sessionInfo,
                                                          @NonNull final @Named("ews.event.bus") EventBus eventBus,
-                                                         @NonNull final ScreenFlowController screenFlowController) {
+                                                         @NonNull final Navigator navigator) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, eventBus, screenFlowController,
+        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, eventBus, navigator,
                 dialogFragment, new Handler(context.getMainLooper()));
     }
 
