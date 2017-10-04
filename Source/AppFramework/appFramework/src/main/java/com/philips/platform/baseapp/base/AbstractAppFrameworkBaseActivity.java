@@ -130,6 +130,8 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     public abstract void updateActionBarIcon(boolean b);
 
+    public abstract void setToolBarTitle(String title);
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {

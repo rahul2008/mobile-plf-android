@@ -7,8 +7,6 @@ package com.philips.platform.baseapp.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.TextView;
-
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -19,8 +17,6 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
     private static final String TAG = AbstractAppFrameworkBaseFragment.class.getName();
 
     protected AbstractUIBasePresenter fragmentPresenter;
-
-    private TextView actionBarTitle = null;
 
     public abstract String getActionbarTitle();
 
@@ -34,7 +30,7 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
     public void onResume() {
          RALog.d(TAG," onResume called");
          super.onResume();
-        setActionbarTitle();
+         setActionbarTitle();
     }
 
     /**
@@ -43,18 +39,8 @@ public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
      */
     private void setActionbarTitle() {
         RALog.d(TAG," setActionbarTitle called");
-
-        if (actionBarTitle == null) {
-            actionBarTitle = (TextView) getActivity().findViewById(R.id.af_actionbar_title);
-        }
-        String titleText = null;
-        if (getActionbarTitle() == null) {
-            titleText = getResources().getString(R.string.af_app_name);
-        } else {
-            titleText = getActionbarTitle();
-        }
-        if (actionBarTitle != null)
-            actionBarTitle.setText(titleText);
+        String titleText = getActionbarTitle() != null ? getActionbarTitle() : getResources().getString(R.string.af_app_name);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).setToolBarTitle(titleText);
     }
 
     protected void startAppTagging(String pageName) {
