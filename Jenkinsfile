@@ -53,8 +53,8 @@ node('Android') {
 //                    }
 //                }
                 
-                def libgradle = "cd Source/Library/ews/ && ./gradlew -u :ews:assembleDebug"
-                def demoapp = "cd Source/Library/demoapplication/ && ./gradlew -u :demoapplication:assembleDebug"
+                def libgradle = "cd Source/Library/ && ./gradlew -u :ews:assembleDebug"
+                def demoapp = "cd Source/Library/ && ./gradlew -u :demoapplication:assembleDebug"
 
                 stage('Archive results') {
                     archiveArtifacts artifacts: Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
