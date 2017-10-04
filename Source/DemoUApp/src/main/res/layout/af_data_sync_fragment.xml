@@ -8,20 +8,20 @@
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_set_characteristics"
+        android:layout_alignStart="@+id/delete_moments"
         android:layout_gravity="end"
         android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
-        android:layout_alignBottom="@+id/tv_set_characteristics"
-        android:layout_alignStart="@+id/delete_moments" />
+        android:src="@android:drawable/ic_input_add" />
 
     <ImageButton
         android:id="@+id/delete_moments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_logout"
+        android:layout_alignEnd="@+id/timeline"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_delete"
-        android:layout_alignBottom="@+id/tv_insights"
-        android:layout_alignEnd="@+id/timeline" />
+        android:src="@android:drawable/ic_menu_delete" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/timeline"
@@ -46,7 +46,7 @@
         android:id="@+id/tv_set_consents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_insights"
+        android:layout_above="@+id/tv_logout"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/consent"
@@ -74,18 +74,18 @@
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/tv_logout"
+        android:id="@+id/tv_insights"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_settings"
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:text="@string/logout"
+        android:text="@string/insights"
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/tv_insights"
+        android:id="@+id/tv_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -93,7 +93,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:text="@string/insights"
+        android:text="@string/logout"
         android:textSize="20dp" />
 
 </RelativeLayout>

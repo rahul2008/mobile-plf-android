@@ -167,7 +167,6 @@ public class MomentsSegregator {
                 dbSavingInterface.saveMoment(moment, dbRequestListener);
             } catch (SQLException e) {
                 updatingInterface.updateFailed(e, dbRequestListener);
-                //Debug Log
             }
         }
     }

@@ -36,6 +36,7 @@ import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
 import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -239,6 +240,12 @@ public class DataServicesManagerTest {
     public void ShouldPostFetchEvent_WhenFetchIsCalled() throws Exception {
         tracker.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
+    }
+
+    @Test
+    public void ShouldPostFetchLatestEvent_WhenFetchIsCalled() throws Exception {
+        tracker.fetchLatestMomentWithType(MomentType.TEMPERATURE, dbFetchRequestListner);
+        verify(eventingMock).post(any(LoadLastMomentRequest.class));
     }
 
     @Test

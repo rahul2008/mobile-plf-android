@@ -1,8 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.database;
 
 import com.philips.platform.core.datatypes.Characteristics;
@@ -13,7 +13,6 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.dscdemo.database.table.BaseAppDateTime;
 import com.philips.platform.dscdemo.database.table.OrmCharacteristics;
 import com.philips.platform.dscdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
@@ -24,25 +23,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ORMSavingInterfaceImpl implements DBSavingInterface {
-
-    private static final String TAG = ORMSavingInterfaceImpl.class.getSimpleName();
     private final OrmSaving saving;
     private final OrmUpdating updating;
-    private OrmFetchingInterfaceImpl fetching;
     private OrmDeleting deleting;
     private NotifyDBRequestListener notifyDBRequestListener;
 
-    public ORMSavingInterfaceImpl(OrmSaving saving, OrmUpdating updating, final OrmFetchingInterfaceImpl fetching, final OrmDeleting deleting, final BaseAppDateTime baseAppDateTime) {
+    public ORMSavingInterfaceImpl(OrmSaving saving, OrmUpdating updating, final OrmDeleting deleting) {
         this.saving = saving;
         this.updating = updating;
-        this.fetching = fetching;
         this.deleting = deleting;
         notifyDBRequestListener = new NotifyDBRequestListener();
     }
 
+    //Moments
     @Override
     public boolean saveMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-        OrmMoment ormMoment = null;
+        OrmMoment ormMoment;
         try {
             ormMoment = OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
             saving.saveMoment(ormMoment);
@@ -63,15 +59,13 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
     @Override
     public boolean saveMoments(final List<Moment> moments, final DBRequestListener<Moment> dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveMoments(moments, dbRequestListener);
-        ///notifyDBRequestListener.notifyDBChange(SyncType.MOMENT);
         notifyDBRequestListener.notifyMomentsSaveSuccess(moments, dbRequestListener);
         return isSaved;
     }
 
-
+    //Consents
     @Override
     public boolean saveConsentDetails(List<ConsentDetail> consentDetails, DBRequestListener<ConsentDetail> dbRequestListener) throws SQLException {
-
         deleting.deleteAllConsentDetails();
 
         for (ConsentDetail consentDetail : consentDetails) {
@@ -85,12 +79,11 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
         notifyDBRequestListener.notifySuccess(consentDetails, dbRequestListener, SyncType.CONSENT);
         return true;
-
     }
 
+    //User Characteristics
     @Override
     public boolean saveUserCharacteristics(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
-
         try {
             for (Characteristics characteristics : characteristicsList) {
                 OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
@@ -104,22 +97,6 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
     }
 
-    @Override
-    public boolean saveSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException {
-
-        try {
-            deleting.deleteSettings();
-            OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
-            saving.saveSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CONSENT);
-            return true;
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
-            return false;
-        }
-
-    }
-
     private void updateUCUI(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) {
         if (dbRequestListener == null) {
             return;
@@ -131,11 +108,22 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         }
     }
 
+    //Settings
     @Override
-    public void postError(Exception e, DBRequestListener dbRequestListener) {
-        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
+    public boolean saveSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException {
+        try {
+            deleting.deleteSettings();
+            OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
+            saving.saveSettings(ormSettings);
+            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CONSENT);
+            return true;
+        } catch (OrmTypeChecking.OrmTypeException e) {
+            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "OrmType check failed");
+            return false;
+        }
     }
 
+    //Insights
     @Override
     public boolean saveInsights(List<Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
         boolean isSaved = saving.saveInsights(insights, dbRequestListener);
@@ -143,9 +131,16 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
         return isSaved;
     }
 
+    //Sync
     @Override
     public boolean saveSyncBit(SyncType type, boolean isSynced) throws SQLException {
         saving.saveSyncBit(type, isSynced);
         return true;
+    }
+
+    //Post Error
+    @Override
+    public void postError(Exception e, DBRequestListener dbRequestListener) {
+        notifyDBRequestListener.notifyFailure(e, dbRequestListener);
     }
 }
