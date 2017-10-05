@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">產品資訊</string>
     <string name="iap_zero_results_found"> 找到 0 個結果：%s</string>
     <string name="iap_zero_results_message"> 這會對我們的產品清單進行篩選。請檢查確認篩選詞彙沒有錯字</string>
+    <string name="iap_search_box_hint">搜尋</string>
 </resources>

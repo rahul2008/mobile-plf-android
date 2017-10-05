@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Detalhes do produto</string>
     <string name="iap_zero_results_found"> 0 resultados encontrados para %s</string>
     <string name="iap_zero_results_message"> Isto filtra a nossa lista de produtos. Confirme que não existem erros no termo que introduziu como filtro</string>
+    <string name="iap_search_box_hint">Pesquisar</string>
 </resources>

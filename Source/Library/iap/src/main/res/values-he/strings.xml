@@ -209,4 +209,5 @@
     <string name="iap_select_delivery">בחר את אמצעי המשלוח שלך להזמנה זו:</string>
     <string name="iap_product_detail_title"> פרטי המוצר</string>
     <string name="iap_zero_results_found"> נמצאו 0 תוצאות עבור </string>
+    <string name="iap_search_box_hint">תפריט הבית, חיפוש</string>
 </resources>

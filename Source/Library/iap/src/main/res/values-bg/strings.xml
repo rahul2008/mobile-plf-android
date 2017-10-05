@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Данни за продукта</string>
     <string name="iap_zero_results_found"> Открити са 0 резултата за %s</string>
     <string name="iap_zero_results_message">Така се филтрира нашият продуктов списък. Моля, проверете дали няма правописна грешка в термина, който сте задали за филтриране</string>
+    <string name="iap_search_box_hint">Търсене</string>
 </resources>

@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Detalii produs</string>
     <string name="iap_zero_results_found"> Niciun rezultat găsit pentru %s</string>
     <string name="iap_zero_results_message"> Aceasta ne filtrează lista de produse. Verifică dacă nu sunt greşeli de ortografie în termenul de filtrare</string>
+    <string name="iap_search_box_hint">Căutare</string>
 </resources>

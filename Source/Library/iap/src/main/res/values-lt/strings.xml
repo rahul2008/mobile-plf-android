@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title"> Gaminio duomenys</string>
     <string name="iap_zero_results_found">Rasta 0 rezultatų pagal užklausą %s</string>
     <string name="iap_zero_results_message"> Tai yra mūsų produktų sąrašo filtras. Patikrinkite, ar filtravimui skirtame termine nėra spausdinimo klaidų</string>
+    <string name="iap_search_box_hint">Paieška</string>
 </resources>

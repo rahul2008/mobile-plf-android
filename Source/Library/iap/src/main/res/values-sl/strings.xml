@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Podrobnosti izdelka</string>
     <string name="iap_zero_results_found"> 0 rezultatov za %s</string>
     <string name="iap_zero_results_message"> S tem boste filtrirali naš seznam izdelkov. Zagotovite, da v izrazu za filtriranje ni napak</string>
+    <string name="iap_search_box_hint">Iskanje</string>
 </resources>

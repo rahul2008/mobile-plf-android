@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Chi tiết sản phẩm</string>
     <string name="iap_zero_results_found"> Tìm thấy 0 kết quả cho %s</string>
     <string name="iap_zero_results_message"> Từ khóa này sẽ lọc danh sách sản phẩm của chúng tôi. Vui lòng kiểm tra để đảm bảo không có lỗi chính tả nào trong từ khóa lọc của bạn</string>
+    <string name="iap_search_box_hint">Tìm kiếm</string>
 </resources>

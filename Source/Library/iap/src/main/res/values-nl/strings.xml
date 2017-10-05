@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Productgegevens</string>
     <string name="iap_zero_results_found"> 0 resultaten gevonden voor %s</string>
     <string name="iap_zero_results_message"> Hiermee wordt de productlijst gefilterd. Controleer of u geen typefouten hebt gemaakt</string>
+    <string name="iap_search_box_hint">Zoeken</string>
 </resources>

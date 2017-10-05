@@ -210,4 +210,5 @@
     <string name="iap_product_detail_title">Ürün detayları</string>
     <string name="iap_zero_results_found"> Şunun için 0 sonuç bulundu: %s</string>
     <string name="iap_zero_results_message"> Bu, ürün listemizi filtreler. Lütfen filtre teriminizde yazım hatası olmamasına dikkat edin</string>
+    <string name="iap_search_box_hint">Ara</string>
 </resources>
