@@ -7,5 +7,5 @@ package com.philips.cdp2.commlib.lan.subscription;
 
 public interface UdpEventListener {
 	
-	void onUDPEventReceived(String data, String fromIp) ;
+	void onUDPEventReceived(String data, String fromIp);
 }
