@@ -1,4 +1,4 @@
-package mya.platform.philips.com.myaccount;
+package com.philips.platform.mya;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

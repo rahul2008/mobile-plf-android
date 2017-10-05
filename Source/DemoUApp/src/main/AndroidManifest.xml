@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="philip.com.demouapp">
+    package="com.philips.platform.mya.demouapp">
 
     <application android:allowBackup="true" android:label="@string/app_name"
         android:supportsRtl="true">

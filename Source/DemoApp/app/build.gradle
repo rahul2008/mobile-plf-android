@@ -120,7 +120,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "com.philips.cdp.di.iapdemo"
+        applicationId "com.philips.platform.mya"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         minSdkVersion 21
         targetSdkVersion 25
@@ -184,12 +184,12 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.di.iapdemo'
+            applicationId 'com.philips.platform.mya'
             versionCode 2
             versionName "0.17.8"
         }
         device {
-            applicationId 'com.philips.cdp.di.iapdemo'
+            applicationId 'com.philips.platform.mya'
             versionCode 2
             versionName "0.17.8"
         }
