@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -28,22 +27,19 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.when;
 
-@PrepareForTest(UdpReceivingThread.class)
 public class UdpReceivingThreadTest extends RobolectricTest {
 
     private static final String UDP_PAYLOAD = "Wh9uPTclcEMwlUBOMKvssNieG3ZCthAZKubKkZEqR6LkWJspvLVgE0YMIiqvJF4cbitBrfJGa8U4AdzgND97YeW1NMvpxG1zrva+uK1xtTPvwiPieSlrdlTxoE5RCVDfVx16k++O66GxvgN62feOjYCgEpntVwZqtHGxjdyOh4TIbEJXvPuplQ/k5KgJdQxVjgWYKNEbRfAO8Io1RdEcljMlkR098t38KkXasiQcyXN/CDbk/23jX9Uet8ySrZy6VA9fkjDeH/9H9bXUPTRYhq1426MHugCL5e7W5onxOlY=";
-    private static final String UDP_DATA =
-            "PUT /di/v1/products/1/air HTTP/1.1\n" +
+    private static final String UDP_HEADERS =
             "Accept-Encoding: identity\n" +
             "Host: 192.168.1.255:8080\n" +
             "Content-Type: application/octet-stream\n" +
             "Content-Transfer-Encoding: base64\n" +
             "Content-Length: 300\n" +
             "x-di-udp-count:          0\n" +
-            "\n" +
-            UDP_PAYLOAD;
+            "\n";
     private static final String SENDER_ADDRESS = "127.0.0.1";
 
     @Mock
@@ -67,7 +63,8 @@ public class UdpReceivingThreadTest extends RobolectricTest {
 
     @Test
     public void givenThreadSetUp_whenValidUdpPacketReceived_thenShouldCallListener() throws Exception {
-        createObjectUnderTest(UDP_DATA, socketMock, SENDER_ADDRESS);
+        String udpData = generateTestUrl("PUT", "/di/v1/products/1/air", UDP_PAYLOAD);
+        createObjectUnderTest(udpData, socketMock, SENDER_ADDRESS);
 
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiMock);
@@ -105,6 +102,26 @@ public class UdpReceivingThreadTest extends RobolectricTest {
         thread.receiveDatagram();
 
         verifyNoMoreInteractions(eventListenerMock);
+    }
+
+    @Test
+    public void givenThreadSetUp_whenNestedPortInUrlOfUdpPacket_thenShouldCallListener() throws Exception {
+        String udpData = generateTestUrl("PUT", "/di/v1/products/1/schedule/1", UDP_PAYLOAD);
+        createObjectUnderTest(udpData, socketMock, SENDER_ADDRESS);
+
+        when(contextMock.getApplicationContext()).thenReturn(contextMock);
+        when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiMock);
+        when(wifiMock.createMulticastLock(anyString())).thenReturn(lockMock);
+        mockSocketReceive();
+
+        thread.receiveDatagram();
+
+        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, SENDER_ADDRESS);
+    }
+
+    private String generateTestUrl(String method, String url, String payload) {
+        return method.toUpperCase() + " " + url + " HTTP/1.1\n" +
+            UDP_HEADERS + payload;
     }
 
     private void mockSocketReceive() throws IOException {
