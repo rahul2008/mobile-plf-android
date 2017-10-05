@@ -32,13 +32,16 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.powermock.reflect.Whitebox;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -113,6 +116,11 @@ public class BleDiscoveryStrategyTestSteps {
                 return null;
             }
         });
+    }
+
+    @After
+    public void tearDown() {
+        Whitebox.setInternalState(CommCentral.class, "instanceWeakReference", new WeakReference<CommCentral>(null));
     }
 
     @Given("^a BlueLib mock$")

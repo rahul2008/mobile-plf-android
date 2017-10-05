@@ -193,6 +193,9 @@ dependencies {
     } else {
         testCompile("$group:commlib-testutils:$versions.cml_commlib$suffix") { changing = true }
     }
+
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: versions.ail_appInfra + objcdp.getVersionSuffix())
+
     testCompile deps.assertj
     testCompile deps.junit
     testCompile deps.mockito
