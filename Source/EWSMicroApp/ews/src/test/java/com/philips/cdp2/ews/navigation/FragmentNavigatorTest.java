@@ -14,6 +14,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -46,5 +47,13 @@ public class FragmentNavigatorTest {
         inOrder.verify(mockFragmentTransaction).replace(containerId, mockFragment);
         inOrder.verify(mockFragmentTransaction).addToBackStack("android.support.v4.app.Fragment");
         inOrder.verify(mockFragmentTransaction).commit();
+    }
+
+    @Test
+    public void itShouldPopFragmentImmediate() throws Exception {
+        String anyString = "anyString";
+        subject.popToFragment(anyString);
+
+        verify(mockFragmentManager).popBackStackImmediate(anyString, 0);
     }
 }

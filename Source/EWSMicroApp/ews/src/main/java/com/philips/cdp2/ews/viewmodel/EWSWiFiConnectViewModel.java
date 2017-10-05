@@ -122,7 +122,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     private void showConnectionUnsuccessful() {
         dismissDialog();
         removeTimeoutRunnable();
-//        screenFlowController.showFragment(new TroubleshootConnectionUnsuccessfulFragment());
+        navigator.navigateToConnectionUnsuccessfulTroubleShootingScreen();
     }
 
     protected void dismissDialog() {

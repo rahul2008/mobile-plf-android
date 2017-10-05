@@ -24,6 +24,11 @@ import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
 import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
 import com.philips.cdp2.ews.view.dialog.ConnectionUnsuccessfulDialog;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
+import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
+import com.philips.cdp2.ews.viewmodel.ConnectToWrongPhoneTroubleshootingViewModel;
+import com.philips.cdp2.ews.viewmodel.ResetConnectionTroubleshootingViewModel;
+import com.philips.cdp2.ews.viewmodel.ResetDeviceTroubleshootingViewModel;
+import com.philips.cdp2.ews.viewmodel.SetupAccessPointModeTroubleshootingViewModel;
 
 import javax.inject.Singleton;
 
@@ -70,4 +75,14 @@ public interface EWSComponent {
     void inject(ChooseSetupStateFragment chooseSetupStateFragment);
 
     void inject(BlinkingAccessPointFragment blinkingAccessPointFragment);
+
+    ResetConnectionTroubleshootingViewModel resetConnectionTroubleshootingViewModel();
+
+    ResetDeviceTroubleshootingViewModel resetDeviceTroubleshootingViewModel();
+
+    ConnectToWrongPhoneTroubleshootingViewModel connectToWrongPhoneTroubleshootingViewModel();
+
+    SetupAccessPointModeTroubleshootingViewModel setupAccessPointModeTroubleshootingViewModel();
+
+    BaseTroubleShootingViewModel baseTroubleShootingViewModel();
 }

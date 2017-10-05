@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- */
 package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.navigation.Navigator;
@@ -14,9 +10,9 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class EWSDevicePowerOnViewModelTest {
+public class ResetConnectionTroubleshootingViewModelTest {
 
-    @InjectMocks private EWSDevicePowerOnViewModel subject;
+    @InjectMocks private ResetConnectionTroubleshootingViewModel subject;
 
     @Mock private Navigator mockNavigator;
 
@@ -26,16 +22,16 @@ public class EWSDevicePowerOnViewModelTest {
     }
 
     @Test
-    public void shouldShowPressAndFollowSetupScreenWhenYesButtonIsClicked() throws Exception {
+    public void itShouldNavigateToResetDeviceTroubleShootingScreenWhenYesClicked() throws Exception {
         subject.onYesButtonClicked();
 
-        verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
+        verify(mockNavigator).navigateToResetDeviceTroubleShootingScreen();
     }
 
     @Test
-    public void shouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
+    public void itShouldNavigateToConnectToWrongPhoneTroubleShootingScreenWhenNoClicked() throws Exception {
         subject.onNoButtonClicked();
 
-        verify(mockNavigator).navigateToResetConnectionTroubleShootingScreen();
+        verify(mockNavigator).navigateToConnectToWrongPhoneTroubleShootingScreen();
     }
 }

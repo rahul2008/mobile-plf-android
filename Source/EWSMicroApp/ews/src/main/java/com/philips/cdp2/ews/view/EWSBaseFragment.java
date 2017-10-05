@@ -11,11 +11,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,9 +20,8 @@ import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.navigation.ScreenFlowParticipant;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
 
-public abstract class EWSBaseFragment<T extends ViewDataBinding> extends Fragment implements ScreenFlowParticipant {
+public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFragment implements ScreenFlowParticipant {
 
     protected T viewDataBinding;
 
@@ -67,28 +62,6 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends Fragmen
 
     @LayoutRes
     protected abstract int getLayoutId();
-
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(getMenuLayoutId(), menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.skip_setup) {
-            showCancelSetupDialog();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showCancelSetupDialog() {
-        new CancelDialogFragment().show(getChildFragmentManager(), "cancelDialog");
-    }
-
-    protected int getMenuLayoutId() {
-        return R.menu.ews_menu;
-    }
 
     @Override
     public boolean onBackPressed() {

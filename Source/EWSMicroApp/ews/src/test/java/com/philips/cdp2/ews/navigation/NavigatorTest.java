@@ -4,12 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
+import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
+import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
+import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 
 import org.junit.Before;
@@ -19,8 +24,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class NavigatorTest {
@@ -81,6 +91,72 @@ public class NavigatorTest {
         subject.navigateToWifiTroubleShootingScreen();
 
         verifyFragmentPushed(TroubleshootHomeWiFiFragment.class);
+    }
+
+    @Test
+    public void itShouldPushResetDeviceTroubleShootingScreenWhenNavigating() throws Exception {
+        subject.navigateToResetDeviceTroubleShootingScreen();
+
+        verifyFragmentPushed(ResetDeviceTroubleshootingFragment.class);
+    }
+
+    @Test
+    public void itShouldPushConnectToWrongPhoneTroubleShootingScreenWhenNavigating() throws Exception {
+        subject.navigateToConnectToWrongPhoneTroubleShootingScreen();
+
+        verifyFragmentPushed(ConnectToWrongPhoneTroubleshootingFragment.class);
+    }
+
+    @Test
+    public void itShouldPushSetupAccessPointModeScreenWhenNavigating() throws Exception {
+        subject.navigateSetupAccessPointModeScreen();
+
+        verifyFragmentPushed(SetupAccessPointModeTroubleshootingFragment.class);
+    }
+
+    @Test
+    public void itShouldPushConnectionUnsucessfulTroubleShootingScreenWhenNavigating() throws Exception {
+        subject.navigateToConnectionUnsuccessfulTroubleShootingScreen();
+
+        verifyFragmentPushed(TroubleshootConnectionUnsuccessfulFragment.class);
+    }
+
+    @Test
+    public void itShouldOnlyPopResetConnectionScreenWhenAlreadyPresentInStack() throws Exception {
+        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(true);
+
+        subject.navigateToResetConnectionTroubleShootingScreen();
+
+        verify(mockFragmentNavigator).popToFragment(ResetConnectionTroubleshootingFragment.class.getCanonicalName());
+        verify(mockFragmentNavigator, never()).push(any(Fragment.class), anyInt());
+    }
+
+    @Test
+    public void itShouldPushResetConnectionScreenWhenNotPresentInStack() throws Exception {
+        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
+
+        subject.navigateToResetConnectionTroubleShootingScreen();
+
+        verifyFragmentPushed(ResetConnectionTroubleshootingFragment.class);
+    }
+
+    @Test
+    public void itShouldOnlyPopPowerOnScreenWhenAlreadyPresentInStack() throws Exception {
+        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(true);
+
+        subject.navigateToDevicePoweredOnConfirmationScreen();
+
+        verify(mockFragmentNavigator).popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+        verify(mockFragmentNavigator, never()).push(any(Fragment.class), anyInt());
+    }
+
+    @Test
+    public void itShouldPushPowerOnScreenWhenNotPresentInStack() throws Exception {
+        when(mockFragmentNavigator.popToFragment(anyString())).thenReturn(false);
+
+        subject.navigateToDevicePoweredOnConfirmationScreen();
+
+        verifyFragmentPushed(EWSDevicePowerOnFragment.class);
     }
 
     private void verifyFragmentPushed(@NonNull Class clazz) {

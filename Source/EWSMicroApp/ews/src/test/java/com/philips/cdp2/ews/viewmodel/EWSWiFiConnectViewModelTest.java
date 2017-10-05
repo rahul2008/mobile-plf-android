@@ -236,7 +236,7 @@ public class EWSWiFiConnectViewModelTest {
     }
 
     private void verifyConnectionUnsuccessfulScreenIsShown() {
-//        verify(screenFlowControllerMock).showFragment(isA(TroubleshootConnectionUnsuccessfulFragment.class));
+        verify(navigatorMock).navigateToConnectionUnsuccessfulTroubleShootingScreen();
         verify(dialogFragmentMock).dismissAllowingStateLoss();
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }

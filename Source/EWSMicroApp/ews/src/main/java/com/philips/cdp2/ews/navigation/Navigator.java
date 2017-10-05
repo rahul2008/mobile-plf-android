@@ -4,12 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
+import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
+import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
+import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
+import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 
 public class Navigator {
@@ -29,7 +34,10 @@ public class Navigator {
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {
-        pushFragment(new EWSDevicePowerOnFragment());
+        boolean isPresentInStack = fragmentNavigator.popToFragment(EWSDevicePowerOnFragment.class.getCanonicalName());
+        if (!isPresentInStack) {
+            pushFragment(new EWSDevicePowerOnFragment());
+        }
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
@@ -46,6 +54,29 @@ public class Navigator {
 
     public void navigateToWifiTroubleShootingScreen() {
         pushFragment(new TroubleshootHomeWiFiFragment());
+    }
+
+    public void navigateToResetConnectionTroubleShootingScreen() {
+        boolean isPresentInStack = fragmentNavigator.popToFragment(ResetConnectionTroubleshootingFragment.class.getCanonicalName());
+        if (!isPresentInStack) {
+            pushFragment(new ResetConnectionTroubleshootingFragment());
+        }
+    }
+
+    public void navigateToResetDeviceTroubleShootingScreen() {
+        pushFragment(new ResetDeviceTroubleshootingFragment());
+    }
+
+    public void navigateToConnectToWrongPhoneTroubleShootingScreen() {
+        pushFragment(new ConnectToWrongPhoneTroubleshootingFragment());
+    }
+
+    public void navigateSetupAccessPointModeScreen() {
+        pushFragment(new SetupAccessPointModeTroubleshootingFragment());
+    }
+
+    public void navigateToConnectionUnsuccessfulTroubleShootingScreen() {
+        pushFragment(new TroubleshootConnectionUnsuccessfulFragment());
     }
 
     private void pushFragment(@NonNull Fragment fragment) {
