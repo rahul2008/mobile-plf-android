@@ -62,6 +62,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     //shoppingCartLayout;
     //    private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
+    private boolean isBackButtonVisible = false;
     Handler handler = new Handler();
 
    /* private ImageView cartIcon;
@@ -164,6 +165,12 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         adapter.notifyDataSetChanged();
         drawerListView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        UIDHelper.setTitle(this, title);
     }
 
     protected ActionBarDrawerToggle configureDrawer() {
@@ -281,28 +288,19 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     }
 
-    private boolean isBackButtonVisible = false;
+    public String getActionbarTag() {
+        return (String) toolbar.getNavigationContentDescription();
+    }
 
     /**
      * Method for showing the hamburger Icon or Back key on home fragments
      */
-    public void updateActionBarIcon(boolean b)
-    {
-        RALog.d(TAG, " updateActionBarIcon ");
-        if (b) {
-            RALog.d(TAG, " setting back arrow in hamburger menu ");
-            toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.left_arrow, getTheme()));
-            isBackButtonVisible = true;
-        } else {
-            RALog.d(TAG, " setting options in hamburger menu ");
-            toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
-            isBackButtonVisible = false;
-        }
-    }
-
-    @Override
-    public void setToolBarTitle(String title) {
-        UIDHelper.setTitle(this, title);
+    public void updateActionBarIcon(boolean isBackButtonVisible) {
+        RALog.d(TAG, " updateActionBarIcon : " + isBackButtonVisible);
+        int navigationDrawableId = isBackButtonVisible ? R.drawable.left_arrow : R.drawable.ic_hamburger_icon;
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
+        toolbar.setNavigationContentDescription(String.valueOf(navigationDrawableId));
+        this.isBackButtonVisible = isBackButtonVisible;
     }
 
     /*public void cartIconVisibility(boolean shouldShow) {

@@ -65,11 +65,6 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
     }
 
     @Override
-    public void setToolBarTitle(String title) {
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_web_view_activity, menu);

@@ -42,23 +42,22 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.util.ArrayList;
 
 
+
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
-public class TestFragmentTest extends TestCase implements TestConfigManager.TestConfigCallback {
+public class TestFragmentTest extends TestCase implements TestConfigManager.TestConfigCallback{
     private HamburgerActivity hamburgerActivity = null;
     private TestFragment testFragment;
     private ArrayList<Chapter> chapterArrayList;
     private TestConfigManager testConfigManager;
     private ActivityController<TestActivity> activityController;
-
     @After
-    public void tearDown() {
-        testFragment = null;
+    public void tearDown(){
+        testFragment=null;
         activityController.pause().stop().destroy();
     }
-
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception{
         super.setUp();
         setUpChapterList();
 
@@ -66,40 +65,45 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
 
     protected void setUpChapterList() {
         testConfigManager = TestConfigManager.getInstance();
-        activityController = Robolectric.buildActivity(TestActivity.class);
-        hamburgerActivity = activityController.create().start().get();
+        activityController= Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         testFragment = new TestFragment();
-        testConfigManager.loadChapterList(hamburgerActivity, new Handler(), this);
-        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(testFragment, null).commit();
 
 
     }
 
     @Test
-    public void testTestFragment() {
+    public void testTestFragment(){
 
         assertNotNull(testFragment);
     }
 
     @Test
-    public void testDisplayChapterList() {
+    public void testDisplayChapterList(){
+        testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
+        SupportFragmentTestUtil.startFragment(testFragment);
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
-        assertEquals(4, chapterAdapter.getItemCount());
+        assertEquals(4,chapterAdapter.getItemCount());
     }
 
     @Test
-    public void testShowCoCoList() {
+    public void testShowCoCoList(){
+        testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
+
+        fragmentManager.beginTransaction().add(testFragment,"TestCoCoListFragment").commit();
         testFragment.showCoCoList(createChapterObject("Connectivity", "Blue Lib"));
         Fragment fragment = fragmentManager.findFragmentByTag(COCOListFragment.class.getSimpleName());
         assertTrue(fragment instanceof COCOListFragment);
     }
 
     @Test
-    public void testShowCoCoListForAppInfo() {
+    public void testShowCoCoListForAppInfo(){
+        testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(testFragment,"TestCoCoListFragment").commit();
         testFragment.showCoCoList(createChapterObject("App Info", null));
         Fragment fragment = fragmentManager.findFragmentByTag(CocoVersionFragment.class.getSimpleName());
         assertTrue(fragment instanceof CocoVersionFragment);
@@ -107,15 +111,17 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
 
     @Test
     public void testCoCoName() {
+        testConfigManager.loadChapterList(hamburgerActivity,new Handler(),this);
+        SupportFragmentTestUtil.startFragment(testFragment);
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
         ChapterAdapter.ChapterViewHolder viewHolder = chapterAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
-        chapterAdapter.onBindViewHolder(viewHolder, 0);
-        assertEquals("Chapter Mobile", viewHolder.chapterTextView.getText().toString());
+        chapterAdapter.onBindViewHolder(viewHolder,0);
+        assertEquals("Chapter Mobile",viewHolder.chapterTextView.getText().toString());
     }
 
-    protected static Chapter createChapterObject(String chapterName, String cocoName) {
+    protected static  Chapter createChapterObject(String chapterName, String cocoName) {
         CommonComponent commonComponent = new CommonComponent();
         commonComponent.setCocoName(cocoName);
         ArrayList<CommonComponent> arrayListCommonComponent = new ArrayList<>();

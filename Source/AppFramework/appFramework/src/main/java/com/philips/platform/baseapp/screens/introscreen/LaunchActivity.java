@@ -60,11 +60,6 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     }
 
     @Override
-    public void setToolBarTitle(String title) {
-        UIDHelper.setTitle(this, title);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -96,12 +91,12 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        setToolBarTitle(getResources().getString(i));
+        UIDHelper.setTitle(this, getResources().getString(i));
     }
 
     @Override
     public void updateActionBar(String title, boolean b) {
-        setToolBarTitle(title);
+        UIDHelper.setTitle(this, title);
     }
 
 

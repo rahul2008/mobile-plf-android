@@ -90,6 +90,44 @@ public class HamburgerActivityTest {
     }
 
     @Test
+    public void updateActionBarWithStringAndTrueValue() {
+        String title = resource.getString(com.philips.cdp.di.iap.R.string.app_name);
+        hamburgerActivity.updateActionBar(title, true);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.left_arrow), tag);
+    }
+
+    @Test
+    public void updateActionBarWithStringAndFalseValue() {
+        String title = resource.getString(com.philips.cdp.di.iap.R.string.app_name);
+        hamburgerActivity.updateActionBar(title, false);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.ic_hamburger_icon), tag);
+    }
+
+    @Test
+    public void updateActionBarWithIntAndTrueValue() {
+        hamburgerActivity.updateActionBar(android.R.string.ok, true);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.left_arrow), tag);
+    }
+
+    @Test
+    public void updateActionBarWithIntAndFalseValue() {
+        hamburgerActivity.updateActionBar(android.R.string.ok, false);
+
+        String tag = hamburgerActivity.getActionbarTag();
+
+        assertEquals(String.valueOf(R.drawable.ic_hamburger_icon), tag);
+    }
+
+    @Test
     public void containerIdShouldNotBeNull() {
         int containerId = hamburgerActivity.getContainerId();
 
