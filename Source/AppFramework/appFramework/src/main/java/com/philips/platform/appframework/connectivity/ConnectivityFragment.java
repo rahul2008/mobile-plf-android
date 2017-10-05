@@ -35,13 +35,16 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
-import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
@@ -136,7 +139,10 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         RALog.i(TAG, "Setup CommCentral ");
         CommCentral commCentral = null;
         try {
-            final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
+            final AppInfraInterface appInfraInterface = ((AppFrameworkApplication) mContext.getApplicationContext().getApplicationContext()).getAppInfra();
+            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(mContext, appInfraInterface);
+
+            final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
             ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
             commCentral = new CommCentral(applianceFactory, bleTransportContext);
@@ -147,7 +153,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         return commCentral;
     }
 
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener() {
+    private final ApplianceListener<Appliance> applianceListener = new ApplianceListener<Appliance>() {
         @Override
         public void onApplianceFound(@NonNull Appliance foundAppliance) {
             RALog.d(TAG, "Device found :" + foundAppliance.getName());
