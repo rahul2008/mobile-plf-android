@@ -1,8 +1,0 @@
-<resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="theme_settings_pagemargin">48dp</dimen>
-    <dimen name="done_button_width">12dp</dimen>
-    <dimen name="max_width">648dp</dimen>
-</resources>

@@ -1,6 +1,0 @@
-<resources>
-
-    <!-- Base application theme. Apply UIKit theme-->
-    <style name="AppTheme" parent="Theme.DLS.Aqua.Bright" />
-
-</resources>

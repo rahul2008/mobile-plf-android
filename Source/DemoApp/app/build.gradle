@@ -39,10 +39,10 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "iapApp"
+archivesBaseName = "myAccount"
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.iap_iap)
+version = objcdp.getVersion(versions.myaccount_ConsentWidgets)
 
 allprojects {
     repositories {
