@@ -24,7 +24,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.adobe.mobile.Config;
-import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 
 /**
  * AppTagging Test class.
