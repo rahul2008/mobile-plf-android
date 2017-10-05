@@ -389,7 +389,8 @@ public class MomentFragment extends DSBaseFragment
                     @Override
                     public void run() {
                         Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        getActivity().finish();
+                        if (getActivity() != null)
+                            getActivity().finish();
                     }
                 });
             }
