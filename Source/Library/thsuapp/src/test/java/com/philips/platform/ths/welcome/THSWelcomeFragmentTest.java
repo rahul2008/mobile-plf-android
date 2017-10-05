@@ -84,10 +84,8 @@ public class THSWelcomeFragmentTest {
 
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        //mActivity = Robolectric.buildActivity(THSLaunchActivityTestMock.class).create().get();
         mWelcomeFragment = new WelcomeFragmentMock();
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
-        //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
         mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
 
 
