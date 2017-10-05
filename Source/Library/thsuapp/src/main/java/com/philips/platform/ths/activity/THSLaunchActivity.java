@@ -62,14 +62,10 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        boolean backState = false;
-        Fragment currentFrag = fragmentManager
-                .findFragmentById(R.id.uappFragmentLayout);
-        if (currentFrag != null && currentFrag instanceof BackEventListener) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-        }
-
-        if (!backState) {
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
         }
     }
