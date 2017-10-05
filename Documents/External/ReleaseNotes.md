@@ -34,6 +34,7 @@ Version {next}
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
+* CommLib - \#73361 XML parser vulnerability during SSDP discovery
 * CommLib BLE - \#76117 Let BlueLib make connect() calls without timeout
 * CommLib BLE - \#75429 Not registering SHNLogger when app configured having `AppIdentityInterface.AppState.PRODUCTION`
 * CloudController - \#55808 BufferUnderflowException while reading download data
