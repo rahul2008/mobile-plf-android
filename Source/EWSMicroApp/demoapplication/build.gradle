@@ -28,7 +28,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
-    compile project(':ews')
+    releaseCompile project(path: ':ews', configuration: 'release')
+    debugCompile project(path: ':ews', configuration: 'debug')
     compile('com.philips.cdp:commlib-all:1.4.1-rc.20170831141519@aar') {
         exclude group: 'com.android.support'
         transitive = true

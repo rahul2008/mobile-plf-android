@@ -4,6 +4,7 @@ apply from: "../scripts/versions.gradle"
 android {
     compileSdkVersion config.targetSdk
     buildToolsVersion config.buildTools
+    publishNonDefault true
     defaultConfig {
         minSdkVersion config.minSdk
         targetSdkVersion config.targetSdk
@@ -19,13 +20,13 @@ android {
         unitTests.returnDefaultValues = true
     }
     buildTypes {
-//        release {
-//            minifyEnabled true
-//            shrinkResources true
-//            debuggable false
-//            testCoverageEnabled false
-//            proguardFile 'proguard-rules.pro'
-//        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            testCoverageEnabled false
+            proguardFile 'proguard-rules.pro'
+        }
         debug {
             minifyEnabled false
             shrinkResources false
