@@ -23,6 +23,8 @@ import java.util.Map;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import com.adobe.mobile.Config;
+import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
 
 /**
  * AppTagging Test class.
@@ -40,6 +42,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
     LoggingInterface loggingInterfaceMock;
+    AppConfigurationInterface configurationInterface;
     AppIdentityInterface appIdentityInterfaceMock;
     SecureStorageInterface secureStorageInterfaceMock;
     InternationalizationInterface internationalizationInterfaceMock;
@@ -97,8 +100,12 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
 
         mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
+        loggingInterfaceMock = mock(LoggingInterface.class);
+        configurationInterface=mock(AppConfigurationInterface.class);
+
         appInfraMock = mock(AppInfra.class);
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        when(appInfraMock.getConfigInterface()).thenReturn(configurationInterface);
         appTagging=new AppTagging(appInfraMock) {
             @Override
             AppTaggingHandler getAppTaggingHandler() {
@@ -106,7 +113,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             }
         };
 
-        loggingInterfaceMock = mock(LoggingInterface.class);
+
         appIdentityInterfaceMock=mock(AppIdentityInterface.class);
         secureStorageInterfaceMock=mock(SecureStorageInterface.class);
         internationalizationInterfaceMock=mock(InternationalizationInterface.class);
@@ -467,7 +474,21 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         }
     }
     public void testgetTrackingIdentifier() {
-        assertNotNull(mAppTagging.getTrackingIdentifier());
+        assertNotNull(appTagging.getTrackingIdentifier());
+
     }
+
+    public void testEnableAdobeLogs() {
+        Boolean val=mAppTaggingHandlerMock.enableAdobeLogs();
+        if(val) {
+            assertTrue(Config.getDebugLogging());
+        }else
+        {
+            assertFalse(Config.getDebugLogging());
+        }
+        assertEquals(val, Config.getDebugLogging());
+
+    }
+
 
 }

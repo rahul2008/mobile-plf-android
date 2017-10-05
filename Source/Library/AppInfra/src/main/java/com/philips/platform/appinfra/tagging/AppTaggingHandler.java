@@ -367,7 +367,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
         this.prevPage = prevPage;
     }
 
-    void getAdobeLogLevelEnabled(){
+    boolean enableAdobeLogs(){
         final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
                 .AppConfigurationError();
         /*if (mAppInfra.getConfigInterface() != null) {*/
@@ -379,11 +379,12 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
                     final Boolean adobeLogLevelEnabled = (Boolean) loglevelEnabled;
                     if(adobeLogLevelEnabled){
                         Config.setDebugLogging(true);
+                        return true;
                     }
                     else
                     {
                         Config.setDebugLogging(false);
-
+                        return false;
                     }
 
                 }
@@ -391,9 +392,9 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
             } catch (Exception e) {
                 if (mAppInfra != null) {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                            AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
+                            AppInfraLogEventID.AI_TAGGING, "Error in Enable Adobe Log" + e.getMessage());
                 }
             }
-        //}
+            return false;
     }
 }

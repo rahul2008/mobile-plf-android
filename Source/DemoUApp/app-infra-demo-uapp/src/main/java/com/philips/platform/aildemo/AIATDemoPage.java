@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -93,6 +94,9 @@ public class AIATDemoPage extends AppCompatActivity  {
 		Button TaggVideoStart = (Button) findViewById(R.id.video_start);
 		Button TaggVideoEnd = (Button) findViewById(R.id.video_end);
 		Button TaggFileDownload = (Button) findViewById(R.id.file_download);
+		Button tracking = (Button) findViewById(R.id.tracking);
+		final TextView track = (TextView) findViewById(R.id.track);
+
 
 		Button Setdata = (Button) findViewById(R.id.setdata);
 
@@ -279,6 +283,13 @@ public class AIATDemoPage extends AppCompatActivity  {
 			@Override
 			public void onClick(View v) {
 				AILDemouAppInterface.getInstance().getAppInfra().getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
+			}
+		});
+		tracking.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+               track.setText(AILDemouAppInterface.getInstance().getAppInfra().getTagging().getTrackingIdentifier());
+
 			}
 		});
 	}
