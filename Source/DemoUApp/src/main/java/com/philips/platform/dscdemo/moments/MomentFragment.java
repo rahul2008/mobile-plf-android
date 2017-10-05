@@ -61,6 +61,7 @@ public class MomentFragment extends DSBaseFragment
     private UserRegistrationHandler userRegistrationInterface;
     private User mUser;
 
+    private TextView mTvLatestMoment;
     private TextView mTvConsents;
     private TextView mTvCharacteristics;
     private TextView mTvSettings;
@@ -123,6 +124,7 @@ public class MomentFragment extends DSBaseFragment
 
         if (mUser != null && !mUser.isUserSignIn()) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
+            mTvLatestMoment.setVisibility(View.INVISIBLE);
             mAddButton.setVisibility(View.INVISIBLE);
             mTvConsents.setVisibility(View.INVISIBLE);
             mTvInsights.setVisibility(View.INVISIBLE);
@@ -189,6 +191,7 @@ public class MomentFragment extends DSBaseFragment
         mAddButton.setOnClickListener(this);
         mDeleteExpiredMomentsButton.setOnClickListener(this);
 
+        mTvLatestMoment = (TextView) view.findViewById(R.id.tv_last_moment);
         mTvConsents = (TextView) view.findViewById(R.id.tv_set_consents);
         mTvCharacteristics = (TextView) view.findViewById(R.id.tv_set_characteristics);
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
@@ -196,6 +199,7 @@ public class MomentFragment extends DSBaseFragment
         mTvSettings = (TextView) view.findViewById(R.id.tv_settings);
         mTvInsights = (TextView) view.findViewById(R.id.tv_insights);
 
+        mTvLatestMoment.setOnClickListener(this);
         mTvConsents.setOnClickListener(this);
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
@@ -230,6 +234,9 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.tv_insights) {
             InsightFragment insightFragment = new InsightFragment();
             showFragment(insightFragment);
+        } else if (i == R.id.tv_last_moment) {
+            LatestMomentFragment latestMomentFragment = new LatestMomentFragment();
+            showFragment(latestMomentFragment);
         }
     }
 

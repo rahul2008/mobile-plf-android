@@ -35,6 +35,8 @@
     <string name="location_hint">Location Name</string>
     <string name="save">Add</string>
 
+    <string name="fetch_last_moment">Fetch latest Moment</string>
+
     <!--Consent-->
     <string name="consent">User Consents</string>
     <string name="fetching_consent">Fetching consents&#8230;</string>

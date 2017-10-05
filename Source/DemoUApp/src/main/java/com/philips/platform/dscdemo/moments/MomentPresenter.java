@@ -33,6 +33,7 @@ import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
 import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
+import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dscdemo.DemoAppManager;
@@ -119,6 +120,10 @@ class MomentPresenter {
 
     void fetchData(DBFetchRequestListner dbFetchRequestListner) {
         mDataServices.fetchAllMoment(dbFetchRequestListner);
+    }
+
+    void fetchLatestMoment(DBFetchRequestListner dbFetchRequestListner){
+        mDataServices.fetchLatestMomentWithType(MomentType.TEMPERATURE, dbFetchRequestListner);
     }
 
     private void saveRequest(Moment moment) {
