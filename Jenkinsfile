@@ -27,7 +27,7 @@ node ('android&&device') {
                 checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/usr-android-user-registration']]])
                 step([$class: 'StashNotifier'])
             }
-    		if (BranchName =~ /master|develop|release.*/) {
+    		if (BranchName =~ /master|develop|release\/platform_.*/) {
     			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 . 
@@ -57,7 +57,7 @@ node ('android&&device') {
                 '''
             }
 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release\/platform_.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
                         BranchName = BranchName.replaceAll('/','%2F')
