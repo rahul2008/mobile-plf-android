@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -100,9 +102,15 @@ public class EWSActivity extends UiKitActivity {
 
     @Override
     public void onBackPressed() {
-//        if (!screenFlowController.onBackPressed()) {
+        boolean backHandledByFragment = false;
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (currentFragment instanceof BackEventListener) {
+            BackEventListener backEventListener = (BackEventListener) currentFragment;
+            backHandledByFragment = backEventListener.handleBackEvent();
+        }
+        if (!backHandledByFragment) {
             super.onBackPressed();
-//        }
+        }
     }
 
     @NonNull

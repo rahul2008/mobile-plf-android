@@ -7,18 +7,18 @@ package com.philips.cdp2.ews.viewmodel;
 import android.support.v4.app.DialogFragment;
 
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.view.FragmentCallback;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -28,16 +28,11 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({EWSCallbackNotifier.class})
 public class CancelSetupViewModelTest {
 
-    @Mock
-    private ScreenFlowController screenFlowControllerMock;
+    @InjectMocks private CancelSetupViewModel subject;
 
-    @Mock
-    private DialogFragment dialogFragmentMock;
-
-    @Mock
-    private EWSCallbackNotifier callbackNotifierMock;
-
-    private CancelSetupViewModel viewModel;
+    @Mock private FragmentCallback mockFragmentCallback;
+    @Mock private DialogFragment dialogFragmentMock;
+    @Mock private EWSCallbackNotifier callbackNotifierMock;
 
     @Before
     public void setUp() throws Exception {
@@ -46,30 +41,52 @@ public class CancelSetupViewModelTest {
         PowerMockito.mockStatic(EWSCallbackNotifier.class);
         when(EWSCallbackNotifier.getInstance()).thenReturn(callbackNotifierMock);
 
-        viewModel = new CancelSetupViewModel(screenFlowControllerMock);
-        viewModel.setDialogDismissListener(dialogFragmentMock);
+        subject.setDialogDismissListener(dialogFragmentMock);
+        subject.setFragmentCallback(mockFragmentCallback);
     }
 
     @Test
     public void shouldCancelEWSSetupWhenClickedOnYesButtonInCancelSetupDialog() throws Exception {
-        viewModel.cancelSetup();
+        subject.cancelSetup();
 
-        InOrder inOrder = inOrder(callbackNotifierMock, screenFlowControllerMock);
+        verify(callbackNotifierMock).onCancel();
+    }
 
-        inOrder.verify(callbackNotifierMock).onCancel();
-        inOrder.verify(screenFlowControllerMock).finish();
+    @Test
+    public void shouldFinishMicroAppOnYesButtonInCancelSetupDialog() throws Exception {
+        subject.cancelSetup();
+
+        verify(mockFragmentCallback).finishMicroApp();
+    }
+
+    @Test
+    public void shouldNotFinishMicroAppOnYesButtonInCancelSetupDialogWhenCallbackIsNull() throws Exception {
+        subject.setFragmentCallback(null);
+
+        subject.cancelSetup();
+
+        verify(mockFragmentCallback, never()).finishMicroApp();
     }
 
     @Test
     public void shouldDismissCancelSetupDialogBoxWhenClickedOnNOButton() throws Exception {
-        viewModel.dismissDialog();
+        subject.dismissDialog();
 
         verify(dialogFragmentMock).dismissAllowingStateLoss();
     }
 
     @Test
+    public void shouldNotDismissCancelSetupDialogBoxWhenClickedOnNOButtonWhenDialogIsNull() throws Exception {
+        subject.setDialogDismissListener(null);
+
+        subject.dismissDialog();
+
+        verify(dialogFragmentMock, never()).dismissAllowingStateLoss();
+    }
+
+    @Test
     public void shouldRemoveDialogDismissListenerWhenAsked() throws Exception {
-        viewModel.removeDialogDismissListener();
+        subject.removeDialogDismissListener();
 
         verifyZeroInteractions(dialogFragmentMock);
     }

@@ -6,38 +6,45 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.view.FragmentCallback;
 
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
 public class CancelSetupViewModel {
 
-    private ScreenFlowController screenFlowController;
-    private DialogFragment dialogDismissListener;
+    @Nullable private FragmentCallback fragmentCallback;
+    @Nullable private DialogFragment dialogDismissListener;
 
     @Inject
-    public CancelSetupViewModel(@NonNull final ScreenFlowController screenFlowController) {
-        this.screenFlowController = screenFlowController;
-    }
+    public CancelSetupViewModel() {}
 
-    public void cancelSetup() {
-        EWSCallbackNotifier.getInstance().onCancel();
-        this.screenFlowController.finish();
-    }
-
-    public void dismissDialog() {
-        dialogDismissListener.dismissAllowingStateLoss();
-    }
-
-    public void setDialogDismissListener(final DialogFragment dialogDismissListener) {
+    public void setDialogDismissListener(@NonNull DialogFragment dialogDismissListener) {
         this.dialogDismissListener = dialogDismissListener;
     }
 
     public void removeDialogDismissListener() {
         this.dialogDismissListener = null;
+    }
+
+    public void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
+        this.fragmentCallback = fragmentCallback;
+    }
+
+    public void cancelSetup() {
+        EWSCallbackNotifier.getInstance().onCancel();
+        if (fragmentCallback != null) {
+            fragmentCallback.finishMicroApp();
+        }
+    }
+
+    public void dismissDialog() {
+        if (dialogDismissListener != null) {
+            dialogDismissListener.dismissAllowingStateLoss();
+        }
     }
 }

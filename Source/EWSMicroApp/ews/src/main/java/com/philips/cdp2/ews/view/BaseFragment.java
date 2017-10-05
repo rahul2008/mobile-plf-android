@@ -7,8 +7,9 @@ import android.view.MenuItem;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
+import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements BackEventListener {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
@@ -28,4 +29,8 @@ public class BaseFragment extends Fragment {
         new CancelDialogFragment().show(getChildFragmentManager(), "cancelDialog");
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        return false;
+    }
 }
