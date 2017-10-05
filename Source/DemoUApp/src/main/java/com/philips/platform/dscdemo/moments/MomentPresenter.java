@@ -26,6 +26,7 @@ import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.database.EmptyForeignCollection;
@@ -36,9 +37,6 @@ import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.dscdemo.database.table.OrmMoment;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
-import com.philips.platform.dscdemo.DemoAppManager;
-
-import org.joda.time.DateTime;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -232,7 +230,6 @@ class MomentPresenter {
             }
             measurementGroup.setMeasurementGroups(measurementGroupsOutput);
         }
-        old.setDateTime(DateTime.now());
         mDataServices.updateMoment(old, dbRequestListener);
     }
 
