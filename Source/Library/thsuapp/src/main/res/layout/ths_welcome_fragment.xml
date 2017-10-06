@@ -35,12 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/appointments"
-        android:paddingBottom="@dimen/ths_image_size"
-        style="@style/ths_alpha"
+        android:layout_marginBottom="@dimen/ths_image_size"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
        >
 
         <ImageView
-            android:src="@drawable/welcome_background"
+            android:src="@drawable/ths_welcome"
+            android:alpha="0.2"
+            android:background="@color/uid_blue_level_85"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -29,6 +29,7 @@
     <!-- Registration dimens-->
     <dimen name="ths_address_bottom_margin">4dp</dimen>
     <dimen name="ths_image_size">24dp</dimen>
+    <dimen name="ths_image_size_change">48dp</dimen>
     <dimen name="ths_margin_top_registration_detail_title">24dp</dimen>
     <dimen name="ths_margin_bottom_more_details">12dp</dimen>
     <dimen name="ths_icon_layout_size">56dp</dimen>
