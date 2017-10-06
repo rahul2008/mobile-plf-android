@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.dscdemo.consents.ConsentDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
 import com.philips.platform.dscdemo.database.datatypes.MeasurementGroupDetailType;
@@ -214,23 +213,23 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         }
     }
 
-    private void addMeasurementTypes(MeasurementType... measurementTypes) throws SQLException {
+  /*  private void addMeasurementTypes(MeasurementType... measurementTypes) throws SQLException {
         final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
         // for (MeasurementType measurementType : measurementTypes) {
         measurementTypeDao.createOrUpdate(new OrmMeasurementType(41, "TEMPERATURE", "\u2103"));
 //        }
-    }
+    }*/
 
-    private void addMomentTypes(MomentType... momentTypes) throws SQLException {
+    /*private void addMomentTypes(MomentType... momentTypes) throws SQLException {
         final Dao<OrmMomentType, Integer> ormMomentTypeDao = getMomentTypeDao();
         for (MomentType momentType : momentTypes) {
             ormMomentTypeDao.createOrUpdate(new OrmMomentType(MomentType.getIDFromDescription("TEMPERATURE"),
                     MomentType.getDescriptionFromID(25)));
         }
-    }
+    }*/
 
 
-    private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
+   /* private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
         final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
         momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
                 MomentDetailType.getDescriptionFromID(54)));
@@ -249,7 +248,7 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
             }
         }
     }
-
+*/
 
     public void dropTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.dropTable(connectionSource, OrmMoment.class, true);

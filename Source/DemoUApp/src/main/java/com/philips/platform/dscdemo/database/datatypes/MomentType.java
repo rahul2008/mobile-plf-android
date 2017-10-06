@@ -22,7 +22,7 @@ public class MomentType {
         if (description == null) {
             return -1;
         }
-        switch (description.toUpperCase()) {
+        switch (description) {
             case UNKNOWN:
                 return -1;
             case TREATMENT:
