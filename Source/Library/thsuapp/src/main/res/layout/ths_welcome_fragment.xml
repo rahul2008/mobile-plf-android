@@ -36,9 +36,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/appointments"
         android:paddingBottom="@dimen/ths_image_size"
-        android:background="@drawable/ths_welcome"
         style="@style/ths_alpha"
        >
+
+        <ImageView
+            android:src="@drawable/welcome_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ths_start"
