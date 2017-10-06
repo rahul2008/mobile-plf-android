@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = "0.7.9"
 }
 
 buildscript {
@@ -386,7 +386,7 @@ dependencies {
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
 
 	def dp = project.ext.has('useprojectdependencies')
 
@@ -475,14 +475,14 @@ dependencies {
             transitive = true
     }
 
-    compile ("com.crittercism:crittercism-android-agent:5.8.1")
+    compile ("com.crittercism:crittercism-android-agent:5.8.7")
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    testCompile 'org.robolectric:robolectric:3.3.1'
-    testCompile 'org.robolectric:shadows-multidex:3.3.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
-    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile 'org.robolectric:robolectric:3.4.2'
+    testCompile 'org.robolectric:shadows-multidex:3.3.2'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
+    testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
 
     testCompile 'org.powermock:powermock-core:1.6.6'
