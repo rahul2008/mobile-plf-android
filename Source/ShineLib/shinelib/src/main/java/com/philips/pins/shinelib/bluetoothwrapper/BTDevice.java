@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,6 +12,9 @@ import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.workarounds.Workaround;
+
+import java.lang.reflect.Method;
 
 public class BTDevice {
     private static final String TAG = "BTDevice";
@@ -41,6 +44,10 @@ public class BTDevice {
         BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
 
+        if(Workaround.CorruptedCache.isRequiredOnThisDevice()) {
+            refresh(bluetoothGatt);
+        }
+
         //Guard test for the null pointer deference and log lines to be able to detect that this problem would have occurred.
         if (bluetoothGatt == null) {
             SHNLogger.e(TAG, "device.connectGatt returns null");
@@ -51,6 +58,30 @@ public class BTDevice {
     public boolean createBond() {
         if (getBondState() == BluetoothDevice.BOND_NONE) {
             return device.createBond();
+        }
+        return false;
+    }
+
+    /**
+     * Clears the internal cache and forces a refresh of the services from the remote device.
+     */
+    private boolean refresh(BluetoothGatt bluetoothGatt) {
+        try {
+            /*
+              Reflection is used because the method is hidden. There is no other method that offers
+              this functionality. The refresh function solved Android 7.0 problems such as
+              bonds being removed unexpected and not seeing when the services in the peripheral
+              are changed (DFU). The impact of this reflection is very low, if the function is
+              removed the library still works, only the BLE cache won't be cleared.
+            */
+            Method localMethod = BluetoothGatt.class.getMethod("refresh", new Class[0]);
+            if (localMethod != null) {
+                boolean bool = ((Boolean) localMethod.invoke(bluetoothGatt, new Object[0])).booleanValue();
+                return bool;
+            }
+        }
+        catch (Exception localException) {
+            SHNLogger.e(TAG, "An exception occurred while refreshing device");
         }
         return false;
     }

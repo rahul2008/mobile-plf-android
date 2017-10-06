@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -14,8 +14,8 @@ import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -314,7 +314,12 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
                 executeNextCommandIfAllowed();
             }
         };
-        handler.post(runnable);
+
+        if(Workaround.ServiceDiscoveredDelay.isRequiredOnThisDevice()) {
+            handler.postDelayed(runnable, 500);
+        } else {
+            handler.post(runnable);
+        }
     }
 
     @Override
