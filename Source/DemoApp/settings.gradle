@@ -1,7 +1,7 @@
 include ':app'
 
-include 'DemoUApp'
-project (':DemoUApp').projectDir=new File('../DemoUApp/DemoUApp')
+include 'usrUApp'
+project (':usrUApp').projectDir=new File('../DemoUApp/DemoUApp')
 include 'hsdp'
 project (':hsdp').projectDir=new File('../Library/hsdp')
 include 'jump'
