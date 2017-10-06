@@ -11,6 +11,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
@@ -43,6 +44,12 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
     }
 
     protected void initializeAwsdk() {
+        User user = new User(mThsInitFragment.getContext());
+        if (user == null || !user.isUserSignIn()) {
+            mThsInitFragment.hideProgressBar();
+            mThsInitFragment.showError(mThsInitFragment.getString(R.string.ths_user_not_logged_in));
+            return;
+        }
         try {
             AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
             THSManager.getInstance().initializeTeleHealth(mThsInitFragment.getContext(), this);
