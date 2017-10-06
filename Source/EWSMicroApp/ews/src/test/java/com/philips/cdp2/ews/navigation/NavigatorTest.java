@@ -38,6 +38,7 @@ public class NavigatorTest {
     @InjectMocks private Navigator subject;
 
     @Mock private FragmentNavigator mockFragmentNavigator;
+    @Mock private ActivityNavigator mockActivityNavigator;
 
     @Before
     public void setUp() throws Exception {
@@ -90,7 +91,7 @@ public class NavigatorTest {
     public void itShouldPushWifiTroubleShootingScreenWhenNavigating() throws Exception {
         subject.navigateToWifiTroubleShootingScreen();
 
-        verifyFragmentPushed(TroubleshootHomeWiFiFragment.class);
+        verify(mockActivityNavigator).showFragment(TroubleshootHomeWiFiFragment.class.getCanonicalName());
     }
 
     @Test

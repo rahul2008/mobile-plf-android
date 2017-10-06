@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.common.callbacks;
 
 public interface FragmentCallback {
 

@@ -10,7 +10,8 @@ import com.philips.cdp2.ews.troubleshooting.base.BaseDialogActivity;
  */
 
 public class ActivityNavigator {
-    private final Context context;
+
+    @NonNull private final Context context;
 
     public ActivityNavigator(@NonNull Context context) {
         this.context = context;
@@ -18,6 +19,5 @@ public class ActivityNavigator {
 
     public void showFragment(String fragmentName) {
         BaseDialogActivity.startActivity(context, fragmentName);
-
     }
 }

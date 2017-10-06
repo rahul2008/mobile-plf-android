@@ -8,7 +8,7 @@ package com.philips.cdp2.ews.view.dialog;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.CancelSetupDialogBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
-import com.philips.cdp2.ews.view.FragmentCallback;
+import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.viewmodel.CancelSetupViewModel;
 
 import javax.inject.Inject;

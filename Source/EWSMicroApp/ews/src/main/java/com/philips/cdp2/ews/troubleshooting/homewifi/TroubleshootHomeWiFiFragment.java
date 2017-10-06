@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.common.callbacks.DialogCallback;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.databinding.TroubleshootHomeWifiFragmentBinding;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
@@ -23,7 +24,8 @@ import com.philips.cdp2.ews.view.EWSBaseFragment;
 
 import javax.inject.Inject;
 
-public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHomeWifiFragmentBinding> {
+public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHomeWifiFragmentBinding>
+        implements DialogCallback {
 
     public static final String HIERARCHY_LEVEL = "hierarchyLevel";
 
@@ -72,19 +74,12 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.checkHomeWiFiNetwork();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.unregister();
-    }
-
-    @Override
     protected EWSComponent getEwsComponent() {
         return DaggerEWSComponent.builder().eWSModule(new EWSModule(getContext(), getFragmentManager())).build();
+    }
+
+    @Override
+    public void hideDialog() {
+        getActivity().finish();
     }
 }

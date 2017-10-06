@@ -5,7 +5,7 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.view.FragmentCallback;
+import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 
 import org.junit.Before;
 import org.junit.Test;
