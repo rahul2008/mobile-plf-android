@@ -193,14 +193,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     private void connectUsedServicesToBleLayer(BTGatt gatt) {
-
-        if(btGatt.getServices().size() == 0) {
-            SHNLogger.i(TAG, "No services found, rediscovery the services");
-            setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
-            btGatt.discoverServices();
-            return;
-        }
-
         for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
             SHNService shnService = getSHNService(bluetoothGattService.getUuid());
             SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not used by plugin" : " connecting plugin service to ble service"));
@@ -598,6 +590,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         public void onServicesDiscovered(BTGatt gatt, int status) {
             if (internalState == InternalState.DiscoveringServices) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
+
+                    if(btGatt.getServices().size() == 0) {
+                        SHNLogger.i(TAG, "No services found, rediscovery the services");
+                        btGatt.discoverServices();
+                        return;
+                    }
 
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.InitializingServices);
 
