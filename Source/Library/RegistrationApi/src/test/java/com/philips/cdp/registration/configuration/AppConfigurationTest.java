@@ -126,13 +126,6 @@ public class AppConfigurationTest extends TestCase {
         assertEquals(weChatAppSecret, "we_chat_secret");
     }
 
-//    @Test
-//    public void testGetMicrositeId() throws Exception {
-//        when(mockAppInfraWrapper.getAppIdentity().getMicrositeId()).thenReturn("microsite_id");
-//        String microiteId = appConfiguration.getMicrositeId();
-//        assertEquals(microiteId, "microsite_id");
-//    }
-
     @Test
     public void testGetRegistrationEnvironment_Development() throws Exception {
         when(mockAppInfraWrapper.getAppState()).thenReturn(AppIdentityInterface.AppState.DEVELOPMENT);
