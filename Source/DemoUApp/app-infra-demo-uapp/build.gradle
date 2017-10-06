@@ -137,18 +137,11 @@ android {
 
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
-
-
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
-
-        compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.13.7')
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-
         compile 'com.google.code.gson:gson:2.8.1'
- 
 
 		def dp = project.ext.has('useprojectdependencies')
-        
         compile(dp ? project(':ail') : project(':AppInfra'))
     }
 }
