@@ -12,6 +12,7 @@ package com.philips.cdp.registration.ui.social;
 import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
+import android.text.InputType;
 import android.text.style.*;
 import android.view.*;
 import android.widget.*;
@@ -21,6 +22,7 @@ import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
@@ -89,12 +91,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             return 0;
         }
 
+
         @Override
         public int isEmpty(boolean emptyField) {
             if (emptyField) {
-                loginIdEditText.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+                loginIdEditText.setErrorMessage(
+                        R.string.reg_EmptyField_ErrorMsg);
             } else {
-                loginIdEditText.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
+                    loginIdEditText.setErrorMessage(
+                            R.string.reg_InvalidEmail_PhoneNumber_ErrorMsg);
+                } else {
+                    loginIdEditText.setErrorMessage(
+                            R.string.reg_InvalidEmailAdddress_ErrorMsg);
+                }
             }
             isValidEmail = false;
             continueButton.setEnabled(isValidEmail);
@@ -168,6 +178,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 }
             }
         });
+
+        if (RegistrationHelper.getInstance().isMobileFlow()) {
+            emailEditText.setText(R.string.reg_DLS_Phonenumber_Label_Text);
+            emailEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+        }
 
         marketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), marketingOptCheck.getPaddingTop(),
                 marketingOptCheck.getPaddingRight(), marketingOptCheck.getPaddingBottom());
@@ -325,8 +340,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public String getMobileNumber() {
-        return FieldsValidator.getMobileNumber(emailEditText.getText().toString());
+    public String getEmailOrMobileNumber() {
+        if (FieldsValidator.isValidEmail(emailEditText.getText().toString())) {
+            return emailEditText.getText().toString();
+        } else {
+            return FieldsValidator.getMobileNumber(emailEditText.getText().toString());
+        }
     }
 
     @Override

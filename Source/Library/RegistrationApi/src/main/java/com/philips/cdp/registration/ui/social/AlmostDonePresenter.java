@@ -343,12 +343,12 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
     public void handleSocialTermsAndCondition() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
             if (almostDoneContract.isAcceptTermsChecked()) {
-                register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
+                register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
         } else {
-            register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
+            register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
         }
     }
 
