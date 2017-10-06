@@ -63,7 +63,7 @@ public class UdpReceivingThreadTest extends RobolectricTest {
 
     @Test
     public void givenThreadSetUp_whenValidUdpPacketReceived_thenShouldCallListener() throws Exception {
-        String udpData = generateTestUrl("PUT", "/di/v1/products/1/air", UDP_PAYLOAD);
+        String udpData = generateTestUrl("/di/v1/products/1/polarisrobot", UDP_PAYLOAD);
         createObjectUnderTest(udpData, socketMock, SENDER_ADDRESS);
 
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
@@ -73,7 +73,7 @@ public class UdpReceivingThreadTest extends RobolectricTest {
 
         thread.receiveDatagram();
 
-        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, SENDER_ADDRESS);
+        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, "polarisrobot", SENDER_ADDRESS);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class UdpReceivingThreadTest extends RobolectricTest {
 
     @Test
     public void givenThreadSetUp_whenNestedPortInUrlOfUdpPacket_thenShouldCallListener() throws Exception {
-        String udpData = generateTestUrl("PUT", "/di/v1/products/1/schedule/1", UDP_PAYLOAD);
+        String udpData = generateTestUrl("/di/v1/products/1/schedule/1", UDP_PAYLOAD);
         createObjectUnderTest(udpData, socketMock, SENDER_ADDRESS);
 
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
@@ -116,11 +116,41 @@ public class UdpReceivingThreadTest extends RobolectricTest {
 
         thread.receiveDatagram();
 
-        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, SENDER_ADDRESS);
+        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, "schedule/1", SENDER_ADDRESS);
     }
 
-    private String generateTestUrl(String method, String url, String payload) {
-        return method.toUpperCase() + " " + url + " HTTP/1.1\n" +
+    @Test
+    public void givenThreadSetUp_whenAirPortInUrlOfUdpPacket_thenShouldCallListener() throws  Exception {
+        String udpData = generateTestUrl("/di/v1/products/1/air", UDP_PAYLOAD);
+        createObjectUnderTest(udpData, socketMock, SENDER_ADDRESS);
+
+        when(contextMock.getApplicationContext()).thenReturn(contextMock);
+        when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiMock);
+        when(wifiMock.createMulticastLock(anyString())).thenReturn(lockMock);
+        mockSocketReceive();
+
+        thread.receiveDatagram();
+
+        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, "air", SENDER_ADDRESS);
+    }
+
+    @Test
+    public void givenThreadSetUp_whenNestedAirPortInUrlOfUdpPacket_thenShouldCallListener() throws  Exception {
+        String udpData = generateTestUrl("/di/v1/products/1/air/nested", UDP_PAYLOAD);
+        createObjectUnderTest(udpData, socketMock, SENDER_ADDRESS);
+
+        when(contextMock.getApplicationContext()).thenReturn(contextMock);
+        when(contextMock.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiMock);
+        when(wifiMock.createMulticastLock(anyString())).thenReturn(lockMock);
+        mockSocketReceive();
+
+        thread.receiveDatagram();
+
+        verify(eventListenerMock).onUDPEventReceived(UDP_PAYLOAD, "air/nested", SENDER_ADDRESS);
+    }
+
+    private String generateTestUrl(String url, String payload) {
+        return "PUT " + url + " HTTP/1.1\n" +
             UDP_HEADERS + payload;
     }
 

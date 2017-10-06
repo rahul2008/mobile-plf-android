@@ -18,7 +18,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
 
 public class UdpReceivingThread extends Thread {
@@ -71,11 +70,11 @@ public class UdpReceivingThread extends Thread {
 
                     DICommLog.d(DICommLog.UDP, "UDP Data Received from: " + senderIp);
                     String urlHeader = packetsReceived[0];
-                    Map<String, String> parsedUrlParts = parseRequestHeaderLine(urlHeader);
+                    String portName = parseRequestHeaderLine(urlHeader);
                     String lastLine = packetsReceived[packetsReceived.length - 1];
 
                     //parsedUrlParts.get("port");
-                    mUdpEventListener.onUDPEventReceived(lastLine, senderIp);
+                    mUdpEventListener.onUDPEventReceived(lastLine, portName, senderIp);
 
                 } else {
                     DICommLog.d(DICommLog.UDP, "Couldn't split receiving packet: " + packetReceived);
@@ -140,19 +139,17 @@ public class UdpReceivingThread extends Thread {
         DICommLog.d(DICommLog.UDP, "Released MulticastLock");
     }
 
-    private Map<String, String> parseRequestHeaderLine(String headerLine) {
-        Map<String, String> values = new HashMap<>();
-
+    private String parseRequestHeaderLine(String headerLine) {
         String[] methodSplit = headerLine.split(" ");
         String[] urlSplit = methodSplit[1].split("/");
 
-        values.put("method", methodSplit[0]);
-        values.put("version", urlSplit[2]);
-        values.put("productId", urlSplit[4]);
-        values.put("port", urlSplit[5]);
-        for(int i = 6; i < urlSplit.length; i++) {
-            values.put("nestedPort", urlSplit[i]);
+        String portName = "";
+        for(int u = 5; u < urlSplit.length; u++) {
+            portName += urlSplit[u];
+            if(u < urlSplit.length - 1) {
+                portName += "/";
+            }
         }
-        return values;
+        return portName;
     }
 }
