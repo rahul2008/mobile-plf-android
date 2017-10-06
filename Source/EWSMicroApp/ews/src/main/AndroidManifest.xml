@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".troubleshooting.base.BaseDialogActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/EWSDialogActivity">
         </activity>
     </application>
