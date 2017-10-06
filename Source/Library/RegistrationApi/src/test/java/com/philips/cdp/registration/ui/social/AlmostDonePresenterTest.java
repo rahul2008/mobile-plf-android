@@ -95,7 +95,7 @@ public class AlmostDonePresenterTest {
     public void testUpdateTermsAndReceiveMarketingOpt_false(){
         when(mockUser.getReceiveMarketingEmail()).thenReturn(true);
         presenter.updateTermsAndReceiveMarketingOpt();
-        verify(mockContract).showMarketingOptCheck();
+        verify(mockContract).hideMarketingOptCheck();
     }
 
     @Test
