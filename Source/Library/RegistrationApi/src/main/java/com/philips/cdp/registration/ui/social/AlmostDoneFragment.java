@@ -182,7 +182,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         });
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            emailEditText.setText(R.string.reg_DLS_Phonenumber_Label_Text);
+            emailTitleLabel.setText(R.string.reg_DLS_Phonenumber_Label_Text);
             emailEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         }
 
