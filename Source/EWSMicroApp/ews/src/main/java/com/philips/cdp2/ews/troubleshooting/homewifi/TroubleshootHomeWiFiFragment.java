@@ -50,6 +50,7 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
     @Override
     protected void bindViewModel(final TroubleshootHomeWifiFragmentBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
+        viewModel.setDialogCallback(this);
     }
 
     @Override
