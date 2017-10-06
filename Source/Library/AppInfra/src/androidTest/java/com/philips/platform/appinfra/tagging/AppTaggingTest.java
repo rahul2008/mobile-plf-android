@@ -472,10 +472,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             assertNull(jSONObject);
         }
     }
-    public void testgetTrackingIdentifier() {
-        assertNotNull(appTagging.getTrackingIdentifier());
 
-    }
 
     public void testEnableAdobeLogs() {
         Boolean val=mAppTaggingHandlerMock.enableAdobeLogs();
@@ -485,7 +482,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         {
             assertFalse(Config.getDebugLogging());
         }
-        assertEquals(val, Config.getDebugLogging());
+
 
     }
 
