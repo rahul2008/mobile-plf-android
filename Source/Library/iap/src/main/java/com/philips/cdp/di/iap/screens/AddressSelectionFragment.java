@@ -53,8 +53,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     private RecyclerView mAddressListView;
     private AddressController mAddressController;
-    private AddressSelectionAdapter mAdapter;
-    private List<Addresses> mAddresses = new ArrayList<>();
+    AddressSelectionAdapter mAdapter;
+    List<Addresses> mAddresses = new ArrayList<>();
 
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
@@ -330,8 +330,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         unregisterEvents();
+        super.onDestroy();
     }
 
     public void unregisterEvents() {
