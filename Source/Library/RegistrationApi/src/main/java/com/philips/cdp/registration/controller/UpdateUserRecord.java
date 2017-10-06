@@ -176,9 +176,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
         if (Jump.getSignedInUser() != null) {
             CaptureRecord updatedUser = Jump.getSignedInUser();
             JSONObject originalUserInfo = getCurrentUserAsJsonObject();
-            SharedPreferences myPrefs = mContext.getSharedPreferences(
-                    RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-            String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
+            String microSiteId = RegistrationConfiguration.getInstance().getMicrositeId();
             try {
                 ServerTime.init(timeInterface);
                 String currentDate = ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);

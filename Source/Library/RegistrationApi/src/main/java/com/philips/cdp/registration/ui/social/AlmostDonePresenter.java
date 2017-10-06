@@ -94,14 +94,13 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialProvider
 
     public void updateTermsAndReceiveMarketingOpt() {
         if (mUser.isTermsAndConditionAccepted()) {
-            if (!mUser.getReceiveMarketingEmail()) {
-                almostDoneContract.showMarketingOptCheck();
-            } else {
-                almostDoneContract.hideMarketingOptCheck();
-            }
             almostDoneContract.updateTermsAndConditionView();
-        } else if (mUser.getReceiveMarketingEmail()) {
-            almostDoneContract.updateReceiveMarketingView();
+        }
+
+        if (!mUser.getReceiveMarketingEmail()) {
+            almostDoneContract.showMarketingOptCheck();
+        } else {
+            almostDoneContract.hideMarketingOptCheck();
         }
     }
 

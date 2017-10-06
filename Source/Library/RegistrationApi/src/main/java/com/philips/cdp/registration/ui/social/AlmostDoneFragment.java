@@ -127,14 +127,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             trackAbtesting();
         }
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        almostDonePresenter = new AlmostDonePresenter(this, mUser);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         ButterKnife.bind(this, view);
         loginIdEditText.setValidator(loginIdValidator);
+        almostDoneDescriptionLabel.setText("");
+        almostDoneDescriptionLabel.setVisibility(View.GONE);
+        almostDonePresenter = new AlmostDonePresenter(this, mUser);
         initUI(view);
+        handleUiAcceptTerms();
         almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIControls();
-        handleUiAcceptTerms();
         handleOrientation(view);
         return view;
     }
