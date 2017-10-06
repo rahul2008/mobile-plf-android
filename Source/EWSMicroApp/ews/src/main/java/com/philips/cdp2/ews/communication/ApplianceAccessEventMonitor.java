@@ -52,7 +52,7 @@ public class ApplianceAccessEventMonitor extends EventMonitor implements Discove
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void fetchDevicePortProperties(@SuppressWarnings("UnusedParameters") @NonNull final FetchDevicePortPropertiesEvent event) {
-        applianceAccessManager.fetchDevicePortProperties();
+        applianceAccessManager.fetchDevicePortProperties(null);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

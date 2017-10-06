@@ -62,6 +62,7 @@
                 android:id="@+id/ews_press_and_play_next_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d"
                 android:onClick="@{() -> viewModel.onNextButtonClicked()}"
                 android:text="@string/ews_04_button_1"/>
 

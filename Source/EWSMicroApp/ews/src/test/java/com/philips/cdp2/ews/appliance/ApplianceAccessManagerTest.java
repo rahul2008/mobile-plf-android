@@ -87,7 +87,7 @@ public class ApplianceAccessManagerTest {
     //// TODO: 26/05/17  this is workaround fix to pass tests till we get an update from dicomm.
     @Test
     public void shouldFetchApplianceDevicePortPropertiesWhenAsked() throws Exception {
-        accessManager.fetchDevicePortProperties();
+        accessManager.fetchDevicePortProperties(null);
 
         verify(wifiPortMock).reloadProperties();
         verifyRequestType(ApplianceRequestType.GET_WIFI_PROPS);
@@ -96,9 +96,9 @@ public class ApplianceAccessManagerTest {
     //// TODO: 26/05/17  this is workaround fix to pass tests till we get an update from dicomm.
     @Test
     public void shouldNotFetchApplianceDevicePortPropertiesIfAnotherRequestIsInProgress() throws Exception {
-        accessManager.fetchDevicePortProperties();
-        accessManager.fetchDevicePortProperties();
-        accessManager.fetchDevicePortProperties();
+        accessManager.fetchDevicePortProperties(null);
+        accessManager.fetchDevicePortProperties(null);
+        accessManager.fetchDevicePortProperties(null);
 
         verify(wifiPortMock, times(1)).reloadProperties();
     }

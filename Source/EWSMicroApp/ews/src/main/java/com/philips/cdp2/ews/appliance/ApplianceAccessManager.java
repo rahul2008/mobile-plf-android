@@ -36,6 +36,15 @@ import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
 public class ApplianceAccessManager {
 
     public static final String TAG = "ApplianceAccessManager";
+
+    public interface FetchCallback {
+        void onDeviceInfoReceived(WifiPortProperties properties);
+        void onFailedToFetchDeviceInfo();
+
+    }
+
+    @Nullable private FetchCallback fetchCallback;
+
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;
     private EventBus eventBus;
@@ -55,6 +64,9 @@ public class ApplianceAccessManager {
                     case ApplianceRequestType.GET_WIFI_PROPS:
                         EWSLogger.d(EWS_STEPS, "Step 3 : Got wifi properties, showing the password entry screen");
                         showPasswordEntryScreen(wifiPortProperties);
+                        if (fetchCallback != null) {
+                            fetchCallback.onDeviceInfoReceived(wifiPortProperties);
+                        }
                         break;
                     case ApplianceRequestType.PUT_WIFI_PROPS:
                         EWSLogger.d(EWS_STEPS, "Step 4.1 : Setting the wifi properties to the device succesfull");
@@ -72,6 +84,9 @@ public class ApplianceAccessManager {
         public void onPortError(WifiPort wifiPort, Error error, @Nullable String s) {
             EWSLogger.d(EWS_STEPS, "Step Failed : Port error " + wifiPort.toString() + " Error : " + error + " data " + error);
             onErrorReceived();
+            if (fetchCallback != null) {
+                fetchCallback.onFailedToFetchDeviceInfo();
+            }
         }
 
     };
@@ -113,9 +128,10 @@ public class ApplianceAccessManager {
         requestType = ApplianceRequestType.UNKNOWN;
     }
 
-    public void fetchDevicePortProperties() {
+    public void fetchDevicePortProperties(@NonNull FetchCallback callback) {
         EWSLogger.d(TAG, "STEP 2 : Appliance found, fetching properties from device");
         if (requestType == ApplianceRequestType.UNKNOWN) {
+            fetchCallback = callback;
             fetchWiFiPortProperties();
             /*requestType = ApplianceRequestType.GET_DEVICE_PROPS;
             final DevicePort devicePort = appliance.getDevicePort();

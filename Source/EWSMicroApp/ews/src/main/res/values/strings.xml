@@ -109,4 +109,5 @@
     <string name="button_back">Back</string>
     <string name="button_contact_us">Contact us</string>
     <string name="button_done">Done</string>
+    <string name="button_cancel">Cancel</string>
 </resources>
