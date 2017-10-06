@@ -126,7 +126,7 @@ public class AppConfigurationTest extends TestCase {
 
     @Test
     public void testGetMicrositeId() throws Exception {
-        when(mockAppInfraWrapper.getAppInfraProperty(MICROSITE_ID_KEY)).thenReturn("microsite_id");
+        when(mockAppInfraWrapper.getAppIdentity().getMicrositeId()).thenReturn("microsite_id");
         String microiteId = appConfiguration.getMicrositeId();
         assertEquals(microiteId, "microsite_id");
     }

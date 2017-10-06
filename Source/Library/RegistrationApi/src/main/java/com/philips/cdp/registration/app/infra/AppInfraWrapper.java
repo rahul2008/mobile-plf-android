@@ -49,7 +49,7 @@ public class AppInfraWrapper {
         }
     }
 
-    public AppIdentityInterface getAppIdentoty() {
+    public AppIdentityInterface getAppIdentity() {
         try {
             return appInfra.getAppIdentity();
         } catch (Exception illegalAppStateException) {
