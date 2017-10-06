@@ -153,7 +153,9 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void callPharmacyListFragment(Location location) {
-        getActivity().getSupportFragmentManager().popBackStack();
+        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
@@ -161,13 +163,17 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void showPharmacySearch() {
-        getActivity().getSupportFragmentManager().popBackStack();
+        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        getActivity().getSupportFragmentManager().popBackStack();
+        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
         addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null, true);
