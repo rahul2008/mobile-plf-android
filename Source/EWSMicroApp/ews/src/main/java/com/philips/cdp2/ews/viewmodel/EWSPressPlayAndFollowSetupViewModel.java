@@ -33,5 +33,9 @@ public class EWSPressPlayAndFollowSetupViewModel extends ConnectPhoneToDeviceAPM
     public void onNextButtonClicked() {
         connectPhoneToDeviceHotspotWifi();
     }
+
+    public void onNoButtonClicked() {
+        navigator.navigateToResetConnectionTroubleShootingScreen();
+    }
 }
 

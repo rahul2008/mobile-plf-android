@@ -53,7 +53,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class EWSPressPlayAndFollowSetupViewModelTest {
 
     @Mock
-    private Navigator screenFlowControllerMock;
+    private Navigator navigatorMock;
 
     @Mock
     private EventBus eventBusMock;
@@ -87,7 +87,7 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         setupImmediateHandler();
-        viewModel = new EWSPressPlayAndFollowSetupViewModel(screenFlowControllerMock, eventBusMock, permissionHandlerMock,
+        viewModel = new EWSPressPlayAndFollowSetupViewModel(navigatorMock, eventBusMock, permissionHandlerMock,
                 connectingDialogMock, unsuccessfulDialogMock, gpsEnableDialogFragmentMock, handlerMock);
 
         viewModel.setFragment(fragmentMock);
@@ -127,7 +127,7 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
     public void shouldShowNextPasswordEntryScreenWhenPhoneIsConnectedToApplianceHotspot() throws Exception {
         sendEventToShowPasswordEntryScreen();
 
-//        verify(screenFlowControllerMock).showFragment(isA(EWSWiFiConnectFragment.class));
+//        verify(navigatorMock).showFragment(isA(EWSWiFiConnectFragment.class));
     }
 
     @Test
@@ -218,6 +218,13 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
         viewModel.onNextButtonClicked();
 
         verifyConnectRequest();
+    }
+
+    @Test
+    public void shouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
+        viewModel.onNoButtonClicked();
+
+        verify(navigatorMock).navigateToResetConnectionTroubleShootingScreen();
     }
 
     private void setPermissionGranted(final boolean permissionGranted) {

@@ -31,11 +31,4 @@ public class EWSDevicePowerOnViewModelTest {
 
         verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
     }
-
-    @Test
-    public void shouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
-        subject.onNoButtonClicked();
-
-        verify(mockNavigator).navigateToResetConnectionTroubleShootingScreen();
-    }
 }
