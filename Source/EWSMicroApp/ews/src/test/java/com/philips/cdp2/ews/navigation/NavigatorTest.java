@@ -15,7 +15,7 @@ import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
-import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 
 import org.junit.Before;
 import org.junit.Test;

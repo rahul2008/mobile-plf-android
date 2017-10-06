@@ -5,6 +5,8 @@
 
 package com.philips.cdp2.ews.injections;
 
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiViewModel;
 import com.philips.cdp2.ews.view.BlinkingAccessPointFragment;
 import com.philips.cdp2.ews.view.ChooseSetupStateFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -18,7 +20,6 @@ import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.TroubleshootCheckRouterSettingsFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
-import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.view.TroubleshootIncorrectPasswordFragment;
 import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
 import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
@@ -85,4 +86,6 @@ public interface EWSComponent {
     SetupAccessPointModeTroubleshootingViewModel setupAccessPointModeTroubleshootingViewModel();
 
     BaseTroubleShootingViewModel baseTroubleShootingViewModel();
+
+    TroubleshootHomeWiFiViewModel troubleshootHomeWiFiViewModel();
 }

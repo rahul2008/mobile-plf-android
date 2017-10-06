@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.View;
 
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -21,6 +21,7 @@ import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.microapp.EWSInterface;
+import com.philips.cdp2.ews.navigation.ActivityNavigator;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
@@ -38,9 +39,6 @@ public class EWSActivity extends UiKitActivity {
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
 
-//    @Inject
-//    ScreenFlowController screenFlowController;
-
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
 
@@ -49,12 +47,11 @@ public class EWSActivity extends UiKitActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO Do something about this onCreate()
+        // TODO clean up this onCreate()
         HashMap map = new HashMap<String, String>();
         map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
-        EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), DiscoveryManager.getInstance(),map);
+        EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), DiscoveryManager.getInstance(), map);
         setContentView(R.layout.ews_activity_main);
-
         setUpToolBar();
 
         ewsComponent = DaggerEWSComponent.
@@ -62,12 +59,17 @@ public class EWSActivity extends UiKitActivity {
                 eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager())).build();
         ewsComponent.inject(this);
         ewsEventingChannel.start();
-//        screenFlowController.start(this, R.id.contentFrame, getRootFragment());
 
         EWSTagger.collectLifecycleInfo(this);
 
-        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()));
+        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
+        findViewById(R.id.ic_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleCancelButtonClicked();
+            }
+        });
     }
 
     private void setUpToolBar() {
@@ -84,21 +86,12 @@ public class EWSActivity extends UiKitActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        screenFlowController.stop();
         ewsEventingChannel.stop();
         ewsComponent = null;
         EWSTagger.pauseLifecycleInfo();
         EWSDependencyProvider.getInstance().clear();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == android.R.id.home) {
-//            screenFlowController.homeButtonPressed();
-//            return true;
-//        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onBackPressed() {
@@ -117,4 +110,10 @@ public class EWSActivity extends UiKitActivity {
     public EWSComponent getEWSComponent() {
         return ewsComponent;
     }
+
+    protected void handleCancelButtonClicked() {
+       BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        baseFragment.handleCancelButtonClicked();
+    }
+
 }

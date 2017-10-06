@@ -6,6 +6,7 @@ package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.communication.events.FoundHomeNetworkEvent;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiViewModel;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 

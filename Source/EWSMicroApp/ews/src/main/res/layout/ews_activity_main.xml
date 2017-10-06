@@ -12,10 +12,6 @@
     android:layout_height="match_parent"
     tools:context="com.philips.cdp2.ews.view.EWSActivity">
 
-    <include
-        android:id="@+id/appbar"
-        layout="@layout/ews_toolbar"/>
-
     <FrameLayout
         android:id="@+id/contentFrame"
         android:layout_width="match_parent"
@@ -23,6 +19,10 @@
         android:layout_gravity="fill_vertical"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/ews_toolbar" />
 
 
 </android.support.design.widget.CoordinatorLayout>

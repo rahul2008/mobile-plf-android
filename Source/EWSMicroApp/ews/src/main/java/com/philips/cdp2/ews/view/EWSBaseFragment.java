@@ -53,7 +53,12 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
     protected abstract String getPageName();
 
     private void injectDependencies() {
-        inject(((EWSActivity) getActivity()).getEWSComponent());
+        inject(getEwsComponent());
+    }
+
+    @NonNull
+    protected EWSComponent getEwsComponent() {
+        return ((EWSActivity) getActivity()).getEWSComponent();
     }
 
     protected abstract void bindViewModel(final T viewDataBinding);

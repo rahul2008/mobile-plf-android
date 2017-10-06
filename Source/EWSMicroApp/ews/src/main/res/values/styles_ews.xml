@@ -120,4 +120,10 @@
         <item name="android:background">@color/color_panel</item>
     </style>
 
+    <style name="EWSDialogActivity" parent="Theme.AppCompat.Dialog">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/ews_divider_line_height</item>
+        <item name="android:background">@color/color_panel</item>
+    </style>
+
 </resources>

@@ -8,7 +8,8 @@ import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
-import com.philips.cdp2.ews.viewmodel.TroubleshootHomeWiFiViewModel;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiViewModel;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -15,14 +15,16 @@ import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
-import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 
 public class Navigator {
 
     @NonNull private final FragmentNavigator fragmentNavigator;
+    @NonNull private final ActivityNavigator activityNavigator;
 
-    public Navigator(@NonNull final FragmentNavigator fragmentNavigator) {
+    public Navigator(@NonNull final FragmentNavigator fragmentNavigator, @NonNull final ActivityNavigator activityNavigator) {
         this.fragmentNavigator = fragmentNavigator;
+        this.activityNavigator = activityNavigator;
     }
 
     public void navigateToGettingStartedScreen() {
@@ -53,7 +55,7 @@ public class Navigator {
     }
 
     public void navigateToWifiTroubleShootingScreen() {
-        pushFragment(new TroubleshootHomeWiFiFragment());
+        activityNavigator.showFragment(TroubleshootHomeWiFiFragment.class.getCanonicalName());
     }
 
     public void navigateToResetConnectionTroubleShootingScreen() {
