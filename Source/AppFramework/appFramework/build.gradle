@@ -168,17 +168,17 @@ hockeyapp {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.philips.platform.referenceapp"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 25
+        renderscriptTargetApi 26
         // applicationId "net.gouline.jacoco"
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
