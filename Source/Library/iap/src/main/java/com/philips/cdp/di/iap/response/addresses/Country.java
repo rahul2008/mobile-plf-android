@@ -13,8 +13,17 @@ public class Country implements Serializable{
     private String isocode;
     private String name;
 
+    public void setIsocode(String isocode) {
+        this.isocode = isocode;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
+
     }
 
     public String getIsocode() {

@@ -94,6 +94,10 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         return mIAPErrorCode;
     }
 
+    public void setmIAPErrorCode(int mIAPErrorCode) {
+        this.mIAPErrorCode = mIAPErrorCode;
+    }
+
     public int getIAPErrorCode() {
         return mIAPErrorCode;
     }

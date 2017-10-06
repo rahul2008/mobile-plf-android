@@ -46,7 +46,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ import java.util.List;
 public class OrderSummaryFragment extends InAppBaseFragment
         implements View.OnClickListener, PaymentController.MakePaymentListener, EventListener, AddressController.AddressListener,
         CheckOutHistoryAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        DeliveryModeDialog.DialogListener, com.philips.cdp.di.iap.utils.AlertListener, CheckOutHistoryAdapter.OrderSummaryUpdateListner {
+        OnSetDeliveryModeListener, com.philips.cdp.di.iap.utils.AlertListener, CheckOutHistoryAdapter.OrderSummaryUpdateListner {
 
     public static final String TAG = OrderSummaryFragment.class.getName();
     private Context mContext;

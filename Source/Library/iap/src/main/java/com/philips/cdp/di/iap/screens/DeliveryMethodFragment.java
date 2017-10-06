@@ -18,7 +18,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 
 import java.util.List;
 
-public class DeliveryMethodFragment extends InAppBaseFragment implements DeliveryModeDialog.DialogListener, AddressController.AddressListener {
+public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDeliveryModeListener, AddressController.AddressListener {
 
     private Context mContext;
     private RecyclerView mDeliveryRecyclerView;

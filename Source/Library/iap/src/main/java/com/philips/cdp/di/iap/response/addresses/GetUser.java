@@ -26,6 +26,10 @@ public class GetUser {
         return defaultAddress;
     }
 
+    public void setDefaultAddress(Addresses defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
     public String getDisplayUid() {
         return displayUid;
     }

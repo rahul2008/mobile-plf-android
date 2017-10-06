@@ -20,11 +20,21 @@ public class Addresses implements Serializable{
     private String firstName;
     private String lastName;
     private String line1;
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     private String line2;
     private String phone1;
     private String phone2;
     private String town;
     private String postalCode;
+
+    public void setTitleCode(String titleCode) {
+        this.titleCode = titleCode;
+    }
+
     private String formattedAddress;
     private String email;
 

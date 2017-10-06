@@ -31,8 +31,8 @@ import java.util.Locale;
 public class BuyDirectFragment extends InAppBaseFragment implements
         BuyDirectController.BuyDirectListener, ErrorDialogFragment.ErrorDialogListener {
     public static final String TAG = BuyDirectFragment.class.getName();
-    private BuyDirectController mBuyDirectController;
-    private Context mContext;
+    BuyDirectController mBuyDirectController;
+    Context mContext;
     private String mCTN;
     private PaymentMethod mPaymentMethod;
     private ErrorDialogFragment mErrorDialogFragment;

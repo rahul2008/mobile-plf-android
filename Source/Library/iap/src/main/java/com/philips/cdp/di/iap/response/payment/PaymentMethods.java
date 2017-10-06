@@ -8,4 +8,8 @@ public class PaymentMethods {
     public List<PaymentMethod> getPayments() {
         return payments;
     }
+
+    public void setPayments(List<PaymentMethod> payments) {
+        this.payments = payments;
+    }
 }

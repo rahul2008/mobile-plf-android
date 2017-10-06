@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
+import com.philips.cdp.di.iap.screens.OnSetDeliveryModeListener;
 
 import java.util.List;
 
@@ -23,11 +23,11 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     private List<DeliveryModes> mModes;
     private int mSelectedIndex;
   //  private View.OnClickListener mConfirmBtnClick;
-    private DeliveryModeDialog.DialogListener mListener;
+    private OnSetDeliveryModeListener mListener;
     private boolean isRadioBtnSelectedFirst;
 
     public DeliveryModeAdapter(final List<DeliveryModes> modes,
-                               DeliveryModeDialog.DialogListener listener) {
+                               OnSetDeliveryModeListener listener) {
         mModes = modes;
         mSelectedIndex = 0;
        // mConfirmBtnClick = confirmBtnClick;
