@@ -243,5 +243,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <!-- Registration Screen-->
     <string name="something_went_wrong">Something went wrong !!!</string>
     <string name="validation_failed">Validation Failed  - </string>
+    <string name="ths_user_not_logged_in">Please Sign In ...</string>
 
 </resources>
