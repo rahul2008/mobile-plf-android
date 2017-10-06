@@ -1,5 +1,5 @@
 include ':launchDigitalCare'
 include 'digitalCare'
-include 'DemoUApp'
+include 'dccDemoApp'
 project(':digitalCare').projectDir = new File('../Library/digitalCare')
-project(':DemoUApp').projectDir = new File('../DemoUApp/DemoUApp')
+project(':dccDemoApp').projectDir = new File('../DemoUApp/DemoUApp')
