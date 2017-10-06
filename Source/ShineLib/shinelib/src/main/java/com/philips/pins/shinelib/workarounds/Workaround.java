@@ -47,7 +47,7 @@ public enum Workaround {
     );
 
     private static final String TAG = BTGatt.class.getSimpleName();
-    private static final boolean ENABLE_DEBUG_LOGGING = true;
+    private static final boolean ENABLE_DEBUG_LOGGING = false;
 
     private Phone[] phones;
     private Manufacturer[] manufacturers;
