@@ -44,6 +44,7 @@ public class AppTagging implements AppTaggingInterface {
     private void init(Context context) {
         getAppTaggingHandler();
         Config.setContext(context);
+       getAppTaggingHandler().enableAdobeLogs();
     }
 
     AppTaggingHandler getAppTaggingHandler() {

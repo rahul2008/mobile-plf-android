@@ -23,6 +23,7 @@ import java.util.Map;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import com.adobe.mobile.Config;
 
 /**
  * AppTagging Test class.
@@ -40,6 +41,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
     LoggingInterface loggingInterfaceMock;
+    AppConfigurationInterface configurationInterface;
     AppIdentityInterface appIdentityInterfaceMock;
     SecureStorageInterface secureStorageInterfaceMock;
     InternationalizationInterface internationalizationInterfaceMock;
@@ -97,7 +99,12 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
 
         mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
+        loggingInterfaceMock = mock(LoggingInterface.class);
+        configurationInterface=mock(AppConfigurationInterface.class);
+
         appInfraMock = mock(AppInfra.class);
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        when(appInfraMock.getConfigInterface()).thenReturn(configurationInterface);
         appTagging=new AppTagging(appInfraMock) {
             @Override
             AppTaggingHandler getAppTaggingHandler() {
@@ -105,7 +112,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             }
         };
 
-        loggingInterfaceMock = mock(LoggingInterface.class);
+
         appIdentityInterfaceMock=mock(AppIdentityInterface.class);
         secureStorageInterfaceMock=mock(SecureStorageInterface.class);
         internationalizationInterfaceMock=mock(InternationalizationInterface.class);
@@ -115,13 +122,13 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 
     public void testCheckForSslConnection() {
         final boolean sslValue =mAppTaggingHandler.checkForSslConnection();
-                if (sslValue) {
-                    assertTrue(sslValue);
-                    when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-                    verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
-                } else {
-                    assertFalse(sslValue);
-                }
+        if (sslValue) {
+            assertTrue(sslValue);
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
+        } else {
+            assertFalse(sslValue);
+        }
 
     }
 
@@ -280,7 +287,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
             verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair,true);
         }
-      }
+    }
 
     public void testMockTrackActionWithInfo() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
@@ -465,8 +472,19 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             assertNull(jSONObject);
         }
     }
-      public void testgetTrackingIdentifier() {
-        assertNotNull(mAppTagging.getTrackingIdentifier());
+
+
+    public void testEnableAdobeLogs() {
+        Boolean val=mAppTaggingHandlerMock.enableAdobeLogs();
+        if(val) {
+            assertTrue(Config.getDebugLogging());
+        }else
+        {
+            assertFalse(Config.getDebugLogging());
+        }
+
+
     }
+
 
 }
