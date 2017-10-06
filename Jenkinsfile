@@ -38,7 +38,7 @@ node('Android') {
                 
             stage('Archive results') {
                 echo "stage Archive results"
-                archiveArtifacts artifacts: Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
             }
 
