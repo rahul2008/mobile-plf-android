@@ -200,24 +200,41 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.continue_btn) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_FLOATING_BUTTON,"symptomContinue");
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
             thsSymptomsPresenter.onEvent(R.id.continue_btn);
-        }
-        if (i == R.id.camera_click_button) {
+        } else if (i == R.id.camera_click_button) {
             selectImage();
-        }
-        if (i == R.id.cancel_dialog) {
+        } else if (i == R.id.cancel_dialog) {
             dialog.dismiss();
-        }
-        if (i == R.id.select_from_gallery) {
+        } else if (i == R.id.select_from_gallery) {
             userChosenTask = getString(R.string.ths_intake_symptoms_choose_from_library);
             dialog.dismiss();
             requestWritePermission();
-        }
-        if (i == R.id.camera_image) {
+        } else if (i == R.id.camera_image) {
             userChosenTask = getString(R.string.ths_intake_symptoms_take_photo);
             dialog.dismiss();
             requestPermission();
+        }
+    }
+
+    protected void updateOtherTopic(){
+        if (isOtherTopicValid()) {
+            mThsVisitContext.setOtherTopic(additional_comments_edittext.getText().toString());
+            THSManager.getInstance().setVisitContext(mThsVisitContext);
+        }
+    }
+
+    private boolean isOtherTopicValid() {
+        boolean otherTopicEnabled = false;
+        try {
+            otherTopicEnabled = THSManager.getInstance().getAwsdk(getContext()).getConfiguration().otherTopicEnabled();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+        if (otherTopicEnabled) {
+            return mThsVisitContext != null && additional_comments_edittext != null && !additional_comments_edittext.getText().toString().isEmpty();
+        }else {
+            return false;
         }
     }
 

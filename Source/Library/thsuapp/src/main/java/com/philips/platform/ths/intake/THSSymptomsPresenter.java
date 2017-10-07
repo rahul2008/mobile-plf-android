@@ -78,6 +78,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
+            ((THSSymptomsFragment) thsBaseView).updateOtherTopic();
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
             thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, true);
