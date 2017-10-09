@@ -7,8 +7,6 @@
 package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.entity.billing.PaymentMethod;
@@ -142,15 +140,15 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             int year;
 
             try {
-                month=Integer.parseInt(expirationMonth);
-                year=Integer.parseInt(expirationYear);
+                month = Integer.parseInt(expirationMonth);
+                year = Integer.parseInt(expirationYear);
                 bundle.putInt("expirationMonth", month);
                 bundle.putInt("expirationYear", year);
             } catch (Exception e) {
                 mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
-            if(month>12){
+            if (month > 12) {
                 mTHSCreditCardDetailFragment.showToast(mTHSCreditCardDetailFragment.getResources().getString(R.string.ths_error_cc_expiry_date_detail_not_valid));
                 return;
             }
@@ -184,16 +182,20 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     /////////start of getPaymentMethod callback ////////////
     @Override
     public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
-        mTHSCreditCardDetailFragment.hideProgressBar();
-        if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
-            mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
-            mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
+        if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
+            mTHSCreditCardDetailFragment.hideProgressBar();
+            if (null != tHSPaymentMethod && null != tHSPaymentMethod.getPaymentMethod()) {
+                mPaymentMethod = tHSPaymentMethod.getPaymentMethod();
+                mTHSCreditCardDetailFragment.mCardHolderNameEditText.setText(mPaymentMethod.getBillingName());
+            }
         }
     }
 
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
-        mTHSCreditCardDetailFragment.hideProgressBar();
+        if (null != mTHSCreditCardDetailFragment && mTHSCreditCardDetailFragment.isFragmentAttached()) {
+            mTHSCreditCardDetailFragment.hideProgressBar();
+        }
     }
     /////////end of getPaymentMethod callback ////////////
 

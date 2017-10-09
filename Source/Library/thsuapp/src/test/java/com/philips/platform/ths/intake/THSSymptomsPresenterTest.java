@@ -132,6 +132,7 @@ public class THSSymptomsPresenterTest {
         pthSymptomsPresenter = new THSSymptomsPresenter(pTHBaseViewMock,pthProviderInfo);
         THSManager.getInstance().setAwsdk(awsdk);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
     }
 
     @Test

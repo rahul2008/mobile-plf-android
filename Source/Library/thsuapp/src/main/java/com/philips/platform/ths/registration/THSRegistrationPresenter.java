@@ -73,40 +73,46 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
 
     @Override
     public void onResponse(THSConsumer thsConsumer, SDKPasswordError sdkPasswordError) {
-        ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-        if(sdkPasswordError!=null){
-            mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
-            return;
-        }
-        final int launchInput = ((THSRegistrationFragment) mTHSBaseFragment).getLaunchInput();
-        switch (launchInput){
-            case THSConstants.THS_SCHEDULED_VISITS:
-                mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(),THSScheduledVisitsFragment.TAG,null);
-                break;
-            case THSConstants.THS_VISITS_HISTORY:
-                mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(),THSVisitHistoryFragment.TAG,null);
-                break;
-            case THSConstants.THS_PRACTICES:
-                mTHSBaseFragment.addFragment(new THSPracticeFragment(),THSPracticeFragment.TAG,null);
-                break;
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+            if (sdkPasswordError != null) {
+                mTHSBaseFragment.showToast(sdkPasswordError.getSDKErrorReason().name());
+                return;
+            }
+            final int launchInput = ((THSRegistrationFragment) mTHSBaseFragment).getLaunchInput();
+            switch (launchInput) {
+                case THSConstants.THS_SCHEDULED_VISITS:
+                    mTHSBaseFragment.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null);
+                    break;
+                case THSConstants.THS_VISITS_HISTORY:
+                    mTHSBaseFragment.addFragment(new THSVisitHistoryFragment(), THSVisitHistoryFragment.TAG, null);
+                    break;
+                case THSConstants.THS_PRACTICES:
+                    mTHSBaseFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null);
+                    break;
+            }
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-        final String localizedMessage = throwable.getLocalizedMessage();
-        if(localizedMessage == null){
-            mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.something_went_wrong));
-        }else {
-            mTHSBaseFragment.showToast(localizedMessage);
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+            final String localizedMessage = throwable.getLocalizedMessage();
+            if (localizedMessage == null) {
+                mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.something_went_wrong));
+            } else {
+                mTHSBaseFragment.showToast(localizedMessage);
+            }
         }
     }
 
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
-        ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
-        mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.validation_failed) + var1.toString());
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
+            mTHSBaseFragment.showToast(mTHSBaseFragment.getString(R.string.validation_failed) + var1.toString());
+        }
     }
 
     public void enrollUser(Date date, String firstname, String lastname, Gender gender, State state) {
