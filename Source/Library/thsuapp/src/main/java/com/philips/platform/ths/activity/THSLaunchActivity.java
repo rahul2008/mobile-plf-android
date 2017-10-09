@@ -33,7 +33,7 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
 
     private FragmentManager fragmentManager;
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
     private Toolbar toolbar;
     private FragmentLauncher fragmentLauncher;
     @Override
