@@ -213,43 +213,6 @@ public class DatabaseHelper extends SecureDbOrmLiteSqliteOpenHelper {
         }
     }
 
-  /*  private void addMeasurementTypes(MeasurementType... measurementTypes) throws SQLException {
-        final Dao<OrmMeasurementType, Integer> measurementTypeDao = getMeasurementTypeDao();
-        // for (MeasurementType measurementType : measurementTypes) {
-        measurementTypeDao.createOrUpdate(new OrmMeasurementType(41, "TEMPERATURE", "\u2103"));
-//        }
-    }*/
-
-    /*private void addMomentTypes(MomentType... momentTypes) throws SQLException {
-        final Dao<OrmMomentType, Integer> ormMomentTypeDao = getMomentTypeDao();
-        for (MomentType momentType : momentTypes) {
-            ormMomentTypeDao.createOrUpdate(new OrmMomentType(MomentType.getIDFromDescription("TEMPERATURE"),
-                    MomentType.getDescriptionFromID(25)));
-        }
-    }*/
-
-
-   /* private void addNewMomentDetailTypeAndAddedUUIDForTagging() throws SQLException {
-        final Dao<OrmMomentDetailType, Integer> momentDetailTypeDao = getMomentDetailTypeDao();
-        momentDetailTypeDao.createOrUpdate(new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
-                MomentDetailType.getDescriptionFromID(54)));
-
-        final Dao<OrmMoment, Integer> ormMomentDao = getDao(OrmMoment.class);
-        List<OrmMoment> moments = ormMomentDao.queryForAll();
-        for (OrmMoment moment : moments) {
-            final OrmMomentDetailType detailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription("TAGGING_ID"),
-                    MomentDetailType.getDescriptionFromID(54));
-            if (OrmMoment.NO_ID.equals(moment.getAnalyticsId())) {
-                OrmMomentDetail detail = new OrmMomentDetail(detailType, moment);
-                detail.setValue(new UuidGenerator().generateRandomUUID());
-                moment.addMomentDetail(detail);
-                moment.setSynced(false);
-                ormMomentDao.update(moment);
-            }
-        }
-    }
-*/
-
     public void dropTables(final ConnectionSource connectionSource) throws SQLException {
         TableUtils.dropTable(connectionSource, OrmMoment.class, true);
         TableUtils.dropTable(connectionSource, OrmMomentType.class, true);
