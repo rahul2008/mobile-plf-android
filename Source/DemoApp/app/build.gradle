@@ -234,6 +234,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
+        exclude group: 'com.android.support', module: 'customtabs'
     }
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
