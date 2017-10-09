@@ -40,7 +40,6 @@ public class ApplianceAccessManager {
     public interface FetchCallback {
         void onDeviceInfoReceived(WifiPortProperties properties);
         void onFailedToFetchDeviceInfo();
-
     }
 
     @Nullable private FetchCallback fetchCallback;
@@ -63,10 +62,10 @@ public class ApplianceAccessManager {
                 switch (requestType) {
                     case ApplianceRequestType.GET_WIFI_PROPS:
                         EWSLogger.d(EWS_STEPS, "Step 3 : Got wifi properties, showing the password entry screen");
-                        showPasswordEntryScreen(wifiPortProperties);
                         if (fetchCallback != null) {
                             fetchCallback.onDeviceInfoReceived(wifiPortProperties);
                         }
+                        showPasswordEntryScreen(wifiPortProperties);
                         break;
                     case ApplianceRequestType.PUT_WIFI_PROPS:
                         EWSLogger.d(EWS_STEPS, "Step 4.1 : Setting the wifi properties to the device succesfull");

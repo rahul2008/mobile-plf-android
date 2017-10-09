@@ -76,6 +76,7 @@ public class WiFiUtil {
     @WiFiState
     int getCurrentWifiState() {
         String currentWifi = getConnectedWiFiSSID();
+        EWSLogger.d(EWS_STEPS, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
         if (homeWiFiSSID == null || currentWifi == null || currentWifi.equalsIgnoreCase(UNKNOWN_SSID)) {
             return UNKNOWN_WIFI;

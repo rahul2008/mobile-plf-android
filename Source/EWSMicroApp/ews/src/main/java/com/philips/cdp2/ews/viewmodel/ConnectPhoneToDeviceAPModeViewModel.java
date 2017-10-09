@@ -90,9 +90,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
         if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
             gpsSettingsDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
         } else {
-            handler.postDelayed(timeoutRunnable, DEVICE_CONNECTION_TIMEOUT);
-            connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
-            eventBus.post(new NetworkConnectEvent(NetworkType.DEVICE_HOTSPOT, WiFiUtil.DEVICE_SSID));
+            startConnection();
         }
     }
 
@@ -112,6 +110,12 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
         unsuccessfulDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
     }
 
+    protected void startConnection() {
+        handler.postDelayed(timeoutRunnable, DEVICE_CONNECTION_TIMEOUT);
+        connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+        eventBus.post(new NetworkConnectEvent(NetworkType.DEVICE_HOTSPOT, WiFiUtil.DEVICE_SSID));
+    }
+
     @SuppressWarnings("UnusedParameters")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void deviceConnectionError(DeviceConnectionErrorEvent deviceConnectionErrorEvent) {
@@ -122,7 +126,9 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showPasswordEntryScreenEvent(@SuppressWarnings("UnusedParameters") ShowPasswordEntryScreenEvent entryScreenEvent) {
         handler.removeCallbacks(timeoutRunnable);
-        connectingDialog.dismissAllowingStateLoss();
+        if (connectingDialog.isVisible()) {
+            connectingDialog.dismissAllowingStateLoss();
+        }
         eventBus.unregister(this);
         navigator.navigateToConnectToDeviceWithPasswordScreen();
     }

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
+import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 
@@ -36,6 +37,16 @@ public class EWSPressPlayAndFollowSetupViewModel extends ConnectPhoneToDeviceAPM
 
     public void onNoButtonClicked() {
         navigator.navigateToResetConnectionTroubleShootingScreen();
+    }
+
+    @Override
+    protected void startConnection() {
+        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
+    }
+
+    @Override
+    public void showPasswordEntryScreenEvent(ShowPasswordEntryScreenEvent entryScreenEvent) {
+        // TODO .. for now do nothing!
     }
 }
 
