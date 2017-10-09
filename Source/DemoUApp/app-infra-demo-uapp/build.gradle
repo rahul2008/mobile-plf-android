@@ -141,7 +141,6 @@ android {
         compile 'com.android.support:design:25.1.1'
         compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: versions.uaf_uAppFwLib + objcdp.getVersionSuffix(), ext: 'aar')
         compile 'com.squareup.leakcanary:leakcanary-android:1.5'
-        compile 'com.google.code.gson:gson:2.3.1'
 
 		def dp = project.ext.has('useprojectdependencies')
         
