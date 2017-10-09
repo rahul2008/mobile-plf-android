@@ -116,7 +116,7 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.registration.dependantregistration.ThsConsumer;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
@@ -147,7 +147,7 @@ public class THSManager {
     private THSConsumerWrapper mTHSConsumerWrapper = null;
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
-    private ThsConsumer mThsConsumer;
+    private THSConsumer mThsConsumer;
     private boolean mIsReturningUser = true;
 
 
@@ -299,9 +299,9 @@ public class THSManager {
         final ConsumerEnrollment newConsumerEnrollment = getConsumerEnrollment(context, dateOfBirth, firstName, lastName, gender, state);
 
         if(getThsConsumer().getDependents()!=null && getThsConsumer().getDependents().size()>0){
-            for(ThsConsumer thsConsumer : getThsConsumer().getDependents()) {
+            for(THSConsumer thsConsumer : getThsConsumer().getDependents()) {
 
-                final DependentEnrollment newDependantEnrollment = getDependantEnrollment(context, thsConsumer.getDob(),thsConsumer.getFirstname(),thsConsumer.getLastname(),Gender.MALE);
+                final DependentEnrollment newDependantEnrollment = getDependantEnrollment(context, thsConsumer.getDob(),thsConsumer.getFirstName(),thsConsumer.getLastName(),Gender.MALE);
 
                getAwsdk(context).getConsumerManager().enrollDependent(newDependantEnrollment, new SDKValidatedCallback<Consumer, SDKError>() {
                    @Override
@@ -1479,11 +1479,11 @@ public class THSManager {
         mIsReturningUser = firstTimeUser;
     }
 
-    public ThsConsumer getThsConsumer() {
+    public THSConsumer getThsConsumer() {
         return mThsConsumer;
     }
 
-    public void setThsConsumer(ThsConsumer mThsConsumer) {
+    public void setThsConsumer(THSConsumer mThsConsumer) {
         this.mThsConsumer = mThsConsumer;
     }
 }

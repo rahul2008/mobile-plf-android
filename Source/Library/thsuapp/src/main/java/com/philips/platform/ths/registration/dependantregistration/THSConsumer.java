@@ -13,16 +13,20 @@ import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 
-public class ThsConsumer {
+public class THSConsumer {
     private Date dob;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private Gender gender;
     private State state;
     private String hsdpUUID;
     private String hsdoToken;
     private String email;
-    private List<ThsConsumer> dependents;
+    private String bloodPressureSystolic;
+    private String bloodPressureDiastolic;
+    private double temperature;
+    private double weight;
+    private List<THSConsumer> dependents;
 
     private ByteArrayInputStream profilePic;
 
@@ -34,20 +38,20 @@ public class ThsConsumer {
         this.dob = dob;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Gender getGender() {
@@ -90,11 +94,11 @@ public class ThsConsumer {
         this.email = email;
     }
 
-    public List<ThsConsumer> getDependents() {
+    public List<THSConsumer> getDependents() {
         return dependents;
     }
 
-    public void setDependents(List<ThsConsumer> dependents) {
+    public void setDependents(List<THSConsumer> dependents) {
         this.dependents = dependents;
     }
 
@@ -104,5 +108,37 @@ public class ThsConsumer {
 
     public void setProfilePic(ByteArrayInputStream profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getBloodPressureSystolic() {
+        return bloodPressureSystolic;
+    }
+
+    public void setBloodPressureSystolic(String bloodPressureSystolic) {
+        this.bloodPressureSystolic = bloodPressureSystolic;
+    }
+
+    public String getBloodPressureDiastolic() {
+        return bloodPressureDiastolic;
+    }
+
+    public void setBloodPressureDiastolic(String bloodPressureDiastolic) {
+        this.bloodPressureDiastolic = bloodPressureDiastolic;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 }

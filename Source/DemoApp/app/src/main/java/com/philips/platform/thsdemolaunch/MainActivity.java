@@ -24,7 +24,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.platform.ths.registration.dependantregistration.ThsConsumer;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
@@ -159,11 +159,11 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
         User user = new User(this);
-        ThsConsumer thsConsumer = new ThsConsumer();
+        THSConsumer thsConsumer = new THSConsumer();
 
-        ThsConsumer baby = new ThsConsumer();
-        baby.setFirstname("Vardhan");
-        baby.setLastname("Hosur");
+        THSConsumer baby = new THSConsumer();
+        baby.setFirstName("Vardhan");
+        baby.setLastName("Hosur");
         baby.setHsdoToken(user.getHsdpAccessToken());
         baby.setGender(Gender.MALE);
         baby.setEmail(user.getEmail());
@@ -175,10 +175,10 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
         thsConsumer.setDob(user.getDateOfBirth());
         thsConsumer.setEmail(user.getEmail());
-        thsConsumer.setFirstname(user.getDisplayName());
+        thsConsumer.setFirstName(user.getGivenName());
         thsConsumer.setGender(Gender.FEMALE);
         thsConsumer.setHsdoToken(user.getHsdpAccessToken());
-        thsConsumer.setLastname(user.getFamilyName());
+        thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
 

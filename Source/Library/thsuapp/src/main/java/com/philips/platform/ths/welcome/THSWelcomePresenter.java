@@ -17,6 +17,7 @@ import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.registration.dependantregistration.THSDependantHistoryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
@@ -44,7 +45,11 @@ class THSWelcomePresenter implements THSBasePresenter,
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+            if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,null,false);
+            }else {
+                uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+            }
         }
     }
 
