@@ -139,11 +139,9 @@ android {
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        consumerProguardFiles 'proguard-rules-prx.pro'
     }
     buildTypes {
-        release {
-            proguardFiles 'proguard-rules-prx.pro'
-        }
         debug {
             debuggable true
             testCoverageEnabled true
