@@ -251,6 +251,7 @@ dependencies {
     compile(dp ? project(':usr') : usrModule)
             {
                 transitive = true
+                exclude group: 'com.android.support', module: 'customtabs'
             }
 
     // Tests
