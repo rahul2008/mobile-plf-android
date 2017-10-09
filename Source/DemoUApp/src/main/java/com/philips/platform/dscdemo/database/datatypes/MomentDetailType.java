@@ -18,6 +18,7 @@ public class MomentDetailType {
     public static final String VIDEO = "VIDEO";
     public static final String TAGGING_ID = "TAGGING ID";
     public static final String PHASE = "PHASE";
+    public static final String SLEEP_TIME="SLEEP_TIME";
 
 
     public static int getIDFromDescription(String description) {
@@ -39,6 +40,8 @@ public class MomentDetailType {
                 return 54;
             case PHASE:
                 return 55;
+            case SLEEP_TIME:
+                return 56;
             default:
                 return 0;
         }
@@ -60,6 +63,8 @@ public class MomentDetailType {
                 return TAGGING_ID;
             case 55:
                 return PHASE;
+            case 56:
+                return SLEEP_TIME;
             default:
                 return UNKNOWN;
         }
@@ -74,6 +79,7 @@ public class MomentDetailType {
         momentDetailType.add(VIDEO);
         momentDetailType.add(TAGGING_ID);
         momentDetailType.add(PHASE);
+        momentDetailType.add(SLEEP_TIME);
         return momentDetailType;
     }
 }
