@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+apply from: "../scripts/versions.gradle"
+
+android {
+    compileSdkVersion config.targetSdk
+    buildToolsVersion config.buildTools
+    publishNonDefault true
+    defaultConfig {
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi config.targetSdk
+        renderscriptSupportModeEnabled true
+        multiDexEnabled true
+    }
+    dataBinding {
+        enabled = true
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled false
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            testCoverageEnabled false
+            proguardFile 'proguard-rules.pro'
+        }
+
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Android/Google
+    compile "com.android.support:support-annotations:${versionsAndroid.support}"
+    compile "com.android.support:design:${versionsAndroid.support}"
+    compile "com.android.support:appcompat-v7:${versionsAndroid.support}"
+    compile "com.android.support:animated-vector-drawable:${versionsAndroid.support}"
+    compile "com.android.support:cardview-v7:${versionsAndroid.support}"
+    compile "com.android.support:multidex:${versionsAndroid.multidex}"
+
+    // Philips Dependencies
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: "${versionsPhilips.cba}", ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}", ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    compile "com.google.dagger:dagger:${versionsExternal.dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
+    compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
+
+    // Test
+    testCompile "junit:junit:${versionsExternal.junit}"
+    testCompile "org.mockito:mockito-core:${versionsExternal.mockito}"
+    testCompile "org.robolectric:robolectric:${versionsExternal.robolectric}"
+    testCompile "org.powermock:powermock-module-junit4:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-api-mockito:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-module-junit4-rule:${versionsExternal.powerMock}"
+    testCompile "org.powermock:powermock-classloading-xstream:${versionsExternal.powerMock}"
+    testCompile("com.nhaarman:mockito-kotlin:${versionsExternal.mockitoKotlin}") {
+        exclude group: 'org.mockito'
+    }
+    compile 'net.danlew:android.joda:2.9.9'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
