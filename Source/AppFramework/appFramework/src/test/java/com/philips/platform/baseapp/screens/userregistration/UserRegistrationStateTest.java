@@ -53,6 +53,7 @@ import static com.philips.platform.baseapp.screens.userregistration.UserRegistra
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.STAGE_SECRET_KEY_CHINA;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.TEST_SECRET_KEY_DEFAULT;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -130,7 +131,13 @@ public class UserRegistrationStateTest {
         hsdpSecrets.put(DEFAULT, TEST_SECRET_KEY_DEFAULT);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
+        if(map != null) {
+            assertEquals(TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
+        }
+        else {
+            // Here the intention to break the test case.
+            assertNotNull("Shared preference is not working in appConfigurationInterface.getPropertyForKey", map);
+        }
     }
 
     @Test
