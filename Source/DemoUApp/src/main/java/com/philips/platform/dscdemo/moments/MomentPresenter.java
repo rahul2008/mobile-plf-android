@@ -120,8 +120,8 @@ class MomentPresenter {
         mDataServices.fetchAllMoment(dbFetchRequestListner);
     }
 
-    void fetchLatestMoment(DBFetchRequestListner dbFetchRequestListner){
-        mDataServices.fetchLatestMomentWithType(MomentType.TEMPERATURE, dbFetchRequestListner);
+    void fetchLatestMoment(DBFetchRequestListner dbFetchRequestListner) {
+        mDataServices.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
     }
 
     private void saveRequest(Moment moment) {

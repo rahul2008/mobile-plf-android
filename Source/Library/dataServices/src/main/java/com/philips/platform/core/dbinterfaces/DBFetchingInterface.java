@@ -63,6 +63,15 @@ public interface DBFetchingInterface {
     void fetchLastMoment(final String type, DBFetchRequestListner<Moment> dbFetchRequestListner) throws SQLException;
 
     /**
+     * Fetches the last created moment of a particular type
+     *
+     * @param type                   The moment type
+     * @param dbFetchRequestListener Callback to notify the fetch result
+     * @throws SQLException throws exception if DataBase operation fails
+     */
+    void fetchLatestMomentByType(final String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException;
+
+    /**
      * Fetches the Moment with the given guid
      *
      * @param guid The guid of Moment (The MomentID returned from server)

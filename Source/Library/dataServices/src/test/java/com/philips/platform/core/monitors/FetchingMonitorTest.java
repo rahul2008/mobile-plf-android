@@ -12,6 +12,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
+import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -205,6 +206,13 @@ public class FetchingMonitorTest {
         doThrow(SQLException.class).when(fetching).fetchLastMoment("Temperature", dbFetchRequestListner);
         fetchingMonitor.onEventAsync(new LoadLastMomentRequest("Temperature", dbFetchRequestListner));
         verify(fetching).fetchLastMoment("Temperature", dbFetchRequestListner);
+    }
+
+    @Test
+    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchLatestMomentByType() throws Exception {
+        doThrow(SQLException.class).when(fetching).fetchLatestMomentByType("Temperature", dbFetchRequestListner);
+        fetchingMonitor.onEventAsync(new LoadLatestMomentByTypeRequest("Temperature", dbFetchRequestListner));
+        verify(fetching).fetchLatestMomentByType("Temperature", dbFetchRequestListner);
     }
 
     @Test

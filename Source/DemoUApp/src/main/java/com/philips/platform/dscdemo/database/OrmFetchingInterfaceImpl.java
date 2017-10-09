@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
@@ -101,7 +102,22 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchLastMoment(@NonNull final String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+    public void fetchLastMoment(final String type, DBFetchRequestListner<Moment> dbFetchRequestListner) throws SQLException {
+        QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
+        Where<OrmMoment, Integer> where = builder.where();
+        where.eq("type_id", type);
+        builder.setWhere(where);
+        builder.orderBy("dateTime", false);
+
+        OrmMoment ormMoments = momentDao.queryForFirst(builder.prepare());
+        ArrayList<OrmMoment> moments = new ArrayList<>();
+        moments.add(ormMoments);
+
+        dbFetchRequestListner.onFetchSuccess((List) ormMoments);
+    }
+
+    @Override
+    public void fetchLatestMomentByType(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
         builder.where().eq("type_id", MomentType.getIDFromDescription(type));
         builder.orderBy("dateTime", false);
