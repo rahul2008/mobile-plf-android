@@ -38,7 +38,7 @@
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <RelativeLayout
-        android:id="@+id/pth_practice_row_layout"
+        android:id="@+id/ths_parent_container"
         android:layout_width="match_parent"
         android:layout_below="@id/horizontalLine"
         android:background="@drawable/uid_list_item_selector"
@@ -53,7 +53,7 @@
             android:layout_marginStart="@dimen/ths_fab_margin">
 
             <ImageView
-                android:id="@+id/pth_practice_logo"
+                android:id="@+id/ths_parent_logo"
                 android:src="@mipmap/child_icon"
                 android:layout_width="@dimen/ths_image_size"
                 android:layout_height="@dimen/ths_image_size" />
@@ -61,7 +61,7 @@
 
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/pth_practice_name"
+            android:id="@+id/ths_parent_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
