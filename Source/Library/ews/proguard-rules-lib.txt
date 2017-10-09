@@ -1,0 +1,31 @@
+##--------------- Eventbus  ----------
+-keepclassmembers class ** {
+    !private void onEvent*(**);
+}
+-keepclassmembers, includedescriptorclasses class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class de.greenrobot.event.** { *; }
+-keep class de.greenrobot.** {*;}
+
+
+
+#Tagging lib and jar
+-keep, includedescriptorclasses public class com.adobe.mobile.** {*;}
+-keep, includedescriptorclasses public class com.philips.platform.appinfra.tagging.** {*;}
+-keep class com.android.volley.** { *; }
+-keep interface com.android.volley.** { *; }
+-keep class org.apache.commons.logging.**
+
+# App-framework
+-keep, includedescriptorclasses class com.philips.platform.appframework.** {*;}
+-keep, includedescriptorclasses class com.philips.cdp.**{*;}
+
+-dontwarn com.google.android.gms.**
+
+-dontnote android.net.http.*
+-dontnote org.apache.**
+-dontnote sun.misc.Unsafe
+-dontnote org.joda.time.**

@@ -12,6 +12,8 @@ android {
         renderscriptTargetApi config.targetSdk
         renderscriptSupportModeEnabled true
         multiDexEnabled true
+        consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
+
     }
     dataBinding {
         enabled = true
@@ -25,8 +27,8 @@ android {
             shrinkResources true
             debuggable false
             testCoverageEnabled false
-            proguardFile 'proguard-rules.pro'
         }
+
         debug {
             minifyEnabled false
             shrinkResources false
