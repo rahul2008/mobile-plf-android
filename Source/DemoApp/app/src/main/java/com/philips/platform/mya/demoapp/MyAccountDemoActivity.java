@@ -1,4 +1,4 @@
-package com.philips.platform.mya;
+package com.philips.platform.mya.demoapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

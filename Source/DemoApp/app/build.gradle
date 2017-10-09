@@ -120,7 +120,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "com.philips.platform.mya"
+        applicationId "com.philips.platform.mya.demoapp"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         minSdkVersion 21
         targetSdkVersion 25
