@@ -74,21 +74,11 @@ node ('android&&docker') {
             }
             stage('Trigger E2E Test'){
                 if (BranchName =~ /master|develop|release\/platform_.*/) {
-		    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
-                    if (BranchName =~ /develop.*/) {
-                        BranchName = "develop"
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    if (BranchName =~ /release.*/) {
-                        BranchName = "release"
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    if (BranchName =~ /master.*/) {
-                        BranchName = "release"
-                        echo "BranchName changed to ${BranchName}"
-                    }
+                    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
                     echo "APK_NAME = ${APK_NAME}"
-                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+                    def jobBranchName = BranchName.replace('/', '_')
+                    echo "jobBranchName = ${jobBranchName}"
+                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
                 }
             }
         } catch(err) {
