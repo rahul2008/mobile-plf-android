@@ -37,13 +37,13 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, true);
+            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, true);
+            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
-            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, true);
+            uiBaseView.addFragment( new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
         }
     }
 
