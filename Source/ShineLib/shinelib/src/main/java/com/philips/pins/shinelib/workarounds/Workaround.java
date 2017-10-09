@@ -11,13 +11,11 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 /**
- * Contains all the workarounds that are inside BlueLib.
+ * Contains workarounds that are inside BlueLib.
  *
  * A workaround is, or is not, executed based on the phone's model, manufacturer or OS version.
  * Each workaround specifies on which model, manufacturer and OS version it should execute.
  *
- * If the executeWorkaroundIfPhoneNotRegistered is set true the workaround is also executed
- * on phones the are not known in the {@link Phone} enum.
  */
 public enum Workaround {
     /**
@@ -31,8 +29,7 @@ public enum Workaround {
     CorruptedCache(
             new Phone[]         { },
             new Manufacturer[]  { },
-            new OS[]            { OS.Nougat },
-            false
+            new OS[]            { OS.Nougat }
     ),
     /**
      * Wait some time before executing a BLE read/write action after service discovery is completed.
@@ -42,23 +39,20 @@ public enum Workaround {
     ServiceDiscoveredDelay(
             new Phone[]         { Phone.Samsung_S7, Phone.Samsung_S4, Phone.Nexus_6P },
             new Manufacturer[]  { },
-            new OS[]            { },
-            false
+            new OS[]            { }
     );
 
-    private static final String TAG = BTGatt.class.getSimpleName();
+    private static final String TAG = Workaround.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
 
     private Phone[] phones;
     private Manufacturer[] manufacturers;
     private OS[] osVersions;
-    private boolean executeWorkaroundIfPhoneNotRegistered;
 
-    Workaround(Phone[] phones, Manufacturer[] manufacturers, OS[] osVersions, boolean executeWorkaroundIfPhoneNotRegistered) {
+    Workaround(Phone[] phones, Manufacturer[] manufacturers, OS[] osVersions) {
         this.phones = phones;
         this.manufacturers = manufacturers;
         this.osVersions = osVersions;
-        this.executeWorkaroundIfPhoneNotRegistered = executeWorkaroundIfPhoneNotRegistered;
     }
 
     public boolean isRequiredOnThisDevice() {
@@ -66,24 +60,18 @@ public enum Workaround {
         String modelName = Build.MODEL;
         int osVersion = Build.VERSION.SDK_INT;
 
-        DebugLog(String.format("manufacturer: %s, model: %s, os: %d", manufacturerName, modelName, osVersion));
-
-        if(executeWorkaroundIfPhoneNotRegistered && !Phone.isRegistered(modelName, manufacturerName)) {
-            DebugLog("Workaround is applied because the phone is not registered.");
-            return true;
-        }
-
         for(Phone phone : phones) {
             if (phone.getModelName().equalsIgnoreCase(modelName) &&
                     phone.getManufacturer().getName().equalsIgnoreCase(manufacturerName)) {
-                DebugLog("Workaround is applied because of the phone model");
+
+                DebugLog(String.format("Workaround '%s' is applied because the phone model is %s of %s", name(), modelName, manufacturerName));
                 return true;
             }
         }
 
         for(Manufacturer manufacturer : manufacturers) {
             if(manufacturer.getName().equalsIgnoreCase(manufacturerName)) {
-                DebugLog("Workaround is applied because of the phone manufacturer");
+                DebugLog(String.format("Workaround '%s' is applied because the phone manufacturer is %s", name(), manufacturerName));
                 return true;
             }
         }
@@ -91,13 +79,13 @@ public enum Workaround {
         for(OS os : osVersions) {
             for(int version : os.geVersions()) {
                 if(version == osVersion) {
-                    DebugLog("Workaround is applied because of the phone OS version");
+                    DebugLog(String.format("Workaround '%s' is applied because the phone OS version is %d", name(), osVersion));
                     return true;
                 }
             }
         }
 
-        DebugLog("Workaround not required on this phone.");
+        DebugLog(String.format("hWorkaround '%s' is not required on this pone. (Manufacturer: %s, Model: %s, OS: %d)", name(), manufacturerName, modelName, osVersion));
 
         return false;
     }

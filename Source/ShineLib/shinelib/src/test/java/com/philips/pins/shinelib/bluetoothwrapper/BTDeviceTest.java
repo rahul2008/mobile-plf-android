@@ -11,12 +11,10 @@ import android.os.Build;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 
 import static junit.framework.Assert.assertNotNull;
@@ -42,11 +40,6 @@ public class BTDeviceTest {
 
         mockedUserHandler = new MockedHandler();
         btDevice = new BTDevice(bluetoothDevice, mockedUserHandler.getMock());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", 24);
     }
 
     @Test

@@ -27,14 +27,4 @@ enum Phone {
         this.manufacturer = manufacturer;
         this.modelName = modelName;
     }
-
-    public static boolean isRegistered(String modelName, String manufacturerName) {
-        for (Phone phone : values()) {
-            if (phone.getModelName().equalsIgnoreCase(modelName) &&
-                    phone.getManufacturer().getName().equalsIgnoreCase(manufacturerName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
