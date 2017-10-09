@@ -166,58 +166,62 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     ////////// start of getExistingSubscription call back
     @Override
     public void onGetInsuranceResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
-        mTHSBaseFragment.hideProgressBar();
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
-        Subscription subscription = tHSSubscription.getSubscription();
-        if (null != subscription) {
-            if (subscription.getHealthPlan() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan = subscription.getHealthPlan();
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).insuranceEditBox.setText(subscription.getHealthPlan().getName());
-            }
-            if (subscription.getHealthPlan() != null && subscription.getHealthPlan().isUsesSuffix() && subscription.getSubscriberId() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).subscriberIDEditBox.setText(subscription.getSubscriberId());
-            }
-            if (subscription.getHealthPlan().isUsesSuffix()) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixLabel.setVisibility(View.VISIBLE);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setVisibility(View.VISIBLE);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setText(subscription.getSubscriberSuffix());
-            } else {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixLabel.setVisibility(View.GONE);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setVisibility(View.GONE);
-            }
-            if (subscription.getRelationship().isPrimarySubscriber()) {
-                //if user is  a primary subscriber
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(false);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
-            } else {
-                //if user is NOT a primary subscriber
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(true);
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
-            }
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
+            Subscription subscription = tHSSubscription.getSubscription();
+            if (null != subscription) {
+                if (subscription.getHealthPlan() != null) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan = subscription.getHealthPlan();
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).insuranceEditBox.setText(subscription.getHealthPlan().getName());
+                }
+                if (subscription.getHealthPlan() != null && subscription.getHealthPlan().isUsesSuffix() && subscription.getSubscriberId() != null) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).subscriberIDEditBox.setText(subscription.getSubscriberId());
+                }
+                if (subscription.getHealthPlan().isUsesSuffix()) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixLabel.setVisibility(View.VISIBLE);
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setVisibility(View.VISIBLE);
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setText(subscription.getSubscriberSuffix());
+                } else {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixLabel.setVisibility(View.GONE);
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mSuffixEditText.setVisibility(View.GONE);
+                }
+                if (subscription.getRelationship().isPrimarySubscriber()) {
+                    //if user is  a primary subscriber
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(false);
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
+                } else {
+                    //if user is NOT a primary subscriber
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.setChecked(true);
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
+                }
 
-            if (subscription.getRelationship() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship = subscription.getRelationship();
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).relationshipEditBox.setText(subscription.getRelationship().getName());
-            }
-            if (subscription.getPrimarySubscriberFirstName() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).firstNameEditBox.setText(subscription.getPrimarySubscriberFirstName());
-            }
-            if (subscription.getPrimarySubscriberLastName() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).lastNameEditBox.setText(subscription.getPrimarySubscriberLastName());
-            }
-            if (subscription.getPrimarySubscriberDateOfBirth() != null) {
-                ((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.setText(subscription.getPrimarySubscriberDateOfBirth().toString());
-            }
+                if (subscription.getRelationship() != null) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship = subscription.getRelationship();
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).relationshipEditBox.setText(subscription.getRelationship().getName());
+                }
+                if (subscription.getPrimarySubscriberFirstName() != null) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).firstNameEditBox.setText(subscription.getPrimarySubscriberFirstName());
+                }
+                if (subscription.getPrimarySubscriberLastName() != null) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).lastNameEditBox.setText(subscription.getPrimarySubscriberLastName());
+                }
+                if (subscription.getPrimarySubscriberDateOfBirth() != null) {
+                    ((THSInsuranceDetailFragment) mTHSBaseFragment).relationDOBEditBox.setText(subscription.getPrimarySubscriberDateOfBirth().toString());
+                }
 
 
+            }
         }
     }
 
 
     @Override
     public void onGetInsuranceFailure(Throwable throwable) {
-        mTHSBaseFragment.hideProgressBar();
-        mTHSBaseFragment.showToast(throwable.getMessage());
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            mTHSBaseFragment.showToast(throwable.getMessage());
+        }
     }
     ////////// end of getExistingSubscription call back
 
@@ -225,21 +229,27 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     ///////// start update suscription call back
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
-        mTHSBaseFragment.hideProgressBar();
-        AmwellLog.i("updateInsurance", "fail");
-        showInsuranceNotVerifiedDialog();
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            AmwellLog.i("updateInsurance", "fail");
+            showInsuranceNotVerifiedDialog();
+        }
     }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-        mTHSBaseFragment.hideProgressBar();
-        showCostSummaryFragment();
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            showCostSummaryFragment();
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        mTHSBaseFragment.hideProgressBar();
-        showInsuranceNotVerifiedDialog();
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            mTHSBaseFragment.hideProgressBar();
+            showInsuranceNotVerifiedDialog();
+        }
 
     }
     ///////// start update suscription call back

@@ -152,24 +152,30 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void callPharmacyListFragment(Location location) {
-        getActivity().getSupportFragmentManager().popBackStack();
-        THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
-        thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
-        thsPharmacyListFragment.setLocation(location);
-        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
+        if(isFragmentAttached()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
+            thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
+            thsPharmacyListFragment.setLocation(location);
+            addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
+        }
     }
 
     private void showPharmacySearch() {
-        getActivity().getSupportFragmentManager().popBackStack();
-        THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
+        if(isFragmentAttached()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
+            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
+        }
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        getActivity().getSupportFragmentManager().popBackStack();
-        THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
-        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
+        if(isFragmentAttached()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
+            thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
+            addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
+        }
     }
 
     @Override

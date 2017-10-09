@@ -79,6 +79,7 @@ public class THSMedicationPresenterTest {
         when(thsMedicationMock.getMedicationList()).thenReturn(list);
         when(thsConsumer.getConsumer()).thenReturn(consumer);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        when(thsMedicationFragmentMock.isFragmentAttached()).thenReturn(true);
     }
 
     @Test

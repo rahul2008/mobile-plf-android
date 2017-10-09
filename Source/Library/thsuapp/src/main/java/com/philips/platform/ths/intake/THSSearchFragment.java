@@ -105,29 +105,30 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
-        searchBox.setQuerySubmitListener(this);
-        searchBox.setQuery(searchBox.getQuery());
-        String searchBoxHint = "";
-        switch (searchType) {
-            case THSConstants.MEDICATION_SEARCH_CONSTANT:
-                searchBox.getSearchTextView().addTextChangedListener(this);
-                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
-                break;
-            case THSConstants.PROVIDER_SEARCH_CONSTANT:
-                searchBox.getSearchTextView().addTextChangedListener(this);
-                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
-                break;
-            case THSConstants.PHARMACY_SEARCH_CONSTANT:
-                searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
-                break;
+        if(isFragmentAttached()) {
+            super.onPrepareOptionsMenu(menu);
+            searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
+            searchBox.setQuerySubmitListener(this);
+            searchBox.setQuery(searchBox.getQuery());
+            String searchBoxHint = "";
+            switch (searchType) {
+                case THSConstants.MEDICATION_SEARCH_CONSTANT:
+                    searchBox.getSearchTextView().addTextChangedListener(this);
+                    searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
+                    break;
+                case THSConstants.PROVIDER_SEARCH_CONSTANT:
+                    searchBox.getSearchTextView().addTextChangedListener(this);
+                    searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
+                    break;
+                case THSConstants.PHARMACY_SEARCH_CONSTANT:
+                    searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
+                    break;
+            }
+            searchBox.setSearchBoxHint(searchBoxHint);
+            searchBox.setDecoySearchViewHint(searchBoxHint);
+
+
         }
-        searchBox.setSearchBoxHint(searchBoxHint);
-        searchBox.setDecoySearchViewHint(searchBoxHint);
-
-
-
     }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

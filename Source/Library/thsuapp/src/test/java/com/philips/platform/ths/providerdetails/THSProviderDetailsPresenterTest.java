@@ -103,6 +103,7 @@ public class THSProviderDetailsPresenterTest {
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsPresenter = new THSProviderDetailsPresenter(thsProviderDetailsViewInterface, thsBaseFragmentMock);
+        when(thsBaseFragmentMock.isFragmentAttached()).thenReturn(true);
     }
 
     @Test

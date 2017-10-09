@@ -44,19 +44,23 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
         //TODO: check this immediately
-        Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
-        if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
-            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-            thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null);
-        } else {
-            final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-            thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+        if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
+            Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+            if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
+                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            } else {
+                final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+                thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null);
+            }
+            //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
         }
-        //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
     }
 
     @Override
     public void onUpdateFailure(Throwable throwable) {
-        ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address Failed");
+        if(null!=thsBaseView && null!=thsBaseView.getFragmentActivity()) {
+            ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address Failed");
+        }
     }
 }

@@ -66,13 +66,15 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
     }
 
     private void showCostSummary(){
-        if (mTHSInsuranceConfirmationFragment.isLaunchedFromCostSummary) {
-            mTHSInsuranceConfirmationFragment.getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
-        } else {
+        if(null!=mTHSInsuranceConfirmationFragment && mTHSInsuranceConfirmationFragment.isFragmentAttached()) {
+            if (mTHSInsuranceConfirmationFragment.isLaunchedFromCostSummary) {
+                mTHSInsuranceConfirmationFragment.getActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
+            } else {
 
-            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-            fragment.setFragmentLauncher(mTHSInsuranceConfirmationFragment.getFragmentLauncher());
-            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+                final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+                fragment.setFragmentLauncher(mTHSInsuranceConfirmationFragment.getFragmentLauncher());
+                mTHSInsuranceConfirmationFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
+            }
         }
     }
 

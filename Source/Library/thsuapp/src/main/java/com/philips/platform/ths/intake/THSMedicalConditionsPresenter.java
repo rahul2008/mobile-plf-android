@@ -52,17 +52,19 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
 
     @Override
     public void onResponse(THSConditionsList thsConditions, THSSDKError THSSDKError) {
-        final List<Condition> conditions = thsConditions.getConditions();
+        if(null!=thsBaseFragment && thsBaseFragment.isFragmentAttached()) {
+            final List<Condition> conditions = thsConditions.getConditions();
 
-        List<THSCondition> THSConditionsList = new ArrayList<>();
-        for (Condition condition : conditions) {
-            THSCondition THSConditions = new THSCondition();
-            THSConditions.setCondition(condition);
-            THSConditionsList.add(THSConditions);
+            List<THSCondition> THSConditionsList = new ArrayList<>();
+            for (Condition condition : conditions) {
+                THSCondition THSConditions = new THSCondition();
+                THSConditions.setCondition(condition);
+                THSConditionsList.add(THSConditions);
+            }
+
+
+            ((THSMedicalConditionsFragment) thsBaseFragment).setConditions(THSConditionsList);
         }
-
-
-        ((THSMedicalConditionsFragment) thsBaseFragment).setConditions(THSConditionsList);
     }
 
     @Override

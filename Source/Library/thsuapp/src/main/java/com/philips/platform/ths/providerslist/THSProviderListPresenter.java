@@ -60,16 +60,16 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
-        if(null != providerInfoList && providerInfoList.size() > 0 && null == sdkError) {
-            boolean providerAvailable = isProviderAvailable(providerInfoList);
-            thsProviderListViewInterface.updateMainView(providerAvailable);
-            thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
-        }
-        else if(null != sdkError){
-            AmwellLog.e(THSProviderDetailsFragment.TAG,sdkError.getMessage());
-        }
-        else {
-            thsProviderListViewInterface.showNoProviderErrorDialog();
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (null != providerInfoList && providerInfoList.size() > 0 && null == sdkError) {
+                boolean providerAvailable = isProviderAvailable(providerInfoList);
+                thsProviderListViewInterface.updateMainView(providerAvailable);
+                thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
+            } else if (null != sdkError) {
+                AmwellLog.e(THSProviderDetailsFragment.TAG, sdkError.getMessage());
+            } else {
+                thsProviderListViewInterface.showNoProviderErrorDialog();
+            }
         }
     }
 
@@ -125,18 +125,20 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
-        if(onDemandSpecialties == null || onDemandSpecialties.size()==0){
-            mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            if (onDemandSpecialties == null || onDemandSpecialties.size() == 0) {
+                mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+                mThsBaseFragment.hideProgressBar();
+                return;
+            }
+            mThsOnDemandSpeciality = onDemandSpecialties;
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
+            final THSSymptomsFragment fragment = new THSSymptomsFragment();
+            fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle);
             mThsBaseFragment.hideProgressBar();
-            return;
         }
-        mThsOnDemandSpeciality = onDemandSpecialties;
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_ON_DEMAND,onDemandSpecialties.get(0));
-        final THSSymptomsFragment fragment = new THSSymptomsFragment();
-        fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-        mThsBaseFragment.addFragment(fragment,THSSymptomsFragment.TAG,bundle);
-        mThsBaseFragment.hideProgressBar();
     }
 
     @Override
