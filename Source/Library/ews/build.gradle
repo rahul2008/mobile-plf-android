@@ -35,6 +35,10 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     libraryVariants.all { variant ->
         variant.assemble.doLast {
             copyLib.execute()
