@@ -96,8 +96,8 @@
         android:id="@+id/ths_recycler_view_dependent_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pth_practice_row_layout"
-        android:layout_centerInParent="true" />
+        android:layout_below="@+id/ths_parent_container"
+         />
 
 </RelativeLayout>
 
