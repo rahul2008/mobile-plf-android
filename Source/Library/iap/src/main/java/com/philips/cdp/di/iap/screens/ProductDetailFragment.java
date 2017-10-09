@@ -155,6 +155,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         EventHelper.getInstance().registerEventNotification(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_DELETE_PRODUCT, this);
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
+        initializeViews(rootView);
+        return rootView;
+    }
+
+    void initializeViews(View rootView) {
         mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
         mProductDescription = (TextView) rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
         mCTN = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
@@ -202,7 +207,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 populateData();
             }
         }
-        return rootView;
     }
 
     private void fetchProductDetailFromPrx() {
@@ -275,7 +279,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
+
         if (mBundle != null) {
             if (!mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 tagProduct();
@@ -310,6 +314,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         makeAssetRequest();
+        setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
     }
 
     private Drawable countArrow;

@@ -34,11 +34,11 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
 
-        mWebView = (WebView) group.findViewById(R.id.wv_payment);
+
         mProgress = createCustomProgressBar(group,MEDIUM);
         mProgress.setVisibility(View.GONE);
         mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
-        initializeWebView();
+        initializeWebView(group);
         return group;
     }
 
@@ -64,7 +64,9 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         return fragment;
     }
 
-    private void initializeWebView() {
+    void initializeWebView(View group) {
+
+        mWebView = (WebView) group.findViewById(R.id.wv_payment);
         mWebView.setInitialScale(1);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
