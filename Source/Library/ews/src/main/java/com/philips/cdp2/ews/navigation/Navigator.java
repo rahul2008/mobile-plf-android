@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
+import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
@@ -84,6 +85,11 @@ public class Navigator {
 
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
         pushFragment(new ConnectingPhoneToHotspotWifiFragment());
+    }
+
+    public void navigateToUnsuccessfulConnectionDialog(@NonNull Fragment currentFragment, int requestCode) {
+        activityNavigator.showFragmentWithResult(currentFragment,
+                ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
     }
 
     private void pushFragment(@NonNull Fragment fragment) {

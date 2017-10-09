@@ -34,7 +34,6 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.view.dialog.ConnectionUnsuccessfulDialog;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.viewmodel.BlinkingAccessPointViewModel;
 import com.philips.cdp2.ews.viewmodel.EWSPressPlayAndFollowSetupViewModel;
@@ -135,7 +134,7 @@ public class EWSModule {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
         return new EWSPressPlayAndFollowSetupViewModel(navigator, eventBus, permissionHandler, dialogFragment,
-                new ConnectionUnsuccessfulDialog(), new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
+                null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }
 
     @Provides
@@ -145,7 +144,7 @@ public class EWSModule {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
         return new BlinkingAccessPointViewModel(navigator, eventBus, permissionHandler, dialogFragment,
-                new ConnectionUnsuccessfulDialog(), new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
+                null, new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }
 
     @Provides

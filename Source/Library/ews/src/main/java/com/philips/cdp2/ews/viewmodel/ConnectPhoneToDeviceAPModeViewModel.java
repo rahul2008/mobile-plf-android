@@ -103,8 +103,10 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     }
 
     void showUnsuccessfulDialog() {
-        connectingDialog.dismissAllowingStateLoss();
-        if (unsuccessfulDialog.getDialog() != null && unsuccessfulDialog.getDialog().isShowing()) {
+        if (connectingDialog != null) {
+            connectingDialog.dismissAllowingStateLoss();
+        }
+        if (unsuccessfulDialog == null || (unsuccessfulDialog.getDialog() != null && unsuccessfulDialog.getDialog().isShowing())) {
             return;
         }
         unsuccessfulDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
@@ -112,7 +114,9 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
 
     protected void startConnection() {
         handler.postDelayed(timeoutRunnable, DEVICE_CONNECTION_TIMEOUT);
-        connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+        if (connectingDialog != null) {
+            connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+        }
         eventBus.post(new NetworkConnectEvent(NetworkType.DEVICE_HOTSPOT, WiFiUtil.DEVICE_SSID));
     }
 
@@ -126,7 +130,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showPasswordEntryScreenEvent(@SuppressWarnings("UnusedParameters") ShowPasswordEntryScreenEvent entryScreenEvent) {
         handler.removeCallbacks(timeoutRunnable);
-        if (connectingDialog.isVisible()) {
+        if (connectingDialog != null &&connectingDialog.isVisible()) {
             connectingDialog.dismissAllowingStateLoss();
         }
         eventBus.unregister(this);

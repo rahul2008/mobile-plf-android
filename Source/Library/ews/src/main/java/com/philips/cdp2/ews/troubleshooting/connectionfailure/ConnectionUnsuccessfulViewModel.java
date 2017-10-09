@@ -3,10 +3,9 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.troubleshooting.connectionfailure;
 
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.DialogFragment;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
@@ -19,15 +18,31 @@ import javax.inject.Inject;
 
 public class ConnectionUnsuccessfulViewModel {
 
-    private DialogFragment dialogDismissListener;
+    public static final int HELP_NEEDED_RESULT = 1;
+    public static final int HELP_NOT_NEEDED_RESULT = 2;
+
+    @Nullable private UnsuccessfulConnectionCallback callback;
 
     @Inject
     ConnectionUnsuccessfulViewModel() {
     }
 
-    public void dismissDialog() {
+    public void setCallback(@Nullable UnsuccessfulConnectionCallback callback) {
+        this.callback = callback;
+    }
+
+    public void onNeedHelpButtonClicked() {
+        if (callback != null) {
+            callback.hideDialogWithResult(HELP_NEEDED_RESULT);
+        }
         tagConnectionUnsuccessful();
-        dialogDismissListener.dismissAllowingStateLoss();
+    }
+
+    public void onNoHelpNeededButtonClicked() {
+        if (callback != null) {
+            callback.hideDialogWithResult(HELP_NOT_NEEDED_RESULT);
+        }
+        tagConnectionUnsuccessful();
     }
 
     private void tagConnectionUnsuccessful() {
@@ -37,18 +52,5 @@ public class ConnectionUnsuccessfulViewModel {
         map.put(Tag.KEY.TECHNICAL_ERROR, Tag.VALUE.WIFI_SINGLE_ERROR);
 
         EWSTagger.trackAction(Tag.ACTION.CONNECTION_UNSUCCESSFUL, map);
-    }
-
-    public void setDialogDismissListener(final DialogFragment dialogDismissListener) {
-        this.dialogDismissListener = dialogDismissListener;
-    }
-
-    public void removeDialogDismissListener() {
-        this.dialogDismissListener = null;
-    }
-
-    @VisibleForTesting
-    public DialogFragment getDialogDismissListener() {
-        return dialogDismissListener;
     }
 }

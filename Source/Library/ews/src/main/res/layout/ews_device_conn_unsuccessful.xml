@@ -6,48 +6,67 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.ConnectionUnsuccessfulViewModel"/>
+            type="com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulViewModel"/>
     </data>
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/d">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/connection_unsuccessful_title"
-            style="@style/EWS.Txt.Title"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/d"
-            android:layout_marginStart="@dimen/d"
-            android:layout_marginTop="@dimen/e"
-            android:text="@string/label_ews_connection_unsuccesful_title"
-            android:gravity="center"/>
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/d">
 
-        <TextView
-            android:id="@+id/connection_unsuccessful_body"
-            style="@style/EWS.Txt.Body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/connection_unsuccessful_title"
-            android:layout_marginBottom="@dimen/e"
-            android:layout_marginEnd="@dimen/d"
-            android:layout_marginStart="@dimen/d"
-            android:layout_marginTop="@dimen/d"
-            android:text="@string/label_ews_connection_unsuccesful_body"
-            android:gravity="center"/>
+            <TextView
+                android:id="@+id/connection_unsuccessful_title"
+                style="@style/EWS.Txt.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/d"
+                android:layout_marginStart="@dimen/d"
+                android:layout_marginTop="@dimen/e"
+                android:gravity="center"
+                android:text="@string/label_ews_connection_unsuccesful_title"/>
 
-        <Button
-            android:id="@+id/unsuccessful_next_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/connection_unsuccessful_body"
-            android:layout_marginEnd="@dimen/d"
-            android:layout_marginStart="@dimen/d"
-            android:onClick="@{() -> viewModel.dismissDialog()}"
-            android:text="@string/button_ews_connection_unsuccesful_try_again"/>
+            <TextView
+                android:id="@+id/connection_unsuccessful_body"
+                style="@style/EWS.Txt.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/connection_unsuccessful_title"
+                android:layout_above="@+id/connection_unsuccessful_yes_button"
+                android:layout_marginBottom="@dimen/e"
+                android:layout_marginEnd="@dimen/d"
+                android:layout_marginStart="@dimen/d"
+                android:layout_marginTop="@dimen/d"
+                android:gravity="center|top"
+                android:text="@string/label_ews_connection_unsuccesful_body"/>
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/connection_unsuccessful_yes_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/connection_unsuccessful_no_button"
+                android:layout_marginEnd="@dimen/d"
+                android:layout_marginStart="@dimen/d"
+                android:onClick="@{() -> viewModel.onNeedHelpButtonClicked()}"
+                android:text="@string/button_ews_connection_unsuccesful_yes"/>
+
+            <Button
+                android:id="@+id/connection_unsuccessful_no_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/d"
+                android:layout_marginStart="@dimen/d"
+                android:onClick="@{() -> viewModel.onNoHelpNeededButtonClicked()}"
+                android:text="@string/button_ews_connection_unsuccesful_no"/>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </layout>

@@ -18,6 +18,12 @@ public class BaseDialogActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static void startActivityForResult(Fragment fragment, String fragmentName, int requestCode) {
+        Intent intent = new Intent(fragment.getContext(), BaseDialogActivity.class);
+        intent.putExtra(FRAGMENT_NAME, fragmentName);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

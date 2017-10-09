@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
+import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +57,7 @@ public class ConnectionUnsuccessfulViewModelTest {
 
     @Test
     public void shouldDismissDialogOnListenerOnDismissDialog() {
-        subject.dismissDialog();
+        subject.onNeedHelpButtonClicked();
 
         verify(dialogFragmentMock).dismissAllowingStateLoss();
     }
@@ -65,14 +66,14 @@ public class ConnectionUnsuccessfulViewModelTest {
     public void shouldThrowExceptionOnListenerNotAttached() {
         subject = new ConnectionUnsuccessfulViewModel();
 
-        subject.dismissDialog();
+        subject.onNeedHelpButtonClicked();
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void shouldTagConnectionUnsuccessfulViewWhenDismissed() throws Exception {
         ArgumentCaptor<HashMap> mapArgumentCaptor = ArgumentCaptor.forClass(HashMap.class);
-        subject.dismissDialog();
+        subject.onNeedHelpButtonClicked();
 
         PowerMockito.verifyStatic();
         EWSTagger.trackAction(eq(Tag.ACTION.CONNECTION_UNSUCCESSFUL), mapArgumentCaptor.capture());
@@ -94,7 +95,7 @@ public class ConnectionUnsuccessfulViewModelTest {
     @Test(expected = Exception.class)
     public void shouldThrowExceptionOnListenerRemovedAndDialogDismissed() throws Exception {
         subject.removeDialogDismissListener();
-        subject.dismissDialog();
+        subject.onNeedHelpButtonClicked();
     }
 
 }

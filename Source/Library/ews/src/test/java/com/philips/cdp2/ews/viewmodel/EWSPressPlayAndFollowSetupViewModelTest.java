@@ -19,7 +19,7 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.view.dialog.ConnectionUnsuccessfulDialog;
+import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -71,7 +71,7 @@ public class EWSPressPlayAndFollowSetupViewModelTest {
     private Handler handlerMock;
 
     @Mock
-    private ConnectionUnsuccessfulDialog unsuccessfulDialogMock;
+    private ConnectionUnsuccessfulFragment unsuccessfulDialogMock;
 
     @Mock
     private GPSEnableDialogFragment gpsEnableDialogFragmentMock;

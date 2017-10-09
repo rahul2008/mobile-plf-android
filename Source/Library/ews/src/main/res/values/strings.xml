@@ -72,6 +72,8 @@
     <string name="label_ews_connection_unsuccesful_title">Connection was unsuccessful</string>
     <string name="label_ews_connection_unsuccesful_reconnect_body">Please verify your password, move your Somneo &amp; phone closer to your home router, and try again. If problems persist, please tap \"still having issues\" below.</string>
     <string name="button_ews_connection_unsuccesful_try_again">Try again</string>
+    <string name="button_ews_connection_unsuccesful_yes">Yes, please help me</string>
+    <string name="button_ews_connection_unsuccesful_no">No, thanks</string>
     <string name="button_ews_connection_unsuccesful_still_issue">Still having issues?</string>
     <string name="button_ews_connection_unsuccesful_different_issue">Different issue</string>
     <string name="ews_08c_title">Troubleshooting</string>

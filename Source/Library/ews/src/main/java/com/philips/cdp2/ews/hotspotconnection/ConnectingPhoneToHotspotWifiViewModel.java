@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
@@ -23,10 +25,12 @@ import javax.inject.Inject;
 public class ConnectingPhoneToHotspotWifiViewModel {
 
     public interface ConnectingPhoneToHotSpotCallback {
-
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+        Fragment fragment();
+        int requestCode();
     }
+    
     private static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
 
     @NonNull private final WiFiConnectivityManager wiFiConnectivityManager;
@@ -35,22 +39,17 @@ public class ConnectingPhoneToHotspotWifiViewModel {
     @NonNull private final WiFiUtil wiFiUtil;
     @NonNull private final Navigator navigator;
 
-    @Nullable private ConnectingPhoneToHotSpotCallback callback;
+    @Nullable private ConnectingPhoneToHotSpotCallback fragmentCallback;
 
     @NonNull private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                Log.d("CONNECT", "Network connected");
                 int currentWifiState = wiFiUtil.getCurrentWifiState();
-                Log.d("CONNECT", "Wifi state: " + currentWifiState);
                 if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
-                    Log.d("CONNECT", "Hotspot connected");
                     onPhoneConnectedToHotspotWifi();
                 }
-            } else {
-                Log.d("CONNECT", "Network not connected");
             }
         }
     };
@@ -73,14 +72,14 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         this.navigator = navigator;
     }
 
-    public void setCallback(@Nullable ConnectingPhoneToHotSpotCallback callback) {
-        this.callback = callback;
+    public void setFragmentCallback(@Nullable ConnectingPhoneToHotSpotCallback fragmentCallback) {
+        this.fragmentCallback = fragmentCallback;
     }
 
     public void connectToHotSpot() {
         // TODO add timeout
-        if (callback != null) {
-            callback.registerReceiver(broadcastReceiver, createIntentFilter());
+        if (fragmentCallback != null) {
+            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
         }
         wiFiConnectivityManager.connectToApplianceHotspotNetwork(WiFiUtil.DEVICE_SSID);
     }
@@ -89,11 +88,15 @@ public class ConnectingPhoneToHotspotWifiViewModel {
 
     }
 
+    public void onResultReceived(int result) {
+        Log.d("RESULT", String.valueOf(result));
+    }
+
     public void clear() {
-        if (callback != null) {
-            callback.unregisterReceiver(broadcastReceiver);
+        if (fragmentCallback != null) {
+            fragmentCallback.unregisterReceiver(broadcastReceiver);
         }
-        setCallback(null);
+        setFragmentCallback(null);
     }
 
     private void onPhoneConnectedToHotspotWifi() {
@@ -108,15 +111,29 @@ public class ConnectingPhoneToHotspotWifiViewModel {
                     @Override
                     public void onFailedToFetchDeviceInfo() {
                         Log.d("CONNECT", "onFailedToFetchDeviceInfo");
+                        showUnsuccessfulDialog();
                     }
                 });
     }
 
-    private void onConnectionAttemptTimedOut() {
+    private void showUnsuccessfulDialog() {
+        if (fragmentCallback != null) {
+            navigator.navigateToUnsuccessfulConnectionDialog(fragmentCallback.fragment(),
+                    fragmentCallback.requestCode());
+        }
+    }
 
+    private void onConnectionAttemptTimedOut() {
+        showUnsuccessfulDialog();
     }
 
     private IntentFilter createIntentFilter() {
         return new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    @Nullable
+    ConnectingPhoneToHotSpotCallback getFragmentCallback() {
+        return fragmentCallback;
     }
 }

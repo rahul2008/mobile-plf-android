@@ -38,7 +38,7 @@ public class ApplianceAccessManager {
     public static final String TAG = "ApplianceAccessManager";
 
     public interface FetchCallback {
-        void onDeviceInfoReceived(WifiPortProperties properties);
+        void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
         void onFailedToFetchDeviceInfo();
     }
 

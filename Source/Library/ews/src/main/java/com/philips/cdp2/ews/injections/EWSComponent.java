@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel;
+import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.view.BlinkingAccessPointFragment;
 import com.philips.cdp2.ews.view.ChooseSetupStateFragment;
@@ -23,7 +24,6 @@ import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.view.TroubleshootIncorrectPasswordFragment;
 import com.philips.cdp2.ews.view.TroubleshootWrongWiFiFragment;
 import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
-import com.philips.cdp2.ews.view.dialog.ConnectionUnsuccessfulDialog;
 import com.philips.cdp2.ews.view.dialog.TroubleshootDeviceAPModeFragment;
 import com.philips.cdp2.ews.viewmodel.BaseTroubleShootingViewModel;
 import com.philips.cdp2.ews.viewmodel.ConnectToWrongPhoneTroubleshootingViewModel;
@@ -59,7 +59,7 @@ public interface EWSComponent {
 
     void inject(TroubleshootDeviceAPModeFragment troubleshootDeviceAPModeFragment);
 
-    void inject(ConnectionUnsuccessfulDialog unsuccessfulDialog);
+    void inject(ConnectionUnsuccessfulFragment unsuccessfulDialog);
 
     void inject(TroubleshootIncorrectPasswordFragment troubleshootIncorrectPasswordFragment);
 
