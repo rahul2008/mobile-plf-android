@@ -35,6 +35,11 @@ public class CvvCvcDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_cvc_code_dailog, container, false);
+        initializeViews(view);
+        return view;
+    }
+
+    void initializeViews(View view) {
         Bundle bundle = getArguments();
         PaymentMethod mPaymentMethod = null;
         if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
@@ -86,7 +91,6 @@ public class CvvCvcDialogFragment extends DialogFragment {
         });
 
         mEditText.requestFocus();
-        return view;
     }
 
     private void sendResult(int REQUEST_CODE) {

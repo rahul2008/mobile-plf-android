@@ -57,7 +57,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         OnSetDeliveryModeListener, com.philips.cdp.di.iap.utils.AlertListener, CheckOutHistoryAdapter.OrderSummaryUpdateListner {
 
     public static final String TAG = OrderSummaryFragment.class.getName();
-    private Context mContext;
+    Context mContext;
 
     private Button mPayNowBtn;
     private Button mCancelBtn;
@@ -97,6 +97,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
 
+        initializeViews(rootView);
+        return rootView;
+    }
+
+    void initializeViews(View rootView) {
         TextView tv_checkOutSteps = (TextView) rootView.findViewById(R.id.tv_checkOutSteps);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "3"));
 
@@ -131,7 +136,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         mNumberOfProducts = (TextView) rootView.findViewById(R.id.number_of_products);
-        return rootView;
     }
 
     @Override

@@ -8,6 +8,11 @@ public class PaymentMethod implements Serializable{
 
     private static final long serialVersionUID = 1083630169028052247L;
     private String accountHolderName;
+
+    public void setBillingAddress(Addresses billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
     private Addresses billingAddress;
     private String cardNumber;
     private CardType cardType;

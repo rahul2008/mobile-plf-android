@@ -18,6 +18,11 @@ public class Addresses implements Serializable{
     private String title; //Mr.
     private String titleCode; //mr
     private String firstName;
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     private String lastName;
     private String line1;
 

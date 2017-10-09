@@ -38,6 +38,11 @@ public class ErrorDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.iap_error_dialog, container, false);
+        initializeViews(v);
+        return v;
+    }
+
+    void initializeViews(View v) {
         bundle = getArguments();
 
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
@@ -58,7 +63,6 @@ public class ErrorDialogFragment extends DialogFragment {
                 handleEmptyScreen();
             }
         });
-        return v;
     }
 
     @Override

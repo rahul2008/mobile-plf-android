@@ -44,7 +44,7 @@ import java.util.Locale;
 public class DLSAddressFragment extends InAppBaseFragment implements View.OnClickListener, AddressController.AddressListener, PaymentController.PaymentListener {
 
     public static final String TAG = DLSAddressFragment.class.getName();
-    private Context mContext;
+    Context mContext;
     protected Fragment shippingFragment;
     protected Fragment billingFragment;
     protected CheckBox checkBox;
@@ -63,14 +63,12 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         return view;
     }
 
-    private void initializeViews(View rootView) {
+    void initializeViews(View rootView) {
 
         TextView tv_checkOutSteps = (TextView) rootView.findViewById(R.id.tv_checkOutSteps);
         tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "2"));
 
-        shippingFragment = getFragmentByID(R.id.fragment_shipping_address);
 
-        billingFragment = getFragmentByID(R.id.fragment_billing_address);
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
 
@@ -81,6 +79,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
         mPaymentController = new PaymentController(mContext, this);
 
         checkBox = (CheckBox) rootView.findViewById(R.id.use_this_address_checkbox);
+
+        shippingFragment = getFragmentByID(R.id.fragment_shipping_address);
+
+        billingFragment = getFragmentByID(R.id.fragment_billing_address);
+
         setFragmentVisibility(billingFragment, false);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
