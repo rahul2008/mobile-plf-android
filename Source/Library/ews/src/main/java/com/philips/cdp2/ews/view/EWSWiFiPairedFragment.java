@@ -15,7 +15,7 @@ import com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel;
 
 import javax.inject.Inject;
 
-public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPairedBinding> {
+public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPairedBinding> implements FragmentCallback {
 
     @Inject
     EWSWiFIPairedViewModel viewModel;
@@ -33,6 +33,7 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @Override
     protected void bindViewModel(final FragmentEwsWifiPairedBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
+        viewModel.setFragmentCallback(this);
     }
 
     @Override
@@ -59,5 +60,15 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
     @Override
     public int getNavigationIconId() {
         return 0;//don't show
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
+
+    @Override
+    public void finishMicroApp() {
+        getActivity().finish();
     }
 }

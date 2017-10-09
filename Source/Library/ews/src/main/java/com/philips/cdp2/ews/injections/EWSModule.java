@@ -8,6 +8,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -27,6 +28,8 @@ import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.communication.WiFiBroadcastReceiver;
 import com.philips.cdp2.ews.communication.WiFiEventMonitor;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.navigation.FragmentNavigator;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
@@ -55,10 +58,12 @@ import dagger.Provides;
 @Module
 public class EWSModule {
 
-    private Context context;
+    @NonNull private final Context context;
+    @NonNull private final FragmentManager fragmentManager;
 
-    public EWSModule(Context context) {
+    public EWSModule(Context context, @NonNull FragmentManager fragmentManager) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @Provides
@@ -115,30 +120,30 @@ public class EWSModule {
     EWSWiFiConnectViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
                                                          @NonNull final ApplianceSessionDetailsInfo sessionInfo,
                                                          @NonNull final @Named("ews.event.bus") EventBus eventBus,
-                                                         @NonNull final ScreenFlowController screenFlowController) {
+                                                         @NonNull final Navigator navigator) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, eventBus, screenFlowController,
+        return new EWSWiFiConnectViewModel(wifiUtil, sessionInfo, eventBus, navigator,
                 dialogFragment, new Handler(context.getMainLooper()));
     }
 
     @Provides
-    EWSPressPlayAndFollowSetupViewModel providesEWSPressPlayAndFollowSetupViewModel(@NonNull final ScreenFlowController screenFlowController,
+    EWSPressPlayAndFollowSetupViewModel providesEWSPressPlayAndFollowSetupViewModel(@NonNull final Navigator navigator,
                                                                                     @NonNull final @Named("ews.event.bus") EventBus eventBus,
                                                                                     @NonNull final PermissionHandler permissionHandler) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new EWSPressPlayAndFollowSetupViewModel(screenFlowController, eventBus, permissionHandler, dialogFragment,
+        return new EWSPressPlayAndFollowSetupViewModel(navigator, eventBus, permissionHandler, dialogFragment,
                 new ConnectionUnsuccessfulDialog(), new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }
 
     @Provides
-    BlinkingAccessPointViewModel providesBlinkingAccessPointViewModel(@NonNull final ScreenFlowController screenFlowController,
+    BlinkingAccessPointViewModel providesBlinkingAccessPointViewModel(@NonNull final Navigator navigator,
                                                                       @NonNull final @Named("ews.event.bus") EventBus eventBus,
                                                                       @NonNull final PermissionHandler permissionHandler) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment.getInstance(R.string.label_ews_establishing_connection_body);
-        return new BlinkingAccessPointViewModel(screenFlowController, eventBus, permissionHandler, dialogFragment,
+        return new BlinkingAccessPointViewModel(navigator, eventBus, permissionHandler, dialogFragment,
                 new ConnectionUnsuccessfulDialog(), new GPSEnableDialogFragment(), new Handler(context.getMainLooper()));
     }
 
@@ -150,5 +155,10 @@ public class EWSModule {
         final UappSettings settings = new CcSettings(context);
 
         return new ProductSupportViewModel(ccLaunchInput, ccInterface, dependencies, settings, screenFlowController);
+    }
+
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(new FragmentNavigator(fragmentManager));
     }
 }

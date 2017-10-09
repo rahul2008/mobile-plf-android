@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,13 +21,13 @@ public class EWSPressPlayAndFollowSetupViewModel extends ConnectPhoneToDeviceAPM
 
 
     @Inject
-    public EWSPressPlayAndFollowSetupViewModel(@NonNull final ScreenFlowController screenFlowController,
+    public EWSPressPlayAndFollowSetupViewModel(@NonNull final Navigator navigator,
                                                @NonNull @Named("ews.event.bus") final EventBus eventBus,
                                                @NonNull final PermissionHandler permissionHandler,
                                                @NonNull final DialogFragment connectingDialog,
                                                @NonNull final DialogFragment unsuccesfulDialog,
                                                @NonNull final DialogFragment gpsSettingsDialog, @NonNull final Handler handler) {
-        super(screenFlowController, eventBus, permissionHandler, connectingDialog, unsuccesfulDialog, gpsSettingsDialog, handler);
+        super(navigator, eventBus, permissionHandler, connectingDialog, unsuccesfulDialog, gpsSettingsDialog, handler);
     }
 
     public void onNextButtonClicked() {

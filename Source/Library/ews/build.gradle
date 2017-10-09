@@ -4,6 +4,7 @@ apply from: "../scripts/versions.gradle"
 android {
     compileSdkVersion config.targetSdk
     buildToolsVersion config.buildTools
+    publishNonDefault true
     defaultConfig {
         minSdkVersion config.minSdk
         targetSdkVersion config.targetSdk
@@ -40,8 +41,6 @@ android {
         }
     }
 
-
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -55,12 +54,7 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/INDEX.LIST'
     }
-
-
-
 }
-
-
 
 task copyLib(type: Copy) {
     print("Copies aar files from output to the sample project directory")

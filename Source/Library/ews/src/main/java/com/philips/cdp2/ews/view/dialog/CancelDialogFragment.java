@@ -8,11 +8,13 @@ package com.philips.cdp2.ews.view.dialog;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.CancelSetupDialogBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.view.FragmentCallback;
 import com.philips.cdp2.ews.viewmodel.CancelSetupViewModel;
 
 import javax.inject.Inject;
 
-public class CancelDialogFragment extends BaseDialogFragment<CancelSetupDialogBinding> {
+public class CancelDialogFragment extends BaseDialogFragment<CancelSetupDialogBinding>
+        implements FragmentCallback {
 
     @Inject
     CancelSetupViewModel viewModel;
@@ -21,6 +23,7 @@ public class CancelDialogFragment extends BaseDialogFragment<CancelSetupDialogBi
     protected void bindViewModel(final CancelSetupDialogBinding viewDataBinding) {
         viewModel.setDialogDismissListener(this);
         viewDataBinding.setViewModel(viewModel);
+        viewModel.setFragmentCallback(this);
     }
 
     @Override
@@ -37,5 +40,10 @@ public class CancelDialogFragment extends BaseDialogFragment<CancelSetupDialogBi
     public void onDestroy() {
         super.onDestroy();
         viewModel.removeDialogDismissListener();
+    }
+
+    @Override
+    public void finishMicroApp() {
+        getActivity().finish();
     }
 }

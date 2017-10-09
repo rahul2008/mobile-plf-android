@@ -7,9 +7,7 @@ package com.philips.cdp2.ews.viewmodel;
 import android.databinding.Observable;
 
 import com.philips.cdp2.ews.BR;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
-import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
-import com.philips.cdp2.ews.view.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
@@ -17,7 +15,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -27,7 +24,7 @@ public class EWSHomeWifiDisplayViewModelTest {
     @Mock
     private WiFiUtil wifiUtilMock;
     @Mock
-    private ScreenFlowController screenFlowControllerMock;
+    private Navigator navigatorMock;
 
     private EWSHomeWifiDisplayViewModel viewModel;
     @Mock
@@ -37,7 +34,7 @@ public class EWSHomeWifiDisplayViewModelTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        viewModel = new EWSHomeWifiDisplayViewModel(screenFlowControllerMock, wifiUtilMock);
+        viewModel = new EWSHomeWifiDisplayViewModel(navigatorMock, wifiUtilMock);
     }
 
     @Test
@@ -53,15 +50,14 @@ public class EWSHomeWifiDisplayViewModelTest {
     public void shouldShowDevicePowerOnScreenWhenClickedOnYesButton() throws Exception {
         viewModel.onYesButtonClicked();
 
-        verify(screenFlowControllerMock).showFragment(isA(EWSDevicePowerOnFragment.class));
+        verify(navigatorMock).navigateToDevicePoweredOnConfirmationScreen();
     }
 
     @Test
     public void shouldShowNetworkTroubleShootingScreenOnNoButtonClicked() throws Exception {
-        viewModel.setHierarchyLevel(1);
         viewModel.onNoButtonClicked();
 
-        verify(screenFlowControllerMock).showFragment(isA(TroubleshootHomeWiFiFragment.class));
+        verify(navigatorMock).navigateToWifiTroubleShootingScreen();
     }
 
     @Test

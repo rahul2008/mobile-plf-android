@@ -5,16 +5,18 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.view.FragmentCallback;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -24,13 +26,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class EWSWiFIPairedViewModelTest {
 
-    @Mock
-    private ScreenFlowController screenFlowControllerMock;
+    @InjectMocks private EWSWiFIPairedViewModel subject;
 
-    @Mock
-    private EWSCallbackNotifier callbackNotifierMock;
-
-    private EWSWiFIPairedViewModel viewModel;
+    @Mock private FragmentCallback mockFragmentCallback;
+    @Mock private EWSCallbackNotifier callbackNotifierMock;
 
     @Before
     public void setup() {
@@ -39,15 +38,29 @@ public class EWSWiFIPairedViewModelTest {
         PowerMockito.mockStatic(EWSCallbackNotifier.class);
         when(EWSCallbackNotifier.getInstance()).thenReturn(callbackNotifierMock);
 
-        viewModel = new EWSWiFIPairedViewModel(screenFlowControllerMock);
+        subject.setFragmentCallback(mockFragmentCallback);
     }
 
     @Test
     public void shouldGiveOnSuccessCallbackWhenClickedOnStartButton() throws Exception {
-        viewModel.onStartClicked();
+        subject.onStartClicked();
 
-        verify(screenFlowControllerMock).finish();
         verify(callbackNotifierMock).onSuccess();
     }
 
+    @Test
+    public void shouldFinishMicroAppWhenOnStartClicked() throws Exception {
+        subject.onStartClicked();
+
+        verify(mockFragmentCallback).finishMicroApp();
+    }
+
+    @Test
+    public void shouldNotFinishMicroAppWhenOnStartClickedWhenCallbackIsNull() throws Exception {
+        subject.setFragmentCallback(null);
+
+        subject.onStartClicked();
+
+        verify(mockFragmentCallback, never()).finishMicroApp();
+    }
 }

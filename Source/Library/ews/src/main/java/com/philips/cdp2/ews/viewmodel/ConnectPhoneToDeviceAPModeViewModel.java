@@ -17,11 +17,10 @@ import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
 import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
 import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.permission.PermissionHandler;
 import com.philips.cdp2.ews.util.GpsUtil;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
-import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,7 +37,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
 
     public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     @NonNull
-    protected final ScreenFlowController screenFlowController;
+    protected final Navigator navigator;
     @NonNull
     private final PermissionHandler permissionHandler;
     @NonNull
@@ -59,14 +58,15 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @NonNull
     private Handler handler;
 
-    public ConnectPhoneToDeviceAPModeViewModel(@NonNull final ScreenFlowController screenFlowController,
+    public ConnectPhoneToDeviceAPModeViewModel(@NonNull final Navigator navigator,
                                                @NonNull @Named("ews.event.bus") final EventBus eventBus,
                                                @NonNull final PermissionHandler permissionHandler,
                                                @NonNull final DialogFragment connectingDialog,
                                                @NonNull final DialogFragment unsuccessfulDialog,
-                                               @NonNull final DialogFragment gpsSettingsDialog, @NonNull final Handler handler) {
+                                               @NonNull final DialogFragment gpsSettingsDialog,
+                                               @NonNull final Handler handler) {
+        this.navigator = navigator;
         this.permissionHandler = permissionHandler;
-        this.screenFlowController = screenFlowController;
         this.eventBus = eventBus;
         this.connectingDialog = connectingDialog;
         this.unsuccessfulDialog = unsuccessfulDialog;
@@ -124,7 +124,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
         handler.removeCallbacks(timeoutRunnable);
         connectingDialog.dismissAllowingStateLoss();
         eventBus.unregister(this);
-        screenFlowController.showFragment(new EWSWiFiConnectFragment());
+        navigator.navigateToConnectToDeviceWithPasswordScreen();
     }
 }
 

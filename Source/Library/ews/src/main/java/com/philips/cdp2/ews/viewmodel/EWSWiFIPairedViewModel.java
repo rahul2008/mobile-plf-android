@@ -6,23 +6,29 @@
 package com.philips.cdp2.ews.viewmodel;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.view.FragmentCallback;
 
 import javax.inject.Inject;
 
 public class EWSWiFIPairedViewModel {
 
-    private ScreenFlowController screenFlowController;
+    @Nullable private FragmentCallback fragmentCallback;
 
     @Inject
-    public EWSWiFIPairedViewModel(@NonNull final ScreenFlowController screenFlowController) {
-        this.screenFlowController = screenFlowController;
+    public EWSWiFIPairedViewModel() {
+    }
+
+    public void setFragmentCallback(@NonNull FragmentCallback fragmentCallback) {
+        this.fragmentCallback = fragmentCallback;
     }
 
     public void onStartClicked() {
-        screenFlowController.finish();
         EWSCallbackNotifier.getInstance().onSuccess();
+        if (fragmentCallback != null) {
+            fragmentCallback.finishMicroApp();
+        }
     }
 }

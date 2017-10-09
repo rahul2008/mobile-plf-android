@@ -21,12 +21,10 @@ import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
-import com.philips.cdp2.ews.navigation.ScreenFlowController;
+import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
-import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -77,7 +75,7 @@ public class EWSWiFiConnectViewModelTest {
     private Fragment fragmentMock;
 
     @Mock
-    private ScreenFlowController screenFlowControllerMock;
+    private Navigator navigatorMock;
     @Mock
     private EventBus eventBusMock;
 
@@ -111,7 +109,7 @@ public class EWSWiFiConnectViewModelTest {
         when(EWSCallbackNotifier.getInstance()).thenReturn(ewsCallbackNotifier);
 
         viewModel = new EWSWiFiConnectViewModel(wifiUtilMock, sessionInfoMock, eventBusMock,
-                screenFlowControllerMock, dialogFragmentMock, handlerMock);
+                navigatorMock, dialogFragmentMock, handlerMock);
         viewModel.setFragment(fragmentMock);
     }
 
@@ -177,7 +175,7 @@ public class EWSWiFiConnectViewModelTest {
     public void shouldShowPairingStatusScreenOnceApplianceIsDiscoveredAfterConnectedToHomeWifi() throws Exception {
         viewModel.showPairingSuccessEvent(new PairingSuccessEvent());
 
-        verify(screenFlowControllerMock).showFragment(isA(EWSWiFiPairedFragment.class));
+        verify(navigatorMock).navigateToPairingSuccessScreen();
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
 
@@ -238,7 +236,7 @@ public class EWSWiFiConnectViewModelTest {
     }
 
     private void verifyConnectionUnsuccessfulScreenIsShown() {
-        verify(screenFlowControllerMock).showFragment(isA(TroubleshootConnectionUnsuccessfulFragment.class));
+        verify(navigatorMock).navigateToConnectionUnsuccessfulTroubleShootingScreen();
         verify(dialogFragmentMock).dismissAllowingStateLoss();
         verify(handlerMock).removeCallbacks(any(Runnable.class));
     }

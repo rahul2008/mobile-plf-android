@@ -107,6 +107,7 @@ public class WiFiConnectivityManager {
             } else {
                 wifiManager.startScan();
                 try {
+                    // TODO Re-consider please!
                     Thread.sleep(DELAY_IN_EACH_NEW_SCAN);
                 } catch (InterruptedException ignored) {
 
