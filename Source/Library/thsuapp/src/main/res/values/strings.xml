@@ -169,7 +169,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_search_pharmacy">Search for pharmacy</string>
 
     <!-- Welcome Screen-->
-    <string name="ths_see_provider">See a provider online, anytime</string>
+    <string name="ths_see_provider">See <b>a provider online,</b> anytime</string>
     <string name="ths_quick_visit">The easiest way to get a quick visit with a licensed provider.</string>
     <string name="ths_this_services_is_provided_by">This service is provided by</string>
     <string name="ths_see_doctor">Go to see a provider</string>

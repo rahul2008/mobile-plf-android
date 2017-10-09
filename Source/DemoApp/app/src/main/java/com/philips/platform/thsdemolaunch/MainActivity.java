@@ -27,6 +27,7 @@ import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -43,16 +44,18 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_Bright;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterfaceImpl PTHMicroAppInterface;
     private Toolbar toolbar;
+    private ThemeConfiguration themeConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        initTheme();
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.PURPLE, NavigationColor.BRIGHT, AccentRange.ORANGE ));
+        themeConfiguration = new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE);
+        UIDHelper.init(themeConfiguration);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_activity_launch);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
@@ -153,7 +156,8 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
         PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
-        PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
+        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,themeConfiguration,R.style.Theme_DLS_GroupBlue_Bright,null);
+        PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
     }
 
     @Override
