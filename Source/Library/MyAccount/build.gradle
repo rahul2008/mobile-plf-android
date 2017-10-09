@@ -51,7 +51,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = "ConsentWidgets"
+archivesBaseName = "MyAccount"
 
 allprojects {
     repositories {
@@ -79,7 +79,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.myaccount_ConsentWidgets)
+version = objcdp.getVersion(versions.myaccount_MyAccount)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
