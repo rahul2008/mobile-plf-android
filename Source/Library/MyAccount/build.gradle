@@ -10,7 +10,7 @@ jacoco {
 }
 
 def coverageSourceDirs = [
-        '../ConsentWidgets/src/main/java'
+        '../MyAccount/src/main/java'
 ]
 
 buildscript {
