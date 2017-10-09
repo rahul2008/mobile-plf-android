@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.injections;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 
@@ -160,5 +161,11 @@ public class EWSModule {
     @Provides
     Navigator provideNavigator() {
         return new Navigator(new FragmentNavigator(fragmentManager), new ActivityNavigator(context));
+    }
+
+    @Provides
+    @Named("mainLooperHandler")
+    Handler provideHandlerWithMainLooper() {
+        return new Handler(Looper.getMainLooper());
     }
 }

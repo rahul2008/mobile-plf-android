@@ -45,7 +45,10 @@ public class Navigator {
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
-        pushFragment(new EWSPressPlayAndFollowSetupFragment());
+        boolean isPresentInStack = fragmentNavigator.popToFragment(EWSPressPlayAndFollowSetupFragment.class.getCanonicalName());
+        if (!isPresentInStack) {
+            pushFragment(new EWSPressPlayAndFollowSetupFragment());
+        }
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen() {
@@ -90,6 +93,10 @@ public class Navigator {
     public void navigateToUnsuccessfulConnectionDialog(@NonNull Fragment currentFragment, int requestCode) {
         activityNavigator.showFragmentWithResult(currentFragment,
                 ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
+    }
+
+    public void navigateBack() {
+        fragmentNavigator.pop();
     }
 
     private void pushFragment(@NonNull Fragment fragment) {

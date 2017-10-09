@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
 
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager.FetchCallback;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel
-        .ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -22,9 +23,13 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.concurrent.TimeUnit;
+
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,6 +43,7 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
     @Mock private ApplianceAccessManager mockApplianceAccessManager;
     @Mock private WiFiUtil mockWiFiUtil;
     @Mock private Navigator mockNavigator;
+    @Mock private Handler mockHandler;
     @Mock private ConnectingPhoneToHotSpotCallback mockFragmentCallback;
 
     @Mock private Context mockContext;
@@ -47,6 +53,7 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
 
     @Captor private ArgumentCaptor<BroadcastReceiver> receiverArgumentCaptor;
     @Captor private ArgumentCaptor<FetchCallback> fetchCallbackArgumentCaptor;
+    @Captor private ArgumentCaptor<Runnable> timeoutArgumentCaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -69,6 +76,13 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         subject.connectToHotSpot();
 
         verify(mockFragmentCallback, never()).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+    }
+
+    @Test
+    public void itShouldAddTimeoutRunnableWhenConnectingToHotspot() throws Exception {
+        subject.connectToHotSpot();
+
+        verify(mockHandler).postDelayed(any(Runnable.class), eq(TimeUnit.SECONDS.toMillis(30)));
     }
 
     @Test
@@ -126,8 +140,17 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         verify(mockApplianceAccessManager).fetchDevicePortProperties(fetchCallbackArgumentCaptor.capture());
         fetchCallbackArgumentCaptor.getValue().onFailedToFetchDeviceInfo();
 
-        // TODO
+        verify(mockNavigator).navigateToUnsuccessfulConnectionDialog(any(Fragment.class), anyInt());
         verify(mockNavigator, never()).navigateToConnectToDeviceWithPasswordScreen();
+    }
+
+    @Test
+    public void itShouldNavigateToUnsuccessfulDialogWhenTimesOut() throws Exception {
+        subject.connectToHotSpot();
+        verify(mockHandler).postDelayed(timeoutArgumentCaptor.capture(), anyInt());
+        timeoutArgumentCaptor.getValue().run();
+
+        verify(mockNavigator).navigateToUnsuccessfulConnectionDialog(any(Fragment.class), anyInt());
     }
 
     private void mockNetworkChange(NetworkInfo.State networkState, @WiFiUtil.WiFiState int wifiState) {

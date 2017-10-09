@@ -24,7 +24,7 @@ public class ConnectionUnsuccessfulViewModel {
     @Nullable private UnsuccessfulConnectionCallback callback;
 
     @Inject
-    ConnectionUnsuccessfulViewModel() {
+    public ConnectionUnsuccessfulViewModel() {
     }
 
     public void setCallback(@Nullable UnsuccessfulConnectionCallback callback) {

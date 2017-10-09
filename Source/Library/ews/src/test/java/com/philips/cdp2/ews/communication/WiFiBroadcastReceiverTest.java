@@ -6,7 +6,6 @@ package com.philips.cdp2.ews.communication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
@@ -30,9 +29,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.philips.cdp2.ews.wifi.WiFiUtil.DEVICE_HOTSPOT_WIFI;
 import static com.philips.cdp2.ews.wifi.WiFiUtil.HOME_WIFI;
 import static com.philips.cdp2.ews.wifi.WiFiUtil.WRONG_WIFI;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -66,23 +62,6 @@ public class WiFiBroadcastReceiverTest {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         broadcastReceiver = new WiFiBroadcastReceiver(contextMock, eventBusMock, wifiUtilMock, applianceSessionDetailsInfoMock);
-    }
-
-    @Test
-    public void shouldRegisterReceiverWhenOnStartIsCalled() throws Exception {
-        broadcastReceiver.onStart();
-
-        verify(contextMock).registerReceiver(eq(broadcastReceiver), isA(IntentFilter.class));
-        assertTrue(broadcastReceiver.isRegistered());
-    }
-
-    @Test
-    public void shouldUnRegisterReceiverWhenOnStopIsCalled() throws Exception {
-        broadcastReceiver.onStart();
-        broadcastReceiver.onStop();
-
-        verify(contextMock).unregisterReceiver(broadcastReceiver);
-        assertFalse(broadcastReceiver.isRegistered());
     }
 
     @Test
