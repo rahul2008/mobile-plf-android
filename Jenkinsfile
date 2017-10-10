@@ -51,7 +51,7 @@ node ('android&&device') {
 
             } catch(err) {
                 errors << "errors found: ${err}"
-            finally {
+            } finally {
                 if (errors.size() > 0) {
                     stage ('error reporting') {
                         currentBuild.result = 'FAILURE'
