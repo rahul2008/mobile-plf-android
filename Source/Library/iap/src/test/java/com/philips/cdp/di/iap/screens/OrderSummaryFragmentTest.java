@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +14,10 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.addresses.Region;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
@@ -141,5 +144,46 @@ public class OrderSummaryFragmentTest {
         Mockito.when(viewMock.getId()).thenReturn(R.id.cancel_btn);
         orderSummaryFragment.onClick(viewMock);
 
+    }
+
+    @Test
+    public void shouldStartProsuctDetailsFragmentOnEventRecieved() throws Exception {
+        orderSummaryFragment.onEventReceived("PRODUCT_DETAIL_FRAGMENT");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldStartProsuctCatalogFragmentOnEventRecieved() throws Exception {
+        orderSummaryFragment.onEventReceived("IAP_LAUNCH_PRODUCT_CATALOG");
+    }
+    @Test
+    public void shouldStartDeliveryModeFragmentOnEventRecieved() throws Exception {
+        orderSummaryFragment.onEventReceived("IAP_EDIT_DELIVERY_MODE");
+    }
+
+    @Mock
+    Message messageMock;
+
+
+
+    @Test
+    public void sholudShowErrorOngettingIapNetworkErrorMessage() throws Exception {
+        IAPNetworkError iapNetworkError=new IAPNetworkError(null,0,null);
+        messageMock.obj=iapNetworkError;
+        orderSummaryFragment.onGetAddress(messageMock);
+
+    }
+
+    @Test
+    public void sholudShowErrorOngettingShippingAddressData() throws Exception {
+        GetShippingAddressData getShippingAddressData=new GetShippingAddressData();
+        messageMock.obj=getShippingAddressData;
+        orderSummaryFragment.onGetAddress(messageMock);
+
+    }
+
+    @Test
+    public void shloudShowAddressFragmentOnEmptyMessageRecieved() throws Exception {
+        messageMock.obj="";
+        orderSummaryFragment.onGetAddress(messageMock);
     }
 }
