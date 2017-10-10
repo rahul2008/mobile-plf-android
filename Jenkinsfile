@@ -65,17 +65,6 @@ node ('android&&docker') {
                     '''
                 }
 
-                if (params.PSRAbuild || (BranchName =~ /master|develop|release.*/)) {
-                    stage('publish') {
-                        echo "publish to artifactory"
-                        sh '''#!/bin/bash -l
-                            chmod -R 755 .
-                            cd ./Source/AppFramework
-                            ./gradlew -PenvCode=${JENKINS_ENV} zipDoc appFramework:aP :appFramework:printArtifactoryApkPath
-                        '''
-                    }
-                }
-
                 stage ('save dependencies list') {
                     sh '''#!/bin/bash -l       
                         chmod -R 775 . 
