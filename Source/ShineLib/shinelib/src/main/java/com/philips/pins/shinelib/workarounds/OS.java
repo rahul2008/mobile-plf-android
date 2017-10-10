@@ -5,7 +5,7 @@
 
 package com.philips.pins.shinelib.workarounds;
 
-enum OS {
+public enum OS {
     Lollipop(21, 22),
     Marshmallow(23),
     Nougat(24, 25),

@@ -292,7 +292,7 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void teConwhenInStanectingTheGattCallbackIndicatesConnectedWithStatusFailureThenCloseIsCalled() {
+    public void whenInStateConnectingTheGattCallbackIndicatesConnectedWithStatusFailureThenCloseIsCalled() {
         shnDevice.connect();
         reset(mockedSHNDeviceListener);
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_FAILURE, BluetoothGatt.STATE_CONNECTED);
@@ -479,16 +479,15 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenServicesAreDiscoveredServicesAndNoServiceAreFoundThenRetryDiscoverServices() {
+    public void whenServicesAreDiscoveredAndNoServiceAreFoundThenRetryDiscoverServices() {
         connectTillGATTConnected();
 
-        BTGatt mockedEmptyGatt = mock(BTGatt.class);
         List emptyServices = new ArrayList<>();
-        doReturn(emptyServices).when(mockedEmptyGatt).getServices();
+        doReturn(emptyServices).when(mockedBTGatt).getServices();
 
-        btGattCallback.onServicesDiscovered(mockedEmptyGatt, BluetoothGatt.GATT_SUCCESS);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
 
-        verify(mockedBTGatt).discoverServices();
+        verify(mockedBTGatt, times(2)).discoverServices();
     }
 
     @Test

@@ -5,7 +5,7 @@
 
 package com.philips.pins.shinelib.workarounds;
 
-enum Phone {
+public enum Phone {
     Samsung_Note_4(Manufacturer.Samsung, "SM-N910F"),
     Samsung_S7(Manufacturer.Samsung, "SM-G930F"),
     Samsung_S4(Manufacturer.Samsung, "GT-I9505"),

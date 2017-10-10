@@ -13,6 +13,8 @@ import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.workarounds.Manufacturer;
+import com.philips.pins.shinelib.workarounds.Phone;
 
 import org.junit.After;
 import org.junit.Before;
@@ -362,9 +364,9 @@ public class BTGattTest {
     }
 
     @Test
-    public void whenServicesAreDiscoveredOnDeviceWithWorkaroundThenCallbackIsNotifiedWithADelay() {
-        ReflectionHelpers.setStaticField(Build.class, "MANUFACTURER", "huawei");
-        ReflectionHelpers.setStaticField(Build.class, "MODEL", "Nexus 6P");
+    public void whenServicesAreDiscoveredOnDeviceThatNeedsWorkaroundThenCallbackIsNotifiedWithADelay() {
+        ReflectionHelpers.setStaticField(Build.class, "MANUFACTURER", Manufacturer.Huawei.getName());
+        ReflectionHelpers.setStaticField(Build.class, "MODEL", Phone.Nexus_6P.getModelName());
 
         btGatt.onServicesDiscovered(mockedBluetoothGatt, BluetoothGatt.GATT_SUCCESS);
         assertEquals(1, mockedUserHandler.getScheduledExecutionCount());

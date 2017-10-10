@@ -10,6 +10,7 @@ import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.workarounds.OS;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -74,8 +75,8 @@ public class BTDeviceTest {
     }
 
     @Test
-    public void whenBluetoothDeviceConnectGattIsCalledOnDeviceWithWorkaroundThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
-        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", 24);
+    public void whenBluetoothDeviceConnectGattIsCalledOnDeviceThatNeedsWorkaroundThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
+        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", OS.Nougat.geVersions()[0]);
         whenBluetoothDeviceConnectGattIsCalledThenReturnGatt();
     }
 

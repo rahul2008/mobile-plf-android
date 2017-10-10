@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -65,25 +66,27 @@ public class BTDevice {
     /**
      * Clears the internal cache and forces a refresh of the services from the remote device.
      */
-    private boolean refresh(BluetoothGatt bluetoothGatt) {
+    private void refresh(final @NonNull BluetoothGatt bluetoothGatt) {
         try {
             /*
               Reflection is used because the method is hidden. There is no other method that offers
-              this functionality. The refresh function solved Android 7.0 problems such as
+              this functionality. The refresh function solved Android BLE problems such as
               bonds being removed unexpected and not seeing when the services in the peripheral
               are changed (DFU). The impact of this reflection is very low, if the function is
               removed the library still works, only the BLE cache won't be cleared.
             */
             Method localMethod = BluetoothGatt.class.getMethod("refresh", new Class[0]);
             if (localMethod != null) {
-                boolean bool = ((Boolean) localMethod.invoke(bluetoothGatt, new Object[0])).booleanValue();
-                return bool;
+                boolean success = ((Boolean) localMethod.invoke(bluetoothGatt, new Object[0])).booleanValue();
+
+                if(!success) {
+                    SHNLogger.w(TAG, "BluetoothGatt refresh method failed to execute");
+                }
             }
         }
         catch (Exception localException) {
-            SHNLogger.e(TAG, "An exception occurred while refreshing device");
+            SHNLogger.e(TAG, "An exception occurred while refreshing BLE cache");
         }
-        return false;
     }
 
 }
