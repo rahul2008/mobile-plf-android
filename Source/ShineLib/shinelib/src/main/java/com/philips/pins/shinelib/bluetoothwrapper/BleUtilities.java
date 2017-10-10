@@ -17,9 +17,6 @@ import android.content.pm.PackageManager;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.workarounds.Workaround;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
