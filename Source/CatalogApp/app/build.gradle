@@ -127,7 +127,7 @@ hockeyapp {
     commitSha = objcdp.getCommitHashLong()
     buildServerUrl = objcdp.getArtifactoryUrl()
     releaseType = 2 // alpha
-    notify = 2
+    notify = 0
     mappingFileNameRegex = "mapping.txt"
     mandatory = 1
     status = 2
