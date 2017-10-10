@@ -108,6 +108,7 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     public void subscribe(final String portName, final int productId, final int subscriptionTtl,
                           final ResponseHandler responseHandler) {
         startDcsIfNecessary();
+        remoteSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
 
         RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, cloudController);
         requestQueue.addRequest(request);
@@ -117,6 +118,8 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     public void unsubscribe(final String portName, final int productId,
                             final ResponseHandler responseHandler) {
         startDcsIfNecessary();
+        remoteSubscriptionHandler.disableSubscription();
+        cloudController.stopDCSService();
 
         RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, cloudController);
         requestQueue.addRequest(request);
@@ -130,14 +133,11 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     @Override
     public void enableCommunication() {
         startDcsIfNecessary();
-
-        remoteSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
     }
 
     @Override
     public void disableCommunication() {
-        remoteSubscriptionHandler.disableSubscription();
-        cloudController.stopDCSService();
+        // NOP
     }
 
     @VisibleForTesting
