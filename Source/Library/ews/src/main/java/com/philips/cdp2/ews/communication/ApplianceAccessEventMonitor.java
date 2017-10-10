@@ -32,9 +32,12 @@ import static com.philips.cdp2.ews.view.EWSActivity.EWS_STEPS;
 @SuppressWarnings("WeakerAccess")
 public class ApplianceAccessEventMonitor extends EventMonitor implements DiscoveryHelper.DiscoveryCallback {
 
-    @NonNull private final ApplianceAccessManager applianceAccessManager;
-    @NonNull private final ApplianceSessionDetailsInfo sessionDetailsInfo;
-    @NonNull private final DiscoveryHelper discoveryHelper;
+    @NonNull
+    private final ApplianceAccessManager applianceAccessManager;
+    @NonNull
+    private final ApplianceSessionDetailsInfo sessionDetailsInfo;
+    @NonNull
+    private final DiscoveryHelper discoveryHelper;
 
     @Inject
     public ApplianceAccessEventMonitor(@NonNull final ApplianceAccessManager applianceAccessManager,
@@ -54,7 +57,9 @@ public class ApplianceAccessEventMonitor extends EventMonitor implements Discove
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void connectApplianceToHomeWiFiEvent(ConnectApplianceToHomeWiFiEvent event) {
-        applianceAccessManager.connectApplianceToHomeWiFiEvent(event.getHomeWiFiSSID(), event.getHomeWiFiPassword());
+        applianceAccessManager.connectApplianceToHomeWiFiEvent(event.getHomeWiFiSSID()
+                , event.getHomeWiFiPassword()
+                , null);
     }
 
     @SuppressWarnings("UnusedParameters")

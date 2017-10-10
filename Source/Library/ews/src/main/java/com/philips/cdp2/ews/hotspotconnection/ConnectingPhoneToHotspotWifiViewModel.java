@@ -29,28 +29,39 @@ public class ConnectingPhoneToHotspotWifiViewModel {
 
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
+
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+
         Fragment fragment();
+
         int requestCode();
     }
 
     private static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
 
-    @NonNull private final WiFiConnectivityManager wiFiConnectivityManager;
+    @NonNull
+    private final WiFiConnectivityManager wiFiConnectivityManager;
 
-    @NonNull private final ApplianceAccessManager applianceAccessManager;
-    @NonNull private final WiFiUtil wiFiUtil;
-    @NonNull private final Navigator navigator;
-    @NonNull private final Handler handler;
+    @NonNull
+    private final ApplianceAccessManager applianceAccessManager;
+    @NonNull
+    private final WiFiUtil wiFiUtil;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final Handler handler;
 
-    @Nullable private ConnectingPhoneToHotSpotCallback fragmentCallback;
+    @Nullable
+    private ConnectingPhoneToHotSpotCallback fragmentCallback;
 
-    @NonNull private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    @NonNull
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
                 int currentWifiState = wiFiUtil.getCurrentWifiState();
+                Log.d("CONNECT", "Current Wifi State: " + wiFiUtil.getCurrentWifiState());
                 if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
                     onPhoneConnectedToHotspotWifi();
                 }
@@ -58,7 +69,8 @@ public class ConnectingPhoneToHotspotWifiViewModel {
         }
     };
 
-    @NonNull private final Runnable timeOutAction = new Runnable() {
+    @NonNull
+    private final Runnable timeOutAction = new Runnable() {
         @Override
         public void run() {
             onConnectionAttemptTimedOut();

@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
 import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
@@ -17,12 +19,13 @@ import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
-import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 
 public class Navigator {
 
-    @NonNull private final FragmentNavigator fragmentNavigator;
-    @NonNull private final ActivityNavigator activityNavigator;
+    @NonNull
+    private final FragmentNavigator fragmentNavigator;
+    @NonNull
+    private final ActivityNavigator activityNavigator;
 
     public Navigator(@NonNull final FragmentNavigator fragmentNavigator, @NonNull final ActivityNavigator activityNavigator) {
         this.fragmentNavigator = fragmentNavigator;
@@ -93,6 +96,14 @@ public class Navigator {
     public void navigateToUnsuccessfulConnectionDialog(@NonNull Fragment currentFragment, int requestCode) {
         activityNavigator.showFragmentWithResult(currentFragment,
                 ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
+    }
+
+    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword) {
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword));
+    }
+
+    public void navigateToEWSWiFiPairedScreen() {
+        pushFragment(new EWSWiFiPairedFragment());
     }
 
     public void navigateBack() {

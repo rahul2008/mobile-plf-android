@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
-import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
@@ -98,9 +97,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     }
 
     public void connectApplianceToHomeWiFi() {
-        tagConnectionStart();
-        connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
-        eventBus.post(new ConnectApplianceToHomeWiFiEvent(getHomeWiFiSSID(), password.get()));
+        navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get());
         handler.postDelayed(timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
     }
 

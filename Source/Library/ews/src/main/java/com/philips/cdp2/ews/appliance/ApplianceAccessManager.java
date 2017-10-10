@@ -39,10 +39,20 @@ public class ApplianceAccessManager {
 
     public interface FetchCallback {
         void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
+
         void onFailedToFetchDeviceInfo();
     }
 
-    @Nullable private FetchCallback fetchCallback;
+    public interface SetPropertiesCallback {
+        void onPropertiesSet();
+
+        void onFailedToSetProperties();
+    }
+
+    @Nullable
+    private FetchCallback fetchCallback;
+    @Nullable
+    private SetPropertiesCallback putCallback;
 
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;
@@ -69,6 +79,9 @@ public class ApplianceAccessManager {
                         break;
                     case ApplianceRequestType.PUT_WIFI_PROPS:
                         EWSLogger.d(EWS_STEPS, "Step 4.1 : Setting the wifi properties to the device succesfull");
+                        if (putCallback != null) {
+                            putCallback.onPropertiesSet();
+                        }
                         showAppliancePairedScreen();
                         break;
                     default:
@@ -85,6 +98,9 @@ public class ApplianceAccessManager {
             onErrorReceived();
             if (fetchCallback != null) {
                 fetchCallback.onFailedToFetchDeviceInfo();
+            }
+            if (putCallback != null) {
+                putCallback.onFailedToSetProperties();
             }
         }
 
@@ -163,8 +179,9 @@ public class ApplianceAccessManager {
         requestType = ApplianceRequestType.UNKNOWN;
     }
 
-    public void connectApplianceToHomeWiFiEvent(final String homeWiFiSSID, final String homeWiFiPassword) {
+    public void connectApplianceToHomeWiFiEvent(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final SetPropertiesCallback callback) {
         if (requestType == ApplianceRequestType.UNKNOWN) {
+            putCallback = callback;
             requestType = ApplianceRequestType.PUT_WIFI_PROPS;
             this.homeWiFiSSID = homeWiFiSSID;
             WifiPort wifiPort = appliance.getWifiPort();
