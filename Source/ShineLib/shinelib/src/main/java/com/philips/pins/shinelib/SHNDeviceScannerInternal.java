@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanRecord;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -58,21 +59,13 @@ public class SHNDeviceScannerInternal {
         if (leScanCallbackProxy == null) {
             leScanCallbackProxy = createLeScanCallbackProxy();
 
-            boolean isScanning;
-
             if (isUsingAdvertisedDataMatching) {
-                isScanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
+                leScanCallbackProxy.startLeScan(leScanCallback);
             } else {
-                isScanning = leScanCallbackProxy.startLeScan(primaryServiceUUIDs, leScanCallback);
+                leScanCallbackProxy.startLeScan(primaryServiceUUIDs, leScanCallback);
             }
 
-            if (isScanning) {
-                SHNLogger.i(TAG, "Started scanning");
-                startScanningRestartTimer();
-            } else {
-                leScanCallbackProxy = null;
-                SHNLogger.e(TAG, "Error starting scanning");
-            }
+            startScanningRestartTimer();
         }
 
         if (leScanCallbackProxy != null) {
@@ -94,9 +87,7 @@ public class SHNDeviceScannerInternal {
                 if (leScanCallbackProxy != null) {
                     leScanCallbackProxy.stopLeScan(leScanCallback);
                     startScanningRestartTimer();
-                    if (!leScanCallbackProxy.startLeScan(leScanCallback, null)) {
-                        SHNLogger.w(TAG, "Error restarting scanning");
-                    }
+                    leScanCallbackProxy.startLeScan(leScanCallback);
                 }
             }
         };
@@ -143,8 +134,15 @@ public class SHNDeviceScannerInternal {
 
     private final LeScanCallbackProxy.LeScanCallback leScanCallback = new LeScanCallbackProxy.LeScanCallback() {
         @Override
-        public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
-            postBleDeviceFoundInfoOnInternalThread(new BleDeviceFoundInfo(device, rssi, scanRecord));
+        public void onScanResult(BluetoothDevice device, int rssi, ScanRecord scanRecord) {
+            SHNLogger.e(TAG, String.format("onScanResult: %s %s", device.getName(), device.getAddress()));
+            postBleDeviceFoundInfoOnInternalThread(new BleDeviceFoundInfo(device, rssi, scanRecord.getBytes()));
+        }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            leScanCallbackProxy = null;
+            SHNLogger.e(TAG, "Error starting scanning");
         }
     };
 
