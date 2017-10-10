@@ -63,7 +63,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView mBillingAddress;
     private ScrollView mParentView;
     private TextView mPaymentCardType;
-    private OrderDetail mOrderDetail;
+    OrderDetail mOrderDetail;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
     // private View mPaymentDivider;

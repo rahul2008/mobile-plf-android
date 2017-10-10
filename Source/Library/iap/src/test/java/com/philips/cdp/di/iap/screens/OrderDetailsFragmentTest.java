@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.Constants.OrderStatus;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -25,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -69,7 +72,7 @@ public class OrderDetailsFragmentTest {
 
         bundle.putParcelable(IAPConstant.ORDER_DETAIL,orderDetail);
         orderDetailsFragmentTest = OrderDetailsFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
-
+        orderDetailsFragmentTest.mOrderDetail=orderDetail;
         orderDetailsFragmentTest.setArguments(bundle);
     }
 
@@ -92,4 +95,25 @@ public class OrderDetailsFragmentTest {
        // assertEquals(response.getClass(), OrderDetail.class);
     }
 
+    @Mock
+    View viewMock;
+    @Test(expected = ClassCastException.class)
+    public void shouldAddFragmentWhenCancelButtonISClicked() throws Exception {
+        orderDetailsFragmentTest.onAttach(mContext);
+        Mockito.when(viewMock.getId()).thenReturn(R.id.btn_cancel);
+        orderDetailsFragmentTest.onClick(viewMock);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldCallWhenCallButtonISClicked() throws Exception {
+        orderDetailsFragmentTest.onAttach(mContext);
+        Mockito.when(viewMock.getId()).thenReturn(R.id.btn_call);
+        orderDetailsFragmentTest.onClick(viewMock);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void shouldUpdateProductList() throws Exception {
+        orderDetailsFragmentTest.updateUiOnProductList();
+
+    }
 }

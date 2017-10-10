@@ -107,4 +107,39 @@ public class OrderSummaryFragmentTest {
         orderSummaryFragment.initializeViews(viewMock);
 
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldTrackAndSetTitleOfPage_WhenOnResumeIscalled() throws Exception {
+        orderSummaryFragment.onResume();
+
+    }
+
+    @Test
+    public void sholudDismissProgressBar_WhenOnStopIsCalled() throws Exception {
+    orderSummaryFragment.onStop();
+    }
+
+    @Test
+    public void sholudUnRegisterAllEvents_WhenOnDestroyViewIsCalled() throws Exception {
+        orderSummaryFragment.onDestroyView();
+
+    }
+
+
+    @Test(expected = IllegalStateException.class)
+    public void sholudPlaceOrder_onPayBtnClicked() throws Exception {
+        orderSummaryFragment.onAttach(mContext);
+        Mockito.when(viewMock.getId()).thenReturn(R.id.pay_now_btn);
+        orderSummaryFragment.onClick(viewMock);
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void sholudCancelOrtder_WhenCancelButtonIsClicked() throws Exception {
+
+        orderSummaryFragment.onAttach(mContext);
+        Mockito.when(viewMock.getId()).thenReturn(R.id.cancel_btn);
+        orderSummaryFragment.onClick(viewMock);
+
+    }
 }

@@ -184,13 +184,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onClick(final View v) {
 
         if (!isNetworkConnected()) return;
-        if (v == mPayNowBtn) {
+        if (v.getId() == R.id.pay_now_btn) {
             if (mPaymentMethod != null)
                 showCvvDialog(getFragmentManager());
             else {
                 placeOrder(null);
             }
-        } else if (v == mCancelBtn) {
+        } else if (v.getId() == R.id.cancel_btn) {
             doOnCancelOrder();
         }
     }
