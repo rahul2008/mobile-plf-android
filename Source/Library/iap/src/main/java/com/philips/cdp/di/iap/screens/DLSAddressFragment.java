@@ -184,11 +184,11 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        Utility.hideKeypad(getActivity());
+
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             //Edit and save address
-            if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
+            if (mBtnContinue.getText().toString().equalsIgnoreCase(mContext.getString(R.string.iap_save))) {
                 saveShippingAddressToBackend();
             } else {
                 createNewAddressOrUpdateIfAddressIDPresent();
@@ -202,6 +202,8 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
                 getFragmentManager().popBackStackImmediate();
             }
         }
+
+        Utility.hideKeypad(getActivity());
 
     }
 
@@ -259,13 +261,13 @@ public class DLSAddressFragment extends InAppBaseFragment implements View.OnClic
 
     private void saveShippingAddressToBackend() {
         if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
             HashMap<String, String> addressHashMap = addressPayload(shippingAddressFields);
             mAddressController.updateAddress(addressHashMap);
         }
     }
 
-    private HashMap<String, String> addressPayload(AddressFields pAddressFields) {
+     HashMap<String, String> addressPayload(AddressFields pAddressFields) {
         HashMap<String, String> mShippingAddressHashMap = new HashMap<>();
 
         mShippingAddressHashMap.put(ModelConstants.FIRST_NAME, pAddressFields.getFirstName());
