@@ -574,6 +574,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
         registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
+        registrationContentConfiguration.enableLastName(true);
+        registrationContentConfiguration.enableContinueWithouAccount(true);
         return registrationContentConfiguration;
 
     }

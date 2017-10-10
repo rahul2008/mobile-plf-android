@@ -83,6 +83,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
     @BindView(R2.id.usr_StartScreen_privacyNotice_country_LinearLayout)
     LinearLayout usr_StartScreen_privacyNotice_country_LinearLayout;
 
+    @BindView(R2.id.usr_StartScreen_Skip_Button)
+    Button continueWithouAccount;
+
     private HomePresenter homePresenter;
 
     @Override
@@ -170,6 +173,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
     private void initUI(View view) {
         consumeTouch(view);
+        continueWithouAccount.setVisibility(View.GONE);
         setContentConfig();
         updateCountryText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
         linkifyPrivacyPolicy(privacyPolicy, privacyClickListener);
@@ -185,6 +189,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
             }
             if (null != getRegistrationFragment().getContentConfiguration().getValueForRegistrationDescription()) {
                 mTvWelcomeDesc.setText(getRegistrationFragment().getContentConfiguration().getValueForRegistrationDescription());
+            }
+            if (getRegistrationFragment().getContentConfiguration().getEnableContinueWithouAccount()) {
+                continueWithouAccount.setVisibility(View.VISIBLE);
             }
         }
     }
