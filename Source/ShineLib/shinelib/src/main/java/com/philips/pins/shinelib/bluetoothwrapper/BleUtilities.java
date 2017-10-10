@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class BleUtilities {
+
+    private static final int DISCOVERY_REPORT_DELAY = 250;
+
     @NonNull
     private final Context applicationContext;
     private final BluetoothAdapter bluetoothAdapter;
@@ -55,7 +58,7 @@ public class BleUtilities {
 
         ScanSettings.Builder settingsBuilder = new ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                .setReportDelay(250);
+                .setReportDelay(DISCOVERY_REPORT_DELAY);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             settingsBuilder = settingsBuilder
