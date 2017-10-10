@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.welcome;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -22,7 +24,9 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Button;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -38,15 +42,27 @@ class THSWelcomePresenter implements THSBasePresenter,
 
     @Override
     public void onEvent(int componentID) {
+        Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
-            uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
+            if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
+            }else {
+                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            }
         } else if (componentID == R.id.visit_history) {
-            uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
+            if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
+            }else {
+                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+            }
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
+            bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_PRACTICES);
             if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
-                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,null,false);
+                uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
             }

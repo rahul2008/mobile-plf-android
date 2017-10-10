@@ -21,8 +21,4 @@ public class THSDependentPresenter implements THSBasePresenter{
     public void onEvent(int componentID) {
 
     }
-
-    public void showDependentsPractices(THSConsumer thsConsumer) {
-        mThsDependantHistoryFragment.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG,null,false);
-    }
 }

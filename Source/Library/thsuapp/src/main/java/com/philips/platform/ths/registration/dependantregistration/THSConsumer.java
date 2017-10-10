@@ -7,6 +7,7 @@
 package com.philips.platform.ths.registration.dependantregistration;
 
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.cdp.registration.ui.utils.Gender;
 
 import java.io.ByteArrayInputStream;
@@ -27,6 +28,7 @@ public class THSConsumer {
     private double temperature;
     private double weight;
     private List<THSConsumer> dependents;
+    private Consumer consumer;
 
     private ByteArrayInputStream profilePic;
 
@@ -140,5 +142,13 @@ public class THSConsumer {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public Consumer getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
     }
 }

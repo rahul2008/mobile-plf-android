@@ -34,8 +34,8 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    public THSDependentListAdapter(Context activity, List<THSConsumer> dependents) {
-        mDependents = dependents;
+    public THSDependentListAdapter(Context activity) {
+        mDependents = THSManager.getInstance().getThsConsumer().getDependents();
         context = activity;
     }
 
@@ -50,14 +50,7 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
     public void onBindViewHolder(THSDependentListAdapter.CustomViewHolder holder, int position) {
         final THSConsumer thsConsumer = mDependents.get(position);
         holder.label.setText(thsConsumer.getFirstName());
-        if(thsConsumer.getProfilePic()!= null){
-            Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
-            b.setDensity(Bitmap.DENSITY_NONE);
-            Drawable d = new BitmapDrawable(context.getResources(),b);
-            holder.logo.setImageDrawable(d);
-        }else {
-            holder.logo.setImageResource(R.mipmap.child_icon);
-        }
+        showProfilePic(holder, thsConsumer);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -66,6 +59,17 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
             }
         };
         holder.relativeLayout.setOnClickListener(listener);
+    }
+
+    private void showProfilePic(CustomViewHolder holder, THSConsumer thsConsumer) {
+        if(thsConsumer.getProfilePic()!= null){
+            Bitmap b = BitmapFactory.decodeStream(thsConsumer.getProfilePic());
+            b.setDensity(Bitmap.DENSITY_NONE);
+            Drawable d = new BitmapDrawable(context.getResources(),b);
+            holder.logo.setImageDrawable(d);
+        }else {
+            holder.logo.setImageResource(R.mipmap.child_icon);
+        }
     }
 
     @Override
