@@ -36,6 +36,7 @@ import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
 import com.philips.platform.core.events.LoadConsentsRequest;
+import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.MomentDeleteRequest;
@@ -242,6 +243,12 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void ShouldPostFetchLatestMomentByType_WhenFetchIsCalled() throws Exception {
+        tracker.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
+        verify(eventingMock).post(any(LoadLatestMomentByTypeRequest.class));
+    }
+
+    @Test
     public void ShouldPostFetchMomentByIdEvent_WhenFetchMomentByIdIsCalled() throws Exception {
         tracker.fetchMomentForMomentID(1, dbFetchRequestListner);
         verify(eventingMock).post(any(LoadMomentsRequest.class));
@@ -263,14 +270,6 @@ public class DataServicesManagerTest {
     public void ShouldCreateConsentDetail_WhenCreateConsentDetailIsCalled() throws Exception {
         tracker.createConsentDetail(TEST_CONSENT_DETAIL_TYPE, ConsentDetailStatusType.ACCEPTED, ConsentDetail.DEFAULT_DOCUMENT_VERSION, "fsdfsdf");
     }
-
-    //TODO: Spoorti - Fix later
-/*    @Test(expected = NullPointerException.class)
-    public void ShouldAddConcentDetail_WhenConsentDetailIsCreated() throws Exception {
-       // tracker.initializeDataServices(null, null, null,null);
-        ConsentDetail consentDetail = baseAppDataCreator.createConsentDetail("TEMPERATURE", TEST_CONSENT_DETAIL_TYPE, "", "fsdfsdf", true, consentMock);
-        verify(consentMock).addConsentDetails(consentDetail);
-    }*/
 
     @Test
     public void ShouldAddConcentDetail_WhenConsentIsNull() throws Exception {

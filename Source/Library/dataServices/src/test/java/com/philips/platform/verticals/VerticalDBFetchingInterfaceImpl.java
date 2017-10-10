@@ -37,6 +37,11 @@ public class VerticalDBFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
+    public void fetchLatestMomentByType(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+
+    }
+
+    @Override
     public Object fetchMomentByGuid(@NonNull String guid) throws SQLException {
         return null;
     }

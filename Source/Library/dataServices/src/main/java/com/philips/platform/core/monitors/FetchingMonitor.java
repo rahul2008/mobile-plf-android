@@ -17,6 +17,7 @@ import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
+import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -80,6 +81,15 @@ public class FetchingMonitor extends EventMonitor {
     public void onEventAsync(LoadLastMomentRequest event) {
         try {
             dbInterface.fetchLastMoment(event.getType(), event.getDbFetchRequestListner());
+        } catch (SQLException e) {
+            dbInterface.postError(e, event.getDbFetchRequestListner());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onEventAsync(LoadLatestMomentByTypeRequest event) {
+        try {
+            dbInterface.fetchLatestMomentByType(event.getType(), event.getDbFetchRequestListner());
         } catch (SQLException e) {
             dbInterface.postError(e, event.getDbFetchRequestListner());
         }
