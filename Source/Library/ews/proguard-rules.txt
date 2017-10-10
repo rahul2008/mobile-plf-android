@@ -22,7 +22,8 @@
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile, LineNumberTable, InnerClasses, Exceptions
 
--verbose
+#Uncomment, if additional information required
+#-verbose
 
 #Android support library
 -keep class android.support.v4.** { *; }
