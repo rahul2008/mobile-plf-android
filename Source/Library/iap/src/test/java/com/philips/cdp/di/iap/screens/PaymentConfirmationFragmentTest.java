@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +30,27 @@ public class PaymentConfirmationFragmentTest {
         mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
+        paymentConfirmationFragment = PaymentConfirmationFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+
     }
 
     @Test
     public void shouldDisplayAddressSelectionFragment() {
-        paymentConfirmationFragment = PaymentConfirmationFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+        Bundle bundle=new Bundle();
+        bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS,true);
+        bundle.putString(ModelConstants.ORDER_NUMBER,"12345");
+        paymentConfirmationFragment.setArguments(bundle);
         SupportFragmentTestUtil.startFragment(paymentConfirmationFragment);
     }
+
+    @Test
+    public void shouldDisplayAddressSelectionFragmentWhenPAYMENT_SUCCESS_STATUSisFalse() {
+        Bundle bundle=new Bundle();
+        bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS,false);
+        bundle.putString(ModelConstants.ORDER_NUMBER,"12345");
+        paymentConfirmationFragment.setArguments(bundle);
+        SupportFragmentTestUtil.startFragment(paymentConfirmationFragment);
+    }
+
+
 }

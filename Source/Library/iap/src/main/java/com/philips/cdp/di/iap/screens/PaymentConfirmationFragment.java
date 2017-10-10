@@ -92,27 +92,6 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         return true;
     }
 
-//    private void ShowDialogOnBackPressed() {
-//        Bundle bundle = new Bundle();
-//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, mContext.getString(R.string.iap_cancel_order_title));
-//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION,
-//                mContext.getString(R.string.iap_continue_shopping_description));
-//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, mContext.getString(R.string.iap_ok));
-//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, mContext.getString(R.string.iap_cancel));
-//        if (mDialog == null) {
-//            mDialog = new TwoButtonDialogFragment();
-//            mDialog.setOnDialogClickListener(this);
-//            mDialog.setArguments(bundle);
-//            mDialog.setShowsDialog(false);
-//        }
-//        try {
-//            mDialog.show(getFragmentManager(), "TwoButtonDialog");
-//            mDialog.setShowsDialog(true);
-//        } catch (Exception e) {
-//            IAPLog.e(IAPLog.LOG, e.getMessage());
-//        }
-//    }
-
     private void updatePaymentFailureUI() {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
@@ -166,15 +145,6 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         }
     }
 
-//    @Override
-//    public void onPositiveButtonClicked() {
-//        handleExit();
-//    }
-//
-//    @Override
-//    public void onNegativeButtonClicked() {
-//        //NOP
-//    }
 
     public static PaymentConfirmationFragment createInstance(final Bundle bundle, final AnimationType animType) {
         PaymentConfirmationFragment fragment = new PaymentConfirmationFragment();
