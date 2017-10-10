@@ -22,5 +22,10 @@ allprojects {
 		        password = "123qweasdzxc"
 		    }
 		}
-    }
+
+		maven {
+			url "http://maven.snplow.com/releases"
+		}
+
+	}
 }
