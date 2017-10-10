@@ -62,7 +62,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 
         if (mSubscriptionEventListeners != null) {
-            postSubscriptionEventOnUIThread(extractData(data), mSubscriptionEventListeners);
+            postSubscriptionEventOnUIThread(extractPortName(data), extractData(data), mSubscriptionEventListeners);
         }
     }
 
@@ -75,6 +75,22 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
                 return "Error, no data received: " + data;
             } else {
                 return dataObject.toString();
+            }
+        } catch (JSONException e) {
+            DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());
+            return "Error, JSONException:" + e.getMessage();
+        }
+    }
+
+    private String extractPortName(final String data) {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            String dataObject = jsonObject.optString("port");
+
+            if (dataObject == null) {
+                return "Error, no data received: " + data;
+            } else {
+                return dataObject;
             }
         } catch (JSONException e) {
             DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());

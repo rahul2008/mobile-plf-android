@@ -150,7 +150,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
             final PollingSubscription subscription = new PollingSubscription(this, portParameters, subscriptionPollingInterval, subscriptionTtl * 1000, new ResponseHandler() {
                 @Override
                 public void onSuccess(String data) {
-                    notifySubscriptionEventListeners(data);
+                    notifySubscriptionEventListeners(portName, data);
                 }
 
                 @Override

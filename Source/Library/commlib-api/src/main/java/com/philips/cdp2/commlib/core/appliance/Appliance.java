@@ -46,13 +46,12 @@ public abstract class Appliance implements Availability<Appliance> {
     private final Set<DICommPort> ports = new HashSet<>();
 
     private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
-
         @Override
-        public void onSubscriptionEventReceived(String data) {
+        public void onSubscriptionEventReceived(String portName, String data) {
             DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
 
             for (DICommPort port : getAllPorts()) {
-                if (port.isResponseForThisPort(data)) {
+                if(portName.equals(port.getDICommPortName())) {
                     port.handleResponse(data);
                 }
             }

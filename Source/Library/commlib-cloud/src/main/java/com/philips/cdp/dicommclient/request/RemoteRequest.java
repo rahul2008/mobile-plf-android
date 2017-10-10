@@ -64,8 +64,8 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         cloudController.addDCSResponseListener(this);
         cloudController.addPublishEventListener(this);
 
-        String mEventData = createDataToSend(mPortName, mProductId, mDataMap);
-        mMessageId = cloudController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
+        String eventData = createDataToSend(mPortName, mProductId, mDataMap);
+        mMessageId = cloudController.publishEvent(eventData, DICOMM_REQUEST, mRequestType.getMethod(),
                 "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
         try {
             long startTime = System.currentTimeMillis();

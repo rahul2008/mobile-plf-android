@@ -110,33 +110,38 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
     @Test
     public void testDCSEventReceivedDataValidString() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, APPLIANCE_CPPID, null);
+        String dcsPayload = createDcsEvent("1", "air", dscResponse);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
         runnableCaptor.getValue().run();
 
-        verify(mSubscriptionEventListener).onSubscriptionEventReceived(dscData);
+        verify(mSubscriptionEventListener).onSubscriptionEventReceived("air", dscData);
     }
 
     @Test
     public void testDCSEventReceivedDataValidErrorString() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dscResponseError, APPLIANCE_CPPID, null);
+        String dcsPayload = createDcsEvent("1", "air", dscResponseError);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
         runnableCaptor.getValue().run();
 
-        verify(mSubscriptionEventListener).onSubscriptionEventReceived(startsWith("Error"));
+        verify(mSubscriptionEventListener).onSubscriptionEventReceived("air", startsWith("Error"));
     }
 
     @Test
     public void testDCSEventReceivedDataContentNullString() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dscResponseNullData, APPLIANCE_CPPID, null);
+        String dcsPayload = createDcsEvent("1", "air", dscResponse);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
         runnableCaptor.getValue().run();
 
-        verify(mSubscriptionEventListener).onSubscriptionEventReceived(startsWith("Error"));
+        verify(mSubscriptionEventListener).onSubscriptionEventReceived("air", startsWith("Error"));
     }
+
+    // TODO Add tests where port name or product ID is invalid (null or "")
 
     private class RemoteSubscriptionHandlerImpl extends RemoteSubscriptionHandler {
 
@@ -148,6 +153,10 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         protected WrappedHandler getSubscriptionEventResponseHandler() {
             return mSubscriptionEventResponseHandler;
         }
+    }
+
+    private String createDcsEvent(String productId, String port, String data) {
+        return "{ \"product\": \""+productId+"\", \"port\":\""+port+"\", \"data\": "+data+"}";
     }
 }
 

@@ -341,7 +341,8 @@ public class PairingHandler<T extends Appliance> {
 
             @Override
             public void onPortError(PairingPort port, Error error, String errorData) {
-                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
+                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED: " + errorData);
+                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED: " + error.getErrorMessage());
 
                 notifyListenerFailed();
                 port.removePortListener(this);

@@ -134,6 +134,8 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
+    // TODO Tests where no port is provided (null or "")
+
     private class LocalSubscriptionHandlerImpl extends LocalSubscriptionHandler {
 
         public LocalSubscriptionHandlerImpl() {
