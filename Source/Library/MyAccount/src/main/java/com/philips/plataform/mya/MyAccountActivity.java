@@ -6,10 +6,10 @@ package com.philips.plataform.mya;
 
 
 import android.os.Bundle;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.mya.R;
+import com.philips.platform.uid.utils.UIDActivity;
 
-public class MyAccountActivity extends UiKitActivity {
+public class MyAccountActivity extends UIDActivity {
 
 
     @Override
