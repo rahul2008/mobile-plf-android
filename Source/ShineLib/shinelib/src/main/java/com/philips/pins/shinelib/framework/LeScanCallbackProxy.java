@@ -64,8 +64,8 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onBatchScanResults(List<ScanResult> results) {
-        if (leScanCallback != null) {
-            for (ScanResult result : results) {
+        for (ScanResult result : results) {
+            if (leScanCallback != null) {
                 leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());
             }
         }
