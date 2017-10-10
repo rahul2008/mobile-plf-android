@@ -220,7 +220,7 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.2.2'
+    compile 'com.google.code.gson:gson:2.8.1'
     testCompile 'junit:junit:4.12'
     def dp = project.ext.has('useprojectdependencies')
 
@@ -235,7 +235,7 @@ dependencies {
             {
                 transitive = true
             }
-    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'org.robolectric:robolectric:3.3.2'
