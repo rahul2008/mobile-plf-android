@@ -23,22 +23,28 @@ public class MeasurementType {
     public static final String DURATION = "DURATION";
     public static final String RELATIVE_HUMIDITY = "RELATIVE_HUMIDITY";
     public static final String LENGTH = "LENGTH";
+    public static final String DEEP_SLEEP_TIME = "DeepSleepTime";
+    public static final String TOTAL_SLEEP_TIME = "TotalSleepTime";
 
 
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
 
-        if(description.equalsIgnoreCase(TEMPERATURE)){
+        if (description.equalsIgnoreCase(TEMPERATURE)) {
             return 41;
-        }else {
+        } else if (description.equalsIgnoreCase(DEEP_SLEEP_TIME)) {
+            return 47;
+        } else if (description.equalsIgnoreCase(TOTAL_SLEEP_TIME)) {
+            return 48;
+        } else {
             return -1;
         }
     }
 
     public static String getUnitFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return "default";
         }
         switch (description.toUpperCase()) {
@@ -56,6 +62,10 @@ public class MeasurementType {
                 return "RelativeHumidity";
             case LENGTH:
                 return "cm";
+            case DEEP_SLEEP_TIME:
+                return "milliseconds";
+            case TOTAL_SLEEP_TIME:
+                return "milliseconds";
             default:
                 return "UnknownUnit";
         }
@@ -78,7 +88,10 @@ public class MeasurementType {
                 return RELATIVE_HUMIDITY;
             case 46:
                 return LENGTH;
-
+            case 47:
+                return DEEP_SLEEP_TIME;
+            case 48:
+                return TOTAL_SLEEP_TIME;
             default:
                 return UNKNOWN;
         }
@@ -93,6 +106,8 @@ public class MeasurementType {
         measurementType.add(DURATION);
         measurementType.add(RELATIVE_HUMIDITY);
         measurementType.add(LENGTH);
+        measurementType.add(DEEP_SLEEP_TIME);
+        measurementType.add(TOTAL_SLEEP_TIME);
         return measurementType;
     }
 }
