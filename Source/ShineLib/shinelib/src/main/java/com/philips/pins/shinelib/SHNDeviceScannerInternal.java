@@ -135,7 +135,6 @@ public class SHNDeviceScannerInternal {
     private final LeScanCallbackProxy.LeScanCallback leScanCallback = new LeScanCallbackProxy.LeScanCallback() {
         @Override
         public void onScanResult(BluetoothDevice device, int rssi, ScanRecord scanRecord) {
-            SHNLogger.e(TAG, String.format("onScanResult: %s %s", device.getName(), device.getAddress()));
             postBleDeviceFoundInfoOnInternalThread(new BleDeviceFoundInfo(device, rssi, scanRecord.getBytes()));
         }
 
