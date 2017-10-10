@@ -18,13 +18,16 @@ public class OrdersData {
         return orders;
     }
 
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
+
     public List<Sorts> getSorts() {
         return sorts;
     }
 
 
-
-
-
-
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
 }
