@@ -133,16 +133,10 @@ class MomentPresenter {
         }
     }
 
-    private void createAndSaveMoment() {
+    private void createAndSaveMoment(String type) {
         Moment moment;
-
-        if (mEtMomentType != null && mEtMomentType.getVisibility() == View.VISIBLE) {
-            moment = createMoment(mEtMomentType.getText().toString().trim(), mPhase.getText().toString(),
-                    mTemperature.getText().toString(), mLocation.getText().toString());
-        } else {
-            moment = createMoment(MomentType.TEMPERATURE, mPhase.getText().toString(),
-                    mTemperature.getText().toString(), mLocation.getText().toString());
-        }
+        moment = createMoment(type, mPhase.getText().toString(),
+                mTemperature.getText().toString(), mLocation.getText().toString());
         saveRequest(moment);
     }
 
@@ -237,7 +231,7 @@ class MomentPresenter {
         mDataServices.updateMoment(old, dbRequestListener);
     }
 
-    void addOrUpdateMoment(final int addOrUpdate, final Moment moment, boolean isTypeAvailable) {
+    void addOrUpdateMoment(final int addOrUpdate, final Moment moment, final boolean isTypeAvailable) {
         final Dialog dialog = new Dialog(mContext);
 
         if (isTypeAvailable) {
@@ -277,7 +271,10 @@ class MomentPresenter {
                 switch (addOrUpdate) {
                     case ADD:
                         dialog.dismiss();
-                        createAndSaveMoment();
+                        if (isTypeAvailable)
+                            createAndSaveMoment(mEtMomentType.getText().toString().trim());
+                        else
+                            createAndSaveMoment(MomentType.TEMPERATURE);
                         break;
                     case UPDATE:
                         dialog.dismiss();
