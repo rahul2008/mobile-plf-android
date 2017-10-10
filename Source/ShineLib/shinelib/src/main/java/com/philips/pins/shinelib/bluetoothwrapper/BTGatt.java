@@ -24,6 +24,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int BOND_CREATED_WAIT_TIME = 500;
+    private static final int DELAY_AFTER_SERVICE_DISCOVERY = 500;
     private Runnable currentCommand;
 
     public interface BTGattCallback {
@@ -316,7 +317,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         };
 
         if(Workaround.ServiceDiscoveredDelay.isRequiredOnThisDevice()) {
-            handler.postDelayed(runnable, 500);
+            handler.postDelayed(runnable, DELAY_AFTER_SERVICE_DISCOVERY);
         } else {
             handler.post(runnable);
         }
