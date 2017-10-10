@@ -60,7 +60,7 @@ node ('android&&device') {
                         for (int i = 0; i < errors.size(); i++) {
                             echo errors[i];
                         }
-                    
+                    }
                 }
 
                 stage ('reporting') {
