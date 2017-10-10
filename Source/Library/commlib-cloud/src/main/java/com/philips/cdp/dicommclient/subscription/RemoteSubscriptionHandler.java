@@ -79,7 +79,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         JSONObject dataObject = jsonObject.optJSONObject(jsonKey);
 
         if (dataObject == null) {
-            return "Error, no data received: " + json;
+            throw new JSONException("Error, no data received: " + json);
         } else {
             return dataObject.toString();
         }
