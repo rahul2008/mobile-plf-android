@@ -13,6 +13,7 @@ Version {next}
 
 ### Defects solved
 * \#33811 Battery service now has working notifications.
+* \#87418 Devices are no longer listed multiple times in device discovery
 
 ### Residual anomalies
 
