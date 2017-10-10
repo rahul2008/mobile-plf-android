@@ -153,7 +153,9 @@ android {
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        //   testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        resValue("string", "DCC_AUTHORITY", "com.philips.cdp.digitalcare")
+        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {

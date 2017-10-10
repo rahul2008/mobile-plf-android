@@ -132,6 +132,8 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
+        resValue("string", "DCC_AUTHORITY", "com.philips.platform.ccdemouapp")
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
