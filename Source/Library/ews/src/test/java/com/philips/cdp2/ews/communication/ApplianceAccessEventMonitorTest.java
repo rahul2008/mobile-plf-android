@@ -4,9 +4,6 @@
  */
 package com.philips.cdp2.ews.communication;
 
-import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
@@ -17,9 +14,10 @@ import com.philips.cdp2.ews.communication.events.FetchDevicePortPropertiesEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
+import com.philips.cdp2.ews.microapp.EWSInterface;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
-import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
@@ -27,18 +25,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -47,18 +45,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @PrepareForTest({EWSDependencyProvider.class, EWSLogger.class, EWSTagger.class})
 public class ApplianceAccessEventMonitorTest {
 
-    @Mock
-    private ApplianceAccessManager applianceAccessManagerMock;
+    private ApplianceAccessEventMonitor subject;
 
-    private ApplianceAccessEventMonitor applianceMonitor;
-    @Mock
-    private DiscoveryManager discoverManagerMock;
-    @Mock
-    private ApplianceSessionDetailsInfo sessionInfoMock;
-    @Mock
-    private EventBus eventBusMock;
-    @Mock
-    private EWSDependencyProvider ewsDependencyProviderMock;
+    @Mock private ApplianceAccessManager applianceAccessManagerMock;
+    @Mock private DiscoveryHelper discoverManagerMock;
+    @Mock private ApplianceSessionDetailsInfo sessionInfoMock;
+    @Mock private EventBus eventBusMock;
+    @Mock private Appliance applianceMock;
 
     private static String CPP = "cc1ad323";
     private static String DEVICE_MODEL = "deviceModel";
@@ -69,13 +62,26 @@ public class ApplianceAccessEventMonitorTest {
         initMocks(this);
         PowerMockito.mockStatic(EWSLogger.class);
         PowerMockito.mockStatic(EWSTagger.class);
-        applianceMonitor = new ApplianceAccessEventMonitor(applianceAccessManagerMock, eventBusMock, sessionInfoMock,
+
+        AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
+        Map<String, String> mockMap = new HashMap<>();
+        mockMap.put(EWSInterface.PRODUCT_NAME, DEVICE_NAME);
+        EWSDependencyProvider.getInstance().initDependencies(mockAppInfraInterface, mockMap);
+
+        when(sessionInfoMock.getCppId()).thenReturn(CPP);
+
+        NetworkNode mockNetworkNode = mock(NetworkNode.class);
+        when(mockNetworkNode.toString()).thenReturn("I am a network node!");
+        when(mockNetworkNode.getDeviceType()).thenReturn(DEVICE_MODEL);
+        when(applianceMock.getNetworkNode()).thenReturn(mockNetworkNode);
+
+        subject = new ApplianceAccessEventMonitor(applianceAccessManagerMock, eventBusMock, sessionInfoMock,
                 discoverManagerMock);
     }
 
     @Test
     public void shouldFetchApplianceDevicePortDetailsWhenRequested() throws Exception {
-        applianceMonitor.fetchDevicePortProperties(new FetchDevicePortPropertiesEvent());
+        subject.fetchDevicePortProperties(new FetchDevicePortPropertiesEvent());
 
         verify(applianceAccessManagerMock).fetchDevicePortProperties(isNull(ApplianceAccessManager.FetchCallback.class));
     }
@@ -89,7 +95,7 @@ public class ApplianceAccessEventMonitorTest {
         String homeWiFiPassword = "BrightEyes123";
         final ConnectApplianceToHomeWiFiEvent event = new ConnectApplianceToHomeWiFiEvent(homeWiFiSSID, homeWiFiPassword);
 
-        applianceMonitor.connectApplianceToHomeWiFiEvent(event);
+        subject.connectApplianceToHomeWiFiEvent(event);
 
         verify(applianceAccessManagerMock).connectApplianceToHomeWiFiEvent(ssidCaptor.capture(), pwdCaptor.capture());
         assertEquals(homeWiFiSSID, ssidCaptor.getValue());
@@ -98,55 +104,27 @@ public class ApplianceAccessEventMonitorTest {
 
     @Test
     public void shouldStartDiscoverApplianceWhenRequested() throws Exception {
-        applianceMonitor.discoverAppliance(new DiscoverApplianceEvent());
+        subject.discoverAppliance(new DiscoverApplianceEvent());
 
-        verify(discoverManagerMock).start();
+        verify(discoverManagerMock).startDiscovery(any(DiscoveryHelper.DiscoveryCallback.class));
     }
 
     @Test
     public void shouldStopDiscoverWhenOnStopIsCalled() throws Exception {
-        applianceMonitor.onStop();
-        verify(discoverManagerMock).stop();
+        subject.onStop();
+        verify(discoverManagerMock).stopDiscovery();
     }
 
     @Test
     public void shouldCheckForApplianceInCallbackResultAndSendSuccessEvent() throws Exception {
-        final ArgumentCaptor<DiscoveryEventListener> listenerArgumentCaptor = ArgumentCaptor.forClass(DiscoveryEventListener.class);
-
-        simulateDeviceFoundWithConnectionState(ConnectionState.CONNECTED_LOCALLY);
-
-        applianceMonitor.discoverAppliance(new DiscoverApplianceEvent());
-        verify(discoverManagerMock).addDiscoveryEventListener(listenerArgumentCaptor.capture());
-
-        listenerArgumentCaptor.getValue().onDiscoveredAppliancesListChanged();
+        subject.onApplianceFound(applianceMock);
 
         verify(eventBusMock).post(isA(PairingSuccessEvent.class));
     }
 
     @Test
-    public void shouldCheckForApplianceInCallbackAndNoEventIfNotConnectedState() throws Exception {
-        final ArgumentCaptor<DiscoveryEventListener> listenerArgumentCaptor = ArgumentCaptor.forClass(DiscoveryEventListener.class);
-
-        simulateDeviceFoundWithConnectionState(ConnectionState.DISCONNECTED);
-
-        applianceMonitor.discoverAppliance(new DiscoverApplianceEvent());
-        verify(discoverManagerMock).addDiscoveryEventListener(listenerArgumentCaptor.capture());
-
-        listenerArgumentCaptor.getValue().onDiscoveredAppliancesListChanged();
-
-        verify(eventBusMock, Mockito.never()).post(isA(PairingSuccessEvent.class));
-    }
-
-    @Test
     public void shouldSendProductConnectionTagsOnSuccess() throws Exception {
-        final ArgumentCaptor<DiscoveryEventListener> listenerArgumentCaptor = ArgumentCaptor.forClass(DiscoveryEventListener.class);
-
-        simulateDeviceFoundWithConnectionState(ConnectionState.CONNECTED_LOCALLY);
-
-        applianceMonitor.discoverAppliance(new DiscoverApplianceEvent());
-        verify(discoverManagerMock).addDiscoveryEventListener(listenerArgumentCaptor.capture());
-
-        listenerArgumentCaptor.getValue().onDiscoveredAppliancesListChanged();
+        subject.onApplianceFound(applianceMock);
 
         PowerMockito.verifyStatic();
         HashMap<String, String> tagVals = new HashMap<>();
@@ -159,56 +137,9 @@ public class ApplianceAccessEventMonitorTest {
 
     @Test
     public void shouldSendStopTimedActionOnSuccess() throws Exception {
-        final ArgumentCaptor<DiscoveryEventListener> listenerArgumentCaptor = ArgumentCaptor.forClass(DiscoveryEventListener.class);
-
-        simulateDeviceFoundWithConnectionState(ConnectionState.CONNECTED_LOCALLY);
-
-        applianceMonitor.discoverAppliance(new DiscoverApplianceEvent());
-        verify(discoverManagerMock).addDiscoveryEventListener(listenerArgumentCaptor.capture());
-
-        listenerArgumentCaptor.getValue().onDiscoveredAppliancesListChanged();
+        subject.onApplianceFound(applianceMock);
 
         PowerMockito.verifyStatic();
-
         EWSTagger.stopTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-    }
-
-    @Test
-    public void shouldNotSendProductConnectionTagsOnDeviceNotConnectedReceived() throws Exception {
-        final ArgumentCaptor<DiscoveryEventListener> listenerArgumentCaptor = ArgumentCaptor.forClass(DiscoveryEventListener.class);
-
-        simulateDeviceFoundWithConnectionState(ConnectionState.DISCONNECTED);
-
-        applianceMonitor.discoverAppliance(new DiscoverApplianceEvent());
-        verify(discoverManagerMock).addDiscoveryEventListener(listenerArgumentCaptor.capture());
-
-        listenerArgumentCaptor.getValue().onDiscoveredAppliancesListChanged();
-
-        PowerMockito.verifyStatic(never());
-
-        HashMap<String, String> tagVals = new HashMap<>();
-        tagVals.put(Tag.KEY.MACHINE_ID, CPP);
-        tagVals.put(Tag.KEY.PRODUCT_MODEL, DEVICE_MODEL);
-        tagVals.put(Tag.KEY.PRODUCT_NAME, DEVICE_NAME);
-
-        EWSTagger.trackAction(Tag.ACTION.CONNECTION_SUCCESS, tagVals);
-        EWSTagger.stopTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-    }
-
-    private void simulateDeviceFoundWithConnectionState(ConnectionState connectionState) {
-        final Appliance applianceMock = mock(Appliance.class);
-        final NetworkNode networkNodeMock = mock(NetworkNode.class);
-
-        PowerMockito.mockStatic(EWSDependencyProvider.class);
-        final EWSDependencyProvider dependencyProviderMock = mock(EWSDependencyProvider.class);
-        when(EWSDependencyProvider.getInstance()).thenReturn(dependencyProviderMock);
-        when(dependencyProviderMock.getLoggerInterface()).thenReturn(mock(LoggingInterface.class));
-        when(dependencyProviderMock.getProductName()).thenReturn(DEVICE_NAME);
-
-        when(discoverManagerMock.getApplianceByCppId(CPP)).thenReturn(applianceMock);
-        when(applianceMock.getNetworkNode()).thenReturn(networkNodeMock);
-        when(networkNodeMock.getConnectionState()).thenReturn(connectionState);
-        when(sessionInfoMock.getCppId()).thenReturn(CPP);
-        when(networkNodeMock.getDeviceType()).thenReturn(DEVICE_MODEL);
     }
 }

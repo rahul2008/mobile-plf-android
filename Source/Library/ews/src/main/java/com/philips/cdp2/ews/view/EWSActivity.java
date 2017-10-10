@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
@@ -50,7 +49,7 @@ public class EWSActivity extends UiKitActivity {
         // TODO clean up this onCreate()
         HashMap map = new HashMap<String, String>();
         map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
-        EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), DiscoveryManager.getInstance(), map);
+        EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), map);
         setContentView(R.layout.ews_activity_main);
         setUpToolBar();
 
@@ -64,6 +63,7 @@ public class EWSActivity extends UiKitActivity {
 
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
+
         findViewById(R.id.ic_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +81,14 @@ public class EWSActivity extends UiKitActivity {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
         }
+    }
+
+    public void showCloseButton() {
+        findViewById(R.id.ic_close).setVisibility(View.VISIBLE);
+    }
+
+    public void hideCloseButton() {
+        findViewById(R.id.ic_close).setVisibility(View.GONE);
     }
 
     @Override

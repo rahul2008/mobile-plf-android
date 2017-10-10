@@ -8,7 +8,6 @@ package com.philips.cdp2.ews.helper;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp2.ews.EWSApplication;
 import com.philips.cdp2.ews.microapp.EWSCallback;
 import com.philips.cdp2.ews.microapp.EWSDependencies;
@@ -39,7 +38,7 @@ public class EWSLaunchHelper implements EWSCallback {
         HashMap<String, String> productKeyMap = new HashMap<>();
         productKeyMap.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
 
-        ewsInterface.init(new EWSDependencies(appInfra, DiscoveryManager.getInstance(), productKeyMap), new UappSettings(context));
+        ewsInterface.init(new EWSDependencies(appInfra, productKeyMap), new UappSettings(context));
         ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, -1), new EWSLauncherInput(this));
     }
 

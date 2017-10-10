@@ -41,7 +41,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @NonNull
     private final PermissionHandler permissionHandler;
     @NonNull
-    private final EventBus eventBus;
+    final EventBus eventBus;
     @NonNull
     private final DialogFragment connectingDialog;
     @NonNull

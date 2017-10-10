@@ -8,8 +8,9 @@ package com.philips.cdp2.ews.appliance;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
@@ -17,7 +18,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BEApplianceFactory implements DICommApplianceFactory<BEAppliance> {
+public class BEApplianceFactory implements ApplianceFactory {
 
     private static final String TAG = "BEApplianceFactory";
 
@@ -29,12 +30,12 @@ public class BEApplianceFactory implements DICommApplianceFactory<BEAppliance> {
     }
 
     @Override
-    public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+    public boolean canCreateApplianceForNode(@NonNull NetworkNode networkNode) {
         return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
     }
 
     @Override
-    public BEAppliance createApplianceForNode(NetworkNode networkNode) {
+    public Appliance createApplianceForNode(@NonNull NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
             CommunicationStrategy communicationStrategy = createCommunicationStrategy(networkNode);
             return createAppliance(networkNode, communicationStrategy);
@@ -52,12 +53,12 @@ public class BEApplianceFactory implements DICommApplianceFactory<BEAppliance> {
 
     @VisibleForTesting
     @NonNull
-    BEAppliance createAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    BEAppliance createAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy) {
         return new BEAppliance(networkNode, communicationStrategy);
     }
 
     @NonNull
-    private CommunicationStrategy createCommunicationStrategy(NetworkNode networkNode) {
+    private CommunicationStrategy createCommunicationStrategy(@NonNull NetworkNode networkNode) {
         return lanTransportContext.createCommunicationStrategyFor(networkNode);
     }
 }

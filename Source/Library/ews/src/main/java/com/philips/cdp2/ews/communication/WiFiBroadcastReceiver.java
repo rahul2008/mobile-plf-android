@@ -82,19 +82,19 @@ public class WiFiBroadcastReceiver extends BroadcastReceiver implements Eventing
     @Override
     public void onStart() {
         // TODO consider changes for removing
-//        if (!isRegistered) {
-//            appContext.registerReceiver(this, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
-//            isRegistered = true;
-//        }
+        if (!isRegistered) {
+            appContext.registerReceiver(this, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+            isRegistered = true;
+        }
     }
 
     @Override
     public void onStop() {
         // TODO consider changes for removing
-//        if (isRegistered) {
-//            appContext.unregisterReceiver(this);
-//            isRegistered = false;
-//        }
+        if (isRegistered) {
+            appContext.unregisterReceiver(this);
+            isRegistered = false;
+        }
     }
 
     @VisibleForTesting

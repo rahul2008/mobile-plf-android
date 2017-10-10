@@ -28,6 +28,13 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
 
     @Nullable private ConnectingPhoneToHotspotWifiViewModel viewModel;
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        EWSActivity activity = (EWSActivity) getActivity();
+        activity.hideCloseButton();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,

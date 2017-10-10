@@ -53,10 +53,11 @@ dependencies {
     compile "com.android.support:multidex:${versionsAndroid.multidex}"
 
     // Philips Dependencies
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: "${versionsPhilips.cba}", ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'commlib-lan', version: "${versionsPhilips.cba}") {
         exclude group: 'com.android.support'
-        transitive = true
+
     }
+
     compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}", ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true

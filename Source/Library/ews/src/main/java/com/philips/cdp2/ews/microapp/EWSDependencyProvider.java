@@ -6,8 +6,6 @@ package com.philips.cdp2.ews.microapp;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -21,7 +19,6 @@ public class EWSDependencyProvider {
     private static LoggingInterface loggingInterface;
     private static AppTaggingInterface appTaggingInterface;
     private AppInfraInterface appInfraInterface;
-    private DiscoveryManager<? extends Appliance> discoveryManager;
     private Map<String, String> productKeyMap;
 
     private EWSDependencyProvider() {
@@ -37,10 +34,9 @@ public class EWSDependencyProvider {
         return instance;
     }
 
-    public void initDependencies(@NonNull final AppInfraInterface appInfraInterface, final DiscoveryManager<? extends Appliance> discoveryManager,
-                          @NonNull final Map<String, String> productKeyMap) {
+    public void initDependencies(@NonNull final AppInfraInterface appInfraInterface,
+                                 @NonNull final Map<String, String> productKeyMap) {
         this.appInfraInterface = appInfraInterface;
-        this.discoveryManager = discoveryManager;
         this.productKeyMap = productKeyMap;
 
         if(productKeyMap == null || !productKeyMap.containsKey(EWSInterface.PRODUCT_NAME)) {
@@ -76,17 +72,12 @@ public class EWSDependencyProvider {
     }
 
     boolean areDependenciesInitialized() {
-        return appInfraInterface != null && discoveryManager != null && productKeyMap != null;
-    }
-
-    public DiscoveryManager<? extends Appliance> getDiscoveryManager() {
-        return discoveryManager;
+        return appInfraInterface != null && productKeyMap != null;
     }
 
     public void clear() {
         loggingInterface = null;
         appTaggingInterface = null;
-        discoveryManager = null;
         appInfraInterface = null;
         productKeyMap = null;
         instance = null;

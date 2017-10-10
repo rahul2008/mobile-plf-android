@@ -41,6 +41,7 @@ public class EWSPressPlayAndFollowSetupViewModel extends ConnectPhoneToDeviceAPM
 
     @Override
     protected void startConnection() {
+        eventBus.unregister(this);
         navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
