@@ -1,21 +1,20 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.database.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 
 public class ConsentDetailStatusType {
     public static final String UNKNOWN = "UNKNOWN";
     public static final String ACCEPTED = "ACCEPTED";
     public static final String REFUSED = "REFUSED";
 
-
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
         switch (description.toUpperCase()) {

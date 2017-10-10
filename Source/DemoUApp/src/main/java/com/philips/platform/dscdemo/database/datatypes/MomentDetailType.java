@@ -1,8 +1,8 @@
-/*
- * Copyright (c) 2017. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.dscdemo.database.datatypes;
 
@@ -18,7 +18,7 @@ public class MomentDetailType {
     public static final String VIDEO = "VIDEO";
     public static final String TAGGING_ID = "TAGGING ID";
     public static final String PHASE = "PHASE";
-    public static final String SLEEP_TIME="SLEEP_TIME";
+    public static final String SLEEP_TIME = "SLEEP_TIME";
 
 
     public static int getIDFromDescription(String description) {

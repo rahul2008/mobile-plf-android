@@ -1,21 +1,15 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 
 package com.philips.platform.dscdemo.database.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015. // 9164753573
- * All rights reserved.
- */
 public class MeasurementType {
-
-
     public static final String UNKNOWN = "UNKNOWN";
     public static final String TEMPERATURE = "Temperature";
     public static final String AMOUNT = "AMOUNT";

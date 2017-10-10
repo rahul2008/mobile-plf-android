@@ -1,28 +1,29 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dscdemo.database.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 310218660 on 11/17/2016.
- */
-
 public class MeasurementGroupDetailType {
     public static final String UNKNOWN = "UNKNOWN";
     public static final String TEMP_OF_DAY = "TEMP_OF_DAY";
-    public static final String SLEEP_DATA_OF_DAY="SLEEP_DATA_OF_DAY";
+    public static final String SLEEP_DATA_OF_DAY = "SLEEP_DATA_OF_DAY";
 
 
     public static int getIDFromDescription(String description) {
-        if(description == null){
+        if (description == null) {
             return -1;
         }
 
         if (description.equalsIgnoreCase(TEMP_OF_DAY)) {
             return 77;
-        } else if(description.equalsIgnoreCase(SLEEP_DATA_OF_DAY)){
+        } else if (description.equalsIgnoreCase(SLEEP_DATA_OF_DAY)) {
             return 78;
-        }else {
+        } else {
             return -1;
         }
     }
