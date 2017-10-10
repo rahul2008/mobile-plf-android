@@ -51,7 +51,7 @@ public abstract class Appliance implements Availability<Appliance> {
             DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
 
             for (DICommPort port : getAllPorts()) {
-                if(portName.equals(port.getDICommPortName())) {
+                if (portName.equals(port.getDICommPortName())) {
                     port.handleResponse(data);
                 }
             }

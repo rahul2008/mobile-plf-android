@@ -601,10 +601,10 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
                     }
                     return;
                 case EventSubscription.SUBSCRIBE_EVENTS_RECEIVED:
-                    extractEvents(mEventSubscription, true);
+                    extractEvents(true);
                     break;
                 default:
-                    extractEvents(mEventSubscription, false);
+                    extractEvents(false);
             }
 
             if (mAppDcsRequestState == AppRequestedState.STOP) {
@@ -617,12 +617,12 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         }
     }
 
-    private void extractEvents(EventSubscription eventSubscription, boolean notifyListeners) {
-        int noOfEvents = eventSubscription.getNumberOfEventsReturned();
+    private void extractEvents(boolean notifyListeners) {
+        int noOfEvents = mEventSubscription.getNumberOfEventsReturned();
         for (int i = 0; i < noOfEvents; i++) {
-            String dcsEvents = eventSubscription.getData(i);
-            String fromEui64 = eventSubscription.getReplyTo(i);
-            String action = eventSubscription.getAction(i);
+            String dcsEvents = mEventSubscription.getData(i);
+            String fromEui64 = mEventSubscription.getReplyTo(i);
+            String action = mEventSubscription.getAction(i);
 
             Log.d(LogConstants.ICPCLIENT, "DCS event received from: " + fromEui64 + "    action: " + action);
             Log.d(LogConstants.ICPCLIENT, "DCS event received: " + dcsEvents);

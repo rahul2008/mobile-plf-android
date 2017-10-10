@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -45,12 +47,11 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
     }
 
     @Override
-    public void onDCSEventReceived(String data, String fromEui64, String action) {
+    public void onDCSEventReceived(@NonNull final String data, @NonNull final String fromEui64, @NonNull final String action) {
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "onDCSEventReceived: " + data);
-        if (data == null || data.isEmpty())
+        if (data.isEmpty())
             return;
-
-        if (fromEui64 == null || fromEui64.isEmpty())
+        if (fromEui64.isEmpty())
             return;
 
         if (!mNetworkNode.getCppId().equals(fromEui64)) {
@@ -62,39 +63,25 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 
         if (mSubscriptionEventListeners != null) {
-            postSubscriptionEventOnUIThread(extractPortName(data), extractData(data), mSubscriptionEventListeners);
+            try {
+                final String portName = getJsonValue(data, "port");
+                final String payload = getJsonValue(data, "data");
+
+                postSubscriptionEventOnUIThread(portName, payload, mSubscriptionEventListeners);
+            } catch (JSONException e) {
+                DICommLog.e(DICommLog.REMOTE_SUBSCRIPTION, "Error parsing DCS event data: " + e.getMessage());
+            }
         }
     }
 
-    private String extractData(final String data) {
-        try {
-            JSONObject jsonObject = new JSONObject(data);
-            JSONObject dataObject = jsonObject.optJSONObject("data");
+    private String getJsonValue(final String json, String jsonKey) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject dataObject = jsonObject.optJSONObject(jsonKey);
 
-            if (dataObject == null) {
-                return "Error, no data received: " + data;
-            } else {
-                return dataObject.toString();
-            }
-        } catch (JSONException e) {
-            DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());
-            return "Error, JSONException:" + e.getMessage();
-        }
-    }
-
-    private String extractPortName(final String data) {
-        try {
-            JSONObject jsonObject = new JSONObject(data);
-            String dataObject = jsonObject.optString("port");
-
-            if (dataObject == null) {
-                return "Error, no data received: " + data;
-            } else {
-                return dataObject;
-            }
-        } catch (JSONException e) {
-            DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());
-            return "Error, JSONException:" + e.getMessage();
+        if (dataObject == null) {
+            return "Error, no data received: " + json;
+        } else {
+            return dataObject.toString();
         }
     }
 }
