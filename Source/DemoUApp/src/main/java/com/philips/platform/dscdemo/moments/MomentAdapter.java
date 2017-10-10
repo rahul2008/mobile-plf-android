@@ -27,12 +27,16 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Moment> mMomentList;
     private Drawable mOptionsDrawable;
     private final MomentPresenter mTemperaturePresenter;
+    private boolean mIsOptions;
 
-    MomentAdapter(final Context context, final ArrayList<? extends Moment> data, MomentPresenter mTemperaturePresenter) {
+    MomentAdapter(final Context context, final ArrayList<? extends Moment> data, MomentPresenter mTemperaturePresenter, boolean isOptions) {
         this.mTemperaturePresenter = mTemperaturePresenter;
         mMomentList = data;
         mContext = context;
-        initDrawables();
+        mIsOptions = isOptions;
+
+        if (mIsOptions)
+            initDrawables();
     }
 
     @Override
@@ -45,9 +49,10 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MomentViewHolder) {
             MomentViewHolder mSyncViewHolder = (MomentViewHolder) holder;
-            mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
+
             MomentHelper helper = new MomentHelper();
             Moment moment = mMomentList.get(position);
+
             if (moment.getSynchronisationData() != null)
                 mSyncViewHolder.mMomentID.setText(moment.getSynchronisationData().getGuid());
             else
@@ -57,12 +62,16 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mSyncViewHolder.mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mSyncViewHolder.mLocation.setText(helper.getNotes(moment));
             mSyncViewHolder.mExpirationDate.setText(helper.getExpirationDate(moment));
-            mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(MomentAdapter.this, mMomentList, view, holder.getAdapterPosition());
-                }
-            });
+
+            if (mIsOptions) {
+                mSyncViewHolder.mOptions.setImageDrawable(mOptionsDrawable);
+                mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View view) {
+                        mTemperaturePresenter.bindDeleteOrUpdatePopUp(mMomentList, view, holder.getAdapterPosition());
+                    }
+                });
+            }
         }
     }
 
@@ -95,8 +104,10 @@ class MomentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mExpirationDate = (TextView) itemView.findViewById(R.id.expiration_date_detail);
             mPhase = (TextView) itemView.findViewById(R.id.phasedata);
             mLocation = (TextView) itemView.findViewById(R.id.location_detail);
-            mOptions = (ImageView) itemView.findViewById(R.id.dots);
-            mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
+            if (mIsOptions) {
+                mOptions = (ImageView) itemView.findViewById(R.id.dots);
+                mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
+            }
             mIsSynced = (TextView) itemView.findViewById(R.id.is_synced);
         }
     }

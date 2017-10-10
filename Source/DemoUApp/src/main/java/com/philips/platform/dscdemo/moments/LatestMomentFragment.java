@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,6 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.DSBaseFragment;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.datatypes.MomentType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,25 +34,45 @@ public class LatestMomentFragment extends DSBaseFragment
         implements DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
     private Context mContext;
+    private DataServicesManager mDataServicesManager;
+
+    private EditText mMomentTypeEt;
+    private TextView mNoActiveLatestMoment;
+    private RecyclerView mMomentsRecyclerView;
+
     private MomentPresenter mMomentPresenter;
     private MomentAdapter mMomentAdapter;
     private ArrayList<? extends Moment> mMomentList = new ArrayList();
-    private RecyclerView mMomentsRecyclerView;
-    private TextView mNoActiveLatestMoment;
-    private DataServicesManager mDataServicesManager;
+    private String mMomentType;
+
+    @Override
+    public int getActionbarTitleResId() {
+        return 0;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return null;
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMomentPresenter = new MomentPresenter(mContext, MomentType.TEMPERATURE, this);
+        mMomentPresenter = new MomentPresenter(mContext, this);
         mDataServicesManager = DataServicesManager.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.latest_moment, container, false);
-        mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter);
+        mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter, false);
 
+        mMomentTypeEt = (EditText) view.findViewById(R.id.et_moment_type);
         mNoActiveLatestMoment = (TextView) view.findViewById(R.id.tv_no_latest_moment);
         mMomentsRecyclerView = (RecyclerView) view.findViewById(R.id.latest_moment_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -68,6 +89,15 @@ public class LatestMomentFragment extends DSBaseFragment
             }
         });
 
+        Button mOkBtn = (Button) view.findViewById(R.id.btn_fetch);
+        mOkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMomentType = mMomentTypeEt.getText().toString();
+                fetchLatestMomentWithType();
+            }
+        });
+
         return view;
     }
 
@@ -81,7 +111,6 @@ public class LatestMomentFragment extends DSBaseFragment
     public void onStart() {
         super.onStart();
         mDataServicesManager.registerDBChangeListener(this);
-        mMomentPresenter.fetchLatestMoment(this);
     }
 
     @Override
@@ -108,23 +137,8 @@ public class LatestMomentFragment extends DSBaseFragment
     }
 
     @Override
-    public int getActionbarTitleResId() {
-        return 0;
-    }
-
-    @Override
-    public String getActionbarTitle() {
-        return null;
-    }
-
-    @Override
-    public boolean getBackButtonState() {
-        return false;
-    }
-
-    @Override
     public void onSuccess(List<? extends Moment> data) {
-        mMomentPresenter.fetchLatestMoment(this);
+        fetchLatestMomentWithType();
     }
 
     @Override
@@ -135,7 +149,7 @@ public class LatestMomentFragment extends DSBaseFragment
     @Override
     public void dBChangeSuccess(SyncType type) {
         if (type != SyncType.MOMENT) return;
-        mMomentPresenter.fetchLatestMoment(LatestMomentFragment.this);
+        fetchLatestMomentWithType();
     }
 
     @Override
@@ -172,6 +186,14 @@ public class LatestMomentFragment extends DSBaseFragment
                     Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void fetchLatestMomentWithType() {
+        if (mMomentType != null && !mMomentType.isEmpty()) {
+            mMomentPresenter.fetchLatestMoment(mMomentType.trim(), this);
+        } else {
+            Toast.makeText(mContext, "Please enter the valid moment type", Toast.LENGTH_SHORT).show();
         }
     }
 }

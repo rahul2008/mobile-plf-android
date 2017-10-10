@@ -28,6 +28,12 @@
     <string name="update">Update</string>
     <string name="delete">Delete</string>
 
+    <string name="type">Moment Type</string>
+    <string name="moment_detail_value">Moment detail value</string>
+    <string name="measurement_value">Measurement value</string>
+    <string name="measurement_detail_value">Measurement detail value</string>
+    <string name="add_moment">Add</string>
+
     <string name="phase">Time Of the Day</string>
     <string name="temperature">Temperature</string>
     <string name="temperature_hint">Temperature of the Baby</string>
@@ -35,7 +41,14 @@
     <string name="location_hint">Location Name</string>
     <string name="save">Add</string>
 
-    <string name="fetch_last_moment">Latest Moment</string>
+    <string name="fetch_last_moment">Latest moment by type</string>
+    <string name="moment_type_label">Moment Type</string>
+    <string name="no_active_latest_moment_text">No Active Latest Moment</string>
+    <string name="add_moment_with_type">Add moment of type</string>
+    <string name="moment_case_sensitive">Moment type is case sensitive</string>
+    <string name="please_note">Please note: Moment type is case sensitive</string>
+    <string name="fetch">Fetch</string>
+    <string name="please_enter_moment">Please enter moment type: </string>
 
     <!--Consent-->
     <string name="consent">User Consents</string>

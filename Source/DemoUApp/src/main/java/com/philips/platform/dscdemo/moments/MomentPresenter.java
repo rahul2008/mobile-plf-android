@@ -50,30 +50,29 @@ class MomentPresenter {
     private static final int UPDATE = 1;
     static final int ADD = 2;
 
-    private final DBRequestListener dbRequestListener;
+    private final DBRequestListener<Moment> dbRequestListener;
     private DataServicesManager mDataServices;
     private DatabaseHelper databaseHelper;
 
-    private String mMomentType;
     private Measurement mMeasurement;
     private MeasurementGroup mMeasurementGroup;
     private MeasurementGroup mMeasurementGroupInside;
 
+    private EditText mEtMomentType;
     private EditText mTemperature;
     private EditText mLocation;
     private EditText mPhase;
     private Button mDialogButton;
 
-    MomentPresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
+    MomentPresenter(Context context, DBRequestListener<Moment> dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
         mContext = context;
-        mMomentType = momentType;
         this.dbRequestListener = dbRequestListener;
     }
 
-    private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
-        Moment moment = mDataServices.createMoment(mMomentType);
+    private Moment createMoment(String type, String momemtDetail, String measurement, String measurementDetail) {
+        Moment moment = mDataServices.createMoment(type);
         createMomentDetail(momemtDetail, moment);
 
         createMeasurementGroup(moment);
@@ -93,7 +92,7 @@ class MomentPresenter {
         createMeasurementDetail(measurementDetail);
     }
 
-    public void createMeasurementDetail(String value) {
+    private void createMeasurementDetail(String value) {
         mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, value, mMeasurement);
     }
 
@@ -116,12 +115,12 @@ class MomentPresenter {
                 createMeasurementGroup(moment);
     }
 
-    void fetchData(DBFetchRequestListner dbFetchRequestListner) {
+    void fetchData(DBFetchRequestListner<Moment> dbFetchRequestListner) {
         mDataServices.fetchAllMoment(dbFetchRequestListner);
     }
 
-    void fetchLatestMoment(DBFetchRequestListner dbFetchRequestListner) {
-        mDataServices.fetchLatestMomentByType(MomentType.TEMPERATURE, dbFetchRequestListner);
+    void fetchLatestMoment(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+        mDataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
     }
 
     private void saveRequest(Moment moment) {
@@ -135,17 +134,24 @@ class MomentPresenter {
     }
 
     private void createAndSaveMoment() {
-        Moment moment = createMoment(mPhase.getText().toString(),
-                mTemperature.getText().toString(), mLocation.getText().toString());
+        Moment moment;
+
+        if (mEtMomentType != null && mEtMomentType.getVisibility() == View.VISIBLE) {
+            moment = createMoment(mEtMomentType.getText().toString().trim(), mPhase.getText().toString(),
+                    mTemperature.getText().toString(), mLocation.getText().toString());
+        } else {
+            moment = createMoment(MomentType.TEMPERATURE, mPhase.getText().toString(),
+                    mTemperature.getText().toString(), mLocation.getText().toString());
+        }
         saveRequest(moment);
     }
 
-    void bindDeleteOrUpdatePopUp(final MomentAdapter adapter,
-                                 final List<? extends Moment> data, final View view,
+    void bindDeleteOrUpdatePopUp(final List<? extends Moment> data, final View view,
                                  final int selectedItem) {
 
         String delete = mContext.getResources().getString(R.string.delete);
         String update = mContext.getResources().getString(R.string.update);
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1);
         arrayAdapter.add(delete);
         arrayAdapter.add(update);
@@ -163,7 +169,7 @@ class MomentPresenter {
                                     final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        removeMoment(adapter, data, selectedItem);
+                        removeMoment(data, selectedItem);
                         popupWindow.dismiss();
                         break;
                     case UPDATE:
@@ -172,7 +178,7 @@ class MomentPresenter {
                             Toast.makeText(mContext,
                                     "Invalid", Toast.LENGTH_SHORT).show();
                         } else {
-                            addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                            addOrUpdateMoment(UPDATE, data.get(selectedItem), false);
                         }
                         popupWindow.dismiss();
                         break;
@@ -183,8 +189,7 @@ class MomentPresenter {
         popupWindow.show();
     }
 
-    private void removeMoment(MomentAdapter adapter,
-                              final List<? extends Moment> data, int adapterPosition) {
+    private void removeMoment(final List<? extends Moment> data, int adapterPosition) {
         try {
             Moment moment = data.get(adapterPosition);
             Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = databaseHelper.getSynchronisationDataDao();
@@ -195,8 +200,7 @@ class MomentPresenter {
 
             mDataServices.deleteMoment(moment, dbRequestListener);
 
-        } catch (ArrayIndexOutOfBoundsException e) {
-        } catch (SQLException e) {
+        } catch (ArrayIndexOutOfBoundsException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -233,9 +237,16 @@ class MomentPresenter {
         mDataServices.updateMoment(old, dbRequestListener);
     }
 
-    void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {
+    void addOrUpdateMoment(final int addOrUpdate, final Moment moment, boolean isTypeAvailable) {
         final Dialog dialog = new Dialog(mContext);
-        dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
+
+        if (isTypeAvailable) {
+            dialog.setContentView(R.layout.create_moment);
+            mEtMomentType = (EditText) dialog.findViewById(R.id.et_moment_type);
+        } else {
+            dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
+        }
+
         dialog.setTitle(mContext.getResources().getString(R.string.create_moment));
 
         mTemperature = (EditText) dialog.findViewById(R.id.temperature_detail);
@@ -255,7 +266,6 @@ class MomentPresenter {
         mDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
                 final boolean isValid = validateInputFields();
                 if (!isValid) {
                     mTemperature.setText("");
@@ -270,10 +280,7 @@ class MomentPresenter {
                         createAndSaveMoment();
                         break;
                     case UPDATE:
-
-
                         dialog.dismiss();
-
                         try {
                             Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = databaseHelper.getSynchronisationDataDao();
                             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
