@@ -44,14 +44,6 @@ node('android && device') {
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean createDebugCoverageReport
                     '''
                 }
-                stage('HockeyApp upload') {
-                    echo "Uploading to HockeyApp"
-                    sh '''#!/bin/bash -l
-                        chmod -R 755 .
-                        cd ./Source/CatalogApp
-                        ./gradlew -PenvCode=${JENKINS_ENV} uploadReleaseToHockeyApp
-                    '''
-                }
             } else {
                 stage ('build') {
                     sh '''#!/bin/bash -l
