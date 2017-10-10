@@ -82,16 +82,16 @@ public class ObservableCommunicationStrategyTest {
 
     @Test
     public void whenNotifyWithoutListenersThenNoExceptions() {
-        strategyUnderTest.notifySubscriptionEventListeners(TEST_DATA);
+        strategyUnderTest.notifySubscriptionEventListeners("air", TEST_DATA);
     }
 
     @Test
     public void whenNotifyWithListenerThenListenerGetsCalled() throws Exception {
         strategyUnderTest.addSubscriptionEventListener(mockListener);
 
-        strategyUnderTest.notifySubscriptionEventListeners(TEST_DATA);
+        strategyUnderTest.notifySubscriptionEventListeners("air", TEST_DATA);
 
-        verify(mockListener).onSubscriptionEventReceived(TEST_DATA);
+        verify(mockListener).onSubscriptionEventReceived("air", TEST_DATA);
     }
 
     @Test
@@ -99,10 +99,10 @@ public class ObservableCommunicationStrategyTest {
         strategyUnderTest.addSubscriptionEventListener(mockListener);
         strategyUnderTest.addSubscriptionEventListener(mockListenerTwo);
 
-        strategyUnderTest.notifySubscriptionEventListeners(TEST_DATA);
+        strategyUnderTest.notifySubscriptionEventListeners("air", TEST_DATA);
 
-        verify(mockListener).onSubscriptionEventReceived(TEST_DATA);
-        verify(mockListenerTwo).onSubscriptionEventReceived(TEST_DATA);
+        verify(mockListener).onSubscriptionEventReceived("air", TEST_DATA);
+        verify(mockListenerTwo).onSubscriptionEventReceived("air", TEST_DATA);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class ObservableCommunicationStrategyTest {
         strategyUnderTest.addSubscriptionEventListener(mockListenerTwo);
         strategyUnderTest.removeSubscriptionEventListener(mockListener);
 
-        strategyUnderTest.notifySubscriptionEventListeners(TEST_DATA);
+        strategyUnderTest.notifySubscriptionEventListeners("air", TEST_DATA);
 
         verifyZeroInteractions(mockListener);
     }
@@ -121,8 +121,10 @@ public class ObservableCommunicationStrategyTest {
         strategyUnderTest.addSubscriptionEventListener(mockListener);
         strategyUnderTest.addSubscriptionEventListener(mockListener);
 
-        strategyUnderTest.notifySubscriptionEventListeners(TEST_DATA);
+        strategyUnderTest.notifySubscriptionEventListeners("air", TEST_DATA);
 
-        verify(mockListener,times(1)).onSubscriptionEventReceived(TEST_DATA);
+        verify(mockListener,times(1)).onSubscriptionEventReceived("air", TEST_DATA);
     }
+
+    // TODO Tests where no port is provided (null or "")
 }

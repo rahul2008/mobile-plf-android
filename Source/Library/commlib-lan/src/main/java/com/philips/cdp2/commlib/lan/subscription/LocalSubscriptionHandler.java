@@ -64,7 +64,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
 			}
 
 			DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, decryptedData);
-			postSubscriptionEventOnUIThread(decryptedData, mSubscriptionEventListeners);
+			postSubscriptionEventOnUIThread(portName, decryptedData, mSubscriptionEventListeners);
 		}
 	}
 

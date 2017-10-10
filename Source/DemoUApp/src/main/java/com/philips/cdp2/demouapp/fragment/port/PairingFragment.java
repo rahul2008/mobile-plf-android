@@ -17,11 +17,11 @@ import android.widget.EditText;
 
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
-import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_paired_success;
@@ -35,7 +35,7 @@ public class PairingFragment extends Fragment {
 
     private EditText editTextUserId;
     private EditText editTextUserToken;
-    private AirPurifier currentAppliance;
+    private Appliance currentAppliance;
 
     private ApplianceManager applianceManager;
     private View rootview;
@@ -64,16 +64,16 @@ public class PairingFragment extends Fragment {
             }
         });
 
-        currentAppliance = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
+        currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         return rootview;
     }
 
     private void startPairing() {
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(currentAppliance, new PairingListener<AirPurifier>() {
+        PairingHandler<Appliance> pairingHandler = new PairingHandler<>(currentAppliance, new PairingListener<Appliance>() {
 
             @Override
-            public void onPairingSuccess(final AirPurifier appliance) {
+            public void onPairingSuccess(final Appliance appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
                 Activity activity = getActivity();
@@ -83,7 +83,7 @@ public class PairingFragment extends Fragment {
             }
 
             @Override
-            public void onPairingFailed(final AirPurifier appliance) {
+            public void onPairingFailed(final Appliance appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
 
                 Activity activity = getActivity();
@@ -103,10 +103,10 @@ public class PairingFragment extends Fragment {
     }
 
     private void startUnpairing() {
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(currentAppliance, new PairingListener<AirPurifier>() {
+        PairingHandler<Appliance> pairingHandler = new PairingHandler<>(currentAppliance, new PairingListener<Appliance>() {
 
             @Override
-            public void onPairingSuccess(final AirPurifier appliance) {
+            public void onPairingSuccess(final Appliance appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
                 Activity activity = getActivity();
@@ -116,7 +116,7 @@ public class PairingFragment extends Fragment {
             }
 
             @Override
-            public void onPairingFailed(final AirPurifier appliance) {
+            public void onPairingFailed(final Appliance appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
 
                 Activity activity = getActivity();
