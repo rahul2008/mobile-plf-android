@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -21,8 +22,8 @@ import com.philips.cdp2.ews.view.EWSActivity;
 public class ConnectingDeviceWithWifiFragment extends BaseFragment implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
     private final static String HOME_WIFI_SSID = "homeWiFiSSID";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
-    @Nullable
-    ConnectingDeviceWithWifiViewModel viewModel;
+
+    @Nullable private ConnectingDeviceWithWifiViewModel viewModel;
 
     public static Fragment newInstance(String homeWiFiSSID, String homeWiFiPassword) {
         Bundle data = new Bundle();
@@ -46,9 +47,18 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
                              @Nullable Bundle savedInstanceState) {
         viewModel = createViewModel();
         viewModel.setFragmentCallback(this);
-        viewModel.startConnecting(getArguments().getString(HOME_WIFI_SSID), getArguments().getString(HOME_WIFI_PWD));
+        viewModel.startConnecting(BundleUtils.extractStringFromBundleOrThrow(getArguments(), HOME_WIFI_SSID),
+                BundleUtils.extractStringFromBundleOrThrow(getArguments(), HOME_WIFI_PWD));
         return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
                 false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (viewModel != null) {
+            viewModel.clear();
+        }
     }
 
     private ConnectingDeviceWithWifiViewModel createViewModel() {

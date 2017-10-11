@@ -29,11 +29,8 @@ public class ConnectingPhoneToHotspotWifiViewModel {
 
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
-
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
-
         Fragment fragment();
-
         int requestCode();
     }
 
@@ -64,6 +61,7 @@ public class ConnectingPhoneToHotspotWifiViewModel {
                 Log.d("CONNECT", "Current Wifi State: " + wiFiUtil.getCurrentWifiState());
                 if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
                     onPhoneConnectedToHotspotWifi();
+                    unregisterBroadcastReceiver();
                 }
             }
         }
@@ -152,6 +150,12 @@ public class ConnectingPhoneToHotspotWifiViewModel {
 
     private IntentFilter createIntentFilter() {
         return new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+    }
+
+    private void unregisterBroadcastReceiver() {
+        if (fragmentCallback != null) {
+            fragmentCallback.unregisterReceiver(broadcastReceiver);
+        }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)

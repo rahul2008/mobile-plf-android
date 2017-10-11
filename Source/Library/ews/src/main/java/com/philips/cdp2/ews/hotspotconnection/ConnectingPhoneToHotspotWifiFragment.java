@@ -61,7 +61,9 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        viewModel.clear();
+        if (viewModel != null) {
+            viewModel.clear();
+        }
     }
 
     @Override
@@ -71,7 +73,9 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
 
     @Override
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
-        getActivity().unregisterReceiver(receiver);
+        try {
+            getActivity().unregisterReceiver(receiver);
+        } catch (IllegalArgumentException ignored) {}
     }
 
     @Override

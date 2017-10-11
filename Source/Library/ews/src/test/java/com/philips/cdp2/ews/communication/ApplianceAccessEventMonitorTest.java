@@ -97,7 +97,7 @@ public class ApplianceAccessEventMonitorTest {
 
         subject.connectApplianceToHomeWiFiEvent(event);
 
-        verify(applianceAccessManagerMock).connectApplianceToHomeWiFiEvent(ssidCaptor.capture(), pwdCaptor.capture());
+        verify(applianceAccessManagerMock).connectApplianceToHomeWiFiEvent(ssidCaptor.capture(), pwdCaptor.capture(), null);
         assertEquals(homeWiFiSSID, ssidCaptor.getValue());
         assertEquals(homeWiFiPassword, pwdCaptor.getValue());
     }

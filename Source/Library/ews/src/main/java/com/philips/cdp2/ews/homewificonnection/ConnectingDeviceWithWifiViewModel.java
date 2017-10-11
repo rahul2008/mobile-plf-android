@@ -31,14 +31,13 @@ public class ConnectingDeviceWithWifiViewModel {
 
     public interface ConnectingDeviceToWifiCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
-
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
     }
-
-    static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
+    private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
 
     @NonNull
     private final ApplianceAccessManager applianceAccessManager;
+
     @NonNull
     private final Navigator navigator;
     @NonNull
@@ -47,8 +46,6 @@ public class ConnectingDeviceWithWifiViewModel {
     private ConnectingDeviceToWifiCallback fragmentCallback;
     @NonNull
     private final WiFiUtil wiFiUtil;
-
-
     @NonNull
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -58,12 +55,15 @@ public class ConnectingDeviceWithWifiViewModel {
                 int currentWifiState = wiFiUtil.getCurrentWifiState();
                 if (currentWifiState == WiFiUtil.HOME_WIFI) {
                     onDeviceConnectedToWifi();
+                    unregisterBroadcastReceiver();
                 }
             }
         }
     };
 
+
     private Handler handler;
+
     Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
@@ -79,8 +79,6 @@ public class ConnectingDeviceWithWifiViewModel {
         this.wiFiUtil = wiFiUtil;
         this.handler = handler;
     }
-
-
     public void setFragmentCallback(@Nullable ConnectingDeviceToWifiCallback fragmentCallback) {
         this.fragmentCallback = fragmentCallback;
     }
@@ -100,6 +98,11 @@ public class ConnectingDeviceWithWifiViewModel {
             }
         });
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+    }
+
+
+    public void clear() {
+
     }
 
     private void onDeviceConnectedToWifi() {
@@ -132,4 +135,9 @@ public class ConnectingDeviceWithWifiViewModel {
         return new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
     }
 
+    private void unregisterBroadcastReceiver() {
+        if (fragmentCallback != null) {
+            fragmentCallback.unregisterReceiver(broadcastReceiver);
+        }
+    }
 }

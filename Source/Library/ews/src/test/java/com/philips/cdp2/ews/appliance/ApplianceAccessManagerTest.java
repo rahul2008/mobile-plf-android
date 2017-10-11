@@ -250,6 +250,6 @@ public class ApplianceAccessManagerTest {
     private void connectApplianceToHomeWiFi() {
         WifiPortProperties wifiPortProperties = mock(WifiPortProperties.class);
         when(wifiPortMock.getPortProperties()).thenReturn(wifiPortProperties);
-        accessManager.connectApplianceToHomeWiFiEvent(HOME_WIFI_SSID, HOME_WIFI_PASSWORD);
+        accessManager.connectApplianceToHomeWiFiEvent(HOME_WIFI_SSID, HOME_WIFI_PASSWORD, null);
     }
 }

@@ -30,6 +30,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -119,8 +120,15 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
 
         subject.clear();
 
-        verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
+        verify(mockFragmentCallback, atLeastOnce()).unregisterReceiver(any(BroadcastReceiver.class));
         assertNull(subject.getFragmentCallback());
+    }
+
+    @Test
+    public void itShouldUnregisterReceiverWhenConnectedToCorrectHotSpot() throws Exception {
+        simulateConnectionToDeviceHotspot(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
+
+        verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
     @Test
