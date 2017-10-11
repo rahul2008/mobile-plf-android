@@ -65,6 +65,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     private static final String TAG = "DefaultCloudController";
     private static final String CERTIFICATE_EXTENSION = ".cer";
+    private static final String DCS_RESPONSE = "RESPONSE";
+    private static final String DCS_CHANGE = "CHANGE";
 
     private PairingController mPairingController;
 
@@ -394,20 +396,27 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     @Override
     public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
-        if (action == null) return;
-        if (action.equalsIgnoreCase("RESPONSE")) {
-            for (DcsResponseListener listener : mDcsResponseListeners) {
-                listener.onDCSResponseReceived(data, conversationId);
-            }
-        }
-        if (data == null) return;
+        if (action == null || data == null) return;
 
-        if (mCppDiscoverEventListener != null) {
-            mCppDiscoverEventListener.onDCSEventReceived(data, fromEui64, action);
-        }
-
-        if (getDCSEventListener(fromEui64) != null) {
-            getDCSEventListener(fromEui64).onDCSEventReceived(data, fromEui64, action);
+        switch(action) {
+            case DCS_RESPONSE:
+                // DICOMM-RESPONSE
+                for (DcsResponseListener listener : mDcsResponseListeners) {
+                    listener.onDCSResponseReceived(data, conversationId);
+                }
+                break;
+            case DCS_CHANGE:
+                // DICOMM-CHANGE
+                DcsEventListener eventListener = getDCSEventListener(fromEui64);
+                if (eventListener != null) {
+                    eventListener.onDCSEventReceived(data, fromEui64, action);
+                }
+                break;
+            default:
+                // Unsupported action
+                String logData = "Action: " + action + ", data: " + data;
+                Log.e(TAG, "Received a DCS message but action was not supported. " + logData);
+                break;
         }
     }
 

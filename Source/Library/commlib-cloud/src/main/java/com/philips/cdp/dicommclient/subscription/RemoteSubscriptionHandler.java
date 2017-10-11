@@ -70,8 +70,8 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 
         try {
-            final String portName = getJsonValue(data, "port");
-            final String payload = getJsonValue(data, "data");
+            final String portName = extractPortName(data);
+            final String payload = extractData(data);
 
             postSubscriptionEventOnUIThread(portName, payload, subscriptionEventListeners);
         } catch (JSONException e) {
@@ -79,14 +79,24 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         }
     }
 
-    @Nullable
-    private String getJsonValue(final String json, String jsonKey) throws JSONException {
-        JSONObject jsonObject = new JSONObject(json).optJSONObject(jsonKey);
+    private String extractPortName(final String json) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        String value = jsonObject.optString("port");
 
-        if (jsonObject == null) {
+        if (value == null) {
             throw new JSONException("Error, no data received: " + json);
-        } else {
-            return jsonObject.toString();
         }
+        return value;
+    }
+
+    @Nullable
+    private String extractData(final String json) throws JSONException {
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject dataObject = jsonObject.optJSONObject("data");
+
+        if(dataObject == null) {
+            throw new JSONException("Error, no data received: " + json);
+        }
+        return dataObject.toString();
     }
 }
