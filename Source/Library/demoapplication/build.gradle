@@ -15,12 +15,21 @@ android {
         enabled = true
     }
 
+    signingConfigs{
+        release{
+            storeFile file("demoapp-keystore.jks")
+            storePassword "philips"
+            keyAlias "philips"
+            keyPassword "philips"
+        }
+    }
     buildTypes {
         debug {
             minifyEnabled false
             shrinkResources false
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
