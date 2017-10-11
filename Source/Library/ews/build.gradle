@@ -25,21 +25,13 @@ android {
 
     buildTypes {
         debug {
-//            minifyEnabled false
-//            shrinkResources false
-//            debuggable true
-//            testCoverageEnabled false
+
         }
         release {
             /** Proguard on library reference: https://developer.android.com/studio/projects/android-library.html#Considerations
              *  Also reference with DLS library
              *  Generated aar file keep proguard.txt which take part in proguard process when added in app
              **/
-
-//            minifyEnabled false
-//            shrinkResources false
-//            debuggable false
-//            testCoverageEnabled false
         }
 
     }
