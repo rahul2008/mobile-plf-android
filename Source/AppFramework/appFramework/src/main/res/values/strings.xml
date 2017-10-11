@@ -195,6 +195,7 @@
         <item>@string/RA_About_Menu_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
         <item>@string/RA_See_a_doctor_Menu_Title</item>
+        <item>@string/RA_DLS_power_sleep_connectivity</item>
     </string-array>
 
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
@@ -287,7 +288,6 @@ Receive free product accessories</string>
 
     <string name="RA_COCO_DS" translatable="false">dsc : Data Services </string>
     <string name="RA_COCO_DS_desc" translatable="false">Data Services is a common component that acts as a gateway to data core. It will provide synchronization with application data base for the below support the following types of data -\n<ul><li>Moments, Consents, Insights, Push notification and user characteristics.</li></ul></string>
-    <string name="something_wrong">Something went wrong</string>
 
     <string name="chapters" translatable="false">Chapters</string>
     <string name="common_components" translatable="false">Common Components</string>
@@ -332,6 +332,37 @@ Receive free product accessories</string>
     <string name="RA_DLS_onboarding_screen9_title" translatable="false">Integrated with HSDP &amp; IT</string>
     <string name="RA_DLS_onboarding_screen9_sub_text" translatable="false">The CDP&lt;sup>&lt;small>2&lt;/small>&lt;/sup> platform is fully integrated with HSDP and IT to ensure all functionalities are enabled end-2-end within the Philips landscape.</string>
 
+    <string name="RA_DLS_power_sleep_connectivity" translatable="false">PowerSleep Connectivity</string>
+    <string name="label_last_synced" translatable="false">Last updated: %1$s</string>
+    <string name="label_last_synced_default" translatable="false">Last updated: No update yet</string>
+    <string name="label_sleep_time_format" translatable="false">%d mins</string>
+    <string name="RA_DLS_healthy_sleep_title" translatable="false">Healthy Sleep Score</string>
+    <string name="RA_DLS_sleep_element" translatable="false">Sleep element</string>
+    <string name="RA_DLS_power_sleep_actual" translatable="false">Actual</string>
+    <string name="RA_DLS_power_sleep_time_sleep" translatable="false">Time asleep</string>
+    <string name="RA_DLS_power_sleep_default_data" translatable="false">--</string>
+    <string name="RA_DLS_power_sleep_ideal_sleep_time" translatable="false">(Ideal 450-540 mins)</string>
+    <string name="RA_DLS_power_sleep_deep_sleep_title" translatable="false">Time spent in deep sleep</string>
+    <string name="RA_DLS_power_sleep_ideal_deep_sleep" translatable="false">(Ideal 120 mins)</string>
+    <string name="RA_DLS_power_sleep_percentage_label" translatable="false">of 100</string>
+
+    <string name="label_sleep_tips" translatable="false">How can I improve my sleep score?</string>
+
     <string name="RA_DLS_no_internet_connectivity" translatable="false">Internet connection is not available</string>
     <string name="RA_DLS_check_internet_connectivity" translatable="false">Check Internet Connectivity</string>
+
+    <string name="RA_DLS_data_fetch_wait" translatable="false">Wait..While we fetch your sleep data from device</string>
+    <string name="RA_DLS_data_fetch_error" translatable="false">Not able to fetch data</string>
+
+    <string name="RA_DLS_ps_tips_title" translatable="false">Tips</string>
+    <string name="sleep_tip_title_1" translatable="false">Follow a transition routine: </string>
+    <string name="sleep_tip_desc_1" translatable="false">Make a habit of doing something before going to bed that tells your body it\'s time to relax and sleep. It could simply be washing your face, taking a shower, or even brushing your teeth.</string>
+
+    <string name="sleep_tip_title_2" translatable="false">Select the right pillow: </string>
+    <string name="sleep_tip_desc_2" translatable="false">Some studies show that using a neck pillow that comes in a rectangle shape with a depression in the middle can enhance your sleep quality. A pillow with two supported cores will also help you fall asleep.</string>
+
+    <string name="sleep_tip_title_3" translatable="false">Take a hot bath: </string>
+    <string name="sleep_tip_desc_3" translatable="false">Your body will relax quickly if you take a hot bath, but you need to take it at least 90-120 minutes before you go to sleep. Also, make sure the water temperature is around 40 degree Celsius.</string>
+
+    <string name="RA_DLS_enable_bluetooth" translatable="false">Please enable bluetooth</string>
 </resources>
