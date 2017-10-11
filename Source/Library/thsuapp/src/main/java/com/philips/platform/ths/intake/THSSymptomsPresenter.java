@@ -87,7 +87,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError THSSDKError) {
-        updateSymptoms(THSVisitContext);
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            updateSymptoms(THSVisitContext);
+        }
     }
 
     private void updateSymptoms(THSVisitContext THSVisitContext) {
@@ -101,7 +103,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onFailure(Throwable throwable) {
-        thsBaseView.hideProgressBar();
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsBaseView.hideProgressBar();
+        }
     }
 
     void getVisitContext() {
@@ -128,7 +132,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
             @Override
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
-                updateSymptoms(pthVisitContext);
+                if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+                    updateSymptoms(pthVisitContext);
+                }
             }
 
             @Override
@@ -151,23 +157,28 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
-        thsBaseView.showToast("validation failure");
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            thsBaseView.showToast("validation failure");
+        }
     }
 
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
-        if (null != documentRecord && null == sdkError) {
-            thsBaseView.showToast("Success with Document name"+documentRecord.getName());
-            ((THSSymptomsFragment)thsBaseView).updateDocumentRecordList(documentRecord);
-        } else {
-            thsBaseView.showToast("upload failed with sdk error"+sdkError.getMessage());
+        if(null!=thsBaseView && thsBaseView.isFragmentAttached()) {
+            if (null != documentRecord && null == sdkError) {
+                thsBaseView.showToast("Success with Document name" + documentRecord.getName());
+                ((THSSymptomsFragment) thsBaseView).updateDocumentRecordList(documentRecord);
+            } else {
+                thsBaseView.showToast("upload failed with sdk error" + sdkError.getMessage());
+            }
         }
-
     }
 
     @Override
     public void onError(Throwable throwable) {
-        thsBaseView.showToast("failure : " + throwable.getLocalizedMessage());
-        thsBaseView.hideProgressBar();
+        {
+            thsBaseView.showToast("failure : " + throwable.getLocalizedMessage());
+            thsBaseView.hideProgressBar();
+        }
     }
 }

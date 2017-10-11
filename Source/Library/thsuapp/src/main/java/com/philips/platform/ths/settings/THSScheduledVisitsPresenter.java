@@ -47,21 +47,27 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     @Override
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
-        AmwellLog.i(AmwellLog.LOG, "appoint response");
-        mThsScheduledVisitsFragment.updateList(appointments);
-        setProgressBarVisibility(false);
+        if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            AmwellLog.i(AmwellLog.LOG, "appoint response");
+            mThsScheduledVisitsFragment.updateList(appointments);
+            setProgressBarVisibility(false);
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        AmwellLog.i(AmwellLog.LOG, "appoint throwable");
-        setProgressBarVisibility(false);
+        if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            AmwellLog.i(AmwellLog.LOG, "appoint throwable");
+            setProgressBarVisibility(false);
+        }
     }
 
     @Override
     public void onInitializationResponse(Void var1, THSSDKError var2) {
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "videoVisitAtAppointmentsCancelled");
-        mThsScheduledVisitsFragment.refreshList();
+        if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "videoVisitAtAppointmentsCancelled");
+            mThsScheduledVisitsFragment.refreshList();
+        }
     }
 
     @Override
@@ -70,9 +76,10 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
     }
 
     public void setProgressBarVisibility(boolean isVisible) {
-
-        if (!isVisible) {
-            mThsScheduledVisitsFragment.hideProgressBar();
+        if(null!= mThsScheduledVisitsFragment && mThsScheduledVisitsFragment.isFragmentAttached()) {
+            if (!isVisible) {
+                mThsScheduledVisitsFragment.hideProgressBar();
+            }
         }
     }
 }

@@ -17,7 +17,6 @@ import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,27 +100,33 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     //// start os update payment callback
     @Override
     public void onGetPaymentMethodResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
-        if (null == tHSSDKError.getSdkError()) {
-            AmwellLog.i("updatePayment", "success");
-            //mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
-            mTHSBillingAddressFragment.getFragmentActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG,0);
+        if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
+            if (null == tHSSDKError.getSdkError()) {
+                AmwellLog.i("updatePayment", "success");
+                //mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
+                mTHSBillingAddressFragment.getFragmentActivity().getSupportFragmentManager().popBackStack(THSCostSummaryFragment.TAG, 0);
 
-        } else {
-            AmwellLog.i("updatePayment", "failed");
-            if(null!=tHSSDKError.getSDKErrorReason() && null!=tHSSDKError.getSDKErrorReason().toString()) {
-                mTHSBillingAddressFragment.showToast(tHSSDKError.getSDKErrorReason().toString());
+            } else {
+                AmwellLog.i("updatePayment", "failed");
+                if (null != tHSSDKError.getSDKErrorReason() && null != tHSSDKError.getSDKErrorReason().toString()) {
+                    mTHSBillingAddressFragment.showToast(tHSSDKError.getSDKErrorReason().toString());
+                }
             }
         }
     }
 
     @Override
     public void onGetPaymentFailure(Throwable throwable) {
-        AmwellLog.i("updatePayment", "failed");
+        if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
+            AmwellLog.i("updatePayment", "failed");
+        }
     }
 
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
-        AmwellLog.i("updatePayment", "failed");
+        if(null !=mTHSBillingAddressFragment && mTHSBillingAddressFragment.isFragmentAttached()) {
+            AmwellLog.i("updatePayment", "failed");
+        }
     }
     //// end  os update payment callback
 }

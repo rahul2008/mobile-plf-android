@@ -121,8 +121,7 @@ public class THSConstants {
     public static final String THS_COST_SUMMARY_COUPON_CODE_ERROR = "Cost_summary_coupon_code_error";
 
     public static final String THS_PAYMENT_METHOD_INVALID_EXPIRY_DATE = "createPaymentRequest.creditCardYear";
-    public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
     // end of tagging constants
 
-
+    public static final String THS_USER_NOT_LOGGED_IN = "THS_USER_NOT_LOGGED_IN";
 }

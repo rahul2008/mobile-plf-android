@@ -93,8 +93,9 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     //start of visit summary callbacks
     @Override
     public void onResponse(THSVisitSummary tHSVisitSummary, THSSDKError tHSSDKError) {
-
-        updateView(tHSVisitSummary);
+        if(null!= mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
+            updateView(tHSVisitSummary);
+        }
 
     }
 
