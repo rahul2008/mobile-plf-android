@@ -7,8 +7,9 @@ package com.philips.cdp2.ews.injections;
 
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel;
-import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkViewModel;
 import com.philips.cdp2.ews.view.BlinkingAccessPointFragment;
 import com.philips.cdp2.ews.view.ChooseSetupStateFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
@@ -91,4 +92,6 @@ public interface EWSComponent {
     ConnectingPhoneToHotspotWifiViewModel connectingPhoneToHotspotWifiViewModel();
 
     ConnectingDeviceWithWifiViewModel connectingDeviceWithWifiViewModel();
+
+    WrongWifiNetworkViewModel wrongWifiNetworkViewModel();
 }

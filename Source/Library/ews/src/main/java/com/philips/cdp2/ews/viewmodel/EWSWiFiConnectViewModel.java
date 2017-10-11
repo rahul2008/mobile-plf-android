@@ -38,11 +38,16 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
 
     static final int APPLIANCE_PAIR_TIME_OUT = 60000;
 
-    @NonNull private final ApplianceSessionDetailsInfo sessionDetailsInfo;
-    @NonNull private final WiFiUtil wiFiUtil;
-    @NonNull private final EventBus eventBus;
-    @NonNull private final Navigator navigator;
-    @NonNull private final ConnectionEstablishDialogFragment connectingDialog;
+    @NonNull
+    private final ApplianceSessionDetailsInfo sessionDetailsInfo;
+    @NonNull
+    private final WiFiUtil wiFiUtil;
+    @NonNull
+    private final EventBus eventBus;
+    @NonNull
+    private final Navigator navigator;
+    @NonNull
+    private final ConnectionEstablishDialogFragment connectingDialog;
 
     public ObservableField<String> password;
     private Fragment fragment;
@@ -97,7 +102,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     }
 
     public void connectApplianceToHomeWiFi() {
-        navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get());
+        navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get(), getDeviceName());
     }
 
     @SuppressWarnings("UnusedParameters")

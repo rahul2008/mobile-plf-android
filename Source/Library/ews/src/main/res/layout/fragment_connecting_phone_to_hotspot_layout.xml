@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/e"/>
+        android:layout_marginTop="@dimen/e" />
 
     <TextView
         android:id="@+id/connecting_dialog_title"
@@ -22,7 +22,7 @@
         android:layout_marginStart="@dimen/d"
         android:layout_marginTop="@dimen/e"
         android:text="@string/label_ews_establishing_connection_title"
-        android:textAlignment="center"/>
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/connecting_dialog_body"
@@ -35,15 +35,15 @@
         android:layout_marginStart="@dimen/d"
         android:layout_marginTop="@dimen/d"
         android:text="@string/label_ews_establishing_connection_body"
-        android:textAlignment="center"/>
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/cancel_button"
+        style="@style/Btn.Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Btn.Secondary"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/d"
-        android:text="@string/button_cancel"/>
+        android:text="@string/button_cancel" />
 
 </RelativeLayout>

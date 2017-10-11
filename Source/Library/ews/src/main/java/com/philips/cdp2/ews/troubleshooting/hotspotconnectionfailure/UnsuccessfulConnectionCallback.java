@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.troubleshooting.connectionfailure;
+package com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure;
 
 public interface UnsuccessfulConnectionCallback {
 

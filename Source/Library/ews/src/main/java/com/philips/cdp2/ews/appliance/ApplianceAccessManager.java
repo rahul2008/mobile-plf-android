@@ -100,6 +100,7 @@ public class ApplianceAccessManager {
                 fetchCallback.onFailedToFetchDeviceInfo();
             }
             if (putCallback != null) {
+                //TODO handle failed set
                 putCallback.onFailedToSetProperties();
             }
         }

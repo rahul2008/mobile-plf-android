@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulViewModel"/>
+            type="com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel"/>
     </data>
 
     <android.support.v4.widget.NestedScrollView
