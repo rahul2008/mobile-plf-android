@@ -470,6 +470,11 @@ dependencies {
 		transitive = true
 	}
 
+    def shinelibUAppModule = module(group: 'com.philips.cdp', name: 'shinelibDemoUApp', version: versions.bll_shinelib+ objcdp.getVersionSuffix(), ext: 'aar')
+        compile(dp ? project(':shinelibUApp') : shinelibUAppModule) {
+            transitive = true
+    }
+
     compile ("com.crittercism:crittercism-android-agent:5.8.1")
 
     testCompile 'junit:junit:4.12'

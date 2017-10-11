@@ -8,17 +8,17 @@
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.support.annotation.NonNull;
 
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppInterface;
+import com.example.cdpp.bluelibexampleapp.uapp.BleDemoMicroAppSettings;
+import com.example.cdpp.bluelibexampleapp.uapp.DefaultBleDemoMicroAppDependencies;
+import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.platform.appframework.flowmanager.AppStates;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-/**
- * Created by philips on 04/07/17.
- */
-
-public class DemoBLLState extends BaseState {
+public class DemoBLLState extends DemoBaseState {
     private Context context;
 
     public DemoBLLState() {
@@ -27,13 +27,35 @@ public class DemoBLLState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        //TODO:Needs to launch blue lib demo micro app
+        BleDemoMicroAppInterface uAppInterface = getBleUApp();
+        uAppInterface.init(getUappDependencies(),
+                getUappSettings());// pass App-infra instance instead of null
+        uAppInterface.launch(getUiLauncher(), null);
+    }
+
+    @NonNull
+    protected ActivityLauncher getUiLauncher() {
+        return new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                getDLSThemeConfiguration(context.getApplicationContext()), 0, null);
+    }
+
+    @NonNull
+    protected BleDemoMicroAppSettings getUappSettings() {
+        return new BleDemoMicroAppSettings(context);
+    }
+
+    @NonNull
+    protected DefaultBleDemoMicroAppDependencies getUappDependencies() {
+        return new DefaultBleDemoMicroAppDependencies(context);
     }
 
     @Override
     public void init(Context context) {
         this.context = context;
-        Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
+    }
+
+    protected BleDemoMicroAppInterface getBleUApp() {
+        return BleDemoMicroAppInterface.getInstance();
     }
 
     @Override

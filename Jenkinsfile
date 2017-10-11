@@ -18,7 +18,16 @@ node ('android&&docker') {
     timestamps {
         try {
             stage ('Checkout') {
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/rap-android-reference-app']]])
+                def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
+                if (env.BRANCH_NAME != jobBaseName)
+                { 
+                   echo "ERROR: Branches DON'T MATCH"
+                   echo "Branchname  = " + env.BRANCH_NAME
+                   echo "jobBaseName = " + jobBaseName
+                   exit 1
+                }
+
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/rap-android-reference-app']]])
                 step([$class: 'StashNotifier'])
             }
             stage ('build') {
@@ -73,22 +82,12 @@ node ('android&&docker') {
                 ''' 
             }
             stage('Trigger E2E Test'){
-                if (BranchName =~ /master|develop|release.*/) {
-		    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
-                    if (BranchName =~ /develop.*/) {
-                        BranchName = "develop"
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    if (BranchName =~ /release.*/) {
-                        BranchName = "release"
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    if (BranchName =~ /master.*/) {
-                        BranchName = "release"
-                        echo "BranchName changed to ${BranchName}"
-                    }
+                if (BranchName =~ /master|develop|release\/platform_.*/) {
+                    APK_NAME = readFile("Source/AppFramework/apkname.txt").trim()
                     echo "APK_NAME = ${APK_NAME}"
-                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
+                    def jobBranchName = BranchName.replace('/', '_')
+                    echo "jobBranchName = ${jobBranchName}"
+                    build job: "Platform-Infrastructure/E2E_Tests/E2E_Android_${jobBranchName}", parameters: [[$class: 'StringParameterValue', name: 'APKPATH', value:APK_NAME]], wait: false
                 }
             }
         } catch(err) {
