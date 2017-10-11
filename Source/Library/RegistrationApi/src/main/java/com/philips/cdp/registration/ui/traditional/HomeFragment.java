@@ -12,6 +12,7 @@ import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
+import android.support.graphics.drawable.*;
 import android.support.v4.content.*;
 import android.text.*;
 import android.text.method.*;
@@ -36,11 +37,11 @@ import java.util.*;
 
 import butterknife.*;
 
+import static com.philips.cdp.registration.ui.utils.RegConstants.*;
 
-public class HomeFragment extends RegistrationBaseFragment implements
-        HomeContract {
 
-    public static final String WECHAT = "wechat";
+public class HomeFragment extends RegistrationBaseFragment implements HomeContract {
+
 
     private static final int AUTHENTICATION_FAILED = -30;
 
@@ -122,9 +123,12 @@ public class HomeFragment extends RegistrationBaseFragment implements
     }
 
     private Button getProviderBtn(final String providerName, int providerLogoDrawableId) {
-        final Button socialButton = (com.philips.platform.uid.view.widget.Button) getActivity().getLayoutInflater().inflate(R.layout.social_button, null);
+        final com.philips.platform.uid.view.widget.Button socialButton =
+                (com.philips.platform.uid.view.widget.Button)
+                        getActivity().getLayoutInflater().inflate(R.layout.social_button, null);
         FontLoader.getInstance().setTypeface(socialButton, RegConstants.PUIICON_TTF);
-        socialButton.setText(providerLogoDrawableId);
+        socialButton.setImageDrawable(VectorDrawableCompat.create(getResources(),
+                providerLogoDrawableId, getContext().getTheme()));
         socialButton.setEnabled(true);
         if (homePresenter.isNetworkAvailable()
                 && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
@@ -140,7 +144,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
                 homePresenter.setFlowDeligate(HomePresenter.FLOWDELIGATE.SOCIALPROVIDER);
                 homePresenter.setProvider(providerName);
                 if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                    if (providerName.equalsIgnoreCase(WECHAT)) {
+                    if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
                         socialButton.setClickable(false);
                     }
                     callSocialProvider(providerName);
@@ -280,7 +284,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
             trackMultipleActionsLogin(providerName);
             homePresenter.trackSocialProviderPage();
             if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-                if (providerName.equalsIgnoreCase(WECHAT)) {
+                if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
                     if (homePresenter.isWeChatAuthenticate()) {
                         homePresenter.startWeChatAuthentication();
                     } else {
@@ -568,16 +572,22 @@ public class HomeFragment extends RegistrationBaseFragment implements
     private void inflateEachProviderBtn(String provider) {
 
         try {
-            String providerName = "reg_" + provider;
-            String providerDrawable = "reg_" + provider + "_ic";
+//            String providerName = "reg_" + provider;
+//            String providerDrawable = "uid_social_media_" + provider + "_icon,";
 
-            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
-                    getRegistrationFragment().getParentActivity().getPackageName());
+            int drawableId = 0;
+            if (provider.equals(SOCIAL_PROVIDER_FACEBOOK)) {
+                drawableId = R.drawable.uid_social_media_facebook_icon;
+            } else if (provider.equals(SOCIAL_PROVIDER_GOOGLEPLUS)) {
+                drawableId = R.drawable.uid_social_media_googleplus_icon;
+            } else if (provider.equals(SOCIAL_PROVIDER_WECHAT)) {
+                drawableId = R.drawable.uid_social_media_wechat_icon;
+            }
+//            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
+//                    getRegistrationFragment().getParentActivity().getPackageName());
 
-            int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
-                    getRegistrationFragment().getParentActivity().getPackageName());
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginStart(16);
             params.setMarginEnd(16);
 
