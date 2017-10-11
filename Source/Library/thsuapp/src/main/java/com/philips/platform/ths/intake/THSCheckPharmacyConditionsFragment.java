@@ -65,12 +65,14 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             getActivity().finish();
         }
         createLocationRequest();
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity(), 0, this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .enableAutoManage(getActivity(), 0, this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
         thscheckPharmacyConditionsPresenter = new THSCheckPharmacyConditionsPresenter(this);
     }
 
@@ -104,9 +106,19 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 mGoogleApiClient.disconnect();
             }
         }
-
-
         AmwellLog.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mGoogleApiClient!=null) {
+            if (mGoogleApiClient.isConnected()) {
+                stopLocationUpdates();
+                mGoogleApiClient.stopAutoManage(getActivity());
+                mGoogleApiClient.disconnect();
+            }
+        }
     }
 
     protected void stopLocationUpdates() {
@@ -158,7 +170,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
             thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
             thsPharmacyListFragment.setLocation(location);
-            addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
+            addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null,true);
         }
     }
 
@@ -166,7 +178,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if(isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
+            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null,true);
         }
     }
 
@@ -175,7 +187,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
             thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-            addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
+            addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null,true);
         }
     }
 

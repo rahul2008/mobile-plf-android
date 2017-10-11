@@ -136,7 +136,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
             bundle.putParcelable(THSConstants.THS_ON_DEMAND, onDemandSpecialties.get(0));
             final THSSymptomsFragment fragment = new THSSymptomsFragment();
             fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle),true;
+            mThsBaseFragment.addFragment(fragment, THSSymptomsFragment.TAG, bundle,true);
             mThsBaseFragment.hideProgressBar();
         }
     }
