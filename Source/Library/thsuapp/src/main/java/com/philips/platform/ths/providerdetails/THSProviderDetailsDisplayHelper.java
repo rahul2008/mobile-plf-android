@@ -302,6 +302,7 @@ public class THSProviderDetailsDisplayHelper implements AdapterView.OnItemClickL
         bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, thsProviderDetailsViewInterface.getTHSProviderInfo());
         bundle.putSerializable(THSConstants.THS_DATE, dates.get(position));
         bundle.putString(THSConstants.THS_SET_REMINDER_EXTRA_KEY, "" + thsProviderDetailsViewInterface.getReminderTime());
+        bundle.putParcelable(THSConstants.THS_CONSUMER,thsProviderDetailsViewInterface.getConsumer());
         final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
         thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG, bundle, true);

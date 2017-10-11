@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
@@ -29,12 +31,16 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
     Label legalTextsLabel;
     THSBasePresenter mTHSNoppPresenter;
     private RelativeLayout mRelativeLayoutNopContainer;
+    private Consumer mConsumer;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_nopp_fragment, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
         mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
         mTHSNoppPresenter = new THSNoticeOfPrivacyPracticesPresenter(this);
@@ -55,5 +61,9 @@ public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("NOPP", true);
         }
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

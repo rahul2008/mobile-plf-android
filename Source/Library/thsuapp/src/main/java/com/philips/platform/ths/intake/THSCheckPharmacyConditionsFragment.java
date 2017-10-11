@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.BaseBundle;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -29,6 +31,7 @@ import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.pharmacy.THSPharmacyAndShippingFragment;
 import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
 import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
@@ -47,6 +50,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mCurrentLocation;
+    Consumer mConsumer;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -58,6 +62,8 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
         if (!isGooglePlayServicesAvailable()) {
             getActivity().finish();
         }
@@ -121,12 +127,14 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         } else {  // go to insurance or cost detail
             Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
             getActivity().getSupportFragmentManager().popBackStack();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+                addFragment(fragment, THSCostSummaryFragment.TAG, bundle, true);
             } else {
                 final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                addFragment(fragment, THSInsuranceConfirmationFragment.TAG, bundle, true);
             }
         }
     }
@@ -156,20 +164,26 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
-        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, bundle, true);
     }
 
     private void showPharmacySearch() {
         getActivity().getSupportFragmentManager().popBackStack();
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, bundle, true);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
         getActivity().getSupportFragmentManager().popBackStack();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, bundle, true);
     }
 
     @Override
@@ -252,4 +266,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
 
+    public Consumer getConsumer() {
+        return mConsumer;
+    }
 }

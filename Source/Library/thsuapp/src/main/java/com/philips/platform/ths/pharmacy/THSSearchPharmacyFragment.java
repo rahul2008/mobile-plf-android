@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -32,6 +34,7 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     private String zipSearchString = null;
     private List<Pharmacy> pharmacies;
     private RelativeLayout linearLayout;
+    private Consumer mConsumer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.ths_pharmacy_search_fragment,container,false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         searchPharmacy = (SearchBox) view.findViewById(R.id.ths_search_pharmacy_edittext);
         linearLayout = (RelativeLayout) view.findViewById(R.id.searchPharmacyContainerView);
         searchPharmacy.setExpandListener(this);
@@ -96,7 +102,9 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     protected void callPharmacyListFragment() {
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setPharmaciesList(pharmacies);
-        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,bundle, true);
     }
 
     @Override
@@ -108,4 +116,9 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     public void onSearchCollapsed() {
 
     }
+
+    public Consumer getConsumer() {
+        return mConsumer;
+    }
+
 }

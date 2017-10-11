@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -26,6 +28,7 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_CONSUMER;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;
 
@@ -43,6 +46,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
     Visit mVisit;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
@@ -50,6 +54,8 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_waiting_room, container, false);
         Bundle bundle = getArguments();
         mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
+        mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
+
         mTHSWaitingRoomPresenter = new THSWaitingRoomPresenter(this);
         mProviderNameLabel = (Label) view.findViewById(R.id.details_providerNameLabel);
         mProviderPracticeLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -106,6 +112,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
             //  todo getPresenter().setResult(resultCode, data);
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,mVisit);
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
             THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
             addFragment(thsVisitSummaryFragment, THSVisitSummaryFragment.TAG, bundle, true);
         }else{
@@ -168,6 +175,10 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         }
 
 
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 
 

@@ -71,14 +71,14 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     }
 
     public void getAvailableProvidersBasedOnDate() throws AWSDKInstantiationException {
-        THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(),
-                ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getPractice(),
-                null,null,((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).mDate,null,this);
+        THSManager.getInstance().getAvailableProvidersBasedOnDate(((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getConsumer(), ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getPractice(), null, null, ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).mDate, null, this, mThsBaseFragment.getContext()
+        );
 
     }
 
     public void launchAvailableProviderDetailFragment(THSProviderEntity thsProviderInfo, Date date, Practice practice) {
         final THSBasePresenterHelper thsBasePresenterHelper = new THSBasePresenterHelper();
-        thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment,thsProviderInfo,date,practice);
+        thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment,thsProviderInfo,date,practice,
+                ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getConsumer());
     }
 }

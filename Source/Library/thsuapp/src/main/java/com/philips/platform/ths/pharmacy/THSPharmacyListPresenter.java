@@ -46,17 +46,17 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         }
     }
 
-    public void fetchPharmacyList(THSConsumerWrapper thsConsumerWrapper, String city, State state, String zipCode) {
+    public void fetchPharmacyList(String city, State state, String zipCode) {
         try {
-            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper, city, state, zipCode, this);
+            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsPharmacyListViewListener.getConsumer(), city, state, zipCode, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
-    public void fetchPharmacyList(THSConsumerWrapper thsConsumerWrapper, float latitude, float longitude, int radius){
+    public void fetchPharmacyList(float latitude, float longitude, int radius){
         try {
-            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsConsumerWrapper,latitude,longitude,radius,this);
+            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(), thsPharmacyListViewListener.getConsumer(),latitude,longitude,radius,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     public void updateConsumerPreferredPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
         try {
-            THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(), pharmacy, this);
+            THSManager.getInstance().updateConsumerPreferredPharmacy(((THSPharmacyListFragment)thsPharmacyListViewListener).getConsumer(), pharmacy, this, thsPharmacyListViewListener.getFragmentActivity());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

@@ -93,11 +93,14 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private List<Pharmacy> pharmaciesList = null;
     private Pharmacy searchedPharmacy;
     private boolean isSearched = false;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_list_fragment, container, false);
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         navIconToggler = new UIDNavigationIconToggler(getActivity());
         setHasOptionsMenu(true);
         findViewByIDs(view);
@@ -110,7 +113,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         }
         if (null != location && !isSearched) {
             createCustomProgressBar(pharmacy_list_fragment_container, BIG);
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumerWrapper, Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
+            thsPharmacyListPresenter.fetchPharmacyList(Double.valueOf(location.getLatitude()).floatValue(), Double.valueOf(location.getLongitude()).floatValue(), 5);
         }
         return view;
     }
@@ -141,6 +144,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         thsSearchFragment.setActionBarListener(getActionBarListener());
         Bundle bundle = new Bundle();
         bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
+        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
         addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle, true);
     }
 
@@ -389,17 +393,23 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
         if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-            addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+            addFragment(fragment, THSCostSummaryFragment.TAG, bundle, true);
         } else {
             final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-            addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+            addFragment(fragment, THSInsuranceConfirmationFragment.TAG, bundle, true);
         }
     }
 
     public void showShippingFragment() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumerWrapper, address);
-        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+        addFragment(thsShippingAddressFragment, THSShippingAddressFragment.TAG, bundle, true);
     }
 
     private void setMarkerOnMap(final List<Pharmacy> pharmacies) {
@@ -556,4 +566,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             }
         }
     }
+
+    public Consumer getConsumer() {
+        return mConsumer;
+    }
+
 }

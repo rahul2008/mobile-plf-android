@@ -44,7 +44,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Practice practice;
-    private Consumer consumer;
+    private Consumer mConsumer;
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
     protected Button btn_get_started;
@@ -60,7 +60,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         Bundle bundle=getArguments();
         setHasOptionsMenu(true);
         practice =bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
-        consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
+        mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
         View view = inflater.inflate(R.layout.ths_providers_list_fragment, container, false);
         THSProviderListPresenter = new THSProviderListPresenter(this, this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
@@ -95,6 +95,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
             addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
             }
         return super.onOptionsItemSelected(item);
@@ -124,7 +125,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
         }
-        THSProviderListPresenter.fetchProviderList(consumer, practice);
+        THSProviderListPresenter.fetchProviderList(mConsumer, practice);
     }
 
     @Override
@@ -138,9 +139,11 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
                 pthProviderDetailsFragment.setTHSProviderEntity(item);
-                pthProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
+                pthProviderDetailsFragment.setConsumerAndPractice(mConsumer, practice);
                 pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-                addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null, true);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
+                addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,bundle, true);
             }
         });
         recyclerView.setAdapter(THSProvidersListAdapter);
@@ -191,6 +194,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             thsSearchFragment.setActionBarListener(getActionBarListener());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
             addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle, true);
         }
         else if(i == R.id.uid_dialog_positive_button){
@@ -205,5 +209,9 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     public void setPractice(Practice practice) {
         this.practice = practice;
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

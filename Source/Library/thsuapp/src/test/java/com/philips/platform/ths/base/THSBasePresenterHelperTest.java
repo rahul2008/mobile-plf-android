@@ -8,12 +8,14 @@ package com.philips.platform.ths.base;
 
 import android.os.Bundle;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
@@ -22,6 +24,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
 
 public class THSBasePresenterHelperTest {
@@ -47,7 +50,7 @@ public class THSBasePresenterHelperTest {
 
     @Test
     public void launchAvailableProviderDetailFragment() throws Exception {
-        mTHSBasePresenterHelper.launchAvailableProviderDetailFragment(thsBaseFragmentMock,thsProviderEntityMock,dateMock,practiceMock);
+        mTHSBasePresenterHelper.launchAvailableProviderDetailFragment(thsBaseFragmentMock,thsProviderEntityMock,dateMock,practiceMock, Mockito.mock(Consumer.class));
         verify(thsBaseFragmentMock, atLeast(1)).addFragment(any(THSBaseFragment.class),anyString(),any(Bundle.class), anyBoolean());
     }
 

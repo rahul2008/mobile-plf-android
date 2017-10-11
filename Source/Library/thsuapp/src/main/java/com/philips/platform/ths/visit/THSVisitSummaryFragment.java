@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -54,6 +55,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
 
     protected Label medicationShippingLabel;
     protected RelativeLayout medicationShippingRelativeLayout;
+    private Consumer mConsumer;
 
 
     @Nullable
@@ -73,6 +75,7 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
 
         Bundle bundle = getArguments();
         mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
+        mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
 
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         providerPractice = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -154,4 +157,9 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
         super.onDestroyView();
         navIconToggler.restoreNavigationIcon();
     }
+
+    public Consumer getConsumer() {
+        return mConsumer;
+    }
+
 }

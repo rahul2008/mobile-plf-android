@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -38,6 +39,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
     private Label mChangeAppointDateView;
     private RelativeLayout providerListItemLayoutBasedOnDate;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
@@ -55,6 +57,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         providerListItemLayoutBasedOnDate.setVisibility(View.INVISIBLE);
         Bundle bundle = getArguments();
         mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
+        mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
         mThsProviderEntity = bundle.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
         mThsProviderNotAvailablePresenter = new THSProviderNotAvailablePresenter(this);
 
@@ -144,5 +147,9 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
     public void setDate(Date mDate) {
         this.mDate = mDate;
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

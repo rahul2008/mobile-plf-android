@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.dependantregistration.OnItemClickListener;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
@@ -37,6 +39,7 @@ public class THSPracticeFragment extends THSBaseFragment{
     private THSPracticeRecyclerViewAdapter thsPracticeRecyclerViewAdapter;
     private ActionBarListener actionBarListener;
     private RelativeLayout mRealtiveLayoutPracticeContainer;
+    private Consumer mConsumer;
 
 
     @Nullable
@@ -44,6 +47,9 @@ public class THSPracticeFragment extends THSBaseFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.ths_practice, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         mTitle = (Label) view.findViewById(R.id.ths_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.ths_recycler_view_practice);
         mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
@@ -84,5 +90,9 @@ public class THSPracticeFragment extends THSBaseFragment{
         });
 
 
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

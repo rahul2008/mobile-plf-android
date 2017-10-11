@@ -43,11 +43,14 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             tHSSearchFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
             Bundle bundle = new Bundle();
             bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.MEDICATION_SEARCH_CONSTANT);
+            bundle.putParcelable(THSConstants.THS_CONSUMER,((THSMedicationFragment)mTHSBaseFragment).getConsumer());
             mTHSBaseFragment.addFragment(tHSSearchFragment, THSSearchFragment.TAG, bundle, true);
         } else if (componentID == ths_intake_medication_skip_step_label) {
             final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_CONSUMER,((THSMedicationFragment)mTHSBaseFragment).getConsumer());
+            mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, bundle, true);
         }
 
     }
@@ -55,7 +58,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     protected void fetchMedication() {
         try {
-            THSManager.getInstance().getMedication(mTHSBaseFragment.getContext(), this);
+            THSManager.getInstance().getMedication(((THSMedicationFragment)mTHSBaseFragment).getConsumer(), this, mTHSBaseFragment.getContext());
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -67,7 +70,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     protected void updateMedication(THSMedication pTHMedication) {
         if (null != pTHMedication) {
             try {
-                THSManager.getInstance().updateMedication(mTHSBaseFragment.getContext(), pTHMedication, this);
+                THSManager.getInstance().updateMedication(((THSMedicationFragment)mTHSBaseFragment).getConsumer(), pTHMedication, this, mTHSBaseFragment.getContext());
 
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
@@ -103,7 +106,9 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         // addF
         final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
         fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,((THSMedicationFragment)mTHSBaseFragment).getConsumer());
+        mTHSBaseFragment.addFragment(fragment, THSMedicalConditionsFragment.TAG, bundle, true);
 
     }
     //////////////// end of call backs for update medicines//////////////

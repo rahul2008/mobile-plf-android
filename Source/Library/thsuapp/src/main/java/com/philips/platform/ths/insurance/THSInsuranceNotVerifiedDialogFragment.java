@@ -1,9 +1,10 @@
-package com.philips.platform.ths.insurance;
 /* Copyright (c) Koninklijke Philips N.V., 2016
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
  */
+
+package com.philips.platform.ths.insurance;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.visit.THSConfirmationDialogFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
@@ -30,6 +33,7 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
     ImageView mTitleImage;
     Button mPrimaryButton;
     Label mSecondaryButtonLabel;
+    private Consumer mConsumer;
 
 
     @Nullable
@@ -37,6 +41,9 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_confirmation_dialog_fragment, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         mTitleLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_label);
         mTitleLabel.setText(getResources().getString(R.string.ths_insurance_not_verified_confirm_title));
         mTitleImage = (ImageView) view.findViewById(R.id.ths_confirmation_dialog_title_image);
@@ -70,5 +77,9 @@ public class THSInsuranceNotVerifiedDialogFragment extends DialogFragment implem
             mPresenter.onEvent(R.id.ths_confirmation_dialog_secondary_button_label);
 
         }
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

@@ -13,7 +13,6 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
@@ -78,7 +77,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
     void searchProviders(String provider, Practice practice) {
         try {
-            THSManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(), practice, provider, this);
+            THSManager.getInstance().getProviderList(((THSSearchFragment)uiBaseView).getConsumer(), practice, provider, this, uiBaseView.getFragmentActivity());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -86,7 +85,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
     void searchMedication(String medication) {
         try {
-            THSManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(), medication, this);
+            THSManager.getInstance().searchMedication(((THSSearchFragment)uiBaseView).getConsumer(), medication, this, uiBaseView.getFragmentActivity());
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -95,7 +94,7 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
 
     void searchPharmacy(String pharmacyZip){
         try {
-            THSManager.getInstance().getPharmacies(uiBaseView.getFragmentActivity(),THSManager.getInstance().getPTHConsumer(),null,null,pharmacyZip,this);
+            THSManager.getInstance().getPharmacies(uiBaseView.getFragmentActivity(),((THSSearchFragment)uiBaseView).getConsumer(),null,null,pharmacyZip,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

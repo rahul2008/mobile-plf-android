@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
@@ -36,6 +37,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     private THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper;
     private int position;
     private RemindOptions remindOptions;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
@@ -50,6 +52,8 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         }
         Bundle arguments = getArguments();
         thsProviderEntity = arguments.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
+        mConsumer = arguments.getParcelable(THSConstants.THS_CONSUMER);
+
         mDate = (Date) arguments.getSerializable(THSConstants.THS_DATE);
         mPractice = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
 
@@ -158,6 +162,10 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     @Override
     public String getReminderTime(){
         return thsProviderDetailsDisplayHelper.getReminderValue();
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 
 }

@@ -29,6 +29,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.visit.Topic;
@@ -91,6 +92,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private EditText additional_comments_edittext;
     private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
     private Provider mProvider;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
@@ -101,6 +103,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
             mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
+            mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
         }
         selectedImagePojoList = new ArrayList<>();
 
@@ -447,5 +450,9 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SYMPTOMS_PAGE,null,null);
 
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

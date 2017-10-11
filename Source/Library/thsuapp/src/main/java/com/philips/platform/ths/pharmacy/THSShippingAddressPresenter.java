@@ -6,6 +6,8 @@
 
 package com.philips.platform.ths.pharmacy;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -15,6 +17,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
@@ -29,7 +32,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     public void updateShippingAddress(Address address){
         try {
-            THSManager.getInstance().updatePreferredShippingAddress(thsBaseView.getFragmentActivity(),address,this);
+            THSManager.getInstance().updatePreferredShippingAddress(((THSShippingAddressFragment)thsBaseView).getConsumer(), address, this, thsBaseView.getFragmentActivity());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -44,12 +47,15 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
         //TODO: check this immediately
         Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,((THSShippingAddressFragment)thsBaseView).getConsumer());
+
         if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-            thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+            thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, bundle, true);
         } else {
             final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-            thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+            thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, bundle, true);
         }
         //((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
     }

@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -41,12 +43,15 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     Label cvvDetail;
     private Button mPaymentDetailContinueButton;
     AlertDialogFragment alertDialogFragment;
-
+    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_payment_detail, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         mTHSCreditCardDetailPresenter = new THSCreditCardDetailPresenter(this);
         mCardHolderNameEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_holder_name_edittext);
         mCardNumberEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_number_edittext);
@@ -99,5 +104,9 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     @Override
     public void onClick(View v) {
         mTHSCreditCardDetailPresenter.onEvent(v.getId());
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

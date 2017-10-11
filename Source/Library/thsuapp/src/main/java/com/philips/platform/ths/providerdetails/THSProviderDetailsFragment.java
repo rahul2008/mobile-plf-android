@@ -58,7 +58,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected Label mProgressBarLabel;
     protected RelativeLayout mProgressBarWithLabelContainer;
     AlertDialogFragment alertDialogFragment;
-
+    Consumer mConsumer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +70,9 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         mProgressBarWithLabelContainer = (RelativeLayout) view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
         dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
         mProgressBarLabel = (Label) view.findViewById(R.id.ths_match_making_ProgressBar_message_label);
@@ -272,6 +275,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         } else {
             return super.handleBackEvent();
         }
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }
 

@@ -8,6 +8,7 @@ package com.philips.platform.ths.base;
 
 import android.os.Bundle;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
@@ -17,11 +18,12 @@ import java.util.Date;
 
 public class THSBasePresenterHelper {
 
-    public void launchAvailableProviderDetailFragment(THSBaseFragment thsBaseFragment,THSProviderEntity thsProviderInfo, Date date, Practice practice) {
+    public void launchAvailableProviderDetailFragment(THSBaseFragment thsBaseFragment, THSProviderEntity thsProviderInfo, Date date, Practice practice, Consumer consumer) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY,thsProviderInfo);
         bundle.putSerializable(THSConstants.THS_DATE,date);
         bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
+        bundle.putParcelable(THSConstants.THS_CONSUMER,consumer);
         THSAvailableProviderDetailFragment fragment = new THSAvailableProviderDetailFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
         fragment.setTHSProviderEntity(thsProviderInfo);

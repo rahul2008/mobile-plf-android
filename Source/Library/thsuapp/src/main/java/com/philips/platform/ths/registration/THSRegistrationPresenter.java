@@ -88,7 +88,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
 
     public void enrollUser(Date date, String firstname, String lastname, Gender gender, State state) {
         try {
-            THSManager.getInstance().enrollConsumer(mTHSBaseFragment.getContext(), date,firstname,lastname,gender,state,this);
+            THSManager.getInstance().enrollConsumer(null, date, firstname, lastname, gender, state, this, mTHSBaseFragment.getContext());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

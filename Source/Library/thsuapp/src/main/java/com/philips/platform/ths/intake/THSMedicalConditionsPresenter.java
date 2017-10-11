@@ -6,12 +6,15 @@
 
 package com.philips.platform.ths.intake;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                THSManager.getInstance().updateConditions(thsBaseFragment.getContext(), ((THSMedicalConditionsFragment) thsBaseFragment).getTHSConditions(), this);
+                THSManager.getInstance().updateConditions(((THSMedicalConditionsFragment)thsBaseFragment).getConsumer(), ((THSMedicalConditionsFragment) thsBaseFragment).getTHSConditions(), this, thsBaseFragment.getContext());
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -43,11 +46,13 @@ public class THSMedicalConditionsPresenter implements THSBasePresenter, THSCondi
     private void launchFollowUpFragment() {
         final THSFollowUpFragment fragment = new THSFollowUpFragment();
         fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
-        thsBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, null, true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,((THSMedicalConditionsFragment)thsBaseFragment).getConsumer());
+        thsBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, bundle, true);
     }
 
     public void getConditions() throws AWSDKInstantiationException {
-        THSManager.getInstance().getConditions(thsBaseFragment.getFragmentActivity(), this);
+        THSManager.getInstance().getConditions(((THSMedicalConditionsFragment)thsBaseFragment).getConsumer(), this, thsBaseFragment.getFragmentActivity());
     }
 
     @Override

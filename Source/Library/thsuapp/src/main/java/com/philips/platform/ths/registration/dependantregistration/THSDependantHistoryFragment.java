@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
@@ -82,27 +83,29 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
     @Override
     public void onItemClick(THSConsumer thsConsumer) {
-        launchRequestedInput(thsConsumer);
+        launchRequestedInput(thsConsumer.getConsumer());
     }
 
     @Override
     public void onClick(View view) {
         int resId = view.getId();
         if(resId == R.id.ths_parent_container){
-            launchRequestedInput(THSManager.getInstance().getThsConsumer());
+            launchRequestedInput(THSManager.getInstance().getPTHConsumer().getConsumer());
         }
     }
 
-    private void launchRequestedInput(THSConsumer thsConsumer) {
+    private void launchRequestedInput(Consumer consumer) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(THSConstants.THS_CONSUMER,consumer);
         switch (mLaunchInput){
             case THSConstants.THS_SCHEDULED_VISITS:
-                addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
+                addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, bundle, false);
                 break;
             case THSConstants.THS_VISITS_HISTORY:
-                addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
+                addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, bundle, false);
                 break;
             case THSConstants.THS_PRACTICES:
-                addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
+                addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, bundle, false);
                 break;
         }
     }

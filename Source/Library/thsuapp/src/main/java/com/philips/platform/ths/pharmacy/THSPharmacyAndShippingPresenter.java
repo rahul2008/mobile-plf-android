@@ -6,11 +6,14 @@
 
 package com.philips.platform.ths.pharmacy;
 
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 public class THSPharmacyAndShippingPresenter implements THSBasePresenter {
@@ -33,10 +36,14 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter {
             Consumer consumer = THSManager.getInstance().getPTHConsumer().getConsumer();
             if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                 final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
-                 thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_CONSUMER,thsBaseView.getConsumer());
+                 thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, bundle, true);
             } else {
                 final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
-                thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, null, true);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(THSConstants.THS_CONSUMER,thsBaseView.getConsumer());
+                thsBaseView.addFragment(fragment, THSInsuranceConfirmationFragment.TAG, bundle, true);
             }
         }
     }

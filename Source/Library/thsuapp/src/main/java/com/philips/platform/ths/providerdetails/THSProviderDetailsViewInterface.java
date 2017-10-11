@@ -30,4 +30,5 @@ public interface THSProviderDetailsViewInterface {
     void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost);
     void onCalenderItemClick(int position);
     String getReminderTime();
+    Consumer getConsumer();
 }

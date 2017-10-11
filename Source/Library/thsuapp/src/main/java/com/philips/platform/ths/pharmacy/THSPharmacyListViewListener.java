@@ -6,6 +6,7 @@
 
 package com.philips.platform.ths.pharmacy;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.base.THSBaseView;
 
@@ -22,4 +23,5 @@ public interface THSPharmacyListViewListener extends THSBaseView{
     void setPreferredPharmacy();
     void hideProgressBar();
     void showErrorToast(String errorMessage);
+    Consumer getConsumer();
 }

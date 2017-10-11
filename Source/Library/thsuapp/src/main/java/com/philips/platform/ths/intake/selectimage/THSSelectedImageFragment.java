@@ -27,9 +27,11 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.util.ArrayList;
@@ -48,10 +50,15 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     private THSSelectedImageFragmentPresenter thsSelectedImageFragmentPresenter;
     private List<DocumentRecord> documentRecordList;
     private ProgressDialog progressDialog;
+    private Consumer mConsumer;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_selected_image_dialog_fragment, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         progressDialog = new ProgressDialog(getFragmentActivity());
         thsSelectedImageFragmentPresenter = new THSSelectedImageFragmentPresenter(this);
         pagerAdapter = new CustomPagerAdapter(getActivity());
@@ -242,5 +249,9 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

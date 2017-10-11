@@ -21,10 +21,12 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -76,6 +78,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
 
     protected Label mSuffixLabel;
     protected EditText mSuffixEditText;
+    private Consumer mConsumer;
 
 
     @Nullable
@@ -89,6 +92,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         Bundle bundle = getArguments();
         if (null != bundle) {
             isLaunchedFromCostSummary = bundle.getBoolean(IS_LAUNCHED_FROM_COST_SUMMARY);
+            mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
         }
         mHealPlanListView = (ListView) convertView.findViewById(R.id.ths_listView);
         mRelativeLayoutInsuranceContainer = (RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
@@ -266,5 +270,10 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
 
         datePickerDialog.show();
     }
+
+    public Consumer getConsumer() {
+        return mConsumer;
+    }
+
 
 }

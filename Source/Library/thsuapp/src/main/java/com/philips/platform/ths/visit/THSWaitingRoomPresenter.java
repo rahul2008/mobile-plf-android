@@ -21,6 +21,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
@@ -106,6 +107,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
             mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(  " Please wait, your visit is  wrapping up");
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY,visit);
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSWaitingRoomFragment.getConsumer());
             mTHSWaitingRoomFragment.addFragment(new THSVisitSummaryFragment(), THSVisitSummaryFragment.TAG,bundle, true);
 
         }

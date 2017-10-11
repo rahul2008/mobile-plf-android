@@ -21,9 +21,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.settings.THSVisitHistoryDetailPresenter;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -36,6 +38,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
 
     Button downloadButton;
     Label hippaNoticeLabel;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
@@ -43,6 +46,7 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_download_report_privacy_notice, container, false);
 
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
 
         downloadButton = (Button) view.findViewById(R.id.ths_download_report_privacy_notice_button);
         downloadButton.setOnClickListener(this);
@@ -90,5 +94,9 @@ public class THSDownloadReportPrivacyNoticeFragment extends DialogFragment imple
             mThsVisitHistoryPresenter.downloadReport();
         }
 
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

@@ -35,14 +35,14 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter, THSGetAppo
 
     void cancelAppointment(Appointment appointment) {
         try {
-            THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getContext(), appointment, this);
+            THSManager.getInstance().cancelAppointment(mThsScheduledVisitsFragment.getConsumer(), appointment, this, mThsScheduledVisitsFragment.getContext());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
 
     public void getAppointmentsSince(SDKLocalDate dateSince) throws AWSDKInstantiationException {
-        THSManager.getInstance().getAppointments(mThsScheduledVisitsFragment.getContext(), dateSince, this);
+        THSManager.getInstance().getAppointments(mThsScheduledVisitsFragment.getConsumer(), dateSince, this, mThsScheduledVisitsFragment.getContext());
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.philips.platform.ths.payment.THSCreditCardDetailFragment;
 import com.philips.platform.ths.payment.THSPaymentCallback;
 import com.philips.platform.ths.payment.THSPaymentMethod;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -31,6 +32,7 @@ import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
+import static com.philips.platform.ths.utility.THSConstants.THS_CONSUMER;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_COUPON_CODE_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_COST_SUMMARY_CREATE_VISIT_ERROR;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
@@ -51,17 +53,21 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
             THSWaitingRoomFragment thsWaitingRoomFragment = new THSWaitingRoomFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(THS_VISIT_ARGUMENT_KEY, mTHSCostSummaryFragment.thsVisit.getVisit());
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSCostSummaryFragment.getConsumer());
             mTHSCostSummaryFragment.addFragment(thsWaitingRoomFragment, THSWaitingRoomFragment.TAG, bundle, true);
 
         } else if (componentID == R.id.ths_cost_summary_payment_detail_framelayout || componentID == R.id.ths_cost_summary_add_payment_method_button) {
             final THSCreditCardDetailFragment fragment = new THSCreditCardDetailFragment();
             fragment.setFragmentLauncher(mTHSCostSummaryFragment.getFragmentLauncher());
-            mTHSCostSummaryFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, null, true);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSCostSummaryFragment.getConsumer());
+            mTHSCostSummaryFragment.addFragment(fragment, THSCreditCardDetailFragment.TAG, bundle, true);
 
         } else if (componentID == R.id.ths_cost_summary_insurance_detail_framelayout) {
             THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
+            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSCostSummaryFragment.getConsumer());
             mTHSCostSummaryFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle, true);
         } else if (componentID == R.id.ths_cost_summary_promotion_code_apply_button) {
             applyCouponCode(mTHSCostSummaryFragment.mCouponCodeEdittext.getText().toString().trim());
@@ -101,7 +107,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     //fetch Insurance
     void fetchExistingSubscription() {
         try {
-            THSManager.getInstance().getExistingSubscription(mTHSCostSummaryFragment.getFragmentActivity(), this);
+            THSManager.getInstance().getExistingSubscription(mTHSCostSummaryFragment.getConsumer(), this, mTHSCostSummaryFragment.getFragmentActivity());
         } catch (Exception e) {
 
         }
@@ -111,7 +117,7 @@ class THSCostSummaryPresenter implements THSBasePresenter, CreateVisitCallback<T
     // fetch card detail
     void getPaymentMethod() {
         try {
-            THSManager.getInstance().getPaymentMethod(mTHSCostSummaryFragment.getFragmentActivity(), this);
+            THSManager.getInstance().getPaymentMethod(mTHSCostSummaryFragment.getConsumer(), this, mTHSCostSummaryFragment.getFragmentActivity());
         } catch (Exception e) {
 
         }

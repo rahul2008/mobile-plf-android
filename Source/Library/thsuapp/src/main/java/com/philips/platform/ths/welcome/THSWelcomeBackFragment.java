@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
@@ -43,11 +44,15 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     private CircularImageView mImageProvider;
     private Label mLabelProviderName;
     private Label mLabelPracticeName;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_back_fragment, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         mThsWelcomeBackPresenter = new THSWelcomeBackPresenter(this);
 
         mLabel = (Label) view.findViewById(R.id.ths_appointment_time);
@@ -117,4 +122,9 @@ public class THSWelcomeBackFragment extends THSBaseFragment implements View.OnCl
     public Provider getProvider() {
         return mProvider;
     }
+
+    public Consumer getConsumer() {
+        return mConsumer;
+    }
+
 }

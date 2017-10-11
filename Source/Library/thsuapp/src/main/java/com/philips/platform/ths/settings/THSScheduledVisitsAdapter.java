@@ -115,6 +115,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                     bundle.putLong(THSConstants.THS_DATE, scheduledStartTime);
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practiceInfo);
                     bundle.putParcelable(THSConstants.THS_PROVIDER, appointment.getAssignedProvider());
+                    bundle.putParcelable(THSConstants.THS_CONSUMER,mThsScheduledVisitsFragment.getConsumer());
                     mThsScheduledVisitsFragment.addFragment(new THSWelcomeBackFragment(), THSWelcomeBackFragment.TAG, bundle, false);
                 }
             }
@@ -126,6 +127,7 @@ public class THSScheduledVisitsAdapter extends RecyclerView.Adapter<THSScheduled
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER,appointment.getAssignedProvider());
                 bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practiceInfo);
+                bundle.putParcelable(THSConstants.THS_CONSUMER,mThsScheduledVisitsFragment.getConsumer());
                 mThsScheduledVisitsFragment.addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle, false);
             }
         };

@@ -7,6 +7,7 @@
 package com.philips.platform.ths.intake;
 
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.UploadAttachment;
@@ -22,6 +23,7 @@ import com.philips.platform.ths.intake.selectimage.THSUploadDocumentCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -56,7 +58,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         try {
             uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(),
                     THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
-            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
+            THSManager.getInstance().uploadHealthDocument(((THSSymptomsFragment)thsBaseView).getConsumer(), uploadAttachment, this, thsBaseView.getFragmentActivity());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (AWSDKInstantiationException e) {
@@ -80,7 +82,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         if (componentID == R.id.continue_btn) {
             final THSVitalsFragment fragment = new THSVitalsFragment();
             fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
-            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null, true);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_CONSUMER,((THSSymptomsFragment)thsBaseView).getConsumer());
+            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, bundle, true);
         }
     }
 
@@ -111,7 +115,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             mThsProviderInfo = thsProviderInfo;
         }
         try {
-            THSManager.getInstance().getVisitContext(thsBaseView.getFragmentActivity(), mThsProviderInfo, this);
+            THSManager.getInstance().getVisitContext(((THSSymptomsFragment)thsBaseView).getConsumer(), mThsProviderInfo, this, thsBaseView.getFragmentActivity());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -124,7 +128,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     }
 
     public void getfirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
-        THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
+        THSManager.getInstance().getVisitContextWithOnDemandSpeciality(((THSSymptomsFragment)thsBaseView).getConsumer(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
             @Override
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
                 updateSymptoms(pthVisitContext);
@@ -134,7 +138,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
             public void onFailure(Throwable throwable) {
                 thsBaseView.hideProgressBar();
             }
-        });
+        }, thsBaseView.getContext());
     }
 
    /* @Override

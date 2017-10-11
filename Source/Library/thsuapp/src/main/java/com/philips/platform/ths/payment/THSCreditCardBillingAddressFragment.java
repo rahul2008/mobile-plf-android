@@ -17,10 +17,12 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -52,13 +54,15 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
     EditText mCityEditText;
     EditText mZipcodeEditText;
     Button mContinueButton;
-
+    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_shipping_address_fragment, container, false);
         mBundle = getArguments();
+        mConsumer = mBundle.getParcelable(THSConstants.THS_CONSUMER);
+
         mBillingAddresslabel = (Label) view.findViewById(R.id.shipping_address_text_label);
         mBillingAddresslabel.setText("Billing Address"); //todo put in string.xml
         mAddressOneEditText = (EditText) view.findViewById(R.id.sa_shipping_address_line_one);
@@ -114,5 +118,9 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
     public void onClick(View v) {
             mTHSCreditCardBillingAddressPresenter.onEvent(v.getId());
 
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

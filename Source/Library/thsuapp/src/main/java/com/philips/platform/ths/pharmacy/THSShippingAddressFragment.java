@@ -17,10 +17,12 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -40,11 +42,15 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
     private ActionBarListener actionBarListener;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_shipping_address_fragment, container, false);
+
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(R.string.shipping_address_fragment_name,true);
@@ -101,5 +107,9 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             }
 
         }
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }

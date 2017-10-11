@@ -16,10 +16,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.SDKLocalDate;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -35,11 +37,14 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     private THSScheduledVisitsAdapter mThsScheduledVisitsAdapter;
     private Label mNumberOfAppointmentsLabel;
     RelativeLayout mRelativeLayout;
+    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_scheduled_visits_list, container, false);
+        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
+
         mThsSchedulesVisitsPresenter = new THSScheduledVisitsPresenter(this);
         mNumberOfAppointmentsLabel = (Label) view.findViewById(R.id.ths_number_of_visits);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.ths_visit_dates_list);
@@ -84,5 +89,9 @@ public class THSScheduledVisitsFragment extends THSBaseFragment {
     public void refreshList() {
         createCustomProgressBar(mRelativeLayout,BIG);
         getAppointments();
+    }
+
+    public Consumer getConsumer() {
+        return mConsumer;
     }
 }
