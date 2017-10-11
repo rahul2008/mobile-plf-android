@@ -462,15 +462,12 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 //                }
 //            }
 
-            for (int i = fragmentManager.getFragments().size() - 1; i > 0; i --) {
-                ProductSelectionLogger.d("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i)  + "  --- i  " + i );
-                if(fragmentManager.getFragments().get(i) == null) {
+            for (int i = fragmentManager.getBackStackEntryCount() - 1; i > 0; i --) {
+                //ProductSelectionLogger.d("testing", "fragmentManager.getFragments() : " + fragmentManager.getFragments().get(i)  + "  --- i  " + i );
+                if(fragmentManager.getBackStackEntryAt(i) == null) {
                     continue;
                 }
-                else if(fragmentManager.getFragments().get(i) instanceof ProductSelectionListingFragment
-                        || fragmentManager.getFragments().get(i) instanceof SavedScreenFragmentSelection
-                        || fragmentManager.getFragments().get(i) instanceof  WelcomeScreenFragmentSelection
-                        || fragmentManager.getFragments().get(i) instanceof DetailedScreenFragmentSelection) {
+                else  {
                     fragmentManager.popBackStack();
                 }
             }
