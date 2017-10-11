@@ -23,17 +23,17 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    /** Proguard on library reference: https://developer.android.com/studio/projects/android-library.html#Considerations
+     *  Also reference with DLS library
+     *  Generated aar file keep proguard.txt which take part in proguard process when added in app
+     **/
     buildTypes {
         debug {
 
         }
         release {
-            /** Proguard on library reference: https://developer.android.com/studio/projects/android-library.html#Considerations
-             *  Also reference with DLS library
-             *  Generated aar file keep proguard.txt which take part in proguard process when added in app
-             **/
-        }
 
+        }
     }
 
     lintOptions {
