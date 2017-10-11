@@ -87,7 +87,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private final Set<PublishEventListener> mPublishEventListeners;
     private final Set<DcsResponseListener> mDcsResponseListeners;
 
-    private HashMap<String, DcsEventListener> mDcsEventListenersMap = new HashMap<>();
+    private HashMap<String, DcsEventListener> mDcsEventListenersMap;
     private SignOn mSignOn;
 
     private boolean mIsSignOn;
@@ -96,7 +96,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     private ICPCallbackHandler mICPCallbackHandler;
     private EventSubscription mEventSubscription;
-    private DcsEventListener mCppDiscoverEventListener;
     private DCSStartListener dcsStartListener;
 
     private ICPClientDCSState mDcsState = ICPClientDCSState.STOPPED;
@@ -128,6 +127,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
         mSignOnListeners = new CopyOnWriteArraySet<>();
         mPublishEventListeners = new CopyOnWriteArraySet<>();
         mDcsResponseListeners = new CopyOnWriteArraySet<>();
+        mDcsEventListenersMap = new HashMap<>();
 
         if (mSignOn == null) {
             mSignOn = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
@@ -148,7 +148,8 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     DefaultCloudController() {
         mSignOn = null;
         mSignOnListeners = new CopyOnWriteArraySet<>();
-        mDcsResponseListeners = null;
+        mDcsResponseListeners = new CopyOnWriteArraySet<>();
+        mDcsEventListenersMap = new HashMap<>();
         mPublishEventListeners = null;
     }
 
@@ -172,7 +173,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     private void startKeyProvisioning() {
         Log.i(LogConstants.KPS, "Start provision");
         mKeyProvisioningState = KeyProvision.PROVISIONING;
-        String appVersion = null;
+        String appVersion;
 
         // set Peripheral Information
         Provision provision = new Provision(mICPCallbackHandler, mKpsConfiguration, null, mContext);
@@ -283,7 +284,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
     }
 
     @Override
-    public void addDCSEventListener(String cppId, DcsEventListener dcsEventListener) {
+    public void addDCSEventListener(@NonNull String cppId, @NonNull DcsEventListener dcsEventListener) {
         //DI-Comm change. Checking the listener before adding it to the map
         if (mDcsEventListenersMap != null && !mDcsEventListenersMap.containsKey(cppId)) {
             mDcsEventListenersMap.put(cppId, dcsEventListener);
@@ -292,7 +293,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     //DI-Comm change. Added one more method to disable remote subscription
     @Override
-    public void removeDCSEventListener(String cppId) {
+    public void removeDCSEventListener(@NonNull String cppId) {
         if (mDcsEventListenersMap != null) {
             mDcsEventListenersMap.remove(cppId);
         }
@@ -304,7 +305,6 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
 
     @Override
     public void setDCSDiscoverEventListener(DcsEventListener mCppDiscoverEventListener) {
-        this.mCppDiscoverEventListener = mCppDiscoverEventListener;
     }
 
     @Override
@@ -728,7 +728,7 @@ public class DefaultCloudController implements CloudController, ICPClientToAppIn
             for (String asset : assetFiles) {
                 if (asset.contains(CERTIFICATE_EXTENSION)) {
                     in = mContext.getAssets().open(asset);
-                    int read = 0;
+                    int read;
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     while ((read = in.read(buffer, 0, buffer.length)) != -1) {
                         baos.write(buffer, 0, read);

@@ -25,11 +25,6 @@ public class TimePort extends DICommPort<TimePortProperties> {
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) != null);
-    }
-
-    @Override
     protected void processResponse(String jsonResponse) {
         TimePortProperties timePortProperties = parseResponse(jsonResponse);
 
@@ -41,7 +36,7 @@ public class TimePort extends DICommPort<TimePortProperties> {
     }
 
     @Override
-    protected String getDICommPortName() {
+    public String getDICommPortName() {
         return TIME_PORT_NAME;
     }
 
