@@ -10,8 +10,8 @@ Version {next}
 * CommLib - \#65428 Persistent NetworkNode Storage.
 	* Store an Appliance by calling `ApplianceManager.storeAppliance(appliance)`
 	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
-	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`.
-
+	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`.  
+	
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
 * CommLib - Running the pairing process (through `PairingHandler`) no longer automatically stores the appliance to the database upon successful completion. Use `ApplianceManager.storeAppliance()` method manually as alternative.
@@ -31,6 +31,8 @@ Version {next}
 * CommLib - The following classes are renamed:
 	* `DICommApplianceFactory` -> `ApplianceFactory`
 	* `DICommApplianceDatabase` -> `ApplianceDatabase` 
+* CommLib - `DiCommPort` no longer has the `isResponseForThisPort` method. This is handled internally by CommLib.
+* CommLib - the method `getDICommPortName` has been made public in order to determine the correct destination for incoming port data.
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
@@ -38,6 +40,10 @@ Version {next}
 * CommLib BLE - \#76117 Let BlueLib make connect() calls without timeout
 * CommLib BLE - \#75429 Not registering SHNLogger when app configured having `AppIdentityInterface.AppState.PRODUCTION`
 * CloudController - \#55808 BufferUnderflowException while reading download data
+* CommLib - \#84930 CommLib responses should include port being subscribed to
+	* CommLib now determines for which port incoming data is.
+	* Ports are no longer required to determine if JSON matches their port properties.
+
 
 ### Residual anomalies
 * To be filled in at release

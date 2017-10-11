@@ -18,7 +18,6 @@ import org.mockito.Captor;
 import static java.util.Collections.singleton;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -52,7 +51,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         when(mMockNetworkNode.getIpAddress()).thenReturn(APPLIANCE_IP);
         when(mMockNetworkNode.getCppId()).thenReturn(APPLIANCE_CPPID);
 
-        mRemoteSubscriptionHandler = new RemoteSubscriptionHandlerImpl();
+        mRemoteSubscriptionHandler = createMockedRemoteSubscriptionHandler();
 
         mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
 
@@ -112,9 +111,6 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
         // Handler shouldn't be called if invalid data is provided
         verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
-//        runnableCaptor.getValue().run();
-//
-//        verify(mSubscriptionEventListener).onSubscriptionEventReceived(eq("air"), startsWith("Error"));
     }
 
     @Test
@@ -124,24 +120,9 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
         // Handler shouldn't be called if invalid data is provided
         verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
-//        runnableCaptor.getValue().run();
-//
-//        verify(mSubscriptionEventListener, never()).onSubscriptionEventReceived(eq("air"), startsWith("Error"));
     }
 
     // TODO Add tests where port name or product ID is invalid (null or "")
-
-    private class RemoteSubscriptionHandlerImpl extends RemoteSubscriptionHandler {
-
-        public RemoteSubscriptionHandlerImpl() {
-            super(mMockCloudController);
-        }
-
-        @Override
-        protected WrappedHandler getSubscriptionEventResponseHandler() {
-            return mSubscriptionEventResponseHandler;
-        }
-    }
 
     private String createDcsEvent(String productId, String port, String data) {
         return "{ \"product\": \""+productId+"\", \"port\":\""+port+"\", \"data\": "+data+"}";
@@ -149,6 +130,15 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
     private String createErrorDcsEvent(String productId, String port, String data) {
         return "{ \"product\": \""+productId+"\", \"port\":\""+port+"\", \"noData\": "+data+"}";
+    }
+
+    private RemoteSubscriptionHandler createMockedRemoteSubscriptionHandler() {
+        return new RemoteSubscriptionHandler(mMockCloudController) {
+            @Override
+            protected WrappedHandler getSubscriptionEventResponseHandler() {
+                return mSubscriptionEventResponseHandler;
+            }
+        };
     }
 }
 
