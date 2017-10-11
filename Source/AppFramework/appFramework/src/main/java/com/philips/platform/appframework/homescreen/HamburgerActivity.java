@@ -85,7 +85,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         super.onCreate(savedInstanceState);
         presenter = new HamburgerActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
-        setContentView(R.layout.uikit_hamburger_menu);
+        setContentView(R.layout.af_uikit_hamburger_menu);
         initializeActivityContents();
     }
 

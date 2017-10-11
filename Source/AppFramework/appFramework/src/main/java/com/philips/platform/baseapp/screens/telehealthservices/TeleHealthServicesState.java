@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
@@ -28,6 +29,9 @@ public class TeleHealthServicesState extends BaseState{
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher)uiLauncher;
+
+        ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+
         launchTeleHealthServices();
     }
 
