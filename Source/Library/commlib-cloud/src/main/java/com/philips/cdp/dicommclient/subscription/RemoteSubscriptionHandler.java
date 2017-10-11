@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclient.subscription;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
@@ -19,42 +20,48 @@ import java.util.Set;
 
 public class RemoteSubscriptionHandler extends SubscriptionHandler implements DcsEventListener {
 
-    private Set<SubscriptionEventListener> mSubscriptionEventListeners;
-    private NetworkNode mNetworkNode;
     private CloudController cloudController;
+    private Set<SubscriptionEventListener> subscriptionEventListeners;
+    private NetworkNode networkNode;
 
-    public RemoteSubscriptionHandler(CloudController cppController) {
-        cloudController = cppController;
+    public RemoteSubscriptionHandler(final @NonNull CloudController cloudController) {
+        this.cloudController = cloudController;
     }
 
     @Override
-    public void enableSubscription(NetworkNode networkNode, Set<SubscriptionEventListener> subscriptionEventListener) {
+    public void enableSubscription(final @NonNull NetworkNode networkNode, final @NonNull Set<SubscriptionEventListener> subscriptionEventListeners) {
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
-        mNetworkNode = networkNode;
-        mSubscriptionEventListeners = subscriptionEventListener;
-        //DI-Comm change. Moved from Constructor
+
+        this.networkNode = networkNode;
+        this.subscriptionEventListeners = subscriptionEventListeners;
+
         cloudController.addDCSEventListener(networkNode.getCppId(), this);
     }
 
     @Override
     public void disableSubscription() {
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
-        mSubscriptionEventListeners = null;
-        //DI-Comm change. Removing the listener on Disabling remote subscription
-        if (mNetworkNode != null) {
-            cloudController.removeDCSEventListener(mNetworkNode.getCppId());
+        this.subscriptionEventListeners = null;
+
+        if (networkNode != null) {
+            cloudController.removeDCSEventListener(networkNode.getCppId());
         }
     }
 
     @Override
     public void onDCSEventReceived(@NonNull final String data, @NonNull final String fromEui64, @NonNull final String action) {
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "onDCSEventReceived: " + data);
-        if (data.isEmpty())
-            return;
-        if (fromEui64.isEmpty())
-            return;
 
-        if (!mNetworkNode.getCppId().equals(fromEui64)) {
+        if (subscriptionEventListeners == null) {
+            DICommLog.d(DICommLog.REMOTE_SUBSCRIPTION, "Ignoring event, no subscriptionsEventListeners.");
+            return;
+        }
+
+        if (data.isEmpty() || fromEui64.isEmpty()) {
+            return;
+        }
+
+        if (!fromEui64.equals(networkNode.getCppId())) {
             DICommLog.d(DICommLog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + fromEui64 + ")");
             return;
         }
@@ -62,26 +69,24 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 
-        if (mSubscriptionEventListeners != null) {
-            try {
-                final String portName = getJsonValue(data, "port");
-                final String payload = getJsonValue(data, "data");
+        try {
+            final String portName = getJsonValue(data, "port");
+            final String payload = getJsonValue(data, "data");
 
-                postSubscriptionEventOnUIThread(portName, payload, mSubscriptionEventListeners);
-            } catch (JSONException e) {
-                DICommLog.e(DICommLog.REMOTE_SUBSCRIPTION, "Error parsing DCS event data: " + e.getMessage());
-            }
+            postSubscriptionEventOnUIThread(portName, payload, subscriptionEventListeners);
+        } catch (JSONException e) {
+            DICommLog.e(DICommLog.REMOTE_SUBSCRIPTION, "Error parsing DCS event data: " + e.getMessage());
         }
     }
 
+    @Nullable
     private String getJsonValue(final String json, String jsonKey) throws JSONException {
-        JSONObject jsonObject = new JSONObject(json);
-        JSONObject dataObject = jsonObject.optJSONObject(jsonKey);
+        JSONObject jsonObject = new JSONObject(json).optJSONObject(jsonKey);
 
-        if (dataObject == null) {
+        if (jsonObject == null) {
             throw new JSONException("Error, no data received: " + json);
         } else {
-            return dataObject.toString();
+            return jsonObject.toString();
         }
     }
 }
