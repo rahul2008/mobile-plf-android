@@ -67,7 +67,6 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         createLocationRequest();
         if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .enableAutoManage(getActivity(), 0, this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -87,39 +86,33 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         }
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
         AmwellLog.d(TAG, "onStart fired ..............");
         getLocationUpdate();
+        if (mGoogleApiClient != null)
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onStop() {
-        super.onStop();
         AmwellLog.d(TAG, "onStop fired ..............");
-        if(mGoogleApiClient!=null) {
-            if (mGoogleApiClient.isConnected()) {
-                stopLocationUpdates();
-                mGoogleApiClient.stopAutoManage(getActivity());
-                mGoogleApiClient.disconnect();
-            }
-        }
+        disconnectGoogleApiClient();
         AmwellLog.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
+        super.onStop();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void disconnectGoogleApiClient() {
         if(mGoogleApiClient!=null) {
             if (mGoogleApiClient.isConnected()) {
                 stopLocationUpdates();
-                mGoogleApiClient.stopAutoManage(getActivity());
                 mGoogleApiClient.disconnect();
             }
         }
     }
+
 
     protected void stopLocationUpdates() {
         FusedLocationApi.removeLocationUpdates(
