@@ -44,7 +44,7 @@
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_go_see_provider"
-        android:text="@string/ths_terms_and_conditions"
+        android:text="@string/ths_agree_continue"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/ths_fab_margin"
