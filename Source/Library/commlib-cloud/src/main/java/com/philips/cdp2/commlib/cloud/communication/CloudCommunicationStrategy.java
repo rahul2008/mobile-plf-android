@@ -25,6 +25,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 
+import static com.philips.cdp.cloudcontroller.api.CloudController.ICPClientDCSState.STARTED;
+
 /**
  * @publicApi
  */
@@ -105,8 +107,7 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     }
 
     @Override
-    public void subscribe(final String portName, final int productId, final int subscriptionTtl,
-                          final ResponseHandler responseHandler) {
+    public void subscribe(final String portName, final int productId, final int subscriptionTtl, final ResponseHandler responseHandler) {
         startDcsIfNecessary();
         remoteSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListeners);
 
@@ -115,8 +116,7 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     }
 
     @Override
-    public void unsubscribe(final String portName, final int productId,
-                            final ResponseHandler responseHandler) {
+    public void unsubscribe(final String portName, final int productId, final ResponseHandler responseHandler) {
         startDcsIfNecessary();
         remoteSubscriptionHandler.disableSubscription();
         cloudController.stopDCSService();
@@ -168,10 +168,11 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
     };
 
     private void startDcsIfNecessary() {
-        if (cloudController.getState() != CloudController.ICPClientDCSState.STARTED && !isDSCRequestOnGoing) {
-            StartDcsRequest startRequest = createStartDcsRequest(responseHandler);
-            isDSCRequestOnGoing = true;
-            requestQueue.addRequestInFrontOfQueue(startRequest);
+        if (cloudController.getState() == STARTED || isDSCRequestOnGoing) {
+            return;
         }
+
+        isDSCRequestOnGoing = true;
+        requestQueue.addRequestInFrontOfQueue(createStartDcsRequest(responseHandler));
     }
 }
