@@ -27,7 +27,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 25, manifest = Config.NONE)
-public class TroubleshootConnectionUnsuccessfulFragmentTest {
+public class TroubleshootWifiConnectionUnsuccessfulFragmentTest {
 
     private TroubleshootConnectionUnsuccessfulFragment subject;
     private static final int HIERARCHY_LEVEL = 6;

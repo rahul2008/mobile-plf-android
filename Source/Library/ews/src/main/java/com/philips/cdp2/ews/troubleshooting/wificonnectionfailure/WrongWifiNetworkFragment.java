@@ -2,6 +2,7 @@ package com.philips.cdp2.ews.troubleshooting.wificonnectionfailure;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,20 +19,20 @@ import com.philips.cdp2.ews.view.EWSActivity;
  */
 
 public class WrongWifiNetworkFragment extends BaseFragment {
-    private final static String WIFI_SSID = "wifi_ssid";
-
-    public static Fragment newInstance(String wifiSSID) {
-        WrongWifiNetworkFragment fragment = new WrongWifiNetworkFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(WIFI_SSID, wifiSSID);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    private final static String NETWORK_SSID = "network_SSID";
 
     @Nullable
     WrongWifiNetworkViewModel viewModel;
     @Nullable
     FragmentWrongWifiNetworkBinding binding;
+
+    public static Fragment newInstance(@NonNull String networkName) {
+        WrongWifiNetworkFragment fragment = new WrongWifiNetworkFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(NETWORK_SSID, networkName);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -40,8 +41,10 @@ public class WrongWifiNetworkFragment extends BaseFragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wrong_wifi_network, container, false);
         viewModel = createViewModel();
-        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, getArguments().getString(WIFI_SSID)));
-        binding.setViewModel(viewModel);
+        if (binding != null && viewModel != null) {
+            viewModel.setNetworkName(getArguments().getString(NETWORK_SSID));
+            binding.setViewModel(viewModel);
+        }
         return binding.getRoot();
     }
 

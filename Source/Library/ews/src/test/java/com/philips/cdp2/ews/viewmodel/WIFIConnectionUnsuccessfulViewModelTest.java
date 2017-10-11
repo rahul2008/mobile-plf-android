@@ -29,7 +29,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({EWSTagger.class, EWSDependencyProvider.class})
-public class ConnectionUnsuccessfulViewModelTest {
+public class WIFIConnectionUnsuccessfulViewModelTest {
 
     private ConnectionUnsuccessfulViewModel subject;
 

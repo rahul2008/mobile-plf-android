@@ -7,7 +7,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
-import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
@@ -86,8 +86,12 @@ public class Navigator {
         pushFragment(new SetupAccessPointModeTroubleshootingFragment());
     }
 
-    public void navigateToConnectionUnsuccessfulTroubleShootingScreen() {
+    public void navigateToConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName) {
         pushFragment(new TroubleshootConnectionUnsuccessfulFragment());
+    }
+
+    public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName) {
+        pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName));
     }
 
     public void navigateToConnectingPhoneToHotspotWifiScreen() {
@@ -96,7 +100,7 @@ public class Navigator {
 
     public void navigateToUnsuccessfulConnectionDialog(@NonNull Fragment currentFragment, int requestCode) {
         activityNavigator.showFragmentWithResult(currentFragment,
-                ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
+                com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
@@ -107,8 +111,8 @@ public class Navigator {
         pushFragment(new EWSWiFiPairedFragment());
     }
 
-    public void navigateToWrongWifiNetworkScreen(@NonNull String deviceName) {
-        pushFragment(WrongWifiNetworkFragment.newInstance(deviceName));
+    public void navigateToWrongWifiNetworkScreen(@NonNull String networkName) {
+        pushFragment(WrongWifiNetworkFragment.newInstance(networkName));
     }
 
     public void navigateBack() {

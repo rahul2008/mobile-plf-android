@@ -64,7 +64,6 @@ public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        viewModel.unregister();
     }
 
     @Override

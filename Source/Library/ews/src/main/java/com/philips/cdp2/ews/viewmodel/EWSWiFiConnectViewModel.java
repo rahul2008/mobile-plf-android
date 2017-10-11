@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -24,12 +23,10 @@ import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
 
@@ -43,37 +40,24 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     @NonNull
     private final WiFiUtil wiFiUtil;
     @NonNull
-    private final EventBus eventBus;
-    @NonNull
     private final Navigator navigator;
     @NonNull
     private final ConnectionEstablishDialogFragment connectingDialog;
 
     public ObservableField<String> password;
     private Fragment fragment;
-    private Handler handler;
-    Runnable timeoutRunnable = new Runnable() {
-        @Override
-        public void run() {
-            showConnectionUnsuccessful();
-        }
-    };
+
 
     @Inject
     public EWSWiFiConnectViewModel(@NonNull final WiFiUtil wiFiUtil,
                                    @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
-                                   @NonNull @Named("ews.event.bus") final EventBus eventBus,
                                    @NonNull final Navigator navigator,
-                                   @NonNull final ConnectionEstablishDialogFragment connectingDialog,
-                                   @NonNull final Handler handler) {
+                                   @NonNull final ConnectionEstablishDialogFragment connectingDialog) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
-        this.eventBus = eventBus;
         this.navigator = navigator;
         this.connectingDialog = connectingDialog;
-        this.handler = handler;
         this.password = new ObservableField<>("");
-        this.eventBus.register(this);
     }
 
     public String getDeviceName() {
@@ -109,7 +93,6 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showPairingSuccessEvent(@NonNull final PairingSuccessEvent event) {
         dismissDialog();
-        removeTimeoutRunnable();
         EWSCallbackNotifier.getInstance().onApplianceDiscovered(sessionDetailsInfo.getCppId());
         navigator.navigateToPairingSuccessScreen();
     }
@@ -122,8 +105,7 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
 
     private void showConnectionUnsuccessful() {
         dismissDialog();
-        removeTimeoutRunnable();
-        navigator.navigateToConnectionUnsuccessfulTroubleShootingScreen();
+        navigator.navigateToConnectionUnsuccessfulTroubleShootingScreen("");
     }
 
     protected void dismissDialog() {
@@ -137,19 +119,10 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
         EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME, EWSDependencyProvider.getInstance().getProductName());
     }
 
-    private void removeTimeoutRunnable() {
-        handler.removeCallbacks(timeoutRunnable);
-    }
-
-    public void unregister() {
-        eventBus.unregister(this);
-    }
-
     public void onStart() {
         if (wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI && (connectingDialog != null && !connectingDialog.isAdded())) {
             tagConnectionStart();
             connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
-            handler.postDelayed(timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
         }
     }
 }
