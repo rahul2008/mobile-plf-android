@@ -155,7 +155,7 @@ android {
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'proguard-rules-uAppFwLib.pro'
+        consumerProguardFiles 'proguard-rules-ufw.pro'
     }
     buildTypes {
         release {

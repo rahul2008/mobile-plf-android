@@ -78,9 +78,6 @@
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
 
-
--keep public class com.philips.platform.appframework.flowmanager.models.** { *; }
-
 #uikit
 -keep class com.philips.cdp.uikit.** { *; }
 -dontwarn com.philips.cdp.uikit.**
