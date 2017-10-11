@@ -8,8 +8,8 @@ package com.philips.cdp2.ews.viewmodel;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.tagging.Tag;
-import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulViewModel;
-import com.philips.cdp2.ews.troubleshooting.connectionfailure.UnsuccessfulConnectionCallback;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.UnsuccessfulConnectionCallback;
 
 import org.junit.Before;
 import org.junit.Test;

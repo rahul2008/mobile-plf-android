@@ -18,7 +18,7 @@ import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewMo
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
-import static com.philips.cdp2.ews.troubleshooting.connectionfailure
+import static com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure
         .ConnectionUnsuccessfulFragment.UNSUCCESSFUL_CONNECTION_RESULT;
 
 public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implements

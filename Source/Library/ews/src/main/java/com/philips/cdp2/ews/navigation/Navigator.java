@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
-import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
@@ -98,12 +99,16 @@ public class Navigator {
                 ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
     }
 
-    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword) {
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword));
+    public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName));
     }
 
     public void navigateToEWSWiFiPairedScreen() {
         pushFragment(new EWSWiFiPairedFragment());
+    }
+
+    public void navigateToWrongWifiNetworkScreen(@NonNull String deviceName) {
+        pushFragment(WrongWifiNetworkFragment.newInstance(deviceName));
     }
 
     public void navigateBack() {
@@ -113,5 +118,4 @@ public class Navigator {
     private void pushFragment(@NonNull Fragment fragment) {
         fragmentNavigator.push(fragment, R.id.contentFrame);
     }
-
 }

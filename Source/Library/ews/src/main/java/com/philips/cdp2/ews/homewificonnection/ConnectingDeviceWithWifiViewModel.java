@@ -30,14 +30,15 @@ import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
 public class ConnectingDeviceWithWifiViewModel {
 
     public interface ConnectingDeviceToWifiCallback {
+
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
+
     }
     private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
 
     @NonNull
     private final ApplianceAccessManager applianceAccessManager;
-
     @NonNull
     private final Navigator navigator;
     @NonNull
@@ -46,6 +47,10 @@ public class ConnectingDeviceWithWifiViewModel {
     private ConnectingDeviceToWifiCallback fragmentCallback;
     @NonNull
     private final WiFiUtil wiFiUtil;
+    @NonNull
+    private String deviceName;
+
+
     @NonNull
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -56,6 +61,9 @@ public class ConnectingDeviceWithWifiViewModel {
                 if (currentWifiState == WiFiUtil.HOME_WIFI) {
                     onDeviceConnectedToWifi();
                     unregisterBroadcastReceiver();
+                } else {
+                    removeTimeoutRunnable();
+                    navigator.navigateToWrongWifiNetworkScreen(deviceName);
                 }
             }
         }
@@ -83,7 +91,8 @@ public class ConnectingDeviceWithWifiViewModel {
         this.fragmentCallback = fragmentCallback;
     }
 
-    public void startConnecting(@NonNull final String homeWiFiSSID, @NonNull String homeWiFiPassword) {
+    public void startConnecting(@NonNull final String homeWiFiSSID, @NonNull String homeWiFiPassword, @NonNull String deviceName) {
+        this.deviceName = deviceName;
         tagConnectionStart();
         applianceAccessManager.connectApplianceToHomeWiFiEvent(homeWiFiSSID, homeWiFiPassword, new ApplianceAccessManager.SetPropertiesCallback() {
             @Override

@@ -16,7 +16,7 @@ import android.util.Log;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.troubleshooting.connectionfailure.ConnectionUnsuccessfulViewModel;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
