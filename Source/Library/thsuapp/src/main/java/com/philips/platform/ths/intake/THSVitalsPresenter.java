@@ -54,7 +54,9 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onResponse(THSVitals thsVitals, THSSDKError var2) {
-        thsvItalsUIInterface.updateUI(thsVitals);
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            thsvItalsUIInterface.updateUI(thsVitals);
+        }
     }
 
     @Override
@@ -64,23 +66,28 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
-        mPthBaseFragment.showToast("Vitals Validation Failure");
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            mPthBaseFragment.showToast("Vitals Validation Failure");
+        }
     }
 
     @Override
     public void onUpdateVitalsResponse(SDKError sdkError) {
-        if (sdkError == null) {
-            tagSuccess();
-            thsvItalsUIInterface.launchMedicationFragment();
-            mPthBaseFragment.showToast("UPDATE SUCCESS");
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            if (sdkError == null) {
+                tagSuccess();
+                thsvItalsUIInterface.launchMedicationFragment();
+                mPthBaseFragment.showToast("UPDATE SUCCESS");
+            } else
+                mPthBaseFragment.showToast("UPDATE FAILED");
         }
-        else
-            mPthBaseFragment.showToast("UPDATE FAILED");
     }
 
     @Override
     public void onUpdateVitalsFailure(Throwable throwable) {
-        mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+        if(null!=mPthBaseFragment && mPthBaseFragment.isFragmentAttached()) {
+            mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+        }
     }
 
     public boolean checkIfValueEntered(EditText editText) {

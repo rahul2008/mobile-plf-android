@@ -153,30 +153,30 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void callPharmacyListFragment(Location location) {
-        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+        if(isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
+            THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
+            thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
+            thsPharmacyListFragment.setLocation(location);
+            addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null);
         }
-        THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
-        thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
-        thsPharmacyListFragment.setLocation(location);
-        addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null, true);
     }
 
     private void showPharmacySearch() {
-        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+        if(isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
+            THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
+            addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
         }
-        THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+        if(isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
+            THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
+            thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
+            addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
         }
-        THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
-        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
-        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null, true);
     }
 
     @Override
@@ -243,7 +243,6 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_LOCATION) {
-
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocationUpdate();
             } else {
@@ -251,12 +250,6 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 showToast("Permission denied : Going to search");
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 
     private void getLocationUpdate() {

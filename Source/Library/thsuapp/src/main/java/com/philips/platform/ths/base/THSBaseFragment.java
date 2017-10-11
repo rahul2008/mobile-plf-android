@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -156,20 +157,22 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     }
 
     public void showError(String message) {
-        AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
-        if (null != alertDialogFragmentUserNotLoggedIn) {
-            alertDialogFragmentUserNotLoggedIn.dismiss();
+        if(isFragmentAttached()) {
+            AlertDialogFragment alertDialogFragmentUserNotLoggedIn = (AlertDialogFragment) getFragmentManager().findFragmentByTag(THS_USER_NOT_LOGGED_IN);
+            if (null != alertDialogFragmentUserNotLoggedIn) {
+                alertDialogFragmentUserNotLoggedIn.dismiss();
+            }
+
+            final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity());
+            builder.setMessage(message);
+            builder.setTitle(getResources().getString(R.string.ths_matchmaking_error));
+
+            alertDialogFragmentUserNotLoggedIn = builder.setCancelable(false).create();
+            View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentUserNotLoggedIn);
+            builder.setPositiveButton(getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
+            alertDialogFragmentUserNotLoggedIn.setPositiveButtonListener(onClickListener);
+            alertDialogFragmentUserNotLoggedIn.show(getFragmentManager(), THS_USER_NOT_LOGGED_IN);
         }
-
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity());
-        builder.setMessage(message);
-        builder.setTitle(getResources().getString(R.string.ths_matchmaking_error));
-
-        alertDialogFragmentUserNotLoggedIn = builder.setCancelable(false).create();
-        View.OnClickListener onClickListener = getOnClickListener(alertDialogFragmentUserNotLoggedIn);
-        builder.setPositiveButton(getResources().getString(R.string.ths_matchmaking_ok_button), onClickListener);
-        alertDialogFragmentUserNotLoggedIn.setPositiveButtonListener(onClickListener);
-        alertDialogFragmentUserNotLoggedIn.show(getFragmentManager(), THS_USER_NOT_LOGGED_IN);
     }
 
     @NonNull
@@ -180,5 +183,17 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
                 finalAlertDialogFragmentStartVisit.dismiss();
             }
         };
+    }
+
+    public boolean isFragmentAttached(){
+        boolean result = false;
+        try {
+            if (null != getActivity() && null!=getContext() && isAdded()) {
+                result =  true;
+            }
+        }catch(Exception e){
+
+        }
+        return result;
     }
 }

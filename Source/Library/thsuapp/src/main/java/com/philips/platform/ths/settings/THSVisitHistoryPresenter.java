@@ -37,12 +37,14 @@ public class THSVisitHistoryPresenter implements THSBasePresenter, THSVisitRepor
 
     @Override
     public void onResponse(List<VisitReport> visitReports, SDKError sdkError) {
-        if(sdkError!=null){
-            mThsVisitHistoryFragment.showToast(sdkError.getSDKErrorReason().name());
-            return;
+        if(null!= mThsVisitHistoryFragment && mThsVisitHistoryFragment.isFragmentAttached()) {
+            if (sdkError != null) {
+                mThsVisitHistoryFragment.showToast(sdkError.getSDKErrorReason().name());
+                return;
+            }
+            mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
+            mThsVisitHistoryFragment.hideProgressBar();
         }
-        mThsVisitHistoryFragment.updateVisitHistoryView(visitReports);
-        mThsVisitHistoryFragment.hideProgressBar();
     }
 
     @Override

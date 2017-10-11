@@ -57,19 +57,23 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
 
     @Override
     public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
-        if (sdkError != null) {
-            mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
-            return;
-        }
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","reportDownloaded");
-        THSFileUtils fileUtils = new THSFileUtils();
+        if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+            if (sdkError != null) {
+                mThsVisitHistoryDetailFragment.showToast(sdkError.getSDKErrorReason().name());
+                return;
+            }
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents", "reportDownloaded");
+            THSFileUtils fileUtils = new THSFileUtils();
 
-        fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);
+            fileUtils.openAttachment(mThsVisitHistoryDetailFragment.getContext(), fileAttachment);
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
+        if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+            mThsVisitHistoryDetailFragment.showToast(throwable.getMessage());
+        }
     }
 
     public void getVisitReportDetail(VisitReport visitReport){
@@ -78,14 +82,18 @@ public class THSVisitHistoryDetailPresenter implements THSBasePresenter, THSVisi
             THSManager.getInstance().getVisitReportDetail(mThsVisitHistoryDetailFragment.getContext(), visitReport, new THSVisitReportDetailCallback<VisitReportDetail, SDKError>() {
                 @Override
                 public void onResponse(VisitReportDetail visitReportDetail, SDKError sdkError) {
-                    mThsVisitHistoryDetailFragment.hideProgressBar();
-                    mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                    if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+                        mThsVisitHistoryDetailFragment.hideProgressBar();
+                        mThsVisitHistoryDetailFragment.updateView(visitReportDetail);
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    mThsVisitHistoryDetailFragment.hideProgressBar();
-                    mThsVisitHistoryDetailFragment.showToast("Failed to get the details");
+                    if(null!=mThsVisitHistoryDetailFragment && mThsVisitHistoryDetailFragment.isFragmentAttached()) {
+                        mThsVisitHistoryDetailFragment.hideProgressBar();
+                        mThsVisitHistoryDetailFragment.showToast("Failed to get the details");
+                    }
                 }
             });
         } catch (AWSDKInstantiationException e) {
