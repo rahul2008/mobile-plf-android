@@ -198,6 +198,17 @@
         <item>@string/RA_DLS_power_sleep_connectivity</item>
     </string-array>
 
+    <array name="hamburger_drawer_items_res">
+        <item>@drawable/rap_home</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_shop</item>
+        <item>@drawable/rap_question_mark</item>
+        <item>@drawable/rap_information</item>
+        <item>@drawable/rap_settings</item>
+        <item>@drawable/rap_doctor</item>
+        <item>@drawable/rap_connectivity</item>
+    </array>
+
     <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
     <string name="RA_SECURITY_JAILBREAK_VIOLATION" translatable="false"> We’ve detected that you have rooted the device or jailbroken, thereby making it easier for others to access your data and no security on your application data. </string>
     <string name="RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION" translatable="false"> We’ve detected that you have jailbroken and not activated screenlock, thereby making it easier for others to access your data. We recommend enabling your screenlock. </string>

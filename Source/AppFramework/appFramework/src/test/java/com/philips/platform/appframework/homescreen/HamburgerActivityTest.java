@@ -7,42 +7,57 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.content.res.Resources;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
-import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
-import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.models.HamburgerMenuItem;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
+import com.philips.platform.uid.view.widget.SideBar;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
+import org.robolectric.fakes.RoboMenuItem;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class HamburgerActivityTest {
     private HamburgerActivity hamburgerActivity = null;
     private Resources resource = null;
-    private NavigationView navigationView;
-    private DrawerLayout philipsDrawerLayout;
+    private LinearLayout navigationView;
+    private SideBar sideBar;
     private FrameLayout hamburgerClick = null;
     private ActivityController<HamburgerMock> activityController;
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Mock
+    private static HamburgerActivityPresenter hamburgerActivityPresenter;
 
 //    private TestAppFrameworkApplication application = null;
 
@@ -51,13 +66,18 @@ public class HamburgerActivityTest {
         public void initDLS() {
             setTheme(R.style.Theme_Philips_BrightAqua_Gradient_NoActionBar);
         }
+
+        @Override
+        protected AbstractUIBasePresenter getActivityPresenter() {
+            return hamburgerActivityPresenter;
+        }
     }
     @Before
     public void setup() {
         activityController=Robolectric.buildActivity(HamburgerMock.class);
         hamburgerActivity=activityController.create().start().get();
-        navigationView = (NavigationView) hamburgerActivity.findViewById(R.id.navigation_view);
-        philipsDrawerLayout = (DrawerLayout) hamburgerActivity.findViewById(R.id.philips_drawer_layout);
+        navigationView = (LinearLayout) hamburgerActivity.findViewById(R.id.navigation_view);
+        sideBar = (SideBar) hamburgerActivity.findViewById(R.id.sidebar_layout);
 
         View customView = LayoutInflater.from(hamburgerActivity).
                 inflate(R.layout.af_action_bar_shopping_cart, null);
@@ -83,10 +103,10 @@ public class HamburgerActivityTest {
     public void ActionBarDrawableToggleClickListener() {
         ActionBarDrawerToggle drawerToggle = hamburgerActivity.configureDrawer();
 
-        philipsDrawerLayout.addDrawerListener(drawerToggle);
+        sideBar.addDrawerListener(drawerToggle);
         hamburgerClick.performClick();
-        philipsDrawerLayout.openDrawer(navigationView);
-        assertTrue(philipsDrawerLayout.isDrawerVisible(navigationView));
+        sideBar.openDrawer(navigationView);
+        assertTrue(sideBar.isDrawerVisible(navigationView));
     }
 
     @Test
@@ -145,17 +165,17 @@ public class HamburgerActivityTest {
     public void onBackPressFragmentCount(){
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        if(philipsDrawerLayout.isDrawerOpen(navigationView))
+        if(sideBar.isDrawerOpen(navigationView))
         {
-            philipsDrawerLayout.closeDrawer(navigationView);
+            sideBar.closeDrawer(navigationView);
         }
 
         hamburgerActivity.onBackPressed();
 
-        HamburgerAdapter adapter = hamburgerActivity.getHamburgerAdapter();
-        HamburgerItem hamburgerItem = (HamburgerItem) adapter.getItem(fragmentCount);
+        HamburgerMenuAdapter adapter = hamburgerActivity.getHamburgerAdapter();
+        HamburgerMenuItem hamburgerItem = adapter.getMenuItem(fragmentCount);
 
-        String menuItem = hamburgerActivity.getResources().getString(R.string.RA_HomeScreen_Title);
+        String menuItem = hamburgerActivity.getResources().getString(R.string.RA_DLS_HomeScreen_Title);
 
         if(fragmentCount==0) {
             assertEquals(hamburgerItem.getTitle(), menuItem);
@@ -165,8 +185,50 @@ public class HamburgerActivityTest {
         }
     }
 
+
+    @Test
+    public void onMenuItemClickedTest() {
+        verify(hamburgerActivityPresenter, times(1)).onEvent(0);
+        hamburgerActivity.onMenuItemClicked(1);
+        assertFalse(sideBar.isDrawerVisible(navigationView));
+        verify(hamburgerActivityPresenter, times(1)).onEvent(1);
+    }
+
+    @Test
+    public void onMenuItemClickedWithSamePositionTest() {
+        verify(hamburgerActivityPresenter, times(1)).onEvent(0);
+        hamburgerActivity.onMenuItemClicked(0);
+        assertFalse(sideBar.isDrawerVisible(navigationView));
+        verify(hamburgerActivityPresenter, times(1)).onEvent(0);
+    }
+
+    @Test
+    public void testHamburgerMenuClick() {
+        assertFalse(sideBar.isDrawerVisible(navigationView));
+        MenuItem menuItem = new RoboMenuItem(android.R.id.home);
+        hamburgerActivity.onOptionsItemSelected(menuItem);
+        assertTrue(sideBar.isDrawerVisible(navigationView));
+    }
+    @Test
+    public void testBackClickWhenDrawerVisible() {
+        sideBar.openDrawer(navigationView);
+        assertTrue(sideBar.isDrawerVisible(navigationView));
+        hamburgerActivity.onBackPressed();
+        assertFalse(sideBar.isDrawerVisible(navigationView));
+    }
+    @Test
+    public void testHamburgerMenuClickWithBackButtonVisible() {
+        hamburgerActivity.updateActionBarIcon(true);
+        MenuItem menuItem = new RoboMenuItem(android.R.id.home);
+        hamburgerActivity.onOptionsItemSelected(menuItem);
+        assertTrue(hamburgerActivity.isFinishing());
+    }
+
     @After
     public void tearDown(){
         activityController.pause().stop().destroy();
+        hamburgerActivityPresenter = null;
+        hamburgerActivity = null;
+        activityController = null;
     }
 }

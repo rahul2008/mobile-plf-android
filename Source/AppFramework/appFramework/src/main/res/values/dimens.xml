@@ -41,4 +41,12 @@
     <dimen name="coco_description_background_border_width">2dp</dimen>
     <dimen name="coco_description_background_stroke_width">1dp</dimen>
     <dimen name="coco_description_background_radius">5dp</dimen>
+
+    <!-- Sidebar-->
+    <dimen name="hamburger_menu_footer_height">56dp</dimen>
+    <dimen name="hamburger_menu_avatar_height_width">40dp</dimen>
+    <dimen name="hamburger_menu_item_margin_left_right">16dp</dimen>
+    <dimen name="hamburger_menu_header_height">72dp</dimen>
+    <dimen name="hamburger_menu_icon_height_width">24dp</dimen>
+    <dimen name="hamburger_menu_item_padding">4dp</dimen>
 </resources>
