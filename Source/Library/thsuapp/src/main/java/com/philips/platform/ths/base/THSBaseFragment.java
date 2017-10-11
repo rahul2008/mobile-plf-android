@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -80,6 +80,11 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
         //TODO: The try catch block will be removed when the loading will not be done on Back press
         try {
             fragment.setArguments(bundle);
+            if(null == getFragmentLauncher()){
+                popFragmentByTag(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+            fragment.setFragmentLauncher(getFragmentLauncher());
+            fragment.setActionBarListener(getActionBarListener());
             FragmentTransaction fragmentTransaction;
             fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
             if(isReplace) {
@@ -88,9 +93,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
                 fragmentTransaction.add(getContainerID(), fragment, fragmentTag);
             }
             fragmentTransaction.addToBackStack(fragmentTag);
-            fragment.setFragmentLauncher(getFragmentLauncher());
-            fragment.setActionBarListener(getActionBarListener());
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

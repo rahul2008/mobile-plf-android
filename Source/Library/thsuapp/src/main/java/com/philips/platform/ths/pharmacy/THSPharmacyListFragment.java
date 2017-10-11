@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +48,7 @@ import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -63,6 +63,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.PHARMACY_SEARCH_CONSTANT;
+
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         THSPharmacyListViewListener {
@@ -488,7 +489,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             Phonenumber.PhoneNumber numberProto = phoneUtil.parse(pharmacy.getPhone(), "US");
             selectedPharmacyPhone.setText(getString(R.string.ths_pharmacy_phone_text) + " " + phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
         } catch (NumberParseException e) {
-            Log.e("", "NumberParseException was thrown: " + e.toString());
+            AmwellLog.e("", "NumberParseException was thrown: " + e.toString());
         }
         if (null != pharmacy.getEmail()) {
             selectedPharmacyEmail.setText(getString(R.string.ths_pharmacy_email_text) + " " + pharmacy.getEmail());

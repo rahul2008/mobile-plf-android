@@ -43,7 +43,7 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        initTheme();
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.PURPLE, NavigationColor.BRIGHT, AccentRange.ORANGE ));
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_activity);
 

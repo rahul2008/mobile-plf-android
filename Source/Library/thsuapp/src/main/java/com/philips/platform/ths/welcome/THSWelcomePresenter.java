@@ -23,10 +23,8 @@ import com.philips.platform.ths.registration.dependantregistration.THSDependantH
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
-import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uid.view.widget.Button;
 
 import javax.net.ssl.HttpsURLConnection;
 

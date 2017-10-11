@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
+import com.americanwell.sdk.entity.insurance.Subscription;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
@@ -43,40 +44,33 @@ import static com.philips.platform.ths.utility.THSConstants.THS_INSURANCE_DETAIL
 
 public class THSInsuranceDetailFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
-    private ActionBarListener actionBarListener;
-    private RelativeLayout mProgressbarContainer;
-    private THSInsuranceDetailPresenter mPresenter;
     protected EditText insuranceEditBox;
     protected EditText subscriberIDEditBox;
-
     protected EditText relationshipEditBox;
     protected EditText firstNameEditBox;
     protected EditText lastNameEditBox;
     protected EditText relationDOBEditBox;
     protected ListView mHealPlanListView;
-    private AlertDialog.Builder mAlertDialog;
     protected THSSubscription thsSubscriptionExisting;
-
-
+    protected CheckBox mNotPrimarySubscriberCheckBox;
+    protected RelativeLayout mNotPrimarySubscriberRelativeLayout;
+    protected THSRelationship mTHSRelationshipList;
+    protected HealthPlan mHealthPlan;
+    protected Relationship mInsuranceRelationship;
+    protected Label mSuffixLabel;
+    protected EditText mSuffixEditText;
+    boolean isLaunchedFromCostSummary = false;
+    private ActionBarListener actionBarListener;
+    private RelativeLayout mProgressbarContainer;
+    protected THSInsuranceDetailPresenter mPresenter;
+    private AlertDialog.Builder mAlertDialog;
     private Button detailContinueButton;
     private Button detailSkipButton;
     private THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
     private THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
-    protected CheckBox mNotPrimarySubscriberCheckBox;
-    protected RelativeLayout mNotPrimarySubscriberRelativeLayout;
-
-
     /// editable fields
     private THSHealthPlan mTHSHealthPlanList;
-    protected THSRelationship mTHSRelationshipList;
-    protected HealthPlan mHealthPlan;
-    protected Relationship mInsuranceRelationship;
     private RelativeLayout mRelativeLayoutInsuranceContainer;
-    boolean isLaunchedFromCostSummary = false;
-
-    protected Label mSuffixLabel;
-    protected EditText mSuffixEditText;
-
 
     @Nullable
     @Override
@@ -147,14 +141,14 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         mPresenter.fetchExistingSubscription();
     }
 
-    protected void showProgressbar(){
+    protected void showProgressbar() {
         createCustomProgressBar(mProgressbarContainer, BIG);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_DETAIL,null,null);
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_INSURANCE_DETAIL, null, null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Insurance", true);
         }
@@ -168,18 +162,30 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ths_insurance_detail_provider_select_insurance_edit_text) {
-
-
             showInsuranceListDialog("Select Health Plan", mTHSHealthPlanListAdapter);
 
         } else if (view.getId() == R.id.ths_insurance_detail_provider_select_relation_edit_text) {
             showRelationshipListDialog("Select relationship", mTHSSubscriberRelationshipListAdapter);
-
         } else if (view.getId() == R.id.ths_insurance_detail_skip_button) {
+
             mPresenter.onEvent(R.id.ths_insurance_detail_skip_button);
         } else if (view.getId() == R.id.ths_insurance_detail_continue_button) {
-            //createCustomProgressBar(mRelativeLayoutInsuranceContainer, BIG);
-            mPresenter.onEvent(R.id.ths_insurance_detail_continue_button);
+            Relationship relationship;
+            if (!mNotPrimarySubscriberCheckBox.isChecked()) {
+                relationship = mTHSRelationshipList.getRelationShipList().get(0);// primary subscriber by default
+            } else {
+                relationship = mInsuranceRelationship;
+            }
+            String firstName = null;
+            String lastName = null;
+            String dob = null;
+            if (!relationship.isPrimarySubscriber()) {
+                firstName = (firstNameEditBox.getText() == null) ? null : firstNameEditBox.getText().toString().trim();
+                lastName = (lastNameEditBox.getText() == null) ? null : lastNameEditBox.getText().toString().trim();
+                dob = (relationDOBEditBox.getText() == null) ? null : relationDOBEditBox.getText().toString().trim();
+            }
+            mPresenter.updateTHSInsuranceSubscription(mHealthPlan, subscriberIDEditBox.getText().toString().trim(), mSuffixEditText.getText().toString().trim(), relationship, firstName, lastName, dob);
+
 
         } else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext) {
 
@@ -187,6 +193,53 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
         }
 
 
+    }
+
+    public void updateInsuranceUI(THSSubscription tHSSubscription) {
+        thsSubscriptionExisting = tHSSubscription;
+        Subscription subscription = tHSSubscription.getSubscription();
+        if (null != subscription) {
+            if (subscription.getHealthPlan() != null) {
+                mHealthPlan = subscription.getHealthPlan();
+                insuranceEditBox.setText(subscription.getHealthPlan().getName());
+            }
+            if (subscription.getHealthPlan() != null && subscription.getHealthPlan().isUsesSuffix() && subscription.getSubscriberId() != null) {
+                subscriberIDEditBox.setText(subscription.getSubscriberId());
+            }
+            if (subscription.getHealthPlan().isUsesSuffix()) {
+                mSuffixLabel.setVisibility(View.VISIBLE);
+                mSuffixEditText.setVisibility(View.VISIBLE);
+                mSuffixEditText.setText(subscription.getSubscriberSuffix());
+            } else {
+                mSuffixLabel.setVisibility(View.GONE);
+                mSuffixEditText.setVisibility(View.GONE);
+            }
+            if (subscription.getRelationship().isPrimarySubscriber()) {
+                //if user is  a primary subscriber
+                mNotPrimarySubscriberCheckBox.setChecked(false);
+                mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
+            } else {
+                //if user is NOT a primary subscriber
+                mNotPrimarySubscriberCheckBox.setChecked(true);
+                mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
+            }
+
+            if (subscription.getRelationship() != null) {
+                mInsuranceRelationship = subscription.getRelationship();
+                relationshipEditBox.setText(subscription.getRelationship().getName());
+            }
+            if (subscription.getPrimarySubscriberFirstName() != null) {
+                firstNameEditBox.setText(subscription.getPrimarySubscriberFirstName());
+            }
+            if (subscription.getPrimarySubscriberLastName() != null) {
+                lastNameEditBox.setText(subscription.getPrimarySubscriberLastName());
+            }
+            if (subscription.getPrimarySubscriberDateOfBirth() != null) {
+                relationDOBEditBox.setText(subscription.getPrimarySubscriberDateOfBirth().toString());
+            }
+
+
+        }
     }
 
     private void showInsuranceListDialog(String title, BaseAdapter adapter) {
@@ -197,10 +250,10 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements View.
             public void onClick(DialogInterface dialog, int position) {
                 mHealthPlan = mTHSHealthPlanList.getHealthPlanList().get(position);
                 insuranceEditBox.setText(mHealthPlan.getName());
-                if(mHealthPlan.isUsesSuffix()){
+                if (mHealthPlan.isUsesSuffix()) {
                     mSuffixLabel.setVisibility(View.VISIBLE);
                     mSuffixEditText.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mSuffixLabel.setVisibility(View.GONE);
                     mSuffixEditText.setVisibility(View.GONE);
                 }

@@ -48,7 +48,7 @@
 
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
-    <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
+    <string name="ths_schedule_appointment_for">You have scheduled an appointment for</string>
     <string name="ths_set_remainder">Set a reminder</string>
     <string name="ths_set_button_text">Set</string>
     <string name="ths_got_it">Ok, got it!</string>
@@ -169,7 +169,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_search_pharmacy">Search for pharmacy</string>
 
     <!-- Welcome Screen-->
-    <string name="ths_see_provider">See a provider online, anytime</string>
+    <string name="ths_see_provider">See <b>a provider online,</b> anytime</string>
     <string name="ths_quick_visit">The easiest way to get a quick visit with a licensed provider.</string>
     <string name="ths_this_services_is_provided_by">This service is provided by</string>
     <string name="ths_see_doctor">Go to see a provider</string>
@@ -232,6 +232,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_amwell_philips_licence">All providers are licenced and working under \n<u>Amwell terms &amp; conditions</u></string>
     <string name="ths_see_provider_pre_welcome">See <b>a provider online,</b> anytime</string>
     <string name="ths_terms_and_conditions">Terms and conditions</string>
+    <string name="ths_agree_continue">Agree &amp; continue</string>
 
     <!-- Match making fragment strings-->
     <string name="ths_matchmaking_ok_button">Ok</string>

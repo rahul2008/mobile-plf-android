@@ -720,7 +720,6 @@ public class THSManager {
 
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
-                //Log.v("onSearchMedication","sucess");
 
                 THSMedication pTHMedication = new THSMedication();
                 pTHMedication.setMedicationList(medications);

@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -26,13 +25,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -87,10 +84,8 @@ public class THSWelcomeFragmentTest {
 
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        mActivity = Robolectric.buildActivity(THSLaunchActivityTestMock.class).create().get();
         mWelcomeFragment = new WelcomeFragmentMock();
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
-        //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
         mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
 
 

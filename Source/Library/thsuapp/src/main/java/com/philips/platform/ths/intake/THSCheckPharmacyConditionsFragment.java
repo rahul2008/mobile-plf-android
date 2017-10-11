@@ -3,15 +3,16 @@ package com.philips.platform.ths.intake;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
@@ -29,6 +30,7 @@ import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.pharmacy.THSPharmacyAndShippingFragment;
 import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
 import com.philips.platform.ths.pharmacy.THSSearchPharmacyFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
@@ -47,6 +49,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mCurrentLocation;
+    Intent gpsSettingsIntent;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -63,6 +66,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         }
         createLocationRequest();
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), 0, this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -84,34 +88,31 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart fired ..............");
+        AmwellLog.d(TAG, "onStart fired ..............");
+        getLocationUpdate();
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop fired ..............");
-        mGoogleApiClient.disconnect();
-        Log.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
-    }
+        AmwellLog.d(TAG, "onStop fired ..............");
+        if(mGoogleApiClient!=null) {
+            if (mGoogleApiClient.isConnected()) {
+                stopLocationUpdates();
+                mGoogleApiClient.stopAutoManage(getActivity());
+                mGoogleApiClient.disconnect();
+            }
+        }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        stopLocationUpdates();
+
+        AmwellLog.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
     }
 
     protected void stopLocationUpdates() {
         FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
-        Log.d(TAG, "Location update stopped .......................");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getLocationUpdate();
+        AmwellLog.d(TAG, "Location update stopped .......................");
     }
 
     private void checkIfPharmacyRequired() {
@@ -152,7 +153,9 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void callPharmacyListFragment(Location location) {
-        getActivity().getSupportFragmentManager().popBackStack();
+        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
@@ -160,13 +163,17 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     }
 
     private void showPharmacySearch() {
-        getActivity().getSupportFragmentManager().popBackStack();
+        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null, true);
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        getActivity().getSupportFragmentManager().popBackStack();
+        if(null != getActivity() && null != getActivity().getSupportFragmentManager()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
         addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null, true);
@@ -175,7 +182,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     @Override
     public void onLocationChanged(Location location) {
         FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        Log.d(TAG, "Firing onLocationChanged...... ::: Lat: " + location.getLatitude() + "Log:::: " + location.getLongitude());
+        AmwellLog.d(TAG, "Firing onLocationChanged...... ::: Lat: " + location.getLatitude() + "Log:::: " + location.getLongitude());
         mCurrentLocation = location;
         callPharmacyListFragment(location);
     }
@@ -183,7 +190,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "onConnected - isConnected ........: " + mGoogleApiClient.isConnected());
+        AmwellLog.d(TAG, "onConnected - isConnected ........: " + mGoogleApiClient.isConnected());
         checkIfPharmacyRequired();
     }
 
@@ -196,13 +203,14 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
         } else {
-            Toast.makeText(getActivity(), "GPS not enables: going to search pharmacy", Toast.LENGTH_SHORT).show();
-            showPharmacySearch();
+            Toast.makeText(getActivity(), "GPS not enables: going to settings GPS", Toast.LENGTH_SHORT).show();
+            gpsSettingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(gpsSettingsIntent);
         }
 
 
         // mGoogleApiClient, mLocationRequest, this);
-        Log.d(TAG, "Location update started ..............: ");
+        AmwellLog.d(TAG, "Location update started ..............: ");
     }
 
     private boolean checkIfGPSProviderAvailable() {
@@ -228,13 +236,14 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "Connection failed: " + connectionResult.toString());
+        AmwellLog.d(TAG, "Connection failed: " + connectionResult.toString());
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_LOCATION) {
+
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocationUpdate();
             } else {
@@ -244,10 +253,16 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     private void getLocationUpdate() {
         if (mGoogleApiClient.isConnected()) {
             checkIfPharmacyRequired();
-            Log.d(TAG, "Location update resumed .....................");
+            AmwellLog.d(TAG, "Location update resumed .....................");
         }
     }
 
