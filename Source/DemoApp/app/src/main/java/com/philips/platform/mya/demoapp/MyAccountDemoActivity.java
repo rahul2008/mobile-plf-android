@@ -1,8 +1,11 @@
 package com.philips.platform.mya.demoapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.philips.platform.mya.demouapp.activity.DemoAppActivity;
 
 public class MyAccountDemoActivity extends AppCompatActivity {
 
@@ -13,6 +16,8 @@ public class MyAccountDemoActivity extends AppCompatActivity {
     }
 
     public void launch(View view) {
-        setContentView(com.philips.platform.mya.R.layout.consents);
+        Intent intent = new Intent(this, DemoAppActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
     }
 }
