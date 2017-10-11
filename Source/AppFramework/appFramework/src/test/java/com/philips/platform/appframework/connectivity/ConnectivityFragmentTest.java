@@ -17,7 +17,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.ConnectivityBaseFragment;
+import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.R;
 
 import junit.framework.Assert;
@@ -147,9 +147,9 @@ public class ConnectivityFragmentTest {
     @Test
     public void onRequestPermissionsResultTest() {
         int[] permission = {PackageManager.PERMISSION_DENIED};
-        connectivityFragment.onRequestPermissionsResult(ConnectivityBaseFragment.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION, null, permission);
+        connectivityFragment.onRequestPermissionsResult(AbstractConnectivityBaseFragment.MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION, null, permission);
         assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
-        connectivityFragment.onRequestPermissionsResult(ConnectivityBaseFragment.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION, null, permission);
+        connectivityFragment.onRequestPermissionsResult(AbstractConnectivityBaseFragment.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION, null, permission);
         assertEquals("Need permission", ShadowToast.getTextOfLatestToast());
     }
 
@@ -161,7 +161,7 @@ public class ConnectivityFragmentTest {
 
     @Test
     public void onActivityResultTest() {
-        connectivityFragment.onActivityResult(ConnectivityBaseFragment.REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
+        connectivityFragment.onActivityResult(AbstractConnectivityBaseFragment.REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
         assertEquals("Please enable bluetooth", ShadowToast.getTextOfLatestToast());
     }
 

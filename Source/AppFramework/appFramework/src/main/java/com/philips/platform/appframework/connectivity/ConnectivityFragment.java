@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.platform.appframework.ConnectivityBaseFragment;
+import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
@@ -33,7 +33,7 @@ import java.lang.ref.WeakReference;
 
 import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATAPARSING;
 
-public class ConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityContract.View {
+public class ConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityContract.View {
     public static final String TAG = ConnectivityFragment.class.getSimpleName();
     private EditText editText = null;
     private EditText momentValueEditText = null;

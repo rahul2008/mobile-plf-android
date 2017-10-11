@@ -27,9 +27,9 @@ import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppl
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
-public abstract class ConnectivityBaseFragment extends AbstractAppFrameworkBaseFragment {
+public abstract class AbstractConnectivityBaseFragment extends AbstractAppFrameworkBaseFragment {
 
-    private final String TAG = ConnectivityBaseFragment.class.getSimpleName();
+    private final String TAG = AbstractConnectivityBaseFragment.class.getSimpleName();
     private Context context;
 
 

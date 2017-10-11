@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.platform.appframework.ConnectivityBaseFragment;
+import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.ConnectivityDeviceType;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class PowerSleepConnectivityFragment extends ConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
+public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
     public static final String TAG = PowerSleepConnectivityFragment.class.getSimpleName();
     private ProgressDialog dialog = null;
     private Handler handler = new Handler();
