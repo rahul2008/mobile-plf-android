@@ -83,8 +83,8 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
         JSONObject jsonObject = new JSONObject(json);
         String value = jsonObject.optString("port");
 
-        if (value == null) {
-            throw new JSONException("Error, no data received: " + json);
+        if (value == null || value.isEmpty()) {
+            throw new JSONException("Error, no port name received: " + json);
         }
         return value;
     }

@@ -30,7 +30,6 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
     private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
     private static final String dcsData = "{\"testKey\":\"testValue\"}";
-    private static final String dcsResponse = "{\"data\":" + dcsData + "}";
 
     private RemoteSubscriptionHandler mRemoteSubscriptionHandler;
     private SubscriptionEventListener mSubscriptionEventListener;
@@ -67,28 +66,32 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
     @Test
     public void testDCSEventReceivedEui64EmptyString() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsResponse, "", null);
+        String dcsPayload = createDcsEvent("1", "air", dcsData);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, "", null);
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedWrongEui64() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsResponse, "0.0.0.0", null);
+        String dcsPayload = createDcsEvent("1", "air", dcsData);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, "0.0.0.0", null);
 
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
     public void testDCSEventReceivedRightEui64() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsResponse, APPLIANCE_CPPID, null);
+        String dcsPayload = createDcsEvent("1", "air", dcsData);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
     }
 
     @Test
     public void testShouldContainCorrectData_WhenRunnableIsExecuted() {
-        mRemoteSubscriptionHandler.onDCSEventReceived(dcsResponse, APPLIANCE_CPPID, null);
+        String dcsPayload = createDcsEvent("1", "air", dcsData);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
     }
@@ -106,7 +109,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
 
     @Test
     public void testDCSEventReceivedDataValidErrorString() {
-        String dcsPayload = this.createErrorDcsEvent("1", "air", dcsResponse);
+        String dcsPayload = this.createErrorDcsEvent("1", "air", dcsData);
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
@@ -116,6 +119,32 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
     @Test
     public void testDCSEventReceivedDataContentNullString() {
         String dcsPayload = createDcsEvent("1", "air", null);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+
+        // Handler shouldn't be called if invalid data is provided
+        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void givenHandlerCreated_whenEmptyPortNameAndDataValidString_thenShouldNotCallListener() {
+        String dcsPayload = createDcsEvent("1", "", dcsData);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+
+        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void givenHandlerCreated_whenEmptyPortNameAndDataInvalidString_thenShouldNotCallListener() {
+        String dcsPayload = this.createErrorDcsEvent("1", "", dcsData);
+        mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
+
+        // Handler shouldn't be called if invalid data is provided
+        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+    }
+
+    @Test
+    public void givenHandlerCreated_whenEmptyPortNameAndDataNull_thenShouldNotCallListener() {
+        String dcsPayload = createDcsEvent("1", "", null);
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
