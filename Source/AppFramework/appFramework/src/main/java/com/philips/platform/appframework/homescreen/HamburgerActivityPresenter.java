@@ -96,6 +96,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_TEST_MICROAPP;
             case MENU_OPTION_TELEHEALTHSERVICES:
                 return HOME_TELEHEALTHSERVICES;
+            case MENU_OPTION_POWER_SLEEP_CONNECTIVITY:
+                return HOME_POWER_SLEEP_CONNECTIVITY;
             default:
                 return HOME_FRAGMENT;
         }
