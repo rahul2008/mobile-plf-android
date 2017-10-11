@@ -35,6 +35,15 @@ node('Android') {
                             '''
 
             }
+
+            stage('Release') {
+                    sh '''#!/bin/bash -l
+                                chmod -R 755 . 
+                                cd ./Source/Library 
+                                ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease 
+                            '''
+
+            }
                 
             stage('Archive results') {
                 echo "stage Archive results"
