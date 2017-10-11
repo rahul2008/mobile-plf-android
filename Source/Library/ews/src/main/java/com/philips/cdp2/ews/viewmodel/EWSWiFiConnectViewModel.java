@@ -98,7 +98,6 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
 
     public void connectApplianceToHomeWiFi() {
         navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get());
-        handler.postDelayed(timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
     }
 
     @SuppressWarnings("UnusedParameters")

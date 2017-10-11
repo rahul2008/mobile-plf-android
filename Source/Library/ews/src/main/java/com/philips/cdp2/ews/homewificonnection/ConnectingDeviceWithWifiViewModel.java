@@ -19,6 +19,7 @@ import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
 
@@ -55,7 +56,7 @@ public class ConnectingDeviceWithWifiViewModel {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
                 int currentWifiState = wiFiUtil.getCurrentWifiState();
-                if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
+                if (currentWifiState == WiFiUtil.HOME_WIFI) {
                     onDeviceConnectedToWifi();
                 }
             }
@@ -71,11 +72,12 @@ public class ConnectingDeviceWithWifiViewModel {
     };
 
     @Inject
-    public ConnectingDeviceWithWifiViewModel(@NonNull ApplianceAccessManager applianceAccessManager, @NonNull Navigator navigator, @NonNull WiFiConnectivityManager wiFiConnectivityManager, @NonNull WiFiUtil wiFiUtil) {
+    public ConnectingDeviceWithWifiViewModel(@NonNull ApplianceAccessManager applianceAccessManager, @NonNull Navigator navigator, @NonNull WiFiConnectivityManager wiFiConnectivityManager, @NonNull WiFiUtil wiFiUtil, @NonNull @Named("mainLooperHandler") Handler handler) {
         this.applianceAccessManager = applianceAccessManager;
         this.navigator = navigator;
         this.wiFiConnectivityManager = wiFiConnectivityManager;
         this.wiFiUtil = wiFiUtil;
+        this.handler = handler;
     }
 
 
@@ -101,6 +103,7 @@ public class ConnectingDeviceWithWifiViewModel {
     }
 
     private void onDeviceConnectedToWifi() {
+        removeTimeoutRunnable();
         navigator.navigateToEWSWiFiPairedScreen();
     }
 
