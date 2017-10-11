@@ -132,7 +132,7 @@ public class CloudCommunicationStrategy extends ObservableCommunicationStrategy 
 
     @Override
     public void enableCommunication() {
-        startDcsIfNecessary();
+        // NOP
     }
 
     @Override
