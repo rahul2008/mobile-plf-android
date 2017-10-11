@@ -16,13 +16,11 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.IS_LAUNCHED_FROM_COST_SUMMARY;
-import static com.philips.platform.ths.utility.THSConstants.THS_CONSUMER;
 
 public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSSDKValidatedCallback<Void, SDKError> {
     private THSInsuranceConfirmationFragment mTHSInsuranceConfirmationFragment;
@@ -42,7 +40,6 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
                 bundle = new Bundle();
                 bundle.putBoolean(IS_LAUNCHED_FROM_COST_SUMMARY, true);
             }
-            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSInsuranceConfirmationFragment.getConsumer());
             mTHSInsuranceConfirmationFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, bundle, true);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
@@ -62,7 +59,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
     public THSSubscriptionUpdateRequest getSubscriptionUpdateRequestWithoutVistContext() {
         THSSubscriptionUpdateRequest tHSSubscriptionUpdateRequest = null;
         try {
-            tHSSubscriptionUpdateRequest = THSManager.getInstance().getNewSubscriptionUpdateRequest(mTHSInsuranceConfirmationFragment.getConsumer(), mTHSInsuranceConfirmationFragment.getFragmentActivity());
+            tHSSubscriptionUpdateRequest = THSManager.getInstance().getNewSubscriptionUpdateRequest(mTHSInsuranceConfirmationFragment.getFragmentActivity());
         } catch (Exception e) {
         }
         return tHSSubscriptionUpdateRequest;
@@ -75,9 +72,7 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter, THSS
 
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             fragment.setFragmentLauncher(mTHSInsuranceConfirmationFragment.getFragmentLauncher());
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSInsuranceConfirmationFragment.getConsumer());
-            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSCostSummaryFragment.TAG, bundle, true);
+            mTHSInsuranceConfirmationFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
         }
     }
 

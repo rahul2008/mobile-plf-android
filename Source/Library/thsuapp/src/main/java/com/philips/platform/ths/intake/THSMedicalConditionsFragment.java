@@ -17,13 +17,11 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
@@ -44,15 +42,11 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
     private RelativeLayout conditionsRelativeLayout;
     private boolean isMedicalConditionChecked = false;
     private List<CheckBox> checkBoxList;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_medical_conditions, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         checkBoxLinearLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         continueButton = (Button) view.findViewById(R.id.continue_btn);
         continueButton.setOnClickListener(this);
@@ -168,9 +162,4 @@ public class THSMedicalConditionsFragment extends THSBaseFragment implements Vie
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_CONDITION_PAGE,null,null);
     }
-
-    public Consumer getConsumer() {
-        return mConsumer;
-    }
-
 }

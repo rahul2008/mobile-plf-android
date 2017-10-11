@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
@@ -39,7 +38,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     private RelativeLayout mRelativeLayoutHowItWorks;
     private Button mButton;
     private RelativeLayout mRelativeLayoutInitContainer;
-    private Consumer mConsumer;
 
     public FragmentLauncher getFragmentLauncher() {
         return mFragmentLauncher;
@@ -133,14 +131,5 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
         super.onDestroy();
         // exit from THS, collect tagging data
         THSManager.getInstance().getThsTagging().pauseLifecycleInfo();
-    }
-
-    public void setConsumer(Consumer mConsumer) {
-        this.mConsumer = mConsumer;
-    }
-
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 }

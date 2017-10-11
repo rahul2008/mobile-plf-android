@@ -21,7 +21,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
 
-    private THSPracticeFragment uiBaseView;
+    private THSBaseView uiBaseView;
 
 
 
@@ -37,7 +37,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     protected void fetchPractices(){
         try {
-            THSManager.getInstance().getPractices(uiBaseView.getConsumer(), this, uiBaseView.getFragmentActivity());
+            THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,6 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
        // providerListFragment.setPracticeAndConsumer(practice,mConsumer);
         providerListFragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
-        bundle.putParcelable(THSConstants.THS_CONSUMER,uiBaseView.getConsumer());
         ((THSPracticeFragment)uiBaseView).addFragment(providerListFragment,THSProvidersListFragment.TAG,bundle, false);
        /* providerListFragment.setActionBarListener(getActionBarListener());
 

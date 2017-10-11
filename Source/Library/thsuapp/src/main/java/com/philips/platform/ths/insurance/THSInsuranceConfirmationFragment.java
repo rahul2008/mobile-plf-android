@@ -14,10 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -37,7 +35,6 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     private Button confirmationContinueButton;
     boolean isLaunchedFromCostSummary = false;
     private RelativeLayout mProgressbarContainer;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
@@ -46,7 +43,6 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
         Bundle bundle = getArguments();
         if (null != bundle) {
             isLaunchedFromCostSummary = bundle.getBoolean(IS_LAUNCHED_FROM_COST_SUMMARY);
-            mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
         }
         mPresenter = new THSInsuranceConfirmationPresenter(this);
         mConfirmationRadioGroup = (RadioGroup) view.findViewById(R.id.pth_insurance_confirmation_radio_group);
@@ -120,10 +116,5 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     protected void showProgressbar(){
         createCustomProgressBar(mProgressbarContainer, BIG);
     }
-
-    public Consumer getConsumer() {
-        return mConsumer;
-    }
-
 
 }

@@ -7,6 +7,7 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
+import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.practice.Practice;
@@ -19,6 +20,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -62,7 +64,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
 
     private void launchProviderDetailsBasedOnAvailibilty(final Practice practice, final Date date, final THSProviderEntity thsProviderEntity) {
         try {
-            THSManager.getInstance().getAvailableProvidersBasedOnDate(((THSProviderNotAvailableFragment)mThsBaseFragment).getConsumer(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
+            THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
                 @Override
                 public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
                     final THSAvailableProvider availableListContainsProviderChosen = isAvailableListContainsProviderChosen(availableProviders);
@@ -70,8 +72,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
                     if (availableProviders.getAvailableProvidersList() == null || availableProviders.getAvailableProvidersList().size() == 0 || availableListContainsProviderChosen == null) {
                         ((THSProviderNotAvailableFragment) mThsBaseFragment).updateProviderDetails(availableProviders);
                     } else {
-                        new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, availableListContainsProviderChosen, date, practice,
-                                ((THSProviderNotAvailableFragment)mThsBaseFragment).getConsumer());
+                        new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment, availableListContainsProviderChosen, date, practice);
                     } /*else {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST, availableProviders);
@@ -87,7 +88,7 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
                 public void onFailure(Throwable throwable) {
 
                 }
-            }, mThsBaseFragment.getContext());
+            });
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

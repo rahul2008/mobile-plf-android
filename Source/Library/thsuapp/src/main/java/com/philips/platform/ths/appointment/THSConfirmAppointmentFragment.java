@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -33,7 +32,6 @@ import java.util.Date;
 import java.util.Locale;
 
 
-import static com.philips.platform.ths.utility.THSConstants.THS_CONSUMER;
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_CONFIRMED;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
@@ -49,15 +47,11 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     private String reminderTimeString;
     private Button ok_got_it;
     private UIDNavigationIconToggler navIconToggler;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_confirm_appointment, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","appointmentScheduled");
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_confirm), true);
@@ -135,9 +129,5 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_CONFIRMED,null,null);
 
-    }
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 }

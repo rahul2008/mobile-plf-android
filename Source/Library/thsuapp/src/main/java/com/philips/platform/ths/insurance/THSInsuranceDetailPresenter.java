@@ -6,7 +6,6 @@
 
 package com.philips.platform.ths.insurance;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -23,9 +22,7 @@ import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uid.view.widget.Button;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSgetInsuranceCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void, SDKError> {
-    private THSInsuranceDetailFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
     THSInsuranceDetailPresenter(THSInsuranceDetailFragment tHSInsuranceDetailFraagment) {
         this.mTHSBaseFragment = tHSInsuranceDetailFraagment;
@@ -66,7 +63,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     private THSSubscriptionUpdateRequest getSubscriptionUpdateRequestWithoutVistContext() {
         THSSubscriptionUpdateRequest tHSSubscriptionUpdateRequest = null;
         try {
-            tHSSubscriptionUpdateRequest = THSManager.getInstance().getNewSubscriptionUpdateRequest(mTHSBaseFragment.getConsumer(), mTHSBaseFragment.getFragmentActivity());
+            tHSSubscriptionUpdateRequest = THSManager.getInstance().getNewSubscriptionUpdateRequest(mTHSBaseFragment.getFragmentActivity());
         } catch (Exception e) {
         }
         return tHSSubscriptionUpdateRequest;
@@ -75,7 +72,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
 
     void fetchExistingSubscription() {
         try {
-            THSManager.getInstance().getExistingSubscription(mTHSBaseFragment.getConsumer(), this, mTHSBaseFragment.getFragmentActivity());
+            THSManager.getInstance().getExistingSubscription(mTHSBaseFragment.getFragmentActivity(), this);
         } catch (Exception e) {
 
         }
@@ -255,9 +252,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
         } else {
             THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             //fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_CONSUMER,mTHSBaseFragment.getConsumer());
-            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, bundle, true);
+            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);
         }
     }
 

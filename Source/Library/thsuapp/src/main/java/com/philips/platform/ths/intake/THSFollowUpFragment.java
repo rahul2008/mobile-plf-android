@@ -13,12 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.CheckBox;
@@ -35,14 +33,11 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
     private Label nopp_label;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_follow_up, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
 
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
@@ -90,9 +85,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void showNoticeOfPrivacyFragment() {
         final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, bundle, true);
+        addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null, true);
     }
 
     @Override
@@ -113,16 +106,12 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void showProviderDetailsFragment() {
         THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, bundle, true);
+        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
     }
 
     @Override
     public void showConditionsFragment() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, bundle, true);
+        addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
     }
 
     @Override
@@ -144,10 +133,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public void onResume() {
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
-    }
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 
 }

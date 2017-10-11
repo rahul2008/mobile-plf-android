@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -60,7 +59,6 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     protected RelativeLayout medicationShippingRelativeLayout;
     private RelativeLayout mLayoutContainer;
     private RelativeLayout mAvailableTimeSlots;
-    private Consumer mConsumer;
 
 
     @Nullable
@@ -68,8 +66,6 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_visit_summary, container, false);
         final Bundle arguments = getArguments();
-        mConsumer = arguments.getParcelable(THSConstants.THS_CONSUMER);
-
         mVisitReport = arguments.getParcelable(THSConstants.THS_VISIT_REPORT);
 
         mLayoutContainer =(RelativeLayout) view.findViewById(R.id.scroll_view_container);
@@ -179,7 +175,6 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,visitReportDetail.getAssignedProviderInfo());
                 bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,visitReportDetail.getAssignedProviderInfo().getPracticeInfo());
-                bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
                 addFragment(new THSProviderDetailsFragment(),THSProviderDetailsFragment.TAG,bundle, false);
             }
         });
@@ -210,9 +205,5 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
             pharmacyState.setText(pharmacy.getAddress().getState().getCode());
             pharmacyZip.setText(pharmacy.getAddress().getZipCode());
         }
-    }
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 }

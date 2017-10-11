@@ -45,18 +45,17 @@ class THSWelcomePresenter implements THSBasePresenter,
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
-            bundle.putParcelable(THSConstants.THS_CONSUMER,((THSWelcomeFragment)uiBaseView).getConsumer());
             if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
-                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, bundle, false);
+                uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.visit_history) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
             if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
-                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, bundle, false);
+                uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.how_it_works) {
             uiBaseView.showToast("Coming Soon!!!");
@@ -65,7 +64,7 @@ class THSWelcomePresenter implements THSBasePresenter,
             if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
-                uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, bundle, false);
+                uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
             }
         }
     }
@@ -119,7 +118,6 @@ class THSWelcomePresenter implements THSBasePresenter,
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
         uiBaseView.hideProgressBar();
-        ((THSWelcomeFragment)uiBaseView).setConsumer(consumer);
         ((THSWelcomeFragment)uiBaseView).updateView();
     }
 

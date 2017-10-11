@@ -32,7 +32,7 @@ public class THSSearchPharmacyPresenter implements THSBasePresenter,THSGetPharma
 
         if(componentID == THSSearchPharmacyFragment.SEARCH_EVENT_ID){
             try {
-                THSManager.getInstance().getPharmacies(context,((THSSearchPharmacyFragment)uiView).getConsumer(),null,null,uiView.getZipCode(),this);
+                THSManager.getInstance().getPharmacies(context,THSManager.getInstance().getPTHConsumer(),null,null,uiView.getZipCode(),this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }

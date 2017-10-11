@@ -13,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
@@ -39,16 +37,12 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected Button mContinue;
     private THSVitals mTHSVitals;
     String tagActions="";
-    private Consumer mConsumer;
 
     @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_vitals, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         mSystolic = (EditText) view.findViewById(systolic);
         mDiastolic = (EditText) view.findViewById(R.id.diastolic);
         mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
@@ -167,9 +161,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     @Override
     public void launchMedicationFragment() {
         THSMedicationFragment fragment = new THSMedicationFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(fragment, THSMedicationFragment.TAG, bundle, true);
+        addFragment(fragment, THSMedicationFragment.TAG, null, true);
     }
 
     @Override
@@ -204,9 +196,5 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_ADD_VITALS_PAGE,null,null);
-    }
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 }

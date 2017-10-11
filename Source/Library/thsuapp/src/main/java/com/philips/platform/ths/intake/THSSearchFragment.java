@@ -23,7 +23,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -54,13 +53,11 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     int searchType = 0;
     private Practice practice;
     protected List<Pharmacy> pharmacyList;
-    private Consumer mConsumer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        mConsumer = bundle.getParcelable(THSConstants.THS_CONSUMER);
         if (null != bundle && bundle.containsKey(THSConstants.SEARCH_CONSTANT_STRING)) {
             searchType = bundle.getInt(THSConstants.SEARCH_CONSTANT_STRING);
         }
@@ -218,9 +215,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
         pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
         pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, bundle, true);
+        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
 
     }
 
@@ -232,11 +227,6 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
         getFragmentActivity().getSupportFragmentManager().popBackStack();
 
-    }
-
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 
 }

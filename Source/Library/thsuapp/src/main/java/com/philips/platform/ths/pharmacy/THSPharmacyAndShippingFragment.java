@@ -14,13 +14,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.intake.THSMedicationFragment;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -40,15 +37,12 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     private Pharmacy pharmacy;
     private Button continueButton;
     private ActionBarListener actionBarListener;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_shipping_fragment, container, false);
         setUpViews(view);
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         thsConsumerWrapper = THSManager.getInstance().getPTHConsumer();
         ths_shipping_pharmacy_layout.setVisibility(View.INVISIBLE);
         editPharmacy.setOnClickListener(this);
@@ -115,17 +109,13 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     @Override
     public void startSearchPharmacy() {
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,bundle, true);
+        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null, true);
     }
 
     @Override
     public void startEditShippingAddress() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_CONSUMER,mConsumer);
-        addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,bundle, true);
+        addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null, true);
     }
 
     @Override
@@ -133,8 +123,5 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsPharmacyAndShippingPresenter.onEvent(v.getId());
     }
 
-    public Consumer getConsumer() {
-        return mConsumer;
-    }
 
 }

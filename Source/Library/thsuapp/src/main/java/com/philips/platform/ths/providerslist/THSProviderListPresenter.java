@@ -92,8 +92,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         final Practice practice = ((THSProvidersListFragment) mThsBaseFragment).getPractice();
         if (componentID == R.id.getStartedButton) {
             try {
-                THSManager.getInstance().getOnDemandSpecialities(((THSProvidersListFragment) mThsBaseFragment).getConsumer(), practice, null, this, mThsBaseFragment.getFragmentActivity()
-                );
+                THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
+                        practice, null, this);
             } catch (AWSDKInstantiationException e) {
 
 
@@ -113,7 +113,6 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(THSConstants.THS_DATE, date);
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
-                    bundle.putParcelable(THSConstants.THS_CONSUMER,thsProviderListViewInterface.getConsumer());
                     final THSAvailableProviderListBasedOnDateFragment fragment = new THSAvailableProviderListBasedOnDateFragment();
                     fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
                     mThsBaseFragment.addFragment(fragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle, true);
@@ -134,7 +133,6 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         mThsOnDemandSpeciality = onDemandSpecialties;
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_ON_DEMAND,onDemandSpecialties.get(0));
-        bundle.putParcelable(THSConstants.THS_CONSUMER,thsProviderListViewInterface.getConsumer());
         final THSSymptomsFragment fragment = new THSSymptomsFragment();
         fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
         mThsBaseFragment.addFragment(fragment,THSSymptomsFragment.TAG,bundle, true);

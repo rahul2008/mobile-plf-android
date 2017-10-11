@@ -14,11 +14,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.payment.THSPaymentMethod;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -70,7 +68,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     AlertDialogFragment alertDialogFragmentCreateVisit;
     AlertDialogFragment alertDialogFragmentCouponCode;
 
-    Consumer mConsumer;
     EditText mCouponCodeEdittext;
     Button mCouponCodeButton;
 
@@ -81,7 +78,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_cost_summary, container, false);
         mPresenter = new THSCostSummaryPresenter(this);
 
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
 
         costBigLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_big_label);
         costSmallLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_small_label);
@@ -161,9 +157,5 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     public void onDestroy() {
         super.onDestroy();
         thsVisit = null;
-    }
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 }

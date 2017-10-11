@@ -25,8 +25,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
 
     void fetchConsumerPreferredPharmacy() {
         try {
-            THSManager.getInstance().getConsumerPreferredPharmacy(((THSCheckPharmacyConditionsFragment)thsCheckPharmacyConditonsView).getConsumer(), this, thsCheckPharmacyConditonsView.getFragmentActivity());
-
+            THSManager.getInstance().getConsumerPreferredPharmacy(thsCheckPharmacyConditonsView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -34,7 +33,7 @@ class THSCheckPharmacyConditionsPresenter implements THSBasePresenter, THSPrefer
 
     void getConsumerShippingAddress() {
         try {
-            THSManager.getInstance().getConsumerShippingAddress(((THSCheckPharmacyConditionsFragment)thsCheckPharmacyConditonsView).getConsumer(), this, thsCheckPharmacyConditonsView.getFragmentActivity());
+            THSManager.getInstance().getConsumerShippingAddress(thsCheckPharmacyConditonsView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

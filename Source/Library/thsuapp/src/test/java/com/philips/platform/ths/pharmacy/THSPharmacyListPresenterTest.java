@@ -90,7 +90,7 @@ public class THSPharmacyListPresenterTest {
 
     @Test
     public void testFetchPharmacyList(){
-        thsPharmacyListPresenter.fetchPharmacyList((float)0.11,(float)0.11,(int)0.5);
+        thsPharmacyListPresenter.fetchPharmacyList(pthConsumerMock,(float)0.11,(float)0.11,(int)0.5);
         when(pthConsumerMock.getConsumer()).thenReturn(consumer);
         verify(awsdkMock.getConsumerManager()).getPharmacies(any(Consumer.class),any(Float.class),any(Float.class),any(Integer.class),any(Boolean.class),any(SDKCallback.class));
     }

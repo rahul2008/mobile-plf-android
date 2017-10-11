@@ -13,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -30,16 +28,12 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
     ImageView mTitleImage;
     Button mPrimaryButton;
     Label mSecondaryButtonLabel;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(this.getContext()));
         View view = layoutInflater.inflate(R.layout.ths_confirmation_dialog_fragment, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         mTitleLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_title_label);
         mTitleImage = (ImageView) view.findViewById(R.id.ths_confirmation_dialog_title_image);
         mMessageLabel = (Label) view.findViewById(R.id.ths_confirmation_dialog_message_label);
@@ -71,9 +65,5 @@ public class THSConfirmationDialogFragment extends DialogFragment implements Vie
 
         }
 
-    }
-
-    public Consumer getConsumer() {
-        return mConsumer;
     }
 }

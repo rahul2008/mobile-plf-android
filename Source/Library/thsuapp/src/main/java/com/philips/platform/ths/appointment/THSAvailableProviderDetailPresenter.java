@@ -80,51 +80,50 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     @SuppressWarnings("unchecked")
     private void launchAvailableProviderDetailBasedOnAvailibity() {
         try {
-            THSManager.getInstance().getProviderDetails(((THSAvailableProviderDetailFragment)mThsBaseFragment).getConsumer(), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(), new THSProviderDetailsCallback() {
-                @Override
-                public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-                    ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
-                    try {
-                        THSManager.getInstance().getProviderAvailability(((THSAvailableProviderDetailFragment)mThsBaseFragment).getConsumer(), provider, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
-                            @Override
-                            public void onResponse(List<Date> dates, THSSDKError sdkError) {
-                                if (dates == null || dates.size() == 0) {
+            THSManager.getInstance().getProviderDetails(mThsBaseFragment.getContext(),
+                    ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(), new THSProviderDetailsCallback() {
+                        @Override
+                        public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
+                            ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
+                            try {
+                                THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
+                                        ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), new THSAvailableProviderCallback<List<Date>, THSSDKError>() {
+                                            @Override
+                                            public void onResponse(List<Date> dates, THSSDKError sdkError) {
+                                                if (dates == null || dates.size() == 0) {
 
-                                    final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
-                                    fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate());
-                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPractice());
-                                    bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
-                                    bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
-                                    bundle.putParcelable(THSConstants.THS_CONSUMER,((THSAvailableProviderDetailFragment) mThsBaseFragment).getConsumer());
-                                    mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
-                                    mThsBaseFragment.hideProgressBar();
-                                } else {
-                                    dateList = dates;
-                                    mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
-                                    mThsBaseFragment.hideProgressBar();
-                                }
-                            }
+                                                    final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
+                                                    fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate());
+                                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPractice());
+                                                    bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
+                                                    bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
+                                                    mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle, true);
+                                                    mThsBaseFragment.hideProgressBar();
+                                                } else {
+                                                    dateList = dates;
+                                                    mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
+                                                    mThsBaseFragment.hideProgressBar();
+                                                }
+                                            }
 
-                            @Override
-                            public void onFailure(Throwable throwable) {
+                                            @Override
+                                            public void onFailure(Throwable throwable) {
+                                                mThsBaseFragment.hideProgressBar();
+                                            }
+                                        });
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
                                 mThsBaseFragment.hideProgressBar();
                             }
-                        }, mThsBaseFragment.getContext()
-                        );
-                    } catch (AWSDKInstantiationException e) {
-                        e.printStackTrace();
-                        mThsBaseFragment.hideProgressBar();
-                    }
-                }
+                        }
 
-                @Override
-                public void onProviderDetailsFetchError(Throwable throwable) {
-                    mThsBaseFragment.hideProgressBar();
-                }
-            }, mThsBaseFragment.getContext()
-            );
+                        @Override
+                        public void onProviderDetailsFetchError(Throwable throwable) {
+                            mThsBaseFragment.hideProgressBar();
+                        }
+                    });
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
             mThsBaseFragment.hideProgressBar();
@@ -137,7 +136,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     void fetchProviderDetails(Context context, THSProviderInfo thsProviderInfo) {
         try {
-            THSManager.getInstance().getProviderDetails(((THSAvailableProviderDetailFragment)mThsBaseFragment).getConsumer(), thsProviderInfo, this, context);
+            THSManager.getInstance().getProviderDetails(context, thsProviderInfo, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -147,7 +146,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
         ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
         try {
-            THSManager.getInstance().fetchEstimatedVisitCost(((THSAvailableProviderDetailFragment)mThsBaseFragment).getConsumer(), provider, this, mThsBaseFragment.getContext());
+            THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), provider, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -156,8 +155,8 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     private void getProviderAvailability(Provider provider) {
         try {
-            THSManager.getInstance().getProviderAvailability(((THSAvailableProviderDetailFragment)mThsBaseFragment).getConsumer(), provider, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), this, mThsBaseFragment.getContext()
-            );
+            THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
+                    ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -213,8 +212,8 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
     void scheduleAppointment(int position) {
         this.position = position;
         try {
-            THSManager.getInstance().scheduleAppointment(((THSAvailableProviderDetailFragment)mThsBaseFragment).getConsumer(), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(), dateList.get(position), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getReminderOptions(), this, mThsBaseFragment.getContext()
-            );
+            THSManager.getInstance().scheduleAppointment(mThsBaseFragment.getContext(), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(),
+                    dateList.get(position), ((THSAvailableProviderDetailFragment) mThsBaseFragment).getReminderOptions(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

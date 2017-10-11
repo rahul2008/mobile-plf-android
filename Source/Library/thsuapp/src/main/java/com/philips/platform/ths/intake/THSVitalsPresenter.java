@@ -19,6 +19,7 @@ import com.philips.platform.uid.view.widget.EditText;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
@@ -36,7 +37,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
             if(thsvItalsUIInterface.validate()){
                 thsvItalsUIInterface.updateVitalsData();
                 try {
-                    THSManager.getInstance().updateVitals(((THSVitalsFragment)mPthBaseFragment).getConsumer(), thsvItalsUIInterface.getTHSVitals(), this, mPthBaseFragment.getContext());
+                    THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), thsvItalsUIInterface.getTHSVitals(), this);
                 } catch (AWSDKInstantiationException e) {
                     e.printStackTrace();
                 }
@@ -48,7 +49,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     public void getVitals() throws AWSDKInstantiationException {
-        THSManager.getInstance().getVitals(((THSVitalsFragment)mPthBaseFragment).getConsumer(), this, mPthBaseFragment.getFragmentActivity());
+        THSManager.getInstance().getVitals(mPthBaseFragment.getFragmentActivity(), this);
     }
 
     @Override

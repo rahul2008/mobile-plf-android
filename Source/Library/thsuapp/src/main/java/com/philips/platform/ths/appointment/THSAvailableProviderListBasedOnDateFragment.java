@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -43,15 +42,11 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     private Label mLabelNumberOfAvailableDoctors;
     private Label mLabelDate;
     protected THSAvailableProviderList mThsAvailableProviderList;
-    private Consumer mConsumer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_available_doctors_based_on_time, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_pick_a_provider), true);
         }
@@ -138,10 +133,5 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     public void setDate(Date mDate) {
         this.mDate = mDate;
     }
-
-    public Consumer getConsumer() {
-        return mConsumer;
-    }
-
 }
 

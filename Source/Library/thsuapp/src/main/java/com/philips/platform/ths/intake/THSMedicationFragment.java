@@ -16,11 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Medication;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -47,15 +45,12 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     private Button updateMedicationButton;
     private Button mSkipLabel;
     boolean existingMedicineFetched = false; // flag to know if medication is fetched which can be null also
-    private Consumer mConsumer;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_medication, container, false);
-
-        mConsumer = getArguments().getParcelable(THSConstants.THS_CONSUMER);
-
         setRetainInstance(true);
         mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_medication_container);
         mPresenter = new THSMedicationPresenter(this);
@@ -159,7 +154,4 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         }
     }
 
-    public Consumer getConsumer() {
-        return mConsumer;
-    }
 }

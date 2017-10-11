@@ -17,6 +17,7 @@ import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
 
     void updatePaymentMethod() {
         try {
-            mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSBillingAddressFragment.getConsumer(), mTHSBillingAddressFragment.getFragmentActivity());
+            mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSBillingAddressFragment.getFragmentActivity());
 
             CreatePaymentRequest createPaymentRequest = mTHSCreatePaymentRequest.getCreatePaymentRequest();
 

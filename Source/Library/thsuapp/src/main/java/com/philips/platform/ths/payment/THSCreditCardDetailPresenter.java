@@ -15,7 +15,6 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
@@ -54,7 +53,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
     void getPaymentMethod() {
         try {
-            THSManager.getInstance().getPaymentMethod(mTHSCreditCardDetailFragment.getConsumer(), this, mTHSCreditCardDetailFragment.getFragmentActivity());
+            THSManager.getInstance().getPaymentMethod(mTHSCreditCardDetailFragment.getFragmentActivity(), this);
         } catch (Exception e) {
 
         }
@@ -63,7 +62,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     THSCreatePaymentRequest getNewCreatePaymentRequest() {
         THSCreatePaymentRequest thsCreatePaymentRequest = null;
         try {
-            THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getConsumer(), mTHSCreditCardDetailFragment.getFragmentActivity());
+            THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity());
         } catch (Exception e) {
             // todo
         }
@@ -155,7 +154,7 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             }
             Map<String, ValidationReason> errors = new HashMap<>();
             try {
-                mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getConsumer(), mTHSCreditCardDetailFragment.getFragmentActivity());
+                mTHSCreatePaymentRequest = THSManager.getInstance().getNewCreatePaymentRequest(mTHSCreditCardDetailFragment.getFragmentActivity());
                 CreatePaymentRequest createPaymentRequest = mTHSCreatePaymentRequest.getCreatePaymentRequest();
                 createPaymentRequest.setCreditCardMonth(month);
                 createPaymentRequest.setCreditCardYear(year);
@@ -173,7 +172,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
                 }
                 final THSCreditCardBillingAddressFragment fragment = new THSCreditCardBillingAddressFragment();
                 fragment.setFragmentLauncher(mTHSCreditCardDetailFragment.getFragmentLauncher());
-                bundle.putParcelable(THSConstants.THS_CONSUMER, mTHSCreditCardDetailFragment.getConsumer());
                 mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle, true);
             }
 
