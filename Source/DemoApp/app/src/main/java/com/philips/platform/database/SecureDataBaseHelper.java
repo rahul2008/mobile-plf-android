@@ -1,6 +1,7 @@
 package com.philips.platform.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -42,6 +43,7 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(source, tableName);
         } catch (SQLException e) {
+            Log.d("SecureDataBaseHelper","Error in Create Table"+e.getMessage());
         }
     }
 
@@ -49,7 +51,9 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(source, tableName, true);
         } catch (SQLException e) {
+            Log.d("SecureDataBaseHelper","Error in Delete or Drop Table"+e.getMessage());
         }
+
     }
 
 

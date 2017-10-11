@@ -52,7 +52,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Write Permision Error "+e.getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission().beginTransaction();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in beginTransaction "+e.getMessage());
         }
 
     }
@@ -75,7 +75,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission().endTransaction();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in endTransaction "+e.getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission().setTransactionSuccessful();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in setTransactionSuccessful "+e.getMessage());
         }
 
     }
@@ -92,7 +92,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             return getHelper().getWriteDbPermission().inTransaction();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in inTransaction"+e.getMessage());
         }
         return false;
 
@@ -103,7 +103,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in createorInsert "+e.getMessage());
         }
         create(clazz, obj);
     }
@@ -112,7 +112,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in deleteAll"+e.getMessage());
         }
         return deleteAllRecords(clazz);
 
@@ -122,7 +122,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in DeleteById "+e.getMessage());
         }
         return deleteRecordsById(clazz, obj);
     }
@@ -132,7 +132,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper"," Error in updateAll "+e.getMessage());
         }
         return updateAll(clazz, columnToBeUpdate, valueToBeSet);
     }
@@ -141,7 +141,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in updateRecordByWhere "+e.getMessage());
         }
         return updateByWhere(clazz, obj, whereCauseColumnName, whereCauseValue, columnToBeUpdate);
     }
@@ -150,7 +150,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in retrieveByQuery "+e.getMessage());
         }
         return queryBywhere(clazz, columnName, obj);
     }
@@ -159,7 +159,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in retrieveById "+e.getMessage());
         }
         return queryById(clazz, obj);
     }
@@ -168,7 +168,7 @@ public class SecureDataBaseQueryHelper<T> {
         try {
             getHelper().getWriteDbPermission();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in retrieveAll "+e.getMessage());
         }
         return queryForAll(clazz);
     }
@@ -188,7 +188,7 @@ public class SecureDataBaseQueryHelper<T> {
             setTransactionSuccessful();
             return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in queryForAll "+e.getMessage());
             return Collections.EMPTY_LIST;
         } finally {
             endTransaction();
@@ -209,8 +209,7 @@ public class SecureDataBaseQueryHelper<T> {
             setTransactionSuccessful();
             return t;
         } catch (SQLException e) {
-            e.printStackTrace();
-            Log.i("", "null in byid");
+            Log.d("SDB BaseQueryHelper","Error in queryById "+e.getMessage());
             return null;
         } finally {
             endTransaction();
@@ -234,7 +233,7 @@ public class SecureDataBaseQueryHelper<T> {
             return list;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in queryBywhere "+e.getMessage());
             return null;
         } finally {
             endTransaction();
@@ -255,7 +254,7 @@ public class SecureDataBaseQueryHelper<T> {
             return createReturnValue;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in create "+e.getMessage());
             return 0;
         } finally {
             endTransaction();
@@ -294,7 +293,7 @@ public class SecureDataBaseQueryHelper<T> {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in bulkInsert "+e.getMessage());
             return 0;
         } finally {
             endTransaction();
@@ -316,7 +315,7 @@ public class SecureDataBaseQueryHelper<T> {
             setTransactionSuccessful();
             return deleteCount;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in deleteRecordsById "+e.getMessage());
             return 0;
         } finally {
             endTransaction();
@@ -339,7 +338,7 @@ public class SecureDataBaseQueryHelper<T> {
             setTransactionSuccessful();
             return deleteCount;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in deleteByWhere "+e.getMessage());
             return 0;
         } finally {
             endTransaction();
@@ -364,7 +363,7 @@ public class SecureDataBaseQueryHelper<T> {
             setTransactionSuccessful();
             return deleteCount;
         } catch (SQLException | IOException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in deleteAllRecords "+e.getMessage());
         } finally {
             endTransaction();
             Log.d("Delete End Time: ", "Delete End .." + getLocalTimestamp());
@@ -389,7 +388,7 @@ public class SecureDataBaseQueryHelper<T> {
             return row;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in updateByWhere "+e.getMessage());
         } finally {
             endTransaction();
             Log.d("Update End Time: ", "Update End .." + getLocalTimestamp());
@@ -412,7 +411,7 @@ public class SecureDataBaseQueryHelper<T> {
             setTransactionSuccessful();
             return row;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in updateAll "+e.getMessage());
         } finally {
             endTransaction();
             Log.d("Update End Time: ", "Update End .." + getLocalTimestamp());
@@ -437,7 +436,7 @@ public class SecureDataBaseQueryHelper<T> {
             startDate = df.parse(start);
             endDate = df.parse(end);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.d("SDB BaseQueryHelper","Error in getFinalTime "+e.getMessage());
         }
         long diffInMs = endDate.getTime() - startDate.getTime();
 
