@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.connectivitypowersleep;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -29,8 +31,22 @@ import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.core.datatypes.Measurement;
+import com.philips.platform.core.datatypes.MeasurementGroup;
+import com.philips.platform.core.datatypes.Moment;
+import com.philips.platform.core.listeners.DBFetchRequestListner;
+import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dscdemo.database.datatypes.MeasurementDetailType;
+import com.philips.platform.dscdemo.database.datatypes.MeasurementGroupDetailType;
+import com.philips.platform.dscdemo.database.datatypes.MeasurementType;
+import com.philips.platform.dscdemo.database.datatypes.MomentDetailType;
+import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
@@ -38,11 +54,13 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     public static final String TAG = PowerSleepConnectivityPresenter.class.getSimpleName();
     private ConnectivityPowerSleepContract.View connectivityViewListener;
     private Context context;
+    private DataServicesManager dataServicesManager;
 
     public PowerSleepConnectivityPresenter(Context context, final ConnectivityPowerSleepContract.View connectivityViewListener, UIView uiView) {
         super(uiView);
         this.context = context;
         this.connectivityViewListener = connectivityViewListener;
+        this.dataServicesManager=DataServicesManager.getInstance();
     }
 
     @Override
@@ -50,6 +68,70 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         if (appliance != null) {
             appliance.getSessionDataPort().removePortListener(diCommPortListener);
         }
+    }
+
+    @Override
+    public void savePowerSleepMomentsData(List<SessionDataPortProperties> sessionDataPortPropertiesList) {
+        List<Moment> momentList = new ArrayList<>();
+        for (SessionDataPortProperties sessionDataPortProperties : sessionDataPortPropertiesList) {
+            momentList.add(createMoment("",sessionDataPortProperties.getDeepSleepTime().toString(), sessionDataPortProperties.getTotalSleepTime().toString(),""));
+        }
+        saveMomentToDB(momentList);
+    }
+
+    private void saveMomentToDB(List<Moment> moments) {
+        DataServicesManager.getInstance().saveMoments(moments, new DBRequestListener<Moment>() {
+            @Override
+            public void onSuccess(List<? extends Moment> list) {
+                DataServicesManager.getInstance().synchronize();
+                refreshUi();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                RALog.e(TAG,"Exception while saving moment in DB"+e.getMessage());
+            }
+        });
+    }
+
+    protected Moment createMoment(String momemtDetail, String deepSleepTime,String sleepTime,String measurementDetail) {
+        Moment moment = this.dataServicesManager.createMoment(MomentType.SLEEP);
+        MeasurementGroup measurementGroupInside;
+        MeasurementGroup measurementGroup;
+        Measurement deepSleepTimeMeasurement;
+        Measurement sleepTimeMeasurement;
+        dataServicesManager.createMomentDetail(MomentDetailType.SLEEP_TIME, momemtDetail, moment);
+        measurementGroup = dataServicesManager.createMeasurementGroup(moment);
+        dataServicesManager.createMeasurementGroupDetail(MeasurementGroupDetailType.SLEEP_DATA_OF_DAY, measurementDetail,measurementGroup);
+        measurementGroupInside = dataServicesManager.createMeasurementGroup(measurementGroup);
+        deepSleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.DEEP_SLEEP_TIME, deepSleepTime, "milliseconds", measurementGroupInside);
+        sleepTimeMeasurement = dataServicesManager.createMeasurement(MeasurementType.TOTAL_SLEEP_TIME, sleepTime, "milliseconds", measurementGroupInside);
+        dataServicesManager.createMeasurementDetail(MeasurementDetailType.LOCATION, measurementDetail, deepSleepTimeMeasurement);
+        measurementGroupInside.addMeasurement(deepSleepTimeMeasurement);
+        measurementGroupInside.addMeasurement(sleepTimeMeasurement);
+        measurementGroup.addMeasurementGroup(measurementGroupInside);
+        moment.addMeasurementGroup(measurementGroup);
+        return moment;
+    }
+
+    private void refreshUi() {
+        DataServicesManager.getInstance().fetchLatestMomentByType(MomentType.SLEEP, new DBFetchRequestListner<Moment>() {
+
+                    @Override
+                    public void onFetchSuccess(final List<? extends Moment> list) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Size of the moment type sleep" + list.size(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFetchFailure(Exception e) {
+                        RALog.d(TAG,"Erro while fetching moment with type sleep"+e.getMessage());
+                    }
+                });
     }
 
     @Override
@@ -90,4 +172,6 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         }
 
     }
+
+
 }

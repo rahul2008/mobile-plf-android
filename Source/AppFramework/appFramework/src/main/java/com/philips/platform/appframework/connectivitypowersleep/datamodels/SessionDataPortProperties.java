@@ -41,4 +41,15 @@ public class SessionDataPortProperties implements PortProperties {
         return numberOfInterruptions;
     }
 
+    public void setTotalSleepTime(Long totalSleepTime) {
+        this.totalSleepTime = totalSleepTime;
+    }
+
+    public void setDeepSleepTime(Long deepSleepTime) {
+        this.deepSleepTime = deepSleepTime;
+    }
+
+    public void setNumberOfInterruptions(Long numberOfInterruptions) {
+        this.numberOfInterruptions = numberOfInterruptions;
+    }
 }

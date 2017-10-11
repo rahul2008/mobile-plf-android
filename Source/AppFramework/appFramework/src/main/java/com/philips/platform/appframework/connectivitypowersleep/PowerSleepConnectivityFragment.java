@@ -28,13 +28,16 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
@@ -107,7 +110,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         syncUpdated = (TextView) view.findViewById(R.id.powersleep_updated);
         view.findViewById(R.id.powersleep_sync).setOnClickListener(this);
         insights.setOnClickListener(this);
-        insights.setEnabled(false);
+        insights.setEnabled(true);
         insights.setAlpha(0.5f);
         mCommCentral = getCommCentral(ConnectivityDeviceType.POWER_SLEEP);
         setHasOptionsMenu(true);
@@ -127,7 +130,13 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                 launchBluetoothActivity();
                 break;
             case R.id.insights:
-                connectivityPresenter.onEvent(R.id.insights);
+//                connectivityPresenter.onEvent(R.id.insights);
+                SessionDataPortProperties sessionDataPortProperties=new SessionDataPortProperties();
+                sessionDataPortProperties.setDeepSleepTime(183787218L);
+                sessionDataPortProperties.setTotalSleepTime(823846387L);
+                List<SessionDataPortProperties> sessionDataPortProperties1=new ArrayList<>();
+                sessionDataPortProperties1.add(sessionDataPortProperties);
+                connectivityPresenter.savePowerSleepMomentsData(sessionDataPortProperties1);
                 break;
         }
     }
