@@ -12,7 +12,7 @@ Version {next}
 	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
 	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`
 * CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
-
+	
 ### Backwards Compatibility
 * CommLib - `Appliance.enableCommunication` is no longer needed before a subscription.
 * CommLib - Running the pairing process (through `PairingHandler`) no longer automatically stores the appliance to the database upon successful completion. Use `ApplianceManager.storeAppliance()` method manually as alternative.
@@ -32,6 +32,8 @@ Version {next}
 	* `DICommApplianceFactory` -> `ApplianceFactory`
 	* `DICommApplianceDatabase` -> `ApplianceDatabase`
 * CommLib - `TransportContext` instances are now contructed with a `RuntimeConfiguration` object to allow for app-specific configuration options
+* CommLib - `DiCommPort` no longer has the `isResponseForThisPort` method. This is handled internally by CommLib.
+* CommLib - the method `getDICommPortName` has been made public in order to determine the correct destination for incoming port data.
 
 ### Defects solved
 * CommLib - \#72227 Timeout callback not called
@@ -40,6 +42,10 @@ Version {next}
 * CommLib BLE - \#75429 Not registering SHNLogger when app configured having `AppIdentityInterface.AppState.PRODUCTION`
 * CloudController - \#55808 BufferUnderflowException while reading download data
 * CommLib BLE - \#87558 Devices are no longer listed multiple times in device discovery
+* CommLib - \#84930 CommLib responses should include port being subscribed to
+	* CommLib now determines for which port incoming data is.
+	* Ports are no longer required to determine if JSON matches their port properties.
+
 
 ### Residual anomalies
 * To be filled in at release
