@@ -30,6 +30,8 @@ public class THSConsumer {
     private List<THSConsumer> dependents;
     private Consumer consumer;
 
+    private boolean isDependent = false;
+
     private ByteArrayInputStream profilePic;
 
     public Date getDob() {
@@ -151,4 +153,14 @@ public class THSConsumer {
     public void setConsumer(Consumer consumer) {
         this.consumer = consumer;
     }
+
+
+    public boolean isDependent() {
+        return isDependent;
+    }
+
+    public void setDependent(boolean dependent) {
+        isDependent = dependent;
+    }
+
 }
