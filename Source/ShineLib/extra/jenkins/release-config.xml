@@ -20,7 +20,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git</url>
+        <url>ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/bll-android-bluelib</url>
         <credentialsId>f0b75b95-85e1-45e8-9b15-93846247c142</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>

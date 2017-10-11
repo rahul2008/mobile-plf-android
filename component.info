@@ -12,6 +12,6 @@
   "release format"     : "maven",
   "release url"        : "",
   "version"            : "0.3.3.2",
-  "source url"         : "https://bitbucket.atlas.philips.com/projects/EHSHN/repos/android-shinelib",
+  "source url"         : "http://tfsemea1.ta.philips.com:8080/tfs/TPC_Region24/CDP2/_git/bll-android-bluelib",
   "documentation url"  : "",
 }
