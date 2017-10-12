@@ -44,7 +44,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
      */
     public static final long SCAN_WINDOW_MILLIS = 60000L;
 
-    public static final byte[] MANUFACTURER_PREAMBLE = {(byte) 0xDD, 0x01};
+    public static final int MANUFACTURER_PREAMBLE = 477; // 0x01DD
 
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
@@ -133,9 +133,9 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         networkNode.setDeviceType(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
 
         // Model id, e.g. 'FC8932'
-        byte[] manufacturerData = shnDeviceFoundInfo.getBleScanRecord().getManufacturerSpecificData();
-        if (manufacturerData != null && Arrays.equals(Arrays.copyOfRange(manufacturerData, 0, 2), MANUFACTURER_PREAMBLE)) {
-            final String modelId = new String(Arrays.copyOfRange(manufacturerData, 2, manufacturerData.length));
+        byte[] manufacturerData = shnDeviceFoundInfo.getBleScanRecord().getManufacturerSpecificData(MANUFACTURER_PREAMBLE);
+        if(manufacturerData != null) {
+            final String modelId = new String(manufacturerData);
             networkNode.setModelId(modelId);
         }
         return networkNode;
