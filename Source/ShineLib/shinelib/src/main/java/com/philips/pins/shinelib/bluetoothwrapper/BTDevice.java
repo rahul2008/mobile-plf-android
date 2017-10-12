@@ -45,7 +45,7 @@ public class BTDevice {
         BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
 
-        if(Workaround.CorruptedCache.isRequiredOnThisDevice()) {
+        if (Workaround.CORRUPTED_CACHE.isRequiredOnThisDevice()) {
             refresh(bluetoothGatt);
         }
 
@@ -79,12 +79,11 @@ public class BTDevice {
             if (localMethod != null) {
                 boolean success = ((Boolean) localMethod.invoke(bluetoothGatt, new Object[0])).booleanValue();
 
-                if(!success) {
+                if (!success) {
                     SHNLogger.w(TAG, "BluetoothGatt refresh method failed to execute");
                 }
             }
-        }
-        catch (Exception localException) {
+        } catch (Exception localException) {
             SHNLogger.e(TAG, "An exception occurred while refreshing BLE cache");
         }
     }

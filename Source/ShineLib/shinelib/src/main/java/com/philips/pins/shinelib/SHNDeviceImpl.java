@@ -75,8 +75,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     private static final long CONNECT_TIMEOUT = 20000L;
     private static final long DISCONNECT_TIMEOUT = 1000L;
-    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
-    private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 10000;
+    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
+    private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 10000L;
 
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
@@ -211,29 +211,31 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         SHNLogger.d(TAG, "Handle connect event in state " + internalState);
         if (internalState == InternalState.Disconnecting) {
             btGatt.disconnect();
-        } else {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                if (shouldWaitUntilBonded()) {
-                    setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
+            return;
+        }
 
-                    if(shnBondInitiator == SHNBondInitiator.APP) {
-                        if (!btDevice.createBond()) {
-                            SHNLogger.w(TAG, "Failed to start bond creation procedure");
-                            setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
-                            btGatt.discoverServices();
-                        }
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            if (shouldWaitUntilBonded()) {
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
+
+                if (shnBondInitiator == SHNBondInitiator.APP) {
+                    if (!btDevice.createBond()) {
+                        SHNLogger.w(TAG, "Failed to start bond creation procedure");
+                        setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
+                        btGatt.discoverServices();
                     }
-                } else {
-                    setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
-                    btGatt.discoverServices();
                 }
             } else {
-                failedToConnectResult = SHNResult.SHNErrorConnectionLost;
-                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
-                btGatt.disconnect();
-                disconnectTimer.restart();
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
+                btGatt.discoverServices();
             }
+        } else {
+            failedToConnectResult = SHNResult.SHNErrorConnectionLost;
+            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+            btGatt.disconnect();
+            disconnectTimer.restart();
         }
+
     }
 
     private void handleGattDisconnectEvent() {
@@ -591,7 +593,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (internalState == InternalState.DiscoveringServices) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
 
-                    if(btGatt.getServices().size() == 0) {
+                    if (btGatt.getServices().size() == 0) {
                         SHNLogger.i(TAG, "No services found, rediscovery the services");
                         btGatt.discoverServices();
                         return;

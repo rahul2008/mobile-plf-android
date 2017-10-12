@@ -23,8 +23,8 @@ import java.util.List;
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
-    private static final int BOND_CREATED_WAIT_TIME = 500;
-    private static final int DELAY_AFTER_SERVICE_DISCOVERY = 500;
+    private static final int BOND_CREATED_WAIT_TIME_MILLIS = 500;
+    private static final int DELAY_AFTER_SERVICE_DISCOVERY_MILLIS = 500;
     private Runnable currentCommand;
 
     public interface BTGattCallback {
@@ -52,34 +52,44 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     class NullBTGattCallback implements BTGattCallback {
 
         @Override
-        public void onConnectionStateChange(BTGatt gatt, int status, int newState) {}
+        public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+        }
 
         @Override
-        public void onServicesDiscovered(BTGatt gatt, int status) {}
+        public void onServicesDiscovered(BTGatt gatt, int status) {
+        }
 
         @Override
-        public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {}
+        public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
+        }
 
         @Override
-        public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {}
+        public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        }
 
         @Override
-        public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {}
+        public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
+        }
 
         @Override
-        public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {}
+        public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
+        }
 
         @Override
-        public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {}
+        public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        }
 
         @Override
-        public void onReliableWriteCompleted(BTGatt gatt, int status) {}
+        public void onReliableWriteCompleted(BTGatt gatt, int status) {
+        }
 
         @Override
-        public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {}
+        public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
+        }
 
         @Override
-        public void onMtuChanged(BTGatt gatt, int mtu, int status) {}
+        public void onMtuChanged(BTGatt gatt, int mtu, int status) {
+        }
     }
 
     private SHNCentral shnCentral;
@@ -240,7 +250,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
                 executeNextCommandIfAllowed();
             }
         };
-        handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME);
+        handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME_MILLIS);
     }
 
     public void readDescriptor(final BluetoothGattDescriptor descriptor) {
@@ -316,8 +326,8 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
             }
         };
 
-        if(Workaround.ServiceDiscoveredDelay.isRequiredOnThisDevice()) {
-            handler.postDelayed(runnable, DELAY_AFTER_SERVICE_DISCOVERY);
+        if (Workaround.SERVICE_DISCOVERED_DELAY.isRequiredOnThisDevice()) {
+            handler.postDelayed(runnable, DELAY_AFTER_SERVICE_DISCOVERY_MILLIS);
         } else {
             handler.post(runnable);
         }
@@ -348,6 +358,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         if (status != BluetoothGatt.GATT_SUCCESS && currentCommand != null) {
             handler.post(new Runnable() {
                 private Runnable retryCommandRunnable = currentCommand;
+
                 @Override
                 public void run() {
                     waitingForCompletion = false;

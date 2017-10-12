@@ -76,7 +76,7 @@ public class BTDeviceTest {
 
     @Test
     public void whenBluetoothDeviceConnectGattIsCalledOnDeviceThatNeedsWorkaroundThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
-        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", OS.Nougat.geVersions()[0]);
+        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", OS.NOUGAT.geVersions()[0]);
         whenBluetoothDeviceConnectGattIsCalledThenReturnGatt();
     }
 

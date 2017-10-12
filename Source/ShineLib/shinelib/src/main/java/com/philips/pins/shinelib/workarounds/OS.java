@@ -6,10 +6,10 @@
 package com.philips.pins.shinelib.workarounds;
 
 public enum OS {
-    Lollipop(21, 22),
-    Marshmallow(23),
-    Nougat(24, 25),
-    Oreo(26);
+    LOLLIPOP(21, 22),
+    MARSHMALLOW(23),
+    NOUGAT(24, 25),
+    OREO(26);
 
     private int[] versions;
 

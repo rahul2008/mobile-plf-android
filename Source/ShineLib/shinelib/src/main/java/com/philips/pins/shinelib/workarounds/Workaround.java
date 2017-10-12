@@ -7,8 +7,9 @@ package com.philips.pins.shinelib.workarounds;
 
 import android.os.Build;
 
-import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.utility.SHNLogger;
+
+import java.util.Locale;
 
 /**
  * Contains workarounds that are inside BlueLib.
@@ -26,18 +27,18 @@ public enum Workaround {
      * The only solution to restore a corrupted cache is to reboot the phone or restart bluetooth.
      * This fix clears the cache each time it connects with a device, this way it wont become corrupted.
      */
-    CorruptedCache(
+    CORRUPTED_CACHE(
             new Phone[]         { },
             new Manufacturer[]  { },
-            new OS[]            { OS.Nougat }
+            new OS[]            { OS.NOUGAT}
     ),
     /**
      * Wait some time before executing a BLE read/write action after service discovery is completed.
      * Otherwise the action is stated as successfully started but no callback is ever received from the OS.
      * This causes BlueLib to wait infinitely and the connect timeout will occur.
      */
-    ServiceDiscoveredDelay(
-            new Phone[]         { Phone.Samsung_S7, Phone.Samsung_S4, Phone.Nexus_6P },
+    SERVICE_DISCOVERED_DELAY(
+            new Phone[]         { Phone.SAMSUNG_S7, Phone.SAMSUNG_S4, Phone.NEXUS_6P},
             new Manufacturer[]  { },
             new OS[]            { }
     );
@@ -79,13 +80,13 @@ public enum Workaround {
         for(OS os : osVersions) {
             for(int version : os.geVersions()) {
                 if(version == osVersion) {
-                    DebugLog(String.format("Workaround '%s' is applied because the phone OS version is %d", name(), osVersion));
+                    DebugLog(String.format(Locale.US, "Workaround '%s' is applied because the phone OS version is %d", name(), osVersion));
                     return true;
                 }
             }
         }
 
-        DebugLog(String.format("hWorkaround '%s' is not required on this pone. (Manufacturer: %s, Model: %s, OS: %d)", name(), manufacturerName, modelName, osVersion));
+        DebugLog(String.format(Locale.US, "Workaround '%s' is not required on this pone. (Manufacturer: %s, Model: %s, OS: %d)", name(), manufacturerName, modelName, osVersion));
 
         return false;
     }

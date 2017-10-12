@@ -6,9 +6,9 @@
 package com.philips.pins.shinelib.workarounds;
 
 public enum Manufacturer {
-    Samsung("samsung"),
-    Huawei("huawei"),
-    Motorola("motorola");
+    SAMSUNG("samsung"),
+    HUAWEI("huawei"),
+    MOTOROLA("motorola");
 
     private String name;
 

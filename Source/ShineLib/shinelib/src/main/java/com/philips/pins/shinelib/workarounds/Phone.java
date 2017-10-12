@@ -6,11 +6,11 @@
 package com.philips.pins.shinelib.workarounds;
 
 public enum Phone {
-    Samsung_Note_4(Manufacturer.Samsung, "SM-N910F"),
-    Samsung_S7(Manufacturer.Samsung, "SM-G930F"),
-    Samsung_S4(Manufacturer.Samsung, "GT-I9505"),
-    Nexus_6P(Manufacturer.Huawei, "Nexus 6P"),
-    Motorola_Moto_G3(Manufacturer.Motorola, "MotoG3");
+    SAMSUNG_NOTE_4(Manufacturer.SAMSUNG, "SM-N910F"),
+    SAMSUNG_S7(Manufacturer.SAMSUNG, "SM-G930F"),
+    SAMSUNG_S4(Manufacturer.SAMSUNG, "GT-I9505"),
+    NEXUS_6P(Manufacturer.HUAWEI, "Nexus 6P"),
+    MOTOROLA_MOTO_G3(Manufacturer.MOTOROLA, "MotoG3");
 
     private Manufacturer manufacturer;
     private String modelName;
