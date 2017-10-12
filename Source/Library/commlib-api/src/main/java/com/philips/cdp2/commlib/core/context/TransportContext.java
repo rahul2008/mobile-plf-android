@@ -28,6 +28,12 @@ public interface TransportContext<A extends Availability> extends Availability<A
     @Nullable
     DiscoveryStrategy getDiscoveryStrategy();
 
+    /**
+     * Create a communication strategy for the provided {@link NetworkNode}.
+     *
+     * @param networkNode the network node
+     * @return the communication strategy
+     */
     @NonNull
     CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode);
 }
