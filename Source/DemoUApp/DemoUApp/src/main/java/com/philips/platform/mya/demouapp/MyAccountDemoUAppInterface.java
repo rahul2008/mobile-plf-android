@@ -6,6 +6,8 @@ import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.mya.MyAccountActivity;
+import com.philips.platform.mya.demouapp.activity.DemoAppActivity;
+import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -27,6 +29,9 @@ public class MyAccountDemoUAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         mContext = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
+        if (appInfra != null) {
+            MYALog.sAppLoggingInterface = appInfra.getLogging();
+        }
     }
 
     /**
@@ -40,7 +45,7 @@ public class MyAccountDemoUAppInterface implements UappInterface {
     }
 
     private void launchAsActivity() {
-        Intent intent = new Intent(mContext, MyAccountActivity.class);
+        Intent intent = new Intent(mContext, DemoAppActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
