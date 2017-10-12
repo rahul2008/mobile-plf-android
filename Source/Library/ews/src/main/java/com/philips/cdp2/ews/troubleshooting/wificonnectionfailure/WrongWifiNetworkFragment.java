@@ -15,22 +15,21 @@ import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
+import static com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment.HOME_WIFI_SSID;
+
 /**
  * Created by salvatorelafiura on 11/10/2017.
  */
 
 public class WrongWifiNetworkFragment extends BaseFragment {
-    private final static String NETWORK_SSID = "network_SSID";
 
     @Nullable
     WrongWifiNetworkViewModel viewModel;
     @Nullable
     FragmentWrongWifiNetworkBinding binding;
 
-    public static Fragment newInstance(@NonNull String networkName) {
+    public static Fragment newInstance(@NonNull Bundle bundle) {
         WrongWifiNetworkFragment fragment = new WrongWifiNetworkFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(NETWORK_SSID, networkName);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -41,7 +40,8 @@ public class WrongWifiNetworkFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wrong_wifi_network, container, false);
         viewModel = createViewModel();
-        viewModel.setDescription(getString(R.string.label_ews_phone_reconnected_different_network_body, BundleUtils.extractStringFromBundleOrThrow(getArguments(), NETWORK_SSID)));
+        viewModel.setDescription(getString(R.string.label_ews_phone_reconnected_different_network_body, BundleUtils.extractStringFromBundleOrThrow(getArguments(), HOME_WIFI_SSID)));
+        viewModel.setBundle(getArguments());
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

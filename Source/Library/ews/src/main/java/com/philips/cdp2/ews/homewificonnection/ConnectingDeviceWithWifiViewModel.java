@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
@@ -37,8 +39,11 @@ public class ConnectingDeviceWithWifiViewModel {
 
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
 
+        Bundle getBundle();
+
     }
 
+    private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
 
     @NonNull
@@ -46,6 +51,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
     @NonNull
     private final Navigator navigator;
+
     @NonNull
     private final WiFiConnectivityManager wiFiConnectivityManager;
     @Nullable
@@ -56,8 +62,6 @@ public class ConnectingDeviceWithWifiViewModel {
     private final DiscoveryHelper discoveryHelper;
     @Nullable
     private String deviceName;
-    @Nullable
-    private String homeWiFiSSID;
     @NonNull
     private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
         @Override
@@ -89,10 +93,10 @@ public class ConnectingDeviceWithWifiViewModel {
 
     private Handler handler;
 
-    Runnable timeoutRunnable = new Runnable() {
+    private Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            showConnectionUnsuccessful(homeWiFiSSID);
+            showConnectionUnsuccessful();
         }
     };
 
@@ -117,7 +121,6 @@ public class ConnectingDeviceWithWifiViewModel {
 
     public void startConnecting(@NonNull final String homeWiFiSSID, @NonNull String homeWiFiPassword, @NonNull String deviceName) {
         this.deviceName = deviceName;
-        this.homeWiFiSSID = homeWiFiSSID;
         tagConnectionStart();
         applianceAccessManager.connectApplianceToHomeWiFiEvent(homeWiFiSSID, homeWiFiPassword, new ApplianceAccessManager.SetPropertiesCallback() {
             @Override
@@ -127,7 +130,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
             @Override
             public void onFailedToSetProperties() {
-                showConnectionUnsuccessful(homeWiFiSSID);
+                showConnectionUnsuccessful();
             }
         });
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
@@ -147,9 +150,13 @@ public class ConnectingDeviceWithWifiViewModel {
         EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME, EWSDependencyProvider.getInstance().getProductName());
     }
 
-    private void showConnectionUnsuccessful(@NonNull String networkSSID) {
+    private void showConnectionUnsuccessful() {
         removeTimeoutRunnable();
-        navigator.navigateToWrongWifiNetworkScreen(networkSSID);
+        if (fragmentCallback != null) {
+            navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
+        } else {
+            Log.e(TAG, "Fragment callback not set!");
+        }
     }
 
     private void removeTimeoutRunnable() {

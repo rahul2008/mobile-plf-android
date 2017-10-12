@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -19,7 +20,7 @@ import com.philips.cdp2.ews.view.EWSActivity;
  */
 
 public class ConnectingDeviceWithWifiFragment extends BaseFragment implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
-    private final static String HOME_WIFI_SSID = "homeWiFiSSID";
+    public final static String HOME_WIFI_SSID = "homeWiFiSSID";
     private final static String HOME_WIFI_PWD = "homeWiFiPassword";
     private final static String DEVICE_NAME = "deviceName";
     @Nullable
@@ -30,6 +31,16 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
         data.putString(HOME_WIFI_SSID, homeWiFiSSID);
         data.putString(HOME_WIFI_PWD, homeWiFiPassword);
         data.putString(DEVICE_NAME, deviceName);
+        ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
+        fragment.setArguments(data);
+        return fragment;
+    }
+
+    public static Fragment newInstance(@Nullable Bundle bundle) {
+        Bundle data = new Bundle();
+        data.putString(HOME_WIFI_SSID, BundleUtils.extractStringFromBundleOrThrow(bundle, HOME_WIFI_SSID));
+        data.putString(HOME_WIFI_PWD, BundleUtils.extractStringFromBundleOrThrow(bundle, HOME_WIFI_PWD));
+        data.putString(DEVICE_NAME, BundleUtils.extractStringFromBundleOrThrow(bundle, DEVICE_NAME));
         ConnectingDeviceWithWifiFragment fragment = new ConnectingDeviceWithWifiFragment();
         fragment.setArguments(data);
         return fragment;
@@ -48,7 +59,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
                              @Nullable Bundle savedInstanceState) {
         viewModel = createViewModel();
         viewModel.setFragmentCallback(this);
-        viewModel.startConnecting(getArguments().getString(HOME_WIFI_SSID), getArguments().getString(HOME_WIFI_PWD), getArguments().getString(DEVICE_NAME));
+        viewModel.startConnecting(BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID), BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_PWD), BundleUtils.extractStringFromBundleOrThrow(getBundle(), DEVICE_NAME));
         return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
                 false);
     }
@@ -73,6 +84,11 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     @Override
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         getActivity().unregisterReceiver(receiver);
+    }
+
+    @Override
+    public Bundle getBundle() {
+        return getArguments();
     }
 
     @Override

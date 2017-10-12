@@ -1,6 +1,8 @@
 package com.philips.cdp2.ews.navigation;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
@@ -106,13 +108,16 @@ public class Navigator {
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
         pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName));
     }
+    public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle){
+        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
+    }
 
     public void navigateToEWSWiFiPairedScreen() {
         pushFragment(new EWSWiFiPairedFragment());
     }
 
-    public void navigateToWrongWifiNetworkScreen(@NonNull String networkName) {
-        pushFragment(WrongWifiNetworkFragment.newInstance(networkName));
+    public void navigateToWrongWifiNetworkScreen(Bundle bundle) {
+        pushFragment(WrongWifiNetworkFragment.newInstance(bundle));
     }
 
     public void navigateBack() {
