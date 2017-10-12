@@ -69,7 +69,7 @@ allprojects {
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion(versions.myaccount_MyAccount)
+version = objcdp.getVersion(versions.mya_myAccount)
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
