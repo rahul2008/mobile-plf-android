@@ -281,45 +281,51 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
 
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!TextUtils.isEmpty(measurementvalue)) {
-                        editText.setText(measurementvalue);
-                    } else {
-                        editText.setText(Integer.toString(-1));
+        if (isFragmentLive()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (!TextUtils.isEmpty(measurementvalue)) {
+                            editText.setText(measurementvalue);
+                        } else {
+                            editText.setText(Integer.toString(-1));
+                        }
+                    } catch (Exception e) {
+                        RALog.d(DEVICE_DATAPARSING,
+                                e.getMessage());
                     }
-                } catch (Exception e) {
-                    RALog.d(DEVICE_DATAPARSING,
-                            e.getMessage());
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     public void onDeviceMeasurementError(final Error error, String s) {
         //TODO:Handle device measurement error properly
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (isFragmentLive()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
     public void updateConnectionStateText(final String text) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (connectionState != null) {
-                        connectionState.setText(text);
+        if (isFragmentLive()) {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (connectionState != null) {
+                            connectionState.setText(text);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
