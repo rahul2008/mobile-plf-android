@@ -13,6 +13,12 @@ Version {next}
 
 ### Defects solved
 * \#33811 Battery service now has working notifications.
+* \#85159 DicommStreamingService is now reaching 'Ready' state on Nexus 6P and Samsung S4
+* \#88153 Extended bond connection timeout for slow phones
+* \#88152 Added a timeout on the disconnect procedure
+* \#88149 If no services are found during discovery, retry the discovery
+* \#88154 Fix the flow of bonding with timers
+* \#88146 Refresh the device cache on Android 7.0, this prevents a corrupt BLE cache
 
 ### Residual anomalies
 

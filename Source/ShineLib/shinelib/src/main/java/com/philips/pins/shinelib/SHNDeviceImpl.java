@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -74,8 +74,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private final String TAG = TAG_BASE + "@" + Integer.toHexString(hashCode());
 
     private static final long CONNECT_TIMEOUT = 20000L;
-    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
-    private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
+    private static final long DISCONNECT_TIMEOUT = 1000L;
+    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000L; // Prevent either the Thermometer or the BT stack on some devices from getting in a error state
+    private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 10000L;
 
     private final BTDevice btDevice;
     private final SHNCentral shnCentral;
@@ -101,6 +102,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             disconnect();
         }
     }, CONNECT_TIMEOUT);
+
+    private Timer disconnectTimer = Timer.createTimer(new Runnable() {
+        @Override
+        public void run() {
+            SHNLogger.e(TAG, "disconnect timeout in state: " + internalState);
+            handleGattDisconnectEvent();
+        }
+    }, DISCONNECT_TIMEOUT);
 
     private Timer waitingUntilBondingStartedTimer = Timer.createTimer(new Runnable() {
         @Override
@@ -202,53 +211,62 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         SHNLogger.d(TAG, "Handle connect event in state " + internalState);
         if (internalState == InternalState.Disconnecting) {
             btGatt.disconnect();
-        } else {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                if (shouldWaitUntilBonded()) {
-                    setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
+            return;
+        }
 
-                    if(shnBondInitiator == SHNBondInitiator.APP) {
-                        if (!btDevice.createBond()) {
-                            SHNLogger.w(TAG, "Failed to start bond creation procedure");
-                        }
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            if (shouldWaitUntilBonded()) {
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.WaitingUntilBonded);
+
+                if (shnBondInitiator == SHNBondInitiator.APP) {
+                    if (!btDevice.createBond()) {
+                        SHNLogger.w(TAG, "Failed to start bond creation procedure");
+                        setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
+                        btGatt.discoverServices();
                     }
-                } else {
-                    setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
-                    btGatt.discoverServices();
                 }
             } else {
-                failedToConnectResult = SHNResult.SHNErrorConnectionLost;
-                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
-                btGatt.disconnect();
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
+                btGatt.discoverServices();
             }
+        } else {
+            failedToConnectResult = SHNResult.SHNErrorConnectionLost;
+            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+            btGatt.disconnect();
+            disconnectTimer.restart();
         }
+
     }
 
     private void handleGattDisconnectEvent() {
-        btGatt.close();
-        btGatt = null;
+        disconnectTimer.stop();
 
-        long delta = System.currentTimeMillis() - startTimerTime;
-        SHNLogger.d(TAG, "delta: " + delta);
+        if (btGatt != null) {
+            btGatt.close();
+            btGatt = null;
 
-        if (internalState == InternalState.GattConnecting && delta < timeOut) {
-            SHNLogger.d(TAG, "Retrying to connect GATT in state " + internalState);
-            btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, shnCentral, btGattCallback);
-        } else {
-            if (getState() == State.Connecting) {
-                failedToConnectResult = SHNResult.SHNErrorInvalidState;
+            long delta = System.currentTimeMillis() - startTimerTime;
+            SHNLogger.d(TAG, "delta: " + delta);
+
+            if (internalState == InternalState.GattConnecting && delta < timeOut) {
+                SHNLogger.d(TAG, "Retrying to connect GATT in state " + internalState);
+                btGatt = btDevice.connectGatt(shnCentral.getApplicationContext(), false, shnCentral, btGattCallback);
+            } else {
+                if (getState() == State.Connecting) {
+                    failedToConnectResult = SHNResult.SHNErrorInvalidState;
+                }
+
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
+
+                for (SHNService shnService : registeredServices.values()) {
+                    shnService.disconnectFromBLELayer();
+                }
+
+                setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnected);
+
+                shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+                shnCentral.unregisterSHNCentralStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
             }
-
-            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnecting);
-
-            for (SHNService shnService : registeredServices.values()) {
-                shnService.disconnectFromBLELayer();
-            }
-
-            setInternalStateReportStateUpdateAndSetTimers(InternalState.Disconnected);
-
-            shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
-            shnCentral.unregisterSHNCentralStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
         }
     }
 
@@ -575,6 +593,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (internalState == InternalState.DiscoveringServices) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
 
+                    if (btGatt.getServices().size() == 0) {
+                        SHNLogger.i(TAG, "No services found, rediscovery the services");
+                        btGatt.discoverServices();
+                        return;
+                    }
+
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.InitializingServices);
 
                     connectUsedServicesToBleLayer(gatt);
@@ -640,8 +664,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
             if (internalState == InternalState.WaitingUntilBonded) {
                 if (bondState == BluetoothDevice.BOND_BONDING) {
-                    waitingUntilBondingStartedTimer.stop();
+                    waitingUntilBondingStartedTimer.restart();
                 } else if (bondState == BluetoothDevice.BOND_BONDED) {
+                    waitingUntilBondingStartedTimer.stop();
                     setInternalStateReportStateUpdateAndSetTimers(InternalState.DiscoveringServices);
 
                     shnCentral.getInternalHandler().postDelayed(new Runnable() {
@@ -653,6 +678,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                         }
                     }, BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS);
                 } else if (bondState == BluetoothDevice.BOND_NONE) {
+                    waitingUntilBondingStartedTimer.stop();
+                    failedToConnectResult = SHNResult.SHNErrorBondLost;
                     disconnect();
                 }
             }
