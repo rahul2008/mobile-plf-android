@@ -4,6 +4,7 @@ package com.philips.platform.ths.providerslist;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Language;
@@ -18,6 +19,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.registration.THSConsumer;
@@ -39,6 +41,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +50,9 @@ public class THSProvidersListFragmentTest {
 
     private THSLaunchActivity mActivity;
     private THSProvidersListFragment thsProvidersListFragment;
+    private THSProviderListFragmentMock thsProvidersListFragmentTest;
     private THSProviderListPresenter thsProviderListPresenter;
+
 
     @Mock
     AWSDK awsdkMock;
@@ -104,6 +109,9 @@ public class THSProvidersListFragmentTest {
     @Mock
     THSProviderListViewInterface thsProviderListViewInterfaceMock;
 
+    @Mock
+    THSProvidersListAdapter thsProvidersListAdapterMock;
+
 
     @Before
     public void setUp() throws Exception{
@@ -114,7 +122,13 @@ public class THSProvidersListFragmentTest {
         when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
         when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         thsProvidersListFragment = new THSProvidersListFragment();
-        thsProviderListPresenter = new THSProviderListPresenter(thsProvidersListFragmentMock,thsProvidersListFragmentMock);
+        thsProvidersListFragmentTest = new THSProviderListFragmentMock();
+        thsProviderListPresenter = new THSProviderListPresenter(thsProvidersListFragmentMock,thsProvidersListFragmentMock){
+            @Override
+            boolean isProviderAvailable(List<THSProviderInfo> providerInfoList) {
+                return true;
+            }
+        };
         Bundle bundle = new Bundle();
         bundle.putParcelable("Provider List Fragment",practice);
         thsProvidersListFragment.setArguments(bundle);
@@ -147,6 +161,42 @@ public class THSProvidersListFragmentTest {
         when(providerInfoListMock.size()).thenReturn(1);
         thsProviderListPresenter.onProvidersListReceived(providerInfoListMock,null);
         verify(thsProvidersListFragmentMock).updateMainView(any(Boolean.class));
+        verify(thsProvidersListFragmentMock).updateProviderAdapterList(any(List.class));
 
     }
+
+    @Test
+    public void testOnEventGetStartedInPresenter(){
+        SupportFragmentTestUtil.startFragment(thsProvidersListFragment);
+        thsProviderListPresenter.onEvent(R.id.getStartedButton);
+        verify(practiseprovidermanagerMock).getOnDemandSpecialties(any(Consumer.class),any(PracticeInfo.class),any(String.class),any(SDKCallback.class));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testOnEventLaunchAppointmentInPresenter(){
+        SupportFragmentTestUtil.startFragment(thsProvidersListFragment);
+        thsProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
+        verify(thsProviderListPresenterMock).launchAvailableProviderListFragment(any(Practice.class));
+    }
+
+    @Test
+    public void testOnClickInFragment(){
+        SupportFragmentTestUtil.startFragment(thsProvidersListFragmentTest);
+        thsProvidersListFragmentTest.THSProviderListPresenter = thsProviderListPresenterMock;
+        final View getStartedBtn = thsProvidersListFragmentTest.getView().findViewById(R.id.getStartedButton);
+        final View getScheduleAppointmentButton = thsProvidersListFragmentTest.getView().findViewById(R.id.getScheduleAppointmentButton);
+        thsProvidersListFragmentTest.onClick(getStartedBtn);
+        verify(thsProviderListPresenterMock).onEvent(any(Integer.class));
+        thsProvidersListFragmentTest.onClick(getScheduleAppointmentButton);
+        verify(thsProviderListPresenterMock,atLeastOnce()).onEvent(any(Integer.class));
+    }
+
+    @Test
+    public void testOnProviderListUpdate(){
+        SupportFragmentTestUtil.startFragment(thsProvidersListFragmentTest);
+        thsProvidersListFragmentTest.updateProviderAdapterList(providerInfoListMock);
+        thsProvidersListFragmentTest.THSProvidersListAdapter = thsProvidersListAdapterMock;
+        verify(thsProvidersListAdapterMock).setOnProviderItemClickListener(any(OnProviderListItemClickListener.class));
+    }
+
 }
