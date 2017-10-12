@@ -224,18 +224,23 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     protected void onDestroy() {
         RALog.d(TAG, " onDestroy ");
         super.onDestroy();
+        removeListeners();
 //        userRegistrationState.unregisterUserRegistrationListener();
     }
 
+    protected void removeListeners() {
+        hamburgerMenuAdapter.removeMenuItemClickListener();
+    }
 
-   /* private void addIapCartCount() {
-        try {
 
-            IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
-            iapInterface.getProductCartCount(this);
-        }catch (RuntimeException e){
-        }
-    }*/
+    /* private void addIapCartCount() {
+         try {
+
+             IAPInterface iapInterface = ((AppFrameworkApplication)getApplicationContext()).getIap().getIapInterface();
+             iapInterface.getProductCartCount(this);
+         }catch (RuntimeException e){
+         }
+     }*/
     @Override
     protected void onResume() {
         super.onResume();

@@ -31,6 +31,10 @@ public class HamburgerMenuAdapter extends RecyclerView.Adapter<HamburgerMenuAdap
         this.hamburgerMenuItemClickListener = hamburgerMenuItemClickListener;
     }
 
+    public void removeMenuItemClickListener() {
+        this.hamburgerMenuItemClickListener = null;
+    }
+
     public HamburgerMenuAdapter(@NonNull final ArrayList<HamburgerMenuItem> hamburgerMenuItems) {
         this.hamburgerMenuItems = hamburgerMenuItems;
     }
