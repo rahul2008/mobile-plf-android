@@ -23,7 +23,7 @@
 
 
             <TextView
-                android:id="@+id/ews_paired_title"
+                android:id="@+id/ews_04_01_label_succesful_title"
                 style="@style/EWS.Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/ews_paired_btn"
+                android:id="@+id/ews_04_01_button_succesful_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/e"

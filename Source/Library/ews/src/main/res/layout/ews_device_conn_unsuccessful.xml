@@ -21,7 +21,7 @@
             android:paddingBottom="@dimen/d">
 
             <TextView
-                android:id="@+id/connection_unsuccessful_title"
+                android:id="@+id/ews_H_03_00_a_label_title"
                 style="@style/EWS.Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,8 +36,8 @@
                 style="@style/EWS.Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/connection_unsuccessful_title"
-                android:layout_above="@+id/connection_unsuccessful_yes_button"
+                android:layout_below="@id/ews_H_03_00_a_label_title"
+                android:layout_above="@+id/ews_H_03_00_a_button_yes"
                 android:layout_marginBottom="@dimen/e"
                 android:layout_marginEnd="@dimen/d"
                 android:layout_marginStart="@dimen/d"
@@ -46,17 +46,17 @@
                 android:text="@string/label_ews_connection_unsuccesful_body"/>
 
             <Button
-                android:id="@+id/connection_unsuccessful_yes_button"
+                android:id="@+id/ews_H_03_00_a_button_yes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/connection_unsuccessful_no_button"
+                android:layout_above="@+id/ews_H_03_00_a_button_no"
                 android:layout_marginEnd="@dimen/d"
                 android:layout_marginStart="@dimen/d"
                 android:onClick="@{() -> viewModel.onNeedHelpButtonClicked()}"
                 android:text="@string/button_ews_connection_unsuccesful_yes"/>
 
             <Button
-                android:id="@+id/connection_unsuccessful_no_button"
+                android:id="@+id/ews_H_03_00_a_button_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

@@ -24,7 +24,7 @@
             android:paddingStart="@dimen/e">
 
             <TextView
-                android:id="@+id/ews_hotspot_blinking_title"
+                android:id="@+id/ews_02_01_label_plug_in_title"
                 style="@style/EWS.Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/ews_hotspot_blinking_yes_button"
+                android:id="@+id/ews_02_01_button_plug_in_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
