@@ -11,13 +11,13 @@ import javax.inject.Inject;
 
 public class WrongWifiNetworkViewModel {
     @NonNull
-    public ObservableField<String> networkName = new ObservableField<>();
+    public ObservableField<String> description = new ObservableField<>();
 
     @Inject
     public WrongWifiNetworkViewModel() {
     }
 
-    public void setNetworkName(@NonNull String name){
-        networkName.set(name);
+    public void setDescription(@NonNull String name){
+        description.set(name);
     }
 }
