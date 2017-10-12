@@ -18,12 +18,13 @@ import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.DevicePort;
+import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.example.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.example.port.time.TimePort;
+import com.philips.cdp2.commlib.example.port.time.TimePortProperties;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -157,8 +158,11 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
         currentAppliance.getDevicePort().addPortListener(new DICommPortListener() {
             @Override
             public void onPortUpdate(DICommPort port) {
-                String devicename = ((DevicePort) port).getPortProperties().getName();
-                deviceNameEdit.setText(devicename);
+                DevicePortProperties properties = (DevicePortProperties) port.getPortProperties();
+                if (properties == null) {
+                    return;
+                }
+                deviceNameEdit.setText(properties.getName());
             }
 
             @Override
@@ -194,7 +198,12 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
 
             @Override
             public void onPortUpdate(TimePort timePort) {
-                final String datetime = timePort.getPortProperties().datetime;
+                TimePortProperties properties = timePort.getPortProperties();
+                if (properties == null) {
+                    return;
+                }
+
+                final String datetime = properties.datetime;
                 if (datetime == null) {
                     return;
                 }
