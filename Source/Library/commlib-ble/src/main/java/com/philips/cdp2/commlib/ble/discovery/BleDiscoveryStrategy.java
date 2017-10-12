@@ -23,7 +23,6 @@ import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,6 +43,9 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
      */
     public static final long SCAN_WINDOW_MILLIS = 60000L;
 
+    /**
+     * This is a worldwide constant, see: https://www.bluetooth.com/specifications/assigned-numbers/company-identifiers
+     */
     public static final int MANUFACTURER_PREAMBLE = 477; // 0x01DD
 
     private final Context context;
@@ -134,7 +136,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
 
         // Model id, e.g. 'FC8932'
         byte[] manufacturerData = shnDeviceFoundInfo.getBleScanRecord().getManufacturerSpecificData(MANUFACTURER_PREAMBLE);
-        if(manufacturerData != null) {
+        if (manufacturerData != null) {
             final String modelId = new String(manufacturerData);
             networkNode.setModelId(modelId);
         }
