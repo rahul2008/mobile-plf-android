@@ -26,20 +26,10 @@ public class BleUtilities {
     @NonNull
     private final Context applicationContext;
     private final BluetoothAdapter bluetoothAdapter;
-    private final ScanSettings settings;
 
     public BleUtilities(final @NonNull Context applicationContext) {
         this.applicationContext = applicationContext;
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        ScanSettings.Builder builder = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
-
-        if (bluetoothAdapter.isOffloadedScanBatchingSupported()) {
-            builder.setReportDelay(DISCOVERY_REPORT_DELAY_MILLIS);
-        }
-
-        this.settings = builder.build();
     }
 
     public boolean isBleFeatureAvailable() {
@@ -62,6 +52,15 @@ public class BleUtilities {
         if (!isBluetoothAdapterEnabled()) {
             return;
         }
+
+        ScanSettings.Builder builder = new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
+
+        if (bluetoothAdapter.isOffloadedScanBatchingSupported()) {
+            builder.setReportDelay(DISCOVERY_REPORT_DELAY_MILLIS);
+        }
+
+        final ScanSettings settings = builder.build();
         final BluetoothLeScanner bluetoothScanner = bluetoothAdapter.getBluetoothLeScanner();
 
         bluetoothScanner.startScan(null, settings, scanCallback);
