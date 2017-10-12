@@ -30,7 +30,7 @@ public class WiFiUtil {
     public static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;
 
-    private String homeWiFiSSID;
+    private String lastWifiSSid;
     private String hotSpotWiFiSSID;
 
     public static final int HOME_WIFI = 1;
@@ -48,7 +48,7 @@ public class WiFiUtil {
     }
 
     public String getHomeWiFiSSD() {
-        return homeWiFiSSID;
+        return lastWifiSSid;
     }
 
     public String getConnectedWiFiSSID() {
@@ -65,8 +65,8 @@ public class WiFiUtil {
 
     @Nullable
     public String getCurrentWiFiSSID() {
-        homeWiFiSSID = getConnectedWiFiSSID();
-        return homeWiFiSSID;
+        lastWifiSSid = getConnectedWiFiSSID();
+        return lastWifiSSid;
     }
 
     public boolean isHomeWiFiEnabled() {
@@ -88,18 +88,18 @@ public class WiFiUtil {
         String currentWifi = getConnectedWiFiSSID();
         EWSLogger.d(EWS_STEPS, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
-        if (homeWiFiSSID == null || currentWifi == null || currentWifi
+        if (lastWifiSSid == null || currentWifi == null || currentWifi
                 .equalsIgnoreCase(UNKNOWN_SSID)) {
             return UNKNOWN_WIFI;
         } else if (currentWifi.contains(DEVICE_SSID)) {
             return DEVICE_HOTSPOT_WIFI;
-        } else if (currentWifi.contains(homeWiFiSSID)) {
+        } else if (currentWifi.contains(lastWifiSSid)) {
             return HOME_WIFI;
-        } else if (!homeWiFiSSID.equals(currentWifi)
-                && !homeWiFiSSID.equals(DEVICE_SSID)) {
+        } else if (!lastWifiSSid.equals(currentWifi)
+                && !lastWifiSSid.equals(DEVICE_SSID)) {
             EWSLogger.d(EWS_STEPS,
                     "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " +
-                            homeWiFiSSID);
+                            lastWifiSSid);
             return WRONG_WIFI;
         }
         return UNKNOWN_WIFI;
