@@ -29,6 +29,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -47,11 +48,10 @@ public class EWSActivity extends UiKitActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO clean up this onCreate()
-        HashMap map = new HashMap<String, String>();
-        map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
-        EWSDependencyProvider.getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), map);
+        initMicroAppDependencies();
         setContentView(R.layout.ews_activity_main);
         setUpToolBar();
+        setUpCancelButton();
 
         ewsComponent = DaggerEWSComponent.
                 builder().
@@ -63,13 +63,22 @@ public class EWSActivity extends UiKitActivity {
 
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
+    }
 
+    private void setUpCancelButton() {
         findViewById(R.id.ic_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleCancelButtonClicked();
             }
         });
+    }
+
+    private void initMicroAppDependencies() {
+        Map<String, String> map = new HashMap<>();
+        map.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
+        EWSDependencyProvider
+                .getInstance().initDependencies(new AppInfra.Builder().build(getBaseContext()), map);
     }
 
     private void setUpToolBar() {
@@ -100,17 +109,14 @@ public class EWSActivity extends UiKitActivity {
         EWSDependencyProvider.getInstance().clear();
     }
 
-
     @Override
     public void onBackPressed() {
-        boolean backHandledByFragment = false;
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (currentFragment instanceof BackEventListener) {
-            BackEventListener backEventListener = (BackEventListener) currentFragment;
-            backHandledByFragment = backEventListener.handleBackEvent();
-        }
-        if (!backHandledByFragment) {
-            super.onBackPressed();
+        if (!wasBackHandledByCurrentlyDisplayedFragment()) {
+            if (shouldFinish()) {
+                finish();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -119,9 +125,23 @@ public class EWSActivity extends UiKitActivity {
         return ewsComponent;
     }
 
+    private boolean shouldFinish() {
+        return getSupportFragmentManager().getBackStackEntryCount() == 1;
+    }
+
+    private boolean wasBackHandledByCurrentlyDisplayedFragment() {
+        boolean backHandledByFragment = false;
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (currentFragment instanceof BackEventListener) {
+            BackEventListener backEventListener = (BackEventListener) currentFragment;
+            backHandledByFragment = backEventListener.handleBackEvent();
+        }
+        return backHandledByFragment;
+    }
+
     protected void handleCancelButtonClicked() {
        BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        baseFragment.handleCancelButtonClicked();
+       baseFragment.handleCancelButtonClicked();
     }
 
 }
