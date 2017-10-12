@@ -51,9 +51,8 @@
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:text="@string/reg_DLS_SigIn_TitleTxt"
-                app:uidComponentType="Secondary"/>             />
+                app:uidComponentType="Secondary"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_orLoginWith_Label"
@@ -70,23 +69,10 @@
                 android:id="@+id/usr_startScreen_Social_Container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_dimen_24dp"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:gravity="center"
                 android:orientation="horizontal">
             </LinearLayout>
-
-            <GridView
-                android:id="@+id/primary_social_icons_grid_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:columnWidth="75dp"
-                android:horizontalSpacing="2dp"
-                android:numColumns="4"
-                android:verticalSpacing="2dp">
-            </GridView>
-
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_StartScreen_Skip_Button"

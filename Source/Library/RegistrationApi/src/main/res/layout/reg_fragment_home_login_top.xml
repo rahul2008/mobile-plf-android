@@ -77,8 +77,8 @@
                 android:id="@+id/usr_startScreen_createAccount_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 app:uidComponentType="Secondary"/>/>
 
             <com.philips.platform.uid.view.widget.Button
