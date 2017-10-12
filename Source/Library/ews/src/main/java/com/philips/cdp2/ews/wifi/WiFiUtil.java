@@ -64,18 +64,22 @@ public class WiFiUtil {
     }
 
     @Nullable
-    public String getCurrentHomeWiFiSSID() {
+    public String getCurrentWiFiSSID() {
         homeWiFiSSID = getConnectedWiFiSSID();
         return homeWiFiSSID;
     }
 
     public boolean isHomeWiFiEnabled() {
         return wifiManager.isWifiEnabled() && isWifiConnectedToNetwork() && (!DEVICE_SSID
-                .equals(getCurrentHomeWiFiSSID()));
+                .equals(getCurrentWiFiSSID()));
     }
 
-    private boolean isWifiConnectedToNetwork() {
+    public boolean isWifiConnectedToNetwork() {
         return getConnectedWiFiSSID() != null && !TextUtils.isEmpty(getConnectedWiFiSSID());
+    }
+
+    public boolean isConnectedToPhilipsSetup() {
+        return getCurrentWiFiSSID() != null && DEVICE_SSID.equals(getCurrentWiFiSSID());
     }
 
     public
