@@ -63,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/d"
+                android:onClick="@{()->viewModel.onButtonClick()}"
                 android:text="@string/button_ews_phone_reconnected_different_network_confirm" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
