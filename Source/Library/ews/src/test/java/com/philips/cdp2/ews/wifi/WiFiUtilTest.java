@@ -61,6 +61,11 @@ public class WiFiUtilTest {
         when(wifiInfoMock.getSSID()).thenReturn(HOME_SSID);
     }
 
+    private void stubSSIDWithEmptyState() {
+        when(wifiInfoMock.getSupplicantState()).thenReturn(SupplicantState.INACTIVE);
+        when(wifiInfoMock.getSSID()).thenReturn("");
+    }
+
     @Test
     public void shouldReturnNullWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
@@ -138,6 +143,22 @@ public class WiFiUtilTest {
     public void ShouldReturnFalseIfWiFiIsEnabledAndConnectedToPhilipsHotspot() throws Exception {
         when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
         stubSSID(WiFiUtil.DEVICE_SSID);
+        wiFiUtil.getCurrentHomeWiFiSSID();
+
+
+        assertFalse(wiFiUtil.isHomeWiFiEnabled());
+    }
+
+    @Test
+    public void ShouldReturnFalseIfWiFiIsDisabled() throws Exception {
+        when(wifiManagerMock.isWifiEnabled()).thenReturn(false);
+        assertFalse(wiFiUtil.isHomeWiFiEnabled());
+    }
+
+    @Test
+    public void ShouldReturnFalseIfWiFiIsEnabledAndWifiSSIDEmpty() throws Exception {
+        when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
+        stubSSIDWithEmptyState();
         wiFiUtil.getCurrentHomeWiFiSSID();
 
         assertFalse(wiFiUtil.isHomeWiFiEnabled());
