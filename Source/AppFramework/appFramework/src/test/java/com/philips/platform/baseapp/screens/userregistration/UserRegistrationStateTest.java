@@ -104,14 +104,7 @@ public class UserRegistrationStateTest {
         hsdpSecrets.put(CHINA_CODE, STAGE_SECRET_KEY_CHINA);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-
-        if(map != null) {
-            assertEquals(STAGE_SECRET_KEY_CHINA, map.get(DEFAULT));
-        }
-        else {
-            // Here the intention to break the test case.
-            assertNotNull("Shared preference is not working in appConfigurationInterface.getPropertyForKey", map);
-        }
+        assertEquals(STAGE_SECRET_KEY_CHINA, map.get(DEFAULT));
     }
 
     @Test
@@ -124,14 +117,7 @@ public class UserRegistrationStateTest {
         hsdpSecrets.put(DEFAULT, DEVELOPMENT_SECRET_KEY_DEFAULT);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-
-        if(map != null) {
-            assertEquals(DEVELOPMENT_SECRET_KEY_DEFAULT, map.get(DEFAULT));
-        }
-        else {
-            // Here the intention to break the test case.
-            assertNotNull("Shared preference is not working in appConfigurationInterface.getPropertyForKey", map);
-        }
+        assertEquals(DEVELOPMENT_SECRET_KEY_DEFAULT, map.get(DEFAULT));
     }
 
 
@@ -145,13 +131,7 @@ public class UserRegistrationStateTest {
         hsdpSecrets.put(DEFAULT, TEST_SECRET_KEY_DEFAULT);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-        if(map != null) {
-            assertEquals(TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
-        }
-        else {
-            // Here the intention to break the test case.
-            assertNotNull("Shared preference is not working in appConfigurationInterface.getPropertyForKey", map);
-        }
+        assertEquals(TEST_SECRET_KEY_DEFAULT, map.get(DEFAULT));
     }
 
     @Test
