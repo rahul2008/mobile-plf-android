@@ -29,7 +29,6 @@ import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 import com.philips.cdp2.ews.communication.ApplianceAccessEventMonitor;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.communication.EventingChannel;
-import com.philips.cdp2.ews.communication.WiFiBroadcastReceiver;
 import com.philips.cdp2.ews.communication.WiFiEventMonitor;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ActivityNavigator;
@@ -63,8 +62,10 @@ import dagger.Provides;
 @Module
 public class EWSModule {
 
-    @NonNull private final Context context;
-    @NonNull private final FragmentManager fragmentManager;
+    @NonNull
+    private final Context context;
+    @NonNull
+    private final FragmentManager fragmentManager;
 
     public EWSModule(Context context, @NonNull FragmentManager fragmentManager) {
         this.context = context;
@@ -74,13 +75,6 @@ public class EWSModule {
     @Provides
     WifiManager providesWiFiManager() {
         return (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-    }
-
-    @Provides
-    WiFiBroadcastReceiver providesWiFiBroadcastReceiver(@NonNull final @Named("ews.event.bus") EventBus eventBus,
-                                                        @NonNull final WiFiUtil wiFiUtil,
-                                                        @NonNull ApplianceSessionDetailsInfo applianceSessionDetailsInfo) {
-        return new WiFiBroadcastReceiver(context, eventBus, wiFiUtil, applianceSessionDetailsInfo);
     }
 
     @Singleton
@@ -93,10 +87,9 @@ public class EWSModule {
     @SuppressWarnings("unchecked")
     @Singleton
     @Provides
-    EventingChannel<EventingChannel.ChannelCallback> providesEWSEventingChannel(@NonNull final WiFiBroadcastReceiver receiver,
-                                                                                @NonNull final ApplianceAccessEventMonitor applianceAccessEventMonitor,
+    EventingChannel<EventingChannel.ChannelCallback> providesEWSEventingChannel(@NonNull final ApplianceAccessEventMonitor applianceAccessEventMonitor,
                                                                                 @NonNull final WiFiEventMonitor wiFiEventMonitor) {
-        return new EventingChannel<>(Arrays.asList(receiver, applianceAccessEventMonitor, wiFiEventMonitor));
+        return new EventingChannel<>(Arrays.<EventingChannel.ChannelCallback>asList(applianceAccessEventMonitor, wiFiEventMonitor));
     }
 
     @Provides
