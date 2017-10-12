@@ -314,6 +314,15 @@
             ]
           },
           {
+            "eventId": "TestMyAccountServiceEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoMyAccountService"
+              }
+            ]
+          },
+          {
             "eventId": "TestInAppPurhcaseEvent",
             "nextStates": [
               {
