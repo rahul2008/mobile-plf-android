@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
@@ -136,14 +137,21 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         });
     }
 
+    private ProgressDialog mProgressDialog;
 
-    private void showProgressDialog() {
-        if (!getActivity().isFinishing()) resendSMSButton.showProgressIndicator();
+   private void showProgressDialog() {
+        if (!getActivity().isFinishing()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();        }
     }
 
     private void hideProgressDialog() {
-        if ( resendSMSButton.isShown()) {
-            resendSMSButton.hideProgressIndicator();
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
         }
     }
     @Override
@@ -185,6 +193,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             resendSMSButton.setEnabled(false);
         }
         phoneNumberEditText.setEnabled(true);
+        smsReceivedButton.setEnabled(true);
     }
 
     private void handleResendVerificationSMSSuccess() {
@@ -280,6 +289,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void enableResendButton() {
+
         resendSMSButton.setText(getActivity().getResources().getString(
                 R.string.reg_Resend_SMS_title));
         resendSMSButton.setProgressText(getActivity().getResources().getString(
@@ -330,6 +340,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
         phoneNumberEditText.setEnabled(false);
         resendSMSButton.setEnabled(false);
+        smsReceivedButton.setEnabled(false);
     }
 
     @Override
