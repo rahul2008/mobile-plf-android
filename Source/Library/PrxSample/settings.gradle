@@ -1,2 +1,3 @@
 include ':app', ':prx'
+include ':prxUApp'
 project(':prxUApp').projectDir = new File('../app')
