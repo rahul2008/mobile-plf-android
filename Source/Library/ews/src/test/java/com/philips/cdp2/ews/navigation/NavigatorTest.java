@@ -117,7 +117,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushConnectionUnsucessfulTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToConnectionUnsuccessfulTroubleShootingScreen();
+        subject.navigateToConnectionUnsuccessfulTroubleShootingScreen(null);
 
         verifyFragmentPushed(TroubleshootConnectionUnsuccessfulFragment.class);
     }

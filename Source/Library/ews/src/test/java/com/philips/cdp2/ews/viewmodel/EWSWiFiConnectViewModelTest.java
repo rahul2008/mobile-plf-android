@@ -17,13 +17,11 @@ import com.philips.cdp2.ews.BuildConfig;
 import com.philips.cdp2.ews.annotations.ConnectionErrorType;
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
-import com.philips.cdp2.ews.communication.events.ConnectApplianceToHomeWiFiEvent;
 import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.EWSTagger;
-import com.philips.cdp2.ews.tagging.Tag;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -32,7 +30,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
@@ -46,14 +43,11 @@ import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowInputMethodManager;
 
-import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
-import static com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel.APPLIANCE_PAIR_TIME_OUT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -108,14 +102,9 @@ public class EWSWiFiConnectViewModelTest {
         PowerMockito.mockStatic(EWSCallbackNotifier.class);
         when(EWSCallbackNotifier.getInstance()).thenReturn(ewsCallbackNotifier);
 
-        viewModel = new EWSWiFiConnectViewModel(wifiUtilMock, sessionInfoMock, eventBusMock,
-                navigatorMock, dialogFragmentMock, handlerMock);
+        viewModel = new EWSWiFiConnectViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
+                dialogFragmentMock);
         viewModel.setFragment(fragmentMock);
-    }
-
-    @Test
-    public void shouldSubscribeForEventingOnceViewModelIsCreated() throws Exception {
-        verify(eventBusMock).register(viewModel);
     }
 
     @Test
@@ -149,34 +138,8 @@ public class EWSWiFiConnectViewModelTest {
     }
 
     @Test
-    public void shouldSendEmptyPasswordWhenNothingEntered() {
-        ArgumentCaptor<ConnectApplianceToHomeWiFiEvent> argumentCaptor = ArgumentCaptor.forClass(ConnectApplianceToHomeWiFiEvent.class);
-
-        viewModel.connectApplianceToHomeWiFi();
-
-        verify(eventBusMock).post(argumentCaptor.capture());
-        ConnectApplianceToHomeWiFiEvent event = argumentCaptor.getValue();
-        assertEquals(event.getHomeWiFiPassword(), "");
-    }
-
-    @Test
     public void shouldHaveEmptyStringInPassword() {
         assertEquals(viewModel.password.get(), "");
-    }
-
-    @Test
-    public void shouldSendEventToConnectApplianceToHomeWiFiWhenAsked() throws Exception {
-        viewModel.connectApplianceToHomeWiFi();
-
-        verify(eventBusMock).post(isA(ConnectApplianceToHomeWiFiEvent.class));
-    }
-
-    @Test
-    public void shouldShowPairingStatusScreenOnceApplianceIsDiscoveredAfterConnectedToHomeWifi() throws Exception {
-        viewModel.showPairingSuccessEvent(new PairingSuccessEvent());
-
-        verify(navigatorMock).navigateToPairingSuccessScreen();
-        verify(handlerMock).removeCallbacks(any(Runnable.class));
     }
 
     @Test
@@ -193,53 +156,46 @@ public class EWSWiFiConnectViewModelTest {
         verify(dialogFragmentMock).dismissAllowingStateLoss();
     }
 
-    @Test
-    public void shouldShowDialogBoxDismissWhenConnectRequestIsSent() throws Exception {
-        viewModel.connectApplianceToHomeWiFi();
-
-        verify(dialogFragmentMock).show(fragmentMock.getFragmentManager(), fragmentMock.getClass().getName());
-    }
-
-    @Test
-    public void shouldPostTimeoutRunnableWithSpecificDelayWhenConnectEventIsSend() throws Exception {
-        ArgumentCaptor<Long> integerArgumentCaptor = ArgumentCaptor.forClass(Long.class);
-        viewModel.connectApplianceToHomeWiFi();
-
-        verify(handlerMock).postDelayed(any(Runnable.class), integerArgumentCaptor.capture());
-
-        assertEquals(APPLIANCE_PAIR_TIME_OUT, integerArgumentCaptor.getValue().intValue());
-    }
-
-    @Test
-    public void shouldShowIncorrectPasswordScreenWhenTimeoutHappened() throws Exception {
-        ArgumentCaptor<Runnable> argumentCaptor = ArgumentCaptor.forClass(Runnable.class);
-        viewModel.connectApplianceToHomeWiFi();
-
-        verify(handlerMock).postDelayed(argumentCaptor.capture(), anyLong());
-        argumentCaptor.getValue().run();
-
-        verifyConnectionUnsuccessfulScreenIsShown();
-    }
-
-    @Test
-    public void shouldShowIncorrectPasswordScreenWhenConnectionErrorEventIsReceived() throws Exception {
-        viewModel.onConnectionErrorOccured(new ApplianceConnectErrorEvent(ConnectionErrorType.WRONG_CREDENTIALS));
-
-        verifyConnectionUnsuccessfulScreenIsShown();
-    }
-
-    @Test
-    public void shouldUnregisterWithEventBusWhenAsked() throws Exception {
-        viewModel.unregister();
-
-        verify(eventBusMock).unregister(viewModel);
-    }
-
-    private void verifyConnectionUnsuccessfulScreenIsShown() {
-        verify(navigatorMock).navigateToConnectionUnsuccessfulTroubleShootingScreen();
-        verify(dialogFragmentMock).dismissAllowingStateLoss();
-        verify(handlerMock).removeCallbacks(any(Runnable.class));
-    }
+//    @Test
+//    public void shouldShowDialogBoxDismissWhenConnectRequestIsSent() throws Exception {
+//        viewModel.connectApplianceToHomeWiFi();
+//
+//        verify(dialogFragmentMock).show(fragmentMock.getFragmentManager(), fragmentMock.getClass().getName());
+//    }
+//
+//    @Test
+//    public void shouldPostTimeoutRunnableWithSpecificDelayWhenConnectEventIsSend() throws Exception {
+//        ArgumentCaptor<Long> integerArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+//        viewModel.connectApplianceToHomeWiFi();
+//
+//        verify(handlerMock).postDelayed(any(Runnable.class), integerArgumentCaptor.capture());
+//
+//        assertEquals(APPLIANCE_PAIR_TIME_OUT, integerArgumentCaptor.getValue().intValue());
+//    }
+//
+//    @Test
+//    public void shouldShowIncorrectPasswordScreenWhenTimeoutHappened() throws Exception {
+//        ArgumentCaptor<Runnable> argumentCaptor = ArgumentCaptor.forClass(Runnable.class);
+//        viewModel.connectApplianceToHomeWiFi();
+//
+//        verify(handlerMock).postDelayed(argumentCaptor.capture(), anyLong());
+//        argumentCaptor.getValue().run();
+//
+//        verifyConnectionUnsuccessfulScreenIsShown();
+//    }
+//
+//    @Test
+//    public void shouldShowIncorrectPasswordScreenWhenConnectionErrorEventIsReceived() throws Exception {
+//        viewModel.onConnectionErrorOccured(new ApplianceConnectErrorEvent(ConnectionErrorType.WRONG_CREDENTIALS));
+//
+//        verifyConnectionUnsuccessfulScreenIsShown();
+//    }
+//
+//    private void verifyConnectionUnsuccessfulScreenIsShown() {
+//        verify(navigatorMock).navigateToConnectionUnsuccessfulTroubleShootingScreen(null);
+//        verify(dialogFragmentMock).dismissAllowingStateLoss();
+//        verify(handlerMock).removeCallbacks(any(Runnable.class));
+//    }
 
     @Test
     public void shouldDismissDialogWhenWrongWifiEventReceived() throws Exception {
@@ -255,7 +211,7 @@ public class EWSWiFiConnectViewModelTest {
         viewModel.onStart();
 
         verify(dialogFragmentMock).show(any(FragmentManager.class), any(String.class));
-        verify(handlerMock).postDelayed(viewModel.timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
+//        verify(handlerMock).postDelayed(viewModel.timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
     }
 
     @Test
@@ -265,7 +221,7 @@ public class EWSWiFiConnectViewModelTest {
         viewModel.onStart();
 
         verify(dialogFragmentMock, Mockito.never()).show(any(FragmentManager.class), any(String.class));
-        verify(handlerMock, Mockito.never()).postDelayed(viewModel.timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
+//        verify(handlerMock, Mockito.never()).postDelayed(viewModel.timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
     }
 
     @Test
@@ -275,27 +231,14 @@ public class EWSWiFiConnectViewModelTest {
         viewModel.onStart();
 
         verify(dialogFragmentMock, Mockito.never()).show(any(FragmentManager.class), any(String.class));
-        verify(handlerMock, Mockito.never()).postDelayed(viewModel.timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
-    }
-
-    @Test
-    public void shouldSendConnectionTagsWhenConnectionIsInitiated() throws Exception {
-
-        viewModel.connectApplianceToHomeWiFi();
-
-        PowerMockito.verifyStatic();
-        EWSTagger.startTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME, EWSDependencyProvider.getInstance().getProductName());
+//        verify(handlerMock, Mockito.never()).postDelayed(viewModel.timeoutRunnable, APPLIANCE_PAIR_TIME_OUT);
     }
 
     @Test
     public void shouldSendConnectionTagsWhenWeRevisitThisPageAgain() throws Exception {
-
         viewModel.connectApplianceToHomeWiFi();
 
-        PowerMockito.verifyStatic();
-        EWSTagger.startTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME, EWSDependencyProvider.getInstance().getProductName());
+        verify(navigatorMock).navigateToConnectingDeviceWithWifiScreen(anyString(), anyString(), anyString());
     }
 
     @Test
