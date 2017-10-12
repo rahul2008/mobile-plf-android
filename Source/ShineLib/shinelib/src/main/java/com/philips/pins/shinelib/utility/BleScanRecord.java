@@ -9,14 +9,8 @@ import android.bluetooth.le.ScanRecord;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.SparseArray;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,7 +65,7 @@ public class BleScanRecord {
     @NonNull
     public List<UUID> getUuids() {
         List<UUID> uuids = new ArrayList<>();
-        if(scanRecord != null && scanRecord.getServiceUuids() != null) {
+        if (scanRecord != null && scanRecord.getServiceUuids() != null) {
             for (ParcelUuid uuid : scanRecord.getServiceUuids()) {
                 uuids.add(uuid.getUuid());
             }
@@ -86,7 +80,7 @@ public class BleScanRecord {
      */
     @Nullable
     public String getLocalName() {
-        if(scanRecord != null) {
+        if (scanRecord != null) {
             return scanRecord.getDeviceName();
         } else {
             return null;

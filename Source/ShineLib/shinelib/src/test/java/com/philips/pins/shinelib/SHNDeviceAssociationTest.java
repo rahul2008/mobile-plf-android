@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
@@ -158,6 +163,7 @@ public class SHNDeviceAssociationTest {
         doReturn(DEVICE_MAC_ADDRESS).when(mockedSHNDevice).getAddress();
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDevice).getDeviceTypeName();
         doReturn(SHNDevice.State.Disconnected).when(mockedSHNDevice).getState();
+        doNothing().when(mockedSHNDevice).setName(anyString());
 
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
         doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
@@ -302,7 +308,7 @@ public class SHNDeviceAssociationTest {
         ArgumentCaptor<SHNInternalScanRequest> scanRequestCaptor = ArgumentCaptor.forClass(SHNInternalScanRequest.class);
         verify(mockedSHNDeviceScannerInternal).startScanning(scanRequestCaptor.capture());
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("11:22:33:44:55:66").when(mockedBluetoothDevice).getAddress();
         doReturn("MoonshineTest").when(mockedBluetoothDevice).getName();
 

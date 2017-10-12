@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -15,7 +15,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Locale;
 
 /* This class prevents the Android Bluetooth stack from holding on the object that implements the
  * LeScanCallback and *everything it references* after stopping the scan.
@@ -53,7 +53,8 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onScanResult(int callbackType, ScanResult result) {
-        SHNLogger.e("LeScanCallbackProxy", String.format("onScanResult %s", result));
+        SHNLogger.e("LeScanCallbackProxy", String.format(Locale.US, "onScanResult %s", result));
+
         if (leScanCallback != null) {
             leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());
         }
@@ -61,10 +62,10 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onBatchScanResults(List<ScanResult> results) {
-        SHNLogger.e("LeScanCallbackProxy", String.format("onBatchScanResults %d", results.size()));
+        SHNLogger.e("LeScanCallbackProxy", String.format(Locale.US, "onBatchScanResults %d", results.size()));
+
         for (ScanResult result : results) {
             if (leScanCallback != null) {
-                //SHNLogger.e(getClass().getName(), String.format("onScanResult address: %s, device: %s", result.getDevice().getAddress(), result.getScanRecord().getDeviceName()));
                 leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());
             }
         }
