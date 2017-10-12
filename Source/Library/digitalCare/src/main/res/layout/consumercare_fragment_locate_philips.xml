@@ -3,7 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent">
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
@@ -65,7 +65,8 @@
                 android:id="@+id/showlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/whitesmoke"
+
+                android:background="?attr/uidContentPrimaryBackgroundColor"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/showlayout_padding_bottom"
                 android:paddingLeft="@dimen/showlayout_padding_left"
@@ -91,7 +92,7 @@
                         android:text=""
                         android:textSize="18sp"/>
 
-                    <ImageView
+                    <TextView
                         android:id="@+id/close_icon"
                         android:layout_width="29dip"
                         android:layout_height="20dip"
