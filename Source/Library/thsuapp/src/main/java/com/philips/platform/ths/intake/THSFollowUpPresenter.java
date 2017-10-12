@@ -78,7 +78,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         thsFollowUpViewInterfaces.hideProgressButton();
         //update signleton THSManager THSConsumerWrapper member
         THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step5PhoneNumberAdded");
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
+        //THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
             thsFollowUpViewInterfaces.showProviderDetailsFragment();
         } else {

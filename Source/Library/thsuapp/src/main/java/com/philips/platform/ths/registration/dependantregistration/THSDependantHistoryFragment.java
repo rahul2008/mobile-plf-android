@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.practice.THSPracticeFragment;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.THSConstants;
@@ -39,12 +40,15 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     private RelativeLayout mParentContainer;
     private Label mLabelParentName;
     private ImageView mImageViewLogo;
-    private int mLaunchInput = -1;
+    protected int mLaunchInput = -1;
+    private RelativeLayout mRelativeLayoutContainer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_dependant_list, container, false);
+
+        mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.activity_main);
 
         mLaunchInput = getArguments().getInt(THSConstants.THS_LAUNCH_INPUT);
 
@@ -54,10 +58,10 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         mParentContainer.setOnClickListener(this);
 
         mLabelParentName = (Label) view.findViewById(R.id.ths_parent_name);
-        mLabelParentName.setText(THSManager.getInstance().getThsConsumer().getFirstName());
+        mLabelParentName.setText(THSManager.getInstance().getThsParentConsumer().getFirstName());
 
         mImageViewLogo = (ImageView) view.findViewById(R.id.ths_parent_logo);
-        showProfilePic(THSManager.getInstance().getThsConsumer());
+        showProfilePic(THSManager.getInstance().getThsParentConsumer());
 
         mParentContainer.setOnClickListener(this);
         mThsDependentPresenter = new THSDependentPresenter(this);
@@ -89,22 +93,18 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
     public void onClick(View view) {
         int resId = view.getId();
         if(resId == R.id.ths_parent_container){
-            launchRequestedInput(THSManager.getInstance().getThsConsumer());
+            final THSConsumer thsConsumer = THSManager.getInstance().getThsParentConsumer();
+            THSManager.getInstance().setThsConsumer(THSManager.getInstance().getThsConsumer());
+            launchRequestedInput(thsConsumer);
         }
     }
 
     private void launchRequestedInput(THSConsumer thsConsumer) {
-        switch (mLaunchInput){
-            case THSConstants.THS_SCHEDULED_VISITS:
-                addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
-                break;
-            case THSConstants.THS_VISITS_HISTORY:
-                addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
-                break;
-            case THSConstants.THS_PRACTICES:
-                addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);
-                break;
-        }
+        THSManager.getInstance().setThsConsumer(thsConsumer);
+        THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+        thsConsumerWrapper.setConsumer(thsConsumer.getConsumer());
+        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
+        mThsDependentPresenter.checkIfUserExists();
     }
 
     protected void showProfilePic(THSConsumer thsConsumer) {

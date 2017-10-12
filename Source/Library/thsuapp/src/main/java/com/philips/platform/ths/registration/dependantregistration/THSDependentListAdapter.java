@@ -35,7 +35,7 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
     }
 
     public THSDependentListAdapter(Context activity) {
-        mDependents = THSManager.getInstance().getThsConsumer().getDependents();
+        mDependents = THSManager.getInstance().getThsParentConsumer().getDependents();
         context = activity;
     }
 
@@ -47,7 +47,7 @@ public class THSDependentListAdapter extends RecyclerView.Adapter<THSDependentLi
     }
 
     @Override
-    public void onBindViewHolder(THSDependentListAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(THSDependentListAdapter.CustomViewHolder holder, final int position) {
         final THSConsumer thsConsumer = mDependents.get(position);
         holder.label.setText(thsConsumer.getFirstName());
         showProfilePic(holder, thsConsumer);

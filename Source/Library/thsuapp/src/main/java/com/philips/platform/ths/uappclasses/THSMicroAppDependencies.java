@@ -21,7 +21,7 @@ public class THSMicroAppDependencies extends UappDependencies {
     }
 
     public void setThsConsumer(THSConsumer thsConsumer){
-        THSManager.getInstance().setThsConsumer(thsConsumer);
+        THSManager.getInstance().setThsParentConsumer(thsConsumer);
     }
 
 }

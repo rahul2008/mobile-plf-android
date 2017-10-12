@@ -172,7 +172,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby.setEmail(user.getEmail());
         baby.setDob(new Date());
         baby.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78");
-
+        baby.setDependent(true);
         ArrayList dependants = new ArrayList();
         dependants.add(baby);
 
@@ -184,6 +184,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
+        thsConsumer.setDependent(false);
 
 
         final THSMicroAppDependencies uappDependencies = new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra());

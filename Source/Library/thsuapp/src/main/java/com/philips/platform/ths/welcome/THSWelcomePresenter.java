@@ -43,14 +43,14 @@ class THSWelcomePresenter implements THSBasePresenter,
         Bundle bundle = new Bundle();
         if (componentID == R.id.appointments) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_SCHEDULED_VISITS);
-            if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
+            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSScheduledVisitsFragment(), THSScheduledVisitsFragment.TAG, null, false);
             }
         } else if (componentID == R.id.visit_history) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_VISITS_HISTORY);
-            if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
+            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSVisitHistoryFragment(), THSScheduledVisitsFragment.TAG, null, false);
@@ -59,7 +59,7 @@ class THSWelcomePresenter implements THSBasePresenter,
             uiBaseView.showToast("Coming Soon!!!");
         } else if (componentID == R.id.ths_start) {
             bundle.putInt(THSConstants.THS_LAUNCH_INPUT,THSConstants.THS_PRACTICES);
-            if(THSManager.getInstance().getThsConsumer().getDependents()!=null && THSManager.getInstance().getThsConsumer().getDependents().size()>0){
+            if(THSManager.getInstance().getThsParentConsumer().getDependents()!=null && THSManager.getInstance().getThsParentConsumer().getDependents().size()>0){
                 uiBaseView.addFragment(new THSDependantHistoryFragment(),THSDependantHistoryFragment.TAG,bundle,false);
             }else {
                 uiBaseView.addFragment(new THSPracticeFragment(), THSPracticeFragment.TAG, null, false);

@@ -116,6 +116,7 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
@@ -148,6 +149,7 @@ public class THSManager {
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
     private THSConsumer mThsConsumer;
+    private THSConsumer mThsParentConsumer;
     private boolean mIsReturningUser = true;
 
 
@@ -186,7 +188,7 @@ public class THSManager {
 
 
     public THSConsumerWrapper getPTHConsumer() {
-        return mTHSConsumerWrapper;
+       return mTHSConsumerWrapper;
     }
 
     public void setPTHConsumer(THSConsumerWrapper mTHSConsumerWrapper) {
@@ -256,9 +258,7 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),null,null,null, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-                thsConsumerWrapper.setConsumer(consumer);
-                setPTHConsumer(thsConsumerWrapper);
+                setConsumer(consumer);
                 thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
             }
 
@@ -274,7 +274,9 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().checkConsumerExists(getThsConsumer().getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
-                setIsReturningUser(aBoolean);
+                if(!getThsConsumer().isDependent()) {
+                    setIsReturningUser(aBoolean);
+                }
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
                 thsCheckConsumerExistsCallback.onResponse(aBoolean,thssdkError);
@@ -295,60 +297,34 @@ public class THSManager {
         return new User(context);
     }
 
-    public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumerWrapper, SDKPasswordError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getConsumerEnrollment(context, dateOfBirth, firstName, lastName, gender, state);
-
-        if(getThsConsumer().getDependents()!=null && getThsConsumer().getDependents().size()>0){
-            for(THSConsumer thsConsumer : getThsConsumer().getDependents()) {
-
-                final DependentEnrollment newDependantEnrollment = getDependantEnrollment(context, thsConsumer.getDob(),thsConsumer.getFirstName(),thsConsumer.getLastName(),Gender.MALE);
-
-               getAwsdk(context).getConsumerManager().enrollDependent(newDependantEnrollment, new SDKValidatedCallback<Consumer, SDKError>() {
-                   @Override
-                   public void onValidationFailure(Map<String, ValidationReason> map) {
-                       AmwellLog.i(AmwellLog.LOG,"validationFail");
-                       thssdkValidatedCallback.onValidationFailure(map);
-                   }
-
-                   @Override
-                   public void onResponse(Consumer consumer, SDKError sdkError) {
-
-                   }
-
-                   @Override
-                   public void onFailure(Throwable throwable) {
-                       AmwellLog.i(AmwellLog.LOG,"onFail");
-                       thssdkValidatedCallback.onFailure(throwable);
-                   }
-               });
-            }
-        }
 
         getAwsdk(context).getConsumerManager().enrollConsumer(newConsumerEnrollment,
                 new SDKValidatedCallback<Consumer, SDKPasswordError>() {
-            @Override
-            public void onValidationFailure(Map<String, ValidationReason> map) {
-                AmwellLog.i(AmwellLog.LOG,"validationFail");
-                thssdkValidatedCallback.onValidationFailure(map);
-            }
+                    @Override
+                    public void onValidationFailure(Map<String, ValidationReason> map) {
+                        AmwellLog.i(AmwellLog.LOG,"validationFail");
+                        thssdkValidatedCallback.onValidationFailure(map);
+                    }
 
-            @Override
-            public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                setIsReturningUser(true);
-                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-                thsConsumerWrapper.setConsumer(consumer);
-                setPTHConsumer(thsConsumerWrapper);
-                AmwellLog.i(AmwellLog.LOG,"onGetPaymentMethodResponse");
-                thssdkValidatedCallback.onResponse(thsConsumerWrapper,sdkPasswordError);
+                    @Override
+                    public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                        setIsReturningUser(true);
+                        THSConsumerWrapper thsConsumer = new THSConsumerWrapper();
+                        thsConsumer.setConsumer(consumer);
+                        setPTHConsumer(thsConsumer);
+                        AmwellLog.i(AmwellLog.LOG,"onGetPaymentMethodResponse");
+                        thssdkValidatedCallback.onResponse(thsConsumer,sdkPasswordError);
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                AmwellLog.i(AmwellLog.LOG,"onFail");
-                thssdkValidatedCallback.onFailure(throwable);
-            }
-        });
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        AmwellLog.i(AmwellLog.LOG,"onFail");
+                        thssdkValidatedCallback.onFailure(throwable);
+                    }
+                });
     }
 
     @NonNull
@@ -372,9 +348,35 @@ public class THSManager {
         return newConsumerEnrollment;
     }
 
+    public void enrollDependent(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, State state, final THSSDKValidatedCallback<THSConsumerWrapper, SDKError> thssdkValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().enrollDependent(getDependantEnrollment(context, dateOfBirth, firstName, lastName, gender), new SDKValidatedCallback<Consumer, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                thssdkValidatedCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(Consumer consumer, SDKError sdkError) {
+                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+                thsConsumerWrapper.setConsumer(consumer);
+
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                setConsumer(consumer);
+
+                thssdkValidatedCallback.onResponse(thsConsumerWrapper,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+               thssdkValidatedCallback.onFailure(throwable);
+            }
+        });
+    }
+
     @NonNull
     private DependentEnrollment getDependantEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender) throws AWSDKInstantiationException {
-        final DependentEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewDependentEnrollment(getPTHConsumer().getConsumer());
+        final DependentEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewDependentEnrollment(getThsParentConsumer().getConsumer());
 
         newConsumerEnrollment.setSourceId(getThsConsumer().getHsdpUUID());
 
@@ -566,9 +568,7 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-                thsConsumerWrapper.setConsumer(consumer);
-                setPTHConsumer(thsConsumerWrapper);
+                setConsumer(consumer);
                 THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
             }
 
@@ -671,7 +671,7 @@ public class THSManager {
 
                 THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
                 thsConsumerWrapper.setConsumer(consumer);
-                setPTHConsumer(thsConsumerWrapper);
+                setConsumer(consumer);
 
                 THSSDKPasswordError pthSDKError = new THSSDKPasswordError();
                 pthSDKError.setSdkPasswordError(sdkPasswordError);
@@ -1484,5 +1484,22 @@ public class THSManager {
 
     public void setThsConsumer(THSConsumer mThsConsumer) {
         this.mThsConsumer = mThsConsumer;
+    }
+
+    private void setConsumer(Consumer consumer) {
+        THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
+        thsConsumerWrapper.setConsumer(consumer);
+        setPTHConsumer(thsConsumerWrapper);
+
+        mThsConsumer.setConsumer(consumer);
+    }
+
+    public THSConsumer getThsParentConsumer() {
+        return mThsParentConsumer;
+    }
+
+    public void setThsParentConsumer(THSConsumer mThsParentConsumer) {
+        this.mThsParentConsumer = mThsParentConsumer;
+        this.mThsConsumer = mThsParentConsumer;
     }
 }
