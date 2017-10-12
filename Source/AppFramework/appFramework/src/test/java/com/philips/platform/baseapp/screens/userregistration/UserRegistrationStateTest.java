@@ -104,7 +104,7 @@ public class UserRegistrationStateTest {
         hsdpSecrets.put(CHINA_CODE, STAGE_SECRET_KEY_CHINA);
         when(appConfigurationInterface.getPropertyForKey(any(String.class), any(String.class), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(hsdpSecrets);
         Map<String, String> map = (Map<String, String>) appConfigurationInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET, UR, new AppConfigurationInterface.AppConfigurationError());
-        assertEquals(STAGE_SECRET_KEY_CHINA, map.get(DEFAULT));
+        assertEquals(STAGE_SECRET_KEY_CHINA, map.get(CHINA_CODE));
     }
 
     @Test
