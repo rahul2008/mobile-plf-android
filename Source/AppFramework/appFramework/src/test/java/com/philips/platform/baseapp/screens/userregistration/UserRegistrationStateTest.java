@@ -53,7 +53,6 @@ import static com.philips.platform.baseapp.screens.userregistration.UserRegistra
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.STAGE_SECRET_KEY_CHINA;
 import static com.philips.platform.baseapp.screens.userregistration.UserRegistrationState.TEST_SECRET_KEY_DEFAULT;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
