@@ -31,10 +31,15 @@ public class BleUtilities {
     public BleUtilities(final @NonNull Context applicationContext) {
         this.applicationContext = applicationContext;
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        this.settings = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                .setReportDelay(DISCOVERY_REPORT_DELAY_MILLIS)
-                .build();
+
+        ScanSettings.Builder builder = new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
+
+        if (bluetoothAdapter.isOffloadedScanBatchingSupported()) {
+            builder.setReportDelay(DISCOVERY_REPORT_DELAY_MILLIS);
+        }
+
+        this.settings = builder.build();
     }
 
     public boolean isBleFeatureAvailable() {

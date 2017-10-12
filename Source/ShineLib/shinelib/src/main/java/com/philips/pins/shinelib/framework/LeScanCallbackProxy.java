@@ -53,7 +53,7 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onScanResult(int callbackType, ScanResult result) {
-        SHNLogger.e("LeScanCallbackProxy", String.format(Locale.US, "onScanResult %s", result));
+        SHNLogger.e("LeScanCallbackProxy", String.format(Locale.US, "onScanResult %s, name: %s", result.getDevice().getAddress(), result.getDevice().getName()));
 
         if (leScanCallback != null) {
             leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());

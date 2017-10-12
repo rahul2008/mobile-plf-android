@@ -19,6 +19,7 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -132,7 +133,7 @@ public class SHNDeviceScannerInternal {
         @Override
         public void onScanFailed(int errorCode) {
             leScanCallbackProxy = null;
-            SHNLogger.e(TAG, "Error starting scanning");
+            SHNLogger.e(TAG, String.format(Locale.US, "Error starting scanning, errorCode: %d", errorCode));
         }
     };
 
