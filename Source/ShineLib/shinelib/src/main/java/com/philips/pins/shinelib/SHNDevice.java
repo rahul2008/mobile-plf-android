@@ -44,6 +44,14 @@ public interface SHNDevice {
     String getName();
 
     /**
+     * Set the name to be returned on {@link #getName()}.
+     *
+     * @param name name for the device
+     */
+    @Deprecated
+    void setName(String name);
+
+    /**
      * Returns the device type name as specified in the device definition info.
      *
      * @return device type name as specified in {@link com.philips.pins.shinelib.SHNDeviceDefinitionInfo}

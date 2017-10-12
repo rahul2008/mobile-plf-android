@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.utility.BleScanRecord;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.lang.ref.WeakReference;
 
@@ -59,12 +60,22 @@ public class SHNDeviceFoundInfo {
             throw new IllegalStateException("SHNCentral not set");
         }
         this.deviceAddress = bluetoothDevice.getAddress();
-        this.deviceName = bluetoothDevice.getName();
         this.shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceAddress, shnDeviceDefinitionInfo);
+
+        String name = bluetoothDevice.getName();
+        if (name == null)
+            name = bleScanRecord.getLocalName();
+        if (name == null)
+            name = this.shnDevice.getName();
+        this.shnDevice.setName(name);
+        this.deviceName = name;
+
         this.rssi = rssi;
         this.scanRecord = scanRecord.clone();
         this.shnDeviceDefinitionInfo = shnDeviceDefinitionInfo;
         this.bleScanRecord = bleScanRecord;
+
+        SHNLogger.e(getClass().getName(), String.format("address: %s, device: %s, info: %s, USED: %s", bluetoothDevice.getAddress(), bluetoothDevice.getName(), bleScanRecord.getLocalName(), deviceName));
     }
 
     /**

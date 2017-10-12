@@ -162,6 +162,11 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     @Override
+    public void setName(String name) {
+        shnDevice.setName(name);
+    }
+
+    @Override
     public String getDeviceTypeName() {
         return shnDevice.getDeviceTypeName();
     }

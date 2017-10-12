@@ -5,8 +5,11 @@
 
 package com.philips.pins.shinelib.utility;
 
+import android.bluetooth.le.ScanRecord;
+import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -28,19 +31,14 @@ import java.util.UUID;
  * @publicPluginApi
  */
 public class BleScanRecord {
-    private byte[] scanRecord;
-    private List<UUID> uuids;
-    private byte[] manufacturerSpecificData;
-    private String localName;
+    private ScanRecord scanRecord;
 
-    public static BleScanRecord createNewInstance(byte[] scanRecord) {
+    public static BleScanRecord createNewInstance(ScanRecord scanRecord) {
         return new BleScanRecord(scanRecord);
     }
 
-    private BleScanRecord(byte[] scanRecord) {
-        this.scanRecord = scanRecord.clone();
-        uuids = new ArrayList<>();
-        parseScanRecord(scanRecord);
+    private BleScanRecord(ScanRecord scanRecord) {
+        this.scanRecord = scanRecord;
     }
 
     /**
@@ -49,7 +47,7 @@ public class BleScanRecord {
      * @return raw advertisement and scan data received from the remote peripheral
      */
     public byte[] getScanRecord() {
-        return scanRecord.clone();
+        return scanRecord.getBytes();
     }
 
     /**
@@ -58,9 +56,10 @@ public class BleScanRecord {
      * @return raw manufacterer data specified by the peripheral's manufacturer. null if there is no data
      */
     @Nullable
-    public byte[] getManufacturerSpecificData() {
-        if (manufacturerSpecificData != null)
-            return manufacturerSpecificData.clone();
+    public byte[] getManufacturerSpecificData(int manufacturerId) {
+        if (scanRecord != null) {
+            return scanRecord.getManufacturerSpecificData(manufacturerId);
+        }
         return null;
     }
 
@@ -71,7 +70,13 @@ public class BleScanRecord {
      */
     @NonNull
     public List<UUID> getUuids() {
-        return Collections.unmodifiableList(uuids == null ? Collections.<UUID>emptyList() : uuids);
+        List<UUID> uuids = new ArrayList<>();
+        if(scanRecord != null && scanRecord.getServiceUuids() != null) {
+            for (ParcelUuid uuid : scanRecord.getServiceUuids()) {
+                uuids.add(uuid.getUuid());
+            }
+        }
+        return uuids;
     }
 
     /**
@@ -81,64 +86,10 @@ public class BleScanRecord {
      */
     @Nullable
     public String getLocalName() {
-        return localName;
-    }
-
-    private void parseScanRecord(final byte[] advertisedData) {
-
-        int offset = 0;
-        while (offset < (advertisedData.length - 2)) {
-            int len = advertisedData[offset++];
-            if (len == 0)
-                break;
-
-            int type = advertisedData[offset++] & 0xFF;
-            switch (type) {
-                case 0x02: // Partial list of 16-bit UUIDs
-                case 0x03: // Complete list of 16-bit UUIDs
-                    while (len > 1) {
-                        int uuid16 = (advertisedData[offset++] & 0xFF);
-                        uuid16 += ((advertisedData[offset++] & 0xFF) << 8);
-                        len -= 2;
-                        uuids.add(UUID.fromString(String.format("%08x-0000-1000-8000-00805f9b34fb", uuid16)));
-                    }
-                    break;
-                case 0x06:// Partial list of 128-bit UUIDs
-                case 0x07:// Complete list of 128-bit UUIDs
-                    // Loop through the advertised 128-bit UUID's.
-                    while (len >= 16) {
-                        try {
-                            // Wrap the advertised bits and order them.
-                            ByteBuffer buffer = ByteBuffer.wrap(advertisedData, offset++, 16).order(ByteOrder.LITTLE_ENDIAN);
-                            long mostSignificantBit = buffer.getLong();
-                            long leastSignificantBit = buffer.getLong();
-                            uuids.add(new UUID(leastSignificantBit, mostSignificantBit));
-                        } catch (IndexOutOfBoundsException e) {
-                            // TODO Do we want this -> Defensive programming.
-                            continue;
-                        } finally {
-                            // Move the offset to read the next uuid.
-                            offset += 15;
-                            len -= 16;
-                        }
-                    }
-                    break;
-                case 0x08:
-                case 0x09:
-                    byte[] buffer = new byte[len - 1];
-                    ByteBuffer byteBuffer = ByteBuffer.wrap(advertisedData, offset, len - 1);
-                    byteBuffer.get(buffer);
-                    localName = new String(buffer, StandardCharsets.US_ASCII);
-                    offset += (len - 1);
-                    break;
-                case 0xff:// Manufacturer specific data. No defined format, just an array of bytes.
-                    manufacturerSpecificData = Arrays.copyOfRange(advertisedData, offset, offset + len - 1);
-                    offset += (len - 1);
-                    break;
-                default:
-                    offset += (len - 1);
-                    break;
-            }
+        if(scanRecord != null) {
+            return scanRecord.getDeviceName();
+        } else {
+            return null;
         }
     }
 }

@@ -12,6 +12,7 @@ import android.bluetooth.le.ScanResult;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,11 +44,6 @@ public class LeScanCallbackProxy extends ScanCallback {
         bleUtilities.startLeScan(this);
     }
 
-    public void startLeScan(UUID[] serviceUUIDs, LeScanCallback leScanCallback) {
-        this.leScanCallback = leScanCallback;
-        bleUtilities.startLeScan(serviceUUIDs, this);
-    }
-
     public void stopLeScan(LeScanCallback leScanCallback) {
         if (leScanCallback == this.leScanCallback) {
             bleUtilities.stopLeScan(this);
@@ -57,6 +53,7 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onScanResult(int callbackType, ScanResult result) {
+        SHNLogger.e("LeScanCallbackProxy", String.format("onScanResult %s", result));
         if (leScanCallback != null) {
             leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());
         }
@@ -64,8 +61,10 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onBatchScanResults(List<ScanResult> results) {
+        SHNLogger.e("LeScanCallbackProxy", String.format("onBatchScanResults %d", results.size()));
         for (ScanResult result : results) {
             if (leScanCallback != null) {
+                //SHNLogger.e(getClass().getName(), String.format("onScanResult address: %s, device: %s", result.getDevice().getAddress(), result.getScanRecord().getDeviceName()));
                 leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());
             }
         }
