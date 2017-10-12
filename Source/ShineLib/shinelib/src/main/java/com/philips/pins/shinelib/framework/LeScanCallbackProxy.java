@@ -12,10 +12,8 @@ import android.bluetooth.le.ScanResult;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
-import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.List;
-import java.util.Locale;
 
 /* This class prevents the Android Bluetooth stack from holding on the object that implements the
  * LeScanCallback and *everything it references* after stopping the scan.
@@ -53,8 +51,6 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onScanResult(int callbackType, ScanResult result) {
-        SHNLogger.e("LeScanCallbackProxy", String.format(Locale.US, "onScanResult %s, name: %s", result.getDevice().getAddress(), result.getDevice().getName()));
-
         if (leScanCallback != null) {
             leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());
         }
@@ -62,8 +58,6 @@ public class LeScanCallbackProxy extends ScanCallback {
 
     @Override
     public void onBatchScanResults(List<ScanResult> results) {
-        SHNLogger.e("LeScanCallbackProxy", String.format(Locale.US, "onBatchScanResults %d", results.size()));
-
         for (ScanResult result : results) {
             if (leScanCallback != null) {
                 leScanCallback.onScanResult(result.getDevice(), result.getRssi(), result.getScanRecord());

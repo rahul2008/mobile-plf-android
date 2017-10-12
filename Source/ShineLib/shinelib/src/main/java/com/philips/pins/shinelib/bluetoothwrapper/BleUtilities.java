@@ -15,11 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.utility.SHNLogger;
-
 public class BleUtilities {
-
-    private static final String TAG = "BleUtilities";
 
     private static final int DISCOVERY_REPORT_DELAY_MILLIS = 1000;
 
@@ -47,8 +43,6 @@ public class BleUtilities {
     }
 
     public void startLeScan(final @NonNull ScanCallback scanCallback) {
-        SHNLogger.i(TAG, "startLeScan");
-
         if (!isBluetoothAdapterEnabled()) {
             return;
         }
@@ -67,8 +61,6 @@ public class BleUtilities {
     }
 
     public void stopLeScan(final @NonNull ScanCallback scanCallback) {
-        SHNLogger.i(TAG, "stopLeScan");
-
         if (!isBluetoothAdapterEnabled()) {
             return;
         }
