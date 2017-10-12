@@ -40,7 +40,7 @@ import java.util.List;
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     public static final String DIALOG_TAG = THSProvidersListFragment.class.getSimpleName() + "Dialog";
-    private RecyclerView recyclerView;
+    protected RecyclerView recyclerView;
     protected THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Practice practice;

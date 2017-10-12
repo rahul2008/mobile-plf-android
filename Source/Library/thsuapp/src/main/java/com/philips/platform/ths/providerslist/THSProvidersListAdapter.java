@@ -43,7 +43,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, practice, isAvailble;
         public RatingBar providerRating;
         public CircularImageView providerImage;

@@ -4,7 +4,9 @@ package com.philips.platform.ths.providerslist;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Language;
@@ -36,6 +38,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +55,7 @@ public class THSProvidersListFragmentTest {
     private THSProvidersListFragment thsProvidersListFragment;
     private THSProviderListFragmentMock thsProvidersListFragmentTest;
     private THSProviderListPresenter thsProviderListPresenter;
-
+    private THSProvidersListAdapter thsProvidersListAdapter;
 
     @Mock
     AWSDK awsdkMock;
@@ -112,6 +115,14 @@ public class THSProvidersListFragmentTest {
     @Mock
     THSProvidersListAdapter thsProvidersListAdapterMock;
 
+    @Mock
+    RecyclerView recyclerViewMock;
+
+    @Mock
+    ViewGroup viewGroupMock;
+
+    @Mock
+    ProviderInfo providerInfo;
 
     @Before
     public void setUp() throws Exception{
@@ -132,6 +143,9 @@ public class THSProvidersListFragmentTest {
         Bundle bundle = new Bundle();
         bundle.putParcelable("Provider List Fragment",practice);
         thsProvidersListFragment.setArguments(bundle);
+        List list = new ArrayList();
+        list.add(providerInfo);
+        thsProvidersListAdapter = new THSProvidersListAdapter(list);
 
     }
 
@@ -194,9 +208,20 @@ public class THSProvidersListFragmentTest {
     @Test
     public void testOnProviderListUpdate(){
         SupportFragmentTestUtil.startFragment(thsProvidersListFragmentTest);
+        thsProvidersListFragmentTest.recyclerView = recyclerViewMock;
         thsProvidersListFragmentTest.updateProviderAdapterList(providerInfoListMock);
-        thsProvidersListFragmentTest.THSProvidersListAdapter = thsProvidersListAdapterMock;
-        verify(thsProvidersListAdapterMock).setOnProviderItemClickListener(any(OnProviderListItemClickListener.class));
+        thsProvidersListFragmentTest.updateMainView(true);
+        thsProvidersListFragmentTest.updateMainView(false);
+        verify(recyclerViewMock).setAdapter(any(RecyclerView.Adapter.class));
     }
+
+    /*@Test
+    public void testAdapterOnBindViewHolder(){
+        THSProvidersListAdapter.MyViewHolder myViewHolder = new THSProvidersListAdapter.MyViewHolder(viewGroupMock);
+        thsProvidersListAdapter.onBindViewHolder(myViewHolder,0);
+        verify(myViewHolder.name,times(2)).setText(anyString());
+    }*/
+
+
 
 }
