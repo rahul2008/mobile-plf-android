@@ -2,6 +2,7 @@ package com.philips.cdp2.ews.troubleshooting.wificonnectionfailure;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWifiConnectionUnsuccessfulBinding;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -33,17 +35,20 @@ public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     @Nullable
     FragmentWifiConnectionUnsuccessfulBinding binding;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi_connection_unsuccessful, container, false);
         viewModel = createViewModel();
-        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, getArguments().getString(WIFI_SSID)));
+        String ssid = BundleUtils.extractStringFromBundleOrThrow(getArguments(), WIFI_SSID);
+        viewModel.setDescription(getString(R.string.label_ews_phone_not_found_on_network_body, ssid));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
 
+    @NonNull
     private WIFIConnectionUnsuccessfulViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().wIFIConnectionUnsuccessfulViewModel();
     }

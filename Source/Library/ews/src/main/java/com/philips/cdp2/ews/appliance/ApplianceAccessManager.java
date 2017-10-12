@@ -39,20 +39,16 @@ public class ApplianceAccessManager {
 
     public interface FetchCallback {
         void onDeviceInfoReceived(@NonNull WifiPortProperties properties);
-
         void onFailedToFetchDeviceInfo();
     }
 
     public interface SetPropertiesCallback {
         void onPropertiesSet();
-
         void onFailedToSetProperties();
     }
 
-    @Nullable
-    private FetchCallback fetchCallback;
-    @Nullable
-    private SetPropertiesCallback putCallback;
+    @Nullable private FetchCallback fetchCallback;
+    @Nullable private SetPropertiesCallback putCallback;
 
     @ApplianceRequestType
     int requestType = ApplianceRequestType.UNKNOWN;

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -74,5 +73,11 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     @Override
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
         getActivity().unregisterReceiver(receiver);
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        // Do nothing, back disabled in this screen
+        return true;
     }
 }
