@@ -75,9 +75,7 @@ public class ConnectingDeviceWithWifiViewModel {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (netInfo.getState() == NetworkInfo.State.CONNECTED) {
                 int currentWifiState = wiFiUtil.getCurrentWifiState();
-                //TODO put back the commented code after testing.
-                //                if (currentWifiState == WiFiUtil.HOME_WIFI) {
-                if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
+                if (currentWifiState == WiFiUtil.HOME_WIFI) {
                     unregisterBroadcastReceiver();
                     discoveryHelper.startDiscovery(discoveryCallback);
                 } else {
@@ -129,7 +127,6 @@ public class ConnectingDeviceWithWifiViewModel {
 
             @Override
             public void onFailedToSetProperties() {
-                //TODO implement logic to switch between the two errors and navigate to the proper fragment according to the design.
                 showConnectionUnsuccessful(homeWiFiSSID);
             }
         });
