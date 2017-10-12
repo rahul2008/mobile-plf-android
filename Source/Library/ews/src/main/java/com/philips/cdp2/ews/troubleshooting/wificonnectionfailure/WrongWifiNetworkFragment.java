@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentWrongWifiNetworkBinding;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
@@ -34,20 +35,18 @@ public class WrongWifiNetworkFragment extends BaseFragment {
         return fragment;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wrong_wifi_network, container, false);
         viewModel = createViewModel();
-        if (binding != null && viewModel != null) {
-            viewModel.setNetworkName(getArguments().getString(NETWORK_SSID));
-            binding.setViewModel(viewModel);
-        }
+        viewModel.setNetworkName(BundleUtils.extractStringFromBundleOrThrow(getArguments(), NETWORK_SSID));
+        binding.setViewModel(viewModel);
         return binding.getRoot();
     }
 
+    @NonNull
     private WrongWifiNetworkViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().wrongWifiNetworkViewModel();
     }

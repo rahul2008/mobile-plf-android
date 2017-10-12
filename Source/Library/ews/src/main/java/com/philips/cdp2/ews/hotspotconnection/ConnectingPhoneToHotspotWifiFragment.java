@@ -99,6 +99,12 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
         }
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        // Do nothing, back disabled in this screen
+        return true;
+    }
+
     private void cancelButtonClicked() {
         if (viewModel != null) {
             viewModel.handleCancelButtonClicked();

@@ -57,14 +57,15 @@ dependencies {
         exclude group: 'com.android.support'
 
     }
-
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}", ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}") {
         exclude group: 'com.android.support'
-        transitive = true
     }
+
+    // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
     compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
+    compile "net.danlew:android.joda:${versionsExternal.joda}"
 
     // Test
     testCompile "junit:junit:${versionsExternal.junit}"
@@ -77,6 +78,4 @@ dependencies {
     testCompile("com.nhaarman:mockito-kotlin:${versionsExternal.mockitoKotlin}") {
         exclude group: 'org.mockito'
     }
-    compile 'net.danlew:android.joda:2.9.9'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
