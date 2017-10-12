@@ -268,12 +268,7 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
         when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
 
-        byte[] modelIdArray = new byte[8];
-        //System.arraycopy(MANUFACTURER_PREAMBLE, 0, modelIdArray, 0, MANUFACTURER_PREAMBLE);
-        //byte[] modelIdBytes = modelId.getBytes();
-        //System.arraycopy(modelIdBytes, 0, modelIdArray, MANUFACTURER_PREAMBLE, modelIdBytes.length);
-
-        when(bleScanRecordMock.getManufacturerSpecificData(MANUFACTURER_PREAMBLE)).thenReturn(modelIdArray);
+        when(bleScanRecordMock.getManufacturerSpecificData(MANUFACTURER_PREAMBLE)).thenReturn(modelId.getBytes());
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
