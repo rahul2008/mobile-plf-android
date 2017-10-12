@@ -32,10 +32,6 @@ public class WIFIConnectionUnsuccessfulViewModel {
     }
 
     public void onTryAgainClicked() {
-        if (!wiFiUtil.isWifiConnectedToNetwork() || wiFiUtil.isConnectedToPhilipsSetup()){
-            //TODO lynn is verifying this flow
-        } else{
-            navigator.navigateToHomeNetworkConfirmationScreen();
-        }
+        navigator.navigateToHomeNetworkConfirmationScreen();
     }
 }
