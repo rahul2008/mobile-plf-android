@@ -31,11 +31,6 @@ public class PairingPort<P extends PortProperties> extends DICommPort<P> {
         super(communicationStrategy);
     }
 
-//    @Override
-//    public boolean isResponseForThisPort(String jsonResponse) {
-//        return false;
-//    }
-
     @Override
     public void processResponse(String jsonResponse) {
         DICommLog.d(DICommLog.PAIRINGPORT, "Pairing does not return responses.");

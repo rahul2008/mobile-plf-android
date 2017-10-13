@@ -24,11 +24,6 @@ public class TimePort extends DICommPort<TimePortProperties> {
         super(communicationStrategy);
     }
 
-//    @Override
-//    public boolean isResponseForThisPort(String jsonResponse) {
-//        return parseResponse(jsonResponse) != null;
-//    }
-
     @Override
     protected void processResponse(String jsonResponse) {
         TimePortProperties timePortProperties = parseResponse(jsonResponse);

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
@@ -50,7 +51,7 @@ public class UdpReceivingThread extends Thread {
         DICommLog.i(DICommLog.UDP, "Stopped UDP Socket");
     }
 
-    // TODO Should only be visible for tests
+    @VisibleForTesting
     protected void receiveDatagram() {
         byte[] buf = new byte[1024];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
