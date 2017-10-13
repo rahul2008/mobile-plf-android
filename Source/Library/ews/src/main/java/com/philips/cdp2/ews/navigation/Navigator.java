@@ -40,7 +40,10 @@ public class Navigator {
     }
 
     public void navigateToHomeNetworkConfirmationScreen() {
-        pushFragment(new EWSHomeWifiDisplayFragment());
+        boolean isPresentInStack = fragmentNavigator.popToFragment(EWSHomeWifiDisplayFragment.class.getCanonicalName());
+        if (!isPresentInStack) {
+            pushFragment(new EWSHomeWifiDisplayFragment());
+        }
     }
 
     public void navigateToDevicePoweredOnConfirmationScreen() {

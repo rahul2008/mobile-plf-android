@@ -84,7 +84,7 @@ public class EWSHomeWifiDisplayFragmentTest {
     @Test
     public void shouldUpdateHomeWiFISSIDOnResume() throws Exception {
         fragment.onResume();
-        verify(viewModelMock).updateHomeWiFiSSID();
+        verify(viewModelMock).refresh();
     }
 
     @Test

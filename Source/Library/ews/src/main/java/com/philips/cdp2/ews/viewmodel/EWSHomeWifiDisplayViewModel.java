@@ -31,10 +31,12 @@ public class EWSHomeWifiDisplayViewModel extends BaseObservable {
         return wiFiUtil.getConnectedWiFiSSID();
     }
 
-    public void updateHomeWiFiSSID() {
+    public void refresh() {
         notifyPropertyChanged(BR.homeWiFiSSID);
+        if (!wiFiUtil.isHomeWiFiEnabled()) {
+            navigator.navigateToWifiTroubleShootingScreen();
+        }
     }
-
 
     public void onNoButtonClicked() {
         navigator.navigateToWifiTroubleShootingScreen();

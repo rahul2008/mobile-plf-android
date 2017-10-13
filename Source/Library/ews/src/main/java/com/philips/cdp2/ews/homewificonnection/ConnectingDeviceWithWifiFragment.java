@@ -83,7 +83,9 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
 
     @Override
     public void unregisterReceiver(@NonNull BroadcastReceiver receiver) {
-        getActivity().unregisterReceiver(receiver);
+        try {
+            getActivity().unregisterReceiver(receiver);
+        } catch (IllegalArgumentException ignored) {}
     }
 
     @Override

@@ -54,7 +54,7 @@ public class WiFiConnectivityManager {
         // Store the SSID of the hotspot that we are about to connect to, to be able to forget it after logic is done.
         wiFiUtil.setHotSpotWiFiSSID(deviceHotspotSSID);
 
-        if (!TextUtils.isEmpty(wiFiUtil.getCurrentHomeWiFiSSID())) {
+        if (!TextUtils.isEmpty(wiFiUtil.getCurrentWiFiSSID())) {
             connectToNetwork(DEVICE_SSID);
         }
     }

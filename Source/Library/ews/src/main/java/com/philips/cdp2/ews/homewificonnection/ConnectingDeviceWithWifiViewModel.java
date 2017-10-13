@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
+import static com.philips.cdp2.ews.wifi.WiFiUtil.UNKNOWN_WIFI;
 
 /**
  * Created by salvatorelafiura on 10/10/2017.
@@ -82,7 +83,7 @@ public class ConnectingDeviceWithWifiViewModel {
                 if (currentWifiState == WiFiUtil.HOME_WIFI) {
                     unregisterBroadcastReceiver();
                     discoveryHelper.startDiscovery(discoveryCallback);
-                } else {
+                } else if (currentWifiState != UNKNOWN_WIFI) {
                     removeTimeoutRunnable();
                     navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName);
                 }
