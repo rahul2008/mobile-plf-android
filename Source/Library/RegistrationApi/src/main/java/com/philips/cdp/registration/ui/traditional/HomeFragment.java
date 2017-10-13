@@ -18,6 +18,7 @@ import android.text.method.*;
 import android.text.style.*;
 import android.view.*;
 import android.widget.*;
+import android.widget.Button;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
@@ -29,6 +30,7 @@ import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
 
 import org.json.*;
 
@@ -86,7 +88,11 @@ public class HomeFragment extends RegistrationBaseFragment implements
     @BindView(R2.id.usr_StartScreen_Skip_Button)
     Button continueWithouAccount;
 
+    @BindView(R2.id.usr_startScreen_orLoginWith_Label)
+    Label usr_startScreen_orLoginWith_Label;
+
     private HomePresenter homePresenter;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +100,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
         URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreateView");
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        View view;
         if (RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
             view = inflater.inflate(R.layout.reg_fragment_home_create_top, container, false);
         } else {
@@ -566,7 +571,24 @@ public class HomeFragment extends RegistrationBaseFragment implements
                     }
                     RLog.d("HomeFragment", "social providers : " + providers);
                 }
+                UIOverProvidersSize(providers);
                 homePresenter.updateHomeControls();
+            }
+
+            private void UIOverProvidersSize(List<String> providers) {
+                if (providers != null && providers.size() > 0) {
+                    if (!RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
+                        Label usr_startScreen_Or_Label = (Label) view.findViewById(R.id.usr_startScreen_Or_Label);
+                        usr_startScreen_Or_Label.setVisibility(View.VISIBLE);
+                    }
+                    usr_startScreen_orLoginWith_Label.setVisibility(View.VISIBLE);
+                } else {
+                    if (!RegistrationConfiguration.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
+                        Label usr_startScreen_Or_Label = (Label) view.findViewById(R.id.usr_startScreen_Or_Label);
+                        usr_startScreen_Or_Label.setVisibility(View.INVISIBLE);
+                    }
+                    usr_startScreen_orLoginWith_Label.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
