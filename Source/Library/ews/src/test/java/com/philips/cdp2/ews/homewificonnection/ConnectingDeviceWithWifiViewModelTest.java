@@ -278,6 +278,22 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
+    @Test
+    public void itShouldShowCancelDialogWhenCancelButtonClicked() throws Exception {
+        subject.onCancelButtonClicked();
+
+        verify(mockFragmentCallback).showCancelDialog();
+    }
+
+    @Test
+    public void itShouldNotShowCancelDialogWhenCancelButtonClickedAndCallbackIsNull() throws Exception {
+        subject.setFragmentCallback(null);
+
+        subject.onCancelButtonClicked();
+
+        verify(mockFragmentCallback, never()).showCancelDialog();
+    }
+
     private void simulateApplianceFound() {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
         verify(mockDiscoveryHelper).startDiscovery(discoveryCallbackArgumentCaptor.capture());
