@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
@@ -35,36 +34,25 @@ import static com.philips.cdp2.ews.wifi.WiFiUtil.UNKNOWN_WIFI;
 public class ConnectingDeviceWithWifiViewModel {
 
     public interface ConnectingDeviceToWifiCallback {
-
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
-
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
-
         Bundle getBundle();
-
     }
 
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     private static final int WIFI_SET_PROPERTIES_TIME_OUT = 60000;
 
-    @NonNull
-    private final ApplianceAccessManager applianceAccessManager;
+    @NonNull private final ApplianceAccessManager applianceAccessManager;
+    @NonNull private final Navigator navigator;
+    @NonNull private final WiFiConnectivityManager wiFiConnectivityManager;
+    @NonNull private final WiFiUtil wiFiUtil;
+    @NonNull private final Handler handler;
+    @NonNull private final DiscoveryHelper discoveryHelper;
 
-    @NonNull
-    private final Navigator navigator;
+    @Nullable private ConnectingDeviceToWifiCallback fragmentCallback;
+    @Nullable private String deviceName;
 
-    @NonNull
-    private final WiFiConnectivityManager wiFiConnectivityManager;
-    @Nullable
-    private ConnectingDeviceToWifiCallback fragmentCallback;
-    @NonNull
-    private final WiFiUtil wiFiUtil;
-    @NonNull
-    private final DiscoveryHelper discoveryHelper;
-    @Nullable
-    private String deviceName;
-    @NonNull
-    private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
+    @NonNull private DiscoveryHelper.DiscoveryCallback discoveryCallback = new DiscoveryHelper.DiscoveryCallback() {
         @Override
         public void onApplianceFound(Appliance appliance) {
             removeTimeoutRunnable();
@@ -73,8 +61,7 @@ public class ConnectingDeviceWithWifiViewModel {
         }
     };
 
-    @NonNull
-    private final BroadcastReceiver wifiConnectionChangeBroadcastReceiver = new BroadcastReceiver() {
+    @NonNull private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -84,6 +71,7 @@ public class ConnectingDeviceWithWifiViewModel {
                     unregisterBroadcastReceiver();
                     discoveryHelper.startDiscovery(discoveryCallback);
                 } else if (currentWifiState != UNKNOWN_WIFI) {
+                    unregisterBroadcastReceiver();
                     removeTimeoutRunnable();
                     navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName);
                 }
@@ -91,12 +79,10 @@ public class ConnectingDeviceWithWifiViewModel {
         }
     };
 
-
-    private Handler handler;
-
-    private Runnable timeoutRunnable = new Runnable() {
+    @NonNull private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
+            clear();
             showConnectionUnsuccessful();
         }
     };
@@ -131,6 +117,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
             @Override
             public void onFailedToSetProperties() {
+                removeTimeoutRunnable();
                 showConnectionUnsuccessful();
             }
         });
@@ -139,8 +126,10 @@ public class ConnectingDeviceWithWifiViewModel {
 
 
     public void clear() {
-        this.fragmentCallback = null;
         removeTimeoutRunnable();
+        discoveryHelper.stopDiscovery();
+        unregisterBroadcastReceiver();
+        fragmentCallback = null;
     }
 
     private void onDeviceConnectedToWifi() {
@@ -153,22 +142,18 @@ public class ConnectingDeviceWithWifiViewModel {
     }
 
     private void showConnectionUnsuccessful() {
-        removeTimeoutRunnable();
         if (fragmentCallback != null) {
             navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
-        } else {
-            Log.e(TAG, "Fragment callback not set!");
         }
     }
 
     private void removeTimeoutRunnable() {
-        discoveryHelper.stopDiscovery();
         handler.removeCallbacks(timeoutRunnable);
     }
 
     public void connectToHotSpot(String homeWiFiSSID) {
         if (fragmentCallback != null) {
-            fragmentCallback.registerReceiver(wifiConnectionChangeBroadcastReceiver, createIntentFilter());
+            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
         }
         wiFiConnectivityManager.connectToHomeWiFiNetwork(homeWiFiSSID);
     }
@@ -179,7 +164,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
     private void unregisterBroadcastReceiver() {
         if (fragmentCallback != null) {
-            fragmentCallback.unregisterReceiver(wifiConnectionChangeBroadcastReceiver);
+            fragmentCallback.unregisterReceiver(broadcastReceiver);
         }
     }
 }

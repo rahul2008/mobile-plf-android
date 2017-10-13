@@ -26,10 +26,8 @@ import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 
 public class Navigator {
 
-    @NonNull
-    private final FragmentNavigator fragmentNavigator;
-    @NonNull
-    private final ActivityNavigator activityNavigator;
+    @NonNull private final FragmentNavigator fragmentNavigator;
+    @NonNull private final ActivityNavigator activityNavigator;
 
     public Navigator(@NonNull final FragmentNavigator fragmentNavigator, @NonNull final ActivityNavigator activityNavigator) {
         this.fragmentNavigator = fragmentNavigator;

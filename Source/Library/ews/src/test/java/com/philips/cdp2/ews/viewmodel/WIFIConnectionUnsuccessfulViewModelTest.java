@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -52,6 +53,31 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
         subject.onNeedHelpButtonClicked();
 
         verify(mockCallback).hideDialogWithResult(ConnectionUnsuccessfulViewModel.HELP_NEEDED_RESULT);
+    }
+
+    @Test
+    public void shouldNotDismissDialogOnListenerOnDismissDialogWhenCallbackIsNull() {
+        subject.setCallback(null);
+
+        subject.onNeedHelpButtonClicked();
+
+        verify(mockCallback, never()).hideDialogWithResult(ConnectionUnsuccessfulViewModel.HELP_NEEDED_RESULT);
+    }
+
+    @Test
+    public void shouldHideDialogWithDifferentResultWhenNoHelpNeeded() {
+        subject.onNoHelpNeededButtonClicked();
+
+        verify(mockCallback).hideDialogWithResult(ConnectionUnsuccessfulViewModel.HELP_NOT_NEEDED_RESULT);
+    }
+
+    @Test
+    public void shouldNotHideDialogWithDifferentResultWhenNoHelpNeededAndCallbackIsNull() {
+        subject.setCallback(null);
+
+        subject.onNoHelpNeededButtonClicked();
+
+        verify(mockCallback, never()).hideDialogWithResult(ConnectionUnsuccessfulViewModel.HELP_NOT_NEEDED_RESULT);
     }
 
     @SuppressWarnings("unchecked")

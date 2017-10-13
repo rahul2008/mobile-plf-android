@@ -1,9 +1,15 @@
 package com.philips.cdp2.ews.navigation;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
+import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
+import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
@@ -15,7 +21,6 @@ import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
 import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
-import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +33,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -158,6 +164,70 @@ public class NavigatorTest {
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
         verifyFragmentPushed(EWSDevicePowerOnFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
+        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName");
+
+        verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateToConnectingPhoneToHotspotWifiFragment() throws Exception {
+        subject.navigateToConnectingPhoneToHotspotWifiScreen();
+
+        verifyFragmentPushed(ConnectingPhoneToHotspotWifiFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateToUnsuccessfulConnectionDialog() throws Exception {
+        Fragment mockFragment = new Fragment();
+        int requestCode = 85;
+        subject.navigateToUnsuccessfulConnectionDialog(mockFragment, requestCode);
+
+        verify(mockActivityNavigator).showFragmentWithResult(any(Fragment.class),
+                anyString(), eq(requestCode));
+    }
+
+    @Test
+    public void itShouldNavigateToConnectingDeviceWithWifiScreenWithArgs() throws Exception {
+        subject.navigateToConnectingDeviceWithWifiScreen("homeWifiSssid",
+                "password", "deviceName");
+
+        verifyFragmentPushed(ConnectingDeviceWithWifiFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateToConnectingDeviceWithWifiScreenWithBundle() throws Exception {
+        Bundle data = mock(Bundle.class);
+        when(data.containsKey(anyString())).thenReturn(true);
+        when(data.getString(anyString())).thenReturn("dummyValue");
+
+        subject.navigateToConnectingDeviceWithWifiScreen(data);
+
+        verifyFragmentPushed(ConnectingDeviceWithWifiFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateToEWSWiFiPairedScreen() throws Exception {
+        subject.navigateToEWSWiFiPairedScreen();
+
+        verifyFragmentPushed(EWSWiFiPairedFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateToWrongWifiNetworkScreen() throws Exception {
+        subject.navigateToWrongWifiNetworkScreen(new Bundle());
+
+        verifyFragmentPushed(WrongWifiNetworkFragment.class);
+    }
+
+    @Test
+    public void itShouldNavigateBack() throws Exception {
+        subject.navigateBack();
+
+        verify(mockFragmentNavigator).pop();
     }
 
     private void verifyFragmentPushed(@NonNull Class clazz) {
