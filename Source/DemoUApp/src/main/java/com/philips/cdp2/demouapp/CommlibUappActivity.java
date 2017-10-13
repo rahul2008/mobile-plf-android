@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CommlibUappActivity extends AppCompatActivity {
 
@@ -21,10 +20,8 @@ public class CommlibUappActivity extends AppCompatActivity {
         setContentView(R.layout.cml_uapp_activity_main);
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.cml_uapp_activity_main, null);
-        CommlibUapp commlibUapp = CommlibUapp.get();
 
-        commlibUapp.init(new DefaultCommlibUappDependencies(), new UappSettings(getApplicationContext()));
-        commlibUapp.launch(fragmentLauncher, null);
+        CommlibUapp.get().launch(fragmentLauncher, null);
     }
 
     @Override
