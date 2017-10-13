@@ -79,7 +79,7 @@ public class ConnectingPhoneToHotspotWifiFragment extends BaseFragment implement
     }
 
     @Override
-    public Fragment fragment() {
+    public Fragment getFragment() {
         return this;
     }
 

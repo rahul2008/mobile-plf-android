@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.troubleshooting.wificonnectionfailure;
 
 import android.databinding.DataBindingUtil;
@@ -14,10 +18,6 @@ import com.philips.cdp2.ews.databinding.FragmentWifiConnectionUnsuccessfulBindin
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
-
-/**
- * Created by salvatorelafiura on 11/10/2017.
- */
 
 public class WifiConnectionUnsuccessfulFragment extends BaseFragment {
     private final static String WIFI_SSID = "wifi_ssid";
