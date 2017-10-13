@@ -31,8 +31,13 @@ public class DemoMyaState extends DemoBaseState {
     public void init(Context context) {
         mContext = context;
         MyAccountSettings myAccountSettings = new MyAccountSettings(context.getApplicationContext());
-        myaDemoAppuAppInterface = new MyAccountDemoUAppInterface();
+        myaDemoAppuAppInterface = getMyAccountDemoUAppInterface();
         myaDemoAppuAppInterface.init(getUappDependencies(context), myAccountSettings);
+    }
+
+    @NonNull
+    protected MyAccountDemoUAppInterface getMyAccountDemoUAppInterface() {
+        return new MyAccountDemoUAppInterface();
     }
 
     @Override
