@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
@@ -218,13 +219,29 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
     }
 
+    private ProgressDialog mProgressDialog;
+
+    private void showProgressDialog() {
+        if (!getActivity().isFinishing()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();        }
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
+    }
     private void showResendSpinner() {
-        mResendEmail.showProgressIndicator();
+        showProgressDialog();
     }
 
     private void hideResendSpinner() {
-        mResendEmail.hideProgressIndicator();
-
+        hideProgressDialog();
     }
 
     @Override
@@ -308,12 +325,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     public void addEmailClicked(String emailId) {
-        mResendEmail.showProgressIndicator();
+        showProgressDialog();
         if (emailId.equals(emailEditText.getText().toString())) {
             if (proceedResend) {
                 handleResend(emailId);
             } else {
-                mResendEmail.hideProgressIndicator();
+                hideProgressDialog();
                 showAlertDialog();
             }
         } else {
@@ -335,7 +352,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
                     @Override
                     public void onError(Throwable e) {
-                        mResendEmail.hideProgressIndicator();
+                        hideProgressDialog();
                         mRegError.setError(e.getMessage());
                     }
                 }));
