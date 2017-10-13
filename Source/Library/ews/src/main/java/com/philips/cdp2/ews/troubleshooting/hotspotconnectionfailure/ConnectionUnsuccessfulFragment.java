@@ -29,7 +29,7 @@ public class ConnectionUnsuccessfulFragment extends EWSBaseFragment<EwsDeviceCon
     @NonNull
     @Override
     protected String getPageName() {
-        return null;
+        return ConnectionUnsuccessfulFragment.class.getCanonicalName();
     }
 
     @Override

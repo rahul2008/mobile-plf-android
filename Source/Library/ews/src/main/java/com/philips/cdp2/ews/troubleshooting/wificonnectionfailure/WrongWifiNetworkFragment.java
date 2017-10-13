@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.troubleshooting.wificonnectionfailure;
 
 import android.databinding.DataBindingUtil;
@@ -16,10 +20,6 @@ import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
 
 import static com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment.HOME_WIFI_SSID;
-
-/**
- * Created by salvatorelafiura on 11/10/2017.
- */
 
 public class WrongWifiNetworkFragment extends BaseFragment {
 

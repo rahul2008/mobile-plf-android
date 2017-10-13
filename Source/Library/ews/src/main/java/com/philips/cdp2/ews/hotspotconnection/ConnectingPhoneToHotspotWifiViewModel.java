@@ -30,7 +30,7 @@ public class ConnectingPhoneToHotspotWifiViewModel {
     public interface ConnectingPhoneToHotSpotCallback {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
-        Fragment fragment();
+        Fragment getFragment();
         int requestCode();
     }
 
@@ -139,7 +139,7 @@ public class ConnectingPhoneToHotspotWifiViewModel {
 
     private void showUnsuccessfulDialog() {
         if (fragmentCallback != null) {
-            navigator.navigateToUnsuccessfulConnectionDialog(fragmentCallback.fragment(),
+            navigator.navigateToUnsuccessfulConnectionDialog(fragmentCallback.getFragment(),
                     fragmentCallback.requestCode());
         }
     }

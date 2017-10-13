@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.homewificonnection;
 
 import android.content.BroadcastReceiver;
@@ -14,10 +18,6 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.BaseFragment;
 import com.philips.cdp2.ews.view.EWSActivity;
-
-/**
- * Created by salvatorelafiura on 10/10/2017.
- */
 
 public class ConnectingDeviceWithWifiFragment extends BaseFragment implements ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback {
     public final static String HOME_WIFI_SSID = "homeWiFiSSID";
