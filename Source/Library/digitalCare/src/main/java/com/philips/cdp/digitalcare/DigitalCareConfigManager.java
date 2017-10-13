@@ -189,6 +189,7 @@ public class DigitalCareConfigManager {
             themeConfiguration = activityLauncher.getDlsThemeConfiguration();
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
                     uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation() );
+            DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
           /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {

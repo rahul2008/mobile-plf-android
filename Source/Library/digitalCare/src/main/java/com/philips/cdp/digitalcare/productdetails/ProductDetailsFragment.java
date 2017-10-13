@@ -188,7 +188,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             mSmallerResolution = widthPixels;
         }
 
-        isTablet = ((float) mSmallerResolution / density > 360);
+        isTablet = ((float) mSmallerResolution / density > 480);
 
         if (isTablet) {
             return (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);

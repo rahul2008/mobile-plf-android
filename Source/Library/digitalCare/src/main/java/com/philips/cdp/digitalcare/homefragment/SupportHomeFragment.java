@@ -66,6 +66,7 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,6 +137,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isSupportScreenLaunched = true;
+        FontIconTypefaceHolder.init(getActivity().getAssets(),"fonts/iconfont.ttf");
     }
 
     @Override

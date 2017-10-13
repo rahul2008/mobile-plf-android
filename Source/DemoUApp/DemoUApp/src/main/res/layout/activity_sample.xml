@@ -2,9 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sampleParentActivity"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-
-    android:background="@drawable/consumercare_background">
+    android:layout_height="match_parent">
 
     <include layout="@layout/sample_action_bar"/>
 

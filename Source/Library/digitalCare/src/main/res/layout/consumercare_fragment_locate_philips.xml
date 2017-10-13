@@ -96,7 +96,9 @@
                         android:layout_width="29dip"
                         android:layout_height="20dip"
                         android:layout_weight="1"
-                        android:background="@drawable/uid_texteditbox_clear_icon" />
+                        fontPath="fonts/iconfont.ttf"
+                        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+                        android:text="@string/dls_cross_24"/>
                 </LinearLayout>
 
 
