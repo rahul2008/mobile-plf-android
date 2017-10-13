@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -44,9 +44,7 @@ public interface SHNDevice {
     String getName();
 
     /**
-     * Set the name to be returned on {@link #getName()}.
-     *
-     * @param name name for the device
+     * WARNING: this function is deprecated, do not use this function!
      */
     @Deprecated
     void setName(String name);

@@ -62,10 +62,12 @@ public class SHNDeviceFoundInfo {
         this.shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceAddress, shnDeviceDefinitionInfo);
 
         String name = bluetoothDevice.getName();
-        if (name == null)
+        if (name == null) {
             name = bleScanRecord.getLocalName();
-        if (name == null)
+        }
+        if (name == null) {
             name = this.shnDevice.getName();
+        }
         this.shnDevice.setName(name);
         this.deviceName = name;
 

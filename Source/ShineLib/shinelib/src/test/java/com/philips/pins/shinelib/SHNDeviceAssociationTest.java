@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -52,7 +52,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNDeviceAssociationTest {
-    
+
     public static final String DEVICE_TYPE_NAME = "Moonshine";
     public static final String DEVICE_MAC_ADDRESS = "11:11:11:11:11:11";
     public static final String DEVICE_TYPE_UNKNOWN = "UnknownDeviceType";

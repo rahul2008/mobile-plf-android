@@ -60,11 +60,10 @@ public class SHNDeviceScannerInternal {
             startScanningRestartTimer();
         }
 
-        if (leScanCallbackProxy != null) {
-            shnInternalScanRequests.add(SHNInternalScanRequest);
-            SHNInternalScanRequest.scanningStarted(this, shnCentral.getInternalHandler());
-        }
-        return leScanCallbackProxy != null;
+        shnInternalScanRequests.add(SHNInternalScanRequest);
+        SHNInternalScanRequest.scanningStarted(this, shnCentral.getInternalHandler());
+
+        return true;
     }
 
     @VisibleForTesting

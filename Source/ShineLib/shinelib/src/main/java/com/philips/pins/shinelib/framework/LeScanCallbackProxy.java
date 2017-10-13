@@ -37,12 +37,12 @@ public class LeScanCallbackProxy extends ScanCallback {
         this.bleUtilities = bleUtilities;
     }
 
-    public void startLeScan(LeScanCallback leScanCallback) {
+    public void startLeScan(@NonNull LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
         bleUtilities.startLeScan(this);
     }
 
-    public void stopLeScan(LeScanCallback leScanCallback) {
+    public void stopLeScan(@NonNull LeScanCallback leScanCallback) {
         if (leScanCallback == this.leScanCallback) {
             bleUtilities.stopLeScan(this);
             this.leScanCallback = null;

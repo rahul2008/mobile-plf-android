@@ -36,7 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.philips.pins.shinelib.SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -307,28 +307,26 @@ public class SHNDeviceScannerInternalTest extends RobolectricTest {
 
     @Test
     public void whenDuringScanningADeviceIsFoundWithNOTMatchingPrimaryServiceUUID16_ThenItIsNotReported() {
-        resultForUseAdvertisedDataMatcher = true;
+        resultForUseAdvertisedDataMatcher = false;
 
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
-        doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
-        doReturn(MOCKED_BLUETOOTH_DEVICE_NAME).when(mockedBluetoothDevice).getName();
 
         ScanRecord mockedScanRecord = Utility.makeThrowingMock(ScanRecord.class);
-        doReturn(new byte[]{0x03, 0x03, 0x0A, 0x17}).when(mockedScanRecord).getBytes(); // advertisement of the primary uuid for an unknown service
+        List<ParcelUuid> uuids = new ArrayList<>();
+        uuids.add(ParcelUuid.fromString("0000000-1234-1234-1234-000000000000"));
+        doReturn(uuids).when(mockedScanRecord).getServiceUuids();
 
         ScanResult mockedScanResult = Utility.makeThrowingMock(ScanResult.class);
         doReturn(mockedBluetoothDevice).when(mockedScanResult).getDevice();
         doReturn(-50).when(mockedScanResult).getRssi();
         doReturn(mockedScanRecord).when(mockedScanResult).getScanRecord();
-        doReturn("Such a nice ScanResult").when(mockedScanResult).toString();
 
         leScanCallbackProxy.onScanResult(0, mockedScanResult);
 
-        ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
-        verify(mockedSHNDeviceScannerListener, never()).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerListener, never()).deviceFound(any(SHNDeviceScanner.class), any(SHNDeviceFoundInfo.class));
     }
 
     @Test
