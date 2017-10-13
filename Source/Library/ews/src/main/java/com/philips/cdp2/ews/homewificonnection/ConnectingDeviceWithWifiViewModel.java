@@ -37,6 +37,7 @@ public class ConnectingDeviceWithWifiViewModel {
         void registerReceiver(@NonNull BroadcastReceiver receiver, @NonNull IntentFilter filter);
         void unregisterReceiver(@NonNull BroadcastReceiver receiver);
         Bundle getBundle();
+        void showCancelDialog();
     }
 
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
@@ -82,8 +83,8 @@ public class ConnectingDeviceWithWifiViewModel {
     @NonNull private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            clear();
             showConnectionUnsuccessful();
+            clear();
         }
     };
 
@@ -124,12 +125,17 @@ public class ConnectingDeviceWithWifiViewModel {
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
     }
 
-
     public void clear() {
         removeTimeoutRunnable();
         discoveryHelper.stopDiscovery();
         unregisterBroadcastReceiver();
         fragmentCallback = null;
+    }
+
+    public void onCancelButtonClicked() {
+        if (fragmentCallback != null) {
+            fragmentCallback.showCancelDialog();
+        }
     }
 
     private void onDeviceConnectedToWifi() {

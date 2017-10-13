@@ -65,6 +65,19 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     }
 
     @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.cancel_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewModel != null) {
+                    viewModel.onCancelButtonClicked();
+                }
+            }
+        });
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (viewModel != null) {
@@ -91,6 +104,11 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     @Override
     public Bundle getBundle() {
         return getArguments();
+    }
+
+    @Override
+    public void showCancelDialog() {
+        handleCancelButtonClicked();
     }
 
     @Override
