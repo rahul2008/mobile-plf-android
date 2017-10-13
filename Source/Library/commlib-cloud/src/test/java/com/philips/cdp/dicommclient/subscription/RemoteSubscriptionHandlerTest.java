@@ -113,7 +113,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         String dcsPayload = createDcsEvent("1", "", dcsData);
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
-        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
@@ -139,7 +139,7 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 
     @Test
@@ -148,10 +148,8 @@ public class RemoteSubscriptionHandlerTest extends RobolectricTest {
         mRemoteSubscriptionHandler.onDCSEventReceived(dcsPayload, APPLIANCE_CPPID, null);
 
         // Handler shouldn't be called if invalid data is provided
-        verify(mSubscriptionEventResponseHandler, never()).post(runnableCaptor.capture());
+        verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
-
-    // TODO Add tests where port name or product ID is invalid (null or "")
 
     private String createDcsEvent(String productId, String port, String data) {
         return "{ \"product\": \""+productId+"\", \"port\":\""+port+"\", \"data\": "+data+"}";

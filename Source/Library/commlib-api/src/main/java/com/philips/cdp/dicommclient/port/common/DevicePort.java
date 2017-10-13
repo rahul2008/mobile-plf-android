@@ -30,11 +30,6 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         super(communicationStrategy);
     }
 
-//    @Override
-//    public boolean isResponseForThisPort(String jsonResponse) {
-//        return (parseResponse(jsonResponse) != null);
-//    }
-
     @Override
     public void processResponse(String jsonResponse) {
         DevicePortProperties devicePortInfo = parseResponse(jsonResponse);
