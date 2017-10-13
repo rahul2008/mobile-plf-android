@@ -4,7 +4,6 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
 
@@ -14,17 +13,14 @@ import javax.inject.Inject;
 
 public class WIFIConnectionUnsuccessfulViewModel {
 
-    @NonNull
-    private final WiFiUtil wiFiUtil;
-    @NonNull
-    private final Navigator navigator;
-    @NonNull
-    public ObservableField<String> description = new ObservableField<>();
+    @NonNull public final ObservableField<String> description;
+
+    @NonNull private final Navigator navigator;
 
     @Inject
-    public WIFIConnectionUnsuccessfulViewModel(@NonNull WiFiUtil wiFiUtil,@NonNull Navigator navigator) {
-        this.wiFiUtil = wiFiUtil;
+    public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator) {
         this.navigator = navigator;
+        description = new ObservableField<>();
     }
 
     public void setDescription(@NonNull String description) {
