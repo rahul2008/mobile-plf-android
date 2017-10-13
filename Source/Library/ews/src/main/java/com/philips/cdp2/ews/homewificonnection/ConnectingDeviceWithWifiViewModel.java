@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.homewificonnection;
 
 import android.content.BroadcastReceiver;
@@ -27,10 +31,6 @@ import javax.inject.Named;
 
 import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
 import static com.philips.cdp2.ews.wifi.WiFiUtil.UNKNOWN_WIFI;
-
-/**
- * Created by salvatorelafiura on 10/10/2017.
- */
 
 public class ConnectingDeviceWithWifiViewModel {
 
@@ -74,7 +74,7 @@ public class ConnectingDeviceWithWifiViewModel {
     };
 
     @NonNull
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver wifiConnectionChangeBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -139,7 +139,8 @@ public class ConnectingDeviceWithWifiViewModel {
 
 
     public void clear() {
-
+        this.fragmentCallback = null;
+        removeTimeoutRunnable();
     }
 
     private void onDeviceConnectedToWifi() {
@@ -167,7 +168,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
     public void connectToHotSpot(String homeWiFiSSID) {
         if (fragmentCallback != null) {
-            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
+            fragmentCallback.registerReceiver(wifiConnectionChangeBroadcastReceiver, createIntentFilter());
         }
         wiFiConnectivityManager.connectToHomeWiFiNetwork(homeWiFiSSID);
     }
@@ -178,7 +179,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
     private void unregisterBroadcastReceiver() {
         if (fragmentCallback != null) {
-            fragmentCallback.unregisterReceiver(broadcastReceiver);
+            fragmentCallback.unregisterReceiver(wifiConnectionChangeBroadcastReceiver);
         }
     }
 }

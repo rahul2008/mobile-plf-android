@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.troubleshooting.wificonnectionfailure;
 
 import android.databinding.ObservableField;
@@ -7,10 +11,6 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
-
-/**
- * Created by salvatorelafiura on 11/10/2017.
- */
 
 public class WIFIConnectionUnsuccessfulViewModel {
 

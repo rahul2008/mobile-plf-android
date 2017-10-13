@@ -62,6 +62,7 @@ public class EWSActivity extends UiKitActivity {
 
         EWSTagger.collectLifecycleInfo(this);
 
+        //TODO move this inizialization.
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
 
         if (savedInstanceState != null) {

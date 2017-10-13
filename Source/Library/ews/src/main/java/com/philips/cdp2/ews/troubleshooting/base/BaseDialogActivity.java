@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.troubleshooting.base;
 
 import android.content.Context;
@@ -10,7 +14,7 @@ import com.philips.cdp2.ews.R;
 
 public class BaseDialogActivity extends AppCompatActivity {
 
-    private final static String FRAGMENT_NAME = "framgnet_name";
+    private final static String FRAGMENT_NAME = "fragment_name";
 
     public static void startActivity(Context context, String fragmentName) {
         Intent intent = new Intent(context, BaseDialogActivity.class);

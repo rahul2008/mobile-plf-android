@@ -9,6 +9,7 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
 import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
@@ -105,7 +106,7 @@ public class Navigator {
 
     public void navigateToUnsuccessfulConnectionDialog(@NonNull Fragment currentFragment, int requestCode) {
         activityNavigator.showFragmentWithResult(currentFragment,
-                com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
+                ConnectionUnsuccessfulFragment.class.getCanonicalName(), requestCode);
     }
 
     public void navigateToConnectingDeviceWithWifiScreen(@NonNull final String homeWiFiSSID, @NonNull final String homeWiFiPassword, @NonNull final String deviceName) {
