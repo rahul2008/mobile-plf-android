@@ -47,20 +47,6 @@ public class DevicePortTest {
     }
 
     @Test
-    public void test_ShouldReturnFalse_WhenIsResponseForThisPortIsCalledWithIncorrectData() throws Exception {
-        assertThat(devicePort.isResponseForThisPort(null)).isFalse();
-        assertThat(devicePort.isResponseForThisPort("")).isFalse();
-        assertThat(devicePort.isResponseForThisPort("invalid data")).isFalse();
-        assertThat(devicePort.isResponseForThisPort(invalidJson)).isFalse();
-        assertThat(devicePort.isResponseForThisPort(validJson_incorrectContent)).isFalse();
-    }
-
-    @Test
-    public void test_ShouldReturnTrue_WhenIsResponseForThisPortIsCalledWithValidData() throws Exception {
-        assertThat(devicePort.isResponseForThisPort(validData)).isTrue();
-    }
-
-    @Test
     public void test_ShouldReturnNull_WhenProcessResponse_WithInvalidData() throws Exception {
         devicePort.processResponse(invalidJson);
         DevicePortProperties properties = devicePort.getPortProperties();

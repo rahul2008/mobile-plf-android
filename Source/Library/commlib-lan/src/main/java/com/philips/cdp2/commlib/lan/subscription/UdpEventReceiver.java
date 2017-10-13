@@ -29,8 +29,8 @@ public class UdpEventReceiver {
     private UdpEventReceiver() {
         udpEventListener = new UdpEventListener() {
             @Override
-            public void onUDPEventReceived(String data, String fromIp) {
-                notifyAllEventListeners(data, fromIp);
+            public void onUDPEventReceived(String data, String portName, String fromIp) {
+                notifyAllEventListeners(data, portName, fromIp);
             }
         };
     }
@@ -77,11 +77,11 @@ public class UdpEventReceiver {
         }
     }
 
-    private void notifyAllEventListeners(String data, String fromIp) {
+    private void notifyAllEventListeners(String data, String portName, String fromIp) {
         DICommLog.d(DICommLog.UDPRECEIVER, String.format(Locale.US, "Notifying %d listeners of UDP event", udpEventListeners.size()));
 
         for (UdpEventListener listener : udpEventListeners) {
-            listener.onUDPEventReceived(data, fromIp);
+            listener.onUDPEventReceived(data, portName, fromIp);
         }
     }
 

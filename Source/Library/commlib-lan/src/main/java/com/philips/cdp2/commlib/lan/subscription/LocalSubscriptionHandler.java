@@ -43,7 +43,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
 	}
 
 	@Override
-	public void onUDPEventReceived(String data, String fromIp) {
+	public void onUDPEventReceived(String data, String portName, String fromIp) {
 		if (data == null || data.isEmpty())
 			return;
 		if (fromIp == null || fromIp.isEmpty())
@@ -64,7 +64,7 @@ public class LocalSubscriptionHandler extends SubscriptionHandler implements Udp
 			}
 
 			DICommLog.d(DICommLog.LOCAL_SUBSCRIPTION, decryptedData);
-			postSubscriptionEventOnUIThread(decryptedData, mSubscriptionEventListeners);
+			postSubscriptionEventOnUIThread(portName, decryptedData, mSubscriptionEventListeners);
 		}
 	}
 

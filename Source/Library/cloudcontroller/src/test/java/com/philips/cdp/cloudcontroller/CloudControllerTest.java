@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.listener.DcsEventListener;
+import com.philips.cdp.cloudcontroller.api.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.EventSubscription;
@@ -25,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -32,8 +34,11 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -45,6 +50,9 @@ public class CloudControllerTest extends RobolectricTest {
 
     @Mock
     DcsEventListener dcsListener;
+
+    @Mock
+    DcsResponseListener responseListenerMock;
 
     @Mock
     EventSubscription eventSubscriptionMock;
@@ -76,6 +84,8 @@ public class CloudControllerTest extends RobolectricTest {
 
         mockStatic(SignOn.class);
         when(SignOn.getInstance(any(CallbackHandler.class), any(Params.class))).thenReturn(signOnMock);
+
+        mockStatic(Log.class);
     }
 
     @Override
@@ -94,10 +104,60 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void testNotifyDCSListenerAllValidData() {
+    public void givenCloudControllerCreated_whenProvidingValidDataAndActionRESPONSE_thenShouldCallResponseListener() {
         String data = "valid dcs event";
         String cppId = "valid cppId";
-        String action = "valid action";
+        String action = "RESPONSE";
+
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener, responseListenerMock);
+
+        controller.notifyDCSListener(data, cppId, action, null);
+
+        verify(responseListenerMock).onDCSResponseReceived(eq(data), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionRESPONSE_thenShouldCallResponseListener() {
+        String data = "valid dcs event";
+        String action = "RESPONSE";
+
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener, responseListenerMock);
+
+        controller.notifyDCSListener(data, null, action, null);
+
+        verify(responseListenerMock).onDCSResponseReceived(eq(data), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingValidDataAndActionRESPONSE_thenShouldNotCallEventListener() {
+        String data = "valid dcs event";
+        String cppId = "valid cppId";
+        String action = "RESPONSE";
+
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener, responseListenerMock);
+
+        controller.notifyDCSListener(data, cppId, action, null);
+
+        verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionRESPONSE_thenShouldNotCallEventListener() {
+        String data = "valid dcs event";
+        String action = "RESPONSE";
+
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener, responseListenerMock);
+
+        controller.notifyDCSListener(data, null, action, null);
+
+        verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingValidDataAndActionCHANGE_thenShouldCallListener() {
+        String data = "valid dcs event";
+        String cppId = "valid cppId";
+        String action = "CHANGE";
 
         CloudController controller = createCloudControllerWithListeners(cppId, dcsListener);
 
@@ -107,15 +167,103 @@ public class CloudControllerTest extends RobolectricTest {
     }
 
     @Test
-    public void testNotifyDCSListenerNullCppId() {
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionCHANGE_thenShouldCallListener() {
         String data = "valid dcs event";
-        String action = "valid action";
+        String action = "CHANGE";
 
         CloudController controller = createCloudControllerWithListeners(null, dcsListener);
 
         controller.notifyDCSListener(data, null, action, null);
 
         verify(dcsListener).onDCSEventReceived(data, null, action);
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingValidDataAndActionCHANGE_thenShouldNotCallResponseListener() {
+        String data = "valid dcs event";
+        String cppId = "valid cppId";
+        String action = "CHANGE";
+
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener);
+
+        controller.notifyDCSListener(data, cppId, action, null);
+
+        verify(responseListenerMock, never()).onDCSResponseReceived(eq(data), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionCHANGE_thenShouldNotCallResponseListener() {
+        String data = "valid dcs event";
+        String action = "CHANGE";
+
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener);
+
+        controller.notifyDCSListener(data, null, action, null);
+
+        verify(responseListenerMock, never()).onDCSResponseReceived(eq(data), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingValidDataAndActionUnknown_thenShouldNotCallListener() {
+        String data = "valid dcs event";
+        String cppId = "valid cppId";
+        String action = "some action";
+
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener);
+
+        controller.notifyDCSListener(data, cppId, action, null);
+
+        verify(dcsListener, never()).onDCSEventReceived(data, cppId, action);
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionUnknown_thenShouldNotCallListener() {
+        String data = "valid dcs event";
+        String action = "some action";
+
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener);
+
+        controller.notifyDCSListener(data, null, action, null);
+
+        verify(dcsListener, never()).onDCSEventReceived(data, null, action);
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingValidDataAndActionUnknown_thenShouldNotCallResponseListener() {
+        String data = "valid dcs event";
+        String cppId = "valid cppId";
+        String action = "some action";
+
+        CloudController controller = createCloudControllerWithListeners(cppId, dcsListener);
+
+        controller.notifyDCSListener(data, cppId, action, null);
+
+        verify(responseListenerMock, never()).onDCSResponseReceived(eq(data), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionUnknown_thenShouldNotCallResponseListener() {
+        String data = "valid dcs event";
+        String action = "some action";
+
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener);
+
+        controller.notifyDCSListener(data, null, action, null);
+
+        verify(responseListenerMock, never()).onDCSResponseReceived(eq(data), anyString());
+    }
+
+    @Test
+    public void givenCloudControllerCreated_whenProvidingNullCppIdAndActionUnknown_thenShouldCallLogging() {
+        String data = "valid dcs event";
+        String action = "some action";
+
+        CloudController controller = createCloudControllerWithListeners(null, dcsListener);
+
+        controller.notifyDCSListener(data, null, action, null);
+
+        PowerMockito.verifyStatic(atLeastOnce());
+        Log.e(eq("DefaultCloudController"), anyString());
     }
 
     @Test
@@ -127,13 +275,6 @@ public class CloudControllerTest extends RobolectricTest {
         controller.notifyDCSListener(data, cppId, null, null);
 
         verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
-    }
-
-    private DefaultCloudController createCloudControllerWithListeners(String cppId,
-                                                             DcsEventListener dcsListener) {
-        DefaultCloudController controller = new DefaultCloudController();
-        controller.addDCSEventListener(cppId, dcsListener);
-        return controller;
     }
 
     @NonNull
@@ -264,5 +405,18 @@ public class CloudControllerTest extends RobolectricTest {
         cloudController.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS, Errors.SUCCESS, null);
 
         assertEquals(CloudController.ICPClientDCSState.STOPPED, cloudController.getState());
+    }
+
+    private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener) {
+        return createCloudControllerWithListeners(cppId, dcsListener, null);
+    }
+
+    private DefaultCloudController createCloudControllerWithListeners(String cppId, DcsEventListener dcsListener, DcsResponseListener responseListener) {
+        DefaultCloudController controller = new DefaultCloudController();
+        controller.addDCSEventListener(cppId, dcsListener);
+        if(responseListener != null) {
+            controller.addDCSResponseListener(responseListener);
+        }
+        return controller;
     }
 }

@@ -34,11 +34,6 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
     private final int WIFIPORT_PRODUCTID = 0;
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) != null);
-    }
-
-    @Override
     public void processResponse(String jsonResponse) {
         WifiPortProperties wifiPortProperties = parseResponse(jsonResponse);
         if (wifiPortProperties != null) {
