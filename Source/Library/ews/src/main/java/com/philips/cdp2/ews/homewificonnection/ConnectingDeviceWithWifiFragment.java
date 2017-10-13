@@ -57,9 +57,17 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        viewModel = createViewModel();
-        viewModel.setFragmentCallback(this);
-        viewModel.startConnecting(BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID), BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_PWD), BundleUtils.extractStringFromBundleOrThrow(getBundle(), DEVICE_NAME));
+        String homeWiFiSSID = BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_SSID);
+        if (viewModel == null) {
+            viewModel = createViewModel();
+            viewModel.startConnecting(
+                    homeWiFiSSID, BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_PWD),
+                    BundleUtils.extractStringFromBundleOrThrow(getBundle(), DEVICE_NAME));
+            viewModel.setFragmentCallback(this);
+        } else {
+            viewModel.connectToHomeWifi(homeWiFiSSID);
+        }
+
         return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
                 false);
     }
@@ -85,6 +93,7 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
         }
     }
 
+    @NonNull
     private ConnectingDeviceWithWifiViewModel createViewModel() {
         return ((EWSActivity) getActivity()).getEWSComponent().connectingDeviceWithWifiViewModel();
     }
