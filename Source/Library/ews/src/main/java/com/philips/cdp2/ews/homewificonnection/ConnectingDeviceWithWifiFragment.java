@@ -63,10 +63,10 @@ public class ConnectingDeviceWithWifiFragment extends BaseFragment implements Co
             viewModel.startConnecting(
                     homeWiFiSSID, BundleUtils.extractStringFromBundleOrThrow(getBundle(), HOME_WIFI_PWD),
                     BundleUtils.extractStringFromBundleOrThrow(getBundle(), DEVICE_NAME));
-            viewModel.setFragmentCallback(this);
         } else {
             viewModel.connectToHomeWifi(homeWiFiSSID);
         }
+        viewModel.setFragmentCallback(this);
 
         return inflater.inflate(R.layout.fragment_connecting_phone_to_hotspot_layout, container,
                 false);
