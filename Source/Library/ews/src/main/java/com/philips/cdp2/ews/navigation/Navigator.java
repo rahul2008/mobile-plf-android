@@ -111,7 +111,10 @@ public class Navigator {
         pushFragment(ConnectingDeviceWithWifiFragment.newInstance(homeWiFiSSID, homeWiFiPassword, deviceName));
     }
     public void navigateToConnectingDeviceWithWifiScreen(@Nullable Bundle bundle){
-        pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
+        boolean isPresentInStack = fragmentNavigator.popToFragment(ConnectingDeviceWithWifiFragment.class.getCanonicalName());
+        if (!isPresentInStack) {
+            pushFragment(ConnectingDeviceWithWifiFragment.newInstance(bundle));
+        }
     }
 
     public void navigateToEWSWiFiPairedScreen() {
