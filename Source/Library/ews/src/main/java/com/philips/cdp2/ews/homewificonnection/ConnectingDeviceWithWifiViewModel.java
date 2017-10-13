@@ -107,22 +107,35 @@ public class ConnectingDeviceWithWifiViewModel {
         this.fragmentCallback = fragmentCallback;
     }
 
-    public void startConnecting(@NonNull final String homeWiFiSSID, @NonNull String homeWiFiPassword, @NonNull String deviceName) {
+    public void startConnecting(@NonNull final String homeWiFiSSID, @NonNull String homeWiFiPassword, @NonNull final String deviceName) {
         this.deviceName = deviceName;
         tagConnectionStart();
         applianceAccessManager.connectApplianceToHomeWiFiEvent(homeWiFiSSID, homeWiFiPassword, new ApplianceAccessManager.SetPropertiesCallback() {
             @Override
             public void onPropertiesSet() {
-                connectToHotSpot(homeWiFiSSID);
+                connectToHomeWifiInternal(homeWiFiSSID);
             }
 
             @Override
             public void onFailedToSetProperties() {
                 removeTimeoutRunnable();
-                showConnectionUnsuccessful();
+                navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(deviceName);
             }
         });
         handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+    }
+
+    public void connectToHomeWifi(@NonNull String homeWiFiSSID) {
+        connectToHomeWifiInternal(homeWiFiSSID);
+        handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+    }
+
+    private void connectToHomeWifiInternal(@NonNull String homeWiFiSSID) {
+        if (fragmentCallback != null) {
+            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
+        }
+        wiFiConnectivityManager.connectToHomeWiFiNetwork(homeWiFiSSID);
+
     }
 
     public void clear() {
@@ -155,13 +168,6 @@ public class ConnectingDeviceWithWifiViewModel {
 
     private void removeTimeoutRunnable() {
         handler.removeCallbacks(timeoutRunnable);
-    }
-
-    public void connectToHotSpot(String homeWiFiSSID) {
-        if (fragmentCallback != null) {
-            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
-        }
-        wiFiConnectivityManager.connectToHomeWiFiNetwork(homeWiFiSSID);
     }
 
     private IntentFilter createIntentFilter() {

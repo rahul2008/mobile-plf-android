@@ -12,28 +12,28 @@ android {
         renderscriptTargetApi config.targetSdk
         renderscriptSupportModeEnabled true
         multiDexEnabled true
+        consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
     }
+
     dataBinding {
         enabled = true
     }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    /** Proguard on library reference: https://developer.android.com/studio/projects/android-library.html#Considerations
+     *  Also reference with DLS library
+     *  Generated aar file keep proguard.txt which take part in proguard process when added in app
+     **/
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
-            debuggable true
-            testCoverageEnabled false
+
         }
         release {
-            minifyEnabled true
-            shrinkResources true
-            debuggable false
-            testCoverageEnabled false
-            proguardFile 'proguard-rules.pro'
-        }
 
+        }
     }
 
     lintOptions {
