@@ -24,7 +24,7 @@ import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -87,7 +87,7 @@ public class THSProvidersListFragmentTest {
     SwipeRefreshLayout swipeRL;
 
     @Mock
-    THSConsumer thsConsumerMock;
+    THSConsumerWrapper thsConsumerMock;
 
     @Mock
     THSProviderListPresenter thsProviderListPresenterMock;
