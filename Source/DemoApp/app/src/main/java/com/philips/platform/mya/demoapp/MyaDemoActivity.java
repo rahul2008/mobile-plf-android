@@ -71,7 +71,6 @@ public class MyaDemoActivity extends UIDActivity {
         AppInfraInterface appInfraInterface = MyaDemoApplication.getInstance().getAppInfra();
         uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(MyaDemoActivity.this.getApplicationContext()));
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
-
     }
 
     public boolean isUserLoggedIn() {
