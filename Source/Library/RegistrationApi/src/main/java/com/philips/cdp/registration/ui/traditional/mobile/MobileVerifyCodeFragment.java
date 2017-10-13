@@ -268,6 +268,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         hideProgressSpinner();
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
         smsNotReceived.setEnabled(false);
+        disableVerifyButton();
     }
 
     @Override

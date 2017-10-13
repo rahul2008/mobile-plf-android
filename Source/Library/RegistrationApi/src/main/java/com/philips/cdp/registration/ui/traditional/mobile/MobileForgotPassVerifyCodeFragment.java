@@ -299,6 +299,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         hideProgressSpinner();
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
         smsNotReceived.setEnabled(false);
+        disableVerifyButton();
     }
 
 

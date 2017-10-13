@@ -95,6 +95,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_progress_indicator)
     LinearLayout progressBar;
 
+    @BindView(R2.id.usr_loginScreen_forgotPassword_LinearLayout)
+    LinearLayout usr_loginScreen_forgotPassword_LinearLayout;
+
     private User mUser;
 
     private XRegError mRegError;

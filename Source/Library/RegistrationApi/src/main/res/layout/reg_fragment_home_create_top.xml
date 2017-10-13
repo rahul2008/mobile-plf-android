@@ -36,8 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_DLS_StratView_Detail_Txt"
-                android:textSize="@dimen/reg_text_size_16"
-                />
+                android:textSize="@dimen/reg_text_size_16"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_createAccount_Button"
@@ -45,18 +44,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"
-                />
+                android:text="@string/reg_DLS_Create_Account_CreateMyPhilips_btntxt"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/usr_startScreen_Login_Button"
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:text="@string/reg_DLS_SigIn_TitleTxt"
                 app:uidComponentType="Secondary"/>
-                />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/usr_startScreen_orLoginWith_Label"
@@ -66,17 +62,16 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_DLS_Welcome_Alternate_SignInAccount_lbltxt"
-                android:textSize="@dimen/reg_text_size_12"
-                />
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
+                android:textSize="@dimen/reg_text_size_12"/>
 
             <LinearLayout
                 android:id="@+id/usr_startScreen_Social_Container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/reg_dimen_24dp"
+                android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Button
@@ -86,15 +81,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/reg_DLS_Continue_Without_Account"
-                />
+                android:text="@string/reg_DLS_Continue_Without_Account"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_dimen_16dp"
-                />
+                android:layout_marginTop="@dimen/reg_dimen_16dp"/>
 
         </LinearLayout>
     </ScrollView>
@@ -118,6 +111,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:lines="1"
+            android:padding="@dimen/reg_dimen_4dp"
             android:text="@string/reg_PrivacyNoticeText"/>
 
 
@@ -132,6 +126,7 @@
             android:ellipsize="end"
             android:gravity="end"
             android:lines="1"
+            android:padding="@dimen/reg_dimen_4dp"
             android:text="@string/reg_Country"/>
     </LinearLayout>
 
