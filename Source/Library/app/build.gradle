@@ -184,7 +184,11 @@ configurations.all {
 }
 
 dependencies {
-    compile project(':pse')
+
+   	
+   compile project(':pse')
+	
+	
 //    compile 'com.android.support:appcompat-v7:23.0.2'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'

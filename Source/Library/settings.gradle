@@ -1,4 +1,4 @@
-include ':app', ':productselection'
+include ':app'
 
-include ':pse'
-project(':pse').projectDir = new File('./Source/Library/pse/Source/Library/productselection')
+include 'pse'
+project(':pse').projectDir = new File('./productselection')
