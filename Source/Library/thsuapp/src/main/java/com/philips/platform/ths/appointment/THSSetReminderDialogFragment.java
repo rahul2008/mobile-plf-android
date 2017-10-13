@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioGroup;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_REMINDER;
 
 public class THSSetReminderDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -69,5 +72,12 @@ public class THSSetReminderDialogFragment extends DialogFragment implements View
             thsDialogFragmentCallback.onPostData(reminderValue);
             getDialog().dismiss();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_REMINDER,null,null);
+
     }
 }

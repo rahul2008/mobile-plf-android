@@ -37,6 +37,10 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_LIST;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
+
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     public static final String DIALOG_TAG = THSProvidersListFragment.class.getSimpleName() + "Dialog";
@@ -103,6 +107,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onResume() {
         super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_LIST,null,null);
         THSManager.getInstance().setMatchMakingVisit(false);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.provider_list_title), true);

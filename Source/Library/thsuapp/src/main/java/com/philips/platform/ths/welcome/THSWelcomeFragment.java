@@ -24,7 +24,7 @@ import com.philips.platform.uid.view.widget.Button;
 import static com.philips.platform.ths.utility.THSConstants.THS_HISTORY_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_HOW_IT_WORKS;
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_PAGE;
-import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT;
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_START;
@@ -97,7 +97,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements View.OnClickL
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.appointments) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_SCHEDULE_APPOINTMENT);
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+ THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER);
             presenter.onEvent(R.id.appointments);
         }else if(i == R.id.visit_history){
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, THS_START+THS_HISTORY_PAGE);
