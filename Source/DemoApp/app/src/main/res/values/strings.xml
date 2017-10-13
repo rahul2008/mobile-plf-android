@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MyAccount</string>
+    <string name="my_account_app_name">MyAccount</string>
+    <string name="action_settings">Settings</string>
 </resources>

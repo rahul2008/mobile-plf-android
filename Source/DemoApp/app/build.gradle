@@ -231,6 +231,9 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
+
+    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '11.1.0-SNAPSHOT.20171012183625', ext: 'aar')
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: versions.usr_registrationApi + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
