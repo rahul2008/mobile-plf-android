@@ -58,18 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
+                android:layout_marginBottom="@dimen/e"
                 android:onClick="@{() -> viewModel.onYesButtonClicked()}"
                 android:text="@string/ews_03_button_1"/>
-
-            <Button
-                android:id="@+id/ews_hotspot_blinking_no_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/e"
-                android:layout_marginTop="@dimen/c"
-                style="@style/Btn.Secondary"
-                android:onClick="@{() -> viewModel.onNoButtonClicked()}"
-                android:text="@string/ews_03_button_2"/>
 
         </LinearLayout>
 

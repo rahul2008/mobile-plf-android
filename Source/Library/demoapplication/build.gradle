@@ -42,14 +42,6 @@ dependencies {
     // Philips Dependencies
     releaseCompile project(path: ':ews', configuration: 'release')
     debugCompile project(path: ':ews', configuration: 'debug')
-    compile('com.philips.cdp:commlib-all:1.4.1-rc.20170831141519@aar') {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
-    compile('com.philips.cdp:digitalCare:7.5.2-rc.20170901143221@aar') {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
     compile 'net.danlew:android.joda:2.9.9'
     compile 'com.android.support:support-annotations:25.3.1'
     compile 'com.android.support:animated-vector-drawable:25.3.1'

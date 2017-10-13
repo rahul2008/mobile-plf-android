@@ -65,13 +65,12 @@
     <string name="label_ews_connection_unsuccesful_title_retry">Let’s try this again</string>
     <string name="label_ews_connection_unsuccesful_body">The phone could not detect your Somneo in Home WiFi.\nThis may be because you entered the wrong password or because your Somneo is out of range.\n\nPlease verify your password, move your device and phone closer to your home router and try again.\n\nIf problems persist,please click the \"different issue\" link below.</string>
     <string name="ews_06a_call_to_action">Learn how to place your Somneo back into access point mode.</string>
-    <string name="ews_08a_title">Troubleshooting</string>
-    <string name="label_ews_phone_reconnected_different_network_title">Your phone has reconnected to a different network</string>
-    <string name="label_ews_phone_reconnected_different_network_body">Please reconnect your phone to your Home WiFi (%1$s).\n &lt;b&gt;1. Tap WiFi&lt;/b&gt; in your phone Settings\n &lt;b&gt;2.&lt;/b&gt; Make sure your WiFi is &lt;b&gt;turned on&lt;/b&gt;\n &lt;b&gt;3.&lt;/b&gt; Select your &lt;b&gt;home network&lt;/b&gt;\n &lt;b&gt;4. Return&lt;/b&gt; to this app</string>
-    <string name="ews_08b_title">Troubleshooting</string>
+    <string name="ews_08a_title">Troubleshooting</string><string name="ews_08b_title">Troubleshooting</string>
     <string name="label_ews_connection_unsuccesful_title">Connection was unsuccessful</string>
     <string name="label_ews_connection_unsuccesful_reconnect_body">Please verify your password, move your Somneo &amp; phone closer to your home router, and try again. If problems persist, please tap \"still having issues\" below.</string>
     <string name="button_ews_connection_unsuccesful_try_again">Try again</string>
+    <string name="button_ews_connection_unsuccesful_yes">Yes, please help me</string>
+    <string name="button_ews_connection_unsuccesful_no">No, thanks</string>
     <string name="button_ews_connection_unsuccesful_still_issue">Still having issues?</string>
     <string name="button_ews_connection_unsuccesful_different_issue">Different issue</string>
     <string name="ews_08c_title">Troubleshooting</string>
@@ -109,4 +108,12 @@
     <string name="button_back">Back</string>
     <string name="button_contact_us">Contact us</string>
     <string name="button_done">Done</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="label_ews_phone_not_found_on_network_title">Connection error</string>
+    <string name="label_ews_phone_not_found_on_network_body">Te phone could not detect your %1$s in home WiFi.\nThis may be because:\n1.You entered the wrong network password.\n2.Your %1$s is out of range</string>
+    <string name="label_ews_phone_not_found_on_network_note">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
+    <string name="button_ews_phone_not_found_on_network_try_again">Try again</string>
+    <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
+    <string name="label_ews_phone_reconnected_different_network_body">Your phone has connected to a different network. \n\nPlease reconnect your phone to %1$s.\nPlease read all the 4 steps before leaving the application.\n1. Tap Wi-Fi in your phone settings \n2. Make sure your Wi-Fi is turned on \n3. Select your home network\n4. Return to the app</string>
+    <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
 </resources>

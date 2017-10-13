@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.philips.cdp2.ews.logger.EWSLogger;
 
@@ -29,7 +30,7 @@ public class WiFiUtil {
     public static final String UNKNOWN_SSID = "<unknown ssid>";
     private WifiManager wifiManager;
 
-    private String homeWiFiSSID;
+    private String lastWifiSSid;
     private String hotSpotWiFiSSID;
 
     public static final int HOME_WIFI = 1;
@@ -47,7 +48,7 @@ public class WiFiUtil {
     }
 
     public String getHomeWiFiSSD() {
-        return homeWiFiSSID;
+        return lastWifiSSid;
     }
 
     public String getConnectedWiFiSSID() {
@@ -63,29 +64,42 @@ public class WiFiUtil {
     }
 
     @Nullable
-    public String getCurrentHomeWiFiSSID() {
-        homeWiFiSSID = getConnectedWiFiSSID();
-        return homeWiFiSSID;
+    public String getCurrentWiFiSSID() {
+        lastWifiSSid = getConnectedWiFiSSID();
+        return lastWifiSSid;
     }
 
     public boolean isHomeWiFiEnabled() {
-        return wifiManager.isWifiEnabled() && (!DEVICE_SSID.equals(getCurrentHomeWiFiSSID()));
+        return wifiManager.isWifiEnabled() && isWifiConnectedToNetwork() && (!DEVICE_SSID
+                .equals(getCurrentWiFiSSID()));
+    }
+
+    public boolean isWifiConnectedToNetwork() {
+        return getConnectedWiFiSSID() != null && !TextUtils.isEmpty(getConnectedWiFiSSID());
+    }
+
+    public boolean isConnectedToPhilipsSetup() {
+        return getCurrentWiFiSSID() != null && DEVICE_SSID.equals(getCurrentWiFiSSID());
     }
 
     public
     @WiFiState
     int getCurrentWifiState() {
         String currentWifi = getConnectedWiFiSSID();
+        EWSLogger.d(EWS_STEPS, "Connected to:" + (currentWifi == null ? "Nothing" : currentWifi));
 
-        if (homeWiFiSSID == null || currentWifi == null || currentWifi.equalsIgnoreCase(UNKNOWN_SSID)) {
+        if (lastWifiSSid == null || currentWifi == null || currentWifi
+                .equalsIgnoreCase(UNKNOWN_SSID)) {
             return UNKNOWN_WIFI;
         } else if (currentWifi.contains(DEVICE_SSID)) {
             return DEVICE_HOTSPOT_WIFI;
-        } else if (currentWifi.contains(homeWiFiSSID)) {
+        } else if (currentWifi.contains(lastWifiSSid)) {
             return HOME_WIFI;
-        } else if (!homeWiFiSSID.equals(currentWifi)
-                && !homeWiFiSSID.equals(DEVICE_SSID)) {
-            EWSLogger.d(EWS_STEPS, "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " + homeWiFiSSID);
+        } else if (!lastWifiSSid.equals(currentWifi)
+                && !lastWifiSSid.equals(DEVICE_SSID)) {
+            EWSLogger.d(EWS_STEPS,
+                    "Connected to wrong wifi, Current wifi " + currentWifi + " Home wifi " +
+                            lastWifiSSid);
             return WRONG_WIFI;
         }
         return UNKNOWN_WIFI;

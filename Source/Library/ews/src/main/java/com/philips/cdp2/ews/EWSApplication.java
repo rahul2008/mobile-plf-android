@@ -10,7 +10,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
+import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.ews.appliance.BEApplianceFactory;
 import com.philips.cdp2.ews.common.util.Tagger;
@@ -22,32 +23,43 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 public class EWSApplication extends Application {
 
-
-    @Nullable
-    private AppInfraInterface appInfra;
+    @Nullable private AppInfraInterface appInfra;
+    @Nullable private CommCentral commCentral;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // TODO clean up
         //TODO fix the hashmap
         JodaTimeAndroid.init(this); // TODO this should be removed in favor or Java's date API
-        DICommClientWrapper.initializeDICommLibrary(getApplicationContext(),
-                new BEApplianceFactory(new LanTransportContext(getApplicationContext())), null, null);
-
-        AppInfraInterface appInfra = getAppInfra();
-
-        Tagger.init(this, appInfra.getTagging());
+        Tagger.init(this, getAppInfra().getTagging());
     }
 
-    private AppInfra initAppInfra(@NonNull final Context context) {
-        return new AppInfra.Builder().build(context);
-    }
-
+    @NonNull
     public AppInfraInterface getAppInfra() {
         if (appInfra == null) {
-            appInfra = initAppInfra(getApplicationContext());
+            appInfra = createAppInfra(getApplicationContext());
         }
         return appInfra;
+    }
+
+    @NonNull
+    public CommCentral getCommCentral() {
+        if (commCentral == null) {
+            commCentral = createCommCentral();
+        }
+        return commCentral;
+    }
+
+    @NonNull
+    private CommCentral createCommCentral() {
+        LanTransportContext lanTransportContext = new LanTransportContext(
+                new RuntimeConfiguration(getApplicationContext(), appInfra));
+        BEApplianceFactory factory = new BEApplianceFactory(lanTransportContext);
+        return new CommCentral(factory, lanTransportContext);
+    }
+
+    @NonNull
+    private AppInfra createAppInfra(@NonNull final Context context) {
+        return new AppInfra.Builder().build(context);
     }
 }

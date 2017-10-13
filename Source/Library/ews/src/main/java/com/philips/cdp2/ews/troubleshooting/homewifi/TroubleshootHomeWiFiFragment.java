@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.troubleshooting.homewifi;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,36 +12,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.common.callbacks.DialogCallback;
 import com.philips.cdp2.ews.common.util.DateUtil;
 import com.philips.cdp2.ews.databinding.TroubleshootHomeWifiFragmentBinding;
+import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
+import com.philips.cdp2.ews.injections.EWSModule;
 import com.philips.cdp2.ews.tagging.Pages;
 import com.philips.cdp2.ews.util.TextUtil;
-import com.philips.cdp2.ews.viewmodel.TroubleshootHomeWiFiViewModel;
+import com.philips.cdp2.ews.view.EWSBaseFragment;
 
 import javax.inject.Inject;
 
-public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHomeWifiFragmentBinding> {
+public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHomeWifiFragmentBinding>
+        implements DialogCallback {
 
     public static final String HIERARCHY_LEVEL = "hierarchyLevel";
 
     @Inject
     TroubleshootHomeWiFiViewModel viewModel;
-
-    /**
-     * hierarchyLevel is dynamic here and should be +1 from where its called.
-     * 1.hierarchyLevel in FragmentManager stack should be 2 if this fragment is shown from @see {@link EWSGettingStartedFragment}
-     * 2.hierarchyLevel in FragmentManager stack should be 3 if this fragment is shown from @see {@link EWSHomeWifiDisplayFragment}
-     *
-     * @return instance of TroubleshootHomeWiFiFragment.
-     */
-    public static TroubleshootHomeWiFiFragment getInstance(final int hierarchyLevel) {
-        Bundle arguments = new Bundle();
-        arguments.putInt(HIERARCHY_LEVEL, hierarchyLevel);
-        TroubleshootHomeWiFiFragment fragment = new TroubleshootHomeWiFiFragment();
-        fragment.setArguments(arguments);
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +39,6 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
 
         String explanation = String.format(DateUtil.getSupportedLocale(), getString(R.string.label_ews_home_network_body), getString(R.string.af_app_name));
         viewDataBinding.labelEwsHomeNetworkBody.setText(TextUtil.getHTMLText(explanation));
-
         return view;
     }
 
@@ -62,6 +50,7 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
     @Override
     protected void bindViewModel(final TroubleshootHomeWifiFragmentBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);
+        viewModel.setDialogCallback(this);
     }
 
     @Override
@@ -86,14 +75,12 @@ public class TroubleshootHomeWiFiFragment extends EWSBaseFragment<TroubleshootHo
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.checkHomeWiFiNetwork();
+    protected EWSComponent getEwsComponent() {
+        return DaggerEWSComponent.builder().eWSModule(new EWSModule(getContext(), getFragmentManager())).build();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.unregister();
+    public void hideDialog() {
+        getActivity().finish();
     }
 }

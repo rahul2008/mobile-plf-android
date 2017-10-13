@@ -1,28 +1,21 @@
 package com.philips.cdp2.ews.view;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.view.dialog.CancelDialogFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class BaseFragment extends Fragment implements BackEventListener {
 
     @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.ews_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.skip_setup) {
-            handleCancelButtonClicked();
-            return true;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getActivity() instanceof EWSActivity) {
+            EWSActivity activity = (EWSActivity) getActivity();
+            activity.showCloseButton();
         }
-        return super.onOptionsItemSelected(item);
     }
 
     protected void handleCancelButtonClicked() {

@@ -4,25 +4,20 @@
  */
 package com.philips.cdp2.ews.appliance;
 
-import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.ews.annotations.ApplianceRequestType;
-import com.philips.cdp2.ews.annotations.NetworkType;
 import com.philips.cdp2.ews.communication.events.ApplianceConnectErrorEvent;
 import com.philips.cdp2.ews.communication.events.DeviceConnectionErrorEvent;
-import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
-import com.philips.cdp2.ews.communication.events.ShowPasswordEntryScreenEvent;
 import com.philips.cdp2.ews.logger.EWSLogger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -31,6 +26,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.philips.cdp2.ews.annotations.ApplianceRequestType.GET_WIFI_PROPS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -46,23 +42,12 @@ public class ApplianceAccessManagerTest {
     private static final String HOME_WIFI_PASSWORD = "BrightEyes123";
     private static final String HOME_WIFI_SSID = "BrightEyes2.4";
 
-    @Mock
-    private EventBus eventBusMock;
-
-    @Mock
-    private DICommPortListener<DevicePort> devicePortListenerMock;
-
-    @Mock
-    private DICommPortListener<WifiPort> wifiPortListenerMock;
-
-    @Mock
-    private DevicePort devicePortMock;
-
-    @Mock
-    private WifiPort wifiPortMock;
-
-    @Mock
-    private EWSGenericAppliance applianceMock;
+    @Mock private EventBus eventBusMock;
+    @Mock private DevicePort devicePortMock;
+    @Mock private WifiPort wifiPortMock;
+    @Mock private EWSGenericAppliance applianceMock;
+    @Mock private ApplianceAccessManager.FetchCallback mockFetchCallback;
+    @Mock private ApplianceAccessManager.SetPropertiesCallback mockSetPropertiesCallback;
 
     private ApplianceSessionDetailsInfo sessionInfoDetails;
 
@@ -87,7 +72,7 @@ public class ApplianceAccessManagerTest {
     //// TODO: 26/05/17  this is workaround fix to pass tests till we get an update from dicomm.
     @Test
     public void shouldFetchApplianceDevicePortPropertiesWhenAsked() throws Exception {
-        accessManager.fetchDevicePortProperties();
+        accessManager.fetchDevicePortProperties(null);
 
         verify(wifiPortMock).reloadProperties();
         verifyRequestType(ApplianceRequestType.GET_WIFI_PROPS);
@@ -96,9 +81,9 @@ public class ApplianceAccessManagerTest {
     //// TODO: 26/05/17  this is workaround fix to pass tests till we get an update from dicomm.
     @Test
     public void shouldNotFetchApplianceDevicePortPropertiesIfAnotherRequestIsInProgress() throws Exception {
-        accessManager.fetchDevicePortProperties();
-        accessManager.fetchDevicePortProperties();
-        accessManager.fetchDevicePortProperties();
+        accessManager.fetchDevicePortProperties(null);
+        accessManager.fetchDevicePortProperties(null);
+        accessManager.fetchDevicePortProperties(null);
 
         verify(wifiPortMock, times(1)).reloadProperties();
     }
@@ -117,9 +102,8 @@ public class ApplianceAccessManagerTest {
 
     @Test
     public void shouldSaveApplianceWiFIPortSessionDetailsWhenGetWiFIPortPropertiesAreFetched() throws Exception {
-        WifiPortProperties wifiPortProperties = fetchWiFiProperties(GET_WIFI_PROPS);
+        fetchWiFiProperties(GET_WIFI_PROPS);
 
-        assertSame(wifiPortProperties, sessionInfoDetails.getWifiPortProperties());
         verifyRequestType(ApplianceRequestType.UNKNOWN);
     }
 
@@ -127,8 +111,7 @@ public class ApplianceAccessManagerTest {
     public void shouldSendEventToShowNextScreenWhenWiFiPortPropertiesAreReadSuccessfully() throws Exception {
         fetchWiFiProperties(GET_WIFI_PROPS);
 
-        verify(eventBusMock).post(isA(ShowPasswordEntryScreenEvent.class));
-        assertEquals(ApplianceRequestType.UNKNOWN, accessManager.getRequestType());
+        verify(mockFetchCallback).onDeviceInfoReceived(any(WifiPortProperties.class));
     }
 
     @Test
@@ -141,18 +124,13 @@ public class ApplianceAccessManagerTest {
     }
 
     @Test
-    public void shouldSendEventToConnectYourPhoneWithHomeWiFiOnceApplianceIsConnectedToHomeWifi() throws Exception {
-        final ArgumentCaptor<NetworkConnectEvent> requestCaptor = ArgumentCaptor.forClass(NetworkConnectEvent.class);
+    public void shouldNotifyCallbackWhenInfoIsPutIntoDevice() throws Exception {
         connectApplianceToHomeWiFi();
 
         accessManager.setApplianceWifiRequestType(ApplianceRequestType.PUT_WIFI_PROPS);
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
 
-        verify(eventBusMock).post(requestCaptor.capture());
-        NetworkConnectEvent request = requestCaptor.getValue();
-
-        assertEquals(HOME_WIFI_SSID, request.getNetworkSSID());
-        assertEquals(NetworkType.HOME_WIFI, request.getNetworkType());
+        verify(mockSetPropertiesCallback).onPropertiesSet();
     }
 
     private void verifyRequestType(final int requestType) {
@@ -241,6 +219,7 @@ public class ApplianceAccessManagerTest {
     private WifiPortProperties fetchWiFiProperties(final @ApplianceRequestType int type) {
         WifiPortProperties wifiPortProperties = mock(WifiPortProperties.class);
         when(wifiPortMock.getPortProperties()).thenReturn(wifiPortProperties);
+        accessManager.fetchDevicePortProperties(mockFetchCallback);
         accessManager.setApplianceWifiRequestType(type);
 
         accessManager.getWifiPortListener().onPortUpdate(wifiPortMock);
@@ -250,6 +229,6 @@ public class ApplianceAccessManagerTest {
     private void connectApplianceToHomeWiFi() {
         WifiPortProperties wifiPortProperties = mock(WifiPortProperties.class);
         when(wifiPortMock.getPortProperties()).thenReturn(wifiPortProperties);
-        accessManager.connectApplianceToHomeWiFiEvent(HOME_WIFI_SSID, HOME_WIFI_PASSWORD);
+        accessManager.connectApplianceToHomeWiFiEvent(HOME_WIFI_SSID, HOME_WIFI_PASSWORD, mockSetPropertiesCallback);
     }
 }

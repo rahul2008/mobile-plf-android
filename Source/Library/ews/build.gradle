@@ -51,20 +51,21 @@ dependencies {
     compile "com.android.support:animated-vector-drawable:${versionsAndroid.support}"
     compile "com.android.support:cardview-v7:${versionsAndroid.support}"
     compile "com.android.support:multidex:${versionsAndroid.multidex}"
-    compile 'net.danlew:android.joda:2.9.9'
 
     // Philips Dependencies
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: "${versionsPhilips.cba}", ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'commlib-lan', version: "${versionsPhilips.cba}") {
         exclude group: 'com.android.support'
-        transitive = true
+
     }
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}", ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}") {
         exclude group: 'com.android.support'
-        transitive = true
     }
+
+    // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
     annotationProcessor "com.google.dagger:dagger-compiler:${versionsExternal.dagger}"
     compile "org.greenrobot:eventbus:${versionsExternal.eventBus}"
+    compile "net.danlew:android.joda:${versionsExternal.joda}"
 
     // Test
     testCompile "junit:junit:${versionsExternal.junit}"

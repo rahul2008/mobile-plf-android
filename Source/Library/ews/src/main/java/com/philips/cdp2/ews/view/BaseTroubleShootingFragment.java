@@ -20,4 +20,9 @@ public class BaseTroubleShootingFragment extends BaseFragment {
         viewModel.onCancelButtonClicked();
     }
 
+    @Override
+    public boolean handleBackEvent() {
+        handleCancelButtonClicked();
+        return true;
+    }
 }

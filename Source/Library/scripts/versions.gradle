@@ -26,7 +26,7 @@ ext.versionsAndroid = [
 ext.versionsPhilips = [
         uaf : "1.6.2-rc.20170901140757",  // uApp Framework
         prg : "2.5.2-rc.20170901144329",  // Product Registration
-        cba : "1.4.1-rc.20170831141519",  // CommLib-All
+        cba : "8.0.0-rc.+",  // CommLib-All
         dsc : "1.2.2-rc.20170901144720",  // DataServices
         dcc : "7.5.2-rc.20170901143221",  // Consumer Care
         sdb : "1.2.2-rc.20170901140724",  // Secure DB
@@ -49,5 +49,6 @@ ext.versionsExternal = [
         stetho              : "1.2.0",
         dagger              : "2.9",
         eventBus            : "3.0.0",
-        mockitoKotlin       : "1.5.0"
+        mockitoKotlin       : "1.5.0",
+        joda                : "2.9.9"
 ]

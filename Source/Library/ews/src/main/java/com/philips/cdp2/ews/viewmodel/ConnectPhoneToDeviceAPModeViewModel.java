@@ -41,7 +41,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @NonNull
     private final PermissionHandler permissionHandler;
     @NonNull
-    private final EventBus eventBus;
+    final EventBus eventBus;
     @NonNull
     private final DialogFragment connectingDialog;
     @NonNull
@@ -90,9 +90,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
         if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
             gpsSettingsDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
         } else {
-            handler.postDelayed(timeoutRunnable, DEVICE_CONNECTION_TIMEOUT);
-            connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
-            eventBus.post(new NetworkConnectEvent(NetworkType.DEVICE_HOTSPOT, WiFiUtil.DEVICE_SSID));
+            startConnection();
         }
     }
 
@@ -105,11 +103,21 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     }
 
     void showUnsuccessfulDialog() {
-        connectingDialog.dismissAllowingStateLoss();
-        if (unsuccessfulDialog.getDialog() != null && unsuccessfulDialog.getDialog().isShowing()) {
+        if (connectingDialog != null) {
+            connectingDialog.dismissAllowingStateLoss();
+        }
+        if (unsuccessfulDialog == null || (unsuccessfulDialog.getDialog() != null && unsuccessfulDialog.getDialog().isShowing())) {
             return;
         }
         unsuccessfulDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+    }
+
+    protected void startConnection() {
+        handler.postDelayed(timeoutRunnable, DEVICE_CONNECTION_TIMEOUT);
+        if (connectingDialog != null) {
+            connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
+        }
+        eventBus.post(new NetworkConnectEvent(NetworkType.DEVICE_HOTSPOT, WiFiUtil.DEVICE_SSID));
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -122,7 +130,9 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showPasswordEntryScreenEvent(@SuppressWarnings("UnusedParameters") ShowPasswordEntryScreenEvent entryScreenEvent) {
         handler.removeCallbacks(timeoutRunnable);
-        connectingDialog.dismissAllowingStateLoss();
+        if (connectingDialog != null &&connectingDialog.isVisible()) {
+            connectingDialog.dismissAllowingStateLoss();
+        }
         eventBus.unregister(this);
         navigator.navigateToConnectToDeviceWithPasswordScreen();
     }

@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -63,8 +64,26 @@ public class EWSHomeWifiDisplayViewModelTest {
     @Test
     public void shouldNotifyPropertyChangedWhenHomeWiFiSSIDIsCalled() throws Exception {
         viewModel.addOnPropertyChangedCallback(callbackListenerMock);
-        viewModel.updateHomeWiFiSSID();
+        viewModel.refresh();
 
         verify(callbackListenerMock).onPropertyChanged(viewModel, BR.homeWiFiSSID);
+    }
+
+    @Test
+    public void itShouldShowTroubleShootingScreenWhenNotConnectedToHomeWifi() throws Exception {
+        when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(false);
+
+        viewModel.refresh();
+
+        verify(navigatorMock).navigateToWifiTroubleShootingScreen();
+    }
+
+    @Test
+    public void itShouldNotShowTroubleShootingScreenWhenConnectedToHomeWifi() throws Exception {
+        when(wifiUtilMock.isHomeWiFiEnabled()).thenReturn(true);
+
+        viewModel.refresh();
+
+        verify(navigatorMock, never()).navigateToWifiTroubleShootingScreen();
     }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,14 +47,22 @@ public abstract class EWSBaseFragment<T extends ViewDataBinding> extends BaseFra
     @Override
     public void onResume() {
         super.onResume();
-        EWSTagger.trackPage(getPageName());
+        String pageName = getPageName();
+        if (pageName != null) {
+            EWSTagger.trackPage(pageName);
+        }
     }
 
-    @NonNull
+    @Nullable
     protected abstract String getPageName();
 
     private void injectDependencies() {
-        inject(((EWSActivity) getActivity()).getEWSComponent());
+        inject(getEwsComponent());
+    }
+
+    @NonNull
+    protected EWSComponent getEwsComponent() {
+        return ((EWSActivity) getActivity()).getEWSComponent();
     }
 
     protected abstract void bindViewModel(final T viewDataBinding);

@@ -120,4 +120,12 @@
         <item name="android:background">@color/color_panel</item>
     </style>
 
+    <style name="EWSDialogActivity" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
 </resources>

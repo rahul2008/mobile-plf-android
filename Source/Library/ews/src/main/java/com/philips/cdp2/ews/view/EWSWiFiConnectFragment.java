@@ -64,12 +64,17 @@ public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        viewModel.unregister();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         viewModel.onStart();
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        // Do nothing, back disabled in this screen
+        return true;
     }
 }

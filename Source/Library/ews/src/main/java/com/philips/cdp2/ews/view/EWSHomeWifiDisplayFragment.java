@@ -42,7 +42,7 @@ public class EWSHomeWifiDisplayFragment extends EWSBaseFragment<FragmentEwsHomeW
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.updateHomeWiFiSSID();
+        viewModel.refresh();
     }
 
     @NonNull

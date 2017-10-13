@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
-import com.philips.cdp2.ews.view.FragmentCallback;
+import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 
 import javax.inject.Inject;
 

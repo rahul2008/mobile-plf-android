@@ -19,8 +19,7 @@ public class EventingChannelTest {
     private ApplianceAccessEventMonitor applianceAccessEventMonitorMock;
     @Mock
     private WiFiEventMonitor wifiConnectivityManagerMock;
-    @Mock
-    private WiFiBroadcastReceiver broadcastReceiverMock;
+
     private EventingChannel eventingChannel;
 
     @SuppressWarnings("unchecked")
@@ -28,14 +27,13 @@ public class EventingChannelTest {
     public void setUp() throws Exception {
         initMocks(this);
 
-        eventingChannel = new EventingChannel(Arrays.asList(broadcastReceiverMock, applianceAccessEventMonitorMock, wifiConnectivityManagerMock));
+        eventingChannel = new EventingChannel(Arrays.asList(applianceAccessEventMonitorMock, wifiConnectivityManagerMock));
     }
 
     @Test
     public void shouldStartAllMonitorsWhenStartIsCalled() throws Exception {
         eventingChannel.start();
 
-        verify(broadcastReceiverMock).onStart();
         verify(applianceAccessEventMonitorMock).onStart();
         verify(wifiConnectivityManagerMock).onStart();
     }
@@ -44,7 +42,6 @@ public class EventingChannelTest {
     public void shouldStopAllMonitorsWhenStopIsCalled() throws Exception {
         eventingChannel.stop();
 
-        verify(broadcastReceiverMock).onStop();
         verify(applianceAccessEventMonitorMock).onStop();
         verify(wifiConnectivityManagerMock).onStop();
     }

@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.microapp;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -64,9 +63,6 @@ public class EWSInterfaceTest {
     private Context contextMock;
 
     @Mock
-    private DiscoveryManager discoveryManagerMock;
-
-    @Mock
     private Map<String, String> productKeyMap;
 
     @Before
@@ -85,7 +81,7 @@ public class EWSInterfaceTest {
     public void shouldEnsureEWSDependenciesAreInitializedWhenOnInitIsCalled() throws Exception {
         PowerMockito.verifyStatic();
 
-        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, discoveryManagerMock, productKeyMap);
+        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap);
     }
 
     @Test
@@ -102,7 +98,7 @@ public class EWSInterfaceTest {
 
         PowerMockito.verifyStatic();
 
-        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, discoveryManagerMock, productKeyMap);
+        EWSDependencyProvider.getInstance().initDependencies(appInfraInterfaceMock, productKeyMap);
     }
 
     @Test
@@ -115,7 +111,6 @@ public class EWSInterfaceTest {
 
     private void initEWS() {
         when(ewsDependenciesMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
-        when(ewsDependenciesMock.getDiscoveryManager()).thenReturn(discoveryManagerMock);
         when(ewsDependenciesMock.getProductKeyMap()).thenReturn(productKeyMap);
         when(uappSettingsMock.getContext()).thenReturn(contextMock);
 

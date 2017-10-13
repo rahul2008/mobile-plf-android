@@ -21,6 +21,10 @@ public class FragmentNavigator {
                 .commit();
     }
 
+    void pop() {
+        fragmentManager.popBackStackImmediate();
+    }
+
     boolean popToFragment(@NonNull String tag) {
         return fragmentManager.popBackStackImmediate(tag, POP_BACK_STACK_EXCLUSIVE);
     }

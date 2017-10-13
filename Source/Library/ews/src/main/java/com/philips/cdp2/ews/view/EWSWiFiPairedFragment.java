@@ -8,6 +8,7 @@ package com.philips.cdp2.ews.view;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
 import com.philips.cdp2.ews.databinding.FragmentEwsWifiPairedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -15,7 +16,8 @@ import com.philips.cdp2.ews.viewmodel.EWSWiFIPairedViewModel;
 
 import javax.inject.Inject;
 
-public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPairedBinding> implements FragmentCallback {
+public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPairedBinding> implements
+        FragmentCallback {
 
     @Inject
     EWSWiFIPairedViewModel viewModel;
@@ -64,6 +66,7 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
 
     @Override
     public boolean handleBackEvent() {
+        // Do nothing, back disabled in this screen
         return true;
     }
 

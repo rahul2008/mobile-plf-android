@@ -53,12 +53,17 @@ public class WiFiUtilTest {
         final String HOME_SSID = "\"BrightEyes\"";//double quotes are from device.
         stubSSID(HOME_SSID);
 
-        assertEquals("BrightEyes", wiFiUtil.getCurrentHomeWiFiSSID());
+        assertEquals("BrightEyes", wiFiUtil.getCurrentWiFiSSID());
     }
 
     private void stubSSID(final String HOME_SSID) {
         when(wifiInfoMock.getSupplicantState()).thenReturn(SupplicantState.COMPLETED);
         when(wifiInfoMock.getSSID()).thenReturn(HOME_SSID);
+    }
+
+    private void stubSSIDWithEmptyState() {
+        when(wifiInfoMock.getSupplicantState()).thenReturn(SupplicantState.INACTIVE);
+        when(wifiInfoMock.getSSID()).thenReturn("");
     }
 
     @Test
@@ -72,10 +77,10 @@ public class WiFiUtilTest {
     public void shouldCheckIfPhoneIsConnectedWithDeviceHotspot() throws Exception {
         stubSSID(WiFiUtil.DEVICE_SSID);
 
-        wiFiUtil.getCurrentHomeWiFiSSID();
+        wiFiUtil.getCurrentWiFiSSID();
 
         assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.DEVICE_HOTSPOT_WIFI);
-        assertTrue(wiFiUtil.getCurrentHomeWiFiSSID().equals(WiFiUtil.DEVICE_SSID));
+        assertTrue(wiFiUtil.getCurrentWiFiSSID().equals(WiFiUtil.DEVICE_SSID));
 
     }
 
@@ -83,7 +88,7 @@ public class WiFiUtilTest {
     public void shouldCheckIfPhoneIsConnectedBackToHomeWiFi() throws Exception {
         stubSSID(HOME_SSID);
 
-        wiFiUtil.getCurrentHomeWiFiSSID();
+        wiFiUtil.getCurrentWiFiSSID();
 
         assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI);
     }
@@ -92,7 +97,7 @@ public class WiFiUtilTest {
     public void shouldReturnNullIfWiFiIsNotConnected() throws Exception {
         disconnectNetwork();
 
-        assertNull(wiFiUtil.getCurrentHomeWiFiSSID());
+        assertNull(wiFiUtil.getCurrentWiFiSSID());
         assertFalse(wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI);
     }
 
@@ -107,7 +112,7 @@ public class WiFiUtilTest {
     @Test
     public void shouldReturnTrueIfConnectedToADifferentNetwork() throws Exception {
         stubSSID(HOME_SSID);
-        wiFiUtil.getCurrentHomeWiFiSSID();
+        wiFiUtil.getCurrentWiFiSSID();
         stubSSID(NOT_HOME_SSID);
 
         assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.WRONG_WIFI);
@@ -128,7 +133,7 @@ public class WiFiUtilTest {
     @Test
     public void shouldReturnWrongWifiWhenWifiWifiStateIsUnknownAndHomeWifiSet() throws Exception {
         stubSSID(HOME_SSID);
-        wiFiUtil.getCurrentHomeWiFiSSID();
+        wiFiUtil.getCurrentWiFiSSID();
         stubSSID(UKNOWN_SSID);
 
         assertTrue(wiFiUtil.getCurrentWifiState() == WiFiUtil.UNKNOWN_WIFI);
@@ -138,7 +143,23 @@ public class WiFiUtilTest {
     public void ShouldReturnFalseIfWiFiIsEnabledAndConnectedToPhilipsHotspot() throws Exception {
         when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
         stubSSID(WiFiUtil.DEVICE_SSID);
-        wiFiUtil.getCurrentHomeWiFiSSID();
+        wiFiUtil.getCurrentWiFiSSID();
+
+
+        assertFalse(wiFiUtil.isHomeWiFiEnabled());
+    }
+
+    @Test
+    public void ShouldReturnFalseIfWiFiIsDisabled() throws Exception {
+        when(wifiManagerMock.isWifiEnabled()).thenReturn(false);
+        assertFalse(wiFiUtil.isHomeWiFiEnabled());
+    }
+
+    @Test
+    public void ShouldReturnFalseIfWiFiIsEnabledAndWifiSSIDEmpty() throws Exception {
+        when(wifiManagerMock.isWifiEnabled()).thenReturn(true);
+        stubSSIDWithEmptyState();
+        wiFiUtil.getCurrentWiFiSSID();
 
         assertFalse(wiFiUtil.isHomeWiFiEnabled());
     }

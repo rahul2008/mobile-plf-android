@@ -23,8 +23,4 @@ public class EWSDevicePowerOnViewModel {
     public void onYesButtonClicked() {
         navigator.navigateToCompletingDeviceSetupScreen();
     }
-
-    public void onNoButtonClicked() {
-        navigator.navigateToResetConnectionTroubleShootingScreen();
-    }
 }
