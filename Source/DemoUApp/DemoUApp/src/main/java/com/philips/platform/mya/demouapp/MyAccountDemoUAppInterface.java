@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.mya.MyAccountActivity;
 import com.philips.platform.mya.demouapp.activity.DemoAppActivity;
 import com.philips.platform.mya.util.MYALog;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;

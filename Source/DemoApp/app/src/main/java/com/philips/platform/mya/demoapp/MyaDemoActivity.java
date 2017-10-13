@@ -8,6 +8,7 @@ import android.widget.*;
 
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.mya.demouapp.MyaDemouAppInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.urdemo.R;
@@ -65,6 +66,12 @@ public class MyaDemoActivity extends UIDActivity {
     }
 
     private void launchMyAccount() {
+        MyaDemouAppInterface uAppInterface;
+        uAppInterface = new MyaDemouAppInterface();
+        AppInfraInterface appInfraInterface = MyaDemoApplication.getInstance().getAppInfra();
+        uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(MyaDemoActivity.this.getApplicationContext()));
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+
     }
 
     public boolean isUserLoggedIn() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.platform.urdemo" >
+    package="com.philips.platform.urdemo"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name="com.philips.platform.mya.demoapp.MyaDemoApplication"
@@ -9,6 +10,7 @@
         android:label="@string/my_account_app_name"
         android:roundIcon="@mipmap/pr_source"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+        tools:replace="android:label,android:icon,android:theme"
         android:supportsRtl="true" >
         <activity
             android:name="com.philips.platform.mya.demoapp.MyaDemoActivity"
@@ -52,5 +54,7 @@
         </activity>
 
     </application>
+
+
 
 </manifest>
