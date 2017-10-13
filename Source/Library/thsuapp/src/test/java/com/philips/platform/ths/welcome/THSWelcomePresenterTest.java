@@ -21,6 +21,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.login.THSAuthentication;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
@@ -34,7 +35,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -111,6 +114,9 @@ public class THSWelcomePresenterTest {
     @Mock
     AppTaggingInterface appTaggingInterface;
 
+    @Mock
+    THSConsumer thsConsumerMock;
+
 
     @Before
     public void setUp() {
@@ -118,7 +124,8 @@ public class THSWelcomePresenterTest {
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdk);
         THSManager.getInstance().setUser(userMock);
-
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
         when(appInfraInterfaceMock.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterfaceMock.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
@@ -126,6 +133,11 @@ public class THSWelcomePresenterTest {
         THSManager.getInstance().TEST_FLAG = true;
         when(userMock.getHsdpUUID()).thenReturn("abc");
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        List list = new ArrayList();
+        list.add(thsConsumerMock);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
+        when(thsConsumerMock.getDependents()).thenReturn(list);
     }
 
     @Test
