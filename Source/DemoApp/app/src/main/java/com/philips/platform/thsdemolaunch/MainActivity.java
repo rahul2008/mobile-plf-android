@@ -8,6 +8,9 @@ package com.philips.platform.thsdemolaunch;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
@@ -41,6 +44,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -161,6 +167,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
 
+        Drawable drawable = getResources().getDrawable(R.mipmap.ths_pre_welcome_image);
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) drawable);
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); //use the compression format of your need
+        ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());
+
         User user = new User(this);
         THSConsumer thsConsumer = new THSConsumer();
 
@@ -173,6 +186,11 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby.setDob(new Date());
         baby.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78");
         baby.setDependent(true);
+        baby.setBloodPressureSystolic("80");
+        baby.setBloodPressureDiastolic("120");
+        baby.setTemperature(90.0);
+        baby.setWeight(56.0);
+        baby.setProfilePic(is);
         ArrayList dependants = new ArrayList();
         dependants.add(baby);
 
@@ -184,6 +202,10 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
+        thsConsumer.setBloodPressureSystolic("80");
+        thsConsumer.setBloodPressureDiastolic("120");
+        thsConsumer.setTemperature(90.0);
+        thsConsumer.setWeight(56.0);
         thsConsumer.setDependent(false);
 
 

@@ -118,6 +118,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
             mEditTextLastName.setText(user.getLastName());
         }
         if(user.getDob()!=null) {
+            mDob = user.getDob();
             setDate(user.getDob());
         }
 
