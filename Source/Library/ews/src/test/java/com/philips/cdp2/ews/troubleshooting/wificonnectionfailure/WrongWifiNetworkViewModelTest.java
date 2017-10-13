@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -39,5 +41,12 @@ public class WrongWifiNetworkViewModelTest {
         subject.onButtonClick();
 
         verify(mockNavigator).navigateToConnectingDeviceWithWifiScreen(any(Bundle.class));
+    }
+
+    @Test
+    public void itShouldSetTheBundle() throws Exception {
+        subject.setBundle(mock(Bundle.class));
+
+        assertNotNull(subject.getBundle());
     }
 }

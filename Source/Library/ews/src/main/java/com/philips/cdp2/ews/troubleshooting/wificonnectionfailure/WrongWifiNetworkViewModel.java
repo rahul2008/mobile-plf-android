@@ -8,6 +8,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.navigation.Navigator;
 
@@ -37,5 +38,10 @@ public class WrongWifiNetworkViewModel {
 
     public void setBundle(Bundle bundle) {
         this.bundle = bundle;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    Bundle getBundle() {
+        return bundle;
     }
 }

@@ -82,6 +82,7 @@ public class ConnectingDeviceWithWifiViewModel {
     @NonNull private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
+            clear();
             showConnectionUnsuccessful();
         }
     };
@@ -116,6 +117,7 @@ public class ConnectingDeviceWithWifiViewModel {
 
             @Override
             public void onFailedToSetProperties() {
+                removeTimeoutRunnable();
                 showConnectionUnsuccessful();
             }
         });
@@ -140,7 +142,6 @@ public class ConnectingDeviceWithWifiViewModel {
     }
 
     private void showConnectionUnsuccessful() {
-        removeTimeoutRunnable();
         if (fragmentCallback != null) {
             navigator.navigateToWrongWifiNetworkScreen(fragmentCallback.getBundle());
         }

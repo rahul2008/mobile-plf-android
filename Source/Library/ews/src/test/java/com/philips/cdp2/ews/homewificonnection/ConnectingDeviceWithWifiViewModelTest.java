@@ -37,7 +37,9 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -130,10 +132,45 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
+    public void itShouldNotRegisterBroadcastReceiverWhenPutPropsIsSuccessWhenCallbackIsNull() throws Exception {
+        subject.setFragmentCallback(null);
+
+        simulatePutPropsSucceeded();
+
+        verify(mockFragmentCallback, never()).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+    }
+
+    @Test
     public void itShouldUnregisterBroadcastReceiverWhenConnectedBackToHomeWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
 
         verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
+    }
+
+    @Test
+    public void itShouldNotDoAnyThingWhenBroadcastOfNetworkNotConnected() throws Exception {
+        mockNetworkChange(NetworkInfo.State.DISCONNECTED, WiFiUtil.HOME_WIFI);
+        simulatePutPropsSucceeded();
+        verify(mockFragmentCallback).registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
+
+        reset(mockHandler, mockDiscoveryHelper, mockNavigator);
+
+        receiverArgumentCaptor.getValue().onReceive(null, mockIntent);
+
+        verifyZeroInteractions(mockHandler);
+        verifyZeroInteractions(mockDiscoveryHelper);
+        verifyZeroInteractions(mockNavigator);
+    }
+
+    @Test
+    public void itShouldNotUnregisterBroadcastReceiverWhenConnectedBackToHomeWifiNetworkAndCallbackIsNull() throws Exception {
+        mockNetworkChange(NetworkInfo.State.CONNECTED, WiFiUtil.HOME_WIFI);
+        simulatePutPropsSucceeded();
+        verify(mockFragmentCallback).registerReceiver(receiverArgumentCaptor.capture(), any(IntentFilter.class));
+        subject.setFragmentCallback(null);
+        receiverArgumentCaptor.getValue().onReceive(null, mockIntent);
+
+        verify(mockFragmentCallback, never()).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
     @Test
@@ -220,7 +257,25 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
 
+        mockNavigator.navigateToWrongWifiNetworkScreen(any(Bundle.class));
+    }
 
+    @Test
+    public void itShouldStopDiscoveryWhenTimeout() throws Exception {
+        subject.startConnecting(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME);
+        verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
+        timeoutRunnableCaptor.getValue().run();
+
+        verify(mockDiscoveryHelper).stopDiscovery();
+    }
+
+    @Test
+    public void itShouldUnregisterReceiverWhenTimeout() throws Exception {
+        subject.startConnecting(HOME_SSID, HOME_SSID_PASSWORD, DEVICE_NAME);
+        verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
+        timeoutRunnableCaptor.getValue().run();
+
+        verify(mockFragmentCallback).unregisterReceiver(any(BroadcastReceiver.class));
     }
 
     private void simulateApplianceFound() {
