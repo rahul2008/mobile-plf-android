@@ -18,7 +18,7 @@ import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -57,7 +57,7 @@ public class THSCreditCardBillingAddressPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumer thsConsumermock;
+    THSConsumerWrapper thsConsumermock;
 
     @Mock
     THSPaymentMethod thsPaymentMethodMock;
