@@ -33,7 +33,7 @@ import com.philips.platform.ths.intake.THSCheckPharmacyConditionsFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.practice.THSPracticeCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSDateEnum;
@@ -77,14 +77,16 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-        THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-        thsConsumerWrapper.setConsumer(viewInterface.getConsumerInfo());
-        try {
-            THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            THSConsumer thsConsumer = new THSConsumer();
+            thsConsumer.setConsumer(viewInterface.getConsumerInfo());
+            try {
+                THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(), provider, this);
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+            viewInterface.updateView(provider);
         }
-        viewInterface.updateView(provider);
     }
 
     @Override
@@ -99,13 +101,13 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
             } else {
-                THSConsumerWrapper THSConsumerWrapper = new THSConsumerWrapper();
-                THSConsumerWrapper.setConsumer(viewInterface.getConsumerInfo());
+                THSConsumer THSConsumer = new THSConsumer();
+                THSConsumer.setConsumer(viewInterface.getConsumerInfo());
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
                 bundle.putParcelable(THSConstants.THS_PROVIDER, viewInterface.getProvider());
                 THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
-                thsSymptomsFragment.setConsumerObject(THSConsumerWrapper);
+                thsSymptomsFragment.setConsumerObject(THSConsumer);
                 thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
                 mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle, true);
             }
@@ -244,7 +246,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onEstimatedCostFetchSuccess(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
-        viewInterface.updateEstimatedCost(estimatedVisitCost);
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            viewInterface.updateEstimatedCost(estimatedVisitCost);
+        }
     }
 
     @Override
@@ -283,53 +287,64 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
     @Override
     public void onMatchMakingProviderFound(Provider provider, VisitContext visitContext) {
-        mThsBaseFragment.hideProgressBar();
-        ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
-        THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
-        ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo = provider.getPracticeInfo();
-        THSProviderInfo tHSProviderInfo = new THSProviderInfo();
-        tHSProviderInfo.setTHSProviderInfo(provider);
-        ((THSProviderDetailsFragment) mThsBaseFragment).mThsProviderInfo = tHSProviderInfo;
-        ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
-        ((THSProviderDetailsFragment) mThsBaseFragment).dodProviderFoundMessage.setVisibility(View.VISIBLE);
-        onProviderDetailsReceived(provider, null);
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.hideProgressBar();
+            ((THSProviderDetailsFragment) mThsBaseFragment).mProgressBarWithLabelContainer.setVisibility(View.GONE);
+            THSManager.getInstance().getPthVisitContext().setVisitContext(visitContext); // update visit context, now this visit containd providerInfo
+            ((THSProviderDetailsFragment) mThsBaseFragment).mPracticeInfo = provider.getPracticeInfo();
+            THSProviderInfo tHSProviderInfo = new THSProviderInfo();
+            tHSProviderInfo.setTHSProviderInfo(provider);
+            ((THSProviderDetailsFragment) mThsBaseFragment).mThsProviderInfo = tHSProviderInfo;
+            ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
+            ((THSProviderDetailsFragment) mThsBaseFragment).dodProviderFoundMessage.setVisibility(View.VISIBLE);
+            onProviderDetailsReceived(provider, null);
+        }
     }
 
     @Override
     public void onMatchMakingProviderListExhausted() {
-        mThsBaseFragment.hideProgressBar();
-        showMatchmakingError(true, true);
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            mThsBaseFragment.hideProgressBar();
+            showMatchmakingError(true, true);
+        }
     }
 
     @Override
     public void onMatchMakingRequestGone() {
-        showMatchmakingError(true, true);
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            showMatchmakingError(true, true);
+        }
     }
 
     @Override
     public void onMatchMakingResponse(Void aVoid, SDKError sdkError) {
-        showMatchmakingError(true, true);
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            showMatchmakingError(true, true);
+        }
 
     }
 
     @Override
     public void onMatchMakingFailure(Throwable throwable) {
-        showMatchmakingError(true, true);
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            showMatchmakingError(true, true);
+        }
 
     }
 
     private void showMatchmakingError(final boolean showLargeContent, final boolean isWithTitle) {
-        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsBaseFragment.getFragmentActivity())
-                .setMessage(showLargeContent ? mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
-                        setPositiveButton(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_ok_button), ((THSProviderDetailsFragment) mThsBaseFragment));
+        if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
+            final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mThsBaseFragment.getFragmentActivity())
+                    .setMessage(showLargeContent ? mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text) : mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error_text)).
+                            setPositiveButton(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_ok_button), ((THSProviderDetailsFragment) mThsBaseFragment));
 
-        if (isWithTitle) {
-            builder.setTitle(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error));
+            if (isWithTitle) {
+                builder.setTitle(mThsBaseFragment.getFragmentActivity().getResources().getString(R.string.ths_matchmaking_error));
 
+            }
+            ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment = builder.setCancelable(false).create();
+            ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.show(mThsBaseFragment.getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
         }
-        ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment = builder.setCancelable(false).create();
-        ((THSProviderDetailsFragment) mThsBaseFragment).alertDialogFragment.show(mThsBaseFragment.getFragmentManager(), THS_PROVIDER_DETAIL_ALERT);
-
     }
 
 

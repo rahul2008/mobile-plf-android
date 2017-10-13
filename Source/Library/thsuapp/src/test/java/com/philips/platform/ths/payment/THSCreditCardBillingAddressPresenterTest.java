@@ -18,7 +18,7 @@ import com.americanwell.sdk.entity.billing.PaymentMethod;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -57,7 +57,7 @@ public class THSCreditCardBillingAddressPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumermockWrapper;
+    THSConsumer thsConsumermock;
 
     @Mock
     THSPaymentMethod thsPaymentMethodMock;
@@ -95,10 +95,11 @@ public class THSCreditCardBillingAddressPresenterTest {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdk);
         when(thsCreditCardBillingAddressFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumermockWrapper);
-        when(thsConsumermockWrapper.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setPTHConsumer(thsConsumermock);
+        when(thsConsumermock.getConsumer()).thenReturn(consumerMock);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         mTHSCreditCardBillingAddressPresenter = new THSCreditCardBillingAddressPresenter(thsCreditCardBillingAddressFragment);
+        when(thsCreditCardBillingAddressFragment.isFragmentAttached()).thenReturn(true);
     }
 
     @Test(expected = NullPointerException.class)

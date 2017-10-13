@@ -113,6 +113,7 @@ public class THSVitalsPresenterTest {
 
         THSManager.getInstance().setVisitContext(pthVisitContextMock);
         when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
     }
 
     @Test

@@ -63,24 +63,30 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     }
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
-        thsPharmacyListViewListener.hideProgressBar();
-        thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_validation_error));
+        if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
+            thsPharmacyListViewListener.hideProgressBar();
+            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_validation_error));
+        }
 
     }
 
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
-        thsPharmacyListViewListener.hideProgressBar();
-        if(null == pharmacies || pharmacies.size() == 0){
-            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+        if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
+            thsPharmacyListViewListener.hideProgressBar();
+            if (null == pharmacies || pharmacies.size() == 0) {
+                thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+            }
+            thsPharmacyListViewListener.updatePharmacyListView(pharmacies);
         }
-        thsPharmacyListViewListener.updatePharmacyListView(pharmacies);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
-        thsPharmacyListViewListener.hideProgressBar();
+        if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
+            thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_fetch_error));
+            thsPharmacyListViewListener.hideProgressBar();
+        }
 
     }
 
@@ -95,14 +101,20 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
 
     @Override
     public void onUpdateSuccess(SDKError sdkError) {
-        thsPharmacyListViewListener.hideProgressBar();
-        thsPharmacyListViewListener.validateForMailOrder(pharmacy);
-        thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_preferred_pharmacy_update));
+        if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
+            if (null != thsPharmacyListViewListener && null != thsPharmacyListViewListener.getFragmentActivity()) {
+                thsPharmacyListViewListener.hideProgressBar();
+                thsPharmacyListViewListener.validateForMailOrder(pharmacy);
+                thsPharmacyListViewListener.showErrorToast(thsPharmacyListViewListener.getFragmentActivity().getResources().getString(R.string.ths_pharmacy_preferred_pharmacy_update));
+            }
+        }
     }
 
     @Override
     public void onUpdateFailure(Throwable throwable) {
-        thsPharmacyListViewListener.hideProgressBar();
+        if(null!=thsPharmacyListViewListener && null!=thsPharmacyListViewListener.getFragmentActivity()) {
+            thsPharmacyListViewListener.hideProgressBar();
+        }
 
     }
 }

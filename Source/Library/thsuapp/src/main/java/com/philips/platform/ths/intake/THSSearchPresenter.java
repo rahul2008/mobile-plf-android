@@ -43,28 +43,30 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     @SuppressWarnings("unchecked")
     @Override
     public void onResponse(THSMedication THSMedication, SDKError sdkError) {
+        if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
+            if (null != THSMedication && null != THSMedication.getMedicationList() && !THSMedication.getMedicationList().isEmpty()) {
 
-        if (null != THSMedication && null != THSMedication.getMedicationList() && !THSMedication.getMedicationList().isEmpty()) {
+                AmwellLog.i("onFetchMedication", "success");
+                // if user deletes string to less than 3 character before response comes then response should not be shown
+                if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
+                    ((THSSearchFragment) uiBaseView).searchedMedicines = THSMedication;
+                    ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).searchedMedicines.getMedicationList());
+                }
+            } else {
 
-            AmwellLog.i("onFetchMedication", "success");
-            // if user deletes string to less than 3 character before response comes then response should not be shown
-            if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
-                ((THSSearchFragment) uiBaseView).searchedMedicines = THSMedication;
-                ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).searchedMedicines.getMedicationList());
+                AmwellLog.i("onFetchMedication", "failure");
+                //((THSSearchFragment) uiBaseView).showToast("No match found");
             }
-        } else {
-
-            AmwellLog.i("onFetchMedication", "failure");
-            //((THSSearchFragment) uiBaseView).showToast("No match found");
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
 
-
-        AmwellLog.i("onFetchMedication", "failure");
-        uiBaseView.showToast("Search failure");
+        if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
+            AmwellLog.i("onFetchMedication", "failure");
+            uiBaseView.showToast("Search failure");
+        }
     }
 
 
@@ -105,35 +107,41 @@ class THSSearchPresenter implements THSBasePresenter, THSSDKValidatedCallback<TH
     @SuppressWarnings("unchecked")
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
-        if (null != providerInfoList && !providerInfoList.isEmpty()) {
+        if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
+            if (null != providerInfoList && !providerInfoList.isEmpty()) {
 
-            AmwellLog.i("onFetchMedication", "success");
-            // if user deletes string to less than 3 character before response comes then response should not be shown
-            if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
-                ((THSSearchFragment) uiBaseView).providerInfoList = providerInfoList;
-                ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).providerInfoList);
+                AmwellLog.i("onFetchMedication", "success");
+                // if user deletes string to less than 3 character before response comes then response should not be shown
+                if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
+                    ((THSSearchFragment) uiBaseView).providerInfoList = providerInfoList;
+                    ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).providerInfoList);
+                }
+            } else {
+
+                AmwellLog.i("onFetchMedication", "failure");
+                //((THSSearchFragment) uiBaseView).showToast("No match found");
             }
-        } else {
-
-            AmwellLog.i("onFetchMedication", "failure");
-            //((THSSearchFragment) uiBaseView).showToast("No match found");
         }
     }
 
     @Override
     public void onProvidersListFetchError(Throwable throwable) {
-        AmwellLog.i("onFetchProvider", "failure");
-        ((THSBaseFragment) uiBaseView).showToast("Search failure");
+        if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
+            AmwellLog.i("onFetchProvider", "failure");
+            ((THSBaseFragment) uiBaseView).showToast("Search failure");
+        }
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void onPharmacyListReceived(List<Pharmacy> pharmacies, SDKError sdkError) {
-        if(null != pharmacies && !pharmacies.isEmpty()){
-            if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
-                ((THSSearchFragment) uiBaseView).pharmacyList = pharmacies;
-                ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).pharmacyList);
-                ((THSSearchFragment) uiBaseView).callPharmacyListFragment();
+        if(null!=uiBaseView && uiBaseView.isFragmentAttached()) {
+            if (null != pharmacies && !pharmacies.isEmpty()) {
+                if (((THSSearchFragment) uiBaseView).searchBox.getSearchTextView().getText().length() > 2) {
+                    ((THSSearchFragment) uiBaseView).pharmacyList = pharmacies;
+                    ((THSSearchFragment) uiBaseView).mTHSSearchListAdapter.setData(((THSSearchFragment) uiBaseView).pharmacyList);
+                    ((THSSearchFragment) uiBaseView).callPharmacyListFragment();
+                }
             }
         }
     }

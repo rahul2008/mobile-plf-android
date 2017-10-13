@@ -109,6 +109,7 @@ public class THSSearchPresenterTest {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManager);
         mTHSSearchPresenter = new THSSearchPresenter(thsSearchFragment);
+        when(thsSearchFragment.isFragmentAttached()).thenReturn(true);
     }
 
     @Test

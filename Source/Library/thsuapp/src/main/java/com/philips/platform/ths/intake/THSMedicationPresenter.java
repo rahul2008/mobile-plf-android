@@ -83,10 +83,11 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     //////////////// start of call backs for get existing medicines//////////////
     @Override
     public void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError) {
-        ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-        AmwellLog.i("onGetMedicationReceived", "Success");
-        ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
-
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
+            AmwellLog.i("onGetMedicationReceived", "Success");
+            ((THSMedicationFragment) mTHSBaseFragment).showExistingMedicationList(pTHMedication);
+        }
 
     }
     //////////////// end of call backs for get existing medicines//////////////
@@ -97,14 +98,16 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     @Override
     public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
-        ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step3MedicationsAdded");
-        AmwellLog.i("onUpdateMedication", "success");
-        // addF
-        final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
-        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
 
+        if(null!=mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
+            ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step3MedicationsAdded");
+            AmwellLog.i("onUpdateMedication", "success");
+            // addF
+            final THSMedicalConditionsFragment fragment = new THSMedicalConditionsFragment();
+            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            ((THSMedicationFragment) mTHSBaseFragment).addFragment(fragment, THSMedicalConditionsFragment.TAG, null, true);
+        }
     }
     //////////////// end of call backs for update medicines//////////////
 }
