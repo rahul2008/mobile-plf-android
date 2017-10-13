@@ -1,3 +1,4 @@
-include ':app', ':prx'
-include ':prxUApp'
-project(':prxUApp').projectDir = new File('../app')
+include ':app'
+
+include ':prx'
+project(':prx').projectDir = new File('./prx')
