@@ -8,22 +8,24 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp2.ews.navigation.Navigator;
 
 import javax.inject.Inject;
 
 public class WrongWifiNetworkViewModel {
-    @NonNull
-    public ObservableField<String> description = new ObservableField<>();
-    @Nullable
-    public Bundle bundle;
-    @NonNull
-    private final Navigator navigator;
+
+    @NonNull public final ObservableField<String> description;
+
+    @NonNull private final Navigator navigator;
+
+    @Nullable public Bundle bundle;
 
     @Inject
     public WrongWifiNetworkViewModel(@NonNull Navigator navigator) {
         this.navigator = navigator;
+        description = new ObservableField<>();
     }
 
     void setDescription(@NonNull String name) {
@@ -36,5 +38,10 @@ public class WrongWifiNetworkViewModel {
 
     public void setBundle(Bundle bundle) {
         this.bundle = bundle;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    Bundle getBundle() {
+        return bundle;
     }
 }

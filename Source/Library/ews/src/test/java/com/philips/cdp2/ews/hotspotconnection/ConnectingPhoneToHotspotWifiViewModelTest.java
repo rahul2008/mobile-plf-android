@@ -11,8 +11,11 @@ import android.support.v4.app.Fragment;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager;
 import com.philips.cdp2.ews.appliance.ApplianceAccessManager.FetchCallback;
-import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel.ConnectingPhoneToHotSpotCallback;
+import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiViewModel
+        .ConnectingPhoneToHotSpotCallback;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure
+        .ConnectionUnsuccessfulViewModel;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
 
@@ -33,6 +36,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -159,6 +163,37 @@ public class ConnectingPhoneToHotspotWifiViewModelTest {
         timeoutArgumentCaptor.getValue().run();
 
         verify(mockNavigator).navigateToUnsuccessfulConnectionDialog(any(Fragment.class), anyInt());
+    }
+
+    @Test
+    public void itShouldNavigateBackWhenCancelIsPressed() throws Exception {
+        subject.handleCancelButtonClicked();
+
+        verify(mockNavigator).navigateBack();
+    }
+
+    @Test
+    public void itShouldNavigateToResetConnectionTroubleShootingScreenWhenNeedHelpResultIsReturned() throws
+            Exception {
+        subject.onResultReceived(ConnectionUnsuccessfulViewModel.HELP_NEEDED_RESULT);
+
+        verify(mockNavigator).navigateToResetConnectionTroubleShootingScreen();
+    }
+
+    @Test
+    public void itShouldNavigateToCompletingDeviceSetupScreenWhenNoHelpNeededResultIsReturned() throws
+            Exception {
+        subject.onResultReceived(ConnectionUnsuccessfulViewModel.HELP_NOT_NEEDED_RESULT);
+
+        verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
+    }
+
+    @Test
+    public void itShouldDoNothingWhenUnknownResultIsReturned() throws Exception {
+        int unknownResult = 50;
+        subject.onResultReceived(unknownResult);
+
+        verifyZeroInteractions(mockNavigator);
     }
 
     private void mockNetworkChange(NetworkInfo.State networkState, @WiFiUtil.WiFiState int wifiState) {
