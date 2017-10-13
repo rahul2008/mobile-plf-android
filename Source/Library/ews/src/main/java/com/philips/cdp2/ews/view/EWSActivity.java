@@ -8,6 +8,7 @@ package com.philips.cdp2.ews.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -62,6 +63,11 @@ public class EWSActivity extends UiKitActivity {
         EWSTagger.collectLifecycleInfo(this);
 
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
+
+        if (savedInstanceState != null) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
         navigator.navigateToGettingStartedScreen();
     }
 
