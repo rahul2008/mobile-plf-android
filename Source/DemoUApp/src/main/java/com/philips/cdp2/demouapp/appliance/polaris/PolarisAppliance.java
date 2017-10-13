@@ -29,7 +29,12 @@ public class PolarisAppliance extends Appliance {
      */
     public PolarisAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy... communicationStrategies) {
         super(networkNode, communicationStrategies);
-        networkNode.useLegacyHttp();
+    }
+
+    public void usesHttps(boolean isUsed) {
+        if(!isUsed) {
+            networkNode.useLegacyHttp();
+        }
     }
 
     @Override

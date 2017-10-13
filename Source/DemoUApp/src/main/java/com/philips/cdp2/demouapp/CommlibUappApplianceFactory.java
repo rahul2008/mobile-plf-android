@@ -70,7 +70,9 @@ class CommlibUappApplianceFactory implements ApplianceFactory {
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
                 case PolarisAppliance.DEVICETYPE:
-                    return new PolarisAppliance(networkNode, communicationStrategy);
+                    PolarisAppliance polaris = new PolarisAppliance(networkNode, communicationStrategy);
+                    polaris.usesHttps(true);
+                    return polaris;
                 default:
                     return new Appliance(networkNode, communicationStrategy) {
                         @Override
