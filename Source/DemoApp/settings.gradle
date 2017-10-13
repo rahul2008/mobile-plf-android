@@ -2,4 +2,6 @@ include ':app', ':securedblibrary'
 include ':app'
 include ':securedblibrary'
 project(':securedblibrary').projectDir =new File('../Library/securedblibrary')
+include ':sdbUApp'
+project(':sdbUApp').projectDir =new File('../app')
 
