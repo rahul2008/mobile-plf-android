@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ */
 package com.philips.cdp2.ews.homewificonnection;
 
 import android.content.BroadcastReceiver;
@@ -26,10 +30,6 @@ import javax.inject.Named;
 
 import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
 import static com.philips.cdp2.ews.wifi.WiFiUtil.UNKNOWN_WIFI;
-
-/**
- * Created by salvatorelafiura on 10/10/2017.
- */
 
 public class ConnectingDeviceWithWifiViewModel {
 
@@ -127,6 +127,7 @@ public class ConnectingDeviceWithWifiViewModel {
         removeTimeoutRunnable();
         discoveryHelper.stopDiscovery();
         unregisterBroadcastReceiver();
+        fragmentCallback = null;
     }
 
     private void onDeviceConnectedToWifi() {
