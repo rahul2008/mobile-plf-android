@@ -1,7 +1,6 @@
 package com.philips.platform.mya;
 
 
-import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.uappframework.UappInterface;
@@ -13,9 +12,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class MyaInterface implements UappInterface {
-
-    private Context context;
-
     /**
      * Launches the Myaccount interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *
@@ -36,10 +32,10 @@ public class MyaInterface implements UappInterface {
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        if (null != uiLauncher) {
-            Intent registrationIntent = new Intent(context, MyAccountActivity.class);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            context.startActivity(registrationIntent);
+        if (null != uiLauncher && uappLaunchInput != null) {
+            Intent registrationIntent = new Intent(((MyaLaunchInput) uappLaunchInput).getContext(), MyAccountActivity.class);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            ((MyaLaunchInput) uappLaunchInput).getContext().startActivity(registrationIntent);
         }
     }
 
@@ -51,6 +47,6 @@ public class MyaInterface implements UappInterface {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        context = uappSettings.getContext();
+
     }
 }
