@@ -6,9 +6,6 @@
 
 package com.philips.platform.ths.registration.dependantregistration;
 
-import com.americanwell.sdk.entity.practice.Practice;
-
-//TODO: Review Comment - Spoorti - wrap the Practice Object to PTHObject
 public interface OnItemClickListener {
     void onItemClick(THSConsumer thsConsumer);
 }

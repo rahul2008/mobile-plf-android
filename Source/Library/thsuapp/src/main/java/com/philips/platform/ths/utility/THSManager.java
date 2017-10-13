@@ -658,8 +658,14 @@ public class THSManager {
     }
 
     public void updateConsumer(Context context, String updatedPhone, final THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> pthUpdateConsumer) throws AWSDKInstantiationException {
-        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer().getConsumer());
-        consumerUpdate.setPhone(updatedPhone);
+        ConsumerUpdate consumerUpdate;
+        if(getPTHConsumer().isDependent()){
+            consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getThsParentConsumer().getConsumer());
+            consumerUpdate.setPhone(updatedPhone);
+        }else {
+            consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer().getConsumer());
+            consumerUpdate.setPhone(updatedPhone);
+        }
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
