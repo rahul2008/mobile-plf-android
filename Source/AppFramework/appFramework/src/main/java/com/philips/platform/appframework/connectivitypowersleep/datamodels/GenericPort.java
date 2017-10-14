@@ -32,11 +32,6 @@ public class GenericPort<T extends PortProperties> extends DICommPort<T> {
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return parseProperties(jsonResponse) != null;
-    }
-
-    @Override
     public void processResponse(String jsonResponse) {
         T properties = parseProperties(jsonResponse);
         setPortProperties(properties);
