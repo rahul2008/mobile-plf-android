@@ -145,7 +145,7 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 public class THSManager {
     private static THSManager sTHSManager = null;
     private AWSDK mAwsdk = null;
-    private THSConsumerWrapper mTHSConsumerWrapper = null;
+    private THSConsumerWrapper mTHSConsumerWrapper = new THSConsumerWrapper();
     private THSVisitContext mVisitContext = null;
     private boolean isMatchMakingVisit;
     private THSConsumer mThsConsumer;
@@ -188,9 +188,11 @@ public class THSManager {
 
 
     public THSConsumerWrapper getPTHConsumer() {
+        mTHSConsumerWrapper.setConsumer(mThsConsumer.getConsumer());
        return mTHSConsumerWrapper;
     }
 
+    @VisibleForTesting
     public void setPTHConsumer(THSConsumerWrapper mTHSConsumerWrapper) {
         this.mTHSConsumerWrapper = mTHSConsumerWrapper;
     }
@@ -211,7 +213,7 @@ public class THSManager {
         return mAwsdk;
     }
 
-    void authenticate(Context context, String username, String password, String variable, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
+    public void authenticate(Context context, String username, String password, String variable, final THSLoginCallBack<THSAuthentication, THSSDKError> THSLoginCallBack) throws AWSDKInstantiationException {
         AmwellLog.i(AmwellLog.LOG,"Login - SDK API Called");
         getAwsdk(context).authenticate(username, password, variable, new SDKCallback<Authentication, SDKError>() {
             @Override
@@ -258,7 +260,8 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),null,null,null, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-                setConsumer(consumer);
+                mTHSConsumerWrapper.setConsumer(consumer);
+                getThsParentConsumer().setConsumer(consumer);
                 thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
             }
 
@@ -311,11 +314,10 @@ public class THSManager {
                     @Override
                     public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
                         setIsReturningUser(true);
-                        THSConsumerWrapper thsConsumer = new THSConsumerWrapper();
-                        thsConsumer.setConsumer(consumer);
-                        setPTHConsumer(thsConsumer);
+                        getThsParentConsumer().setConsumer(consumer);
                         AmwellLog.i(AmwellLog.LOG,"onGetPaymentMethodResponse");
-                        thssdkValidatedCallback.onResponse(thsConsumer,sdkPasswordError);
+                        mTHSConsumerWrapper.setConsumer(consumer);
+                        thssdkValidatedCallback.onResponse(mTHSConsumerWrapper,sdkPasswordError);
 
                     }
 
@@ -357,14 +359,14 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-                thsConsumerWrapper.setConsumer(consumer);
+                mTHSConsumerWrapper.setConsumer(consumer);
 
                 THSSDKError thssdkError = new THSSDKError();
                 thssdkError.setSdkError(sdkError);
-                setConsumer(consumer);
+                mTHSConsumerWrapper.setConsumer(consumer);
 
-                thssdkValidatedCallback.onResponse(thsConsumerWrapper,sdkError);
+                getThsConsumer().setConsumer(consumer);
+                thssdkValidatedCallback.onResponse(mTHSConsumerWrapper,sdkError);
             }
 
             @Override
@@ -399,11 +401,11 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com/");
-        initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
+       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key
 
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
+        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -568,7 +570,10 @@ public class THSManager {
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
             @Override
             public void onResponse(Consumer consumer, SDKError sdkError) {
-                setConsumer(consumer);
+                mTHSConsumerWrapper.setConsumer(consumer);
+                //The mThsConsumer object is set to Parent as when-ever the control is in welcome screen, only the parent is the active person
+                setThsConsumer(getThsParentConsumer());
+                getThsConsumer().setConsumer(consumer);
                 THSGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
             }
 
@@ -674,15 +679,12 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
-
-                THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-                thsConsumerWrapper.setConsumer(consumer);
-                setConsumer(consumer);
-
+                mTHSConsumerWrapper.setConsumer(consumer);
+                getThsParentConsumer().setConsumer(consumer);
                 THSSDKPasswordError pthSDKError = new THSSDKPasswordError();
                 pthSDKError.setSdkPasswordError(sdkPasswordError);
 
-                pthUpdateConsumer.onUpdateConsumerResponse(thsConsumerWrapper,pthSDKError);
+                pthUpdateConsumer.onUpdateConsumerResponse(mTHSConsumerWrapper,pthSDKError);
             }
 
             @Override
@@ -1490,14 +1492,6 @@ public class THSManager {
 
     public void setThsConsumer(THSConsumer mThsConsumer) {
         this.mThsConsumer = mThsConsumer;
-    }
-
-    private void setConsumer(Consumer consumer) {
-        THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-        thsConsumerWrapper.setConsumer(consumer);
-        setPTHConsumer(thsConsumerWrapper);
-
-        mThsConsumer.setConsumer(consumer);
     }
 
     public THSConsumer getThsParentConsumer() {

@@ -101,9 +101,6 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
 
     private void launchRequestedInput(THSConsumer thsConsumer) {
         THSManager.getInstance().setThsConsumer(thsConsumer);
-        THSConsumerWrapper thsConsumerWrapper = new THSConsumerWrapper();
-        thsConsumerWrapper.setConsumer(thsConsumer.getConsumer());
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
         mThsDependentPresenter.checkIfUserExists();
     }
 
