@@ -45,6 +45,8 @@ import com.philips.platform.dscdemo.database.datatypes.MomentType;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +76,7 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
     public void savePowerSleepMomentsData(List<SessionDataPortProperties> sessionDataPortPropertiesList) {
         List<Moment> momentList = new ArrayList<>();
         for (SessionDataPortProperties sessionDataPortProperties : sessionDataPortPropertiesList) {
-            momentList.add(createMoment("",sessionDataPortProperties.getDeepSleepTime().toString(), sessionDataPortProperties.getTotalSleepTime().toString(),""));
+            momentList.add(createMoment("",sessionDataPortProperties.getDeepSleepTime().toString(), sessionDataPortProperties.getTotalSleepTime().toString(),new DateTime(sessionDataPortProperties.getEpochTime()),""));
         }
         saveMomentToDB(momentList);
     }
@@ -94,8 +96,9 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
         });
     }
 
-    protected Moment createMoment(String momemtDetail, String deepSleepTime,String sleepTime,String measurementDetail) {
+    protected Moment createMoment(String momemtDetail, String deepSleepTime,String sleepTime,DateTime dateTime,String measurementDetail) {
         Moment moment = this.dataServicesManager.createMoment(MomentType.SLEEP);
+        moment.setDateTime(dateTime);
         MeasurementGroup measurementGroupInside;
         MeasurementGroup measurementGroup;
         Measurement deepSleepTimeMeasurement;
@@ -140,13 +143,13 @@ public class PowerSleepConnectivityPresenter extends AbstractUIBasePresenter imp
             throw new IllegalArgumentException("Cannot create bleReferenceAppliance for provided NetworkNode.");
         }
 
-        appliance.getSessionDataPort().addPortListener(diCommPortListener);
+//        appliance.getSessionDataPort().addPortListener(diCommPortListener);
     }
 
     DICommPortListener diCommPortListener = new DICommPortListener<SessionDataPort>() {
         @Override
         public void onPortUpdate(SessionDataPort diCommPort) {
-            connectivityViewListener.updateSessionData(diCommPort.getPortProperties().getTotalSleepTime(), diCommPort.getPortProperties().getNumberOfInterruptions(), diCommPort.getPortProperties().getDeepSleepTime());
+            connectivityViewListener.updateSessionData(((SessionDataPortProperties)diCommPort.getPortProperties()).getTotalSleepTime(), ((SessionDataPortProperties)diCommPort.getPortProperties()).getNumberOfInterruptions(), ((SessionDataPortProperties)diCommPort.getPortProperties()).getDeepSleepTime(),((SessionDataPortProperties)diCommPort.getPortProperties()).getEpochTime());
 
         }
 

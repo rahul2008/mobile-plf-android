@@ -102,7 +102,7 @@ public class PowerSleepConnectivityFragmentTest {
     @Test
     public void updateSessionDataTest() {
         connectivityFragment.showProgressBar();
-        connectivityFragment.updateSessionData(19200000, 3, 5400000);
+        connectivityFragment.updateSessionData(19200000, 3, 5400000,2343243223L);
         assertEquals("320 mins", ((TextView) connectivityFragment.getView().findViewById(R.id.sleep_time_value)).getText().toString());
         assertEquals("90 mins", ((TextView) connectivityFragment.getView().findViewById(R.id.deep_sleep_time_value)).getText().toString());
     }

@@ -12,8 +12,10 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.platform.appframework.ConnectivityDeviceType;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.GenericPort;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPort;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionInfoPortProperties;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 public class BleReferenceAppliance extends Appliance {
@@ -27,8 +29,12 @@ public class BleReferenceAppliance extends Appliance {
 
     private static final int PRODUCT_ID = 1;
 
-    @NonNull
-    private SessionDataPort powerSleepSessionDataPort;
+    @NonNull private GenericPort<SessionInfoPortProperties> powerSleepSessionInfoPort;
+
+    @NonNull private SessionDataPort<SessionDataPortProperties> powerSleepSessionDataPort;
+
+    private final NotifyCallback<GenericPort<SessionInfoPortProperties>, SessionInfoPortProperties> sessionInfoListener = new NotifyCallback<>();
+    private final NotifyCallback<GenericPort<SessionDataPortProperties>, SessionDataPortProperties> sessionDataListener = new NotifyCallback<>();
 
     public BleReferenceAppliance(@NonNull NetworkNode networkNode, @NonNull CommunicationStrategy communicationStrategy, ConnectivityDeviceType deviceType) {
         super(networkNode, communicationStrategy);
@@ -40,7 +46,10 @@ public class BleReferenceAppliance extends Appliance {
     private void initializePorts(ConnectivityDeviceType deviceType, CommunicationStrategy communicationStrategy) {
         switch (deviceType) {
             case POWER_SLEEP:
-                powerSleepSessionDataPort = new SessionDataPort(communicationStrategy, "session", PRODUCT_ID, SessionDataPortProperties.class);
+                powerSleepSessionInfoPort = new GenericPort<>(communicationStrategy, "session", PRODUCT_ID, SessionInfoPortProperties.class);
+                powerSleepSessionDataPort = new SessionDataPort<>(communicationStrategy, "session/%s", PRODUCT_ID, SessionDataPortProperties.class);
+//                powerSleepSessionDataPort = new SessionDataPort(communicationStrategy, "session", PRODUCT_ID, SessionDataPortProperties.class);
+                addPort(powerSleepSessionInfoPort);
                 addPort(powerSleepSessionDataPort);
                 break;
 
@@ -65,6 +74,36 @@ public class BleReferenceAppliance extends Appliance {
     @NonNull
     public SessionDataPort getSessionDataPort() {
         return powerSleepSessionDataPort;
+    }
+
+
+    public void syncSessionInfo() {
+        powerSleepSessionInfoPort.reloadProperties();
+    }
+
+    public void syncSessionData(long sessionNumber) {
+        powerSleepSessionDataPort.setSpecificSession(sessionNumber);
+        powerSleepSessionDataPort.reloadProperties();
+    }
+
+    public void registerSessionInfoCallback(@NonNull PortDataCallback<SessionInfoPortProperties> sessionInfoCallback) {
+        sessionInfoListener.setCallback(sessionInfoCallback);
+        powerSleepSessionInfoPort.addPortListener(sessionInfoListener);
+    }
+
+    public void unregisterSessionInfoCallback() {
+        sessionInfoListener.setCallback(null);
+        powerSleepSessionInfoPort.removePortListener(sessionInfoListener);
+    }
+
+    public void registerSessionDataCallback(@NonNull PortDataCallback<SessionDataPortProperties> sessionDataCallback) {
+        sessionDataListener.setCallback(sessionDataCallback);
+        powerSleepSessionDataPort.addPortListener(sessionDataListener);
+    }
+
+    public void unregisterSessionDataCallback() {
+        sessionDataListener.setCallback(null);
+        powerSleepSessionDataPort.removePortListener(sessionDataListener);
     }
 
 }

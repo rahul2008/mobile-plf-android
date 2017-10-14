@@ -89,7 +89,7 @@ public class PowerSleepConnectivityPresenterTest {
     @Test
     public void onPortUpdateTest() {
         portListener.onPortUpdate(sessionDataPort);
-        verify(view).updateSessionData(anyLong(), anyLong(), anyLong());
+        verify(view).updateSessionData(anyLong(), anyLong(), anyLong(),anyLong());
     }
     @Test
     public void onPortErrorTest() {

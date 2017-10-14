@@ -17,7 +17,7 @@ public interface ConnectivityPowerSleepContract {
 
     interface View {
 
-        void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime);
+        void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime,long time);
 
         void showError(Error error, String s);
 

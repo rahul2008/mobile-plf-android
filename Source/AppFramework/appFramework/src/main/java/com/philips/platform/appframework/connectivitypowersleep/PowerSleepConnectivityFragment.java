@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,16 +29,16 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.ConnectivityUtils;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
+import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.UIView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
+import org.joda.time.DateTime;
+
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFragment implements View.OnClickListener, ConnectivityPowerSleepContract.View, UIView {
@@ -130,13 +131,13 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
                 launchBluetoothActivity();
                 break;
             case R.id.insights:
-//                connectivityPresenter.onEvent(R.id.insights);
-                SessionDataPortProperties sessionDataPortProperties=new SessionDataPortProperties();
-                sessionDataPortProperties.setDeepSleepTime(183787218L);
-                sessionDataPortProperties.setTotalSleepTime(823846387L);
-                List<SessionDataPortProperties> sessionDataPortProperties1=new ArrayList<>();
-                sessionDataPortProperties1.add(sessionDataPortProperties);
-                connectivityPresenter.savePowerSleepMomentsData(sessionDataPortProperties1);
+                connectivityPresenter.onEvent(R.id.insights);
+//                SessionDataPortProperties sessionDataPortProperties=new SessionDataPortProperties();
+//                sessionDataPortProperties.setDeepSleepTime(183787218L);
+//                sessionDataPortProperties.setTotalSleepTime(823846387L);
+//                List<SessionDataPortProperties> sessionDataPortProperties1=new ArrayList<>();
+//                sessionDataPortProperties1.add(sessionDataPortProperties);
+//                connectivityPresenter.savePowerSleepMomentsData(sessionDataPortProperties1);
                 break;
         }
     }
@@ -192,7 +193,26 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     private void fetchData(BleReferenceAppliance bleRefAppliance) {
         showProgressBar();
-        bleRefAppliance.getSessionDataPort().reloadProperties();
+        DateTime latestSessionDateTime = new DateTime(Long.MIN_VALUE);
+        new SynchronizeSessionsUsecase(new AllSessionsProviderFactory()).execute(bleRefAppliance, new SynchronizeSessionsUsecase.Callback() {
+            @Override
+            public void onSynchronizeSucceed(@NonNull SessionsOldestToNewest sleepDataList) {
+                dialog.dismiss();
+                Toast.makeText(mContext,"Size::"+sleepDataList.getSortedList().size(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNoNewSessionsAvailable() {
+
+            }
+
+            @Override
+            public void onError(@NonNull Exception error) {
+                dialog.dismiss();
+                Toast.makeText(getActivity(),"Error while fetching data:Error:"+error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }, latestSessionDateTime);
+//        bleRefAppliance.getSessionDataPort().reloadProperties();
     }
 
     /**
@@ -205,7 +225,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     }
 
     @Override
-    public void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime) {
+    public void updateSessionData(long sleepTime, long numberOfInteruptions, long deepSleepTime,long timeStamp) {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }

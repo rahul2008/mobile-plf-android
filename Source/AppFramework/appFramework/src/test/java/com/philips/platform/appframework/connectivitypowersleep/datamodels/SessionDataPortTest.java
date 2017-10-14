@@ -29,7 +29,7 @@ public class SessionDataPortTest {
 
     private static final long SESSION = 12345;
 
-    private static final String NAME = "session";
+    private static final String NAME = "session/%s";
 
     private static final String DUMMY_DATA = "{\"tst\":\"2332000000\",\"dst\":\"540000000\",\"nri\":\"5\"}";
 
@@ -46,7 +46,7 @@ public class SessionDataPortTest {
 
     @Test
     public void getDICommPortNameTest() {
-        assertEquals(sessionDataPort.getDICommPortName(), NAME + "/" + SESSION);
+        assertEquals(sessionDataPort.getDICommPortName(), "session/12345");
     }
 
     @Test
