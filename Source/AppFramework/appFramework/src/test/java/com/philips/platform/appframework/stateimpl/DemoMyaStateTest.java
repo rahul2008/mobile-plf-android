@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
-import com.philips.platform.mya.demouapp.activity.MyAccountDependencies;
+import com.philips.platform.mya.demouapp.MyaDemouAppInterface;
+import com.philips.platform.mya.demouapp.MyaDemouAppDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -38,10 +38,10 @@ public class DemoMyaStateTest {
     DemoMyaStateMock demoMyaStateMock;
 
     @Mock
-    MyAccountDependencies myAccountDependencies;
+    MyaDemouAppDependencies myAccountDependencies;
 
     @Mock
-    MyAccountDemoUAppInterface myAccountDemoUAppInterface;
+    MyaDemouAppInterface myAccountDemoUAppInterface;
 
     @Mock
     AppInfra appInfra;
@@ -81,13 +81,13 @@ public class DemoMyaStateTest {
     private class DemoMyaStateMock extends DemoMyaState {
         @NonNull
         @Override
-        protected MyAccountDependencies getUappDependencies(Context context) {
+        protected MyaDemouAppDependencies getUappDependencies(Context context) {
             return myAccountDependencies;
         }
 
         @NonNull
         @Override
-        protected MyAccountDemoUAppInterface getMyAccountDemoUAppInterface() {
+        protected MyaDemouAppInterface getMyAccountDemoUAppInterface() {
             return myAccountDemoUAppInterface;
         }
     }
