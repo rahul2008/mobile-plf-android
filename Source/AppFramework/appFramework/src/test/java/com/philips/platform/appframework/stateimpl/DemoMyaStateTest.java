@@ -8,6 +8,7 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.mya.demouapp.MyaDemouAppInterface;
 import com.philips.platform.mya.demouapp.MyaDemouAppDependencies;
+import com.philips.platform.mya.demouapp.MyaDemouAppLaunchInput;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -63,7 +64,7 @@ public class DemoMyaStateTest {
     @Test
     public void testLaunchDemoMyaState() {
         demoMyaStateMock.navigate(activityLauncher);
-        verify(myAccountDemoUAppInterface).launch(any(UiLauncher.class), any(UappLaunchInput.class));
+        verify(myAccountDemoUAppInterface).launch(any(UiLauncher.class), any(MyaDemouAppLaunchInput.class));
     }
 
     @Test
