@@ -39,7 +39,7 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
     }
 
     @Override
-    protected String getDICommPortName() {
+    public String getDICommPortName() {
         return DEVICE_MEASUREMENT_PORT_NAME;
     }
 
