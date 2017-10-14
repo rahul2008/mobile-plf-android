@@ -5,15 +5,15 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.mya.demouapp.MyAccountDemoUAppInterface;
-import com.philips.platform.mya.demouapp.activity.MyAccountDependencies;
-import com.philips.platform.mya.demouapp.activity.MyAccountSettings;
+import com.philips.platform.mya.demouapp.MyaDemouAppInterface;
+import com.philips.platform.mya.demouapp.MyaDemouAppDependencies;
+import com.philips.platform.mya.demouapp.MyaDemouAppSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class DemoMyaState extends DemoBaseState {
 
-    private MyAccountDemoUAppInterface myaDemoAppuAppInterface;
+    private MyaDemouAppInterface myaDemoAppuAppInterface;
     private Context mContext;
 
     public DemoMyaState() {
@@ -30,14 +30,14 @@ public class DemoMyaState extends DemoBaseState {
     @Override
     public void init(Context context) {
         mContext = context;
-        MyAccountSettings myAccountSettings = new MyAccountSettings(context.getApplicationContext());
+        MyaDemouAppSettings myAccountSettings = new MyaDemouAppSettings(context.getApplicationContext());
         myaDemoAppuAppInterface = getMyAccountDemoUAppInterface();
         myaDemoAppuAppInterface.init(getUappDependencies(context), myAccountSettings);
     }
 
     @NonNull
-    protected MyAccountDemoUAppInterface getMyAccountDemoUAppInterface() {
-        return new MyAccountDemoUAppInterface();
+    protected MyaDemouAppInterface getMyAccountDemoUAppInterface() {
+        return new MyaDemouAppInterface();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class DemoMyaState extends DemoBaseState {
     }
 
     @NonNull
-    protected MyAccountDependencies getUappDependencies(Context context) {
-        return new MyAccountDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
+    protected MyaDemouAppDependencies getUappDependencies(Context context) {
+        return new MyaDemouAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra());
     }
 }
