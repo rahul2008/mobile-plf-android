@@ -68,7 +68,7 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         RALog.i(TAG, "Setup CommCentral ");
         CommCentral commCentral=null;
         try {
-            final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
+            final BleTransportContext bleTransportContext = new BleTransportContext(/*getActivity()*/null);
             ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext, deviceType);
 
             commCentral = new CommCentral(applianceFactory, bleTransportContext);

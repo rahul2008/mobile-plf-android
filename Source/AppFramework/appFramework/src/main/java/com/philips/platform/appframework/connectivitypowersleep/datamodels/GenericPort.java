@@ -31,7 +31,6 @@ public class GenericPort<T extends PortProperties> extends DICommPort<T> {
         jsonParser = new Gson();
     }
 
-    @Override
     public boolean isResponseForThisPort(String jsonResponse) {
         return parseProperties(jsonResponse) != null;
     }
@@ -53,7 +52,7 @@ public class GenericPort<T extends PortProperties> extends DICommPort<T> {
 
     @Override
     @VisibleForTesting
-    protected String getDICommPortName() {
+    public String getDICommPortName() {
         return name;
     }
 
