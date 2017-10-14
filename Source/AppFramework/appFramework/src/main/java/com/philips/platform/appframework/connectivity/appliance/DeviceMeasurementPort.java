@@ -24,6 +24,7 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
         super(communicationStrategy);
     }
 
+    @Override
     public boolean isResponseForThisPort(String jsonResponse) {
         return (parseResponse(jsonResponse) != null);
     }
@@ -38,7 +39,7 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
     }
 
     @Override
-    public String getDICommPortName() {
+    protected String getDICommPortName() {
         return DEVICE_MEASUREMENT_PORT_NAME;
     }
 

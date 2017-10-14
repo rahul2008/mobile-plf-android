@@ -34,7 +34,7 @@ public class DemoCMLState extends DemoBaseState {
         if (uAppInterface != null) {
             RALog.d(TAG, "CommlibUApp is null");
             try {
-                uAppInterface.init(new DefaultCommlibUappDependencies(context, null), new UappSettings(context.getApplicationContext()));
+                uAppInterface.init(new DefaultCommlibUappDependencies(), new UappSettings(context.getApplicationContext()));
             } catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }
