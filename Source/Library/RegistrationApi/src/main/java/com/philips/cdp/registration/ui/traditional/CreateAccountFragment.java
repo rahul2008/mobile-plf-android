@@ -187,6 +187,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         usr_createScreen_password_inputValidationField.setValidator(passwordValidator);
         usr_createScreen_password_inputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
         initUI(view);
+
         handleABTestingFlow();
         handleUiState();
         user = new User(context);
@@ -359,6 +360,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            //TEMP: Checkbox state is changing on click of link. The below code is
+            // a workaround to retain the state.
+            usr_createscreen_marketingmails_checkbox.setChecked(
+                    !usr_createscreen_marketingmails_checkbox.isChecked());
         }
     };
 

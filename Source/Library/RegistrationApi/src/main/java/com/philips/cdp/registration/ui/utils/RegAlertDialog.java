@@ -25,9 +25,9 @@ public class RegAlertDialog {
 		alertDialogBuilder.setCancelable(false);
 		LayoutInflater layoutInflater = activity.getLayoutInflater();
 		View view = layoutInflater.inflate(R.layout.reg_dialog_reset_password, null);
-		Button continueBtn = (Button) view.findViewById(R.id.btn_reg_continue);
-		Label titleView = (Label)view.findViewById(R.id.tv_reg_header_dialog_title);
-		Label contentView = (Label)view.findViewById(R.id.tv_reg_dialog_content);
+		Button continueBtn = (Button) view.findViewById(R.id.usr_alert_continue_button);
+		Label titleView = (Label)view.findViewById(R.id.usr_alert_title_label);
+		Label contentView = (Label)view.findViewById(R.id.usr_alert_content_label);
 		titleView.setText(title);
 		contentView.setText(content);
 		continueBtn.setOnClickListener(continueBtnClickListener);
@@ -42,10 +42,10 @@ public class RegAlertDialog {
 		alertDialogBuilder.setCancelable(false);
 		LayoutInflater layoutInflater = activity.getLayoutInflater();
 		View view = layoutInflater.inflate(R.layout.reg_dialog_reset_password, null);
-		Button continueBtn = (Button) view.findViewById(R.id.btn_reg_continue);
-		Label titleView = (Label)view.findViewById(R.id.tv_reg_header_dialog_title);
-		Label contentView = (Label)view.findViewById(R.id.tv_reg_dialog_content);
-		Label contentView2 = (Label)view.findViewById(R.id.tv_reg_dialog_content_2);
+		Button continueBtn = (Button) view.findViewById(R.id.usr_alert_continue_button);
+		Label titleView = (Label)view.findViewById(R.id.usr_alert_title_label);
+		Label contentView = (Label)view.findViewById(R.id.usr_alert_content_label);
+		Label contentView2 = (Label)view.findViewById(R.id.usr_alert_content2_label);
 		titleView.setText(title);
 		contentView.setText(content);
 		if(content2!=null && content2.length()>0){

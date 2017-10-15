@@ -98,7 +98,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
         android:layout_marginBottom="@dimen/reg_dimen_16dp"
+        android:visibility="invisible"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -130,6 +132,41 @@
             android:text="@string/reg_Country"/>
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/usr_StartScreen_privacyNotice_country2_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:layout_marginBottom="@dimen/reg_dimen_16dp"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_privacyNotice2_label"
+            style="@style/UIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/reg_text_size_12"
+            android:lines="1"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:layout_marginBottom="@dimen/reg_dimen_8dp"
+            android:text="@string/reg_PrivacyNoticeText"/>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/usr_StartScreen_country2_label"
+            style="@style/UIDLabel"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/reg_dimen_4dp"
+            android:textSize="@dimen/reg_text_size_12"
+            android:text="@string/reg_Country"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_root_layout"
         android:layout_width="match_parent"
