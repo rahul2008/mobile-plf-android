@@ -85,7 +85,7 @@ public class THSConstants {
     public static final String THS_PRACTICE_PAGE = "Home_with_practices";
     public static final String THS_SCHEDULE_VISITS = "Scheduled_visits";
     public static final String THS_VISIT_HISTORY_LIST= "Visit_history_list";
-    public static final String THS_VISIT_HISTORY= "Visit_history";
+    public static final String THS_VISIT_HISTORY= "Visit_history_detail";
     public static final String THS_HIPPA= "HIPPA";
     public static final String THS_HOW_IT_WORKS= "How_it_works";
     public static final String THS_HOW_IT_WORKS_DETAIL= "How_it_works_detail";
@@ -94,7 +94,7 @@ public class THSConstants {
 
 
 
-    public static final String THS_HISTORY_PAGE = "History";
+
 
     public static final String THS_PROVIDER_LIST = "Provider_detail_list";
     public static final String THS_PROVIDER_DETAIL_PAGE = "Provider_detail";
@@ -117,8 +117,8 @@ public class THSConstants {
 
 
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER = "Schedule_pick_provider";
-    public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "Schedule_pick_time";
-    public static final String THS_SCHEDULE_APPOINTMENT_PROVIDER_NOT_AVAILABLE = "Schedule_provider_not_available";
+    public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "Schedule_provider_details" ;
+    
     public static final String THS_SCHEDULE_REMINDER = "Schedule_reminder_page";
 
 

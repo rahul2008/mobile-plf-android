@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PROVIDER_NOT_AVAILABLE;
+//import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PROVIDER_NOT_AVAILABLE;
 
 
 public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment implements View.OnClickListener{
@@ -150,10 +150,6 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         this.mDate = mDate;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_PROVIDER_NOT_AVAILABLE,null,null);
-    }
+
 
 }

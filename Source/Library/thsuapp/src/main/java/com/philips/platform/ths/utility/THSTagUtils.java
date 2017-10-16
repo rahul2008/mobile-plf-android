@@ -31,9 +31,10 @@ public  class THSTagUtils {
         long time = (new Date() ).getTime() - startTime;
         if(time>0) {
             long second = (time / 1000) % 60;
-            second = Math.round(second * 10) / 10;
             long minute = (time / (1000 * 60)) % 60;
-             timeInMinutedsAndSecond = timeInMinutedsAndSecond+ minute + second;
+            float minutesDecimalFloat= (float) minute + (second/60f) ;
+            minutesDecimalFloat = Math.round(minutesDecimalFloat*10.0f)/10.0f;
+            timeInMinutedsAndSecond = ""+minutesDecimalFloat;
         }
         return timeInMinutedsAndSecond;
     }
