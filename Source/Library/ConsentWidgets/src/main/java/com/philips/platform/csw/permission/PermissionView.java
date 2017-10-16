@@ -50,8 +50,8 @@ public class PermissionView extends Fragment implements
         dailog.show();
         dailog.setCancelable(false);
         dailog.setMessage("Please wait");
-        NetworkHelper testConsent = new NetworkHelper();
-        testConsent.getLatestConsentStatus(getApplicationContext(),new ConsentResponseListener() {
+        NetworkHelper consentObj = new NetworkHelper();
+        consentObj.getLatestConsentStatus(getApplicationContext(),new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<ConsentModel> responseData) {
                 dailog.dismiss();

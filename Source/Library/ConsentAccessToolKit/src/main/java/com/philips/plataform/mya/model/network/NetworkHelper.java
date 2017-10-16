@@ -46,7 +46,7 @@ public class NetworkHelper {
     private Context mContext;
     private User mUser;
     private String mHsdpUUID;
-    final Handler handler = new Handler(Looper.getMainLooper());
+    final Handler mHandler = new Handler(Looper.getMainLooper());
 
     public void getLatestConsentStatus(Context context, final ConsentResponseListener consentListener) {
         mContext = context;
@@ -182,7 +182,7 @@ public class NetworkHelper {
                 Type listType = new TypeToken<ArrayList<ConsentModel>>(){}.getType();
                 final List<ConsentModel> consentModelList = new Gson().fromJson(response, listType);
                 if (consentModelList != null) {
-                    handler.post(new Runnable() {
+                    mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             listener.onResponseSuccessConsent(consentModelList);
@@ -190,7 +190,7 @@ public class NetworkHelper {
                     });
 
                 } else {
-                    handler.post(new Runnable() {
+                    mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             listener.onResponseFailureConsent(new ConsentError("Null Response", 00));
