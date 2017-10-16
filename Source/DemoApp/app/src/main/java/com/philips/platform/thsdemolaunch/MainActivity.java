@@ -197,6 +197,25 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         ArrayList dependants = new ArrayList();
         dependants.add(baby);
 
+        THSConsumer baby2 = new THSConsumer();
+        baby2.setFirstName("Shawrya");
+        baby2.setLastName("Hallur");
+        baby2.setHsdoToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
+        baby2.setGender(Gender.MALE);
+        baby2.setEmail(user.getEmail());
+        Calendar calendar2 = Calendar.getInstance();
+        calendar.set(2013,8,24);
+        baby2.setDob(calendar2.getTime());
+        baby2.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
+        baby2.setDependent(true);
+        baby2.setBloodPressureSystolic("80");
+        baby2.setBloodPressureDiastolic("120");
+        baby2.setTemperature(90.0);
+        baby2.setWeight(56.0);
+        baby2.setProfilePic(is);
+        //ArrayList dependants = new ArrayList();
+        dependants.add(baby2);
+
         thsConsumer.setDob(user.getDateOfBirth());
         thsConsumer.setEmail(user.getEmail());
         thsConsumer.setFirstName(user.getGivenName());

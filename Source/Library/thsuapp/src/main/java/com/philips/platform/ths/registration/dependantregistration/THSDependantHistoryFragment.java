@@ -66,6 +66,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         mParentContainer.setOnClickListener(this);
         mThsDependentPresenter = new THSDependentPresenter(this);
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mThsDependentPresenter.updateDependents();
         showDependentList();
         return view;
     }
