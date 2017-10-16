@@ -205,7 +205,10 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
                 }
                 LogUtils.loge("IOException while executing HTTP request.", e);
                 mConn.setResponse(new AsyncHttpResponse(mConn, e, null, null));
+                LogUtils.loge("IOException while executing HTTP request. setResponse" );
                 invokeCallback(callBack);
+                LogUtils.loge("IOException while executing HTTP request. invokecallback");
+
             } catch (AbortedRequestException e) {
                 LogUtils.loge("Aborted request: " + mConn.getRequestUrl());
                 mConn.setResponse(new AsyncHttpResponse(mConn, null, null, null));
