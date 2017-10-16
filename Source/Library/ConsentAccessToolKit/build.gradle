@@ -164,7 +164,7 @@ android {
         versionCode 1
         versionName version +  "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
-        testApplicationId "com.philips.cdp.di.iap.test"
+        testApplicationId "com.philips.platform.mya.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
@@ -291,6 +291,7 @@ dependencies {
     // add this for webview testing support
     androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    compile 'com.google.code.gson:gson:2.7'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -332,18 +333,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     classDirectories = fileTree(
             dir: '../iap/build/intermediates/classes/debug',
-//            excludes: ['**/R.class',
-//                       '**/R$*.class',
-//                       '**/BuildConfig.*',
-//                       '**/response/*/*.class',
-//                       '**/view/*.class',
-//                       '**/adapters/*.class',
-//                       '**/analytics/*.class',
-//                       '**/utils/*.class',
-//                       '**/activity/*.class',
-//                       '**/screens/*.class',
-//                       '**/store/IAPUser.class',
-//                       '**/integration/IAPInterface.class']
     )
 
     additionalSourceDirs = files(coverageSourceDirs)

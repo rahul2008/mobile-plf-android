@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/layout_margin_left_right"
-            android:checked="true"
+            android:checked="false"
             android:gravity="center_vertical|end"
             />
         <com.philips.platform.uid.view.widget.Label
