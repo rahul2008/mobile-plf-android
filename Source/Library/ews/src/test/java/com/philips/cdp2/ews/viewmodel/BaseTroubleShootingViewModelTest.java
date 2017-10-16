@@ -15,6 +15,6 @@ public class BaseTroubleShootingViewModelTest {
 
         subject.onCancelButtonClicked();
 
-        verify(mockNavigator).navigateToDevicePoweredOnConfirmationScreen();
+        verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
     }
 }
