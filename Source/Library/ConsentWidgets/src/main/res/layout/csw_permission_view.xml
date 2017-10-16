@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
   >
 
-    <Switch
-        android:id="@+id/switch_allow_track_use"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/allow_track_use" />
+    <LinearLayout
+        style="@style/BaseLayoutMargins.Dimens"
+        android:orientation="horizontal" android:weightSum="2">
 
-    <Switch
-        android:id="@+id/switch_allow_send_promotional_on_behavior"
-        android:layout_width="match_parent"
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/TestButtonTexts"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:text="@string/allow_track_use"/>
+
+        <com.philips.platform.uid.view.widget.Switch
+            android:id="@+id/toggleicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
+            android:layout_weight="1"
+            android:checked="true"
+            android:gravity="center_vertical|end"
+            />
+    </LinearLayout>
+
+    <include layout="@layout/divider_layout"/>
+
+    <LinearLayout
+        style="@style/BaseLayoutMargins.Dimens"
+        android:orientation="horizontal" android:weightSum="2">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/TestButtonTexts"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:text="@string/allow_send_promotional_on_behavior"/>
+
+        <com.philips.platform.uid.view.widget.Switch
+            android:id="@+id/toggleicon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
+            android:layout_weight="1"
+            android:checked="true"
+            android:gravity="center_vertical|end"
+            />
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.Switch
+        android:id="@+id/toggleicon2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/allow_send_promotional_on_behavior" />
+        android:layout_marginEnd="@dimen/layout_margin_left_right"
+        android:layout_weight="1"
+        android:checked="true"
+        android:gravity="center_vertical|end"
+        />
+
+    <include layout="@layout/divider_layout"/>
+
+
 
 </LinearLayout>
