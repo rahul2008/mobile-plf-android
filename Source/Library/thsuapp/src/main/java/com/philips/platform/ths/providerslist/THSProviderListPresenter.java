@@ -32,10 +32,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
-import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
-
-
 public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter,THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>,THSSDKError> {
 
     private THSBaseFragment mThsBaseFragment;
@@ -67,14 +63,18 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if(null!=mThsBaseFragment && mThsBaseFragment.isFragmentAttached()) {
             if (null != providerInfoList && providerInfoList.size() > 0 && null == sdkError) {
                 boolean providerAvailable = isProviderAvailable(providerInfoList);
-                thsProviderListViewInterface.updateMainView(providerAvailable);
-                thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
+                updateFragment(providerInfoList, providerAvailable);
             } else if (null != sdkError) {
                 AmwellLog.e(THSProviderDetailsFragment.TAG, sdkError.getMessage());
             } else {
                 thsProviderListViewInterface.showNoProviderErrorDialog();
             }
         }
+    }
+
+    public void updateFragment(List<THSProviderInfo> providerInfoList, boolean providerAvailable) {
+        thsProviderListViewInterface.updateMainView(providerAvailable);
+        thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }
 
     boolean isProviderAvailable(List<THSProviderInfo> providerInfoList){
@@ -103,29 +103,32 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
             }
         } else if (componentID == R.id.getScheduleAppointmentButton) {
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startSchedulingAnAppointment");
-            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE);
-
-
-            final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    thsDatePickerFragmentUtility.setCalendar(year, month, day);
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, month, day);
-                    Date date = new Date();
-                    date.setTime(calendar.getTimeInMillis());
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(THSConstants.THS_DATE, date);
-                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
-                    final THSAvailableProviderListBasedOnDateFragment fragment = new THSAvailableProviderListBasedOnDateFragment();
-                    fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
-                    mThsBaseFragment.addFragment(fragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle, true);
-                    mThsBaseFragment.hideProgressBar();
-                }
-            };
-            thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
+            launchAvailableProviderListFragment(practice);
         }
+    }
+
+    public void launchAvailableProviderListFragment(final Practice practice) {
+        final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE);
+
+
+        final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                thsDatePickerFragmentUtility.setCalendar(year, month, day);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+                Date date = new Date();
+                date.setTime(calendar.getTimeInMillis());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(THSConstants.THS_DATE, date);
+                bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
+                final THSAvailableProviderListBasedOnDateFragment fragment = new THSAvailableProviderListBasedOnDateFragment();
+                fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                mThsBaseFragment.addFragment(fragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle, true);
+                mThsBaseFragment.hideProgressBar();
+            }
+        };
+        thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
     }
 
     @Override

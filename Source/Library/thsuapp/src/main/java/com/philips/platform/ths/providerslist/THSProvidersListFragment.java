@@ -44,12 +44,12 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     public static final String DIALOG_TAG = THSProvidersListFragment.class.getSimpleName() + "Dialog";
-    private RecyclerView recyclerView;
-    private THSProviderListPresenter THSProviderListPresenter;
+    protected RecyclerView recyclerView;
+    protected THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Practice practice;
     private Consumer consumer;
-    private THSProvidersListAdapter THSProvidersListAdapter;
+    protected THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
     protected Button btn_get_started;
     protected Button btn_schedule_appointment;
@@ -63,8 +63,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle=getArguments();
         setHasOptionsMenu(true);
-        practice =bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
-        consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
+        getParcelableObjects(bundle);
         View view = inflater.inflate(R.layout.ths_providers_list_fragment, container, false);
         THSProviderListPresenter = new THSProviderListPresenter(this, this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
@@ -77,6 +76,11 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         btn_schedule_appointment.setOnClickListener(this);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.provider_list_container);
         return view;
+    }
+
+    public void getParcelableObjects(Bundle bundle) {
+        practice =bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
+        consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
     }
 
     @Override
@@ -140,16 +144,20 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             @Override
             public void onItemClick(THSProviderEntity item) {
 
-                THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
-                pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
-                pthProviderDetailsFragment.setTHSProviderEntity(item);
-                pthProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
-                pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-                addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null, true);
+                launchProviderDetailsFragment(item);
             }
         });
         recyclerView.setAdapter(THSProvidersListAdapter);
 
+    }
+
+    public void launchProviderDetailsFragment(THSProviderEntity item) {
+        THSProviderDetailsFragment thsProviderDetailsFragment = new THSProviderDetailsFragment();
+        thsProviderDetailsFragment.setActionBarListener(getActionBarListener());
+        thsProviderDetailsFragment.setTHSProviderEntity(item);
+        thsProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
+        thsProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
+        addFragment(thsProviderDetailsFragment,THSProviderDetailsFragment.TAG,null, true);
     }
 
     @Override
