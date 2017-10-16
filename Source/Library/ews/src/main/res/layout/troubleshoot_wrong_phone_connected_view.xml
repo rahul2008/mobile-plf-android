@@ -21,6 +21,7 @@
 
         <TextView
             style="@style/EWS.Txt.Title"
+            android:id="@+id/ews_H_03_01_label_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_ews_connected_wrong_phone_title"/>
@@ -48,6 +49,7 @@
             android:text="@string/label_ews_connected_wrong_phone_secondary_text"/>
 
         <Button
+            android:id="@+id/ews_H_03_01_button_yes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d"
@@ -56,6 +58,7 @@
 
         <Button
             style="@style/Btn.Secondary"
+            android:id="@+id/ews_H_03_01_button_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/c"

@@ -25,7 +25,7 @@ public class SetupAccessPointModeTroubleshootingFragment extends BaseTroubleShoo
         final SetupAccessPointModeTroubleshootingViewModel viewModel = ((EWSActivity) getActivity()).getEWSComponent()
                 .setupAccessPointModeTroubleshootingViewModel();
 
-        view.findViewById(R.id.reset_connection_done_button)
+        view.findViewById(R.id.ews_H_03_04_button_done)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

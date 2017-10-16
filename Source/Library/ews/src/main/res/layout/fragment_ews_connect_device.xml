@@ -27,7 +27,7 @@
             android:paddingStart="@dimen/e">
 
             <TextView
-                android:id="@+id/ews_connect_title"
+                android:id="@+id/ews_03_01a_label_password_title"
                 style="@style/EWS.Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:text="@string/label_ews_password_connect_to"/>
 
             <TextView
-                android:id="@+id/ews_connect_wifi_name"
+                android:id="@+id/ews_03_01a_home_wifi_label"
                 style="@style/EWS.Txt.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:text="@string/label_ews_password_enter_password"/>
 
             <com.philips.cdp.uikit.customviews.UikitPasswordEditText
-                android:id="@+id/ews_connect_password_edit"
+                android:id="@+id/ews_03_01a_textfield_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
@@ -79,7 +79,7 @@
                 android:text="@string/label_ews_password_specify_name"/>
 
             <EditText
-                android:id="@+id/ews_connect_wifi_edit"
+                android:id="@+id/ews_03_01a_textfield_appliance_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
@@ -93,7 +93,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/ews_connect_wifi_btn"
+                android:id="@+id/ews_03_01a_button_password_connect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

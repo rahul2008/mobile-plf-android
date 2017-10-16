@@ -39,7 +39,7 @@
                 />
 
             <TextView
-                android:id="@+id/ews_press_and_play_desc"
+                android:id="@+id/ews_02_02_label_verify_ready_title"
                 style="@style/EWS.Txt.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 />
 
             <Button
-                android:id="@+id/ews_press_and_play_next_button"
+                android:id="@+id/ews_02_02_button_verify_ready_yes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
@@ -67,7 +67,7 @@
                 android:text="@string/ews_04_button_1"/>
 
             <Button
-                android:id="@+id/ews_hotspot_blinking_no_button"
+                android:id="@+id/ews_02_02_button_verify_ready_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/e"

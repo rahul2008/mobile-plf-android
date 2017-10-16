@@ -26,7 +26,7 @@ public class ResetDeviceTroubleshootingFragment extends BaseTroubleShootingFragm
                 ((EWSActivity) getActivity()).getEWSComponent()
                         .resetDeviceTroubleshootingViewModel();
 
-        view.findViewById(R.id.reset_connection_done_button)
+        view.findViewById(R.id.ews_H_03_03_button_done)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

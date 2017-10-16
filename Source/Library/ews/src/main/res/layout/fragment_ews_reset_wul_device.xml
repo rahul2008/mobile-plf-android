@@ -56,7 +56,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/ews_hotspot_blinking_yes_button"
+                android:id="@+id/ews_02_01_button_plug_in_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
@@ -64,7 +64,7 @@
                 android:text="@string/ews_12_button"/>
 
             <Button
-                android:id="@+id/ews_hotspot_blinking_no_button"
+                android:id="@+id/ews_02_02_button_verify_ready_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/e"

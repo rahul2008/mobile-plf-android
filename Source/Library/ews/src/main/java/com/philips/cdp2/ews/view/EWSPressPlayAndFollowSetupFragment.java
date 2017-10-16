@@ -35,10 +35,10 @@ public class EWSPressPlayAndFollowSetupFragment extends ConnectPhoneToDeviceAPMo
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        viewDataBinding.ewsPressAndPlayDesc.setText(TextUtil.getHTMLText(getString(R.string.ews_04_content)));
-
+        viewDataBinding.ews0202LabelVerifyReadyTitle.setText(TextUtil.getHTMLText(getString(R.string.ews_04_content)));
         return view;
     }
+
     @Override
     protected void bindViewModel(final FragmentEwsPressPlayFollowSetupDeviceBinding viewDataBinding) {
         viewDataBinding.setViewModel(viewModel);

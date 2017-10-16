@@ -33,7 +33,7 @@
                 />
 
             <TextView
-                android:id="@+id/ews_gs_title"
+                android:id="@+id/ews_01_00_label_get_started_title"
                 style="@style/EWS.Txt.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/getting_started_button"
+                android:id="@+id/ews_01_00_button_get_started_get_started"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
