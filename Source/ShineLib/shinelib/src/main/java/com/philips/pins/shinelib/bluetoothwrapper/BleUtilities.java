@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -7,14 +7,18 @@ package com.philips.pins.shinelib.bluetoothwrapper;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
-import java.util.UUID;
-
 public class BleUtilities {
+
+    private static final int DISCOVERY_REPORT_DELAY_MILLIS = 1000;
+
     @NonNull
     private final Context applicationContext;
     private final BluetoothAdapter bluetoothAdapter;
@@ -38,16 +42,31 @@ public class BleUtilities {
         applicationContext.startActivity(intent);
     }
 
-    public boolean startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
-        return bluetoothAdapter.startLeScan(leScanCallback);
+    public void startLeScan(final @NonNull ScanCallback scanCallback) {
+        if (!isBluetoothAdapterEnabled()) {
+            return;
+        }
+
+        ScanSettings.Builder builder = new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);
+
+        if (bluetoothAdapter.isOffloadedScanBatchingSupported()) {
+            builder.setReportDelay(DISCOVERY_REPORT_DELAY_MILLIS);
+        }
+
+        final ScanSettings settings = builder.build();
+        final BluetoothLeScanner bluetoothScanner = bluetoothAdapter.getBluetoothLeScanner();
+
+        bluetoothScanner.startScan(null, settings, scanCallback);
     }
 
-    public boolean startLeScan(UUID[] serviceUUIDs, BluetoothAdapter.LeScanCallback leScanCallback) {
-        return bluetoothAdapter.startLeScan(serviceUUIDs, leScanCallback);
-    }
+    public void stopLeScan(final @NonNull ScanCallback scanCallback) {
+        if (!isBluetoothAdapterEnabled()) {
+            return;
+        }
+        final BluetoothLeScanner bluetoothScanner = bluetoothAdapter.getBluetoothLeScanner();
 
-    public void stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
-        bluetoothAdapter.stopLeScan(leScanCallback);
+        bluetoothScanner.stopScan(scanCallback);
     }
 
     public BluetoothDevice getRemoteDevice(String macAddress) {

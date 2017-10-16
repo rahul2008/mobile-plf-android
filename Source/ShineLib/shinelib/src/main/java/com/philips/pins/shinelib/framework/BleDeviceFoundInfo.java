@@ -6,16 +6,17 @@
 package com.philips.pins.shinelib.framework;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.ScanRecord;
 
 public class BleDeviceFoundInfo {
     private final BluetoothDevice bluetoothDevice;
     private final int rssi;
-    private final byte[] scanRecord;
+    private final ScanRecord scanRecord;
 
-    public BleDeviceFoundInfo(BluetoothDevice bluetoothDevice, int rssi, byte[] scanRecord) {
+    public BleDeviceFoundInfo(BluetoothDevice bluetoothDevice, int rssi, ScanRecord scanRecord) {
         this.bluetoothDevice = bluetoothDevice;
         this.rssi = rssi;
-        this.scanRecord = scanRecord.clone();
+        this.scanRecord = scanRecord;
     }
 
     public String getDeviceAddress() {
@@ -30,7 +31,7 @@ public class BleDeviceFoundInfo {
         return rssi;
     }
 
-    public byte[] getScanRecord() {
+    public ScanRecord getScanRecord() {
         return scanRecord;
     }
 }

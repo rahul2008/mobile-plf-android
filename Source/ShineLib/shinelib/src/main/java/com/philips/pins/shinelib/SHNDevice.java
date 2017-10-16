@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -42,6 +42,12 @@ public interface SHNDevice {
      * @return name of the peripheral as returned by {@link android.bluetooth.BluetoothDevice#getName()}
      */
     String getName();
+
+    /**
+     * WARNING: this function is deprecated, do not use this function!
+     */
+    @Deprecated
+    void setName(String name);
 
     /**
      * Returns the device type name as specified in the device definition info.

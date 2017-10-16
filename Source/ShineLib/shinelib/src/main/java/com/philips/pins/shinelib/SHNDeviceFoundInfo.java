@@ -59,8 +59,18 @@ public class SHNDeviceFoundInfo {
             throw new IllegalStateException("SHNCentral not set");
         }
         this.deviceAddress = bluetoothDevice.getAddress();
-        this.deviceName = bluetoothDevice.getName();
         this.shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(deviceAddress, shnDeviceDefinitionInfo);
+
+        String name = bluetoothDevice.getName();
+        if (name == null) {
+            name = bleScanRecord.getLocalName();
+        }
+        if (name == null) {
+            name = this.shnDevice.getName();
+        }
+        this.shnDevice.setName(name);
+        this.deviceName = name;
+
         this.rssi = rssi;
         this.scanRecord = scanRecord.clone();
         this.shnDeviceDefinitionInfo = shnDeviceDefinitionInfo;
