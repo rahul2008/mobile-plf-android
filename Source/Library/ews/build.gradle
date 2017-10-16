@@ -60,6 +60,7 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'digitalCare', version: "${versionsPhilips.dcc}") {
         exclude group: 'com.android.support'
     }
+    compile "com.philips.cdp:uid:${versionsPhilips.uid}"
 
     // External
     compile "com.google.dagger:dagger:${versionsExternal.dagger}"
