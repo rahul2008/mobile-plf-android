@@ -32,14 +32,13 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.devicepair.R;
-import com.philips.platform.devicepair.devicesetup.SampleApplianceFactory;
 import com.philips.platform.devicepair.pojo.PairDevice;
 import com.philips.platform.devicepair.states.GetPairedDevicesState;
 import com.philips.platform.devicepair.states.StateContext;
+import com.philips.platform.devicepair.uappdependencies.DevicePairingUappInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +98,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataServicesManager.getInstance().synchronize();
-        initializeDiComm();
+        commCentral = DevicePairingUappInterface.getCommCentral();
     }
 
     @Override
@@ -187,13 +186,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
 
         return view;
-    }
-
-    private void initializeDiComm() {
-        final LanTransportContext lanTransportContext = new LanTransportContext(getActivity().getApplicationContext());
-        final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
-
-        commCentral = new CommCentral(applianceFactory, lanTransportContext);
     }
 
     @Override
