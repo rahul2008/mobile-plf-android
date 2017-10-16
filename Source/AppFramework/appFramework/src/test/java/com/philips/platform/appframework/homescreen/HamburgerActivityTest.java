@@ -6,6 +6,7 @@
 
 package com.philips.platform.appframework.homescreen;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,9 +16,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.uid.view.widget.SideBar;
@@ -31,17 +34,22 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
+import org.robolectric.shadows.ShadowToast;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
@@ -59,6 +67,9 @@ public class HamburgerActivityTest {
     @Mock
     private static HamburgerActivityPresenter hamburgerActivityPresenter;
 
+    @Mock
+    private static URLogoutInterface urLogoutInterface;
+
 //    private TestAppFrameworkApplication application = null;
 
     static class HamburgerMock extends HamburgerActivity {
@@ -70,6 +81,11 @@ public class HamburgerActivityTest {
         @Override
         protected AbstractUIBasePresenter getActivityPresenter() {
             return hamburgerActivityPresenter;
+        }
+
+        @Override
+        protected URLogoutInterface getURLogoutInterface() {
+            return urLogoutInterface;
         }
     }
     @Before
@@ -222,6 +238,29 @@ public class HamburgerActivityTest {
         MenuItem menuItem = new RoboMenuItem(android.R.id.home);
         hamburgerActivity.onOptionsItemSelected(menuItem);
         assertTrue(hamburgerActivity.isFinishing());
+    }
+
+    @Test
+    public void logoutClickTest() {
+        LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
+        logoutParent.performClick();
+        assertFalse(sideBar.isDrawerVisible(navigationView));
+        verify(urLogoutInterface).performLogout(any(Context.class), any(User.class), anyBoolean(), anyBoolean());
+    }
+
+    @Test
+    public void logoutResultFailureTest() {
+        hamburgerActivity.onLogoutResultFailure(0, "Logout failure");
+        assertEquals(ShadowToast.getTextOfLatestToast(), "Logout failure");
+    }
+
+    @Test
+    public void logoutResultSuccessTest() {
+        assertTrue(hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container).getVisibility() == View.VISIBLE);
+        TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
+        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject(any(Context.class)).isUserSignIn()).thenReturn(false);
+        hamburgerActivity.onLogoutResultSuccess();
+        assertTrue(hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container).getVisibility() != View.VISIBLE);
     }
 
     @After

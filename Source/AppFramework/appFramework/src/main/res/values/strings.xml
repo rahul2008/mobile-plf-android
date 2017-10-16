@@ -376,4 +376,6 @@ Receive free product accessories</string>
     <string name="sleep_tip_desc_3" translatable="false">Your body will relax quickly if you take a hot bath, but you need to take it at least 90-120 minutes before you go to sleep. Also, make sure the water temperature is around 40 degree Celsius.</string>
 
     <string name="RA_DLS_enable_bluetooth" translatable="false">Please enable bluetooth</string>
+
+    <string name="RA_DLSS_avatar_default_text">Hello User, \nPlease sign in.</string>
 </resources>

@@ -24,20 +24,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.logout.URLogout;
+import com.philips.platform.appframework.logout.URLogoutInterface;
+import com.philips.platform.appframework.logout.URLogoutListener;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SideBar;
 
@@ -47,7 +55,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener {
+public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutListener {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private LinearLayout navigationView;
@@ -60,6 +68,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     Handler handler = new Handler();
     private SideBar sideBar;
     private ActionBarDrawerToggle drawerToggle;
+    private LinearLayout hamburgerFooterParent;
+    private URLogoutInterface urLogoutInterface;
+    private Label avatarName;
 
    /* private ImageView cartIcon;
     private TextView cartCount;
@@ -90,9 +101,16 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     protected void initializeActivityContents() {
         initViews();
 
+        urLogoutInterface = getURLogoutInterface();
+        urLogoutInterface.setUrLogoutListener(this);
+
         presenter.onEvent(0);
         initLeftSidebarRecyclerViews();
         getSupportFragmentManager().addOnBackStackChangedListener(this);
+    }
+
+    protected URLogoutInterface getURLogoutInterface() {
+        return new URLogout();
     }
 
     private RecyclerView hamburgerMenuRecyclerView;
@@ -102,7 +120,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         RecyclerViewSeparatorItemDecoration hamburgerSeparatorItemDecoration = new RecyclerViewSeparatorItemDecoration(UIDHelper.getContentThemedContext(this));
         ArrayList<HamburgerMenuItem> hamburgerMenuItems = getIconDataHolderView(UIDHelper.getContentThemedContext(this));
 
-        hamburgerMenuRecyclerView = (RecyclerView) findViewById(R.id.hamburger_menu_recyclerview);
+        hamburgerMenuRecyclerView = (RecyclerView) findViewById(R.id.hamburger_list);
         hamburgerMenuAdapter = new HamburgerMenuAdapter(hamburgerMenuItems);
         hamburgerMenuAdapter.setMenuItemClickListener(this);
         hamburgerMenuRecyclerView.setAdapter(hamburgerMenuAdapter);
@@ -147,10 +165,25 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private void initViews() {
         RALog.d(TAG, " initViews");
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        hamburgerFooterParent = (LinearLayout) findViewById(R.id.hamburger_menu_footer_container);
+        avatarName = (Label) findViewById(R.id.rap_avatar_name);
+        hamburgerFooterParent.setOnClickListener(this);
+        setFooterViewVisibilityAndUserName();
         initSidebarComponents();
         navigationView = (LinearLayout) findViewById(R.id.navigation_view);
         UIDHelper.setupToolbar(this);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
+    }
+
+    private void setFooterViewVisibilityAndUserName() {
+        User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
+        if (!user.isUserSignIn()) {
+            hamburgerFooterParent.setVisibility(View.GONE);
+            avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
+        } else {
+            hamburgerFooterParent.setVisibility(View.VISIBLE);
+            avatarName.setText(user.getGivenName());
+        }
     }
 
     private void initSidebarComponents(){
@@ -230,6 +263,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     protected void removeListeners() {
         hamburgerMenuAdapter.removeMenuItemClickListener();
+        urLogoutInterface.removeListener();
     }
 
 
@@ -418,5 +452,35 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.hamburger_menu_footer_container:
+                sideBar.closeDrawer(navigationView);
+                showProgressBar();
+
+                urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
+                        .getUserRegistrationState().getUserObject(this),
+                        BaseAppUtil.isDSPollingEnabled(getApplicationContext()),
+                        BaseAppUtil.isAutoLogoutEnabled(getApplicationContext()));
+                break;
+        }
+    }
+
+    @Override
+    public void onLogoutResultFailure(int i, String errorMessage) {
+        RALog.d(TAG, " UserRegistration onLogoutFailure  - " + errorMessage);
+        Toast.makeText(HamburgerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+        hideProgressBar();
+
+    }
+
+    @Override
+    public void onLogoutResultSuccess() {
+        RALog.d(TAG, " UserRegistration onLogoutSuccess  - ");
+        setFooterViewVisibilityAndUserName();
+        hideProgressBar();
     }
 }

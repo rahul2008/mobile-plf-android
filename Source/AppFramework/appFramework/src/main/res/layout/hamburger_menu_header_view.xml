@@ -23,14 +23,14 @@
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.SidebarHeaderText"
+        android:id="@+id/rap_avatar_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/hamburger_menu_header_height"
         android:layout_gravity="center_vertical"
         android:gravity="start|center_vertical"
         android:paddingEnd="@dimen/hamburger_menu_item_margin_left_right"
         android:paddingStart="@dimen/hamburger_menu_item_margin_left_right"
-        android:textColor="@color/uid_list_item_text_selector"
-        android:text="Collin Smith" />
+        android:textColor="@color/uid_list_item_text_selector" />
 
     <include layout="@layout/uid_horizontal_separator" />
 
