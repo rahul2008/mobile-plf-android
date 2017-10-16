@@ -52,6 +52,9 @@ allprojects {
             }
         }
         maven {
+            url 'https://maven.google.com'
+        }
+        maven {
             url objcdp.getArtifactoryUrl()
             credentials {
                 username = "readonly"
@@ -154,7 +157,7 @@ android {
 //        }
 //    }
     compileSdkVersion 26
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 26
@@ -213,9 +216,9 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:support-annotations:26.0.0-alpha1'
+    compile 'com.android.support:support-v4:26.0.2'
+    compile 'com.android.support:design:26.0.2'
+    compile 'com.android.support:support-annotations:26.0.2'
     androidTestCompile 'junit:junit:4.12'
 }
 
