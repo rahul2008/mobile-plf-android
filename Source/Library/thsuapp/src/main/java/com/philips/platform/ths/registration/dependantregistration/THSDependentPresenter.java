@@ -8,6 +8,7 @@ package com.philips.platform.ths.registration.dependantregistration;
 
 import android.os.Bundle;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.practice.THSPractice;
@@ -20,6 +21,8 @@ import com.philips.platform.ths.settings.THSVisitHistoryFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+
+import java.util.List;
 
 public class THSDependentPresenter implements THSBasePresenter {
     THSDependantHistoryFragment mThsDependantHistoryFragment;
@@ -37,7 +40,7 @@ public class THSDependentPresenter implements THSBasePresenter {
         Bundle bundle = new Bundle();
         bundle.putInt(THSConstants.THS_LAUNCH_INPUT, mThsDependantHistoryFragment.mLaunchInput);
 
-        if (THSManager.getInstance().getThsConsumer().getConsumer() != null && THSManager.getInstance().getThsConsumer().getConsumer().isEnrolled()) {
+        if (isConsumerEnrolled()) {
 
             switch (mThsDependantHistoryFragment.mLaunchInput) {
                 case THSConstants.THS_SCHEDULED_VISITS:
@@ -52,6 +55,29 @@ public class THSDependentPresenter implements THSBasePresenter {
             }
         } else {
             mThsDependantHistoryFragment.addFragment(new THSRegistrationFragment(), THSRegistrationFragment.TAG, bundle, false);
+        }
+    }
+
+    private boolean isConsumerEnrolled() {
+        final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer();
+        Consumer consumer = thsConsumer.getConsumer();
+
+        final List<Consumer> dependents = THSManager.getInstance().getThsParentConsumer().getConsumer().getDependents();
+        for(Consumer consumer1 : dependents){
+            if(consumer1.getFirstName().equalsIgnoreCase(thsConsumer.getFirstName())){
+                thsConsumer.setConsumer(consumer1);
+                consumer = consumer1;
+            }
+        }
+
+        if(thsConsumer == null || consumer ==null){
+            return false;
+        }
+
+        if(thsConsumer.isDependent() && consumer.isDependent()){
+            return true;
+        }else {
+            return consumer.isEnrolled();
         }
     }
 }
