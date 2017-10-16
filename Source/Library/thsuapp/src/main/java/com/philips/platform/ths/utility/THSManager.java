@@ -188,7 +188,7 @@ public class THSManager {
 
 
     public THSConsumerWrapper getPTHConsumer() {
-        mTHSConsumerWrapper.setConsumer(mThsConsumer.getConsumer());
+        mTHSConsumerWrapper.setConsumer(getThsConsumer().getConsumer());
        return mTHSConsumerWrapper;
     }
 
@@ -401,11 +401,11 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://stagingOC169.mytelehealth.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "dc573250"); //client key*/
 
-        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://iot11.amwellintegration.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
