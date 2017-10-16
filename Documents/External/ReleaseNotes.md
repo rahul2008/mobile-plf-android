@@ -11,6 +11,9 @@ Version {next}
 
 ### Features not covered
 
+### Breaking Changes
+* The `ScanRecord` function `getManufacturerSpecificData()` is replaced by `getManufacturerSpecificData(int manufacturerId)`. Previously the first two bytes of the manufacturer where used to check the manufacturer, now this is done internally and the data of a specific manufacturer can be requested. If the data is not found `null` is returned.
+
 ### Defects solved
 * \#33811 Battery service now has working notifications.
 * \#87558 Devices are no longer listed multiple times in device discovery
