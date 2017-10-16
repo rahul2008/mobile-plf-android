@@ -48,6 +48,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -183,7 +184,9 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         baby.setHsdoToken(user.getHsdpAccessToken());
         baby.setGender(Gender.MALE);
         baby.setEmail(user.getEmail());
-        baby.setDob(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2011,8,24);
+        baby.setDob(calendar.getTime());
         baby.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78");
         baby.setDependent(true);
         baby.setBloodPressureSystolic("80");
