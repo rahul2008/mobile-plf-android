@@ -122,7 +122,7 @@ android {
         release
     }
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demo"
         minSdkVersion 21
