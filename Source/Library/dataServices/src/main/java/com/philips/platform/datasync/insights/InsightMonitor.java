@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2017
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+
 package com.philips.platform.datasync.insights;
 
 import android.support.annotation.NonNull;
@@ -14,10 +20,6 @@ import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class InsightMonitor extends EventMonitor {
 
     @Inject
