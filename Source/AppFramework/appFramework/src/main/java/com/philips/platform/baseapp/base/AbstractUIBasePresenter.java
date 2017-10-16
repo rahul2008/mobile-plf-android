@@ -42,7 +42,8 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_DEBUG="debug";
     protected static final String HOME_TELEHEALTHSERVICES = "telehealthservices";
     protected static final String HOME_POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
-
+    protected static final String HAMBURGER_LOGIN = "login";
+    protected static final String HAMBURGER_LOGOUT = "logout";
     private UIView uiView;
 
     public AbstractUIBasePresenter(final UIView uiView) {

@@ -71,6 +71,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private LinearLayout hamburgerFooterParent;
     private URLogoutInterface urLogoutInterface;
     private Label avatarName;
+    private Label hamburgerLogoutLabel;
 
    /* private ImageView cartIcon;
     private TextView cartCount;
@@ -166,22 +167,23 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         RALog.d(TAG, " initViews");
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         hamburgerFooterParent = (LinearLayout) findViewById(R.id.hamburger_menu_footer_container);
+        hamburgerLogoutLabel = (Label) findViewById(R.id.hamburger_log_out);
         avatarName = (Label) findViewById(R.id.rap_avatar_name);
         hamburgerFooterParent.setOnClickListener(this);
-        setFooterViewVisibilityAndUserName();
+        setUserNameAndLogoutText();
         initSidebarComponents();
         navigationView = (LinearLayout) findViewById(R.id.navigation_view);
         UIDHelper.setupToolbar(this);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
     }
 
-    private void setFooterViewVisibilityAndUserName() {
+    private void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
         if (!user.isUserSignIn()) {
-            hamburgerFooterParent.setVisibility(View.GONE);
+            hamburgerLogoutLabel.setText(R.string.RA_Settings_Login);
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
-            hamburgerFooterParent.setVisibility(View.VISIBLE);
+            hamburgerLogoutLabel.setText(R.string.RA_Settings_Logout);
             avatarName.setText(user.getGivenName());
         }
     }
@@ -459,12 +461,15 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         switch (view.getId()) {
             case R.id.hamburger_menu_footer_container:
                 sideBar.closeDrawer(navigationView);
-                showProgressBar();
-
-                urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
-                        .getUserRegistrationState().getUserObject(this),
-                        BaseAppUtil.isDSPollingEnabled(getApplicationContext()),
-                        BaseAppUtil.isAutoLogoutEnabled(getApplicationContext()));
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
+                    showProgressBar();
+                    urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
+                                    .getUserRegistrationState().getUserObject(this),
+                            BaseAppUtil.isDSPollingEnabled(getApplicationContext()),
+                            BaseAppUtil.isAutoLogoutEnabled(getApplicationContext()));
+                } else {
+                    presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+                }
                 break;
         }
     }
@@ -480,7 +485,9 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     @Override
     public void onLogoutResultSuccess() {
         RALog.d(TAG, " UserRegistration onLogoutSuccess  - ");
-        setFooterViewVisibilityAndUserName();
+        setUserNameAndLogoutText();
         hideProgressBar();
+        presenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
+        updateSelectionIndex(0);
     }
 }

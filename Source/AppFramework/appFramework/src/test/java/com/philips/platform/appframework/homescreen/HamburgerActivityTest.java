@@ -23,6 +23,8 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
+import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.SideBar;
 
 import org.junit.After;
@@ -241,13 +243,21 @@ public class HamburgerActivityTest {
     }
 
     @Test
-    public void logoutClickTest() {
+    public void logoutClickWhenUserLoggedInTest() {
         LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
         logoutParent.performClick();
         assertFalse(sideBar.isDrawerVisible(navigationView));
         verify(urLogoutInterface).performLogout(any(Context.class), any(User.class), anyBoolean(), anyBoolean());
     }
-
+    @Test
+    public void logoutClickWhenUserLoggedOutTest() {
+        TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
+        when(testAppFrameworkApplication.getUserRegistrationState().getUserObject(any(Context.class)).isUserSignIn()).thenReturn(false);
+        LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
+        logoutParent.performClick();
+        assertFalse(sideBar.isDrawerVisible(navigationView));
+        verify(hamburgerActivityPresenter, times(1)).onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
+    }
     @Test
     public void logoutResultFailureTest() {
         hamburgerActivity.onLogoutResultFailure(0, "Logout failure");
@@ -256,11 +266,11 @@ public class HamburgerActivityTest {
 
     @Test
     public void logoutResultSuccessTest() {
-        assertTrue(hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container).getVisibility() == View.VISIBLE);
+        assertEquals(((Label) hamburgerActivity.findViewById(R.id.hamburger_log_out)).getText().toString(), hamburgerActivity.getString(R.string.RA_Settings_Logout));
         TestAppFrameworkApplication testAppFrameworkApplication = (TestAppFrameworkApplication) RuntimeEnvironment.application;
         when(testAppFrameworkApplication.getUserRegistrationState().getUserObject(any(Context.class)).isUserSignIn()).thenReturn(false);
         hamburgerActivity.onLogoutResultSuccess();
-        assertTrue(hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container).getVisibility() != View.VISIBLE);
+        assertEquals(((Label) hamburgerActivity.findViewById(R.id.hamburger_log_out)).getText().toString(), hamburgerActivity.getString(R.string.RA_Settings_Login));
     }
 
     @After
