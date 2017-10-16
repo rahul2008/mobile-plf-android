@@ -1,6 +1,8 @@
 package com.philips.platform.ths.visit;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.americanwell.sdk.entity.Address;
@@ -11,7 +13,9 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.init.THSInitFragment;
 import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
@@ -19,6 +23,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 /**
@@ -39,15 +44,39 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         if (componentID == R.id.ths_visit_summary_continue_button) {
             THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
-            mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
+            // mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
 
+            exitFromAmWell();
         }
 
     }
 
+    private void exitFromAmWell() {
+
+        if (mTHSVisitSummaryFragment.getActivity() instanceof THSLaunchActivity) {
+            THSLaunchActivity thsLaunchActivity = (THSLaunchActivity) mTHSVisitSummaryFragment.getActivity();
+            thsLaunchActivity.finish();
+        } else {
+
+            FragmentManager fragmentManager = mTHSVisitSummaryFragment.getFragmentManager();
+            Fragment welComeFragment = fragmentManager.findFragmentByTag(THSWelcomeFragment.TAG);
+            Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
+            Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
+
+            if (welComeFragment != null) {
+                fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (welComeBackFragment != null) {
+                fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (tHSInitFragment != null) {
+                fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        }
+        THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(true);
+    }
+
     void fetchVisitSummary() {
         try {
-            THSManager.getInstance().getVisitSummary(mTHSVisitSummaryFragment.getFragmentActivity(),mTHSVisitSummaryFragment.mVisit, this);
+            THSManager.getInstance().getVisitSummary(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -56,10 +85,10 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
     void sendRatings(Float providerRating, Float visitRating) {
 
-       try {
-           int providerRatingInt = Math.round(providerRating);
-           int visitRatingInt = Math.round(visitRating);
-           THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(),mTHSVisitSummaryFragment.mVisit, providerRatingInt, visitRatingInt, this);
+        try {
+            int providerRatingInt = Math.round(providerRating);
+            int visitRatingInt = Math.round(visitRating);
+            THSManager.getInstance().sendRatings(mTHSVisitSummaryFragment.getFragmentActivity(), mTHSVisitSummaryFragment.mVisit, providerRatingInt, visitRatingInt, this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -69,19 +98,19 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     public void updateShippingAddressView(Address address, String consumerName) {
         //ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
         mTHSVisitSummaryFragment.consumerName.setText(consumerName);
-        if(null!=address) {
+        if (null != address) {
             mTHSVisitSummaryFragment.consumerCity.setText(address.getCity());
             mTHSVisitSummaryFragment.consumerState.setText(address.getState().getCode());
             mTHSVisitSummaryFragment.consumerShippingAddress.setText(address.getAddress1());
             mTHSVisitSummaryFragment.consumerShippingZip.setText(address.getZipCode());
-        }else{
+        } else {
             mTHSVisitSummaryFragment.medicationShippingLabel.setVisibility(View.GONE);
             mTHSVisitSummaryFragment.medicationShippingRelativeLayout.setVisibility(View.GONE);
         }
     }
 
     public void updatePharmacyDetailsView(Pharmacy pharmacy) {
-        if(null!=pharmacy) {
+        if (null != pharmacy) {
             mTHSVisitSummaryFragment.pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
             mTHSVisitSummaryFragment.pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
             mTHSVisitSummaryFragment.pharmacyName.setText(pharmacy.getName());
@@ -93,23 +122,23 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
     //start of visit summary callbacks
     @Override
     public void onResponse(THSVisitSummary tHSVisitSummary, THSSDKError tHSSDKError) {
-        if(null!= mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
+        if (null != mTHSVisitSummaryFragment && mTHSVisitSummaryFragment.isFragmentAttached()) {
             updateView(tHSVisitSummary);
         }
 
     }
 
-    private void updateView(THSVisitSummary tHSVisitSummary){
-        VisitSummary visitSummary= tHSVisitSummary.getVisitSummary();
+    private void updateView(THSVisitSummary tHSVisitSummary) {
+        VisitSummary visitSummary = tHSVisitSummary.getVisitSummary();
         mTHSVisitSummaryFragment.providerName.setText(visitSummary.getAssignedProviderInfo().getFullName());
         mTHSVisitSummaryFragment.providerPractice.setText(visitSummary.getAssignedProviderInfo().getPracticeInfo().getName());
-        if(tHSVisitSummary.getVisitSummary().getVisitCost().isFree()){
+        if (tHSVisitSummary.getVisitSummary().getVisitCost().isFree()) {
             mTHSVisitSummaryFragment.visitCost.setText("$ 0");
-        }else{
+        } else {
             //mTHSVisitSummaryFragment.visitCost.setText(tHSVisitSummary.getVisitSummary().getVisitCost().getDeferredBillingWrapUpText());
-            double cost= tHSVisitSummary.getVisitSummary().getVisitCost().getExpectedConsumerCopayCost();
+            double cost = tHSVisitSummary.getVisitSummary().getVisitCost().getExpectedConsumerCopayCost();
 
-            mTHSVisitSummaryFragment.visitCost.setText("$"+Double.toString(cost));
+            mTHSVisitSummaryFragment.visitCost.setText("$" + Double.toString(cost));
         }
         if (visitSummary.getAssignedProviderInfo().hasImage()) {
             try {
@@ -133,12 +162,12 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
 
     @Override
     public void onResponse(Void var1, SDKError var2) {
-        AmwellLog.d("Send rating","success");
+        AmwellLog.d("Send rating", "success");
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        AmwellLog.d("Send rating","failure");
+        AmwellLog.d("Send rating", "failure");
     }
 
 
