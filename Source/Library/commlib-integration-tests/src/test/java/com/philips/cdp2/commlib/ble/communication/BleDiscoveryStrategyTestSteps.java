@@ -249,7 +249,7 @@ public class BleDiscoveryStrategyTestSteps {
         SHNDeviceFoundInfo shnDeviceFoundInfoMock = mock(SHNDeviceFoundInfo.class);
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
         when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
-        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(new byte[]{(byte) 0xDD, 0x01, 80, 70, 49, 51, 51, 55}); // Model id 'PF1337'
+        when(bleScanRecordMock.getManufacturerSpecificData(MANUFACTURER_PREAMBLE)).thenReturn(new byte[]{(byte) 80, 70, 49, 51, 51, 55}); // Model id 'PF1337'
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
@@ -268,12 +268,7 @@ public class BleDiscoveryStrategyTestSteps {
         when(shnDeviceFoundInfoMock.getShnDevice()).thenReturn(shnDeviceMock);
         when(shnDeviceFoundInfoMock.getBleScanRecord()).thenReturn(bleScanRecordMock);
 
-        byte[] modelIdArray = new byte[8];
-        System.arraycopy(MANUFACTURER_PREAMBLE, 0, modelIdArray, 0, MANUFACTURER_PREAMBLE.length);
-        byte[] modelIdBytes = modelId.getBytes();
-        System.arraycopy(modelIdBytes, 0, modelIdArray, MANUFACTURER_PREAMBLE.length, modelIdBytes.length);
-
-        when(bleScanRecordMock.getManufacturerSpecificData()).thenReturn(modelIdArray);
+        when(bleScanRecordMock.getManufacturerSpecificData(MANUFACTURER_PREAMBLE)).thenReturn(modelId.getBytes());
 
         for (int i = 0; i < times; i++) {
             bleDiscoveryStrategy.deviceFound(null, shnDeviceFoundInfoMock);
