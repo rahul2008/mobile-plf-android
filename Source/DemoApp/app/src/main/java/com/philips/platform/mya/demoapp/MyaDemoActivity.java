@@ -57,7 +57,7 @@ public class MyaDemoActivity extends UIDActivity {
         myAccountFlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isUserLoggedIn()) {
+               if (isUserLoggedIn()) {
                     launchMyAccount();
                 } else {
                     Toast.makeText(MyaDemoActivity.this, "please login before launching My account", Toast.LENGTH_SHORT).show();
