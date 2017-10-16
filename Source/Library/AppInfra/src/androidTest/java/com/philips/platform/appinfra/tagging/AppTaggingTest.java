@@ -33,7 +33,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     private Context context;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
-    AppTaggingHandler  mAppTaggingHandler;
+    AppTaggingHandler mAppTaggingHandler;
     AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
     LoggingInterface loggingInterfaceMock;
