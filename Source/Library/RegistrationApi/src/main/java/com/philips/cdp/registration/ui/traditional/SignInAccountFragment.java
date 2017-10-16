@@ -371,7 +371,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_TraditionalSignIn_SignInWithMyPhilips_lbltxt;
+        return R.string.reg_DLS_SigIn_TitleTxt;
     }
 
     private void signIn() {
