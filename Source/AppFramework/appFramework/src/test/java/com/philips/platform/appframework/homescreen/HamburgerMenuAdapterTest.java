@@ -67,7 +67,7 @@ public class HamburgerMenuAdapterTest {
 
     @Test
     public void testListItemDataAreValid() {
-        assertEquals(holder.menuTitle.getText().toString(), context.getString(R.string.RA_DLS_HomeScreen_Title));
+        assertEquals(holder.menuTitle.getText().toString(), context.getString(R.string.RA_HomeTab_Menu_Title));
         assertNotNull(holder.menuIcon.getDrawable());
     }
 

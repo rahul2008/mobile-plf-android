@@ -193,7 +193,7 @@ public class HamburgerActivityTest {
         HamburgerMenuAdapter adapter = hamburgerActivity.getHamburgerAdapter();
         HamburgerMenuItem hamburgerItem = adapter.getMenuItem(fragmentCount);
 
-        String menuItem = hamburgerActivity.getResources().getString(R.string.RA_DLS_HomeScreen_Title);
+        String menuItem = hamburgerActivity.getResources().getString(R.string.RA_HomeTab_Menu_Title);
 
         if(fragmentCount==0) {
             assertEquals(hamburgerItem.getTitle(), menuItem);
