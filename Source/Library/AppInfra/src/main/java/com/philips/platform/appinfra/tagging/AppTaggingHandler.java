@@ -182,7 +182,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
     private String getUTCTimestamp() {
         String mUTCTimestamp = null;
         if (mAppInfra.getTime() != null) {
-            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS a Z", Locale.ENGLISH);
             dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
             mUTCTimestamp = dateFormat.format(mAppInfra.getTime().getUTCTime());
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
@@ -193,7 +193,7 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
 
     private String getLocalTimestamp() {
         final Calendar calendar = Calendar.getInstance();
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS a Z", Locale.ENGLISH);
         return dateFormat.format(calendar.getTime());
     }
 
