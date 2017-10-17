@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -57,15 +56,6 @@ public class SessionDataPortTest {
     @Test
     public void supportsSubscriptionTest() {
         assertTrue(sessionDataPort.supportsSubscription());
-    }
-
-    @Test
-    public void isResponseForThisPortWithInvalidDataTest() {
-        assertFalse(sessionDataPort.isResponseForThisPort(""));
-    }
-    @Test
-    public void isResponseForThisPortWithValidDataTest() {
-        assertTrue(sessionDataPort.isResponseForThisPort(DUMMY_DATA));
     }
 
     @After

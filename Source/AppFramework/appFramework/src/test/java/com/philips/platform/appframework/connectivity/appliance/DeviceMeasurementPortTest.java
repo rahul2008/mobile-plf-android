@@ -27,11 +27,6 @@ public class DeviceMeasurementPortTest {
     }
 
     @Test
-    public void isResponseForThisPort_Returns_True(){
-        Assert.assertTrue(deviceMeasurementPort.isResponseForThisPort("{\"measurementvalue\":50}"));
-    }
-
-    @Test
     public void getDicommPortName(){
         Assert.assertEquals("devicemeasurement",deviceMeasurementPort.getDICommPortName());
     }

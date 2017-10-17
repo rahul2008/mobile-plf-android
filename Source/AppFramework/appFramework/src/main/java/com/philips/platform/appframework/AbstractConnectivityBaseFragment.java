@@ -78,7 +78,7 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
             commCentral = new CommCentral(applianceFactory, bleTransportContext);
             commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
         } catch (TransportUnavailableException e) {
-            RALog.d(TAG, "Blutooth hardware unavailable");
+            RALog.d(TAG, "Bluetooth hardware unavailable");
         }
         return commCentral;
     }
