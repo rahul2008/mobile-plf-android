@@ -211,6 +211,15 @@
                 "nextState": "coco_version_info"
               }
             ]
+          },
+          {
+            "eventId": "my_account",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_account"
+              }
+            ]
           }
         ]
       },
@@ -310,15 +319,6 @@
               {
                 "condition": [],
                 "nextState": "demoDataService"
-              }
-            ]
-          },
-          {
-            "eventId": "TestMyAccountServiceEvent",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoMyAccountService"
               }
             ]
           },
