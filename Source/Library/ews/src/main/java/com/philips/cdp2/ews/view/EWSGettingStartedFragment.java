@@ -8,7 +8,7 @@ package com.philips.cdp2.ews.view;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.R;
-import com.philips.cdp2.ews.configuration.EWSStartContentConfiguration;
+import com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsGettingStartedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -22,7 +22,7 @@ public class EWSGettingStartedFragment extends EWSBaseFragment<FragmentEwsGettin
     EWSGettingStartedViewModel viewModel;
 
     @Inject
-    EWSStartContentConfiguration contentConfiguration;
+    EWSHappyFlowConfiguration contentConfiguration;
 
     @Override
     protected int getLayoutId() {

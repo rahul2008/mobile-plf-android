@@ -6,6 +6,7 @@
 package com.philips.cdp2.ews.helper;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.EWSApplication;
@@ -42,11 +43,11 @@ public abstract class EWSLaunchHelper implements EWSCallback {
         productKeyMap.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
 
         ewsInterface.init(new EWSDependencies(appInfra, productKeyMap), new UappSettings(context));
-        ewsInterface.setConfigurationList(getScreenConfigs());
+        ewsInterface.setEwsHappyFlowConfiguration(getEWSHappyFlowConfiguration());
         ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, -1), new EWSLauncherInput(this));
     }
 
-    public abstract Map<String, Serializable> getScreenConfigs();
+    public abstract Parcelable getEWSHappyFlowConfiguration();
 
     @Override
     public void onSuccess() {

@@ -5,10 +5,7 @@
 
 package com.philips.cdp2.ews.configuration;
 
-import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.widget.TextView;
 
 public class ContentConfigurationBindings {

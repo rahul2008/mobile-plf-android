@@ -2,10 +2,7 @@ package com.philips.cdp2.ews.injections;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp2.ews.configuration.EWSStartContentConfiguration;
-
-import java.io.Serializable;
-import java.util.Map;
+import com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,14 +11,14 @@ import dagger.Provides;
 public class EWSConfigurationModule {
 
     @NonNull
-    private Map<String, Serializable> configurationMap;
+    private EWSHappyFlowConfiguration configurationEWShappyFlow;
 
-    public EWSConfigurationModule(@NonNull Map<String, Serializable> configurationMap){
-        this.configurationMap = configurationMap;
+    public EWSConfigurationModule(@NonNull EWSHappyFlowConfiguration ewsHappyFlowConfiguration){
+        this.configurationEWShappyFlow = ewsHappyFlowConfiguration;
     }
 
     @Provides
-    EWSStartContentConfiguration provideEWSConfigurationContent(){
-        return (EWSStartContentConfiguration) configurationMap.get(EWSStartContentConfiguration.class.getName());
+    EWSHappyFlowConfiguration provideEWSConfigurationContent(){
+        return configurationEWShappyFlow;
     }
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
+import com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
@@ -29,7 +30,6 @@ import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -55,7 +55,7 @@ public class EWSActivity extends UiKitActivity {
         setUpToolBar();
         setUpCancelButton();
 
-        Map<String, Serializable> extraMap = (Map<String, Serializable>) getIntent().getSerializableExtra("appConfiguration");
+        EWSHappyFlowConfiguration extraMap = getIntent().getParcelableExtra("ewsHappyFlowConfiguration");
         ewsComponent = DaggerEWSComponent.
                 builder().
                 eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))

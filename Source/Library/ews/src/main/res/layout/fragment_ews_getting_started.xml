@@ -10,7 +10,7 @@
         <import type="android.content.Context"/>
         <variable
             name="config"
-            type="com.philips.cdp2.ews.configuration.EWSStartContentConfiguration"/>
+            type="com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration"/>
         <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel"/>
