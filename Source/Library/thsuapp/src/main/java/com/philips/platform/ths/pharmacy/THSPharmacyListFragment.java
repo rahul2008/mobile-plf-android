@@ -91,7 +91,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private Location location;
     private ActionBarListener actionBarListener;
     private List<Pharmacy> pharmaciesList = null;
-    private Pharmacy searchedPharmacy;
     private boolean isSearched = false;
 
     @Nullable
@@ -142,11 +141,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         Bundle bundle = new Bundle();
         bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING, THSConstants.PHARMACY_SEARCH_CONSTANT);
         addFragment(thsSearchFragment, THSSearchFragment.TAG, bundle, true);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     public void setPharmaciesList(List<Pharmacy> pharmaciesList) {
@@ -294,21 +288,37 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
 
     /**
-     * This method handles the swtich between map view and the list view indicated by the map/list icon.
+     * This method handles the switch between map view and the list view indicated by the map/list icon.
      */
     public void switchView() {
+        switchView(false);
+    }
 
-        if (mapFragment.isHidden()) {
-            getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
-            switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon, getActivity().getTheme()));
-            pharmacyListRecyclerView.setVisibility(View.GONE);
-            isListSelected = false;
-        } else {
-            getActivity().getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
-            switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.gps_icon, getActivity().getTheme()));
-            pharmacyListRecyclerView.setVisibility(View.VISIBLE);
-            isListSelected = true;
+    public void switchView(boolean isSearched) {
+
+        if (isSearched && mapFragment.isHidden()) {
+            hideMapFragment();
+        } else if (isSearched && !mapFragment.isHidden()) {
+            showMapFragment();
+        } else if (!isSearched && mapFragment.isHidden()) {
+            showMapFragment();
+        } else if (!isSearched && !mapFragment.isHidden()) {
+            hideMapFragment();
         }
+    }
+
+    public void showMapFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon, getActivity().getTheme()));
+        pharmacyListRecyclerView.setVisibility(View.INVISIBLE);
+        isListSelected = false;
+    }
+
+    public void hideMapFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
+        switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.gps_icon, getActivity().getTheme()));
+        pharmacyListRecyclerView.setVisibility(View.VISIBLE);
+        isListSelected = true;
     }
 
     private List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
@@ -323,6 +333,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             showRetailView();
         } else if (pharmacyMailOrderList.size() > 0 && pharmacyRetailList.size() > 0) {
             showRetailView();
+        }
+
+        if (isSearched) {
+            switchView(true);
         }
     }
 
@@ -341,7 +355,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
                 map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(pharmacy.getLatitude(), pharmacy.getLongitude())));
             }
         });
+
         pharmacyListRecyclerView.setAdapter(thsPharmacyListAdapter);
+        thsPharmacyListAdapter.notifyDataSetChanged();
+
         if (null != pharmacies && pharmacies.size() > 0) {
             setMarkerOnMap(pharmacies);
         }
@@ -551,8 +568,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
                 pharmaciesList = data.getParcelableArrayListExtra(THSConstants.THS_SEARCH_PHARMACY_SELECTED);
                 if (null == pharmaciesList || pharmaciesList.size() == 0) {
                     showToast(getString(R.string.ths_pharmacy_fetch_error));
+                } else {
+                    setPharmaciesList(pharmaciesList);
                 }
-                updatePharmacyListView(pharmaciesList);
             }
         }
     }
