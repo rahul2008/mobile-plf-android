@@ -24,6 +24,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -82,6 +83,9 @@ public class THSAvailableProviderDetailPresenterTest {
     Consumer consumerMock;
 
     @Mock
+    THSConsumer thsConsumerMock;
+
+    @Mock
     AWSDK awsdkMock;
 
     @Mock
@@ -111,6 +115,9 @@ public class THSAvailableProviderDetailPresenterTest {
         when(thsProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getContext()).thenReturn(contextMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+
        // when(thsAvailableProviderDetailFragmentMock.getString(R.string.something_went_wrong)).thenReturn("123");
         mThsAvailableProviderDetailPresenter = new THSAvailableProviderDetailPresenter(thsAvailableProviderDetailFragmentMock,thsProviderDetailsDisplayHelperMock);
     }

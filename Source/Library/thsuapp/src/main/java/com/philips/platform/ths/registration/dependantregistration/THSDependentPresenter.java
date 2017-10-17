@@ -133,7 +133,7 @@ public class THSDependentPresenter implements THSBasePresenter {
         baby.setBloodPressureSystolic("80");
         baby.setBloodPressureDiastolic("120");
         baby.setTemperature(90.0);
-        baby.setWeight(56.0);
+        baby.setWeight(56);
 
 
         localDependents.add(baby);

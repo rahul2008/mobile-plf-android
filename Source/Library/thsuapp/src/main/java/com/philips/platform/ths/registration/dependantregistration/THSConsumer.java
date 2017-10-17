@@ -26,7 +26,7 @@ public class THSConsumer {
     private String bloodPressureSystolic;
     private String bloodPressureDiastolic;
     private double temperature;
-    private double weight;
+    private int weight;
     private List<THSConsumer> dependents;
     private Consumer consumer;
 
@@ -138,11 +138,11 @@ public class THSConsumer {
         this.temperature = temperature;
     }
 
-    public double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
