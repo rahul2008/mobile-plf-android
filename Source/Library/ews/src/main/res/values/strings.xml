@@ -121,5 +121,16 @@
     <string name="label_ews_support_reset_connection_body_default">Has the %1$S left setup mode?</string>
     <string name="button_ews_support_reset_connection_yes">Yes</string>
     <string name="button_ews_support_reset_connection_no">No</string>
+    <string name="label_ews_support_reset_device_title_default">Enable the setup mode on the device.</string>
+    <string name="label_ews_support_reset_device_body_default">Enable the setup mode on the device.</string>
+    <string name="button_ews_support_reset_device_done">Done</string>
+    <string name="label_ews_support_setup_access_point_title_default">Try setting up regardless.</string>
+    <string name="label_ews_support_setup_access_point_body_default">Usually you can setup the device in this state.</string>
+    <string name="button_ews_support_setup_access_point_done">Done</string>
+    <string name="label_ews_support_wrong_phone_title_default">Accidentally connect with the wrong phone?</string>
+    <string name="label_ews_support_wrong_phone_body_default">If your device has been connected to another phone by accident, you may see this screen prematurely.</string>
+    <string name="button_ews_support_wrong_phone_yes">Yes</string>
+    <string name="button_ews_support_wrong_phone_no">No</string>
+
 
 </resources>
