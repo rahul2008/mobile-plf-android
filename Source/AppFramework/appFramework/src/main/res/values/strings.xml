@@ -377,5 +377,5 @@ Receive free product accessories</string>
 
     <string name="RA_DLS_enable_bluetooth" translatable="false">Please enable bluetooth</string>
 
-    <string name="RA_DLSS_avatar_default_text">Hello User, \nPlease sign in.</string>
+    <string name="RA_DLSS_avatar_default_text" translatable="false">Hello User, \nPlease sign in.</string>
 </resources>
