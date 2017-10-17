@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/iap_retailers_store_name_size" />
 
         <com.philips.platform.uid.view.widget.Label

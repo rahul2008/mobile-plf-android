@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_order_one_spacing"
             android:layout_marginTop="@dimen/iap_order_margin_top"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
         <TextView
             android:id="@+id/tv_shipping_address"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_order_one_spacing"
             android:layout_marginTop="@dimen/iap_order_margin_top"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
 
         <TextView
             android:id="@+id/tv_billing_address"

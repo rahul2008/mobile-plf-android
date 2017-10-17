@@ -5,7 +5,7 @@
 
     <com.philips.platform.uid.view.widget.RadioButton
         style="@style/iapCentralesansBoldFont"
-        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:id="@+id/rbtn_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

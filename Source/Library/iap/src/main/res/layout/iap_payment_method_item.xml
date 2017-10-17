@@ -21,7 +21,7 @@
         android:layout_marginTop="@dimen/iap_selection_address_name_margin_top"
         android:includeFontPadding="false"
         android:text="@string/mastercard"
-        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
     <TextView

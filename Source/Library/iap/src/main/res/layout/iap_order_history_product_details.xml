@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_16sp" />
 
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_productName"
             android:layout_marginTop="@dimen/iap_margin_4dp"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_12" />
 
     </RelativeLayout>

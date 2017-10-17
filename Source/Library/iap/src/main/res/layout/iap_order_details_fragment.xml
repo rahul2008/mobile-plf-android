@@ -23,7 +23,7 @@
             android:paddingBottom="@dimen/border16_margin_left_right"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_16sp" />
 
 
@@ -49,7 +49,7 @@
                 android:layout_marginStart="@dimen/iap_margin_4dp"
                 android:layout_toEndOf="@+id/iv_order_state"
                 android:text="@string/order_state_msg"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/title" />
 
 
@@ -64,7 +64,7 @@
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border12_margin"
             android:text="@string/order_number_msg"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_product_ctn_12" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -87,7 +87,7 @@
             android:layout_marginLeft="@dimen/border16_margin_left_right"
             android:layout_marginRight="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border24_margin"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_16sp" />
 
 
@@ -120,7 +120,7 @@
             android:paddingStart="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
             android:text="@string/no_of_products"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/title" />
 
 
@@ -140,7 +140,7 @@
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingTop="@dimen/border16_margin_left_right"
             android:text="@string/your_details"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/title" />
 
 
@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/iap_shipping_address"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_text_size_16sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/iap_order_one_spacing"
                 android:layout_marginTop="@dimen/iap_order_margin_top"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -174,7 +174,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </LinearLayout>
 
@@ -189,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/iap_billing_address"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_text_size_16sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/iap_order_one_spacing"
                 android:layout_marginTop="@dimen/iap_order_margin_top"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -207,7 +207,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </LinearLayout>
 
@@ -228,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/iap_payment_method"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_text_size_16sp" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -237,7 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/iap_order_margin_top"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_text_size_12" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -246,7 +246,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
                 android:textSize="@dimen/iap_text_size_12" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -255,7 +255,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
                 android:textSize="@dimen/iap_text_size_12" />
         </LinearLayout>
 
@@ -274,7 +274,7 @@
             android:background="@color/uikit_enricher7"
             android:padding="@dimen/border16_margin_left_right"
             android:text="@string/iap_order_summary"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_text_size_16sp" />
 
         <include

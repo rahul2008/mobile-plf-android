@@ -27,7 +27,7 @@
                 android:id="@+id/tv_delivery_mode"
                 android:textSize="@dimen/iap_text_size_12"
                 style="@style/iapCentralesansBookFont"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="@string/iap_delivery_via_what"/>
@@ -36,7 +36,7 @@
                 android:id="@+id/tv_price_deliverymode"
                 style="@style/iapCentralesansMediumFont"
                 android:textSize="@dimen/iap_text_size_12"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:layout_weight="1"
                 android:gravity="right"/>
 
@@ -80,7 +80,7 @@
                 android:text="Total"
                 style="@style/iapCentralesansBookFont"
                 android:textSize="@dimen/iap_text_size_16sp"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:layout_weight="1"
                 android:gravity="start"/>
 
@@ -88,7 +88,7 @@
                 android:id="@+id/tv_price_total"
                 style="@style/iapCentralesansMediumFont"
                 android:textSize="@dimen/header"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:layout_weight="1"
                 android:gravity="end"/>
 
@@ -105,7 +105,7 @@
                 android:text="@string/iap_including_vat"
                 style="@style/iapCentralesansBookFont"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:layout_weight="1"
                 android:gravity="start"/>
 
@@ -113,7 +113,7 @@
                 android:id="@+id/tv_price_vat"
                 style="@style/iapCentralesansMediumFont"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:layout_weight="1"
                 android:gravity="end"/>
 

@@ -60,7 +60,7 @@
                     android:layout_alignBaseline="@id/quantity_label"
                     android:layout_toEndOf="@id/quantity_label"
                     android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-                    android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                    android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                     android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>

@@ -16,7 +16,7 @@
         android:paddingLeft="@dimen/border16_margin_left_right"
         android:paddingTop="@dimen/border16_margin_left_right"
         android:text="@string/iap_product_catalog"
-        android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
         android:textSize="@dimen/title" />
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:layout_marginTop="@dimen/border16_margin_left_right"
             android:layout_height="wrap_content"
             android:text="@string/iap_empty_cart"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/title" />
 
     </LinearLayout>

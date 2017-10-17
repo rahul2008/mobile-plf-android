@@ -28,7 +28,7 @@
             android:gravity="center_horizontal"
             android:text="@string/iap_shipping_address"
             android:layout_marginTop="@dimen/border24_margin"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/iap_shipping_address_title_size"
             android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/iap_billing_address"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/iap_shipping_address_title_size"
                 android:textStyle="bold" />
 

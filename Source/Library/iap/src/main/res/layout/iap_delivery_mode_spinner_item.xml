@@ -29,7 +29,7 @@
                 android:textSize="@dimen/title"
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="match_parent"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Sample title"/>
@@ -39,7 +39,7 @@
                 style="@style/UIDLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:layout_marginTop="4dp"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp"
                 android:text="Sample title"/>
@@ -49,7 +49,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:layout_marginTop="4dp"
                 android:textSize="@dimen/title"
                 android:text="Sample title"/>

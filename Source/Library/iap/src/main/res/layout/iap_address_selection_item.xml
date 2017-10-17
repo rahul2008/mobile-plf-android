@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:gravity="center_vertical"
             android:textSize="@dimen/iap_selection_address_text_size"
             android:layout_alignStart="@+id/tv_address"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:layout_below="@+id/rbtn_toggle"
-            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:textSize="@dimen/iap_selection_address_text_size"
             android:layout_alignStart="@+id/rbtn_toggle"
             android:layout_marginStart="51dp" />

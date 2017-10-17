@@ -12,7 +12,7 @@
         android:paddingBottom="@dimen/border16_margin_left_right"
         android:paddingLeft="@dimen/border16_margin_left_right"
         android:paddingTop="@dimen/border16_margin_left_right"
-        android:textColor="?attr/uidContentItemDefaultNormalDescriptorIconColor"
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
         android:textSize="@dimen/title"
         android:text="@string/iap_number_of_products" />
 
