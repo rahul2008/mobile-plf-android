@@ -366,7 +366,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void showNumberChangeTechincalError(String errorCodeString) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        errorMessage.setError(errorCodeString);
+        String errorMsg = RegChinaUtil.getErrorMsgDescription(errorCodeString, context);
+        errorMessage.setError(errorMsg);
         enableUpdateButton();
     }
 
