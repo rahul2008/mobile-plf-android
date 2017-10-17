@@ -129,7 +129,6 @@ public class NetworkHelper {
                 ai.getRestClient().getRequestQueue().add(request);
             } else {
                 Log.d("Rest client", "Couldn't initialise REST Client");
-
             }
         }
     }

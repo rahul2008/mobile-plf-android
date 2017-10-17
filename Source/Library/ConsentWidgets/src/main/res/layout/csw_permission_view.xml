@@ -9,6 +9,7 @@
 
     <RelativeLayout
         style="@style/BaseLayoutMargins.Dimens"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal" >
         <com.philips.platform.uid.view.widget.Switch
             android:id="@+id/toggleicon"
@@ -25,47 +26,5 @@
             android:gravity="center_vertical|start"
             android:layout_toStartOf="@id/toggleicon"
             android:text="@string/allow_track_use"/>
-
-
     </RelativeLayout>
-    <com.philips.platform.uid.view.widget.Label
-        style="@style/TestButtonTexts"
-        android:gravity="center_vertical|start"
-        android:text="@string/reg_Receive_Philips_News_Meaning_lbltxt"/>
-
-    <include layout="@layout/divider_layout"/>
-
-
-
-    <RelativeLayout
-        style="@style/BaseLayoutMargins.Dimens"
-        android:orientation="horizontal" >
-        <com.philips.platform.uid.view.widget.Switch
-            android:id="@+id/toggleicon1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/layout_margin_left_right"
-            android:checked="true"
-            android:gravity="center_vertical|end"
-            />
-        <com.philips.platform.uid.view.widget.Label
-            style="@style/TestButtonTexts"
-            android:layout_alignParentStart="true"
-            android:gravity="center_vertical|start"
-            android:layout_toStartOf="@id/toggleicon1"
-            android:text="@string/allow_send_promotional_on_behavior"/>
-
-
-    </RelativeLayout>
-    <com.philips.platform.uid.view.widget.Label
-        style="@style/TestButtonTexts"
-        android:gravity="center_vertical|start"
-        android:text="@string/reg_Receive_Philips_News_Meaning_lbltxt"/>
-
-
-    <include layout="@layout/divider_layout"/>
-
-
-
 </LinearLayout>
