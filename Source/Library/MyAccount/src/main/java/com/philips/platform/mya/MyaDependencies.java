@@ -4,9 +4,9 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 
-public class MyaDependancies extends UappDependencies {
+public class MyaDependencies extends UappDependencies {
 
-    public MyaDependancies(AppInfraInterface appInfra) {
+    public MyaDependencies(AppInfraInterface appInfra) {
         super(appInfra);
     }
 
