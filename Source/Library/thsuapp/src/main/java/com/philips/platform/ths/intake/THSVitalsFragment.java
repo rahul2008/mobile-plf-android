@@ -78,9 +78,15 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
             e.printStackTrace();
         }
 
+        prepopulateData();
+
+        return view;
+    }
+
+    private void prepopulateData() {
         final THSConsumer thsConsumer = THSManager.getInstance().getThsConsumer();
         if(thsConsumer==null){
-            return view;
+            return;
         }
 
         if(thsConsumer.getBloodPressureSystolic()!=null) {
@@ -91,7 +97,6 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
         }
         mWeight.setText(String.valueOf(thsConsumer.getWeight()));
         mTemperature.setText(String.valueOf(thsConsumer.getTemperature()));
-        return view;
     }
 
     @Override
