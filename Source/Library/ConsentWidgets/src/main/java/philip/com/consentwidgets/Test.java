@@ -5,4 +5,9 @@ package philip.com.consentwidgets;
  */
 
 public class Test {
+
+    public void saveConsent(){
+
+
+    }
 }

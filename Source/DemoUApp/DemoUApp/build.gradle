@@ -41,7 +41,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "MyAccoutUApp"
+archivesBaseName = "MyAccountUApp"
 
 allprojects {
     repositories {
@@ -139,23 +139,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
-
-    /*defaultConfig {
-        applicationId "com.philips.cdp.di.iapdemo"
-        minSdkVersion 21
-        targetSdkVersion 25
-        multiDexEnabled true
-        renderscriptTargetApi 25
-        renderscriptSupportModeEnabled true
-        // replace the below string with your own Google client ID. Make sure this is consistent
-        // with the values used in openid_appauth_idp_configs.xml
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
-        ]
-    }*/
-
     defaultConfig {
-        // applicationId "com.iap.demouapp"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
