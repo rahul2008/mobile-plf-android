@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_error_alert_size"
                 fontPath="fonts/centralesansbold.ttf"/>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_Opt_In_Special_Offers"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_button_text_size"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -50,7 +50,7 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_Opt_In_Join_Now"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_button_text_size"/>
 
             <LinearLayout
@@ -70,7 +70,7 @@
                     android:layout_marginBottom="@dimen/reg_dimen_16dp"
                     android:layout_marginTop="@dimen/reg_dimen_16dp"
                     android:text="@string/reg_Receive_Philips_News_lbltxt"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"/>
+                    android:textColor="?attr/uidContentItemSecondaryNormalTextColor"/>
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton

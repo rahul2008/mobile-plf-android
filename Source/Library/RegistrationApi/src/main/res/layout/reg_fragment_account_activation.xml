@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_VerifyEmail_VerifyEmail_lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 fontPath="fonts/centralesansbold.ttf"/>
 
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_VerifyEmail_EmailSentto_lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.Label
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/reg_VerifyEmail_ActivateInfo_lbltxt"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.Label
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:text="@string/Activation_explain_value_to_user"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
