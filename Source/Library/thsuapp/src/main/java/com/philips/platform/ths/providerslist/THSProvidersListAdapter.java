@@ -7,6 +7,7 @@
 package com.philips.platform.ths.providerslist;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -29,6 +31,8 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import java.util.List;
 
 public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersListAdapter.MyViewHolder> {
+
+    private static String TAG = THSProvidersListAdapter.class.getSimpleName();
     private List<? extends THSProviderEntity> thsProviderInfos;
     private OnProviderListItemClickListener onProviderItemClickListener;
 
@@ -79,8 +83,8 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         String providerAvailabilityString = null;
         String providerVisibility;
         Context context;
-        if ((thsProviderInfos.get(position) instanceof THSProviderInfo)) {
-            thsProviderInfo = (THSProviderInfo) thsProviderInfos.get(position);
+        if ((getThsProviderEntity(position) instanceof THSProviderInfo)) {
+            thsProviderInfo = getThsProviderInfo(position);
             providerVisibility = thsProviderInfo.getVisibility().toString();
             context = holder.isAvailableStatus.getContext();
             if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
@@ -98,21 +102,26 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
 
         } else {
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
-            thsProviderInfo = new THSProviderInfo();
-            thsProviderInfo.setTHSProviderInfo(thsAvailableProvider.getProviderInfo());
+            thsProviderInfo = getThsProviderInfo(thsAvailableProvider);
             holder.isAvailble.setText(holder.isAvailble.getContext().getResources().getString(R.string.provider_available_timeslots));
             holder.isAvailableStatus.setVisibility(View.GONE);
             holder.notificationBadge.setVisibility(View.VISIBLE);
             holder.notificationBadge.setText("" + thsAvailableProvider.getAvailableAppointmentTimeSlots().size());
 
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.isAvailble.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.notification_badge);
+            try {
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.isAvailble.getLayoutParams();
+                layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.notification_badge);
+            }catch (Exception e){
+                AmwellLog.e(THSProvidersListAdapter.TAG,e.getMessage());
+            }
         }
 
 
+        try {
         holder.providerRating.setRating(thsProviderInfo.getRating());
         holder.name.setText(thsProviderInfo.getProviderInfo().getFullName());
-        holder.practice.setText(thsProviderInfo.getSpecialty().getName());
+        holder.practice.setText(getName(thsProviderInfo));
+
 
         if (thsProviderInfo.hasImage()) {
             try {
@@ -126,6 +135,10 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
                 e.printStackTrace();
             }
         }
+        }
+        catch (Exception e){
+            AmwellLog.e(THSProvidersListAdapter.TAG,e.getMessage());
+        }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +148,26 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         };
         holder.relativeLayout.setOnClickListener(listener);
 
+    }
+
+    @NonNull
+    public THSProviderInfo getThsProviderInfo(THSAvailableProvider thsAvailableProvider) {
+        THSProviderInfo thsProviderInfo;
+        thsProviderInfo = new THSProviderInfo();
+        thsProviderInfo.setTHSProviderInfo(thsAvailableProvider.getProviderInfo());
+        return thsProviderInfo;
+    }
+
+    public String getName(THSProviderInfo thsProviderInfo) {
+        return thsProviderInfo.getSpecialty().getName();
+    }
+
+    public THSProviderEntity getThsProviderEntity(int position) {
+        return thsProviderInfos.get(position);
+    }
+
+    public THSProviderInfo getThsProviderInfo(int position) {
+        return (THSProviderInfo) thsProviderInfos.get(position);
     }
 
     @Override
