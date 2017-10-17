@@ -14,8 +14,8 @@ import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +23,8 @@ import java.util.List;
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
-    private static final int BOND_CREATED_WAIT_TIME = 500;
+    private static final int BOND_CREATED_WAIT_TIME_MILLIS = 500;
+    private static final int DELAY_AFTER_SERVICE_DISCOVERY_MILLIS = 500;
     private Runnable currentCommand;
 
     public interface BTGattCallback {
@@ -239,7 +240,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
                 executeNextCommandIfAllowed();
             }
         };
-        handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME);
+        handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME_MILLIS);
     }
 
     public void readDescriptor(final BluetoothGattDescriptor descriptor) {
@@ -314,7 +315,11 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
                 executeNextCommandIfAllowed();
             }
         };
-        handler.post(runnable);
+        if (Workaround.SERVICE_DISCOVERED_DELAY.isRequiredOnThisDevice()) {
+            handler.postDelayed(runnable, DELAY_AFTER_SERVICE_DISCOVERY_MILLIS);
+        } else {
+            handler.post(runnable);
+        }
     }
 
     @Override
