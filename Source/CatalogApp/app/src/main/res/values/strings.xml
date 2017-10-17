@@ -148,6 +148,7 @@
 
     <string name="show_separators">Show separators</string>
     <string name="show_header">Show header</string>
+    <string name="disabled_listview">Disabled ListView</string>
 
     <string name="page_title_date_time_picker">Datepicker</string>
     <string name="show_date_picker">show date picker</string>
@@ -179,7 +180,6 @@
     <string name="gridView_title_short">Title</string>
     <string name="gridView_description_short">Description</string>
     <string name="secondary_action">Secondary Action</string>
-    <string name="dark_background">Dark Background</string>
     <string name="enlarged_gutter">Enlarged Gutter</string>
     <string name="grid_disabled">Disabled</string>
     <string name="secondary_action_description">Secondary action can be placed at 4 corner of the tiles</string>

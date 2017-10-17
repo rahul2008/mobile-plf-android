@@ -51,7 +51,7 @@ public class RecyclerViewHeaderTest {
 
     @Test
     public void verifyHeaderTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalDescriptorTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemTertiaryNormalTextColor);
         getHeader().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 

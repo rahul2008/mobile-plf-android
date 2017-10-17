@@ -10,15 +10,16 @@
     </data>
 
     <com.philips.platform.uid.view.widget.Label
-        style="@style/TestButtonTexts"
+        style="@style/UIDLabel.ListItemText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_item_height"
         android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/uid_page_margin_left_right"
-        android:layout_marginStart="@dimen/uid_page_margin_left_right"
+        android:paddingStart="@dimen/uid_page_margin_left_right"
+        android:paddingEnd="@dimen/uid_page_margin_left_right"
         android:drawableStart="@{data.getIcon()}"
         android:drawablePadding="@dimen/separator_drawable_padding"
         android:gravity="start|center_vertical"
-        android:text="@{data.text}"/>
+        android:text="@{data.text}"
+        android:background="@drawable/uid_list_item_selector"/>
 
 </layout>

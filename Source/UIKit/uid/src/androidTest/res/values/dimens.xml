@@ -21,9 +21,7 @@
 
     <dimen name="iconandtextbutton_compoundpadding">8dp</dimen>
 
-
-    <dimen name="quietbutton_left_padding">12dp</dimen>
-    <dimen name="quietbutton_right_padding">12dp</dimen>
+    <dimen name="quietbutton_left_right_padding">24dp</dimen>
 
     <!--TextEditBox dimens-->
     <dimen name="edittext_corner_radius">2dp</dimen>

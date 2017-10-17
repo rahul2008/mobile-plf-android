@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class GridAdapter extends ArrayAdapter<GridData> {
 
     GridDataHelper gridDataHelper;
-    boolean isdisabled, isSecondary;
+    boolean isdisabled;
     int templateSelection;
     private Context mContext;
     private ArrayList<GridData> cardList;
@@ -33,7 +33,6 @@ public class GridAdapter extends ArrayAdapter<GridData> {
 
         gridDataHelper = new GridDataHelper(mContext);
         isdisabled = gridDataHelper.isSetDisableStateEnabled();
-        isSecondary = gridDataHelper.isSecondaryActionEnabled();
         templateSelection = gridDataHelper.getTemplateSelection();
     }
 
@@ -97,18 +96,7 @@ public class GridAdapter extends ArrayAdapter<GridData> {
                 description.setText(gridData.getDescription());
             }
 
-            ImageButton star_icon = new ImageButton(mContext);
-
-            if (isSecondary) {
-                star_icon = (ImageButton) convertView.findViewById(R.id.uid_gridview_icon);
-                int icon_drawable = gridData.isFavorite() ? R.drawable.star_filled : R.drawable.star_outlined;
-
-                Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
-                DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
-                star_icon.setImageDrawable(drawable);
-            }
-
-            ViewHolder viewHolder = new ViewHolder(title, description, thumbnail, star_icon);
+            ViewHolder viewHolder = new ViewHolder(title, description, thumbnail);
             convertView.setTag(viewHolder);
         } else {
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
@@ -120,13 +108,6 @@ public class GridAdapter extends ArrayAdapter<GridData> {
 
             if (viewHolder.description != null) {
                 viewHolder.description.setText(gridData.getDescription());
-            }
-
-            if (isSecondary) {
-                int icon_drawable = gridData.isFavorite() ? R.drawable.star_filled : R.drawable.star_outlined;
-                Drawable drawable = VectorDrawableCompat.create(mContext.getResources(), icon_drawable, mContext.getTheme());
-                DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.uidColorWhite));
-                viewHolder.star_icon.setImageDrawable(drawable);
             }
         }
 
@@ -147,13 +128,11 @@ public class GridAdapter extends ArrayAdapter<GridData> {
         private Label title;
         private Label description;
         private ImageView thumbnail;
-        private ImageButton star_icon;
 
-        public ViewHolder(Label title, Label description, ImageView thumbnail, ImageButton star_icon) {
+        public ViewHolder(Label title, Label description, ImageView thumbnail) {
             this.title = title;
             this.description = description;
             this.thumbnail = thumbnail;
-            this.star_icon = star_icon;
         }
     }
 }

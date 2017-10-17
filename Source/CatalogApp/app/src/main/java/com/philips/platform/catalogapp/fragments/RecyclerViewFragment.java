@@ -30,6 +30,7 @@ public class RecyclerViewFragment extends BaseFragment {
     public ObservableBoolean isSeparatorEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean isHeaderEnabled = new ObservableBoolean(Boolean.TRUE);
     public ObservableBoolean isIconTemplateSelected = new ObservableBoolean(Boolean.TRUE);
+    public ObservableBoolean isRecyclerViewDisabled = new ObservableBoolean(Boolean.FALSE);
     private FragmentRecyclerviewBinding fragmentRecyclerviewBinding;
     private RecyclerView recyclerView;
     private RecyclerViewSeparatorItemDecoration separatorItemDecoration;
@@ -113,6 +114,11 @@ public class RecyclerViewFragment extends BaseFragment {
         recyclerView.invalidate();
     }
 
+    public void setRecyclerViewEnabled(boolean isRecyclerViewEnabled) {
+        this.isRecyclerViewDisabled.set(isRecyclerViewEnabled);
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
     public void setIsIconTemplateSelected(boolean isIconTemplateSelected) {
         this.isIconTemplateSelected.set(isIconTemplateSelected);
         initializeRecyclerView(getContext());
@@ -139,6 +145,15 @@ public class RecyclerViewFragment extends BaseFragment {
             final DataHolder dataHolder = dataHolders.get(position);
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
+
+            if(isRecyclerViewDisabled.get()){
+                holder.itemView.setEnabled(false);
+                holder.itemView.setSelected(false);
+                holder.itemView.setAlpha(Float.parseFloat(getContext().getResources().getString(R.string.listview_disabled_item_opacity)));
+            } else {
+                holder.itemView.setEnabled(true);
+                holder.itemView.setAlpha(Float.parseFloat(getContext().getResources().getString(R.string.listview_enabled_item_opacity)));
+            }
 
             ((BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

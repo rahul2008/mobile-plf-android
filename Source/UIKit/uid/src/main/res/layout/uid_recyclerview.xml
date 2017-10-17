@@ -8,7 +8,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@id/uid_recyclerview_header"
-        style="@style/UIDLabel.RecyclerViewHeaderText"
+        style="@style/UIDLabel.Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"/>

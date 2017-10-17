@@ -15,23 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/uid_grid_single_line_text_height">
 
-        <FrameLayout
-            android:id="@id/uid_gridview_icon_holder"
-            android:layout_width="@dimen/uid_grid_icon_holder_width"
-            android:layout_height="@dimen/uid_grid_single_line_text_height"
-            android:layout_gravity="center|end">
-
-            <com.philips.platform.uid.view.widget.ImageButton
-                android:id="@id/uid_gridview_icon"
-                style="@style/UIDGridViewImageButton"/>
-        </FrameLayout>
-
         <com.philips.platform.uid.view.widget.Label
             android:id="@id/uid_gridview_title"
             style="@style/UIDLabel.GridViewTitleText"
-            android:layout_gravity="center|start"
-            android:layout_marginEnd="@dimen/uid_grid_icon_holder_width"
-            />
+            android:textColor="@color/uidColorWhite"
+            android:layout_gravity="center|start"/>
 
     </com.philips.platform.uid.utils.GradientContainer>
 </FrameLayout>

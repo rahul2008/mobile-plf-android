@@ -4,17 +4,6 @@
     "parent": [],
     "context": "default",
     "property": {
-      "item": "background",
-      "type": "color",
-      "value": "about-screen"
-    },
-    "component": "about-screen"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
       "item": "close-icon",
       "type": "color",
       "value": "about-screen-title"
@@ -73,6 +62,28 @@
       "item": "title",
       "type": "color",
       "value": "about-screen-title"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "dialog",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "about-screen"
+    },
+    "component": "about-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "full-screen",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "about-screen-full-screen"
     },
     "component": "about-screen"
   },
@@ -341,6 +352,19 @@
     "parent": [],
     "context": "primary",
     "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
       "item": "background",
       "type": "color",
       "value": "control-primary"
@@ -458,6 +482,19 @@
     "parent": [],
     "context": "primary",
     "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
       "item": "background",
       "type": "color",
       "value": "control-primary-disabled"
@@ -617,6 +654,19 @@
       "item": "text",
       "type": "color",
       "value": "text-disabled"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet-emphasis",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "control-primary"
     },
     "component": "button"
   },
@@ -757,6 +807,19 @@
     "parent": [],
     "context": "quiet-emphasis",
     "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet-emphasis",
+    "property": {
       "item": "icon",
       "type": "color",
       "value": "control-primary-disabled"
@@ -773,6 +836,19 @@
       "item": "text",
       "type": "color",
       "value": "control-primary-disabled"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "control-secondary-text"
     },
     "component": "button"
   },
@@ -877,6 +953,19 @@
       "item": "background",
       "type": "color",
       "value": "control-secondary-pressed"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "text-secondary-disabled"
     },
     "component": "button"
   },
@@ -1051,6 +1140,71 @@
   },
   {
     "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-circular-button-normal"
+    },
+    "component": "carousel-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "content-circular-button-icon"
+    },
+    "component": "carousel-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-circular-button-pressed"
+    },
+    "component": "carousel-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus-border"
+    },
+    "component": "carousel-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-circular-button-pressed"
+    },
+    "component": "carousel-button"
+  },
+  {
+    "state": [
       "normal",
       "on"
     ],
@@ -1088,6 +1242,20 @@
       "item": "background",
       "type": "color",
       "value": "control-primary-off"
+    },
+    "component": "check-box"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "no-color"
     },
     "component": "check-box"
   },
@@ -1168,6 +1336,17 @@
   {
     "state": [],
     "parent": [],
+    "context": "secondary-neutral",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "content-secondary-neutral"
+    },
+    "component": "content"
+  },
+  {
+    "state": [],
+    "parent": [],
     "context": "tertiary",
     "property": {
       "item": "background",
@@ -1177,212 +1356,15 @@
     "component": "content"
   },
   {
-    "state": [
-      "normal"
-    ],
+    "state": [],
     "parent": [],
-    "context": "default",
+    "context": "tertiary-neutral",
     "property": {
-      "item": "arrow-icon",
+      "item": "background",
       "type": "color",
-      "value": "text-tertiary"
+      "value": "content-tertiary-neutral"
     },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "body-text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "chevron-icon",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "descriptor-icon",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "descriptor-text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "detail-text",
-      "type": "color",
-      "value": "text-tertiary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "subtitle-text",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "subtle-body-text",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "title-icon",
-      "type": "color",
-      "value": "text-secondary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "title-text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "arrow-icon",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "body-text",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "chevron-icon",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "descriptor-icon",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "descriptor-text",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "content-item"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "detail-text",
-      "type": "color",
-      "value": "text-disabled"
-    },
-    "component": "content-item"
+    "component": "content"
   },
   {
     "state": [
@@ -1399,12 +1381,38 @@
   },
   {
     "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
       "disabled"
     ],
     "parent": [],
-    "context": "default",
+    "context": "primary",
     "property": {
-      "item": "subtitle-text",
+      "item": "icon",
       "type": "color",
       "value": "text-disabled"
     },
@@ -1415,9 +1423,48 @@
       "disabled"
     ],
     "parent": [],
-    "context": "default",
+    "context": "primary",
     "property": {
-      "item": "subtle-body-text",
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
       "type": "color",
       "value": "text-disabled"
     },
@@ -1428,9 +1475,48 @@
       "disabled"
     ],
     "parent": [],
-    "context": "default",
+    "context": "secondary",
     "property": {
-      "item": "title-icon",
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "content-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "tertiary",
+    "property": {
+      "item": "icon",
       "type": "color",
       "value": "text-disabled"
     },
@@ -1441,9 +1527,9 @@
       "disabled"
     ],
     "parent": [],
-    "context": "default",
+    "context": "tertiary",
     "property": {
-      "item": "title-text",
+      "item": "text",
       "type": "color",
       "value": "text-disabled"
     },
@@ -1993,19 +2079,6 @@
     "component": "date-picker"
   },
   {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "ios",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "text-primary"
-    },
-    "component": "date-picker"
-  },
-  {
     "state": [],
     "parent": [],
     "context": "default",
@@ -2078,63 +2151,6 @@
       "value": "dot-hover"
     },
     "component": "dot-navigation"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "background-dark",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "grid-view-background-dark"
-    },
-    "component": "grid-view"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "background-dark",
-    "property": {
-      "item": "header-text",
-      "type": "color",
-      "value": "light-text-tertiary"
-    },
-    "component": "grid-view"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "background-light",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "grid-view-background-light"
-    },
-    "component": "grid-view"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "background-light",
-    "property": {
-      "item": "header-text",
-      "type": "color",
-      "value": "neutral-text-tertiary"
-    },
-    "component": "grid-view"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "header-background",
-      "type": "color",
-      "value": "navigation-secondary"
-    },
-    "component": "grid-view"
   },
   {
     "state": [
@@ -2280,6 +2296,76 @@
     "component": "grid-view"
   },
   {
+    "state": [],
+    "parent": [],
+    "context": "gradient",
+    "property": {
+      "item": "background-start",
+      "type": "color",
+      "value": "grid-view-header-gradient-start"
+    },
+    "component": "grid-view"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "gradient",
+    "property": {
+      "item": "background-stop",
+      "type": "color",
+      "value": "grid-view-header-gradient-end"
+    },
+    "component": "grid-view"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "gradient",
+    "property": {
+      "item": "sub-title-text",
+      "type": "color",
+      "value": "light-text-secondary"
+    },
+    "component": "grid-view"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "gradient",
+    "property": {
+      "item": "title-text",
+      "type": "color",
+      "value": "light-text-primary"
+    },
+    "component": "grid-view"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "primary",
+    "property": {
+      "item": "header-background",
+      "type": "color",
+      "value": "grid-view-header-primary"
+    },
+    "component": "grid-view"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "header-background",
+      "type": "color",
+      "value": "grid-view-header-secondary"
+    },
+    "component": "grid-view"
+  },
+  {
     "state": [
       "normal"
     ],
@@ -2330,6 +2416,32 @@
       "value": "hyperlink-pressed"
     },
     "component": "hyperlink"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "icon"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "input-quiet"
   },
   {
     "state": [
@@ -2408,6 +2520,28 @@
       "value": "text-disabled"
     },
     "component": "label"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "light-center",
+      "type": "color",
+      "value": "light-center"
+    },
+    "component": "light"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "light-edge",
+      "type": "color",
+      "value": "light-edge"
+    },
+    "component": "light"
   },
   {
     "state": [
@@ -2577,28 +2711,6 @@
       "item": "icon",
       "type": "color",
       "value": "branding-screen-text"
-    },
-    "component": "login-screen"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "light-center",
-      "type": "color",
-      "value": "branding-screen-light"
-    },
-    "component": "login-screen"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "light-edge",
-      "type": "color",
-      "value": "no-color"
     },
     "component": "login-screen"
   },
@@ -3096,6 +3208,86 @@
     "parent": [],
     "context": "default",
     "property": {
+      "item": "descriptor-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "picker-ios"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "list-background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "picker-ios"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "picker-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "picker-ios"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "action-text",
+      "type": "color",
+      "value": "text-emphasis"
+    },
+    "component": "picker-ios"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "action-text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "picker-ios"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "list-background",
+      "type": "color",
+      "value": "list-selected"
+    },
+    "component": "picker-ios"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
       "item": "background",
       "type": "color",
       "value": "popup"
@@ -3141,6 +3333,20 @@
       "item": "background",
       "type": "color",
       "value": "control-primary-off"
+    },
+    "component": "radio-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "no-color"
     },
     "component": "radio-button"
   },
@@ -3670,28 +3876,6 @@
     "parent": [],
     "context": "default",
     "property": {
-      "item": "light-center",
-      "type": "color",
-      "value": "branding-screen-light"
-    },
-    "component": "splash-screen"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "light-edge",
-      "type": "color",
-      "value": "no-color"
-    },
-    "component": "splash-screen"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
       "item": "shield",
       "type": "color",
       "value": "branding-screen-text"
@@ -3711,29 +3895,1067 @@
   },
   {
     "state": [
-      "normal",
-      "on"
+      "normal"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "toggle-on"
+      "value": "no-color"
     },
-    "component": "split-toggle-button"
+    "component": "split-button"
   },
   {
     "state": [
-      "normal",
-      "on"
+      "normal"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "toggle-on-icon"
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary-hover"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary-hover"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-secondary-focus-border"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary-pressed"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary-pressed"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
+    },
+    "component": "split-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "no-color"
     },
     "component": "split-toggle-button"
   },
@@ -3743,11 +4965,191 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "toggle-on-text"
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "input-button-quiet-hover"
     },
     "component": "split-toggle-button"
   },
@@ -3757,11 +5159,385 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "toggle-off-hover"
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
     },
     "component": "split-toggle-button"
   },
@@ -3771,39 +5547,191 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "toggle-pressed"
+      "value": "no-color"
     },
     "component": "split-toggle-button"
   },
   {
     "state": [
-      "disabled",
+      "pressed",
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
     "property": {
-      "item": "background",
+      "item": "background-button-action",
       "type": "color",
-      "value": "toggle-on-disabled"
+      "value": "input-button-quiet-pressed"
     },
     "component": "split-toggle-button"
   },
   {
     "state": [
-      "disabled",
+      "pressed",
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "toggle-on-text-disabled"
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "no-color"
     },
     "component": "split-toggle-button"
   },
@@ -3813,11 +5741,910 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "toggle-on-text-disabled"
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary-hover"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary-hover"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-secondary-focus-border"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-primary-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary-pressed"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "arrow",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-dropdown",
+      "type": "color",
+      "value": "control-secondary-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background-button-action",
+      "type": "color",
+      "value": "control-secondary-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
     },
     "component": "split-toggle-button"
   },
@@ -4495,22 +7322,9 @@
     "parent": [],
     "context": "default",
     "property": {
-      "item": "selection-background",
+      "item": "text-selection-background",
       "type": "color",
       "value": "input-text-selection-background"
-    },
-    "component": "text-box"
-  },
-  {
-    "state": [
-      "focus"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "selection-text",
-      "type": "color",
-      "value": "input-text-primary"
     },
     "component": "text-box"
   },
@@ -4872,6 +7686,19 @@
     "parent": [],
     "context": "quiet",
     "property": {
+      "item": "hint-text",
+      "type": "color",
+      "value": "input-hint-text"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
       "item": "icon",
       "type": "color",
       "value": "input-text-primary"
@@ -4992,6 +7819,19 @@
       "item": "button-background",
       "type": "color",
       "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text-selection-background",
+      "type": "color",
+      "value": "not-yet-defined-text-selection"
     },
     "component": "text-box"
   },
@@ -5140,6 +7980,19 @@
   },
   {
     "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "thumb"
+  },
+  {
+    "state": [
       "focus"
     ],
     "parent": [],
@@ -5235,11 +8088,11 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "toggle-on"
+      "value": "input-button-quiet-pressed"
     },
     "component": "toggle-button"
   },
@@ -5249,11 +8102,25 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "toggle-on-icon"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
@@ -5263,25 +8130,11 @@
       "on"
     ],
     "parent": [],
-    "context": "default",
-    "property": {
-      "item": "indicator",
-      "type": "color",
-      "value": "indicator-on"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "default",
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "toggle-on-text"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
@@ -5291,280 +8144,7 @@
       "off"
     ],
     "parent": [],
-    "context": "default",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-off"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-off-icon"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "indicator",
-      "type": "color",
-      "value": "indicator-off"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-off-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-off-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-off-icon-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "hover"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-off-text-hover"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-pressed"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-on-icon"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "indicator",
-      "type": "color",
-      "value": "indicator-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-on-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-on-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "on"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-on-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "toggle-off-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-off-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "disabled",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "toggle-off-text-disabled"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "quiet-toggle-on"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "icon",
-      "type": "color",
-      "value": "toggle-on-icon"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "quiet",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "quiet-toggle-on-text"
-    },
-    "component": "toggle-button"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
@@ -5578,11 +8158,11 @@
       "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
-      "item": "icon",
+      "item": "border",
       "type": "color",
-      "value": "toggle-off-icon"
+      "value": "no-color"
     },
     "component": "toggle-button"
   },
@@ -5592,130 +8172,361 @@
       "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "quiet-toggle-off-text"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "hover"
+      "hover",
+      "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "quiet-toggle-off-hover"
+      "value": "input-button-quiet-pressed"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "hover"
+      "hover",
+      "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "border",
       "type": "color",
-      "value": "input-border"
+      "value": "input-border-hover-v2"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "hover"
+      "hover",
+      "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "toggle-off-icon-hover"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "hover"
+      "hover",
+      "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "quiet-toggle-off-text-hover"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "pressed"
+      "hover",
+      "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "quiet-toggle-on"
+      "value": "no-color"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "pressed"
+      "hover",
+      "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "toggle-on-icon"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "pressed"
+      "hover",
+      "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "quiet-toggle-on-text"
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "disabled",
+      "focus",
       "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "quiet-toggle-on-disabled"
+      "value": "input-button-quiet-pressed"
     },
     "component": "toggle-button"
   },
   {
     "state": [
-      "disabled",
+      "focus",
       "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "quiet-toggle-on-text-disabled"
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
     },
     "component": "toggle-button"
   },
@@ -5725,11 +8536,53 @@
       "on"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "quiet-toggle-on-text-disabled"
+      "value": "text-disabled"
     },
     "component": "toggle-button"
   },
@@ -5739,11 +8592,11 @@
       "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
     "property": {
-      "item": "icon",
+      "item": "background",
       "type": "color",
-      "value": "quiet-toggle-off-text-disabled"
+      "value": "no-color"
     },
     "component": "toggle-button"
   },
@@ -5753,11 +8606,879 @@
       "off"
     ],
     "parent": [],
-    "context": "quiet",
+    "context": "input-quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "input-quiet",
     "property": {
       "item": "text",
       "type": "color",
-      "value": "quiet-toggle-off-text-disabled"
+      "value": "text-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-on"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-primary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-off"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-on"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-primary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary-hover"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-off"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-focus"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-primary-focus-border"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-on"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-primary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "control-secondary-focus-border"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-off"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "focus",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-pressed"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-on"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-primary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary-pressed"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-off"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-primary-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "button-separator-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-primary-text-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-secondary-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "led-indicator",
+      "type": "color",
+      "value": "indicator-disabled"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "control-secondary-separator"
+    },
+    "component": "toggle-button"
+  },
+  {
+    "state": [
+      "disabled",
+      "off"
+    ],
+    "parent": [],
+    "context": "secondary",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-secondary-text-disabled"
     },
     "component": "toggle-button"
   },
@@ -6021,6 +9742,17 @@
   {
     "state": [],
     "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text-selection-background",
+      "type": "color",
+      "value": "text-selection-background"
+    },
+    "component": "typography"
+  },
+  {
+    "state": [],
+    "parent": [],
     "context": "disabled",
     "property": {
       "item": "text",
@@ -6127,6 +9859,20 @@
     "parent": [],
     "context": "default",
     "property": {
+      "item": "border",
+      "type": "color",
+      "value": "view-container-border"
+    },
+    "component": "view-container"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
       "item": "tab-background",
       "type": "color",
       "value": "view-container-tab-on"
@@ -6141,22 +9887,23 @@
     "parent": [],
     "context": "default",
     "property": {
-      "item": "tab-background",
+      "item": "border",
       "type": "color",
-      "value": "view-container-tab-off"
+      "value": "no-color"
     },
     "component": "view-container"
   },
   {
     "state": [
-      "focus"
+      "normal",
+      "off"
     ],
     "parent": [],
     "context": "default",
     "property": {
-      "item": "border",
+      "item": "tab-background",
       "type": "color",
-      "value": "view-container-border"
+      "value": "view-container-tab-off"
     },
     "component": "view-container"
   },
@@ -6199,20 +9946,6 @@
       "item": "circle-text",
       "type": "color",
       "value": "wizard-on-text"
-    },
-    "component": "wizard"
-  },
-  {
-    "state": [
-      "normal",
-      "on"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "line",
-      "type": "color",
-      "value": "wizard-on"
     },
     "component": "wizard"
   },
@@ -6247,6 +9980,20 @@
   {
     "state": [
       "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "track",
+      "type": "color",
+      "value": "wizard-on"
+    },
+    "component": "wizard"
+  },
+  {
+    "state": [
+      "normal",
       "off"
     ],
     "parent": [],
@@ -6294,20 +10041,6 @@
     "parent": [],
     "context": "default",
     "property": {
-      "item": "line",
-      "type": "color",
-      "value": "separator"
-    },
-    "component": "wizard"
-  },
-  {
-    "state": [
-      "normal",
-      "off"
-    ],
-    "parent": [],
-    "context": "default",
-    "property": {
       "item": "subtitle-text",
       "type": "color",
       "value": "text-tertiary"
@@ -6325,6 +10058,20 @@
       "item": "title-text",
       "type": "color",
       "value": "text-tertiary"
+    },
+    "component": "wizard"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "track",
+      "type": "color",
+      "value": "separator"
     },
     "component": "wizard"
   }

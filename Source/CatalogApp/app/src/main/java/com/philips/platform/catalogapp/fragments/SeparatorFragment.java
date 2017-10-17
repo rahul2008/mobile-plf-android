@@ -63,9 +63,7 @@ public class SeparatorFragment extends BaseFragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data, parent, false);
-            BindingHolder holder = new BindingHolder(v);
-
-            return holder;
+            return new BindingHolder(v);
         }
 
         @Override
@@ -73,6 +71,14 @@ public class SeparatorFragment extends BaseFragment {
             final DataHolder dataHolder = dataHolders.get(position);
             ((BindingHolder) holder).getBinding().setVariable(1, dataHolder);
             ((BindingHolder) holder).getBinding().executePendingBindings();
+
+            ((BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    boolean isSelected = holder.itemView.isSelected();
+                    holder.itemView.setSelected(!isSelected);
+                }
+            });
         }
 
         @Override

@@ -26,7 +26,7 @@
     <item name="uid_button_disabled_alpha" format="float" type="dimen">0.25</item>
 
     <!-- Quiet button-->
-    <dimen name="uid_quiet_button_padding_left_right">12dp</dimen>
+    <dimen name="uid_quiet_button_padding_left_right">24dp</dimen>
     <dimen name="uid_quiet_button_min_size">24dp</dimen>
     <dimen name="uid_quiet_button_max_width">40dp</dimen>
     <dimen name="uid_quiet_icon_only_padding_left_right">8dp</dimen>
@@ -184,7 +184,6 @@
     <dimen name="uid_grid_item_size">224dp</dimen>
     <dimen name="uid_grid_icon_size">24dp</dimen>
     <dimen name="uid_grid_icon_padding">12dp</dimen>
-    <dimen name="uid_grid_icon_holder_width">48dp</dimen>
     <dimen name="uid_gridview_margin_left_right">16dp</dimen>
     <dimen name="uid_gridview_header_height">48dp</dimen>
     <dimen name="uid_gridview_header_text_size">14sp</dimen>

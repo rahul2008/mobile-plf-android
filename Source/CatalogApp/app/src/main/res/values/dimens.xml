@@ -100,4 +100,8 @@
     <dimen name="sidebar_left_header_height">72dp</dimen>
     <dimen name="sidebar_right_avatar_top_bottom_margin">40dp</dimen>
 
+    <!-- ListView-->
+    <string name="listview_disabled_item_opacity">0.35</string>
+    <string name="listview_enabled_item_opacity">255.0</string>
+
 </resources>
