@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
@@ -34,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-public class EWSActivity extends UiKitActivity {
+public class EWSActivity extends DynamicThemeApplyingActivity {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
