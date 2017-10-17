@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-              android:orientation="vertical"
-                android:layout_marginLeft="@dimen/d"
-                android:layout_marginRight="@dimen/d">
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/ews_H_03_02_label_title"
-        style="@style/EWS.Txt.Title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/e"
-        android:text="Has [device name] left setup?"/>
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/default_screen_bottom_margin"
+        android:paddingEnd="@dimen/default_screen_side_margin"
+        android:paddingStart="@dimen/default_screen_side_margin"
+        android:paddingTop="@dimen/default_screen_top_margin">
 
-    <TextView
-        android:id="@+id/ews_connect_to_label"
-        style="@style/EWS.Txt.Body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/e"
-        android:text="Has the [device name] left setup mode? This text needs to be configured by the proposition."/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ews_H_03_02_label_title"
+            style="@style/Txt.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_ews_support_reset_connection_title_default"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/e"
-        android:layout_marginBottom="@dimen/e"
-        android:src="@drawable/ews_product_reset_device"/>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ews_connect_to_label"
+            style="@style/Txt.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_body_labels_margin"
+            android:text="@string/label_ews_support_reset_connection_body_default"/>
 
-    <Button
-        android:id="@+id/ews_H_03_02_button_yes"
-        style="@style/Btn.Primary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/b"
-        android:text="YES"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_image_top_margin"
+            android:src="@drawable/ews_product_reset_device"
+            android:contentDescription="@null"/>
 
-    <Button
-        android:id="@+id/ews_03_02_button_no"
-        style="@style/Btn.Secondary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/d"
-        android:text="NO"/>
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-</LinearLayout>
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ews_H_03_02_button_yes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_main_button_top_margin"
+            android:text="@string/button_ews_support_reset_connection_yes"/>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ews_03_02_button_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_between_button_margin"
+            android:text="@string/button_ews_support_reset_connection_no"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

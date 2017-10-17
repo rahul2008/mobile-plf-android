@@ -12,16 +12,16 @@ import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragmen
 import com.philips.cdp2.ews.troubleshooting.hotspotconnectionfailure.ConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.view.ConnectToWrongPhoneTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
-import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
-import com.philips.cdp2.ews.view.SetupAccessPointModeTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.ResetConnectionTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.ResetDeviceTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 
 public class Navigator {
