@@ -1,4 +1,5 @@
 <resources>
+    <string name="ews_device_name_default">Device name</string>
     <string name="app_name">EWSMicroApp</string>
     <string name="af_app_name">SleepMapper</string>
     <string name="ews_title">WiFi setup</string>
@@ -116,4 +117,9 @@
     <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
     <string name="label_ews_phone_reconnected_different_network_body">Your phone has connected to a different network. \n\nPlease reconnect your phone to %1$s.\nPlease read all the 4 steps before leaving the application.\n1. Tap Wi-Fi in your phone settings \n2. Make sure your Wi-Fi is turned on \n3. Select your home network\n4. Return to the app</string>
     <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
+    <string name="label_ews_support_reset_connection_title_default">Has %1$s left the room</string>
+    <string name="label_ews_support_reset_connection_body_default">Has the %1$S left setup mode?</string>
+    <string name="button_ews_support_reset_connection_yes">Yes</string>
+    <string name="button_ews_support_reset_connection_no">No</string>
+
 </resources>
