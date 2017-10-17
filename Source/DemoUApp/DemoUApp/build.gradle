@@ -222,7 +222,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':MyAccount')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -231,6 +230,8 @@ dependencies {
 
     def dp = project.ext.has('useprojectdependencies')
 
+    compile(dp ? project(':mya') : project(':MyAccount'))
+    
     def uidModule = module(group: 'com.philips.cdp', name: 'uid', version: versions.uid_uid + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':uid') : uidModule)
             {
