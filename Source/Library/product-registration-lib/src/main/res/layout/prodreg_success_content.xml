@@ -14,7 +14,7 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginTop="@dimen/pr_margintop"
         android:text="@string/PRG_RegSuccess_Lbltxt"
-        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/pr_title_textsize"/>
 
     <View
@@ -46,7 +46,7 @@
             android:layout_marginLeft="@dimen/pr_registration_margin_left"
             android:layout_marginTop="@dimen/fab_margin"
             android:layout_toRightOf="@id/success_background_image"
-            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/pr_connect_title_textsize"/>
 
         <com.philips.platform.uid.view.widget.Label
@@ -106,7 +106,7 @@
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
-        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/pr_connect_title_textsize"/>
 
     <com.philips.platform.uid.view.widget.Label
@@ -118,7 +118,7 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
         android:text="@string/prod_reg_success_conf_text"
-        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/pr_connect_title_textsize"/>
 
     <com.philips.platform.uid.view.widget.Button

@@ -17,7 +17,7 @@
             style="@style/UIDLabel.ProductRegistrationProductHeaderTitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:textSize="24sp" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_registration_margin_top"
-            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+            android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
             android:textSize="16sp" />
 
         <!--<com.philips.platform.uid.view.widget.Button-->
