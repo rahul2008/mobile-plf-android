@@ -14,11 +14,14 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
@@ -77,7 +80,9 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     public void onUpdateConsumerResponse(THSConsumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         thsFollowUpViewInterfaces.hideProgressButton();
         //update signleton THSManager THSConsumer member
-        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","step5PhoneNumberAdded");
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT,"step5PhoneNumberAdded");
+
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
         THSManager.getInstance().setPTHConsumer(thsConsumer);
         if (THSManager.getInstance().isMatchMakingVisit()) { // if DOD flow
             thsFollowUpViewInterfaces.showProviderDetailsFragment();
@@ -88,6 +93,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
 
     }
+
+
 
     @Override
     public void onUpdateConsumerFailure(Throwable var1) {

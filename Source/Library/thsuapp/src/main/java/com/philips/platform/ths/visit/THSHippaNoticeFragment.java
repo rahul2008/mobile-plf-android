@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
+
+import static com.philips.platform.ths.utility.THSConstants.THS_HIPPA;
 
 public class THSHippaNoticeFragment extends THSBaseFragment implements View.OnClickListener {
 
@@ -39,5 +42,11 @@ public class THSHippaNoticeFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_HIPPA,null,null);
     }
 }

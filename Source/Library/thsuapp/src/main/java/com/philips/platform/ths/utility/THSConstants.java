@@ -77,19 +77,32 @@ public class THSConstants {
 
 
     public static final String THS_WELCOME = "Welcome";
-    public static final String THS_WELCOME_BACK = " Appointment_start";
-
-
+    public static final String THS_ADD_DETAILS = "Add_details";
+    public static final String THS_CONFIRM_T_AND_C = "Confirm_TandC";
+    public static final String THS_TERMS_AND_CONDITION = "Terms_and_Conditions";
+    public static final String THS_SELECT_PATIENT = "Select_patient";
 
     public static final String THS_PRACTICE_PAGE = "Home_with_practices";
-    public static final String THS_HISTORY_PAGE = "History";
-    public static final String THS_HOW_IT_WORKS = "FAQ";
+    public static final String THS_SCHEDULE_VISITS = "Scheduled_visits";
+    public static final String THS_VISIT_HISTORY_LIST= "Visit_history_list";
+    public static final String THS_VISIT_HISTORY= "Visit_history_detail";
+    public static final String THS_HIPPA= "HIPPA";
+    public static final String THS_HOW_IT_WORKS= "How_it_works";
+    public static final String THS_HOW_IT_WORKS_DETAIL= "How_it_works_detail";
+    public static final String THS_NOTICE= "TeleHealth_Notice";
+    public static final String THS_WELCOME_BACK = "Appointment_start";
 
-    public static final String THS_PROVIDER_DETAIL_PAGE = "Provider Detail";
+
+
+
+
+    public static final String THS_PROVIDER_LIST = "Provider_detail_list";
+    public static final String THS_PROVIDER_DETAIL_PAGE = "Provider_detail";
     public static final String THS_SYMPTOMS_PAGE = "Symptoms";
     public static final String THS_ADD_VITALS_PAGE = "Add_vitals";
     public static final String THS_MEDICATION_PAGE = "Medication";
-    public static final String THS_MEDICATION_SEARCH_PAGE = "Medication Search";
+    public static final String THS_MEDICATION_SEARCH_PAGE = "search_medication_page";
+    public static final String THS_PROVIDER_SEARCH_PAGE = "search_Provider_page";
     public static final String THS_CONDITION_PAGE = "Previous_conditions";
     public static final String THS_FOLLOW_UP_PAGE = "Add_phone_and_confirm";
     public static final String THS_NOPP_PAGE = "NOPP";
@@ -97,25 +110,39 @@ public class THSConstants {
     public static final String THS_SEARCH_PHARMACY = "Search_pharmacy";
     public static final String THS_PHARMACY_MAP = "Pharmacy_map";
     public static final String THS_PHARMACY_SUMMARY = "Pharmacy_summary";
-    public static final String THS_CHOSE_PHARMACY = "Choose Pharmacy";
-    public static final String THS_PHARMACY_LIST = "NOPP";
+
+    public static final String THS_CHOSE_PHARMACY = "Choose_Pharmacy";
+
     public static final String THS_SHIPPING_ADDRESS = "Shipping_address";
 
-    public static final String THS_SCHEDULE_APPOINTMENT = "SchedulingAnAppointment";
-    public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "SchedulingAnAppointmentConfirm";
+
+    public static final String THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER = "Schedule_pick_provider";
+    public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "Schedule_provider_details" ;
+    
+    public static final String THS_SCHEDULE_REMINDER = "Schedule_reminder_page";
+
+
 
     public static final String THS_INSURANCE_CONFIRM = "Insurance";
     public static final String THS_INSURANCE_DETAIL = "Insurance_details";
+    public static final String THS_INSURANCE_NOT_VERIFIED = "Insurance_not_verified";
+    public static final String THS_COST_SUMMARY = "Cost_summary";
     public static final String THS_PAYMENT_METHOD = "Payment_method";
     public static final String THS_BILLING_ADDRESS = "Billing_address";
-    public static final String THS_COST_SUMMARY = "Cost_summary";
+
     public static final String THS_WAITING = "Waiting";
+    public static final String THS_VISIT_SUMMARY = "Wrap_up_summary";
+    public static final String THS_SUMMARY_REPORT_SCREEN = "Summary_Report_Screen";
+    public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "Schedule_confirmation_page";
+
+
+
     public static final String THS_VIDEO_CALL_STARTS = "videoVisitStarted";
     public static final String THS_VIDEO_CALL = "videoVisit";
     public static final String THS_VIDEO_CALL_ENDS = "videoVisitCompleted";
     public static final String THS_RATE_PROVIDER_AND_VISIT = "rateProviderAndVisit";
-    public static final String THS_VISIT_SUMMARY = "Wrap_up_summary";
-    public static final String THS_VISIT_HISTORY= "visitHistory";
+
+
     public static final String THS_COST_SUMMARY_CREATE_VISIT_ERROR = "Cost_summary_create_visit_error";
     public static final String THS_EARLY_FOR_APPOINTMENT = "THS_EARLY_FOR_APPOINTMENT";
     public static final String THS_COST_SUMMARY_COUPON_CODE_ERROR = "Cost_summary_coupon_code_error";

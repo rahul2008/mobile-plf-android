@@ -2,6 +2,7 @@ package com.philips.platform.ths.visit;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -24,6 +26,8 @@ import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_SUMMARY;
 
@@ -120,6 +124,13 @@ public class THSVisitSummaryFragment extends THSBaseFragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
+        Fragment mFragment = getFragmentManager().findFragmentByTag(THSWelcomeBackFragment.TAG);
+        if (mFragment instanceof THSWelcomeBackFragment){
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"videoVisitCompleted");
+        }else{
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"completeInstantAppointment");
+
+        }
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_SUMMARY,null,null);
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Thank you", true);

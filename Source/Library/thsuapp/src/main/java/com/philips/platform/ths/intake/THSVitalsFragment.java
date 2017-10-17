@@ -17,6 +17,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -25,6 +26,7 @@ import static com.philips.platform.ths.R.id.systolic;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
 import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener,THSVItalsUIInterface {
 
@@ -153,9 +155,22 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     @Override
     public void updateVitalsData() {
         mTHSVitals.setSystolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mSystolic)));
+        if(mTHSVitals.getSystolic()>0){
+            tagActions= THSTagUtils.addActions(tagActions,"bloodPressure");
+        }
         mTHSVitals.setDiastolic(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mDiastolic)));
+        if(mTHSVitals.getDiastolic()>0){
+            tagActions= THSTagUtils.addActions(tagActions,"bloodPressure");
+        }
         mTHSVitals.setTemperature(mThsVitalsPresenter.stringToDouble(mThsVitalsPresenter.getTextFromEditText(mTemperature)));
+        if(mTHSVitals.getTemperature()>0.0d){
+            tagActions= THSTagUtils.addActions(tagActions,"temperature");
+        }
         mTHSVitals.setWeight(mThsVitalsPresenter.stringToInteger(mThsVitalsPresenter.getTextFromEditText(mWeight)));
+        if(mTHSVitals.getWeight()>0){
+            tagActions= THSTagUtils.addActions(tagActions,"weight");
+        }
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT, tagActions);
     }
 
     @Override
@@ -195,6 +210,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
+        tagActions="";
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_ADD_VITALS_PAGE,null,null);
     }
 }

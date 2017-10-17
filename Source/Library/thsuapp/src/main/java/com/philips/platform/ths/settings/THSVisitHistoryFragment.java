@@ -24,6 +24,8 @@ import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY_LIST;
+
 public class THSVisitHistoryFragment extends THSBaseFragment{
 
     public static final String TAG = THSVisitHistoryFragment.class.getSimpleName();
@@ -64,5 +66,11 @@ public class THSVisitHistoryFragment extends THSBaseFragment{
             mThsVisitHistoryAdapter = new THSVisitHistoryAdapter(visitReports, this);
             mRecyclerView.setAdapter(mThsVisitHistoryAdapter);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY_LIST,null,null);
     }
 }

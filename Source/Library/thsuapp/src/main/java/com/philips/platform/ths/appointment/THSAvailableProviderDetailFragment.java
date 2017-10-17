@@ -23,8 +23,14 @@ import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Date;
+
+
+import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_TIME;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragment implements View.OnClickListener, OnDateSetChangedInterface, THSDialogFragmentCallback<String> {
     public static final String TAG = THSAvailableProviderDetailFragment.class.getSimpleName();
@@ -160,4 +166,9 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         return thsProviderDetailsDisplayHelper.getReminderValue();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SCHEDULE_APPOINTMENT_PICK_TIME,null,null);
+    }
 }

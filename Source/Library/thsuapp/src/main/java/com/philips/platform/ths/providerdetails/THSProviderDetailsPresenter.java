@@ -47,6 +47,7 @@ import java.util.List;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_DETAIL_ALERT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSFetchEstimatedCostCallback, THSMatchMakingCallback {
 
@@ -97,6 +98,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.detailsButtonOne) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"startInstantAppointment");
             if (THSManager.getInstance().isMatchMakingVisit()) {
                 // go to pharmacy and shipping if DOD
                 mThsBaseFragment.addFragment(new THSCheckPharmacyConditionsFragment(), THSCheckPharmacyConditionsFragment.TAG, null, true);
@@ -113,8 +115,9 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
             }
 
         } else if (componentID == R.id.detailsButtonTwo) {
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "startSchedulingAnAppointment");
             final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE);
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","startSchedulingAnAppointment");
+
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
@@ -135,7 +138,7 @@ class THSProviderDetailsPresenter implements THSBasePresenter, THSProviderDetail
 
         } else if (componentID == R.id.calendar_container) {
             THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment, THSDateEnum.HIDEPREVDATEANDSIXMONTHSLATERDATE);
-            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "specialEvents","startSchedulingAnAppointment");
+
 
             final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override

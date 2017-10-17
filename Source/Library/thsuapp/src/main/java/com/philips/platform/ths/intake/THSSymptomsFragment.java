@@ -49,6 +49,7 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSSharedPreferenceUtility;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
@@ -61,6 +62,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.philips.platform.ths.utility.THSConstants.THS_FLOATING_BUTTON;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_SYMPTOMS_PAGE;
 
 public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
@@ -91,11 +93,14 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private EditText additional_comments_edittext;
     private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
     private Provider mProvider;
+    private String tagActions="";
+    public static long visitStartTime;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_symptoms, container, false);
+        visitStartTime=THSTagUtils.getCurrentTime();
         Bundle bundle = getArguments();
         if (bundle != null) {
             mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
@@ -189,6 +194,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         topic.setSelected(isChecked);
+                        tagActions= THSTagUtils.addActions(tagActions,"SymptomsChecked");
                     }
                 });
             }
@@ -201,6 +207,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         int i = view.getId();
         if (i == R.id.continue_btn) {
             THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, THS_FLOATING_BUTTON, "symptomContinue");
+            THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA, "step1SymptomsForVisit", tagActions);
             thsSymptomsPresenter.onEvent(R.id.continue_btn);
         } else if (i == R.id.camera_click_button) {
             selectImage();
@@ -220,6 +227,8 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected void updateOtherTopic(){
         if (isOtherTopicValid()) {
             mThsVisitContext.setOtherTopic(additional_comments_edittext.getText().toString());
+            tagActions= THSTagUtils.addActions(tagActions,"commentAdded");
+
             THSManager.getInstance().setVisitContext(mThsVisitContext);
         }
     }
@@ -353,6 +362,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
         if (null != picturePath) {
             updateDocumentsToUpload(picturePath);
+            tagActions= THSTagUtils.addActions(tagActions,"pictureAdded");
             thsSymptomsPresenter.uploadDocuments(mCapturedImageURI);
         }
 

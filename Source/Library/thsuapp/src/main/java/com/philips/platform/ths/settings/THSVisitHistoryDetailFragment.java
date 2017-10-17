@@ -37,6 +37,9 @@ import com.philips.platform.uid.view.widget.Label;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+
+import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_HISTORY;
+
 public class THSVisitHistoryDetailFragment extends THSBaseFragment{
     Label mLabelVisit;
     CircularImageView mProviderImage;
@@ -206,4 +209,11 @@ public class THSVisitHistoryDetailFragment extends THSBaseFragment{
             pharmacyZip.setText(pharmacy.getAddress().getZipCode());
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_VISIT_HISTORY,null,null);
+    }
+
 }

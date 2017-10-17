@@ -18,6 +18,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -26,6 +27,8 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 import static com.philips.platform.ths.utility.THSConstants.THS_VISIT_ARGUMENT_KEY;
 import static com.philips.platform.ths.utility.THSConstants.THS_WAITING;
 
@@ -43,11 +46,13 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Button mCancelVisitButton;
     CircularImageView mProviderImageView;
     Visit mVisit;
+    protected long waitingPeriodStartTime;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_waiting_room, container, false);
+        waitingPeriodStartTime= THSTagUtils.getCurrentTime();
         Bundle bundle = getArguments();
         mVisit=bundle.getParcelable(THS_VISIT_ARGUMENT_KEY);
         mTHSWaitingRoomPresenter = new THSWaitingRoomPresenter(this);
@@ -87,6 +92,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     public void onResume() {
         super.onResume();
         THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_WAITING,null,null);
+        THSManager.getInstance().getThsTagging().trackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"waitInLineInstantAppointment");
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Waiting", true);
         }

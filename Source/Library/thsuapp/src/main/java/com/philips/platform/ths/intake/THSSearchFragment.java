@@ -40,6 +40,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_MEDICATION_SEARCH_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_PROVIDER_SEARCH_PAGE;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEARCH_PHARMACY;
 
 public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener, TextWatcher {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
@@ -115,13 +119,16 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
                 case THSConstants.MEDICATION_SEARCH_CONSTANT:
                     searchBox.getSearchTextView().addTextChangedListener(this);
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_medication);
+                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_MEDICATION_SEARCH_PAGE,null,null);
                     break;
                 case THSConstants.PROVIDER_SEARCH_CONSTANT:
                     searchBox.getSearchTextView().addTextChangedListener(this);
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_provider);
+                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_PROVIDER_SEARCH_PAGE,null,null);
                     break;
                 case THSConstants.PHARMACY_SEARCH_CONSTANT:
                     searchBoxHint = getActivity().getResources().getString(R.string.ths_search_pharmacy);
+                    THSManager.getInstance().getThsTagging().trackPageWithInfo(THS_SEARCH_PHARMACY,null,null);
                     break;
             }
             searchBox.setSearchBoxHint(searchBoxHint);
