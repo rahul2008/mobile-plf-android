@@ -49,9 +49,9 @@ public class SynchronisationManagerTest {
         errorHandlerImpl = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
-        synchronisationManager=new SynchronisationManager();
-        synchronisationManager.mEventing=eventingMock;
-        synchronisationManager.mSynchronisationCompleteListner = synchronisationCompleteListenerMock;
+        synchronisationManager = new SynchronisationManager();
+        synchronisationManager.mEventing = eventingMock;
+        synchronisationManager.mSynchronisationCompleteListener = synchronisationCompleteListenerMock;
 
     }
 
@@ -87,7 +87,7 @@ public class SynchronisationManagerTest {
     @Test
     public void shouldTerminatePull_WhenShutdownAndAwaitTerminationIsCalled() throws Exception {
 
-      synchronisationManager.shutdownAndAwaitTermination(executorServiceMock);
+        synchronisationManager.shutdownAndAwaitTermination(executorServiceMock);
     }
 
     @Test

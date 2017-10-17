@@ -36,21 +36,17 @@ import retrofit.RetrofitError;
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    @Inject
-    UCoreAccessProvider accessProvider;
+    @NonNull
+    Executor executor;
 
-    @Nullable
-    private DateTime lastSyncDateTime;
-    private int referenceId;
+    @NonNull
+    List<? extends DataFetcher> fetchers;
 
     @Inject
     SynchronisationManager synchronisationManager;
 
-    @NonNull
-    protected Executor executor;
-
-    @NonNull
-    protected List<? extends DataFetcher> fetchers;
+    @Inject
+    UCoreAccessProvider mUCoreAccessProvider;
 
     @Inject
     MomentsDataFetcher momentsDataFetcher;
@@ -73,10 +69,11 @@ public class DataPullSynchronise {
     private volatile RetrofitError fetchResult;
 
     List<? extends DataFetcher> configurableFetchers;
+
     @NonNull
     private final AtomicInteger numberOfRunningFetches = new AtomicInteger(0);
 
-    DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     @Inject
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
@@ -87,13 +84,11 @@ public class DataPullSynchronise {
         configurableFetchers = getFetchers();
     }
 
-
     private boolean isSyncStarted() {
         return numberOfRunningFetches.get() > 0;
     }
 
-
-    public void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
+    private void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -102,10 +97,8 @@ public class DataPullSynchronise {
         });
     }
 
-    public void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
-        this.lastSyncDateTime = lastSyncDateTime;
-        this.referenceId = referenceId;
-        boolean isLoggedIn = accessProvider.isLoggedIn();
+    void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
+        boolean isLoggedIn = mUCoreAccessProvider.isLoggedIn();
 
         if (!isLoggedIn) {
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));
@@ -119,13 +112,7 @@ public class DataPullSynchronise {
         }
     }
 
-    /*public void registerEvent() {pu
-        if (!eventing.isRegistered(this)) {
-            eventing.register(this);
-        }
-    }*/
-
-    protected void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
+    private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
         RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
         updateResult(resultError);
 
@@ -148,7 +135,6 @@ public class DataPullSynchronise {
         } else {
             postError(referenceId, result);
         }
-        // eventing.post(new WriteDataToBackendRequest());
         synchronisationManager.shutdownAndAwaitTermination(((ExecutorService) executor));
     }
 
@@ -159,7 +145,6 @@ public class DataPullSynchronise {
 
     private void postOk() {
         synchronisationManager.dataPullSuccess();
-        // eventing.post(new ReadDataFromBackendResponse(referenceId, null));
     }
 
     private void initFetch(int size) {
@@ -168,7 +153,6 @@ public class DataPullSynchronise {
     }
 
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
-
         if (configurableFetchers.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
