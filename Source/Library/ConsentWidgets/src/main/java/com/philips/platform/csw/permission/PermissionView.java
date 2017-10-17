@@ -30,7 +30,6 @@ import java.util.List;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
-
 public class PermissionView extends Fragment implements
         PermissionInterface {
 

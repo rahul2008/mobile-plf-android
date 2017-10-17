@@ -46,7 +46,7 @@ public class NetworkHelper {
     private Context mContext;
     private User mUser;
     private String mHsdpUUID;
-    final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     public void getLatestConsentStatus(Context context, final ConsentResponseListener consentListener) {
         mContext = context;
@@ -74,9 +74,8 @@ public class NetworkHelper {
             }
 
             @Override
-            public void onRefreshLoginSessionInProgress(String errDesc) {
-                consentListener.onResponseFailureConsent(new ConsentError(errDesc,
-                        ConsentError.ConsentErrorType.NETWORK_ERROR.getId()));
+            public void onRefreshLoginSessionInProgress(String inProgress) {
+
             }
         });
     }
@@ -125,7 +124,6 @@ public class NetworkHelper {
 
     private void addRequestToQueue(GsonCustomRequest<JsonArray> request) {
         AppInfra ai = new AppInfra.Builder().build(mContext);
-        ai.getRestClient().getRequestQueue().add(request);
         if (request != null) {
             if (ai.getRestClient() != null) {
                 ai.getRestClient().getRequestQueue().add(request);
