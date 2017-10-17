@@ -64,8 +64,8 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         cloudController.addDCSResponseListener(this);
         cloudController.addPublishEventListener(this);
 
-        String mEventData = createDataToSend(mPortName, mProductId, mDataMap);
-        mMessageId = cloudController.publishEvent(mEventData, DICOMM_REQUEST, mRequestType.getMethod(),
+        String eventData = createDataToSend(mPortName, mProductId, mDataMap);
+        mMessageId = cloudController.publishEvent(eventData, DICOMM_REQUEST, mRequestType.getMethod(),
                 "", REQUEST_PRIORITY, REQUEST_TTL, cppId);
         try {
             long startTime = System.currentTimeMillis();
@@ -73,7 +73,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
                 wait(CPP_DEVICE_CONTROL_TIMEOUT);
             }
             if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {
-                DICommLog.e(DICommLog.REMOTEREQUEST, "Timeout occured");
+                DICommLog.e(DICommLog.REMOTEREQUEST, "Timeout occurred");
             }
         } catch (InterruptedException e) {
             // NOP
@@ -83,7 +83,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
         cloudController.removeDCSResponseListener(this);
 
         if (mResponse == null) {
-            DICommLog.e(DICommLog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
+            DICommLog.e(DICommLog.REMOTEREQUEST, "Request failed - null response, failed to publish event or request timeout");
             DICommLog.d(DICommLog.REMOTEREQUEST, "Stop request REMOTE - Failure");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }

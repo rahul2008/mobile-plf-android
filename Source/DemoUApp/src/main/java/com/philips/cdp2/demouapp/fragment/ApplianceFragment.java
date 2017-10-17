@@ -16,6 +16,7 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
+import com.philips.cdp2.demouapp.appliance.polaris.PolarisAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.BleReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
@@ -68,6 +69,10 @@ public class ApplianceFragment extends Fragment {
         if (currentAppliance instanceof ReferenceAppliance) {
             addFragment(new TimePortFragment());
             addFragment(new FirmwareUpgradeFragment());
+        }
+
+        if(currentAppliance instanceof PolarisAppliance) {
+            addFragment(new PairingFragment());
         }
     }
 

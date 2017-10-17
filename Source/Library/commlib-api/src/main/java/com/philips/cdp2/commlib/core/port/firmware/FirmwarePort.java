@@ -221,11 +221,6 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return parseResponse(jsonResponse) != null;
-    }
-
-    @Override
     public void processResponse(String jsonResponse) {
         FirmwarePortProperties firmwarePortProperties = parseResponse(jsonResponse);
 

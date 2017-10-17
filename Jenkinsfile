@@ -31,7 +31,7 @@ node('Android') {
                 stage("Gather reports") {
                     step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
                     step([$class: 'LintPublisher', healthy: '0', unHealthy: '50', unstableTotalAll: '50'])
-                    step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
+                    step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*,**/*Test*.*'])
                     for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
                         publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Documents/External/$lib-api", reportFiles: 'index.html', reportName: "$lib API documentation"])
                     }
@@ -72,6 +72,15 @@ node('Android') {
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i];
+                    }
+                }
+            }
+
             stage('Clean up workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
