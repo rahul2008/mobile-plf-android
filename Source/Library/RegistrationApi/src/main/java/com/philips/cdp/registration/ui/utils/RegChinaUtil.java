@@ -43,7 +43,7 @@ public class RegChinaUtil {
                 break;
 
             default:
-                return "";
+                return context.getResources().getString(R.string.reg_Generic_Network_Error);
         }
         return errorMsg;
     }
