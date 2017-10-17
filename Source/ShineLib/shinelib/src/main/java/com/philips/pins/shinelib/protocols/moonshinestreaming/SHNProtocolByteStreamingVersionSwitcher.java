@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2016-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -156,7 +156,7 @@ public class SHNProtocolByteStreamingVersionSwitcher implements SHNProtocolMoons
 
     private void DebugLog(String log) {
         if (ENABLE_DEBUG_LOGGING) {
-            DebugLog(log);
+            SHNLogger.i(TAG, log);
         }
     }
 }

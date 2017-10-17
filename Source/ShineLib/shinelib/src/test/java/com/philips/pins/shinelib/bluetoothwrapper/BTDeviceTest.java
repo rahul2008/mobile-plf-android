@@ -6,14 +6,17 @@
 package com.philips.pins.shinelib.bluetoothwrapper;
 
 import android.bluetooth.BluetoothDevice;
+import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.workarounds.OS;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.util.ReflectionHelpers;
 
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -69,6 +72,12 @@ public class BTDeviceTest {
         BTGatt btGatt = btDevice.connectGatt(RuntimeEnvironment.application, false, shnCentral, callback);
 
         assertNotNull(btGatt);
+    }
+
+    @Test
+    public void whenBluetoothDeviceConnectGattIsCalledOnDeviceThatNeedsWorkaroundThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
+        ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", OS.NOUGAT.geVersions()[0]);
+        whenBluetoothDeviceConnectGattIsCalledThenReturnGatt();
     }
 
     @Test

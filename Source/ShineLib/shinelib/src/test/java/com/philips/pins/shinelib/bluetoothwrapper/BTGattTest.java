@@ -9,16 +9,22 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.workarounds.Manufacturer;
+import com.philips.pins.shinelib.workarounds.Phone;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.robolectric.util.ReflectionHelpers;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -57,6 +63,12 @@ public class BTGattTest {
         mockedUserHandler = new MockedHandler();
 
         btGatt = new BTGatt(mockedSHNCentral, mockedCallback, mockedUserHandler.getMock());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        ReflectionHelpers.setStaticField(Build.class, "MANUFACTURER", null);
+        ReflectionHelpers.setStaticField(Build.class, "MODEL", null);
     }
 
     private ArgumentMatcher<byte[]> byteArrayArgumentMatcher(final byte[] bytes) {
@@ -342,6 +354,24 @@ public class BTGattTest {
         mockedUserHandler.executeFirstScheduledExecution();
 
         verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+    }
+
+    @Test
+    public void whenServicesAreDiscoveredThenCallbackIsNotified() {
+        btGatt.onServicesDiscovered(mockedBluetoothGatt, BluetoothGatt.GATT_SUCCESS);
+        assertEquals(0, mockedUserHandler.getScheduledExecutionCount());
+        verify(mockedCallback).onServicesDiscovered(btGatt, BluetoothGatt.GATT_SUCCESS);
+    }
+
+    @Test
+    public void whenServicesAreDiscoveredOnDeviceThatNeedsWorkaroundThenCallbackIsNotifiedWithADelay() {
+        ReflectionHelpers.setStaticField(Build.class, "MANUFACTURER", Manufacturer.HUAWEI.getName());
+        ReflectionHelpers.setStaticField(Build.class, "MODEL", Phone.NEXUS_6P.getModelName());
+
+        btGatt.onServicesDiscovered(mockedBluetoothGatt, BluetoothGatt.GATT_SUCCESS);
+        assertEquals(1, mockedUserHandler.getScheduledExecutionCount());
+        mockedUserHandler.executeFirstScheduledExecution();
+        verify(mockedCallback).onServicesDiscovered(btGatt, BluetoothGatt.GATT_SUCCESS);
     }
 
 }
