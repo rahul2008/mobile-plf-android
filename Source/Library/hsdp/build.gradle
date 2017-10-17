@@ -172,9 +172,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.6.1')
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.1')
-    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.1')
+    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.1')
+    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.1')
+    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.1')
     /*   androidTestCompile project(':dexmaker-mockito-1.4')
        androidTestCompile project(':dexmaker-1.4')
        androidTestCompile project(':dexmaker-dx-1.4')
