@@ -30,6 +30,7 @@ import com.philips.cdp2.ews.communication.ApplianceAccessEventMonitor;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.communication.WiFiEventMonitor;
+import com.philips.cdp2.ews.configuration.EWSStartContentConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ActivityNavigator;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;
@@ -48,7 +49,9 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
@@ -66,6 +69,9 @@ public class EWSModule {
     private final Context context;
     @NonNull
     private final FragmentManager fragmentManager;
+
+    @NonNull
+    private Map<String, Serializable> configurationMap;
 
     public EWSModule(Context context, @NonNull FragmentManager fragmentManager) {
         this.context = context;
@@ -187,4 +193,5 @@ public class EWSModule {
     Handler provideHandlerWithMainLooper() {
         return new Handler(Looper.getMainLooper());
     }
+
 }

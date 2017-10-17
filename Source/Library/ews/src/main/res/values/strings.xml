@@ -2,7 +2,7 @@
     <string name="app_name">EWSMicroApp</string>
     <string name="af_app_name">SleepMapper</string>
     <string name="ews_title">WiFi setup</string>
-    <string name="label_ews_get_started_title">Let’s connect your Somneo to your WiFi so you can enjoy all the app enabled features!</string>
+    <string name="label_ews_get_started_title">Let’s connect your %1$s to your WiFi so you can enjoy all the app enabled features!</string>
     <string name="label_ews_get_started_description">Important: For a reliable connection, make sure you have a strong WiFi signal where you are setting up.</string>
     <string name="button_ews_get_started_get_started">Get started</string>
     <string name="label_ews_confirm_connection_title">Let\'s confirm the WiFi network to which we’ll connect your Philips Somneo</string>
@@ -116,4 +116,5 @@
     <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
     <string name="label_ews_phone_reconnected_different_network_body">Your phone has connected to a different network. \n\nPlease reconnect your phone to %1$s.\nPlease read all the 4 steps before leaving the application.\n1. Tap Wi-Fi in your phone settings \n2. Make sure your Wi-Fi is turned on \n3. Select your home network\n4. Return to the app</string>
     <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
+    
 </resources>

@@ -7,7 +7,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.content.Context"/>
+        <variable
+            name="config"
+            type="com.philips.cdp2.ews.configuration.EWSStartContentConfiguration"/>
         <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSGettingStartedViewModel"/>
@@ -40,7 +43,8 @@
                 android:layout_marginEnd="@dimen/e"
                 android:layout_marginStart="@dimen/e"
                 android:layout_marginTop="@dimen/e"
-                android:text="@string/label_ews_get_started_title"
+                app:stringFormat="@{@string/label_ews_get_started_title}"
+                app:content="@{config.title}"
                 android:textColor="@color/colorPrimary"/>
 
             <LinearLayout

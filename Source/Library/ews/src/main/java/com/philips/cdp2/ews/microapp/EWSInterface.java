@@ -16,6 +16,10 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 @SuppressWarnings("WeakerAccess")
 public class EWSInterface implements UappInterface {
 
@@ -23,8 +27,8 @@ public class EWSInterface implements UappInterface {
     public static final String ERROR_MSG_INVALID_CALL = "Please call \"init\" method, before calling launching ews with valid params";
     public static final String SCREEN_ORIENTATION = "screen.orientation";
     public static final String PRODUCT_NAME = "productName";
-
     private Context context;
+    private Map<String, Serializable>  configurationList;
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
@@ -46,8 +50,13 @@ public class EWSInterface implements UappInterface {
         EWSCallbackNotifier.getInstance().setCallback(((EWSLauncherInput) uappLaunchInput).getCallback());
         Intent intent = new Intent(context, EWSActivity.class);
         intent.putExtra(SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
+        intent.putExtra("appConfiguration", (Serializable) configurationList);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         context.startActivity(intent);
+    }
+
+    public void setConfigurationList(Map<String, Serializable> configurationList) {
+        this.configurationList = configurationList;
     }
 }

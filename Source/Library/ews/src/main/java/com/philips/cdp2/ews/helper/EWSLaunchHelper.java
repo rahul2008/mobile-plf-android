@@ -18,11 +18,14 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.philips.platform.uappframework.launcher.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT;
 
-public class EWSLaunchHelper implements EWSCallback {
+public abstract class EWSLaunchHelper implements EWSCallback {
 
     private Context context;
     private String ewsStateEvent;
@@ -39,8 +42,11 @@ public class EWSLaunchHelper implements EWSCallback {
         productKeyMap.put(EWSInterface.PRODUCT_NAME, Actions.Value.PRODUCT_NAME_SOMNEO);
 
         ewsInterface.init(new EWSDependencies(appInfra, productKeyMap), new UappSettings(context));
+        ewsInterface.setConfigurationList(getScreenConfigs());
         ewsInterface.launch(new ActivityLauncher(SCREEN_ORIENTATION_PORTRAIT, -1), new EWSLauncherInput(this));
     }
+
+    public abstract Map<String, Serializable> getScreenConfigs();
 
     @Override
     public void onSuccess() {
