@@ -1,23 +1,5 @@
 [
   {
-    "about-screen": {
-      "ultra-light": {
-        "color": "white"
-      },
-      "very-light": {
-        "color": "white"
-      },
-      "bright": {
-        "color": "white"
-      },
-      "very-dark": {
-        "color-code": 70
-      },
-      "very-dark-gray": {
-        "color-code": 70,
-        "color-range": "gray"
-      }
-    },
     "about-screen-full-screen": {
       "ultra-light": {
         "color": "white"
@@ -1797,6 +1779,24 @@
       "very-dark-gray": {
         "reference": "navigation-text",
         "opacity": 0.6
+      }
+    },
+    "dialog": {
+      "ultra-light": {
+        "color": "white"
+      },
+      "very-light": {
+        "color": "white"
+      },
+      "bright": {
+        "color": "white"
+      },
+      "very-dark": {
+        "color-code": 70
+      },
+      "very-dark-gray": {
+        "color-code": 70,
+        "color-range": "gray"
       }
     },
     "dim-strong": {
@@ -3642,7 +3642,7 @@
         "color": "white"
       },
       "very-dark": {
-        "color": "white"
+        "color-code": 65
       },
       "very-dark-gray": {
         "color-code": 65

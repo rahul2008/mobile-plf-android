@@ -72,7 +72,7 @@
     "property": {
       "item": "background",
       "type": "color",
-      "value": "about-screen"
+      "value": "dialog"
     },
     "component": "about-screen"
   },
@@ -2085,7 +2085,7 @@
     "property": {
       "item": "background",
       "type": "color",
-      "value": "popup"
+      "value": "dialog"
     },
     "component": "dialog-alert"
   },
@@ -3200,6 +3200,72 @@
       "value": "gray-secondary-text"
     },
     "component": "notification-bar"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "patient-icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "patient-info"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "patient-info-text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "patient-info"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "patient-name-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "patient-info"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "secondary-info-descriptor-text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "patient-info"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "secondary-info-value-text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "patient-info"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "separator"
+    },
+    "component": "patient-info"
   },
   {
     "state": [
@@ -7831,7 +7897,7 @@
     "property": {
       "item": "text-selection-background",
       "type": "color",
-      "value": "not-yet-defined-text-selection"
+      "value": "text-selection-background"
     },
     "component": "text-box"
   },

@@ -28,7 +28,7 @@
     <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_75</item><!-- about-screen-sub-title -->
     <item name="uidAboutScreenDefaultTextColor">#CC212121</item><!-- about-screen-text -->
     <item name="uidAboutScreenDefaultTitleColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
-    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_level_white</item><!-- about-screen -->
+    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_level_white</item><!-- dialog -->
     <item name="uidAboutScreenFullScreenBackgroundColor">@color/uid_level_white</item><!-- about-screen-full-screen -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_level_white</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_45</item><!-- control-accent -->
@@ -174,7 +174,7 @@
     <item name="uidDatePickerAndroidNormalHeaderBackgroundColor">@color/uid_orange_level_5</item><!-- navigation-secondary -->
     <item name="uidDatePickerAndroidNormalHeaderTextColor">#99DE7510</item><!-- date-picker-header -->
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_orange_level_45</item><!-- navigation-text -->
-    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- popup -->
+    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- dialog -->
     <item name="uidDimLayerStrongBackgroundColor">#CC1E0910</item><!-- dim-strong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D1E0910</item><!-- dim-subtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_orange_level_45</item><!-- dot-active -->
@@ -255,6 +255,12 @@
     <item name="uidNotificationBarWhiteNormalButtonTextColor">@color/uid_orange_level_45</item><!-- control-primary -->
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- gray-primary-text -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- gray-secondary-text -->
+    <item name="uidPatientInfoDefaultPatientIconColor">@color/uid_gray_level_75</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultPatientInfoTextColor">#CC212121</item><!-- text-secondary -->
+    <item name="uidPatientInfoDefaultPatientNameTextColor">@color/uid_gray_level_75</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoDescriptorTextColor">#80212121</item><!-- text-tertiary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoValueTextColor">@color/uid_gray_level_75</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSeparatorColor">#1A212121</item><!-- separator -->
     <item name="uidPickerIosDefaultNormalDescriptorTextColor">@color/uid_gray_level_75</item><!-- text-primary -->
     <item name="uidPickerIosDefaultNormalListBackgroundColor">#00FFFFFF</item><!-- no-color -->
     <item name="uidPickerIosDefaultNormalPickerTextColor">@color/uid_gray_level_75</item><!-- text-primary -->
@@ -551,7 +557,7 @@
     <item name="uidTextBoxQuietFocusBackgroundColor">@color/uid_level_white</item><!-- input-v2 -->
     <item name="uidTextBoxQuietFocusBorderColor">@color/uid_orange_level_45</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietFocusButtonBackgroundColor">#00FFFFFF</item><!-- no-color -->
-    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#8000A658</item><!-- not-yet-defined-text-selection -->
+    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#33DE7510</item><!-- text-selection-background -->
     <item name="uidTextBoxQuietPressedBackgroundColor">@color/uid_level_white</item><!-- input-v2 -->
     <item name="uidTextBoxQuietPressedBorderColor">@color/uid_orange_level_45</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietPressedButtonBackgroundColor">#1A000000</item><!-- input-button-quiet-pressed -->
@@ -706,7 +712,7 @@
     <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_75</item><!-- about-screen-sub-title -->
     <item name="uidAboutScreenDefaultTextColor">#CC212121</item><!-- about-screen-text -->
     <item name="uidAboutScreenDefaultTitleColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
-    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_level_white</item><!-- about-screen -->
+    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_level_white</item><!-- dialog -->
     <item name="uidAboutScreenFullScreenBackgroundColor">@color/uid_level_white</item><!-- about-screen-full-screen -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_orange_level_20</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_50</item><!-- control-accent -->
@@ -852,7 +858,7 @@
     <item name="uidDatePickerAndroidNormalHeaderBackgroundColor">@color/uid_orange_level_15</item><!-- navigation-secondary -->
     <item name="uidDatePickerAndroidNormalHeaderTextColor">#99DE7510</item><!-- date-picker-header -->
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_orange_level_45</item><!-- navigation-text -->
-    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- popup -->
+    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- dialog -->
     <item name="uidDimLayerStrongBackgroundColor">#CC1E0910</item><!-- dim-strong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D1E0910</item><!-- dim-subtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_orange_level_45</item><!-- dot-active -->
@@ -933,6 +939,12 @@
     <item name="uidNotificationBarWhiteNormalButtonTextColor">@color/uid_orange_level_45</item><!-- control-primary -->
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- gray-primary-text -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- gray-secondary-text -->
+    <item name="uidPatientInfoDefaultPatientIconColor">@color/uid_orange_level_75</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultPatientInfoTextColor">#CC6E202D</item><!-- text-secondary -->
+    <item name="uidPatientInfoDefaultPatientNameTextColor">@color/uid_orange_level_75</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoDescriptorTextColor">#806E202D</item><!-- text-tertiary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoValueTextColor">@color/uid_orange_level_75</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSeparatorColor">#266E202D</item><!-- separator -->
     <item name="uidPickerIosDefaultNormalDescriptorTextColor">@color/uid_orange_level_75</item><!-- text-primary -->
     <item name="uidPickerIosDefaultNormalListBackgroundColor">#00FFFFFF</item><!-- no-color -->
     <item name="uidPickerIosDefaultNormalPickerTextColor">@color/uid_orange_level_75</item><!-- text-primary -->
@@ -1229,7 +1241,7 @@
     <item name="uidTextBoxQuietFocusBackgroundColor">#00FFFFFF</item><!-- input-v2 -->
     <item name="uidTextBoxQuietFocusBorderColor">#4D6E202D</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietFocusButtonBackgroundColor">#00FFFFFF</item><!-- no-color -->
-    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#8000A658</item><!-- not-yet-defined-text-selection -->
+    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#33BA4C1E</item><!-- text-selection-background -->
     <item name="uidTextBoxQuietPressedBackgroundColor">#00FFFFFF</item><!-- input-v2 -->
     <item name="uidTextBoxQuietPressedBorderColor">#4D6E202D</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietPressedButtonBackgroundColor">#1A6E202D</item><!-- input-button-quiet-pressed -->
@@ -1384,7 +1396,7 @@
     <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_gray_level_75</item><!-- about-screen-sub-title -->
     <item name="uidAboutScreenDefaultTextColor">#CC212121</item><!-- about-screen-text -->
     <item name="uidAboutScreenDefaultTitleColor">@color/uid_gray_level_75</item><!-- about-screen-title -->
-    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_level_white</item><!-- about-screen -->
+    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_level_white</item><!-- dialog -->
     <item name="uidAboutScreenFullScreenBackgroundColor">@color/uid_level_white</item><!-- about-screen-full-screen -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_orange_level_50</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_45</item><!-- control-accent -->
@@ -1530,7 +1542,7 @@
     <item name="uidDatePickerAndroidNormalHeaderBackgroundColor">@color/uid_orange_level_45</item><!-- navigation-secondary -->
     <item name="uidDatePickerAndroidNormalHeaderTextColor">#996E202D</item><!-- date-picker-header -->
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_level_white</item><!-- navigation-text -->
-    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- popup -->
+    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- dialog -->
     <item name="uidDimLayerStrongBackgroundColor">#CC1E0910</item><!-- dim-strong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D1E0910</item><!-- dim-subtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_level_white</item><!-- dot-active -->
@@ -1611,6 +1623,12 @@
     <item name="uidNotificationBarWhiteNormalButtonTextColor">@color/uid_orange_level_75</item><!-- control-primary -->
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- gray-primary-text -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- gray-secondary-text -->
+    <item name="uidPatientInfoDefaultPatientIconColor">@color/uid_level_white</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultPatientInfoTextColor">#D9FFFFFF</item><!-- text-secondary -->
+    <item name="uidPatientInfoDefaultPatientNameTextColor">@color/uid_level_white</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoDescriptorTextColor">#99FFFFFF</item><!-- text-tertiary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoValueTextColor">@color/uid_level_white</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSeparatorColor">#26FFFFFF</item><!-- separator -->
     <item name="uidPickerIosDefaultNormalDescriptorTextColor">@color/uid_level_white</item><!-- text-primary -->
     <item name="uidPickerIosDefaultNormalListBackgroundColor">#00FFFFFF</item><!-- no-color -->
     <item name="uidPickerIosDefaultNormalPickerTextColor">@color/uid_level_white</item><!-- text-primary -->
@@ -1907,7 +1925,7 @@
     <item name="uidTextBoxQuietFocusBackgroundColor">#00FFFFFF</item><!-- input-v2 -->
     <item name="uidTextBoxQuietFocusBorderColor">#59FFFFFF</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietFocusButtonBackgroundColor">#00FFFFFF</item><!-- no-color -->
-    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#8000A658</item><!-- not-yet-defined-text-selection -->
+    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#33FFFFFF</item><!-- text-selection-background -->
     <item name="uidTextBoxQuietPressedBackgroundColor">#00FFFFFF</item><!-- input-v2 -->
     <item name="uidTextBoxQuietPressedBorderColor">#59FFFFFF</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietPressedButtonBackgroundColor">#1AFFFFFF</item><!-- input-button-quiet-pressed -->
@@ -2062,7 +2080,7 @@
     <item name="uidAboutScreenDefaultSubtitleColor">@color/uid_level_white</item><!-- about-screen-sub-title -->
     <item name="uidAboutScreenDefaultTextColor">#CCFFFFFF</item><!-- about-screen-text -->
     <item name="uidAboutScreenDefaultTitleColor">@color/uid_level_white</item><!-- about-screen-title -->
-    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_orange_level_70</item><!-- about-screen -->
+    <item name="uidAboutScreenDialogBackgroundColor">@color/uid_orange_level_70</item><!-- dialog -->
     <item name="uidAboutScreenFullScreenBackgroundColor">@color/uid_orange_level_80</item><!-- about-screen-full-screen -->
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_orange_level_80</item><!-- content-primary -->
     <item name="uidButtonAccentNormalBackgroundColor">@color/uid_orange_level_45</item><!-- control-accent -->
@@ -2208,7 +2226,7 @@
     <item name="uidDatePickerAndroidNormalHeaderBackgroundColor">@color/uid_orange_level_75</item><!-- navigation-secondary -->
     <item name="uidDatePickerAndroidNormalHeaderTextColor">#99FFFFFF</item><!-- date-picker-header -->
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_level_white</item><!-- navigation-text -->
-    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- popup -->
+    <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_orange_level_70</item><!-- dialog -->
     <item name="uidDimLayerStrongBackgroundColor">#CC1E0910</item><!-- dim-strong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D1E0910</item><!-- dim-subtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_level_white</item><!-- dot-active -->
@@ -2289,13 +2307,19 @@
     <item name="uidNotificationBarWhiteNormalButtonTextColor">@color/uid_orange_level_45</item><!-- control-primary -->
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- gray-primary-text -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- gray-secondary-text -->
+    <item name="uidPatientInfoDefaultPatientIconColor">@color/uid_level_white</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultPatientInfoTextColor">#CCFFFFFF</item><!-- text-secondary -->
+    <item name="uidPatientInfoDefaultPatientNameTextColor">@color/uid_level_white</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoDescriptorTextColor">#80FFFFFF</item><!-- text-tertiary -->
+    <item name="uidPatientInfoDefaultSecondaryInfoValueTextColor">@color/uid_level_white</item><!-- text-primary -->
+    <item name="uidPatientInfoDefaultSeparatorColor">#26FFFFFF</item><!-- separator -->
     <item name="uidPickerIosDefaultNormalDescriptorTextColor">@color/uid_level_white</item><!-- text-primary -->
     <item name="uidPickerIosDefaultNormalListBackgroundColor">#00FFFFFF</item><!-- no-color -->
     <item name="uidPickerIosDefaultNormalPickerTextColor">@color/uid_level_white</item><!-- text-primary -->
     <item name="uidPickerIosDefaultNormalOnActionTextColor">@color/uid_orange_level_30</item><!-- text-emphasis -->
     <item name="uidPickerIosDefaultNormalOffActionTextColor">#CCFFFFFF</item><!-- text-secondary -->
     <item name="uidPickerIosDefaultPressedListBackgroundColor">#26DE7510</item><!-- list-selected -->
-    <item name="uidPopupDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- popup -->
+    <item name="uidPopupDefaultNormalBackgroundColor">@color/uid_orange_level_65</item><!-- popup -->
     <item name="uidRadioButtonDefaultNormalOnBackgroundColor">@color/uid_orange_level_45</item><!-- control-primary -->
     <item name="uidRadioButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- control-primary-text -->
     <item name="uidRadioButtonDefaultNormalOffBackgroundColor">#99DE7510</item><!-- control-primary-off -->
@@ -2585,7 +2609,7 @@
     <item name="uidTextBoxQuietFocusBackgroundColor">#00FFFFFF</item><!-- input-v2 -->
     <item name="uidTextBoxQuietFocusBorderColor">@color/uid_orange_level_45</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietFocusButtonBackgroundColor">#00FFFFFF</item><!-- no-color -->
-    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#8000A658</item><!-- not-yet-defined-text-selection -->
+    <item name="uidTextBoxQuietFocusTextSelectionBackgroundColor">#33FFFFFF</item><!-- text-selection-background -->
     <item name="uidTextBoxQuietPressedBackgroundColor">#00FFFFFF</item><!-- input-v2 -->
     <item name="uidTextBoxQuietPressedBorderColor">@color/uid_orange_level_45</item><!-- input-border-focus-v2 -->
     <item name="uidTextBoxQuietPressedButtonBackgroundColor">#1AFFFFFF</item><!-- input-button-quiet-pressed -->

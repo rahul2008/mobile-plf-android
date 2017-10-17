@@ -273,6 +273,12 @@
     <attr name="uidNotificationBarWhiteNormalButtonTextColor" format="reference|color" />
     <attr name="uidNotificationBarWhiteNormalPrimaryTextColor" format="reference|color" />
     <attr name="uidNotificationBarWhiteNormalSecondaryTextColor" format="reference|color" />
+    <attr name="uidPatientInfoDefaultPatientIconColor" format="reference|color" />
+    <attr name="uidPatientInfoDefaultPatientInfoTextColor" format="reference|color" />
+    <attr name="uidPatientInfoDefaultPatientNameTextColor" format="reference|color" />
+    <attr name="uidPatientInfoDefaultSecondaryInfoDescriptorTextColor" format="reference|color" />
+    <attr name="uidPatientInfoDefaultSecondaryInfoValueTextColor" format="reference|color" />
+    <attr name="uidPatientInfoDefaultSeparatorColor" format="reference|color" />
     <attr name="uidPickerIosDefaultNormalDescriptorTextColor" format="reference|color" />
     <attr name="uidPickerIosDefaultNormalListBackgroundColor" format="reference|color" />
     <attr name="uidPickerIosDefaultNormalPickerTextColor" format="reference|color" />
