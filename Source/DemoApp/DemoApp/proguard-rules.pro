@@ -182,7 +182,7 @@
 -keep public class your.class.** {
     public void set*(***);
     public *** get*();
-
+    }
 
 #Gson
 -keep class sun.misc.Unsafe { *; }
