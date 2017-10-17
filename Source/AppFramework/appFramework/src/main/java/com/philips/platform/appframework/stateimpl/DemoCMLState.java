@@ -10,6 +10,8 @@ import android.content.Context;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -34,7 +36,8 @@ public class DemoCMLState extends DemoBaseState {
         if (uAppInterface != null) {
             RALog.d(TAG, "CommlibUApp is null");
             try {
-                uAppInterface.init(new DefaultCommlibUappDependencies(), new UappSettings(context.getApplicationContext()));
+                final AppInfraInterface appInfraInterface = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
+                uAppInterface.init(new DefaultCommlibUappDependencies(context, appInfraInterface), new UappSettings(context.getApplicationContext()));
             } catch (UnsatisfiedLinkError error) {
                 RALog.d(TAG, "Not able to find native implementation");
             }

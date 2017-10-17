@@ -68,6 +68,9 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {
+            url 'https://maven.google.com'
+        }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
     }
@@ -363,6 +366,7 @@ repositories {
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 
     resolutionStrategy.force 'com.android.support:support-annotations:25.3.1'
     exclude group: 'commons-codec', module: 'commons-codec'
@@ -416,13 +420,14 @@ dependencies {
         transitive = true
     }
 
-	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar')
+	def commlibModule = module(group: 'com.philips.cdp', name: 'commlib', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+
 	compile(dp ? project(':commlib') : commlibModule) {
 		exclude group: 'com.android.support'
 		transitive = true
 	}
 
-    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar')
+    def commlibUAppModule = module(group: 'com.philips.cdp', name: 'commlib-demouapp', version: versions.cml_commlib + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     compile(dp ? project(':commlibUApp') : commlibUAppModule) {
         exclude group: 'com.android.support'
         transitive = true

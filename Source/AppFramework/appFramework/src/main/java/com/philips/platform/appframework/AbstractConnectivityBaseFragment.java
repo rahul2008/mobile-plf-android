@@ -20,11 +20,14 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceFactory;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
+import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.connectivity.BLEScanDialogFragment;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 public abstract class AbstractConnectivityBaseFragment extends AbstractAppFrameworkBaseFragment {
@@ -54,7 +57,7 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         this.context = context;
     }
 
-    protected BluetoothAdapter getBluetoothAdapter(){
+    protected BluetoothAdapter getBluetoothAdapter() {
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         return bluetoothManager.getAdapter();
@@ -66,15 +69,16 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
     protected CommCentral getCommCentral(ConnectivityDeviceType deviceType) {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
-        CommCentral commCentral=null;
+        CommCentral commCentral = null;
         try {
-            final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
+            final AppInfraInterface appInfraInterface = ((AppFrameworkApplication) context.getApplicationContext().getApplicationContext()).getAppInfra();
+            final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
+            final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
             ApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext, deviceType);
-
             commCentral = new CommCentral(applianceFactory, bleTransportContext);
             commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
         } catch (TransportUnavailableException e) {
-            RALog.d(TAG,"Blutooth hardware unavailable");
+            RALog.d(TAG, "Bluetooth hardware unavailable");
         }
         return commCentral;
     }
@@ -124,8 +128,8 @@ public abstract class AbstractConnectivityBaseFragment extends AbstractAppFramew
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
                 checkForAccessFineLocation();
-            }else{
-                Toast.makeText(context,getString(R.string.RA_DLS_enable_bluetooth), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getString(R.string.RA_DLS_enable_bluetooth), Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -58,15 +58,6 @@ public class GenericPortTest {
         assertTrue(genericPort.supportsSubscription());
     }
 
-    @Test
-    public void isResponseForThisPortWithInvalidDataTest() {
-        assertFalse(genericPort.isResponseForThisPort(null));
-    }
-    @Test
-    public void isResponseForThisPortWithValidDataTest() {
-        genericPort.processResponse(DUMMY_DATA);
-        assertTrue(genericPort.isResponseForThisPort(DUMMY_DATA));
-    }
 
     @After
     public void tearDown() {
