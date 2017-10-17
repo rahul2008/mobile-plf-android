@@ -8,11 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import com.philips.cdp2.ews.R;
+import com.philips.cdp2.ews.view.DynamicThemeApplyingActivity;
 
-public class BaseDialogActivity extends AppCompatActivity {
+public class BaseDialogActivity extends DynamicThemeApplyingActivity {
 
     private final static String FRAGMENT_NAME = "fragment_name";
 
