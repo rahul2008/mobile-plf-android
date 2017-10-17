@@ -44,34 +44,9 @@ public class THSVisitSummaryPresenter implements THSBasePresenter, THSVisitSumma
         if (componentID == R.id.ths_visit_summary_continue_button) {
             THSManager.getInstance().setVisitContext(null);
             THSManager.getInstance().setMatchMakingVisit(false);
-            // mTHSVisitSummaryFragment.getFragmentManager().popBackStack(THSWelcomeFragment.TAG, 0);
-
-            exitFromAmWell();
+            mTHSVisitSummaryFragment.exitFromAmWell();
         }
 
-    }
-
-    private void exitFromAmWell() {
-
-        if (mTHSVisitSummaryFragment.getActivity() instanceof THSLaunchActivity) {
-            THSLaunchActivity thsLaunchActivity = (THSLaunchActivity) mTHSVisitSummaryFragment.getActivity();
-            thsLaunchActivity.finish();
-        } else {
-
-            FragmentManager fragmentManager = mTHSVisitSummaryFragment.getFragmentManager();
-            Fragment welComeFragment = fragmentManager.findFragmentByTag(THSWelcomeFragment.TAG);
-            Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
-            Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
-
-            if (welComeFragment != null) {
-                fragmentManager.popBackStack(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            } else if (welComeBackFragment != null) {
-                fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            } else if (tHSInitFragment != null) {
-                fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            }
-        }
-        THSManager.getInstance().getThsVisitCompletionListener().onTHSVisitComplete(true);
     }
 
     void fetchVisitSummary() {

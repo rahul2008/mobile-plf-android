@@ -157,10 +157,9 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     }
 
     private void launchAmwell() {
-        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
-        THSManager.getInstance().setThsVisitCompletionListener(this);
+        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input", this);
         PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
-        PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra(), this), new THSMicroAppSettings(this.getApplicationContext()));
+        PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT,themeConfiguration,R.style.Theme_DLS_GroupBlue_Bright,null);
 
         PTHMicroAppInterface.launch(activityLauncher, PTHMicroAppLaunchInput);
