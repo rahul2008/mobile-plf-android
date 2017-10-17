@@ -27,7 +27,7 @@
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_verify_resend_mail_title"
-                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 fontPath="fonts/centralesansbold.ttf"/>
 
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
                 android:text="@string/reg_verify_resend_mail_desc"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 />
 
             <com.philips.platform.uid.view.widget.Label
@@ -45,14 +45,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_24dp"
                 android:text="@string/reg_verify_resend_mail_desc2"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_verify_resend_mail_edittext_label"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"/>
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/usr_activationresend_emailormobile_inputValidationLayout"
