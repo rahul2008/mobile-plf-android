@@ -86,6 +86,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private DiscoveryListener discoveryListener;
     private InternalState internalState = InternalState.Disconnected;
     private String deviceTypeName;
+    private String name;
     private long timeOut;
     private long startTimerTime;
     private long lastDisconnectedTimeMillis;
@@ -137,6 +138,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         this.shnCentral = shnCentral;
         this.deviceTypeName = deviceTypeName;
         this.shnBondInitiator = shnBondInitiator;
+        this.name = btDevice.getName();
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }
@@ -310,9 +312,15 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         return btDevice.getAddress();
     }
 
+
     @Override
     public String getName() {
-        return btDevice.getName();
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

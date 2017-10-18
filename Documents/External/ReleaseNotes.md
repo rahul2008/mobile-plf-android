@@ -11,6 +11,9 @@ Version {next}
 
 ### Features not covered
 
+### Breaking Changes
+* The `ScanRecord` function `getManufacturerSpecificData()` is replaced by `getManufacturerSpecificData(int manufacturerId)`. Previously the first two bytes of the manufacturer where used to check the manufacturer, now this is done internally and the data of a specific manufacturer can be requested. If the data is not found `null` is returned.
+
 ### Defects solved
 * \#33811 Battery service now has working notifications.
 * \#85159 DicommStreamingService is now reaching 'Ready' state on Nexus 6P and Samsung S4
@@ -19,6 +22,7 @@ Version {next}
 * \#88149 If no services are found during discovery, retry the discovery
 * \#88154 Fix the flow of bonding with timers
 * \#88146 Refresh the device cache on Android 7.0, this prevents a corrupt BLE cache
+* \#87558 Devices are no longer listed multiple times in device discovery
 
 ### Residual anomalies
 
