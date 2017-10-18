@@ -11,6 +11,7 @@ package com.philips.platform.csw.permission;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.philips.plataform.mya.model.listener.ConsentResponseListener;
 import com.philips.plataform.mya.model.network.NetworkHelper;
 import com.philips.plataform.mya.model.response.ConsentModel;
 import com.philips.plataform.mya.model.response.ConsentStatus;
+import com.philips.platform.csw.CswBaseFragment;
 import com.philips.platform.mya.consentwidgets.R;
 import com.philips.platform.uid.view.widget.Switch;
 
@@ -30,12 +32,27 @@ import java.util.List;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
-public class PermissionView extends Fragment implements
+public class PermissionView extends CswBaseFragment implements
         PermissionInterface {
 
     private PermissionPresenter permissionPresenter;
     private Switch mConsentSwitch;
     private ProgressDialog dailog;
+
+    @Override
+    protected void setViewParams(Configuration config, int width) {
+
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+
+    }
+
+    @Override
+    public int getTitleResourceId() {
+        return R.string.csw_permissions;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

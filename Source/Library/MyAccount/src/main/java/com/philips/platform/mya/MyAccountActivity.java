@@ -41,7 +41,7 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int orientation =0;
+            int orientation = 0;
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -52,7 +52,6 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
         }
-
 
         setContentView(R.layout.mya_activity_myaccount);
 
@@ -112,22 +111,23 @@ public class MyAccountActivity extends UIDActivity implements OnClickListener,
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-
+        TextView tvTitle = ((TextView) findViewById(R.id.mya_textview_header_title));
+        tvTitle.setText(getString(titleResourceID));
+        if (isShowBack) {
+            ivBack.setVisibility(View.VISIBLE);
+            return;
+        }
+        ivBack.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
         TextView tvTitle = ((TextView) findViewById(R.id.mya_textview_header_title));
         tvTitle.setText(titleResourceText);
-        if (getString(com.philips.cdp.registration.R.string.getting_started).equals(titleResourceText)) {
-            ivBack.setText(com.philips.cdp.registration.R.string.ic_reg_close);
-            isShowBack = true;
-        } else {
-            ivBack.setText(com.philips.cdp.registration.R.string.ic_reg_left);
+        if (isShowBack) {
+            ivBack.setVisibility(View.VISIBLE);
+            return;
         }
-        ivBack.setVisibility(View.VISIBLE);
-        if (!isShowBack) {
-            ivBack.setVisibility(View.INVISIBLE);
-        }
+        ivBack.setVisibility(View.INVISIBLE);
     }
 }
