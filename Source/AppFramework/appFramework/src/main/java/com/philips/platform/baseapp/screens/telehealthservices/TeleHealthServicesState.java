@@ -7,7 +7,6 @@
 package com.philips.platform.baseapp.screens.telehealthservices;
 
 import android.content.Context;
-
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -16,10 +15,11 @@ import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
+import com.philips.platform.ths.uappclasses.THSVisitCompletionListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-public class TeleHealthServicesState extends BaseState{
+public class TeleHealthServicesState extends BaseState implements THSVisitCompletionListener {
     private FragmentLauncher fragmentLauncher;
 
     public TeleHealthServicesState() {
@@ -37,7 +37,7 @@ public class TeleHealthServicesState extends BaseState{
 
     private void launchTeleHealthServices() {
 
-        THSMicroAppLaunchInput microAppLaunchInput = new THSMicroAppLaunchInput("");//We are not using this, hence passing empty string
+        THSMicroAppLaunchInput microAppLaunchInput = new THSMicroAppLaunchInput("",this);//We are not using this, hence passing empty string
         THSMicroAppInterfaceImpl microAppInterface = getMicroAppInterface();
         microAppInterface.init(new THSMicroAppDependencies(((AppFrameworkApplication)
                 fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra()), new THSMicroAppSettings(fragmentLauncher.getFragmentActivity().getApplicationContext()));
@@ -55,6 +55,11 @@ public class TeleHealthServicesState extends BaseState{
 
     @Override
     public void updateDataModel() {
+
+    }
+
+    @Override
+    public void onTHSVisitComplete(boolean isTHSVisitComplete) {
 
     }
 }
