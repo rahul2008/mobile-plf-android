@@ -2,7 +2,13 @@ package com.philips.platform.mya;
 
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.csw.CswConstants;
+import com.philips.platform.csw.CswFragment;
+import com.philips.platform.csw.CswInterface;
+import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -29,6 +35,9 @@ public class MyaInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher fragmentLauncher,
                                   UappLaunchInput uappLaunchInput) {
+        CswLaunchInput cswLaunchInput = new CswLaunchInput();
+        CswInterface cswInterface = new CswInterface();
+        cswInterface.launch(fragmentLauncher, cswLaunchInput);
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
