@@ -25,7 +25,7 @@ public class SetupAccessPointModeTroubleshootingViewModelTest {
     public void itShouldNavigateToDevicePoweredOnConfirmationScreenWhenDoneClicked() throws Exception {
         subject.onDoneButtonClicked();
 
-        verify(mockNavigator).navigateToDevicePoweredOnConfirmationScreen();
+        verify(mockNavigator).navigateToCompletingDeviceSetupScreen();
     }
 
 }
