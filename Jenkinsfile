@@ -10,7 +10,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
 def errors = []
 
-node ('android&&device') {
+node ('AndroidO_sdk') {
 	timestamps {
 		
         try {
