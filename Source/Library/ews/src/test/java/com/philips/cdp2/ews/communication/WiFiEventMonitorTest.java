@@ -5,7 +5,6 @@
 package com.philips.cdp2.ews.communication;
 
 import com.philips.cdp2.ews.annotations.NetworkType;
-import com.philips.cdp2.ews.communication.events.ForgetApplianceNetworkEvent;
 import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -51,14 +50,5 @@ public class WiFiEventMonitorTest {
         eventMonitor.connectToNetwork(event);
 
         verify(wifiConnectivityManagerMock).connectToHomeWiFiNetwork(HOME_WIFI_SSID);
-    }
-
-    @Test
-    public void shouldForgetApplianceNetworkWhenRequested() throws Exception {
-        final ForgetApplianceNetworkEvent event = new ForgetApplianceNetworkEvent();
-
-        eventMonitor.forgetApplianceNetwork(event);
-
-        verify(wifiConnectivityManagerMock).forgetApplianceNetwork();
     }
 }
