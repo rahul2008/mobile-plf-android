@@ -45,7 +45,7 @@ node('Android') {
 
             }
 
-            stage(Build Release') {
+            stage('Build Release') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library
@@ -57,6 +57,7 @@ node('Android') {
             stage('Archive results') {
                 echo "stage Archive results"
                  androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                junit allowEmptyResults: false, testResults: 'Source/Library/ews/build/test-results/**/*.xml'
 
                 archiveArtifacts artifacts: 'Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
