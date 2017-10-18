@@ -72,7 +72,9 @@
                     android:layout_marginStart="@dimen/d"
                     android:layout_marginTop="@dimen/d"
                     android:layout_weight="1"
-                    android:text="@string/label_ews_get_started_description"
+                    android:text= "@{String.format(@string/label_ews_get_started_description, @string/ews_device_name_default)}"
+                    app:stringFormat="@{@string/label_ews_get_started_description}"
+                    app:content="@{config.deviceName}"
                     android:textColor="@color/colorPrimary"
                     />
 

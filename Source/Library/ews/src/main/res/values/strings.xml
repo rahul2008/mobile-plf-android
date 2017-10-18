@@ -2,16 +2,43 @@
     <string name="app_name">EWSMicroApp</string>
     <string name="af_app_name">SleepMapper</string>
     <string name="ews_title">WiFi setup</string>
+    <string name="defaultSingleValue">%1$s</string>
     <string name="ews_device_name_default">device name</string>
     <string name="ews_app_name_default">name</string>
-    <string name="label_ews_get_started_title">Let’s connect your %1$s to your WiFi so you can enjoy all the app enabled features!</string>
-    <string name="label_ews_get_started_description">Important: For a reliable connection, make sure you have a strong WiFi signal where you are setting up.</string>
+    <!--EWS_01_00 start -->
+    <string name="label_ews_get_started_title">Let’s connect your %1$s to your Wi-Fi so you can enjoy all features enabled by the app.</string>
+    <string name="label_ews_get_started_description">Tip: For successful Wi-Fi connection, position your %1$s within reach of your router.\nObstacles such walls may affect the Wi-Fi performance.</string>
     <string name="button_ews_get_started_get_started">Get started</string>
-    <string name="label_ews_confirm_connection_title">Let\'s confirm the WiFi network to which we’ll connect your Philips Somneo</string>
-    <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:</string>
-    <string name="label_ews_confirm_connection_want_to_connect">Do you want to connect your Somneo to this WiFi network?</string>
-    <string name="button_ews_confirm_connection_yes">Yes</string>
+    <!--EWS_01_01 con rm wi network -->
+    <string name="label_ews_confirm_connection_title">1. Confirm your Wi-Fi</string>
+    <string name="label_ews_confirm_connection_currently_connected">You are currently connected to:\n %1$s</string>
+    <string name="label_ews_confirm_connection_tip">Tip: We recommend that you use your home Wi-Fi network nearest to the %1$s.\nYour %2$s does not support 5Ghz Wi-Fi networks.</string>
+    <string name="label_ews_confirm_connection_want_to_connect">Do you want to connect your %1$s to this %2$s?</string>
+    <string name="button_ews_confirm_connection_yes">Yes, connect</string>
     <string name="button_ews_confirm_connection_no">No</string>
+    <!--EWS_01_01b select home wifi -->
+    <string name="label_ews_select_wakeup_wifi_title">Select home Wi-Fi network</string>
+    <string name="label_ews_select_wakeup_wifi_body">Please read all 4 steps before leaving the application.\n\n</string>
+    <string name="label_ews_select_wakeup_wifi_steps">1. Tap Wi-Fi in your phone Settings\n2. Make sure your Wi-Fi is turned on\n3. Select your home network\n4. Return to this %1$s app</string>
+    <!--EWS_02_01_setup-steps01 -->
+    <string name="label_ews_plug_in_title_default">2. Make sure your device is powered on.</string>
+    <string name="label_ews_plug_in_body_default">Press the power button on your %1$s to start it.</string>
+    <string name="button_ews_plug_in_next">Ok, I did it</string>
+    <!--EWS_02_02_setup-steps02 -->
+    <string name="label_ews_verify_ready_title_default">3. Is device in setup-mode?</string>
+    <string name="label_ews_verify_ready_question_default">Is the Wi-Fi light blinking?</string>
+    <string name="button_ews_verify_ready_yes_default">Wi-Fi blinking</string>
+    <string name="button_ews_verify_ready_no_default">Wi-Fi not blinking</string>
+    <!--EWS_03_00_Connecting with device-->
+    <string name="label_ews_establishing_connection_title">Connecting to PHILIPS Setup</string>
+    <string name="label_ews_establishing_connection_body">This might take a few seconds. You will be automatically redirected when finished.</string>
+    <!--EWS_03_01a_connect with password-->
+    <string name="label_ews_password_title">Now setting up %1$s with your %2$s</string>
+    <string name="label_ews_password_body">If your Wi-Fi network is not password protected, tap connect</string>
+    <string name="label_ews_password_form_password_title">Wi-FI Password</string>
+    <string name="label_ews_password_from_name_title">You can give your %1$s any name or keep the default name.</string>
+    <string name="button_ews_password_connect">Connect</string>
+
     <string name="ews_03_header_1">WiFi setup</string>
     <string name="ews_03_content_1">%1$s</string>
     <string name="ews_03_content_2">Do you see this screen on the display and the icon &lt;b&gt;blinking&lt;/b&gt; on the display of your Philips Wake-Up Light?</string>
@@ -22,16 +49,11 @@
     <string name="ews_12_content_header">Reset Sleep&amp;Wake-Up Light device</string>
     <string name="ews_12_content">To reset the device please turn around your Philips Sleep&amp;Wake-Up Light and press the end of a paper clip in the hole between the plug and the USB entrance (see picture). Wait for 30 seconds.</string>
     <string name="ews_12_button">Continue</string>
-    <string name="label_ews_select_wakeup_wifi_title">Select your Somneo from the list of available WiFi networks on your phone</string>
-    <string name="label_ews_select_wakeup_wifi_body">&lt;b&gt;1.&lt;/b&gt; Go to your &lt;b&gt;WiFi&lt;/b&gt; settings.\n&lt;b&gt;2.&lt;/b&gt; Select &lt;b&gt;\'PHILIPS Setup\'&lt;/b&gt;-network.\n&lt;b&gt;3.&lt;/b&gt; Return to this app.</string>
     <string name="button_ews_select_wakeup_wifi_having_issues">Having issues?</string>
-    <string name="label_ews_establishing_connection_title">Establishing connection</string>
-    <string name="label_ews_password_title">Now setting up %1$s with your %2$s</string>
     <string name="label_ews_password_connect_to">Selected WiFi Network:</string>
     <string name="label_ews_password_enter_password">Enter the network password:</string>
     <string name="label_ews_password_password_placeholder">Show password</string>
     <string name="label_ews_password_specify_name">Give your Somneo a unique name</string>
-    <string name="label_ews_establishing_connection_body">Now connecting your Somneo to your network. This might take a few seconds. You will be redirected automatically when finished.</string>
     <string name="label_ews_succesful_title">Connection successful!</string>
     <string name="label_ews_succesful_body">Your %1$s is now connected to your home Wi-Fi network and paired with your phone.</string>
     <string name="button_ews_succesful_start">Enjoy your Sleep&amp;Wake-Up Light!</string>
