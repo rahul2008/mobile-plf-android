@@ -28,7 +28,6 @@
             style="@style/reg_style_homescreen_title"
             android:layout_marginEnd="@dimen/reg_header_title_margin_right"
             android:layout_toEndOf="@+id/mya_textview_back"
-            android:text="Permissions"
             android:textColor="?attr/uidNavigationPrimaryTextColor"
             reglib:fontAssetName="CentraleSans-Book.OTF" />
     </RelativeLayout>
