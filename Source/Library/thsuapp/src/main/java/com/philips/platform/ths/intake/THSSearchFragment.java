@@ -12,11 +12,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -111,6 +113,10 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     public void onPrepareOptionsMenu(Menu menu) {
         if(isFragmentAttached()) {
             super.onPrepareOptionsMenu(menu);
+            MenuItem searchBoxitem = menu.findItem(R.id.search_pharmacy_menu);
+            final View view = new  com.philips.platform.uid.view.widget.SearchBox(getContext());
+            MenuItemCompat.setActionView(searchBoxitem, view);
+
             searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
             searchBox.setQuerySubmitListener(this);
             searchBox.setQuery(searchBox.getQuery());
