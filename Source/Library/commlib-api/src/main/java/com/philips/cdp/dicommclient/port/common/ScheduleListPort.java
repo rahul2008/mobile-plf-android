@@ -47,11 +47,6 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return parseResponseAsSingleSchedule(jsonResponse) != null || parseResponseAsScheduleList(jsonResponse) != null;
-    }
-
-    @Override
     public void processResponse(String jsonResponse) {
         DICommLog.e(DICommLog.SCHEDULELISTPORT, "Not implemented.");
     }

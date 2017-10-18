@@ -654,11 +654,6 @@ public class DiCommPortTest {
         }
 
         @Override
-        public boolean isResponseForThisPort(String jsonResponse) {
-            return true;
-        }
-
-        @Override
         public void processResponse(String jsonResponse) {
             // NOP
         }

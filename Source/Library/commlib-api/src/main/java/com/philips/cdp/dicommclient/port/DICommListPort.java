@@ -46,12 +46,6 @@ abstract class DICommListPort<P extends PortProperties, T extends DICommListEntr
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        // TODO DIComm refacor - implement method
-        return false;
-    }
-
-    @Override
     protected void processResponse(String jsonResponse) {
         // TODO DIComm refactor - implement method
 

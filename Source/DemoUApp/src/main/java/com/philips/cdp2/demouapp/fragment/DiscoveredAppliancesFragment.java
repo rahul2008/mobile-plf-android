@@ -42,8 +42,12 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
@@ -83,6 +87,12 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 applianceAdapter.clear();
 
                 final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+                Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
+                    @Override
+                    public int compare(Appliance o1, Appliance o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                });
                 for (Appliance appliance : appliances) {
                     appliance.getWifiPort().addPortListener(wifiPortListener);
                 }
