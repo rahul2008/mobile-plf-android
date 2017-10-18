@@ -54,22 +54,36 @@ public class ConnectingDeviceWithWifiViewModelTest {
 
     private ConnectingDeviceWithWifiViewModel subject;
 
-    @Mock private ApplianceAccessManager mockApplianceAccessManager;
-    @Mock private Navigator mockNavigator;
-    @Mock private WiFiConnectivityManager mockWiFiConnectivityManager ;
-    @Mock private WiFiUtil mockWiFiUtil;
-    @Mock private Handler mockHandler;
-    @Mock private DiscoveryHelper mockDiscoveryHelper;
-    @Mock private ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback mockFragmentCallback;
+    @Mock
+    private ApplianceAccessManager mockApplianceAccessManager;
+    @Mock
+    private Navigator mockNavigator;
+    @Mock
+    private WiFiConnectivityManager mockWiFiConnectivityManager;
+    @Mock
+    private WiFiUtil mockWiFiUtil;
+    @Mock
+    private Handler mockHandler;
+    @Mock
+    private DiscoveryHelper mockDiscoveryHelper;
+    @Mock
+    private ConnectingDeviceWithWifiViewModel.ConnectingDeviceToWifiCallback mockFragmentCallback;
 
-    @Mock private Intent mockIntent;
-    @Mock private NetworkInfo mockNetworkInfo;
-    @Mock private Appliance mockAppliance;
+    @Mock
+    private Intent mockIntent;
+    @Mock
+    private NetworkInfo mockNetworkInfo;
+    @Mock
+    private Appliance mockAppliance;
 
-    @Captor private ArgumentCaptor<ApplianceAccessManager.SetPropertiesCallback> putPropsCallbackCaptor;
-    @Captor private ArgumentCaptor<BroadcastReceiver> receiverArgumentCaptor;
-    @Captor private ArgumentCaptor<DiscoveryHelper.DiscoveryCallback> discoveryCallbackArgumentCaptor;
-    @Captor private ArgumentCaptor<Runnable> timeoutRunnableCaptor;
+    @Captor
+    private ArgumentCaptor<ApplianceAccessManager.SetPropertiesCallback> putPropsCallbackCaptor;
+    @Captor
+    private ArgumentCaptor<BroadcastReceiver> receiverArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<DiscoveryHelper.DiscoveryCallback> discoveryCallbackArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<Runnable> timeoutRunnableCaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -111,10 +125,10 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldNavigateToWrongWifiScreenWhenPuttingPropsFails() throws Exception {
+    public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenPropsFails() throws Exception {
         simulatePutPropsFailed();
 
-        verify(mockNavigator).navigateToWrongWifiNetworkScreen(any(Bundle.class));
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
     }
 
     @Test
