@@ -64,11 +64,9 @@ public abstract class DICommPort<T extends PortProperties> {
         this.communicationStrategy = communicationStrategy;
     }
 
-    public abstract boolean isResponseForThisPort(String jsonResponse);
-
     protected abstract void processResponse(String jsonResponse);
 
-    protected abstract String getDICommPortName();
+    public abstract String getDICommPortName();
 
     protected abstract int getDICommProductId();
 

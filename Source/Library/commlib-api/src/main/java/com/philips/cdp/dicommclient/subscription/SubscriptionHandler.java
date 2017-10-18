@@ -21,7 +21,7 @@ public abstract class SubscriptionHandler {
 
     public abstract void disableSubscription();
 
-    protected void postSubscriptionEventOnUIThread(final String decryptedData, Set<SubscriptionEventListener> subscriptionEventListeners) {
+    protected void postSubscriptionEventOnUIThread(final String portName, final String decryptedData, Set<SubscriptionEventListener> subscriptionEventListeners) {
 
         mSubscriptionEventListeners = subscriptionEventListeners;
         mSubscriptionEventResponseHandler = getSubscriptionEventResponseHandler();
@@ -31,7 +31,7 @@ public abstract class SubscriptionHandler {
             public void run() {
                 DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
                 for (SubscriptionEventListener subscriptionEventListener : mSubscriptionEventListeners) {
-                    subscriptionEventListener.onSubscriptionEventReceived(decryptedData);
+                    subscriptionEventListener.onSubscriptionEventReceived(portName, decryptedData);
                 }
             }
         };

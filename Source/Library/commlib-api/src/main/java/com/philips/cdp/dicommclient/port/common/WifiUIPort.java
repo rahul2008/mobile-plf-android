@@ -32,11 +32,6 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
     }
 
     @Override
-    public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) != null);
-    }
-
-    @Override
     public void processResponse(String jsonResponse) {
         WifiUIPortProperties properties = parseResponse(jsonResponse);
         if (properties != null) {
