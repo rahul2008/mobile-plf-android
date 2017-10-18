@@ -39,7 +39,7 @@ public class DataPullSynchronise {
     //Threads to run at a time on Executor pool
     private static final int WORKER_THREADS = 10;
 
-    private ExecutorService executor;
+    ExecutorService executor;
 
     @NonNull
     List<? extends DataFetcher> fetchers;

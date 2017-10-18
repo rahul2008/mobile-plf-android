@@ -133,7 +133,7 @@ public class MomentsSegregator {
         if (momentsToUpdate.size() > 0)
             deleteAndSaveMoments(momentsToUpdate, dbRequestListener);
 
-        return momentsToUpdate.size();
+        return momentsToCreate.size() + momentsToDelete.size() + momentsToUpdate.size();
     }
 
     private void deleteMeasurementAndMomentDetailsAndSetId(final Moment momentInDatabase, Moment ormMoment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
