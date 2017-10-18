@@ -17,6 +17,8 @@ Version {next}
 ### Defects solved
 * \#33811 Battery service now has working notifications.
 * \#87558 Devices are no longer listed multiple times in device discovery
+* \#89116 Bug resolved in firmware upgrade on toothbrush
+* \#89113 Bug resolved on retry firmware update after interrupted connection
 
 ### Residual anomalies
 
