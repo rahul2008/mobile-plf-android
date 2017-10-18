@@ -37,6 +37,10 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
+        if( uappLaunchInput instanceof THSMicroAppLaunchInput){
+            THSMicroAppLaunchInput thsMicroAppLaunchInput=(THSMicroAppLaunchInput)uappLaunchInput;
+            THSManager.getInstance().setThsVisitCompletionListener(thsMicroAppLaunchInput.getThsVisitCompletionListener());
+        }
         THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
