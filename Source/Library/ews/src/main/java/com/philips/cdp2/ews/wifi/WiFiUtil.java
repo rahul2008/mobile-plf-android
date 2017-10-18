@@ -31,7 +31,6 @@ public class WiFiUtil {
     private WifiManager wifiManager;
 
     private String lastWifiSSid;
-    private String hotSpotWiFiSSID;
 
     public static final int HOME_WIFI = 1;
     public static final int WRONG_WIFI = 2;
@@ -105,17 +104,16 @@ public class WiFiUtil {
         return UNKNOWN_WIFI;
     }
 
-    public void setHotSpotWiFiSSID(String ssid) {
-        this.hotSpotWiFiSSID = ssid;
-    }
-
-    public void forgetHotSpotNetwork() {
-        if (this.hotSpotWiFiSSID != null) {
-            List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
-            for (WifiConfiguration config : configs) {
-                if (config.SSID.equals(this.hotSpotWiFiSSID)) {
-                    wifiManager.removeNetwork(config.networkId);
-                }
+    public void forgetHotSpotNetwork(String hotSpotWiFiSSID) {
+        List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
+        for (WifiConfiguration config : configs) {
+            EWSLogger.d(EWS_STEPS, "Pre configured Wifi ssid " + config.SSID);
+            String cleanSSID = config.SSID;
+            cleanSSID = cleanSSID.replaceAll("^\"|\"$", "");
+            if (cleanSSID.equals(hotSpotWiFiSSID)) {
+                boolean success = wifiManager.removeNetwork(config.networkId);
+                wifiManager.saveConfiguration();
+                EWSLogger.i(EWS_STEPS, "Removing network " + success);
             }
         }
     }

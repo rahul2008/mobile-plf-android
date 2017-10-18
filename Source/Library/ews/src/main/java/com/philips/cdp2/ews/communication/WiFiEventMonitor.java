@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.communication;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.annotations.NetworkType;
-import com.philips.cdp2.ews.communication.events.ForgetApplianceNetworkEvent;
 import com.philips.cdp2.ews.communication.events.NetworkConnectEvent;
 import com.philips.cdp2.ews.wifi.WiFiConnectivityManager;
 
@@ -41,10 +40,5 @@ public class WiFiEventMonitor extends EventMonitor {
                 wiFiConnectivityManager.connectToHomeWiFiNetwork(event.getNetworkSSID());
                 break;
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void forgetApplianceNetwork(@NonNull final ForgetApplianceNetworkEvent event) {
-        wiFiConnectivityManager.forgetApplianceNetwork();
     }
 }
