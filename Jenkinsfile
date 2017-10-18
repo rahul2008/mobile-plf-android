@@ -13,7 +13,6 @@ def errors = []
 
 node('Android') {
     timestamps {
-    def LIBRARY_ROOT = "Source/Library/ews"
     def APP_ROOT = "Source/Library"
         try {
             stage('Checkout') {
@@ -35,7 +34,7 @@ node('Android') {
                     cd ${APP_ROOT}
                     ./gradlew :ews:test
                 """
-                step([$class: 'JUnitResultArchiver', testResults: LIBRARY_ROOT + '/*/build/test-results/*/*.xml'])
+                step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
             }
 
             stage('Build') {
