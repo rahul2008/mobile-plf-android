@@ -13,7 +13,8 @@ def errors = []
 
 node('Android') {
     timestamps {
-    def APP_ROOT = "./Source/Library"
+    def LIBRARY_ROOT = "Source/Library/ews"
+    def APP_ROOT = "Source/Library"
         try {
             stage('Checkout') {
 
@@ -31,10 +32,10 @@ node('Android') {
 
             stage ('Unit Test') {
                 sh """#!/bin/bash -le
-                    cd ${APP_ROOT}
+                    cd ${LIBRARY_ROOT}
                     ./gradlew test
                 """
-                step([$class: 'JUnitResultArchiver', testResults: APP_ROOT + '/*/build/test-results/*/*.xml'])
+                step([$class: 'JUnitResultArchiver', testResults: LIBRARY_ROOT + '/*/build/test-results/*/*.xml'])
             }
 
             stage('Build') {
