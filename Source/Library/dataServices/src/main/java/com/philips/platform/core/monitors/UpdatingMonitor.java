@@ -106,7 +106,7 @@ public class UpdatingMonitor extends EventMonitor {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final BackendMomentListSaveRequest momentSaveRequest) {
-        List<? extends Moment> moments = momentSaveRequest.getList();
+        List<Moment> moments = momentSaveRequest.getMomentList();
         if (moments == null || moments.isEmpty()) {
             return;
         }

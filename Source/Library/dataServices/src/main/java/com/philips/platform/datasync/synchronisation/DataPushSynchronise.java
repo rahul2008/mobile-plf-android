@@ -26,7 +26,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,14 +40,14 @@ import retrofit.RetrofitError;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
+    private static final int WORKER_THREADS = 10;
+
+    ExecutorService executor;
     @Inject
     UCoreAccessProvider accessProvider;
 
     @NonNull
     List<? extends DataSender> senders;
-
-    @NonNull
-    Executor executor;
 
     @Inject
     Eventing eventing;
@@ -75,14 +75,14 @@ public class DataPushSynchronise extends EventMonitor {
 
     List<? extends DataSender> configurableSenders;
 
-    DataServicesManager mDataServicesManager;
+    private DataServicesManager mDataServicesManager;
 
     public DataPushSynchronise(@NonNull final List<? extends DataSender> senders) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPushSynchronize(this);
         this.senders = senders;
-        executor = Executors.newFixedThreadPool(20);
         configurableSenders = getSenders();
+        executor = Executors.newFixedThreadPool(configurableSenders.size());
     }
 
     void startSynchronise(final int eventId) {
@@ -98,6 +98,45 @@ public class DataPushSynchronise extends EventMonitor {
         } else {
             eventing.post(new BackendResponse(eventId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in"))));
         }
+    }
+
+    private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
+        System.out.println("start all senders");
+
+        if (configurableSenders.size() <= 0) {
+            synchronisationManager.dataSyncComplete();
+            return;
+        }
+
+        initPush(configurableSenders.size());
+
+        final CountDownLatch countDownLatch = new CountDownLatch(configurableSenders.size());
+
+        for (final DataSender sender : configurableSenders) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
+                    System.out.println("sender " + response);
+                    numberOfRunningSenders.decrementAndGet();
+                    countDownLatch.countDown();
+
+                    /*int jobsRunning = numberOfRunningSenders.decrementAndGet();
+
+                    if (jobsRunning <= 0) {
+                        postPushComplete();
+                    }*/
+                }
+            });
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        postPushComplete();
     }
 
     private void registerEvent() {
@@ -123,32 +162,10 @@ public class DataPushSynchronise extends EventMonitor {
         }
     }
 
-    private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        if (configurableSenders.size() <= 0) {
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
-
-        initPush(configurableSenders.size());
-        executor = Executors.newFixedThreadPool(20);
-        for (final DataSender sender : configurableSenders) {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    int jobsRunning = numberOfRunningSenders.decrementAndGet();
-
-                    if (jobsRunning <= 0) {
-                        postPushComplete();
-                    }
-                }
-            });
-        }
-    }
-
     private void postPushComplete() {
+        System.out.println("push complete");
         synchronisationManager.dataSyncComplete();
-        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
+//        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
     }
 
     private boolean isSyncStarted() {

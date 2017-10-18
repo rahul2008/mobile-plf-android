@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,8 +36,10 @@ import retrofit.RetrofitError;
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    @NonNull
-    Executor executor;
+    //Threads to run at a time on Executor pool
+    private static final int WORKER_THREADS = 10;
+
+    private ExecutorService executor;
 
     @NonNull
     List<? extends DataFetcher> fetchers;
@@ -79,25 +81,15 @@ public class DataPullSynchronise {
     public DataPullSynchronise(@NonNull final List<? extends DataFetcher> fetchers) {
         mDataServicesManager = DataServicesManager.getInstance();
         mDataServicesManager.getAppComponant().injectDataPullSynchronize(this);
-        executor = Executors.newFixedThreadPool(20);
         this.fetchers = fetchers;
         configurableFetchers = getFetchers();
-    }
-
-    private boolean isSyncStarted() {
-        return numberOfRunningFetches.get() > 0;
-    }
-
-    private void startFetching(final DateTime lastSyncDateTime, final int referenceId, final DataFetcher fetcher) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                preformFetch(fetcher, lastSyncDateTime, referenceId);
-            }
-        });
+        executor = Executors.newFixedThreadPool(configurableFetchers.size());
     }
 
     void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
+
+        System.out.println("startSynchronise");
+
         boolean isLoggedIn = mUCoreAccessProvider.isLoggedIn();
 
         if (!isLoggedIn) {
@@ -112,15 +104,37 @@ public class DataPullSynchronise {
         }
     }
 
-    private void preformFetch(final DataFetcher fetcher, final DateTime lastSyncDateTime, final int referenceId) {
-        RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
-        updateResult(resultError);
+    private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
+        System.out.println("fetch data");
 
-        int jobsRunning = numberOfRunningFetches.decrementAndGet();
-
-        if (jobsRunning <= 0) {
-            reportResult(fetchResult, referenceId);
+        if (configurableFetchers.size() <= 0) {
+            synchronisationManager.dataSyncComplete();
+            return;
         }
+
+        initFetch(configurableFetchers.size());
+
+        final CountDownLatch countDownLatch = new CountDownLatch(configurableFetchers.size());
+
+        for (final DataFetcher fetcher : configurableFetchers) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
+                    updateResult(resultError);
+                    numberOfRunningFetches.decrementAndGet();
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        reportResult(fetchResult, referenceId);
     }
 
     private void updateResult(final RetrofitError resultError) {
@@ -130,12 +144,18 @@ public class DataPullSynchronise {
     }
 
     private void reportResult(final RetrofitError result, final int referenceId) {
+        System.out.println("report result");
+
         if (result == null) {
             postOk();
         } else {
             postError(referenceId, result);
         }
-        synchronisationManager.shutdownAndAwaitTermination(((ExecutorService) executor));
+//        synchronisationManager.shutdownAndAwaitTermination(executor);
+    }
+
+    private void postOk() {
+        synchronisationManager.dataPullSuccess();
     }
 
     private void postError(final int referenceId, final RetrofitError error) {
@@ -143,25 +163,13 @@ public class DataPullSynchronise {
         eventing.post(new BackendResponse(referenceId, error));
     }
 
-    private void postOk() {
-        synchronisationManager.dataPullSuccess();
-    }
-
     private void initFetch(int size) {
         numberOfRunningFetches.set(size);
         fetchResult = null;
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
-        if (configurableFetchers.size() <= 0) {
-            synchronisationManager.dataSyncComplete();
-            return;
-        }
-        executor = Executors.newFixedThreadPool(20);
-        initFetch(configurableFetchers.size());
-        for (DataFetcher fetcher : configurableFetchers) {
-            startFetching(lastSyncDateTime, referenceId, fetcher);
-        }
+    private boolean isSyncStarted() {
+        return numberOfRunningFetches.get() > 0;
     }
 
     private List<? extends DataFetcher> getFetchers() {
@@ -203,4 +211,5 @@ public class DataPullSynchronise {
         return fetchList;
     }
 }
+
 
