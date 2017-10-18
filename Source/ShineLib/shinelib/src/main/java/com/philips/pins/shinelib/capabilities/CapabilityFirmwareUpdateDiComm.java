@@ -176,6 +176,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
             public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
                 if (result != SHNResult.SHNOk) {
                     failWithResult(result);
+                } else {
+                    setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
                 }
             }
         });
@@ -265,7 +267,8 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         return null;
     }
 
-    private void updateState() {
+    @VisibleForTesting
+    void updateState() {
         State remoteState = firmwareDiCommPort.getState();
         setState(toShnFirmwareUpdateState(remoteState));
     }
