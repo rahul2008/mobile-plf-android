@@ -1,8 +1,10 @@
 package com.philips.cdp2.ews.injections;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,14 +13,23 @@ import dagger.Provides;
 public class EWSConfigurationModule {
 
     @NonNull
-    private EWSHappyFlowConfiguration configurationEWShappyFlow;
+    private BaseContentConfiguration configurationEWShappyFlow;
 
-    public EWSConfigurationModule(@NonNull EWSHappyFlowConfiguration ewsHappyFlowConfiguration){
-        this.configurationEWShappyFlow = ewsHappyFlowConfiguration;
+    @NonNull
+    private HappyFlowContentConfiguration happyFlowContentConfiguration;
+
+    public EWSConfigurationModule(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration){
+        this.configurationEWShappyFlow = baseContentConfiguration;
+        this.happyFlowContentConfiguration = happyFlowContentConfiguration;
     }
 
     @Provides
-    EWSHappyFlowConfiguration provideEWSConfigurationContent(){
+    BaseContentConfiguration provideEWSConfigurationContent(){
         return configurationEWShappyFlow;
+    }
+
+    @Provides
+    HappyFlowContentConfiguration provideHappyFlowContentConfiguration(){
+        return happyFlowContentConfiguration;
     }
 }

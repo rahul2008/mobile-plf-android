@@ -15,7 +15,8 @@ import android.view.View;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
-import com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
+import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
@@ -27,6 +28,7 @@ import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -40,6 +42,8 @@ public class EWSActivity extends UiKitActivity {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
+    public static final String KEY_BASECONTENT_CONFIGURATION = "baseContentConfiguration";
+    public static final String KEY_HAPPYFLOW_CONFIGURATION = "happyFlowConfiguration";
 
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
@@ -55,11 +59,7 @@ public class EWSActivity extends UiKitActivity {
         setUpToolBar();
         setUpCancelButton();
 
-        EWSHappyFlowConfiguration extraMap = getIntent().getParcelableExtra("ewsHappyFlowConfiguration");
-        ewsComponent = DaggerEWSComponent.
-                builder().
-                eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
-                .eWSConfigurationModule(new EWSConfigurationModule(extraMap)).build();
+        ewsComponent = createEWSComponent();
         ewsComponent.inject(this);
         ewsEventingChannel.start();
 
@@ -68,6 +68,29 @@ public class EWSActivity extends UiKitActivity {
         //TODO move this inizialization.
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
+    }
+
+    private EWSComponent createEWSComponent() {
+        BaseContentConfiguration baseContentConfiguration =
+                (BaseContentConfiguration) BundleUtils.extractParcelableFromIntent(getIntent(), KEY_BASECONTENT_CONFIGURATION,
+                        new IllegalArgumentException("Need to pass baseContentConfiguration"));
+
+        HappyFlowContentConfiguration happyFlowConfiguration =
+                (HappyFlowContentConfiguration) BundleUtils.extractParcelableFromIntent(getIntent(), KEY_HAPPYFLOW_CONFIGURATION,
+                        new IllegalArgumentException("Need to pass happyFlowContentConfiguration"));
+
+        if (baseContentConfiguration == null){
+            baseContentConfiguration = new BaseContentConfiguration();
+        }
+
+        if (happyFlowConfiguration == null){
+             happyFlowConfiguration = new HappyFlowContentConfiguration.HappyFlowConfigurationBuilder().build();
+        }
+
+        return DaggerEWSComponent.builder()
+                .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
+                .eWSConfigurationModule(new EWSConfigurationModule(baseContentConfiguration, happyFlowConfiguration))
+                .build();
     }
 
     private void setUpCancelButton() {

@@ -2,6 +2,8 @@
     <string name="app_name">EWSMicroApp</string>
     <string name="af_app_name">SleepMapper</string>
     <string name="ews_title">WiFi setup</string>
+    <string name="ews_device_name_default">device name</string>
+    <string name="ews_app_name_default">name</string>
     <string name="label_ews_get_started_title">Let’s connect your %1$s to your WiFi so you can enjoy all the app enabled features!</string>
     <string name="label_ews_get_started_description">Important: For a reliable connection, make sure you have a strong WiFi signal where you are setting up.</string>
     <string name="button_ews_get_started_get_started">Get started</string>
@@ -11,7 +13,7 @@
     <string name="button_ews_confirm_connection_yes">Yes</string>
     <string name="button_ews_confirm_connection_no">No</string>
     <string name="ews_03_header_1">WiFi setup</string>
-    <string name="ews_03_content_1">Plug your Sleep&amp;Wake-Up Light into an electricity socket.</string>
+    <string name="ews_03_content_1">%1$s</string>
     <string name="ews_03_content_2">Do you see this screen on the display and the icon &lt;b&gt;blinking&lt;/b&gt; on the display of your Philips Wake-Up Light?</string>
     <string name="ews_03_button_1">Yes</string>
     <string name="ews_03_button_2">No</string>

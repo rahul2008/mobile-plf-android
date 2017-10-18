@@ -30,7 +30,6 @@ import com.philips.cdp2.ews.communication.ApplianceAccessEventMonitor;
 import com.philips.cdp2.ews.communication.DiscoveryHelper;
 import com.philips.cdp2.ews.communication.EventingChannel;
 import com.philips.cdp2.ews.communication.WiFiEventMonitor;
-import com.philips.cdp2.ews.configuration.EWSHappyFlowConfiguration;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.ActivityNavigator;
 import com.philips.cdp2.ews.navigation.FragmentNavigator;

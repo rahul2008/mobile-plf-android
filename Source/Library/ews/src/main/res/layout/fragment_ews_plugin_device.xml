@@ -7,6 +7,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
+            name="happyFlowConfiguration"
+            type="com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration"/>
+        <variable
             name="viewModel"
             type="com.philips.cdp2.ews.viewmodel.EWSDevicePowerOnViewModel"/>
 
@@ -29,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/e"
-                android:text="@string/ews_03_content_1"/>
+                app:text="@string/ews_03_content_1"/>
 
             <ImageView
                 style="@style/EWS.ImageScale"
