@@ -30,17 +30,17 @@ node('Android') {
             }
 
             stage ('Unit Test') {
-                sh """#!/bin/bash -le
-                    cd ${APP_ROOT}
+                    sh '''#!/bin/bash -l
+                    cd ./Source/Library 
                     ./gradlew :ews:test
-                """
+                            '''
                 step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
             }
 
             stage('Build') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ${APP_ROOT}
+                                cd ./Source/Library 
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug 
                             '''
 
