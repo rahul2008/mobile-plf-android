@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.init.THSInitFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -17,6 +18,15 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfig;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
+import java.io.Serializable;
+import java.util.List;
 
 
 public class THSMicroAppInterfaceImpl implements UappInterface {
@@ -44,6 +54,8 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
         THSManager.getInstance().setAppInfra(appInfra);
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
+            intent.putExtra(THSConstants.KEY_ACTIVITY_THEME, ((ActivityLauncher) uiLauncher).getUiKitTheme());
+            intent.putExtras(getThemeConfigsIntent((ActivityLauncher) uiLauncher));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
@@ -53,6 +65,36 @@ public class THSMicroAppInterfaceImpl implements UappInterface {
             thsBaseFragment = new THSInitFragment();
             lauchFirstFragment(thsBaseFragment,fragmentLauncher,fragmentTransaction);
         }
+    }
+
+    private Intent getThemeConfigsIntent(ActivityLauncher activityLauncher) {
+        ThemeConfiguration themeConfiguration = activityLauncher.getDlsThemeConfiguration();
+        List<ThemeConfig> configurations = themeConfiguration.getConfigurations();
+        return getConfigurationIntent(configurations);
+    }
+
+    private Intent getConfigurationIntent(List<ThemeConfig> configurations) {
+        Intent intent = new Intent();
+        for (ThemeConfig config : configurations) {
+            if(config instanceof ColorRange) {
+                intent.putExtra(THSConstants.KEY_COLOR_RANGE, getConfigElement(config));
+            }
+            if (config instanceof ContentColor) {
+                intent.putExtra(THSConstants.KEY_CONTENT_COLOR, getConfigElement(config));
+            }
+            if(config instanceof NavigationColor) {
+                intent.putExtra(THSConstants.KEY_NAVIGATION_COLOR, getConfigElement(config));
+            }
+            if(config instanceof AccentRange) {
+                intent.putExtra(THSConstants.KEY_ACCENT_RANGE, getConfigElement(config));
+            }
+        }
+        return intent;
+    }
+
+    private <T extends Serializable> T getConfigElement(ThemeConfig config) {
+        T configElement = (T) config;
+        return configElement;
     }
 
     private void lauchFirstFragment(THSBaseFragment thsBaseFragment,FragmentLauncher fragmentLauncher, FragmentTransaction fragmentTransaction) {
