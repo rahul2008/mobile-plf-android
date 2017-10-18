@@ -20,7 +20,11 @@ public class SHNServiceMoonshineStreaming extends SHNServiceByteStreaming {
     public static final UUID PROT_CFG_CHARACTERISTIC_UUID = UUID.fromString("A6510005-4074-4131-BCE9-56D4261BC7B1");
 
     public SHNServiceMoonshineStreaming() {
-        super(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
+        this(getRequiredCharacteristics(), getOptionalCharacteristics());
+    }
+
+    protected SHNServiceMoonshineStreaming(Set<SHNCharacteristicInfo> requiredCharacteristics, Set<SHNCharacteristicInfo> optionalCharacteristics) {
+        super(SERVICE_UUID, requiredCharacteristics, optionalCharacteristics);
     }
 
     private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
