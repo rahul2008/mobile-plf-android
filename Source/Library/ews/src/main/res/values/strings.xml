@@ -26,7 +26,7 @@
     <string name="label_ews_select_wakeup_wifi_body">&lt;b&gt;1.&lt;/b&gt; Go to your &lt;b&gt;WiFi&lt;/b&gt; settings.\n&lt;b&gt;2.&lt;/b&gt; Select &lt;b&gt;\'PHILIPS Setup\'&lt;/b&gt;-network.\n&lt;b&gt;3.&lt;/b&gt; Return to this app.</string>
     <string name="button_ews_select_wakeup_wifi_having_issues">Having issues?</string>
     <string name="label_ews_establishing_connection_title">Establishing connection</string>
-    <string name="label_ews_password_title">Connect your Somneo to the selected WiFi</string>
+    <string name="label_ews_password_title">Now setting up %1$s with your %2$s</string>
     <string name="label_ews_password_connect_to">Selected WiFi Network:</string>
     <string name="label_ews_password_enter_password">Enter the network password:</string>
     <string name="label_ews_password_password_placeholder">Show password</string>
@@ -112,7 +112,7 @@
     <string name="button_done">Done</string>
     <string name="button_cancel">Cancel</string>
     <string name="label_ews_phone_not_found_on_network_title">Connection error</string>
-    <string name="label_ews_phone_not_found_on_network_body">Te phone could not detect your %1$s in home WiFi.\nThis may be because:\n1.You entered the wrong network password.\n2.Your %1$s is out of range</string>
+    <string name="label_ews_phone_not_found_on_network_body">Te phone could not detect your %1$s in home WiFi.\nThis may be because:\n1.You entered the wrong network password.\n2.Your %2$s is out of range</string>
     <string name="label_ews_phone_not_found_on_network_note">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
     <string name="button_ews_phone_not_found_on_network_try_again">Try again</string>
     <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
