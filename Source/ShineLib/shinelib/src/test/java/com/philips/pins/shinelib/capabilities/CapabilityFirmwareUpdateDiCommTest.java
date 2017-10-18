@@ -721,7 +721,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
-    public void whenGoCommandWasNotSentSuccessfullyThenWaitSiCancelled() throws Exception {
+    public void whenGoCommandWasNotSentSuccessfullyThenWaitIsCancelled() throws Exception {
         whenInStateDeployingThenGoIsSent();
         reset(shnCapabilityFirmwareUpdateListenerMock);
 
@@ -730,58 +730,88 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verify(diCommFirmwarePortStateWaiterMock).cancel();
     }
 
-    private void verifyCancelSent() {
+    private void givenPortInState(DiCommFirmwarePort.State state) {
+        when(diCommPortMock.getState()).thenReturn(state);
+        capabilityFirmwareUpdateDiComm.updateState();
+    }
+
+    @Test
+    public void givenPortIsPreparing_whenAbortFirmwareIsCalled_andCancelIsSentSuccessfully_thenStateIsIdle() throws Exception {
+        givenPortInState(DiCommFirmwarePort.State.Preparing);
+
         capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
 
         verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
         assertEquals(1, mapArgumentCaptor.getValue().size());
         assertEquals(CANCEL, mapArgumentCaptor.getValue().get(STATE));
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
+
+        assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
-    public void whenPortIsPreparingAndDeployFirmwareIsCalledThenCancelIsSent() throws Exception {
-        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Preparing);
+    public void givenPortIsDownloading_whenAbortFirmwareIsCalled_andCancelIsSentSuccessfully_thenStateIsIdle() throws Exception {
+        givenPortInState(DiCommFirmwarePort.State.Downloading);
 
-        verifyCancelSent();
+        capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
+
+        verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
+        assertEquals(1, mapArgumentCaptor.getValue().size());
+        assertEquals(CANCEL, mapArgumentCaptor.getValue().get(STATE));
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
+
+        assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
-    public void whenPortIsDownloadingAndDeployFirmwareIsCalledThenCancelIsSent() throws Exception {
-        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Downloading);
+    public void givenPortIsChecking_whenAbortFirmwareIsCalled_andCancelIsSentSuccessfully_thenStateIsIdle() throws Exception {
+        givenPortInState(DiCommFirmwarePort.State.Checking);
 
-        verifyCancelSent();
+        capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
+
+        verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
+        assertEquals(1, mapArgumentCaptor.getValue().size());
+        assertEquals(CANCEL, mapArgumentCaptor.getValue().get(STATE));
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
+
+        assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
-    public void whenPortIsCheckingAndDeployFirmwareIsCalledThenCancelIsSent() throws Exception {
-        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Checking);
+    public void givenPortIsReady_whenAbortFirmwareIsCalled_andCancelIsSentSuccessfully_thenStateIsIdle() throws Exception {
+        givenPortInState(DiCommFirmwarePort.State.Ready);
 
-        verifyCancelSent();
+        capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
+
+        verify(diCommPortMock).putProperties(mapArgumentCaptor.capture(), mapResultListenerArgumentCaptor.capture());
+        assertEquals(1, mapArgumentCaptor.getValue().size());
+        assertEquals(CANCEL, mapArgumentCaptor.getValue().get(STATE));
+        mapResultListenerArgumentCaptor.getValue().onActionCompleted(null, SHNResult.SHNOk);
+
+        assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
-    public void whenPortIsReadyAndDeployFirmwareIsCalledThenCancelIsSent() throws Exception {
-        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Ready);
-
-        verifyCancelSent();
-    }
-
-    @Test
-    public void whenPortIsIdleAndDeployFirmwareIsCalledThenCancelIsSent() throws Exception {
-        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Idle);
+    public void givenPortIsIdle_whenAbortFirmwareIsCalled_andCancelIsNotSentSuccessfully_thenStateStaysIdle() throws Exception {
+        givenPortInState(DiCommFirmwarePort.State.Idle);
 
         capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
 
         verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+
+        assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle, capabilityFirmwareUpdateDiComm.getState());
     }
 
     @Test
-    public void whenPortIsProgrammingAndDeployFirmwareIsCalledThenCancelIsSent() throws Exception {
-        when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Programming);
+    public void givenPortIsProgramming_whenAbortFirmwareIsCalled_andCancelIsNotSentSuccessfully_thenStateStaysDeploying() throws Exception {
+        givenPortInState(DiCommFirmwarePort.State.Programming);
 
         capabilityFirmwareUpdateDiComm.abortFirmwareUpload();
 
         verify(diCommPortMock, never()).putProperties(anyMap(), any(SHNMapResultListener.class));
+
+        assertEquals(SHNCapabilityFirmwareUpdate.SHNFirmwareUpdateState.SHNFirmwareUpdateStateDeploying, capabilityFirmwareUpdateDiComm.getState());
+
     }
 
     @Test

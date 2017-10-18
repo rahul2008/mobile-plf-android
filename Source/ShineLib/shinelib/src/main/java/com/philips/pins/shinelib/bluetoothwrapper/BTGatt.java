@@ -238,7 +238,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
             return;
         }
 
-        if (bondState != BluetoothDevice.BOND_BONDED && bondState != BluetoothDevice.BOND_NONE) {
+        if (bondState == BluetoothDevice.BOND_BONDING) {
             return;
         }
 

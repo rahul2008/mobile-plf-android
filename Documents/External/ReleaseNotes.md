@@ -23,6 +23,8 @@ Version {next}
 * \#88154 Fix the flow of bonding with timers
 * \#88146 Refresh the device cache on Android 7.0, this prevents a corrupt BLE cache
 * \#87558 Devices are no longer listed multiple times in device discovery
+* \#89116 Add support for unencrypted moonshine streaming service
+* \#89113 Bug resolved on retry firmware update after interrupted connection
 
 ### Residual anomalies
 
