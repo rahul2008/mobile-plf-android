@@ -1,139 +1,110 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in D:\Android\sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep options here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# This is a configuration file for ProGuard.
+# http://proguard.sourceforge.net/index.html#manual/usage.html
 
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
+-verbose
+
+# Optimization is turned off by default. Dex does not like code run
+# through the ProGuard optimize and preverify steps (and performs some
+# of these optimizations on its own).
+-dontoptimize
 -dontpreverify
+# Note that if you want to enable optimization, you cannot just
+# include optimization flags in your own project configuration file;
+# instead you will need to point to the
+# "proguard-android-optimize.txt" file instead of this one from your
+# project.properties file.
 
--renamesourcefileattribute SourceFile
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+-keepattributes *Annotation*
+-keep public class com.google.vending.licensing.ILicensingService
+-keep public class com.android.vending.licensing.ILicensingService
 
--dontwarn com.google.gson.**
-
--dontwarn com.android.volley.**
--dontwarn com.squareup.okhttp.**
--dontwarn java.nio.file.**
--dontwarn okio.**
-
--dontwarn android.support.**
--dontwarn android.support.v8.**
--dontwarn com.philips.cdp.registration.**
--dontwarn org.apache.**
--dontwarn com.philips.cdp.digitalcare.**
--dontwarn com.philips.cdp.prxclient.**
-
--keep public class * extends android.view.View {
- public <init>(android.content.Context);
- public <init>(android.content.Context, android.util.AttributeSet);
- public <init>(android.content.Context, android.util.AttributeSet, int);
- public void set*(...);
- *** get*();
+# For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
+-keepclasseswithmembernames class * {
+    native <methods>;
 }
 
+# keep setters in Views so that animations can still work.
+# see http://proguard.sourceforge.net/manual/examples.html#beans
+-keepclassmembers public class * extends android.view.View {
+   void set*(***);
+   *** get*();
+}
+
+# We want to keep methods in Activity that could be used in the XML attribute onClick
 -keepclassmembers class * extends android.app.Activity {
    public void *(android.view.View);
 }
 
--keepclasseswithmembers class * {
- public <init>(android.content.Context, android.util.AttributeSet);
-}
-
--keepclasseswithmembers class * {
- public <init>(android.content.Context, android.util.AttributeSet, int);
-}
-
-#Enumeration
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
 -keepclassmembers enum * {
- public static **[] values();
- public static ** valueOf(java.lang.String);
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
 }
 
-#Static
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator CREATOR;
+}
+
 -keepclassmembers class **.R$* {
- public static <fields>;
+    public static <fields>;
 }
 
-#Android support library
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
--keep class android.support.v8.renderscript.** { *; }
+# The support library contains references to newer platform versions.
+# Don't warn about those in case this app is linking against an older
+# platform version.  We know about them, and they are safe.
+-dontwarn android.support.**
 
-#Volley
--keep class com.android.volley.** { *; }
--keep interface com.android.volley.** { *; }
--keep class org.apache.commons.logging.**
--keep class com.squareup.okhttp.** { *; }
--keep class okio.** { *; }
--keep class com.fasterxml.jackson.annotation.**{*;}
+##-keep public class pack.com.progard.** {*;}
 
-#Gson
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
+##Registration API specific
 
-#InAppPurchase
--keep class com.philips.cdp.di.iap.store.AbstractStore {*;}
--keep class com.philips.cdp.di.iap.store.HybrisStore {*;}
--keep class com.philips.cdp.di.iap.store.IAPUser {*;}
--keep class com.philips.cdp.di.iap.store.LocalStore {*;}
--keep class com.philips.cdp.di.iap.store.StoreConfiguration {*;}
--keep class com.philips.cdp.di.iap.store.StoreController {*;}
--keep interface com.philips.cdp.di.iap.store.StoreListener{*;}
-
--keep class com.philips.cdp.di.iap.model** {*;}
--keep interface com.philips.cdp.di.iap.model** {*;}
-
--keep class com.philips.cdp.di.iap.response** {*;}
--keep interface com.philips.cdp.di.iap.response** {*;}
-
-#Prx
--keep class com.philips.cdp.prxclient.** { *; }
--keep interface com.philips.cdp.prxclient.** { *; }
--keep enum com.philips.cdp.prxclient.** { *; }
-
-#LocaleMatch
--keep class com.philips.cdp.localematch.** {*;}
--keep interface com.philips.cdp.localematch.** {*;}
-
-#Tagging
--keep class com.adobe.mobile.** {*;}
--keep class com.philips.cdp.tagging.** {*;}
-
-#Hockey
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
-
-#Registration
--keep class com.philips.cdp.registration.** {*;}
-
+##General and network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
+-dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,Exceptions
 
-#GMS (Registration)
+
+#Hockey app and enabling excpetion catching
+-keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+
+
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+
+
+
+
+#HSDP Lib
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keepnames class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.databind.**
+-keep class org.codehaus.** { *; }
+-keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {
+    public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *; }
+-keep public class your.class.** {
+    public void set*(***);
+    public *** get*();
+}
+
+
+#GSM
 -keep  class com.google.android.gms.* { public *; }
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
-#Webkit (Registration)
+#webkit
 -keep  class android.net.http.SslError
 -keep  class android.webkit.WebViewClient
 
@@ -141,13 +112,148 @@
 -dontwarn android.net.http.SslError
 -dontwarn android.webkit.WebViewClient
 
-#notification (Registration)
+#notification
+-dontwarn android.app.Notification
+-dontwarn okio.**
+-keep class com.squareup.** { *; }
+-keep class java.nio.**
+-keep class org.codehaus.**
+
+-dontwarn com.janrain.android.**
+-dontwarn java.nio.**
+
+-keepattributes Signature
+-keepattributes InnerClasses,EnclosingMethod
+
+
+
+######AppInfar
+
+# This is a configuration file for ProGuard.
+# http://proguard.sourceforge.net/index.html#manual/usage.html
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+
+# Optimization is turned off by default. Dex does not like code run
+# through the ProGuard optimize and preverify steps (and performs some
+# of these optimizations on its own).
+-dontoptimize
+-dontpreverify
+# Note that if you want to enable optimization, you cannot just
+# include optimization flags in your own project configuration file;
+# instead you will need to point to the
+# "proguard-android-optimize.txt" file instead of this one from your
+# project.properties file.
+
+-keepattributes *Annotation*, InnerClasses
+
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+# The support library contains references to newer platform versions.
+# Don't warn about those in case this app is linking against an older
+# platform version.  We know about them, and they are safe.
+-dontwarn android.support.**
+
+##-keep public class pack.com.progard.** {*;}
+##Registration API specific
+##General network
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-keepattributes InnerClasses,Exceptions
+-dontwarn com.philips.platform.appinfra.**
+
+-dontwarn org.apache.**
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+
+
+
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.platform.appinfra.tagging.** {*;}
+#-keep public class com.android.volley.** {*;}
+
+-keep public class com.philips.platform.appinfra.AppInfra { *; }
+-keep public class com.philips.platform.appinfra.AppInfra.Builder { *; }
+-keepnames public class com.philips.platform.appinfra.AppInfra.Builder
+
+-keepnames public class com.philips.platform.appinfra.AppInfra
+-keep public class  com.philips.platform.appinfra.AppInfra$* {
+        *;
+ }
+-keepclassmembers  public class com.philips.platform.appinfra.AppInfra
+-keep public class com.philips.platform.appinfra.AppInfraLibraryApplication.**
+
+
+-keep public class com.philips.platform.appinfra.appidentity.** {
+  public protected *;
+}
+-keep public class com.philips.platform.appinfra.securestorage.** {
+  public protected *;
+}
+-keep public class com.philips.platform.appinfra.logging.** {
+   public protected *;
+ }
+ -keep public class com.philips.platform.appinfra.servicediscovery.** {
+    public protected *;
+  }
+
+
+
+
+-keep public interface com.philips.platform.appinfra.appidentity.AppIdentityInterface {*;}
+
+
+
+
+
+
+
+-keep class org.apache.commons.logging.**
+-keep class com.android.volley.**
+-keep interface com.android.volley.**
+-dontwarn com.android.volley.**
+
+
+
+
+
+
+
+#notification
 -dontwarn android.app.Notification
 
-#Janrain (Registration)
--keep public class com.janrain.android.** {*;}
--keep  class com.janrain.android.Jump$* {*;}
--keep class com.philips.cdp.registration.User$*{*;}
--keep  class com.janrain.android.capture.Capture$* {*;}
+##End AppInfra
 
-#EventBus(Registration)
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+-keep class com.janrainphilips.philipsregistration.wxapi.** {*;}
+
+
+## New rules for EventBus 3.0.x ##
+# http://greenrobot.org/eventbus/documentation/proguard/
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
