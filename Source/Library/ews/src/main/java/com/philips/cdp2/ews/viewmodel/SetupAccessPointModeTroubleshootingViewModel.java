@@ -8,7 +8,8 @@ import javax.inject.Inject;
 
 public class SetupAccessPointModeTroubleshootingViewModel {
 
-    @NonNull private final Navigator navigator;
+    @NonNull
+    private final Navigator navigator;
 
     @Inject
     public SetupAccessPointModeTroubleshootingViewModel(@NonNull Navigator navigator) {
@@ -16,7 +17,7 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     }
 
     public void onDoneButtonClicked() {
-        navigator.navigateToDevicePoweredOnConfirmationScreen();
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
 }
