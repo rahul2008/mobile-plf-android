@@ -6,8 +6,9 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.mya.MyaDependancies;
+import com.philips.platform.mya.MyaDependencies;
 import com.philips.platform.mya.MyaInterface;
 import com.philips.platform.mya.MyaLaunchInput;
 import com.philips.platform.mya.MyaSettings;
@@ -24,6 +25,8 @@ public class MyAccountState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         FragmentLauncher fragmentLauncher = (FragmentLauncher)uiLauncher;
         Context actContext = fragmentLauncher.getFragmentActivity();
+
+        ((AbstractAppFrameworkBaseActivity)actContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
 
         MyaLaunchInput launchInput = new MyaLaunchInput();
         launchInput.setContext(actContext);
@@ -43,7 +46,7 @@ public class MyAccountState extends BaseState {
     }
 
     @NonNull
-    protected MyaDependancies getUappDependencies(Context actContext) {
-        return new MyaDependancies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
+    protected MyaDependencies getUappDependencies(Context actContext) {
+        return new MyaDependencies(((AppFrameworkApplication) actContext.getApplicationContext()).getAppInfra());
     }
 }
