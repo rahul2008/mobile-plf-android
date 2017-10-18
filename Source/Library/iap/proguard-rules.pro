@@ -167,4 +167,4 @@
 -keep public class your.class.** {
     public void set*(***);
     public *** get*();
-}
+    }
