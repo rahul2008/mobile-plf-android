@@ -191,7 +191,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenConnectedBackToWrongWifiNetwork() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
 
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(DEVICE_NAME);
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(DEVICE_NAME, HOME_SSID);
     }
 
     @Test

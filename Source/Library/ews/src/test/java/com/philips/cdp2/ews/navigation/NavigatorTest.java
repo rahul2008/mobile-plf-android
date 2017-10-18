@@ -7,19 +7,19 @@ import android.support.v4.app.Fragment;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.cdp2.ews.hotspotconnection.ConnectingPhoneToHotspotWifiFragment;
+import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.homewifi.TroubleshootHomeWiFiFragment;
+import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
+import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WifiConnectionUnsuccessfulFragment;
 import com.philips.cdp2.ews.troubleshooting.wificonnectionfailure.WrongWifiNetworkFragment;
-import com.philips.cdp2.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
 import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
 import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
-import com.philips.cdp2.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
-import com.philips.cdp2.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
-import com.philips.cdp2.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
 import com.philips.cdp2.ews.view.TroubleshootConnectionUnsuccessfulFragment;
 
 import org.junit.Before;
@@ -41,10 +41,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class NavigatorTest {
 
-    @InjectMocks private Navigator subject;
+    @InjectMocks
+    private Navigator subject;
 
-    @Mock private FragmentNavigator mockFragmentNavigator;
-    @Mock private ActivityNavigator mockActivityNavigator;
+    @Mock
+    private FragmentNavigator mockFragmentNavigator;
+    @Mock
+    private ActivityNavigator mockActivityNavigator;
 
     @Before
     public void setUp() throws Exception {
@@ -168,7 +171,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
-        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName");
+        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName", "homeWifiSssid");
 
         verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
     }
