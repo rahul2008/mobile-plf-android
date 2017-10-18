@@ -42,7 +42,7 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_rename_activity_test_ur);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(),R.drawable.uid_back_icon, getTheme()));
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(),R.drawable.pth_back_icon, getTheme()));
         setSupportActionBar(toolbar);
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
         fragmentManager = getSupportFragmentManager();
@@ -109,7 +109,7 @@ public class THSLaunchActivity extends UIDActivity implements ActionBarListener 
 
     private void showBackImage(boolean isVisible) {
         if (isVisible) {
-            toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.uid_back_icon, getTheme()));
+            toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
         } else {
             toolbar.setNavigationIcon(null);
         }

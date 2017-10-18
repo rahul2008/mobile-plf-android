@@ -250,4 +250,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="early_for_appointment">Too early for the appointment. Please try 15 minutes before the appointment time</string>
     <string name="late_for_appointment">late for the appointment. Please schedule the appointment again for consultation</string>
     <string name="ths_user_not_authenticated">Authentication Failed!! Try again later.</string>
+
+    <string name="ths_internet_disconnected_message">Oops! Please check your network connection</string>
 </resources>

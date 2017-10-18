@@ -6,8 +6,11 @@
 
 package com.philips.platform.ths.base;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.activity.THSApplication;
+import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.NetworkStateListener;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,7 +34,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 import static com.philips.platform.ths.utility.THSConstants.THS_USER_NOT_LOGGED_IN;
 
 
-public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener {
+public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener, NetworkStateListener.ConnectionReceiverListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -38,6 +43,31 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
     protected final int SMALL = 0;
     protected final int MEDIUM = 1;
     protected final int BIG = 2;
+    private NetworkStateListener networkStateListener;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        networkStateListener =  new NetworkStateListener();
+        getActivity().registerReceiver(
+                networkStateListener,
+                new IntentFilter(
+                        ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(networkStateListener);
+        THSApplication.getInstance().setConnectionListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        THSApplication.getInstance().setConnectionListener(this);
+
+    }
 
     @Override
     public void finishActivityAffinity() {
@@ -192,8 +222,15 @@ public class THSBaseFragment extends Fragment implements THSBaseView,BackEventLi
                 result =  true;
             }
         }catch(Exception e){
-
+            AmwellLog.e(THSBaseFragment.class.getSimpleName(),e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if(!isConnected) {
+            showToast(getString(R.string.ths_internet_disconnected_message));
+        }
     }
 }
