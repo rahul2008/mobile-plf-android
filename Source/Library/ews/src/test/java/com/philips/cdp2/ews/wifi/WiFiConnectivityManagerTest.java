@@ -24,7 +24,6 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -146,19 +145,5 @@ public class WiFiConnectivityManagerTest {
         scannedResultMock.SSID = networkSSID;
 
         return scannedResultMock;
-    }
-
-    @Test
-    public void shouldForgetApplianceNetworkWhenRequested() throws Exception {
-        final ScanResult scannedResultMock = getScanResult(APPLIANCE_SSID);
-        List<ScanResult> scanResultList = new ArrayList<>();
-        scanResultList.add(scannedResultMock);
-        when(wifiManagerMock.getScanResults()).thenReturn(scanResultList);
-
-        wifiUtil.setHotSpotWiFiSSID(APPLIANCE_SSID);
-
-        connectivityManager.forgetApplianceNetwork();
-
-        verify(wifiManagerMock).removeNetwork(10);
     }
 }

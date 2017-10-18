@@ -111,10 +111,10 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldNavigateToWrongWifiScreenWhenPuttingPropsFails() throws Exception {
+    public void itShouldnavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails() throws Exception {
         simulatePutPropsFailed();
 
-        verify(mockNavigator).navigateToWrongWifiNetworkScreen(any(Bundle.class));
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString());
     }
 
     @Test
