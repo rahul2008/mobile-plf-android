@@ -13,7 +13,7 @@ def errors = []
 
 node('Android') {
     timestamps {
-    def APP_ROOT = "./Source/Library"
+        def APP_ROOT = "/Source/Library"
         try {
             stage('Checkout') {
 
@@ -29,18 +29,18 @@ node('Android') {
             checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch', localBranch: "**"]], recursiveSubmodules: true, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ews-android-easywifisetupuapp']]])
             }
 
-            stage ('Unit Test') {
+            /*stage ('Unit Test') {
                 sh """#!/bin/bash -le
                     cd ${APP_ROOT}
                     ./gradlew :ews:test
                 """
                 step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
-            }
+            }*/
 
             stage('Build') {
                     sh '''#!/bin/bash -l
-                                chmod -R 755 . 
                                 cd ${APP_ROOT}
+                                chmod -R 755 . 
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug 
                             '''
 
