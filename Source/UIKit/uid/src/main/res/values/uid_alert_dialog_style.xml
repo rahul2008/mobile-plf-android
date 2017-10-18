@@ -8,6 +8,7 @@
         <item name="android:backgroundDimAmount">@dimen/uid_alpha_per_80</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
     </style>
 
     <style name="UIDAlertDialogTitleTextStyle">

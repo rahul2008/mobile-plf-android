@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.AboutScreen
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/test_about_screen"
+        app:uidAboutScreenAppName="@string/about_screen_appname"
+        app:uidAboutScreenAppVersion="@string/about_screen_appversion"
+        app:uidAboutScreenCopyright="@string/about_screen_copyright"
+        app:uidAboutScreenTerms="@string/about_screen_terms"
+        app:uidAboutScreenPrivacy="@string/about_screen_privacy"
+        app:uidAboutScreenDisclosure="@string/about_screen_disclosure"/>
+</LinearLayout>

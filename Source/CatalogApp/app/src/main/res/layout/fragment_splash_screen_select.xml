@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.philips.platform.catalogapp.fragments.SplashScreenSelectFragment" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/splash_usage_label"
+            style="@style/UIDLabel.Header"
+            android:text="@string/splash_usage_type" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/radio_non_medical"
+            style="@style/TestRadioButtonStyle"
+            android:layout_below="@id/splash_usage_label"
+            android:layout_marginStart="@dimen/layout_margin_left_right"
+            android:checked="true"
+            android:text="@string/splash_usage_non_medical" />
+
+        <View
+            android:id="@+id/splash_radio_primary_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:layout_below="@id/radio_non_medical"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+        <com.philips.platform.uid.view.widget.RadioGroup
+            android:id="@+id/splash_background_type"
+            style="@style/TestRadioGroupStyle"
+            android:layout_below="@id/splash_radio_primary_divider">
+
+            <com.philips.platform.uid.view.widget.RadioButton
+                android:id="@+id/directional_light"
+                style="@style/TestRadioButtonStyle"
+                android:layout_marginStart="@dimen/splash_radio_button_margin"
+                android:checked="true"
+                android:text="@string/splash_background_direction" />
+
+            <com.philips.platform.uid.view.widget.RadioButton
+                android:id="@+id/image_background"
+                style="@style/TestRadioButtonStyle"
+                android:layout_marginStart="@dimen/splash_radio_button_margin"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/splash_background_image" />
+
+        </com.philips.platform.uid.view.widget.RadioGroup>
+
+        <View
+            android:id="@+id/splash_radio_secondary_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:layout_below="@id/splash_background_type"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/radio_medical"
+            style="@style/TestRadioButtonStyle"
+            android:layout_below="@id/splash_radio_secondary_divider"
+            android:layout_marginStart="@dimen/layout_margin_left_right"
+            android:checked="false"
+            android:enabled="false"
+            android:text="@string/splash_usage_medical" />
+
+        <View
+            android:id="@+id/splash_label_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_layout_divider"
+            android:layout_below="@id/radio_medical"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/splash_later_label"
+            style="@style/DisabledLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_label_divider"
+            android:text="@string/branding_screen_later" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/button_show_splash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/layout_margin_top"
+            android:layout_marginEnd="@dimen/layout_margin_left_right"
+            android:layout_marginStart="@dimen/layout_margin_left_right"
+            android:onClick="@{(v) -> fragment.showSplashScreen()}"
+            android:text="@string/show_splash_screen" />
+    </RelativeLayout>
+</layout>

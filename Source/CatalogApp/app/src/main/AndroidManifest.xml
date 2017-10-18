@@ -10,14 +10,16 @@
         android:label="@string/catalog_app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
-
         <activity
-            android:name="com.philips.platform.catalogapp.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/catalog_app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SplashScreenActivity" />
     </application>
+
 </manifest>

@@ -276,6 +276,16 @@
     <string name="menu_uipicker">Menu UI picker</string>
     <string name="add_location">Add Location</string>
 
+    <!--Splash screen-->
+    <string name="page_title_splash_screen">Splash screen</string>
+    <string name="splash_usage_type">Usage</string>
+    <string name="splash_usage_non_medical">Non-medical application</string>
+    <string name="splash_usage_medical">Medical application *</string>
+    <string name="show_splash_screen">Show splash screen</string>
+    <string name="splash_background_image">Image background *</string>
+    <string name="splash_background_direction">Directional light background</string>
+    <string name="splash_screen_app_name">Philips sDLS Toolkit</string>
+
     <!--Sidebar-->
     <string name="page_title_sidebar">Sidebar</string>
     <string name="menu1">Menu item 1</string>
@@ -307,5 +317,23 @@
         <item>Profile item 7</item>
         <item>Profile item 8</item>
     </string-array>
+
+    <string name="branding_screen_later">* To be released</string>
+
+    <!--About Screen-->
+    <string name="page_title_about_screen">About</string>
+    <string name="about_screen_appname">Philips sDLS Toolkit</string>
+    <string name="about_screen_appversion">Version 1.0.0</string>
+    <string name="about_screen_copyright">Copyright \u00A9 2017 Philips</string>
+    <string name="about_screen_terms">Terms &amp; conditions</string>
+    <string name="about_screen_privacy">Privacy policy</string>
+    <string name="about_screen_disclosure">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nam rhoncus mauris sed purus ullamcorper aliquet. \n \n Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="show_about_screen">Show about screen</string>
+    <string name="about_usage_type">Usage</string>
+    <string name="about_usage_non_medical">Non-medical application</string>
+    <string name="about_usage_medical">Medical application *</string>
+    <string name="about_dialog_button_text">Got it</string>
+    <string name="about_dialog_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+
 
 </resources>

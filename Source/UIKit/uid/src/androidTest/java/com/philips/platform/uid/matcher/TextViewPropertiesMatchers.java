@@ -362,12 +362,15 @@ public class TextViewPropertiesMatchers {
         };
     }
 
-    public static Matcher<View> isSameTypeface(final Context activity, final Typeface typeface, final String fontPath) {
+    public static Matcher<View> isSameTypeface(final Context activity, final String fontPath) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(View view) {
-                setValues(typeface, TypefaceUtils.load(activity.getAssets(), fontPath));
-                return areEqual();
+                if(view instanceof TextView){
+                    setValues(((TextView) view).getTypeface(), TypefaceUtils.load(activity.getAssets(), fontPath));
+                    return areEqual();
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
             }
         };
     }

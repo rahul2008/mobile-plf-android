@@ -375,7 +375,7 @@ public class SearchBox extends LinearLayout {
      * The list refresh responsibility still holds with Adapter.
      *
      * @param adapter the adapter holding the list data
-     * @see android.widget.Filterable§
+     * @see android.widget.Filterable
      * @see android.widget.Adapter
      */
     @SuppressWarnings("unused")

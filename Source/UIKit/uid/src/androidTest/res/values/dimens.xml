@@ -166,4 +166,11 @@
     <dimen name="sidebar_elevation">5dp</dimen>
     <dimen name="sidebar_max_width">320dp</dimen>
 
+    <!--About Screen-->
+    <dimen name="uid_about_screen_margin_start_end">16dp</dimen>
+    <dimen name="uid_about_screen_app_name_bottom_margin">40dp</dimen>
+    <dimen name="uid_about_screen_label_bottom_margin">24dp</dimen>
+    <dimen name="uid_about_screen_app_name_size">20sp</dimen>
+    <dimen name="uid_about_screen_label_size">16sp</dimen>
+
 </resources>

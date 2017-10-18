@@ -17,7 +17,8 @@ buildscript {
     apply from: projectDir.absolutePath + '/../../../ci-build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -157,7 +158,7 @@ android {
     signingConfigs {
         TestPhilipsStore {
             keyAlias 'philips'
-            keyPassword 'philips'			
+            keyPassword 'philips'
             storeFile file("${projectDir}/../extra/signing/UIT_GoogleBeta_KeyStore.jks")
             storePassword 'philips'
         }

@@ -136,7 +136,7 @@ public class SearchBoxMatcher {
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
                 AutoCompleteTextView textView = searchBox.getSearchTextView();
-                return TextViewPropertiesMatchers.isSameTypeface(activity, textView.getTypeface(), fontPath).matches(textView);
+                return TextViewPropertiesMatchers.isSameTypeface(activity, fontPath).matches(textView);
             }
         };
     }
