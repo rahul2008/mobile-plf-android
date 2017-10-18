@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.common.callbacks.FragmentCallback;
+import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
 import com.philips.cdp2.ews.databinding.FragmentEwsWifiPairedBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
@@ -21,6 +22,9 @@ public class EWSWiFiPairedFragment extends EWSBaseFragment<FragmentEwsWifiPaired
 
     @Inject
     EWSWiFIPairedViewModel viewModel;
+
+    @Inject
+    BaseContentConfiguration contentConfiguration;
 
     @Override
     public int getHierarchyLevel() {

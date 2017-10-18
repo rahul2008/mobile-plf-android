@@ -32,8 +32,8 @@
     <string name="label_ews_password_password_placeholder">Show password</string>
     <string name="label_ews_password_specify_name">Give your Somneo a unique name</string>
     <string name="label_ews_establishing_connection_body">Now connecting your Somneo to your network. This might take a few seconds. You will be redirected automatically when finished.</string>
-    <string name="label_ews_succesful_title">Connection was successful!</string>
-    <string name="label_ews_succesful_body">Your Philips is now connected to your home WiFi network and paired with your phone.</string>
+    <string name="label_ews_succesful_title">Connection successful!</string>
+    <string name="label_ews_succesful_body">Your %1$s is now connected to your home Wi-Fi network and paired with your phone.</string>
     <string name="button_ews_succesful_start">Enjoy your Sleep&amp;Wake-Up Light!</string>
     <string name="label_ews_home_network_title">Select your home WiFi network</string>
     <string name="label_ews_home_network_body">Please read all 4 steps before leaving the application.\n&lt;b&gt;1&lt;/b&gt;. Tap &lt;b&gt;WiFi&lt;/b&gt; in your phone Settings\n&lt;b&gt;2&lt;/b&gt;. Make sure your WiFi is &lt;b&gt;turned on&lt;/b&gt;\n&lt;b&gt;3&lt;/b&gt;. Select your &lt;b&gt;home network&lt;/b&gt;\n&lt;b&gt;4&lt;/b&gt;. Return to the &lt;b&gt;Philips %1$s&lt;/b&gt;</string>
@@ -118,5 +118,8 @@
     <string name="label_ews_phone_reconnected_different_network_title">Connection error</string>
     <string name="label_ews_phone_reconnected_different_network_body">Your phone has connected to a different network. \n\nPlease reconnect your phone to %1$s.\nPlease read all the 4 steps before leaving the application.\n1. Tap Wi-Fi in your phone settings \n2. Make sure your Wi-Fi is turned on \n3. Select your home network\n4. Return to the app</string>
     <string name="button_ews_phone_reconnected_different_network_confirm">Ok, I did it</string>
+
+    <string name="label_ews_connecting_device_title">Establishing connection between %1$s and home network</string>
+
     
 </resources>
