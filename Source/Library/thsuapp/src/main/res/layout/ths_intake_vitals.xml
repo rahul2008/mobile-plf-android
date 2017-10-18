@@ -76,7 +76,7 @@
                 android:layout_marginEnd="@dimen/ths_fab_margin"
                 android:paddingStart="@dimen/ths_address_bottom_margin"
                 android:text="@string/vitals_weight_text"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor" />
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/intake_systolic_container"
@@ -150,7 +150,7 @@
                 android:layout_marginEnd="@dimen/ths_fab_margin"
                 android:paddingStart="@dimen/ths_address_bottom_margin"
                 android:text="@string/vitals_temp_text"
-                android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor" />
+                android:textColor="?attr/uidContentItemSecondaryNormalTextColor" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
                 android:id="@+id/intake_farenheit_container"

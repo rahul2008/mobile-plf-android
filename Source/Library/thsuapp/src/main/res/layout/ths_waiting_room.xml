@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/details_providerNameLabel"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
 
                 android:textSize="14sp" />
         </RelativeLayout>
