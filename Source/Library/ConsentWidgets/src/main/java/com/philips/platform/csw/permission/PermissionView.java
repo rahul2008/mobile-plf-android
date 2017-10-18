@@ -8,9 +8,7 @@
 
 package com.philips.platform.csw.permission;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -35,7 +33,7 @@ public class PermissionView extends Fragment implements
 
     private PermissionPresenter permissionPresenter;
     private Switch mConsentSwitch;
-    private ProgressDialog dailog;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,20 +44,17 @@ public class PermissionView extends Fragment implements
     }
 
     private void getConsentStatus() {
-        dailog.show();
-        dailog.setCancelable(false);
-        dailog.setMessage("Please wait");
+        showProgressDialog();
         NetworkHelper consentObj = new NetworkHelper();
         consentObj.getLatestConsentStatus(getApplicationContext(),new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<ConsentModel> responseData) {
-                dailog.dismiss();
+                hideProgressDialog();
                 if(responseData.get(0).getStatus().equals(ConsentStatus.active)){
                     mConsentSwitch.setChecked(true);
                 }else{
                     mConsentSwitch.setChecked(false);
                 }
-                //showAlert(responseData.getStatus());
                 Log.d(" Consent : ","getDateTime :"+responseData.get(0).getDateTime());
                 Log.d(" Consent : ","getLanguage :"+responseData.get(0).getLanguage());
                 Log.d(" Consent : ","status :"+responseData.get(0).getStatus());
@@ -69,7 +64,7 @@ public class PermissionView extends Fragment implements
             }
             @Override
             public void onResponseFailureConsent(ConsentError consentError) {
-                dailog.dismiss();
+                hideProgressDialog();
                 Log.d(" Consent : ","fail  :"+consentError.getDescription());
             }
         });
@@ -82,21 +77,23 @@ public class PermissionView extends Fragment implements
     }
 
     private void initUI(View view) {
-        dailog = new ProgressDialog(getActivity());
         mConsentSwitch = (Switch) view.findViewById(R.id.toggleicon);
     }
 
-    private void showAlert(ConsentStatus status){
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Consnet Status");
-        alertDialog.setMessage("Status is : "+status);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+    private void showProgressDialog() {
+        if (!(getActivity().isFinishing())) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(),R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
     }
 
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
+    }
 }
