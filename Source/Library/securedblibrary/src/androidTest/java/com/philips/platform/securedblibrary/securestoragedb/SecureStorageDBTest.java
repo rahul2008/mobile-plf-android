@@ -6,6 +6,7 @@
 package com.philips.platform.securedblibrary.securestoragedb;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.support.ConnectionSource;
@@ -53,7 +54,7 @@ public class SecureStorageDBTest extends MockitoTestCase {
                 try {
                     TableUtils.createTable(connectionSource, AddressBook.class);
                 }catch (SQLException e){
-
+                    Log.e("SecureDataBaseTest","Error in ctreate Database Table"+e.getMessage());
                 }
 
             }

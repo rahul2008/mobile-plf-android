@@ -379,7 +379,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
                 try {
                     keyString = new String(keyData, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    throw new IllegalStateException("Could not key value", e);
                 }
                 //Directly byte[] to char[] typecast not good soluation in the case getKey contains numberic value like 67,68 that time char will return ASCII Value of 67,68.
                 final char[] keyCharArray = keyString.toCharArray();
@@ -398,7 +398,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         try {
             mAppVersion = BuildConfig.VERSION_NAME;
         } catch (Exception e) {
-            e.printStackTrace();
+            getSecureDBLogInstance().log(LoggingInterface.LogLevel.ERROR, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, " Error in SecureDb AppVersion"+e.getMessage());
         }
         if (mAppVersion != null && !mAppVersion.isEmpty()) {
             if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
