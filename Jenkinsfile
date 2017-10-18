@@ -31,7 +31,7 @@ node('Android') {
 
             stage ('Unit Test') {
                 sh """#!/bin/bash -le
-                    cd APP_ROOT
+                    cd ${APP_ROOT}
                     ./gradlew test
                 """
                 step([$class: 'JUnitResultArchiver', testResults: APP_ROOT + '/*/build/test-results/*/*.xml'])
@@ -40,7 +40,7 @@ node('Android') {
             stage('Build') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd APP_ROOT 
+                                cd ${APP_ROOT}
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug 
                             '''
 
@@ -49,7 +49,7 @@ node('Android') {
             stage('Release') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd APP_ROOT
+                                cd ${APP_ROOT}
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease 
                             '''
 
@@ -64,6 +64,14 @@ node('Android') {
         } catch(err) {
             errors << "errors found: ${err}"
         } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i]; 
+                    }
+                }                
+            }
             stage('Clean up workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
