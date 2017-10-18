@@ -10,13 +10,5 @@
         <attr name="ap_starting_point_color" format="color" />
         <attr name="ap_dot_radius" format="dimension" />
         <attr name="ap_default_angle" format="float" />
-        <attr name="uidContentItemDefaultNormalDescriptorTextColor" format="color"/>
-        <attr name="uidContentItemDefaultNormalTitleTextColor" format="color"/>
-        <attr name="uidContentItemDefaultNormalDescriptorIconColor" format="color"/>
-        <attr name="uidContentItemDefaultNormalBodyTextColor" format="color"/>
-        <attr name="uidContentItemDefaultNormalSubtitleTextColor" format="color"/>
-        <attr name="uidContentItemDefaultNormalSubtleBodyTextColor" format="color"/>
-        <attr name="uidContentItemDefaultDisabledSubtitleTextColor" format="color"/>
-        <attr name="uidContentItemDefaultNormalTitleIconColor" format="color"/>
     </declare-styleable>
 </resources>
