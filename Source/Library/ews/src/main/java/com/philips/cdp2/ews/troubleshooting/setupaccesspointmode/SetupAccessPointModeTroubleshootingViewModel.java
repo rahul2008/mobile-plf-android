@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.troubleshooting.setupaccesspointmode;
 
 import android.support.annotation.NonNull;
 

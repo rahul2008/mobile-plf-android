@@ -1,4 +1,4 @@
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.troubleshooting.resetdevice;
 
 import android.support.annotation.NonNull;
 

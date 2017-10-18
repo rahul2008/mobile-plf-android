@@ -129,6 +129,7 @@
     <string name="button_ews_support_setup_access_point_done">Done</string>
     <string name="label_ews_support_wrong_phone_title_default">Accidentally connect with the wrong phone?</string>
     <string name="label_ews_support_wrong_phone_body_default">If your device has been connected to another phone by accident, you may see this screen prematurely.</string>
+    <string name="label_ews_support_wrong_phone_question_default">Do you see this screen?</string>
     <string name="button_ews_support_wrong_phone_yes">Yes</string>
     <string name="button_ews_support_wrong_phone_no">No</string>
 

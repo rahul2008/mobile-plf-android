@@ -3,7 +3,8 @@
   ~ All rights reserved.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -41,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_main_button_top_margin"
+            app:uidComponentType="Primary"
             android:onClick="@{() -> viewModel.cancelSetup()}"
             android:text="@string/button_ews_cancel_setup_yes"/>
 
@@ -48,6 +50,7 @@
             android:id="@+id/ews_04_02_button_cancel_setup_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:uidComponentType="Secondary"
             android:layout_marginTop="@dimen/default_between_button_margin"
             android:onClick="@{() -> viewModel.dismissDialog()}"
             android:text="@string/button_ews_cancel_setup_no"/>

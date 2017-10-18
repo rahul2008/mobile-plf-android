@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -50,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
+                app:uidComponentType="Primary"
                 android:onClick="@{() -> viewModel.onNeedHelpButtonClicked()}"
                 android:text="@string/button_ews_connection_unsuccesful_yes"/>
 
@@ -57,6 +59,7 @@
                 android:id="@+id/ews_H_03_00_a_button_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:uidComponentType="Secondary"
                 android:layout_marginTop="@dimen/default_between_button_margin"
                 android:onClick="@{() -> viewModel.onNoHelpNeededButtonClicked()}"
                 android:text="@string/button_ews_connection_unsuccesful_no"/>
