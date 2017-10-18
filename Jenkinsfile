@@ -13,7 +13,7 @@ def errors = []
 
 node('Android') {
     timestamps {
-    def APP_ROOT = "Source/Library"
+    def APP_ROOT = "./Source/Library"
         try {
             stage('Checkout') {
 
