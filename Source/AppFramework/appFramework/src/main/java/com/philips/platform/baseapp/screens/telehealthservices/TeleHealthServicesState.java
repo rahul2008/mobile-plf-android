@@ -7,7 +7,6 @@
 package com.philips.platform.baseapp.screens.telehealthservices;
 
 import android.content.Context;
-import android.util.Log;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -62,6 +61,5 @@ public class TeleHealthServicesState extends BaseState implements THSVisitComple
     @Override
     public void onTHSVisitComplete(boolean isTHSVisitComplete) {
 
-        Log.d(this.getClass().getName(),Boolean.toString(isTHSVisitComplete));
     }
 }
