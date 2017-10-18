@@ -8,12 +8,9 @@
 
 package com.philips.platform.csw.permission;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +34,7 @@ public class PermissionView extends CswBaseFragment implements
 
     private PermissionPresenter permissionPresenter;
     private Switch mConsentSwitch;
-    private ProgressDialog dailog;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -63,31 +60,29 @@ public class PermissionView extends CswBaseFragment implements
     }
 
     private void getConsentStatus() {
-        dailog.show();
-        dailog.setCancelable(false);
-        dailog.setMessage("Please wait");
+        showProgressDialog();
         NetworkHelper consentObj = new NetworkHelper();
-        consentObj.getLatestConsentStatus(getApplicationContext(),new ConsentResponseListener() {
+        consentObj.getLatestConsentStatus(getApplicationContext(), new ConsentResponseListener() {
             @Override
             public void onResponseSuccessConsent(List<ConsentModel> responseData) {
-                dailog.dismiss();
-                if(responseData.get(0).getStatus().equals(ConsentStatus.active)){
+                hideProgressDialog();
+                if (responseData.get(0).getStatus().equals(ConsentStatus.active)) {
                     mConsentSwitch.setChecked(true);
-                }else{
+                } else {
                     mConsentSwitch.setChecked(false);
                 }
-                //showAlert(responseData.getStatus());
-                Log.d(" Consent : ","getDateTime :"+responseData.get(0).getDateTime());
-                Log.d(" Consent : ","getLanguage :"+responseData.get(0).getLanguage());
-                Log.d(" Consent : ","status :"+responseData.get(0).getStatus());
-                Log.d(" Consent : ","policyRule :"+responseData.get(0).getPolicyRule());
-                Log.d(" Consent : ","Resource type :"+responseData.get(0).getResourceType());
-                Log.d(" Consent : ","subject  :"+responseData.get(0).getSubject());
+                Log.d(" Consent : ", "getDateTime :" + responseData.get(0).getDateTime());
+                Log.d(" Consent : ", "getLanguage :" + responseData.get(0).getLanguage());
+                Log.d(" Consent : ", "status :" + responseData.get(0).getStatus());
+                Log.d(" Consent : ", "policyRule :" + responseData.get(0).getPolicyRule());
+                Log.d(" Consent : ", "Resource type :" + responseData.get(0).getResourceType());
+                Log.d(" Consent : ", "subject  :" + responseData.get(0).getSubject());
             }
+
             @Override
             public void onResponseFailureConsent(ConsentError consentError) {
-                dailog.dismiss();
-                Log.d(" Consent : ","fail  :"+consentError.getDescription());
+                hideProgressDialog();
+                Log.d(" Consent : ", "fail  :" + consentError.getDescription());
             }
         });
     }
@@ -95,25 +90,27 @@ public class PermissionView extends CswBaseFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        permissionPresenter = new PermissionPresenter(this,getContext());
+        permissionPresenter = new PermissionPresenter(this, getContext());
     }
 
     private void initUI(View view) {
-        dailog = new ProgressDialog(getActivity());
         mConsentSwitch = (Switch) view.findViewById(R.id.toggleicon);
     }
 
-    private void showAlert(ConsentStatus status){
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Consnet Status");
-        alertDialog.setMessage("Status is : "+status);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+    private void showProgressDialog() {
+        if (!(getActivity().isFinishing())) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();
+        }
     }
 
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
+    }
 }
