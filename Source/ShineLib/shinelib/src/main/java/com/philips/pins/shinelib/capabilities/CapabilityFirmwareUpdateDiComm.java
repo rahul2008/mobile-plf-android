@@ -174,10 +174,10 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
         firmwareDiCommPort.putProperties(properties, new SHNMapResultListener<String, Object>() {
             @Override
             public void onActionCompleted(Map<String, Object> value, @NonNull SHNResult result) {
-                if (result != SHNResult.SHNOk) {
-                    failWithResult(result);
-                } else {
+                if (result == SHNResult.SHNOk) {
                     setState(SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle);
+                } else {
+                    failWithResult(result);
                 }
             }
         });
