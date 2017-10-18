@@ -32,8 +32,8 @@ node('Android') {
 
             stage ('Unit Test') {
                 sh """#!/bin/bash -le
-                    cd ${LIBRARY_ROOT}
-                    ./gradlew test
+                    cd ${APP_ROOT}
+                    ./gradlew :ews:test
                 """
                 step([$class: 'JUnitResultArchiver', testResults: LIBRARY_ROOT + '/*/build/test-results/*/*.xml'])
             }
