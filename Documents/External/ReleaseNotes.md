@@ -46,6 +46,10 @@ Version {next}
 	* CommLib now determines for which port incoming data is.
 	* Ports are no longer required to determine if JSON matches their port properties.
 * CommLib BLE - \#87558 Devices are no longer listed multiple times in device discovery
+* CommLib - \#84930 CommLib responses should include port being subscribed to
+	* CommLib now determines for which port incoming data is.
+	* Ports are no longer required to determine if JSON matches their port properties.
+
 
 
 ### Residual anomalies
