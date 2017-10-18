@@ -10,7 +10,7 @@ Version {next}
 * CommLib - \#65428 Persistent NetworkNode Storage.
 	* Store an Appliance by calling `ApplianceManager.storeAppliance(appliance)`
 	* Stop persisting an Appliance by calling `ApplianceManager.forgetStoredAppliance(appliance)`
-	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`.
+	* Persistent storage will only store information in `NetworkNode` so if you need to store additional data or state from your own Appliance implementation you can implement `ApplianceDatabase` and give it to `new CommCentral(applianceFactory, applianceDatabase, transportContexts...)`
 * CommLib - CommCentral now throws a `UnsupportedOperationException` whenever a second instance is created.
 	
 ### Backwards Compatibility
@@ -45,6 +45,7 @@ Version {next}
 * CommLib - \#84930 CommLib responses should include port being subscribed to
 	* CommLib now determines for which port incoming data is.
 	* Ports are no longer required to determine if JSON matches their port properties.
+* CommLib BLE - \#87558 Devices are no longer listed multiple times in device discovery
 
 
 ### Residual anomalies

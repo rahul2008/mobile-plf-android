@@ -22,6 +22,7 @@ import com.philips.cdp2.commlib.core.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.port.time.TimePort;
+import com.philips.cdp2.demouapp.port.time.TimePortProperties;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -52,8 +53,12 @@ public class TimePortFragment extends Fragment {
         @Override
         public void onPortUpdate(TimePort timePort) {
             if (isAdded()) {
-                final String datetime = timePort.getPortProperties().datetime;
+                TimePortProperties properties = timePort.getPortProperties();
+                if (properties == null) {
+                    return;
+                }
 
+                final String datetime = properties.datetime;
                 if (datetime == null) {
                     return;
                 }
