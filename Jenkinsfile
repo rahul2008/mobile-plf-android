@@ -2,6 +2,7 @@
 
 BranchName = env.BRANCH_NAME
 JENKINS_ENV = env.JENKINS_ENV
+JENKINS_ENV = env.JENKINS_ENV
 
 properties([
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
@@ -12,6 +13,7 @@ def errors = []
 
 node('Android') {
     timestamps {
+    def APP_ROOT = "Source/Library"
         try {
             stage('Checkout') {
 
@@ -29,7 +31,7 @@ node('Android') {
 
             stage ('Unit Test') {
                 sh """#!/bin/bash -le
-                    cd ./Source/Library 
+                    cd APP_ROOT
                     ./gradlew test
                 """
                 step([$class: 'JUnitResultArchiver', testResults: APP_ROOT + '/*/build/test-results/*/*.xml'])
@@ -38,7 +40,7 @@ node('Android') {
             stage('Build') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/Library 
+                                cd APP_ROOT 
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug 
                             '''
 
@@ -47,7 +49,7 @@ node('Android') {
             stage('Release') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ./Source/Library 
+                                cd APP_ROOT
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease 
                             '''
 
