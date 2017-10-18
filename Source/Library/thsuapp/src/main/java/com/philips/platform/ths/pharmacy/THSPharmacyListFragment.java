@@ -71,7 +71,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
     private ImageButton switchViewImageButton;
-    private SupportMapFragment mapFragment;
+    protected SupportMapFragment mapFragment;
     private RecyclerView pharmacyListRecyclerView;
     private THSPharmacyListAdapter thsPharmacyListAdapter;
     protected THSPharmacyListPresenter thsPharmacyListPresenter;
@@ -560,6 +560,12 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     }
 
+    /**
+     * Result received from THSSearchFragment when searched for pharmacy list from this fragment
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
