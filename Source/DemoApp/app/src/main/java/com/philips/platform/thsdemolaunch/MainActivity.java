@@ -179,39 +179,39 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         THSConsumer thsConsumer = new THSConsumer();
 
         THSConsumer baby = new THSConsumer();
-        baby.setFirstName("Vardhan");
+        baby.setFirstName("baby1");
         baby.setLastName("Hosur");
         baby.setHsdoToken(user.getHsdpAccessToken());
         baby.setGender(Gender.MALE);
         baby.setEmail(user.getEmail());
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2011,8,24);
+        calendar.set(2016,8,24);
         baby.setDob(calendar.getTime());
-        baby.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78");
+        baby.setHsdpUUID(calendar.getTime()+"baby1");
         baby.setDependent(true);
-        baby.setBloodPressureSystolic("80");
-        baby.setBloodPressureDiastolic("120");
+        baby.setBloodPressureSystolic("120");
+        baby.setBloodPressureDiastolic("80");
         baby.setTemperature(90.0);
-        baby.setWeight(56.0);
+        baby.setWeight(56);
         baby.setProfilePic(is);
         ArrayList dependants = new ArrayList();
         dependants.add(baby);
 
         THSConsumer baby2 = new THSConsumer();
-        baby2.setFirstName("Shawrya");
+        baby2.setFirstName("baby2");
         baby2.setLastName("Hallur");
         baby2.setHsdoToken("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
         baby2.setGender(Gender.MALE);
         baby2.setEmail(user.getEmail());
         Calendar calendar2 = Calendar.getInstance();
-        calendar.set(2013,8,24);
+        calendar.set(2015,8,24);
         baby2.setDob(calendar2.getTime());
-        baby2.setHsdpUUID("0190c6eb-b8ad-4d3c-a7b3-fee0ace65d78_12390");
+        baby2.setHsdpUUID(calendar.getTime() + "baby2");
         baby2.setDependent(true);
-        baby2.setBloodPressureSystolic("80");
-        baby2.setBloodPressureDiastolic("120");
+        baby2.setBloodPressureSystolic("120");
+        baby2.setBloodPressureDiastolic("80");
         baby2.setTemperature(90.0);
-        baby2.setWeight(56.0);
+        baby2.setWeight(56);
         baby2.setProfilePic(is);
         //ArrayList dependants = new ArrayList();
         dependants.add(baby2);
@@ -224,10 +224,10 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         thsConsumer.setLastName(user.getFamilyName());
         thsConsumer.setDependents(dependants);
         thsConsumer.setHsdpUUID(user.getHsdpUUID());
-        thsConsumer.setBloodPressureSystolic("80");
-        thsConsumer.setBloodPressureDiastolic("120");
+        thsConsumer.setBloodPressureSystolic("120");
+        thsConsumer.setBloodPressureDiastolic("80");
         thsConsumer.setTemperature(90.0);
-        thsConsumer.setWeight(56.0);
+        thsConsumer.setWeight(56);
         thsConsumer.setDependent(false);
 
 
