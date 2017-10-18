@@ -88,8 +88,6 @@ public class DataPullSynchronise {
 
     void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
 
-        System.out.println("startSynchronise");
-
         boolean isLoggedIn = mUCoreAccessProvider.isLoggedIn();
 
         if (!isLoggedIn) {
@@ -105,8 +103,6 @@ public class DataPullSynchronise {
     }
 
     private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
-        System.out.println("fetch data");
-
         if (configurableFetchers.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
@@ -144,7 +140,6 @@ public class DataPullSynchronise {
     }
 
     private void reportResult(final RetrofitError result, final int referenceId) {
-        System.out.println("report result");
 
         if (result == null) {
             postOk();

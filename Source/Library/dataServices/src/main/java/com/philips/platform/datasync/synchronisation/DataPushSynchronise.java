@@ -101,7 +101,6 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        System.out.println("start all senders");
 
         if (configurableSenders.size() <= 0) {
             synchronisationManager.dataSyncComplete();
@@ -117,7 +116,6 @@ public class DataPushSynchronise extends EventMonitor {
                 @Override
                 public void run() {
                     boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
-                    System.out.println("sender " + response);
                     numberOfRunningSenders.decrementAndGet();
                     countDownLatch.countDown();
 
@@ -163,7 +161,6 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void postPushComplete() {
-        System.out.println("push complete");
         synchronisationManager.dataSyncComplete();
 //        synchronisationManager.shutdownAndAwaitTermination((ExecutorService) executor);
     }
