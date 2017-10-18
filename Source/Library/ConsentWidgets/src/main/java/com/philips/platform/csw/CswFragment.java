@@ -40,17 +40,6 @@ public class CswFragment extends Fragment implements
     }
 
 
-    @Override
-    public void onDestroy() {
-        setPrevTiltle();
-        super.onDestroy();
-    }
-
-
-    private void setPrevTiltle() {
-        mActionBarListener.updateActionBar(getPreviousResourceId(), true);
-    }
-
 
     public boolean onBackPressed() {
         return handleBackStack();
@@ -62,7 +51,6 @@ public class CswFragment extends Fragment implements
             if (count == 0) {
                 return true;
             }
-            Fragment fragment = mFragmentManager.getFragments().get(count);
             mFragmentManager.popBackStack();
         } else {
             getActivity().finish();
@@ -104,26 +92,13 @@ public class CswFragment extends Fragment implements
         this.mActionBarListener = listener;
     }
 
-
-    int mPreviousResourceId = -99;
-
-    public void setPreviousResourceId(int previousResourceId) {
-        mPreviousResourceId = previousResourceId;
+    private int titleResourceID = -99;
+    public void setResourceID(int titleResourceId) {
+        titleResourceID = titleResourceId;
     }
 
-    public int getPreviousResourceId() {
-        return mPreviousResourceId;
-    }
-
-    int currentTitleResource;
-
-    public void setCurrentTitleResource(int currentTitleResource) {
-        this.currentTitleResource = currentTitleResource;
-    }
-
-    public int getCurrentTitleResource() {
-        return currentTitleResource;
-
+    public int getResourceID() {
+        return titleResourceID;
     }
 
 

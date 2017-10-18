@@ -1,21 +1,15 @@
 
 package com.philips.platform.mya.demouapp;
 
-import android.content.Context;
-import android.content.Intent;
-
-import com.philips.platform.mya.MyaDependancies;
+import com.philips.platform.mya.MyaDependencies;
 import com.philips.platform.mya.MyaInterface;
 import com.philips.platform.mya.MyaLaunchInput;
 import com.philips.platform.mya.MyaSettings;
 import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Interface for My account Initialization and launch of UI
@@ -29,9 +23,9 @@ public class MyaDemouAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         MyaInterface myaInterface = new MyaInterface();
-        MyaDependancies myaDependancies = new MyaDependancies(uappDependencies.getAppInfra());
+        MyaDependencies myaDependencies = new MyaDependencies(uappDependencies.getAppInfra());
         MyaSettings myaSettings = new MyaSettings(uappSettings.getContext());
-        myaInterface.init(myaDependancies, myaSettings);
+        myaInterface.init(myaDependencies, myaSettings);
     }
 
     /**
