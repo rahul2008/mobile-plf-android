@@ -129,8 +129,8 @@ public class DataPullSynchroniseTest {
         synchronise.synchronisationManager = synchronisationManagerMock;
         synchronise.executor = executorMock;
         ArrayList list = new ArrayList();
-        list.add(firstFetcherMock);
-        list.add(secondFetcherMock);
+//        list.add(firstFetcherMock);
+//        list.add(secondFetcherMock);
         synchronise.fetchers = list;
         synchronise.configurableFetchers = list;
     }
