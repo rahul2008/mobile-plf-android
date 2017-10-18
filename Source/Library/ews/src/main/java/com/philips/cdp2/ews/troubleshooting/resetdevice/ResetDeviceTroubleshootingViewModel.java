@@ -16,7 +16,7 @@ public class ResetDeviceTroubleshootingViewModel {
     }
 
     public void onDoneButtonClicked() {
-        navigator.navigateToDevicePoweredOnConfirmationScreen();
+        navigator.navigateToCompletingDeviceSetupScreen();
     }
 
 }
