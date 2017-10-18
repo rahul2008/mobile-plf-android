@@ -13,7 +13,6 @@ def errors = []
 
 node('Android') {
     timestamps {
-        def APP_ROOT = "./Source/Library"
         try {
             stage('Checkout') {
 
@@ -37,19 +36,19 @@ node('Android') {
                 step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
             }
 
-            stage('Build') {
+            stage('Build Debug') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library 
-                                ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug 
+                                ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                             '''
 
             }
 
-            stage('Release') {
+            stage(Build Release') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
-                                cd ${APP_ROOT}
+                                cd ./Source/Library
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease 
                             '''
 
@@ -57,6 +56,9 @@ node('Android') {
                 
             stage('Archive results') {
                 echo "stage Archive results"
+                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
+                junit allowEmptyResults: false, testResults: 'Source/Library/ews/build/test-results/**/*.xml'
+
                 archiveArtifacts artifacts: 'Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
             }
