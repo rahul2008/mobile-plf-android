@@ -15,7 +15,6 @@ node('Android') {
     timestamps {
         try {
             stage('Checkout') {
-
              def jobBaseName = "${env.JOB_BASE_NAME}".replace('%2F', '/')
                 if (env.BRANCH_NAME != jobBaseName)
                 { 
@@ -51,6 +50,7 @@ node('Android') {
             stage('Build Debug') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
+                                ./set_version.sh ${VERSION}
                                 cd ./Source/Library 
                                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                             '''
@@ -70,6 +70,7 @@ node('Android') {
                 echo "stage Archive results"
                  androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: ''
 
+                mv Source/Library/demoapplication/build/outputs/apk/*.apk HSS_${version}_${buildFlavor}_${config}.apk
                 archiveArtifacts artifacts: 'Source/Library/demoapplication/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
                 archiveArtifacts artifacts: 'Source/Library/ews/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
             }
