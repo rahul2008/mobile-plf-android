@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_moment_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_moment_startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/calendar"
+            android:drawablePadding="3dp"
+            android:focusable="false"
+            android:hint="@string/moment_start_dateRange"
+            android:inputType="date"/>
+
+        <EditText
+            android:id="@+id/et_moment_endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/calendar"
+            android:drawablePadding="3dp"
+            android:focusable="false"
+            android:hint="@string/moment_end_dateRange"
+            android:inputType="date"/>
+
+        <EditText
+            android:id="@+id/et_moment_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/moment_type_label"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_fetch_moment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_moment_type"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_note"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btn_fetch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/fetch"/>
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/moment_dateRange_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_fetch_moment"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_moment_date_range"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/no_moment_date_range"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+</RelativeLayout>
