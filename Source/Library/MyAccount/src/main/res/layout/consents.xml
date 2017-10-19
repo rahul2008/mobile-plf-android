@@ -7,18 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".MyAccountActivity">
 
-    <!--<Switch
+    <Switch
         android:id="@+id/switch_allow_track_use"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        android:text="@string/consent_status" />-->
-
-    <Switch
-        android:id="@+id/switch_allow_send_promotional_on_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:text="@string/allow_send_promotional_on_behavior" />
+        android:text="@string/allow_track_use" />
 
 </LinearLayout>
