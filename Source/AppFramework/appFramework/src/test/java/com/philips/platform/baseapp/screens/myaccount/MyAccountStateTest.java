@@ -1,64 +1,91 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
+/* Copyright (c) Koninklijke Philips N.V., 2017
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.baseapp.screens.myaccount;
 
-import android.support.v4.app.FragmentManager;
-
-import com.philips.platform.CustomRobolectricRunner;
-import com.philips.platform.TestActivity;
-import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.mya.MyaDependencies;
+import com.philips.platform.mya.MyaInterface;
+import com.philips.platform.mya.MyaLaunchInput;
+import com.philips.platform.mya.MyaSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-
-import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.android.controller.ActivityController;
-import org.robolectric.annotation.Config;
-import com.philips.platform.appframework.R;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.robolectric.RuntimeEnvironment.application;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class)
-public class MyAccountStateTest extends TestCase {
-    private MyAccountState myAccountState;
+@RunWith(MockitoJUnitRunner.class)
+public class MyAccountStateTest {
+
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
+    private MyaInterface thsMicroAppInterface;
+
+    @Mock
     private FragmentLauncher fragmentLauncher;
+
+    @Mock
     private HamburgerActivity hamburgerActivity;
-    private ActivityController<TestActivity> activityController;
 
-    @After
-    public void tearDown(){
-        activityController.pause().stop().destroy();
-    }
+    @Mock
+    private AppFrameworkApplication application;
+
+    @Mock
+    private AppInfraInterface appInfraInterface;
+
+    private MyAccountState myAccountState;
+
+    @Mock
+    UIStateData uiStateData;
+
     @Before
-    public void setUp() throws Exception{
-        super.setUp();
-        myAccountState = new MyAccountState();
-        UIStateData supportStateData = new UIStateData();
-        supportStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-        myAccountState.setUiStateData(supportStateData);
-
-        activityController= Robolectric.buildActivity(TestActivity.class);
-        hamburgerActivity=activityController.create().start().get();
-        fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
+    public void setUp() {
+        myAccountState = new MyAccountStateMock();
+        myAccountState.updateDataModel();
+        when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
+        myAccountState.init(application);
+        when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
+        when(hamburgerActivity.getApplicationContext()).thenReturn(application);
+        when(application.getAppInfra()).thenReturn(appInfraInterface);
     }
 
     @Test
-    public void launchSupportState(){
-        myAccountState.init(application);
+    public void testLaunchTelehealthServicesState() {
+        myAccountState.setUiStateData(uiStateData);
         myAccountState.navigate(fragmentLauncher);
-        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(0,fragmentCount);
+        verify(thsMicroAppInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
+        verify(thsMicroAppInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
+    }
+
+    @After
+    public void tearDown() {
+        thsMicroAppInterface = null;
+        fragmentLauncher = null;
+        hamburgerActivity = null;
+        application = null;
+        appInfraInterface = null;
+        myAccountState = null;
+        uiStateData = null;
+    }
+
+    class MyAccountStateMock extends MyAccountState {
+
     }
 }
