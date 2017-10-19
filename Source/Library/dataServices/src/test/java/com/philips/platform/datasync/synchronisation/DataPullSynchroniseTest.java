@@ -14,6 +14,7 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.moments.MomentsClient;
 import com.philips.platform.datasync.moments.MomentsConverter;
+import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
 import com.philips.testing.verticals.OrmCreatorTest;
 
@@ -46,6 +47,8 @@ public class DataPullSynchroniseTest {
 
     @Mock
     private UCoreAccessProvider accessProviderMock;
+
+    private UserAccessProviderSpy userAccessProviderSpy;
 
     @Mock
     private UCoreAdapter uCoreAdapterMock;
@@ -124,6 +127,8 @@ public class DataPullSynchroniseTest {
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock)
         );
+
+        synchronise.userAccessProvider = userAccessProviderSpy;
         synchronise.mUCoreAccessProvider = accessProviderMock;
         synchronise.eventing = eventingMock;
         synchronise.synchronisationManager = synchronisationManagerMock;
