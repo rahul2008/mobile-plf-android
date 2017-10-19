@@ -129,7 +129,7 @@ class MomentPresenter {
         mDataServices.fetchMomentWith(startDate, endDate,paginationModel, dbFetchRequestListener);
     }
 
-    void fetchMomentByDateRange(String momentType, Date startDate, Date endDate,DSPagination paginationModel,DBFetchRequestListner<Moment> dbFetchRequestListener){
+    void fetchMomentByDateRangeAndType(String momentType, Date startDate, Date endDate,DSPagination paginationModel,DBFetchRequestListner<Moment> dbFetchRequestListener){
         mDataServices.fetchMomentWith(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
     }
 

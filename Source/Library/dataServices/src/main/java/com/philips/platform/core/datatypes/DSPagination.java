@@ -17,7 +17,7 @@ public interface DSPagination extends Serializable {
 
 	void setPageLimit(int pageLimit);
 
-	enum DSPaginationOrdering {DSASCEDING, DSDESCENDING}
+	enum DSPaginationOrdering {ASCENDING, DESCENDING}
 
 	DSPaginationOrdering getOrdering();
 
