@@ -115,4 +115,8 @@
         <item>"en_ZA"</item>
     </string-array>
 
+    <string-array name="sort">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
 </resources>

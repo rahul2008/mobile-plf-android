@@ -31,6 +31,8 @@ import com.philips.platform.dscdemo.database.table.OrmSettings;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
+import org.joda.time.DateTime;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -135,19 +137,32 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
     }
 
     @Override
-    public void fetchLatestMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+    public void fetchLatestMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel,
+                                             DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
-        builder.where().between("dateTime", startDate, endDate);
+        builder.where().between("dateTime", new DateTime(startDate), new DateTime(endDate));
+        if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
+            builder.orderBy("dateTime", true);
+        else
+            builder.orderBy("dateTime", false);
         List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
         dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }
 
     @Override
-    public void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+    public void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel,
+                                             DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
         QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
-        builder.where().eq("type_id", momentType);
-        builder.where().and();
-        builder.where().between("dateTime", startDate, endDate);
+
+        Where where = builder.where();
+        where.eq("type_id", MomentType.getIDFromDescription(momentType));
+        where.and();
+        where.between("dateTime", new DateTime(startDate), new DateTime(endDate));
+
+        if (paginationModel.getOrdering().equals(DSPagination.DSPaginationOrdering.ASCENDING))
+            builder.orderBy("dateTime", true);
+        else
+            builder.orderBy("dateTime", false);
         List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
         dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }

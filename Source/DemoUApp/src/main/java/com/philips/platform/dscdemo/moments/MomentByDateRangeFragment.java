@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -61,18 +62,16 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     private EditText mMomentEndDateEt;
     private EditText mMomentOrderByEt;
     private EditText mMomentPageLimitEt;
+    private EditText mPageNumberEt;
     private Button mFetchByDateTypeBtn;
     private Button mFetchByDateRangeBtn;
     private Spinner mMomentOrdering;
 
     Calendar myCalendar;
 
-
     final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
-
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -85,10 +84,8 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     };
 
     final DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
-
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -115,13 +112,14 @@ public class MomentByDateRangeFragment extends DSBaseFragment
         mMomentEndDateEt = (EditText) view.findViewById(R.id.et_moment_endDate);
         mMomentOrderByEt = (EditText) view.findViewById(R.id.et_moment_orderBY);
         mMomentPageLimitEt = (EditText) view.findViewById(R.id.et_moment_pageLimit);
+        mPageNumberEt = (EditText) view.findViewById(R.id.et_moment_pageNumber);
         mMomentOrdering = (Spinner) view.findViewById(R.id.momentOrdering);
+        mNoMomentInDateRange = (TextView) view.findViewById(R.id.tv_moment_date_range);
 
         mFetchByDateTypeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_type);
         mFetchByDateRangeBtn = (Button) view.findViewById(R.id.btn_fetch_by_date_range);
 
         mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter, false);
-        mNoMomentInDateRange = (TextView) view.findViewById(R.id.tv_no_latest_moment);
         mMomentsRecyclerView = (RecyclerView) view.findViewById(R.id.moment_dateRange_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mMomentsRecyclerView.setLayoutManager(layoutManager);
@@ -131,6 +129,11 @@ public class MomentByDateRangeFragment extends DSBaseFragment
         mMomentEndDateEt.setOnClickListener(this);
         mFetchByDateRangeBtn.setOnClickListener(this);
         mFetchByDateTypeBtn.setOnClickListener(this);
+
+        ArrayAdapter<CharSequence> adapterLocale = ArrayAdapter.createFromResource(getActivity(),
+                R.array.sort, android.R.layout.simple_spinner_item);
+        adapterLocale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mMomentOrdering.setAdapter(adapterLocale);
 
         mMomentAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -170,8 +173,15 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     }
 
     @Override
-    public void onFetchSuccess(List<? extends Moment> data) {
+    public void onFetchSuccess(final List<? extends Moment> data) {
+        if (getActivity() == null) return;
 
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI(data);
+            }
+        });
     }
 
     @Override
@@ -216,18 +226,14 @@ public class MomentByDateRangeFragment extends DSBaseFragment
 
     private void fetchMomentByDateRangeAndType() {
         if (mMomentType != null && !mMomentType.isEmpty()) {
-            mMomentPresenter.fetchMomentByDateRangeAndType(mMomentType, mStartDate, mEndDate, mDSPagination, this);
+            mMomentPresenter.fetchMomentByDateRangeAndType(mMomentType, mStartDate, mEndDate, createPagination(), this);
         } else {
             Toast.makeText(mContext, "Please enter the valid moment type", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void fetchMomentByDateRange() {
-        if (mMomentType != null && !mMomentType.isEmpty()) {
-            mMomentPresenter.fetchMomentByDateRange(mStartDate, mEndDate, mDSPagination, this);
-        } else {
-            Toast.makeText(mContext, "Please enter the valid moment type", Toast.LENGTH_SHORT).show();
-        }
+        mMomentPresenter.fetchMomentByDateRange(mStartDate, mEndDate, createPagination(), this);
     }
 
     @Override
@@ -251,9 +257,34 @@ public class MomentByDateRangeFragment extends DSBaseFragment
     private Pagination createPagination() {
         mDSPagination = new Pagination();
         mDSPagination.setOrderBy(mMomentOrderByEt.getText().toString().trim());
-        mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.ASCENDING);
+        if (mMomentOrdering.getSelectedItem().toString().equalsIgnoreCase(DSPagination.DSPaginationOrdering.DESCENDING.toString()))
+            mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.DESCENDING);
+        else
+            mDSPagination.setOrdering(DSPagination.DSPaginationOrdering.ASCENDING);
         mDSPagination.setPageLimit(Integer.parseInt(mMomentPageLimitEt.getText().toString().trim()));
-//		mDSPagination.setPageNumber(Integer.parseInt(mMome.getText().toString().trim()));
+        mDSPagination.setPageNumber(Integer.parseInt(mPageNumberEt.getText().toString().trim()));
         return mDSPagination;
     }
+
+    public void updateUI(final List<? extends Moment> moments) {
+        if (getActivity() != null && moments != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mMomentList = (ArrayList<? extends Moment>) moments;
+                    if (mMomentList.size() > 0) {
+                        mMomentsRecyclerView.setVisibility(View.VISIBLE);
+                        mNoMomentInDateRange.setVisibility(View.GONE);
+
+                        mMomentAdapter.setData(mMomentList);
+                        mMomentAdapter.notifyDataSetChanged();
+                    } else {
+                        mMomentsRecyclerView.setVisibility(View.GONE);
+                        mNoMomentInDateRange.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+    }
+
 }
