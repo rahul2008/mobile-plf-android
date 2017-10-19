@@ -21,6 +21,7 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
@@ -49,6 +50,7 @@ import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
+import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
 import com.philips.platform.core.events.LoadUserCharacteristicsRequest;
@@ -85,11 +87,13 @@ import com.philips.platform.datasync.synchronisation.SynchronisationMonitor;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -333,7 +337,15 @@ public class DataServicesManager {
         mEventing.post(new LoadMomentsRequest(dbFetchRequestListner));
     }
 
-    /**
+	public void fetchMomentWith(Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+       mEventing.post(new LoadMomentsByDate(startDate,endDate,dsPagination,dbFetchRequestListener));
+	}
+
+	public void fetchMomentWith(String momentType, Date startDate, Date endDate,DSPagination dsPagination, DBFetchRequestListner<Moment> dbFetchRequestListener) {
+		mEventing.post(new LoadMomentsByDate(momentType,startDate,endDate,dsPagination,dbFetchRequestListener));
+	}
+
+	/**
      * Fetch the Consent Detail from Data-Base
      *
      * @param dbFetchRequestListner Callback for notifying the fetch result

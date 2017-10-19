@@ -14,6 +14,7 @@ import com.j256.ormlite.stmt.Where;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.DCSync;
+import com.philips.platform.core.datatypes.DSPagination;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.Settings;
@@ -32,6 +33,7 @@ import com.philips.platform.dscdemo.utility.NotifyDBRequestListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +132,24 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
         }
 
         dbFetchRequestListener.onFetchSuccess((List) moments);
+    }
+
+    @Override
+    public void fetchLatestMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+        QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
+        builder.where().between("dateTime", startDate, endDate);
+        List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
+        dbFetchRequestListener.onFetchSuccess((List) ormMoments);
+    }
+
+    @Override
+    public void fetchLatestMomentByDateRange(String momentType, Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) throws SQLException {
+        QueryBuilder<OrmMoment, Integer> builder = momentDao.queryBuilder();
+        builder.where().eq("type_id", momentType);
+        builder.where().and();
+        builder.where().between("dateTime", startDate, endDate);
+        List<OrmMoment> ormMoments = getActiveMoments(momentDao.query(builder.prepare()));
+        dbFetchRequestListener.onFetchSuccess((List) ormMoments);
     }
 
     @Override
