@@ -47,7 +47,7 @@ public class JanrainErrorMessageTest extends RegistrationApiInstrumentationBase 
         assertEquals(context.getResources().getString(R.string.reg_JanRain_LogIn_Failed), janrainErrorMessage.getError(INVALID_PASSWORD));
 
         assertEquals(context.getResources().getString(R.string.reg_JanRain_Invalid_Credentials), janrainErrorMessage.getError(INVALID_USERNAME_PASSWORD));
-        assertEquals("Email address already in use", janrainErrorMessage.getError(EMAIL_ALREADY_IN_USE));
+        assertEquals(context.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg), janrainErrorMessage.getError(EMAIL_ALREADY_IN_USE));
 
         assertEquals(context.getResources().getString(R.string.reg_JanRain_Error_Check_Internet), janrainErrorMessage.getError(INTERNET_NOT_AVAILABLE));
     }

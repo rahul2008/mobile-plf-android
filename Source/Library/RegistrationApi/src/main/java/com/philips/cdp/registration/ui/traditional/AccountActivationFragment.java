@@ -168,7 +168,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void initUI(View view) {
         consumeTouch(view);
         mEmailId = mUser.getEmail();
-        String email = getString(R.string.reg_VerifyEmail_EmailSentto_lbltxt);
+        String email = getString(R.string.reg_DLS_Verify_Email_Sent_Txt);
         email = String.format(email, mEmailId);
         setupSpannableText(mTvVerifyEmail, email, mEmailId);
         handleUiState(networkUtility.isNetworkAvailable());
@@ -201,9 +201,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.reg_SigIn_TitleTxt;
+            return R.string.reg_DLS_SigIn_TitleTxt;
         } else {
-            return R.string.reg_RegCreateAccount_NavTitle;
+            return R.string.reg_DLS_URCreateAccount_NavTitle;
         }
     }
 
@@ -250,13 +250,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private void showVerifyAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.reg_almost_verify_alert_title),
+                R.string.reg_DLS_Email_Verify_Alert_Title),
                 mContext.getResources().getString(
-                        R.string.reg_almost_verify_alert_content),
+                        R.string.reg_DLS_Email_Verify_Alert_Body_Line1),
                 mContext.getResources().getString(
-                        R.string.reg_almost_verify_alert_content2),
+                        R.string.reg_DLS_Email_Verify_Alert_Body_Line2),
                 mContext.getResources().getString(
-                        R.string.reg_almost_verify_alert_button)
+                        R.string.reg_Ok_Btn_Txt)
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 

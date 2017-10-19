@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="Did not receive a SMS?"
+            android:text="@string/reg_DLS_ResendSMS_title"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 fontPath="fonts/centralesansbold.ttf"/>
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_Update_MobileNumber_Description_One"
+                android:text="@string/reg_DLS_ResendSMS_Body_Line1"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_16"
                 />
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_Update_MobileNumber_Description_two"
+                android:text="@string/reg_DLS_ResendSMS_Body_Line2"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_16"
                 fontPath="fonts/centralesansbook.ttf"/>
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:text="@string/reg_phone_number"
+                android:text="@string/reg_DLS_Phonenumber_Label_Text"
                 reglib:fontPath="fonts/centralesansbook.ttf"
                 android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_16"/>
@@ -95,7 +95,7 @@
                 android:textSize="@dimen/reg_text_size_16"
                 android:progressDrawable="@drawable/uid_secondary_progress_bar"
                 android:secondaryProgress="100"
-                android:text="@string/no_sms_yet"
+                android:text="@string/reg_DLS_ResendSMS_Progress_View_Title_Text"
                 app:uidIsLinearProgressBar="true"
                 app:uidLabelPosition="bottom_left"/>
 
@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_12dp"
-                android:text="@string/reg_Update_MobileNumber_Thanks_Got_It"
+                android:text="@string/reg_DLS_ResendSMS_Thanks_Button_Title"
                 app:uidComponentType="Secondary"
                 />
 

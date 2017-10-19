@@ -206,7 +206,6 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_reg_back) {
@@ -216,7 +215,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
 
     @Override
     public void updateActionBar(int titleResourceID, boolean isShowBack) {
-        if(titleResourceID == R.string.getting_started) {
+        if(titleResourceID == R.string.reg_DLS_StratScreen_Nav_Title_Txt) {
             ivBack.setText(R.string.ic_reg_close);
             isShowBack = true;
         } else {
@@ -226,11 +225,11 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
         if (isShowBack) {
             ivBack.setVisibility(View.VISIBLE);
             TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-            tvTitle.setText(getString(titleResourceID));
+            tvTitle.setText(getResources().getString(titleResourceID));
         } else {
             ivBack.setVisibility(View.INVISIBLE);
             TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
-            tvTitle.setText(getString(titleResourceID));
+            tvTitle.setText(getResources().getString(titleResourceID));
         }
     }
 
@@ -238,7 +237,7 @@ public class RegistrationActivity extends UIDActivity implements OnClickListener
     public void updateActionBar(String titleResourceText, boolean isShowBack) {
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(titleResourceText);
-        if(getString(R.string.getting_started).equals(titleResourceText)) {
+        if(getString(R.string.reg_DLS_StratScreen_Nav_Title_Txt).equals(titleResourceText)) {
             ivBack.setText(R.string.ic_reg_close);
             isShowBack = true;
         } else {

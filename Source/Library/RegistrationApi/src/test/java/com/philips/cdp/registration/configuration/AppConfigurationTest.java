@@ -4,6 +4,7 @@ import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import junit.framework.TestCase;
@@ -40,6 +41,7 @@ public class AppConfigurationTest extends TestCase {
 
     @Mock
     AppInfraWrapper mockAppInfraWrapper;
+    AppInfra mockAppInfra;
 
     @Mock
     RegistrationComponent mockComponent;
@@ -122,13 +124,6 @@ public class AppConfigurationTest extends TestCase {
         when(mockAppInfraWrapper.getURProperty(WE_CHAT_APP_SECRET_KEY)).thenReturn("we_chat_secret");
         String weChatAppSecret = appConfiguration.getWeChatAppSecret();
         assertEquals(weChatAppSecret, "we_chat_secret");
-    }
-
-    @Test
-    public void testGetMicrositeId() throws Exception {
-        when(mockAppInfraWrapper.getAppInfraProperty(MICROSITE_ID_KEY)).thenReturn("microsite_id");
-        String microiteId = appConfiguration.getMicrositeId();
-        assertEquals(microiteId, "microsite_id");
     }
 
     @Test

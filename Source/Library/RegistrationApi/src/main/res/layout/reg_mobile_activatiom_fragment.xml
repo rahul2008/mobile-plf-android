@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_verify_mobile_title"
+                android:text="@string/reg_DLS_VerifySMS_Title_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20"
                 fontPath="fonts/centralesansbold.ttf"/>
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_16dp"
-                android:text="@string/reg_verify_mobile_desc1"
+                android:text="@string/reg_DLS_VerifySMS_Description_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_20dp"
-                android:text="@string/reg_verify_mobile_desc2"
+                android:text="@string/reg_DLS_VerifySMS_EnterCode_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
@@ -76,8 +76,8 @@
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
                 android:enabled="false"
                 app:uidIsIndeterminateProgressIndicator="true"
-                app:uidProgressIndicatorButtonProgressText="@string/reg_verify_mobile_verify_button"
-                app:uidProgressIndicatorButtonText="@string/reg_verify_mobile_verify_button"/>
+                app:uidProgressIndicatorButtonProgressText="@string/reg_DLS_VerifySMS_VerifyCode_Button_Title"
+                app:uidProgressIndicatorButtonText="@string/reg_DLS_VerifySMS_VerifyCode_Button_Title"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/btn_reg_resend_code"

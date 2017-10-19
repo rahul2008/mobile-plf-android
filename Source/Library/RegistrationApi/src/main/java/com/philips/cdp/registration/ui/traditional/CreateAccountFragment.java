@@ -56,6 +56,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @BindView(R2.id.usr_createScreen_lastName_textField)
     ValidationEditText usr_createScreen_lastName_textField;
 
+    @BindView(R2.id.usr_createScreen_lastName_label)
+    Label lastNamelabel;
+
     @BindView(R2.id.usr_createScreen_firstName_inputValidation)
     InputValidationLayout usr_createScreen_firstName_inputValidation;
 
@@ -120,7 +123,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     boolean isValidFirstname;
 
-    boolean isValidLastame;
+    boolean isValidLastame = true;
 
 
     @Override
@@ -184,12 +187,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         usr_createScreen_password_inputValidationField.setValidator(passwordValidator);
         usr_createScreen_password_inputValidationField.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
         initUI(view);
+
         handleABTestingFlow();
         handleUiState();
         user = new User(context);
         handleOrientation(view);
         trackCreateAccountTime = System.currentTimeMillis();
         return view;
+    }
+
+    void setContentConfig(){
+        if (null != getRegistrationFragment().getContentConfiguration()) {
+            if (getRegistrationFragment().getContentConfiguration().getEnableLastName()) {
+                usr_createScreen_lastName_textField.setVisibility(View.VISIBLE);
+                lastNamelabel.setVisibility(View.VISIBLE);
+                isValidLastame = false;
+            }
+        }
     }
 
     private int passwordValidation(int strength) {
@@ -204,17 +218,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworkStateListener,strength " + strength);
         if (strength > strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_strong), strengthMeterStrong, true, R.color.uid_green_level_30,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
             return 0;
         } else if (strength == strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_15,
                     R.drawable.reg_password_strength_weak, R.string.reg_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.reg_password_strength_weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
+            passwordUiUpdate(getResources().getString(R.string.reg_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_15,
                     R.drawable.reg_password_strength_weak, R.string.reg_EmptyField_ErrorMsg, false);
         }
         return 0;
@@ -270,12 +284,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     private void initUI(View view) {
         consumeTouch(view);
+        setContentConfig();
         RegUtility.linkifyTermsandCondition(usr_createscreen_termsandconditions_checkbox, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         RegUtility.linkifyPhilipsNews(usr_createscreen_marketingmails_checkbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_createscreen_emailormobile_label.setText(R.string.reg_phone_number);
+            usr_createscreen_emailormobile_label.setText(R.string.reg_DLS_Phonenumber_Label_Text);
             usr_createscreen_emailormobile_textfield.setInputType(InputType.TYPE_CLASS_PHONE);
         }
 
@@ -345,6 +360,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
+            //TEMP: Checkbox state is changing on click of link. The below code is
+            // a workaround to retain the state.
+            usr_createscreen_marketingmails_checkbox.setChecked(
+                    !usr_createscreen_marketingmails_checkbox.isChecked());
         }
     };
 
@@ -450,7 +469,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.reg_DLS_URCreateAccount_NavTitle;
     }
 
     @Override

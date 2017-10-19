@@ -44,7 +44,7 @@ public class JanrainErrorMessage {
 		} else if (error == INVALID_USERNAME_PASSWORD) {
 			errorMessage = getErrorMessage(R.string.reg_JanRain_Invalid_Credentials); // "Invalid username or password";
 		} else if (error == EMAIL_ALREADY_IN_USE) {
-			errorMessage = "Email address already in use"; // "Email address already in use";
+			errorMessage = getErrorMessage(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg); // "Email address already in use";
 		} else if (error == INTERNET_NOT_AVAILABLE) {
 			errorMessage = getErrorMessage(R.string.reg_JanRain_Error_Check_Internet); // "Engage error";
 		} else {

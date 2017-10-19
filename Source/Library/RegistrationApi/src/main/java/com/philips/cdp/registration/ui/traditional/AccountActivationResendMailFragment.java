@@ -9,6 +9,7 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
+import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
@@ -218,13 +219,29 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
     }
 
+    private ProgressDialog mProgressDialog;
+
+    private void showProgressDialog() {
+        if (!getActivity().isFinishing()) {
+            if (mProgressDialog == null) {
+                mProgressDialog = new ProgressDialog(getActivity(), R.style.reg_Custom_loaderTheme);
+                mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+                mProgressDialog.setCancelable(false);
+            }
+            mProgressDialog.show();        }
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
+    }
     private void showResendSpinner() {
-        mResendEmail.showProgressIndicator();
+        showProgressDialog();
     }
 
     private void hideResendSpinner() {
-        mResendEmail.hideProgressIndicator();
-
+        hideProgressDialog();
     }
 
     @Override
@@ -240,9 +257,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     @Override
     public int getTitleResourceId() {
         if (isSocialProvider) {
-            return R.string.reg_SigIn_TitleTxt;
+            return R.string.reg_DLS_SigIn_TitleTxt;
         } else {
-            return R.string.reg_verify_resend_mail_nav_title;
+            return R.string.reg_DLS_Resend_Email_Screen_title;
         }
     }
 
@@ -274,13 +291,13 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     private void showAlertDialog() {
         RegAlertDialog.showDialog(mContext.getResources().getString(
-                R.string.reg_verify_resend_mail_intime_title),
+                R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Title),
                 mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_desc),
+                        R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Body_Line1),
                 mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_desc2),
+                        R.string.reg_DLS_Resend_Email_Wait_Error_Msg_Body_Line2),
                 mContext.getResources().getString(
-                        R.string.reg_verify_resend_mail_intime_button_ok)
+                        R.string.reg_DLS_Button_Title_Ok)
                 , getRegistrationFragment().getParentActivity(), mContinueBtnClick);
     }
 
@@ -308,12 +325,12 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     }
 
     public void addEmailClicked(String emailId) {
-        mResendEmail.showProgressIndicator();
+        showProgressDialog();
         if (emailId.equals(emailEditText.getText().toString())) {
             if (proceedResend) {
                 handleResend(emailId);
             } else {
-                mResendEmail.hideProgressIndicator();
+                hideProgressDialog();
                 showAlertDialog();
             }
         } else {
@@ -335,7 +352,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
                     @Override
                     public void onError(Throwable e) {
-                        mResendEmail.hideProgressIndicator();
+                        hideProgressDialog();
                         mRegError.setError(e.getMessage());
                     }
                 }));
@@ -385,9 +402,9 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         int timeRemaining = (int) (timeLeft / 1000);
         emailResendTimerProgress.setSecondaryProgress(
                 ((60 - timeRemaining) * 100) / 60);
-        String timeRemainingAsString = Integer.toString(timeRemaining);
+       // String timeRemainingAsString = Integer.toString(timeRemaining);
         emailResendTimerProgress.setText(
-                String.format(mContext.getResources().getString(R.string.no_sms_timer), timeRemainingAsString));
+                String.format(mContext.getResources().getString(R.string.reg_DLS_ResendSMS_Progress_View_Progress_Text), timeRemaining));
         mResendEmail.setEnabled(false);
     }
 
@@ -397,7 +414,8 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         int progress = 100;
         if (event.equals(RegConstants.COUNTER_FINISH)) {
             emailResendTimerProgress.setSecondaryProgress(progress);
-            emailResendTimerProgress.setText(mContext.getResources().getString(R.string.no_email_yet));
+            //Temp: Actual text is not available in localization hence kept empty for time being.
+            emailResendTimerProgress.setText("");
             mResendEmail.setEnabled(true);
             proceedResend = true;
         } else {
@@ -409,7 +427,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     public void viewOrHideNotificationBar() {
         if (popupWindow == null) {
             View view = getRegistrationFragment().getNotificationContentView(
-                    mContext.getResources().getString(R.string.reg_verify_resend_mail_sent),
+                    mContext.getResources().getString(R.string.reg_DLS_Resend_Email_NotificationBar_Title),
                     mUser.getEmail());
             popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);

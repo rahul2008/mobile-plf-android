@@ -95,6 +95,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @BindView(R2.id.usr_loginScreen_progress_indicator)
     LinearLayout progressBar;
 
+    @BindView(R2.id.usr_loginScreen_forgotPassword_LinearLayout)
+    LinearLayout usr_loginScreen_forgotPassword_LinearLayout;
+
     private User mUser;
 
     private XRegError mRegError;
@@ -245,7 +248,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleUiState();
 
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            usr_loginScreen_email_label.setText(R.string.reg_forgotpassword_input);
+            usr_loginScreen_email_label.setText(R.string.reg_DLS_Email_Phone_Label_Text);
         }
         mUser = new User(mContext);
         registrationSettingsURL = new RegistrationSettingsURL();
@@ -368,7 +371,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_SigIn_TitleTxt;
+        return R.string.reg_DLS_SigIn_TitleTxt;
     }
 
     private void signIn() {
@@ -429,12 +432,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
-                //HSDP related error description
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
-                //Need to show password errors only
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
                     mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
@@ -462,8 +463,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.forgot_password_dialog)
-                .setPositiveButton("Back to log in", this)
-                .setTitle("Reset password")
+                .setPositiveButton(mContext.getResources().getString(R.string.reg_DLS_Forgot_Password_Alert_Button_Title), this)
+                .setTitle(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title))
                 .setCancelable(false);
         alertDialogFragment = builder.create();
         alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
