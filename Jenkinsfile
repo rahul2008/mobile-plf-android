@@ -36,6 +36,18 @@ node('Android') {
                 step([$class: 'JUnitResultArchiver', testResults: 'Source/Library/ews/build/test-results/*/*.xml'])
             }
 
+            stage ('Jacoco') {
+                    sh '''#!/bin/bash -l
+                    cd ./Source/Library 
+                    ./gradlew jacocoTestReport
+                    '''
+
+                step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes/' + .toLowerCase() +'/' + .toLowerCase() + '/com/philips', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class, **/R$*.class, */BuildConfig.class, **/Manifest*.*, **/*_Factory.class, **/*_*Factory.class , **/Dagger*.class, **/databinding/**/*.class, **/*Activity*.*, **/*Fragment*.*, **/*Service*.*, **/*ContentProvider*.*'])
+
+                publishHTML(target: [keepAll: true, alwaysLinkToLastBuild: false, reportDir:  './Source/Library/ews/build/reports/jacoco/jacoco' + 'TestReleaseUnit'+'TestReport/html', reportFiles:'index.html', reportName: 'Overall code coverage'])
+
+            }
+
             stage('Build Debug') {
                     sh '''#!/bin/bash -l
                                 chmod -R 755 . 
