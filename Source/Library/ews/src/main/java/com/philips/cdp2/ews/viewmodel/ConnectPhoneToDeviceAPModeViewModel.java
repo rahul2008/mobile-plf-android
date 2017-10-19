@@ -134,7 +134,7 @@ public abstract class ConnectPhoneToDeviceAPModeViewModel {
             connectingDialog.dismissAllowingStateLoss();
         }
         eventBus.unregister(this);
-        navigator.navigateToConnectToDeviceWithPasswordScreen();
+        navigator.navigateToConnectToDeviceWithPasswordScreen("");
     }
 }
 

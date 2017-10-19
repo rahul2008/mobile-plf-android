@@ -7,7 +7,6 @@ package com.philips.cdp2.ews.viewmodel;
 
 import com.philips.cdp2.ews.appliance.ApplianceSessionDetailsInfo;
 import com.philips.cdp2.ews.navigation.Navigator;
-import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -37,8 +36,6 @@ public class SetDeviceInfoViewModelTest {
     @Mock
     private ConnectionEstablishDialogFragment dialogFragmentMock;
 
-    @Mock
-    private DeviceFriendlyNameFetcher mockDeviceFriendlyNameFetcher;
     private SetDeviceInfoViewModel viewModel;
 
 
@@ -49,7 +46,7 @@ public class SetDeviceInfoViewModelTest {
         initMocks(this);
 
         viewModel = new SetDeviceInfoViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
-                dialogFragmentMock, mockDeviceFriendlyNameFetcher);
+                dialogFragmentMock);
     }
 
     @Test
@@ -70,6 +67,15 @@ public class SetDeviceInfoViewModelTest {
     }
 
     @Test
+    public void updateUpdateFriendlyDeviceNameOnTextChanged() throws Exception {
+        final String text = "abc";
+
+        viewModel.onDeviceNameTextChanged(text, 0, 0, 1);
+
+        assertEquals(text, viewModel.deviceFriendlyName.get());
+    }
+
+    @Test
     public void shouldHaveEmptyStringInPassword() {
         assertEquals(viewModel.password.get(), "");
     }
@@ -81,5 +87,12 @@ public class SetDeviceInfoViewModelTest {
         verify(navigatorMock)
                 .navigateToConnectingDeviceWithWifiScreen(anyString(), anyString(), anyString(),
                         anyString());
+    }
+
+    @Test
+    public void shouldSetTheDeviceFriendlyName() {
+        final String text = "abc";
+        viewModel.setDeviceFriendlyName(text);
+        assertEquals(text, viewModel.deviceFriendlyName.get());
     }
 }

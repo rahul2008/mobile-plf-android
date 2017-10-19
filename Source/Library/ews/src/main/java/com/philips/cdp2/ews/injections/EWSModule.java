@@ -36,7 +36,6 @@ import com.philips.cdp2.ews.navigation.FragmentNavigator;
 import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.navigation.ScreenFlowController;
 import com.philips.cdp2.ews.permission.PermissionHandler;
-import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
 import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.view.dialog.GPSEnableDialogFragment;
@@ -148,14 +147,13 @@ public class EWSModule {
     SetDeviceInfoViewModel providesWiFiConnectViewModel(@NonNull final WiFiUtil wifiUtil,
                                                         @NonNull final
                                                         ApplianceSessionDetailsInfo sessionInfo,
-                                                        @NonNull final Navigator navigator,
-                                                        @NonNull final DeviceFriendlyNameFetcher
-                                                                deviceFriendlyNameFetcher) {
+                                                        @NonNull final Navigator navigator
+                                                       ) {
         final ConnectionEstablishDialogFragment dialogFragment =
                 ConnectionEstablishDialogFragment
                         .getInstance(R.string.label_ews_establishing_connection_body);
         return new SetDeviceInfoViewModel(wifiUtil, sessionInfo, navigator,
-                dialogFragment, deviceFriendlyNameFetcher);
+                dialogFragment);
     }
 
     @Provides

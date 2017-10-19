@@ -6,21 +6,34 @@
 package com.philips.cdp2.ews.settingdeviceinfo;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsConnectDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
+import com.philips.cdp2.ews.util.BundleUtils;
 import com.philips.cdp2.ews.view.EWSBaseFragment;
 
 import javax.inject.Inject;
 
 public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
 
+    private static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
     @Inject
     SetDeviceInfoViewModel viewModel;
+
+
+    public static Fragment newInstance(@NonNull String deviceFriendlyName) {
+        Bundle data = new Bundle();
+        data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
+        SetDeviceInfoFragment fragment = new SetDeviceInfoFragment();
+        fragment.setArguments(data);
+        return fragment;
+    }
 
     @Override
     public int getHierarchyLevel() {
@@ -32,7 +45,9 @@ public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDev
         viewDataBinding.setViewModel(viewModel);
         viewDataBinding.setInputMethodManager((InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE));
-        viewModel.fetchDeviceFriendlyName();
+
+        viewModel.setDeviceFriendlyName(BundleUtils
+                .extractStringFromBundleOrThrow(getArguments(), DEVICE_FRIENDLY_NAME));
     }
 
     @Override
@@ -63,9 +78,6 @@ public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDev
 
     @Override
     public void onDestroyView() {
-        if (viewModel != null) {
-            viewModel.clear();
-        }
         super.onDestroyView();
     }
 

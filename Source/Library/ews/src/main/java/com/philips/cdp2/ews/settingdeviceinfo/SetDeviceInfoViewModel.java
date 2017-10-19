@@ -29,8 +29,6 @@ public class SetDeviceInfoViewModel extends BaseObservable {
     private final Navigator navigator;
     @NonNull
     private final ConnectionEstablishDialogFragment connectingDialog;
-    @NonNull
-    private final DeviceFriendlyNameFetcher deviceFriendlyNameFetcher;
 
     @NonNull public final ObservableField<String> deviceFriendlyName;
     @NonNull public final ObservableField<String> password;
@@ -39,14 +37,11 @@ public class SetDeviceInfoViewModel extends BaseObservable {
     public SetDeviceInfoViewModel(@NonNull final WiFiUtil wiFiUtil,
                                   @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
                                   @NonNull final Navigator navigator,
-                                  @NonNull final ConnectionEstablishDialogFragment connectingDialog,
-                                  @NonNull final DeviceFriendlyNameFetcher
-                                              deviceFriendlyNameFetcher) {
+                                  @NonNull final ConnectionEstablishDialogFragment connectingDialog) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.navigator = navigator;
         this.connectingDialog = connectingDialog;
-        this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
         this.password = new ObservableField<>("");
         this.deviceFriendlyName = new ObservableField<>("");
     }
@@ -88,22 +83,7 @@ public class SetDeviceInfoViewModel extends BaseObservable {
                 sessionDetailsInfo.getDeviceName(), deviceFriendlyName.get());
     }
 
-    public void fetchDeviceFriendlyName() {
-        deviceFriendlyNameFetcher.fetchFriendlyName(new DeviceFriendlyNameFetcher.Callback() {
-            @Override
-            public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
-                deviceFriendlyName.set(friendlyName);
-            }
-
-            @Override
-            public void onFriendlyNameFetchingFailed() {
-                deviceFriendlyName.set("Failed");
-            }
-        });
+    public void setDeviceFriendlyName(@NonNull String name) {
+        deviceFriendlyName.set(name);
     }
-
-    public void clear() {
-        deviceFriendlyNameFetcher.clear();
-    }
-
 }
