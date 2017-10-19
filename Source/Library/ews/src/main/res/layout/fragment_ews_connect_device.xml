@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel"/>
+            type="com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel"/>
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -83,9 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
-                android:enabled="false"
-                android:text="@{viewModel.deviceName}"
-                />
+                android:text="@{viewModel.deviceName}"/>
 
             <Space
                 android:layout_width="match_parent"

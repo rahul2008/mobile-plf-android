@@ -15,7 +15,7 @@ import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
-import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
+import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
@@ -83,7 +83,7 @@ public class NavigatorTest {
     public void itShouldPushConnectToDeviceWithPasswordScreenWhenNavigating() throws Exception {
         subject.navigateToConnectToDeviceWithPasswordScreen();
 
-        verifyFragmentPushed(EWSWiFiConnectFragment.class);
+        verifyFragmentPushed(SetDeviceInfoFragment.class);
     }
 
     @Test

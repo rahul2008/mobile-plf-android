@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.ews.viewmodel;
+package com.philips.cdp2.ews.settingdeviceinfo;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
@@ -31,7 +31,7 @@ import javax.inject.Inject;
 import static com.philips.cdp2.ews.tagging.Tag.KEY.PRODUCT_NAME;
 
 @SuppressWarnings("WeakerAccess")
-public class EWSWiFiConnectViewModel extends BaseObservable {
+public class SetDeviceInfoViewModel extends BaseObservable {
 
     static final int APPLIANCE_PAIR_TIME_OUT = 60000;
 
@@ -43,21 +43,25 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     private final Navigator navigator;
     @NonNull
     private final ConnectionEstablishDialogFragment connectingDialog;
+    @NonNull
+    private final DeviceFriendlyNameFetcher deviceFriendlyNameFetcher;
 
     public ObservableField<String> password;
     private Fragment fragment;
 
 
     @Inject
-    public EWSWiFiConnectViewModel(@NonNull final WiFiUtil wiFiUtil,
-                                   @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
-                                   @NonNull final Navigator navigator,
-                                   @NonNull final ConnectionEstablishDialogFragment connectingDialog) {
+    public SetDeviceInfoViewModel(@NonNull final WiFiUtil wiFiUtil,
+                                  @NonNull final ApplianceSessionDetailsInfo sessionDetailsInfo,
+                                  @NonNull final Navigator navigator,
+                                  @NonNull final ConnectionEstablishDialogFragment connectingDialog,
+                                  @NonNull final DeviceFriendlyNameFetcher deviceFriendlyNameFetcher) {
         this.wiFiUtil = wiFiUtil;
         this.sessionDetailsInfo = sessionDetailsInfo;
         this.navigator = navigator;
         this.connectingDialog = connectingDialog;
         this.password = new ObservableField<>("");
+        this.deviceFriendlyNameFetcher = deviceFriendlyNameFetcher;
     }
 
     public String getDeviceName() {
@@ -86,7 +90,8 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
     }
 
     public void connectApplianceToHomeWiFi() {
-        navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get(), getDeviceName());
+        navigator.navigateToConnectingDeviceWithWifiScreen(getHomeWiFiSSID(), password.get(),
+                getDeviceName());
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -116,13 +121,35 @@ public class EWSWiFiConnectViewModel extends BaseObservable {
 
     private void tagConnectionStart() {
         EWSTagger.startTimedAction(Tag.ACTION.TIME_TO_CONNECT);
-        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME, EWSDependencyProvider.getInstance().getProductName());
+        EWSTagger.trackAction(Tag.ACTION.CONNECTION_START, PRODUCT_NAME,
+                EWSDependencyProvider.getInstance().getProductName());
     }
 
     public void onStart() {
-        if (wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI && (connectingDialog != null && !connectingDialog.isAdded())) {
+        if (wiFiUtil
+                .getCurrentWifiState() == WiFiUtil.HOME_WIFI && (connectingDialog != null &&
+                !connectingDialog
+                .isAdded())) {
             tagConnectionStart();
             connectingDialog.show(fragment.getFragmentManager(), fragment.getClass().getName());
         }
+    }
+
+    public void fetchDeviceFriendlyName() {
+        deviceFriendlyNameFetcher.fetchFriendlyName(new DeviceFriendlyNameFetcher.Callback() {
+            @Override
+            public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
+                sessionDetailsInfo.setDeviceName(friendlyName);
+            }
+
+            @Override
+            public void onFriendlyNameFetchingFailed() {
+                sessionDetailsInfo.setDeviceName("");
+            }
+        });
+    }
+
+    public void putDeviceFriendlyName() {
+
     }
 }

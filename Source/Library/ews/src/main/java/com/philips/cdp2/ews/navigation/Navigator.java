@@ -17,7 +17,7 @@ import com.philips.cdp2.ews.view.EWSDevicePowerOnFragment;
 import com.philips.cdp2.ews.view.EWSGettingStartedFragment;
 import com.philips.cdp2.ews.view.EWSHomeWifiDisplayFragment;
 import com.philips.cdp2.ews.view.EWSPressPlayAndFollowSetupFragment;
-import com.philips.cdp2.ews.view.EWSWiFiConnectFragment;
+import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoFragment;
 import com.philips.cdp2.ews.view.EWSWiFiPairedFragment;
 import com.philips.cdp2.ews.view.ResetConnectionTroubleshootingFragment;
 import com.philips.cdp2.ews.view.ResetDeviceTroubleshootingFragment;
@@ -60,7 +60,7 @@ public class Navigator {
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen() {
-        pushFragment(new EWSWiFiConnectFragment());
+        pushFragment(new SetDeviceInfoFragment());
     }
 
     public void navigateToPairingSuccessScreen() {

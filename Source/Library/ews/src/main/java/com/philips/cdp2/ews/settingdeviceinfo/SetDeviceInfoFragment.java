@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.ews.view;
+package com.philips.cdp2.ews.settingdeviceinfo;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,14 +13,14 @@ import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.databinding.FragmentEwsConnectDeviceBinding;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.tagging.Pages;
-import com.philips.cdp2.ews.viewmodel.EWSWiFiConnectViewModel;
+import com.philips.cdp2.ews.view.EWSBaseFragment;
 
 import javax.inject.Inject;
 
-public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
+public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDeviceBinding> {
 
     @Inject
-    EWSWiFiConnectViewModel viewModel;
+    SetDeviceInfoViewModel viewModel;
 
     @Override
     public int getHierarchyLevel() {
@@ -32,6 +32,7 @@ public class EWSWiFiConnectFragment extends EWSBaseFragment<FragmentEwsConnectDe
         viewDataBinding.setViewModel(viewModel);
         viewDataBinding.setInputMethodManager((InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE));
+        viewModel.fetchDeviceFriendlyName();
     }
 
     @Override

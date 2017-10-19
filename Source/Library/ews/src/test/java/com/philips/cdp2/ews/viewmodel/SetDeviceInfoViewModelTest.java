@@ -21,6 +21,8 @@ import com.philips.cdp2.ews.communication.events.PairingSuccessEvent;
 import com.philips.cdp2.ews.microapp.EWSCallbackNotifier;
 import com.philips.cdp2.ews.microapp.EWSDependencyProvider;
 import com.philips.cdp2.ews.navigation.Navigator;
+import com.philips.cdp2.ews.settingdeviceinfo.DeviceFriendlyNameFetcher;
+import com.philips.cdp2.ews.settingdeviceinfo.SetDeviceInfoViewModel;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.cdp2.ews.view.ConnectionEstablishDialogFragment;
 import com.philips.cdp2.ews.wifi.WiFiUtil;
@@ -57,7 +59,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(constants = BuildConfig.class, sdk = 21, manifest = Config.NONE)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest({EWSTagger.class, EWSDependencyProvider.class, EWSCallbackNotifier.class})
-public class EWSWiFiConnectViewModelTest {
+public class SetDeviceInfoViewModelTest {
 
     @Mock
     private ApplianceSessionDetailsInfo sessionInfoMock;
@@ -76,7 +78,10 @@ public class EWSWiFiConnectViewModelTest {
     @Mock
     private ConnectionEstablishDialogFragment dialogFragmentMock;
 
-    private EWSWiFiConnectViewModel viewModel;
+    @Mock
+    private DeviceFriendlyNameFetcher mockDeviceFriendlyNameFetcher;
+
+    private SetDeviceInfoViewModel viewModel;
 
     @Mock
     private Handler handlerMock;
@@ -102,8 +107,8 @@ public class EWSWiFiConnectViewModelTest {
         PowerMockito.mockStatic(EWSCallbackNotifier.class);
         when(EWSCallbackNotifier.getInstance()).thenReturn(ewsCallbackNotifier);
 
-        viewModel = new EWSWiFiConnectViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
-                dialogFragmentMock);
+        viewModel = new SetDeviceInfoViewModel(wifiUtilMock, sessionInfoMock, navigatorMock,
+                dialogFragmentMock, mockDeviceFriendlyNameFetcher);
         viewModel.setFragment(fragmentMock);
     }
 
