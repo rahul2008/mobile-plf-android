@@ -30,7 +30,7 @@ public class MyAccountState extends BaseState {
 
         MyaLaunchInput launchInput = new MyaLaunchInput();
         launchInput.setContext(actContext);
-        MyaInterface myaInterface = new MyaInterface();
+        MyaInterface myaInterface = getInterface();
         myaInterface.init(getUappDependencies(actContext), new MyaSettings(actContext.getApplicationContext()));
         myaInterface.launch(fragmentLauncher, launchInput);
     }
@@ -43,6 +43,10 @@ public class MyAccountState extends BaseState {
     @Override
     public void updateDataModel() {
 
+    }
+
+    public MyaInterface getInterface() {
+        return new MyaInterface();
     }
 
     @NonNull

@@ -5,6 +5,10 @@
 */
 package com.philips.platform.baseapp.screens.myaccount;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -36,7 +40,7 @@ public class MyAccountStateTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
-    private MyaInterface thsMicroAppInterface;
+    private MyaInterface myaInterface;
 
     @Mock
     private FragmentLauncher fragmentLauncher;
@@ -48,7 +52,13 @@ public class MyAccountStateTest {
     private AppFrameworkApplication application;
 
     @Mock
+    private FragmentManager fragmentManager;
+
+    @Mock
     private AppInfraInterface appInfraInterface;
+
+    @Mock
+    private FragmentTransaction fragmentTransaction;
 
     private MyAccountState myAccountState;
 
@@ -57,26 +67,29 @@ public class MyAccountStateTest {
 
     @Before
     public void setUp() {
-        myAccountState = new MyAccountStateMock();
+        myAccountState = new MyAccountStateMock(myaInterface);
         myAccountState.updateDataModel();
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         myAccountState.init(application);
         when(fragmentLauncher.getFragmentActivity()).thenReturn(hamburgerActivity);
         when(hamburgerActivity.getApplicationContext()).thenReturn(application);
+        when(hamburgerActivity.getSupportFragmentManager()).thenReturn(fragmentManager);
+        when(fragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
+        when(fragmentTransaction.replace(any(Integer.class), any(Fragment.class), any(String.class))).thenReturn(fragmentTransaction);
         when(application.getAppInfra()).thenReturn(appInfraInterface);
     }
 
     @Test
-    public void testLaunchTelehealthServicesState() {
+    public void testLaunchMyAccountState() {
         myAccountState.setUiStateData(uiStateData);
         myAccountState.navigate(fragmentLauncher);
-        verify(thsMicroAppInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
-        verify(thsMicroAppInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
+        verify(myaInterface).init(any(MyaDependencies.class), any(MyaSettings.class));
+        verify(myaInterface).launch(any(FragmentLauncher.class), any(MyaLaunchInput.class));
     }
 
     @After
     public void tearDown() {
-        thsMicroAppInterface = null;
+        myaInterface = null;
         fragmentLauncher = null;
         hamburgerActivity = null;
         application = null;
@@ -87,5 +100,15 @@ public class MyAccountStateTest {
 
     class MyAccountStateMock extends MyAccountState {
 
+        private MyaInterface myaInterface;
+
+        public MyAccountStateMock(MyaInterface myaInterface) {
+            this.myaInterface = myaInterface;
+        }
+
+        @Override
+        public MyaInterface getInterface() {
+            return myaInterface;
+        }
     }
 }
