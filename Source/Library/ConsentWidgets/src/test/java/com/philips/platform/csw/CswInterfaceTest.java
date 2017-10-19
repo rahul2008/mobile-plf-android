@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,8 @@ public class CswInterfaceTest {
         givenParentContainerId(A_SPECIFIC_CONTAINER_ID);
         whenCallingLaunch(fragmentLauncherMock, new CswLaunchInput());
         thenReplaceWasCalledWith(A_SPECIFIC_CONTAINER_ID, CswFragment.class, CSWFRAGMENT);
-        thenAddToBackStackIsCalled(CSWFRAGMENT);
+        thenAddToBackStackWasCalled(CSWFRAGMENT);
+        thenCommitAllowingStateLossWasCalled();
     }
 
     public void givenParentContainerId(int parentContainerId) {
@@ -54,8 +54,12 @@ public class CswInterfaceTest {
         assertEquals(expectedTag, fragmentTransactionMock.replace_tag);
     }
 
-    private void thenAddToBackStackIsCalled(String expectedBackStackId) {
+    private void thenAddToBackStackWasCalled(String expectedBackStackId) {
         assertEquals(expectedBackStackId, fragmentTransactionMock.addToBackStack_backStackId);
+    }
+
+    private void thenCommitAllowingStateLossWasCalled() {
+        assertTrue(fragmentTransactionMock.commitAllowingStateLossWasCalled);
     }
 
     public static class FragmentLauncherMock extends FragmentLauncher {
@@ -209,6 +213,7 @@ public class CswInterfaceTest {
         public Fragment replace_fragment;
         public String replace_tag;
         public String addToBackStack_backStackId;
+        public boolean commitAllowingStateLossWasCalled;
 
         @Override
         public FragmentTransaction add(Fragment fragment, String s) {
@@ -341,6 +346,7 @@ public class CswInterfaceTest {
 
         @Override
         public int commitAllowingStateLoss() {
+            this.commitAllowingStateLossWasCalled = true;
             return 0;
         }
 
@@ -360,7 +366,7 @@ public class CswInterfaceTest {
     private FragmentManagerMock fragmentManagerMock;
     private FragmentTransactionMock fragmentTransactionMock;
 
-    public static final String CSWFRAGMENT = "CSWFRAGMENT";
+    private static final String CSWFRAGMENT = "CSWFRAGMENT";
 
     private CswInterface cswInterface;
 
