@@ -42,7 +42,7 @@ node('Android') {
                     ./gradlew jacocoTestReport
                     '''
 
-                step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes/' + .toLowerCase() +'/' + .toLowerCase() + '/com/philips', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class, **/R$*.class, */BuildConfig.class, **/Manifest*.*, **/*_Factory.class, **/*_*Factory.class , **/Dagger*.class, **/databinding/**/*.class, **/*Activity*.*, **/*Fragment*.*, **/*Service*.*, **/*ContentProvider*.*'])
+                step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes/'+'/' + Release.toLowerCase() + '/com/philips', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class, **/R$*.class, */BuildConfig.class, **/Manifest*.*, **/*_Factory.class, **/*_*Factory.class , **/Dagger*.class, **/databinding/**/*.class, **/*Activity*.*, **/*Fragment*.*, **/*Service*.*, **/*ContentProvider*.*'])
 
                 publishHTML(target: [keepAll: true, alwaysLinkToLastBuild: false, reportDir:  './Source/Library/ews/build/reports/jacoco/jacoco' + 'TestReleaseUnit'+'TestReport/html', reportFiles:'index.html', reportName: 'Overall code coverage'])
 
