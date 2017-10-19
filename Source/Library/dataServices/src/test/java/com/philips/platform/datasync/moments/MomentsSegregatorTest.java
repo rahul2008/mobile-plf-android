@@ -1,5 +1,6 @@
 package com.philips.platform.datasync.moments;
 
+import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
@@ -62,6 +63,9 @@ public class MomentsSegregatorTest {
     @Mock
     DBRequestListener dbRequestListener;
 
+    @Mock
+    BaseAppDataCreator dataCreatorMock;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -72,6 +76,7 @@ public class MomentsSegregatorTest {
         momentsSegregator.dbFetchingInterface = dbFetchingInterface;
         momentsSegregator.dbDeletingInterface = dbDeletingInterface;
         momentsSegregator.dbSavingInterface = dbSavingInterface;
+        momentsSegregator.mBaseAppDataCreator=dataCreatorMock;
     }
 
     @Test

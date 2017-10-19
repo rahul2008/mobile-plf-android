@@ -40,8 +40,6 @@ import retrofit.RetrofitError;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DataPushSynchronise extends EventMonitor {
 
-    private static final int WORKER_THREADS = 10;
-
     ExecutorService executor;
     @Inject
     UCoreAccessProvider accessProvider;
@@ -101,8 +99,6 @@ public class DataPushSynchronise extends EventMonitor {
     }
 
     private void startAllSenders(final GetNonSynchronizedDataResponse nonSynchronizedData) {
-        System.out.println("start all senders");
-
         if (configurableSenders.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
@@ -119,12 +115,6 @@ public class DataPushSynchronise extends EventMonitor {
                     boolean response = sender.sendDataToBackend(nonSynchronizedData.getDataToSync(sender.getClassForSyncData()));
                     numberOfRunningSenders.decrementAndGet();
                     countDownLatch.countDown();
-
-                    /*int jobsRunning = numberOfRunningSenders.decrementAndGet();
-
-                    if (jobsRunning <= 0) {
-                        postPushComplete();
-                    }*/
                 }
             });
         }

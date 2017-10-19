@@ -36,9 +36,6 @@ import retrofit.RetrofitError;
 @SuppressWarnings("unchecked")
 public class DataPullSynchronise {
 
-    //Threads to run at a time on Executor pool
-    private static final int WORKER_THREADS = 10;
-
     ExecutorService executor;
 
     @NonNull
@@ -141,14 +138,11 @@ public class DataPullSynchronise {
     }
 
     private void reportResult(final RetrofitError result, final int referenceId) {
-        System.out.println("report result");
-
         if (result == null) {
             postOk();
         } else {
             postError(referenceId, result);
         }
-//        synchronisationManager.shutdownAndAwaitTermination(executor);
     }
 
     private void postOk() {
