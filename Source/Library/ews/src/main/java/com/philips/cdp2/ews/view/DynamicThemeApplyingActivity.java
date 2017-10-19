@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp2.ews.R;
-import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -19,9 +18,9 @@ public class DynamicThemeApplyingActivity extends UIDActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         // TODO those values will by dynamic with configurability story
-        setTheme(R.style.Theme_DLS_Blue_VeryDark);
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.BLUE, NavigationColor.BRIGHT,
-                ContentColor.VERY_DARK, AccentRange.ORANGE));
+        setTheme(R.style.Theme_DLS_GroupBlue_UltraLight);
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT,
+                ContentColor.ULTRA_LIGHT));
         super.onCreate(savedInstanceState);
     }
 
