@@ -7,10 +7,12 @@ package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
@@ -25,6 +27,7 @@ import com.philips.cdp2.ews.navigation.Navigator;
 import com.philips.cdp2.ews.tagging.Actions;
 import com.philips.cdp2.ews.tagging.EWSTagger;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.HashMap;
@@ -33,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-public class EWSActivity extends DynamicThemeApplyingActivity {
+public class EWSActivity extends DynamicThemeApplyingActivity implements ActionBarListener {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
@@ -61,7 +64,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
         EWSTagger.collectLifecycleInfo(this);
 
         //TODO move this inizialization.
-        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
+        Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()), new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
     }
 
@@ -140,8 +143,22 @@ public class EWSActivity extends DynamicThemeApplyingActivity {
     }
 
     protected void handleCancelButtonClicked() {
-       BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-       baseFragment.handleCancelButtonClicked();
+        BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        baseFragment.handleCancelButtonClicked();
     }
 
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+        setToolbarTitle(getString(i));
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+        setToolbarTitle(s);
+    }
+
+    public void setToolbarTitle(String s) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.ews_toolbar);
+        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(s);
+    }
 }

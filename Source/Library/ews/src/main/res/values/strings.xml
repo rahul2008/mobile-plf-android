@@ -3,6 +3,7 @@
     <string name="app_name">EWSMicroApp</string>
     <string name="af_app_name">SleepMapper</string>
     <string name="ews_title">WiFi setup</string>
+    <string name="ews_support_title">Philips support</string>
     <string name="label_ews_get_started_title">Let’s connect your Somneo to your WiFi so you can enjoy all the app enabled features!</string>
     <string name="label_ews_get_started_description">Important: For a reliable connection, make sure you have a strong WiFi signal where you are setting up.</string>
     <string name="button_ews_get_started_get_started">Get started</string>
