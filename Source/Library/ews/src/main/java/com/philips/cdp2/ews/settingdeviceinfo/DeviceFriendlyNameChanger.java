@@ -12,21 +12,21 @@ import com.philips.cdp2.ews.appliance.EWSGenericAppliance;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class DeviceFriendlyNameFetcher {
+public class DeviceFriendlyNameChanger {
 
     public interface Callback {
-        void onFriendlyNameFetchingSuccess(@NonNull String friendlyName);
-        void onFriendlyNameFetchingFailed();
+        void onFriendlyNameChangingSuccess();
+        void onFriendlyNameChangingFailed();
     }
 
     @NonNull private final EWSGenericAppliance appliance;
 
-    @Nullable private Callback callback;
+    @Nullable private DeviceFriendlyNameChanger.Callback callback;
 
     @NonNull private final DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
         @Override
         public void onPortUpdate(DevicePort devicePort) {
-            handleSuccessfulGetProps(devicePort);
+            notifySuccess();
         }
 
         @Override
@@ -36,33 +36,29 @@ public class DeviceFriendlyNameFetcher {
     };
 
     @Inject
-    public DeviceFriendlyNameFetcher(@NonNull @Named("ews.temporary.appliance") EWSGenericAppliance appliance) {
+    public DeviceFriendlyNameChanger(@NonNull @Named("ews.temporary.appliance") EWSGenericAppliance appliance) {
         this.appliance = appliance;
     }
 
-    public void fetchFriendlyName(@NonNull DeviceFriendlyNameFetcher.Callback callback) {
+    public void changeFriendlyName(@NonNull String newFriendlyName, @NonNull DeviceFriendlyNameChanger.Callback callback) {
         this.callback = callback;
         DevicePort devicePort = appliance.getDevicePort();
         devicePort.addPortListener(portListener);
-        devicePort.reloadProperties();
+        devicePort.setDeviceName(newFriendlyName);
     }
 
     public void clear() {
         callback = null;
     }
 
-    private void notifyFailure() {
+    private void notifySuccess() {
         if (callback != null) {
-            callback.onFriendlyNameFetchingFailed();
+            callback.onFriendlyNameChangingSuccess();
         }
     }
-
-    private void handleSuccessfulGetProps(@Nullable DevicePort devicePort) {
-        if (callback == null) return;
-        if (devicePort != null && devicePort.getPortProperties() != null) {
-            callback.onFriendlyNameFetchingSuccess(devicePort.getPortProperties().getName());
-        } else {
-            callback.onFriendlyNameFetchingFailed();
+    private void notifyFailure() {
+        if (callback != null) {
+            callback.onFriendlyNameChangingFailed();
         }
     }
 

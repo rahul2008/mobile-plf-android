@@ -38,7 +38,6 @@ public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDev
     @Override
     protected void inject(final EWSComponent ewsComponent) {
         ewsComponent.inject(this);
-        viewModel.setFragment(this);
     }
 
     @NonNull
@@ -64,13 +63,10 @@ public class SetDeviceInfoFragment extends EWSBaseFragment<FragmentEwsConnectDev
 
     @Override
     public void onDestroyView() {
+        if (viewModel != null) {
+            viewModel.clear();
+        }
         super.onDestroyView();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        viewModel.onStart();
     }
 
     @Override

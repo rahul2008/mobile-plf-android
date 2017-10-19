@@ -67,8 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
                 android:hint="@string/label_ews_password_password_placeholder"
-                android:onFocusChange="@{(v,hasFocus) -> viewModel.onFocusChange(v,inputMethodManager,hasFocus)}"
-                android:onTextChanged="@{viewModel::onTextChanged}"
+                android:onFocusChange="@{(v,hasFocus) -> viewModel.onPasswordFocusChange(v,inputMethodManager,hasFocus)}"
+                android:onTextChanged="@{viewModel::onPasswordTextChanged}"
                 android:text="@{viewModel.password}"/>
 
             <TextView
@@ -83,7 +83,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d"
-                android:text="@{viewModel.deviceName}"/>
+                android:onFocusChange="@{(v,hasFocus) -> viewModel.onDeviceNameFocusChange(v,inputMethodManager,hasFocus)}"
+                android:onTextChanged="@{viewModel::onDeviceNameTextChanged}"
+                android:text="@{viewModel.deviceFriendlyName}"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -97,7 +99,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="@dimen/e"
                 android:layout_marginTop="@dimen/c"
-                android:onClick="@{() -> viewModel.connectApplianceToHomeWiFi()}"
+                android:onClick="@{() -> viewModel.onConnectButtonClicked()}"
                 android:text="@string/button_next"/>
 
         </LinearLayout>

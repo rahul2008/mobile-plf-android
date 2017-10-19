@@ -168,7 +168,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
-        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName");
+        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceFriendlyName");
 
         verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
     }
@@ -193,7 +193,7 @@ public class NavigatorTest {
     @Test
     public void itShouldNavigateToConnectingDeviceWithWifiScreenWithArgs() throws Exception {
         subject.navigateToConnectingDeviceWithWifiScreen("homeWifiSssid",
-                "password", "deviceName");
+                "password", "deviceName", "deviceFriendlyName");
 
         verifyFragmentPushed(ConnectingDeviceWithWifiFragment.class);
     }

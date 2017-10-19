@@ -55,7 +55,7 @@ public class ApplianceAccessEventMonitorTest {
 
     private static String CPP = "cc1ad323";
     private static String DEVICE_MODEL = "deviceModel";
-    private static String DEVICE_NAME = "deviceName";
+    private static String DEVICE_NAME = "deviceFriendlyName";
 
     @Before
     public void setUp() throws Exception {
