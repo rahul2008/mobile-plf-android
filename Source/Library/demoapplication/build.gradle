@@ -39,7 +39,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def appName = "ews_demo_app"
+            def appName = "ews_demo_app_"
             def buildType = variant.variantData.variantConfiguration.buildType.name
             def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
             output.outputFile = new File(output.outputFile.parent, newName)
