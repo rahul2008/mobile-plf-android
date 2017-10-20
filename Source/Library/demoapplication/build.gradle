@@ -9,8 +9,8 @@ android {
         applicationId "com.philips.cdp2.ews.demoapplication"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode config.versionCode
-        versionName config.versionName
+        versionCode getMyVersionCode()
+        versionName "1.0"
     }
     dataBinding {
         enabled = true
@@ -41,16 +41,10 @@ android {
         variant.outputs.each { output ->
             def appName = "ews_demo_app"
             def buildType = variant.variantData.variantConfiguration.buildType.name
-            def newName = "${appName}${gitBranch()}_${buildType}_${getVersionCode()}.apk"
-            def file  =  new File("../../VERSION")
-            file.createNewFile()
-            file.text =newName
-            print newName
+            def newName = "${appName}${gitBranch()}_${buildType}_${getMyVersionCode()}.apk"
+            output.outputFile = new File(output.outputFile.parent, newName)
         }
     }
-
-
-
 }
 
 def gitBranch() {
@@ -62,9 +56,8 @@ def gitBranch() {
     branch.replaceAll("/","-")
 }
 
-def getVersionCode() {
-    println "project.hasProperty('versionCode') ?" + project.hasProperty('versionCode')
-    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : 1.0
+def getMyVersionCode() {
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : 1
     println "VersionCode is set to $code"
     code
 }
