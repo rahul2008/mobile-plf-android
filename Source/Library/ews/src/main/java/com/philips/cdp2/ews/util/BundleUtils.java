@@ -15,23 +15,10 @@ public abstract class BundleUtils {
         return bundle.getString(key);
     }
 
-    public static Parcelable extractParcelableFromIntent(@NonNull Intent intent, String key, @NonNull RuntimeException e) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Parcelable> T extractParcelableFromIntentOrNull(@NonNull Intent intent,
+                                                                             @NonNull String key) {
         Bundle extras = intent.getExtras();
-        checkBundleContainsKey(extras, key, e);
-        return extras.getParcelable(key);
+        return extras == null ? null : (T) extras.getParcelable(key);
     }
-
-    private static void checkBundleContainsKey(@NonNull Bundle extras, String key, @NonNull RuntimeException e) {
-        assertNotNull(extras, e);
-        if (!extras.containsKey(key)) {
-            throw e;
-        }
-    }
-
-    private static void assertNotNull(@Nullable Object object, @NonNull RuntimeException e) {
-        if (object == null) {
-            throw e;
-        }
-    }
-
 }

@@ -15,8 +15,7 @@ import android.view.View;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp2.ews.R;
 import com.philips.cdp2.ews.communication.EventingChannel;
-import com.philips.cdp2.ews.configuration.BaseContentConfiguration;
-import com.philips.cdp2.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.cdp2.ews.configuration.ContentConfiguration;
 import com.philips.cdp2.ews.injections.DaggerEWSComponent;
 import com.philips.cdp2.ews.injections.EWSComponent;
 import com.philips.cdp2.ews.injections.EWSConfigurationModule;
@@ -42,8 +41,7 @@ public class EWSActivity extends UiKitActivity {
 
     public static final long DEVICE_CONNECTION_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
     public static final String EWS_STEPS = "EWS_STEPS";
-    public static final String KEY_BASECONTENT_CONFIGURATION = "baseContentConfiguration";
-    public static final String KEY_HAPPYFLOW_CONFIGURATION = "happyFlowConfiguration";
+    public static final String KEY_CONTENT_CONFIGURATION = "contentConfiguration";
 
     @Inject
     EventingChannel<EventingChannel.ChannelCallback> ewsEventingChannel;
@@ -65,31 +63,24 @@ public class EWSActivity extends UiKitActivity {
 
         EWSTagger.collectLifecycleInfo(this);
 
-        //TODO move this inizialization.
+        //TODO move this initialization.
         Navigator navigator = new Navigator(new FragmentNavigator(getSupportFragmentManager()),new ActivityNavigator(this));
         navigator.navigateToGettingStartedScreen();
     }
 
     private EWSComponent createEWSComponent() {
-        BaseContentConfiguration baseContentConfiguration =
-                (BaseContentConfiguration) BundleUtils.extractParcelableFromIntent(getIntent(), KEY_BASECONTENT_CONFIGURATION,
-                        new IllegalArgumentException("Need to pass baseContentConfiguration"));
+        ContentConfiguration contentConfiguration =
+                BundleUtils.extractParcelableFromIntentOrNull(getIntent(), KEY_CONTENT_CONFIGURATION);
 
-        HappyFlowContentConfiguration happyFlowConfiguration =
-                (HappyFlowContentConfiguration) BundleUtils.extractParcelableFromIntent(getIntent(), KEY_HAPPYFLOW_CONFIGURATION,
-                        new IllegalArgumentException("Need to pass happyFlowContentConfiguration"));
-
-        if (baseContentConfiguration == null){
-            baseContentConfiguration = new BaseContentConfiguration();
-        }
-
-        if (happyFlowConfiguration == null){
-             happyFlowConfiguration = new HappyFlowContentConfiguration.HappyFlowConfigurationBuilder().build();
+        // TODO Handle null config object
+        if (contentConfiguration == null) {
+            contentConfiguration = new ContentConfiguration();
         }
 
         return DaggerEWSComponent.builder()
                 .eWSModule(new EWSModule(EWSActivity.this, getSupportFragmentManager()))
-                .eWSConfigurationModule(new EWSConfigurationModule(baseContentConfiguration, happyFlowConfiguration))
+                .eWSConfigurationModule(new EWSConfigurationModule(contentConfiguration.getBaseContentConfiguration(),
+                        contentConfiguration.getHappyFlowContentConfiguration()))
                 .build();
     }
 

@@ -8,22 +8,29 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.StringRes;
 
+import com.philips.cdp2.ews.R;
+
 public class BaseContentConfiguration implements Parcelable {
 
     @StringRes
-    private int deviceName;
+    private final int deviceName;
 
     @StringRes
-    private int appName;
+    private final int appName;
 
+    public BaseContentConfiguration() {
+        deviceName = R.string.ews_device_name_default;
+        appName = R.string.ews_app_name_default;
+    }
 
     public BaseContentConfiguration(@StringRes int deviceName, @StringRes int appName) {
         this.deviceName = deviceName;
         this.appName = appName;
     }
 
-    public BaseContentConfiguration() {
-
+    protected BaseContentConfiguration(Parcel in) {
+        this.deviceName = in.readInt();
+        this.appName = in.readInt();
     }
 
     public int getDeviceName() {
@@ -43,11 +50,6 @@ public class BaseContentConfiguration implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.deviceName);
         dest.writeInt(this.appName);
-    }
-
-    protected BaseContentConfiguration(Parcel in) {
-        this.deviceName = in.readInt();
-        this.appName = in.readInt();
     }
 
     public static final Parcelable.Creator<BaseContentConfiguration> CREATOR = new Parcelable.Creator<BaseContentConfiguration>() {

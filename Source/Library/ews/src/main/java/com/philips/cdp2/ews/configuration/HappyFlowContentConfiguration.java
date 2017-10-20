@@ -68,7 +68,7 @@ public class HappyFlowContentConfiguration implements Parcelable{
     }
 
 
-    private HappyFlowContentConfiguration(HappyFlowConfigurationBuilder builder){
+    private HappyFlowContentConfiguration(Builder builder){
         this.ews01_title = builder.ews01_title;
         this.ews02_01_body = builder.ews02_01_body;
         this.ews02_01_title = builder.ews02_01_title;
@@ -81,7 +81,7 @@ public class HappyFlowContentConfiguration implements Parcelable{
         this.ews02_02_negativeBtnText = builder.ews02_02_negativeBtnText;
     }
 
-    public static class HappyFlowConfigurationBuilder{
+    public static class Builder {
 
         @StringRes private int ews01_title;
         @StringRes private int ews02_01_title;
@@ -95,52 +95,56 @@ public class HappyFlowContentConfiguration implements Parcelable{
         @StringRes private int ews02_02_positiveBtnText;
         @StringRes private int ews02_02_negativeBtnText;
 
-        public HappyFlowConfigurationBuilder setEWS_01_Title(@StringRes int ews01_title){
+        public Builder() {
+            // TODO: this should have default values for those strings
+        }
+
+        public Builder setEWS_01_Title(@StringRes int ews01_title){
             this.ews01_title = ews01_title;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_01_Title(@StringRes int ews02_01_title){
+        public Builder setEWS02_01_Title(@StringRes int ews02_01_title){
             this.ews02_01_title = ews02_01_title;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_01_Body(@StringRes int ews02_01_body){
+        public Builder setEWS02_01_Body(@StringRes int ews02_01_body){
             this.ews02_01_body = ews02_01_body;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_01_image(@DrawableRes int ews02_01_image) {
+        public Builder setEWS02_01_image(@DrawableRes int ews02_01_image) {
             this.ews02_01_image = ews02_01_image;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_02_Title(@StringRes int ews02_02_title){
+        public Builder setEWS02_02_Title(@StringRes int ews02_02_title){
             this.ews02_02_title = ews02_02_title;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_02_Subtitle(@StringRes int ews02_02_subtitle){
+        public Builder setEWS02_02_Subtitle(@StringRes int ews02_02_subtitle){
             this.ews02_02_subtitle = ews02_02_subtitle;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_02_Subtitle2(@StringRes int ews02_02_subtitle2){
+        public Builder setEWS02_02_Subtitle2(@StringRes int ews02_02_subtitle2){
             this.ews02_02_subtitle2 = ews02_02_subtitle2;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_02_image(@DrawableRes int ews02_02_image) {
+        public Builder setEWS02_02_image(@DrawableRes int ews02_02_image) {
             this.ews02_02_image = ews02_02_image;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_02_PositiveBtnText(@StringRes int ews02_02_positiveBtnText){
+        public Builder setEWS02_02_PositiveBtnText(@StringRes int ews02_02_positiveBtnText){
             this.ews02_02_positiveBtnText = ews02_02_positiveBtnText;
             return this;
         }
 
-        public HappyFlowConfigurationBuilder setEWS02_02_NegativeBtnText(@StringRes int ews02_02_negativeBtnText){
+        public Builder setEWS02_02_NegativeBtnText(@StringRes int ews02_02_negativeBtnText){
             this.ews02_02_negativeBtnText = ews02_02_negativeBtnText;
             return this;
         }
