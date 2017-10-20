@@ -54,9 +54,6 @@ public class NetworkHelper {
         final String policyRule = buildPolicyRule(consentType, version, country, propositionName, applicationName);
         getLatestConsentStatus(context, new ConsentResponseListener() {
 
-                public List<ConsentModel> result;
-                public ConsentError error;
-
                 @Override
                 public void onResponseSuccessConsent(List<ConsentModel> responseData) {
                     for (ConsentModel consent: responseData) {
