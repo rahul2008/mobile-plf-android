@@ -88,7 +88,7 @@ public class DataPullSynchronise {
         executor = Executors.newFixedThreadPool(configurableFetchers.size());
     }
 
-    void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
+    void startSynchronise(@Nullable final DateTime sinceLastModifiedDate, final int referenceId) {
 
         boolean isLoggedIn = userAccessProvider.isLoggedIn();
 
@@ -99,12 +99,12 @@ public class DataPullSynchronise {
 
         if (!isSyncStarted()) {
             synchronized (this) {
-                fetchData(lastSyncDateTime, referenceId);
+                fetchData(sinceLastModifiedDate, referenceId);
             }
         }
     }
 
-    private void fetchData(final DateTime lastSyncDateTime, final int referenceId) {
+    private void fetchData(final DateTime sinceLastModifiedDate, final int referenceId) {
         if (configurableFetchers.size() <= 0) {
             synchronisationManager.dataSyncComplete();
             return;
@@ -118,7 +118,7 @@ public class DataPullSynchronise {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    RetrofitError resultError = fetcher.fetchDataSince(lastSyncDateTime);
+                    RetrofitError resultError = fetcher.fetchDataSince(sinceLastModifiedDate);
                     updateResult(resultError);
                     numberOfRunningFetches.decrementAndGet();
                     countDownLatch.countDown();
