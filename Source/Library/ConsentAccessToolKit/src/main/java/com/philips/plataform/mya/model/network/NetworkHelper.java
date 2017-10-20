@@ -50,21 +50,28 @@ public class NetworkHelper {
     private String mHsdpUUID;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public void getStatusForConsentType(Context context, String consentType, int version, String country, String propositionName, String applicationName, ConsentResponseListener consentListener) {
-        String policyRule = buildPolicyRule(consentType, version, country, propositionName, applicationName);
-        ConsentStatusConsentResponseListener listner = new ConsentStatusConsentResponseListener();
-        getLatestConsentStatus(context, listner);
-        if (listner.error == null) {
-            for (ConsentModel c: listner.result) {
-                if (policyRule.equals(c.getPolicyRule())) {
-                    consentListener.onResponseSuccessConsent(Collections.singletonList(c));
-                    return;
+    public void getStatusForConsentType(Context context, String consentType, int version, String country, String propositionName, String applicationName, final ConsentResponseListener consentListener) {
+        final String policyRule = buildPolicyRule(consentType, version, country, propositionName, applicationName);
+        getLatestConsentStatus(context, new ConsentResponseListener() {
+
+                public List<ConsentModel> result;
+                public ConsentError error;
+
+                @Override
+                public void onResponseSuccessConsent(List<ConsentModel> responseData) {
+                    for (ConsentModel consent: responseData) {
+                        if (policyRule.equals(consent.getPolicyRule())) {
+                            consentListener.onResponseSuccessConsent(Collections.singletonList(consent));
+                            return;
+                        }
+                    }
                 }
-            }
-            consentListener.onResponseSuccessConsent(Collections.<ConsentModel>emptyList());
-        } else {
-            consentListener.onResponseFailureConsent(listner.error);
-        }
+
+                @Override
+                public void onResponseFailureConsent(ConsentError consentError) {
+                    consentListener.onResponseFailureConsent(consentError);
+                }
+        });
     }
 
     private String buildPolicyRule(String consentType, int version, String country, String propositionName, String applicationName) {
@@ -221,20 +228,4 @@ public class NetworkHelper {
         };
     }
 
-    public static class ConsentStatusConsentResponseListener implements ConsentResponseListener {
-
-        public List<ConsentModel> result;
-        public ConsentError error;
-
-        @Override
-        public void onResponseSuccessConsent(List<ConsentModel> responseData) {
-            result = responseData;
-        }
-
-        @Override
-        public void onResponseFailureConsent(ConsentError consentError) {
-            error = consentError;
-        }
-
-    }
 }
