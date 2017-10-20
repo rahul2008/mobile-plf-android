@@ -247,7 +247,7 @@ public class HamburgerActivityTest {
         LinearLayout logoutParent = (LinearLayout) hamburgerActivity.findViewById(R.id.hamburger_menu_footer_container);
         logoutParent.performClick();
         assertFalse(sideBar.isDrawerVisible(navigationView));
-        verify(urLogoutInterface).performLogout(any(Context.class), any(User.class), anyBoolean(), anyBoolean());
+        verify(urLogoutInterface).performLogout(any(Context.class), any(User.class));
     }
     @Test
     public void logoutClickWhenUserLoggedOutTest() {

@@ -11,9 +11,19 @@ import com.philips.cdp.registration.User;
 
 public interface URLogoutInterface {
 
-    void performLogout(Context context, User user, boolean isDSPollingEnabled, boolean isAutoLogoutEnabled);
+    void performLogout(Context context, User user);
 
     void setUrLogoutListener(URLogoutListener urLogoutListener);
 
     void removeListener();
+
+    interface URLogoutListener {
+
+        void onLogoutResultSuccess();
+
+        void onLogoutResultFailure(int i, String errorMessage);
+
+        void onNetworkError(String errorMessage);
+
+    }
 }

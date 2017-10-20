@@ -11,4 +11,11 @@
         <attr name="ap_dot_radius" format="dimension" />
         <attr name="ap_default_angle" format="float" />
     </declare-styleable>
+    <attr name="uidContentItemDefaultNormalTitleTextColor" format="color"/>
+    <attr name="uidContentItemDefaultNormalDescriptorTextColor" format="color"/>
+    <attr name="uidContentItemDefaultNormalDescriptorIconColor" format="color"/>
+    <attr name="uidContentItemDefaultNormalBodyTextColor" format="color"/>
+    <attr name="uidContentItemDefaultNormalSubtitleTextColor" format="color"/>
+    <attr name="uidContentItemDefaultNormalSubtleBodyTextColor" format="color"/>
+    <attr name="uidContentItemDefaultDisabledSubtitleTextColor" format="color"/>
 </resources>

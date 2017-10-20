@@ -13,7 +13,9 @@ import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.referenceapp.PushNotificationManager;
 
 import org.junit.After;
@@ -34,8 +36,12 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(CustomRobolectricRunner.class)
@@ -49,12 +55,9 @@ public class URLogoutTest {
     private User user;
 
     @Mock
-    private URLogoutListener urLogoutListener;
+    private URLogoutInterface.URLogoutListener urLogoutListener;
 
     private URLogoutInterface urLogoutInterface;
-
-    @Mock
-    private AppConfigurationInterface appConfigurationInterface;
 
     @Mock
     private static PushNotificationManager pushNotificationManager;
@@ -79,19 +82,28 @@ public class URLogoutTest {
 
     private static final String ERROR_MESSAGE = "logout_error";
 
+    private AppConfigurationInterface appConfigurationInterface;
+
+    private AppInfraInterface appInfraInterface;
+
     @Before
     public void setUp() {
         activityController = Robolectric.buildActivity(TestActivity.class);
         testActivity = activityController.create().start().get();
         TestAppFrameworkApplication testAppFrameworkApplication = ((TestAppFrameworkApplication) RuntimeEnvironment.application);
+
+        appConfigurationInterface = testAppFrameworkApplication.getAppInfra().getConfigInterface();
         demoDataServicesState = testAppFrameworkApplication.getDataServiceState();
+        appInfraInterface = testAppFrameworkApplication.getAppInfra();
         urLogoutInterface = new URLogoutMock();
         urLogoutInterface.setUrLogoutListener(urLogoutListener);
     }
 
     @Test
     public void logoutSuccessWithDSLoggingDisabledAutoLogoutEnabledTokenSuccesTest() {
-        urLogoutInterface.performLogout(testActivity, user, false, true);
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onSuccess();
@@ -106,7 +118,9 @@ public class URLogoutTest {
 
     @Test
     public void logoutFailureWithDSLoggingDisabledAutoLogoutEnabledTokenSuccessTest() {
-        urLogoutInterface.performLogout(testActivity, user, false, true);
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onSuccess();
@@ -122,7 +136,9 @@ public class URLogoutTest {
 
     @Test
     public void logoutSuccessWithDSLoggingDisabledAutoLogoutEnabledTokenFailureTest() {
-        urLogoutInterface.performLogout(testActivity, user, false, true);
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onError();
@@ -137,7 +153,9 @@ public class URLogoutTest {
 
     @Test
     public void logoutFailureWithDSLoggingDisabledAutoLogoutEnabledTokenFailureTest() {
-        urLogoutInterface.performLogout(testActivity, user, false, true);
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(false));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(1)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         deregisterTokenListener = deregisterTokenListenerArgumentCaptor.getValue();
         deregisterTokenListener.onError();
@@ -153,7 +171,9 @@ public class URLogoutTest {
 
     @Test
     public void logoutSuccessWithDSLoggingEnabledTest() {
-        urLogoutInterface.performLogout(testActivity, user, true, true);
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
@@ -166,7 +186,9 @@ public class URLogoutTest {
 
     @Test
     public void logoutFailureWithDSLoggingEnabledTest() {
-        urLogoutInterface.performLogout(testActivity, user, true, true);
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
@@ -176,8 +198,10 @@ public class URLogoutTest {
 
     @Test
     public void logoutSuccessWhenLogoutListenerNullTest() {
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.removeListener();
-        urLogoutInterface.performLogout(testActivity, user, true, true);
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
@@ -187,13 +211,26 @@ public class URLogoutTest {
 
     @Test
     public void logoutFailureLogoutListenerNullTest() {
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.polling"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
+        when(appConfigurationInterface.getPropertyForKey(eq("PushNotification.autoLogout"), eq("ReferenceApp"), any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(String.valueOf(true));
         urLogoutInterface.removeListener();
-        urLogoutInterface.performLogout(testActivity, user, true, true);
+        urLogoutInterface.performLogout(testActivity, user);
         verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
         verify(user).logout(logoutHandlerArgumentCaptor.capture());
         logoutHandler = logoutHandlerArgumentCaptor.getValue();
         logoutHandler.onLogoutFailure(ERROR_CODE, ERROR_MESSAGE);
         verify(urLogoutListener, times(0)).onLogoutResultFailure(ERROR_CODE, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void logoutFailureNoInternetTest() {
+        RestInterface restInterface = mock(RestInterface.class);
+        when(appInfraInterface.getRestClient()).thenReturn(restInterface);
+        when(restInterface.isInternetReachable()).thenReturn(false);
+        urLogoutInterface.performLogout(testActivity, user);
+        verify(pushNotificationManager, times(0)).deregisterTokenWithBackend(any(Context.class), deregisterTokenListenerArgumentCaptor.capture());
+        verify(user, times(0)).logout(logoutHandlerArgumentCaptor.capture());
+        verify(urLogoutListener, times(1)).onNetworkError(anyString());
     }
 
     @Test
@@ -214,6 +251,8 @@ public class URLogoutTest {
         logoutHandler = null;
         deregisterTokenListener = null;
         demoDataServicesState = null;
+        appConfigurationInterface = null;
+        appInfraInterface = null;
         testActivity = null;
         activityController = null;
     }

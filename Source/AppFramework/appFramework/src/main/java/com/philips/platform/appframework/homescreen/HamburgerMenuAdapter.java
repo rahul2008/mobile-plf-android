@@ -93,7 +93,7 @@ public class HamburgerMenuAdapter extends RecyclerView.Adapter<HamburgerMenuAdap
                 @Override
                 public void onClick(View view) {
                     setSelectedPosition((int) menuTitle.getTag());
-                    notifyDataSetChanged();
+                    //notifyDataSetChanged();
 
                     if (hamburgerMenuItemClickListener != null) {
                         hamburgerMenuItemClickListener.onMenuItemClicked((int) menuTitle.getTag());

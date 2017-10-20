@@ -6,6 +6,7 @@
 package com.philips.platform.appframework.models;
 
 import android.content.Context;
+import android.support.graphics.drawable.VectorDrawableCompat;
 
 import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.appframework.R;
@@ -18,6 +19,7 @@ import org.robolectric.RuntimeEnvironment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 @RunWith(CustomRobolectricRunner.class)
 public class HamburgerMenuItemTest {
 

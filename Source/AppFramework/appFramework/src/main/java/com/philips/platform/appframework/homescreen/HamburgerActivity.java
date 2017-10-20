@@ -31,7 +31,6 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
-import com.philips.platform.appframework.logout.URLogoutListener;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
@@ -55,7 +54,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutListener {
+public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView, HamburgerMenuItemClickListener, View.OnClickListener, URLogoutInterface.URLogoutListener {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     private String[] hamburgerMenuTitles;
     private LinearLayout navigationView;
@@ -166,6 +165,12 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     private void initViews() {
         RALog.d(TAG, " initViews");
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         hamburgerFooterParent = (LinearLayout) findViewById(R.id.hamburger_menu_footer_container);
         hamburgerLogoutLabel = (Label) findViewById(R.id.hamburger_log_out);
         avatarName = (Label) findViewById(R.id.rap_avatar_name);
@@ -464,9 +469,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
                 if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).isUserSignIn()) {
                     showProgressBar();
                     urLogoutInterface.performLogout(this, ((AppFrameworkApplication) getApplicationContext())
-                                    .getUserRegistrationState().getUserObject(this),
-                            BaseAppUtil.isDSPollingEnabled(getApplicationContext()),
-                            BaseAppUtil.isAutoLogoutEnabled(getApplicationContext()));
+                                    .getUserRegistrationState().getUserObject(this));
                 } else {
                     presenter.onEvent(Constants.LOGIN_BUTTON_CLICK_CONSTANT);
                 }
@@ -489,5 +492,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         hideProgressBar();
         presenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
         updateSelectionIndex(0);
+    }
+
+
+    @Override
+    public void onNetworkError(String errorMessage) {
+        RALog.d(TAG, " UserRegistration onNetworkError  - " + errorMessage);
+        Toast.makeText(HamburgerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+        hideProgressBar();
     }
 }
