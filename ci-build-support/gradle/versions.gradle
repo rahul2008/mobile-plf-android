@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
- 
+
 ext.versions = [
 		ail_appInfra               : "1.9.0",
 		bll_shinelib               : "3.3.0",
@@ -20,7 +20,6 @@ ext.versions = [
 		sdb_securedblibrary        : "1.4.0",
 		ths_telehealth             : "2.2.0",
 		uaf_uAppFwLib              : "1.8.0",
-        usr_UserRegistrationUApp   : "11.1.0",
 		uid_uid                    : "1.1.0",
 		uit_uikitLib               : "3.11.0",
 		usr_registrationApi        : "11.1.0",
