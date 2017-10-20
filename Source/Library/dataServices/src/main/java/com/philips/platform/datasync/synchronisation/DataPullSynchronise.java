@@ -14,7 +14,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UserAccessProvider;
-import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.characteristics.UserCharacteristicsFetcher;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
