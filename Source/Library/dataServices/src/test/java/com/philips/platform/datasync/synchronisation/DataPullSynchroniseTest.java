@@ -101,29 +101,24 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldReturnError_WhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
-
-        synchronise.startSynchronise(NOW, EVENT_ID);
+        whenSynchronisationIsStarted();
 
         verify(eventingMock).post(errorEventCaptor.capture());
         assertThat(errorEventCaptor.getValue().getReferenceId()).isEqualTo(EVENT_ID);
     }
 
-
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
-        synchronise.startSynchronise(NOW, EVENT_ID);
+        whenSynchronisationIsStarted();
         verify(eventingMock).post(isA(BackendResponse.class));
     }
-
 
     @Test
     public void ShouldFetchData_WhenUserIsNotLoggedIn() {
         givenUserIsLoggedIn();
-        synchronise.startSynchronise(NOW, EVENT_ID);
+        whenSynchronisationIsStarted();
     }
-
-
 
 
     /*@Test
@@ -140,13 +135,15 @@ public class DataPullSynchroniseTest {
        // verify(eventingMock).post(successCaptor.capture());
     }*/
 
+
+
+
     private void runExecutor() {
         // verify(executorMock, atLeastOnce()).execute(runnableCaptor.capture());
         for (Runnable runnable : runnableCaptor.getAllValues()) {
             runnable.run();
         }
     }
-
 
    /* @Test
     public void ShouldNotPostAnything_WhenSyncIsNotFinished() throws Exception {
@@ -159,17 +156,7 @@ public class DataPullSynchroniseTest {
       //  verify(eventingMock).register(synchronise);
     }
 */
-    /*@Test
-    public void ShouldIgnoreSyncStart_WhenSyncIsAlreadyStarted() throws Exception {
 
-        synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
-        synchronise.startSynchronise(NOW, EVENT_ID);
-        synchronise.startSynchronise(NOW, EVENT_ID);
-        synchronise.startSynchronise(NOW, EVENT_ID);
-        synchronise.startSynchronise(NOW, EVENT_ID);
-
-       // verify(executorMock, times(2)).execute(any(Runnable.class));
-    }*/
 
     private <T> T getEvent(Class<T> clazz) {
         verify(eventingMock, atLeastOnce()).post(eventCaptor.capture());
@@ -209,36 +196,50 @@ public class DataPullSynchroniseTest {
         verifyNoMoreInteractions(executorMock);
     }
 
-
     //TODO: Spoort -  Not sure Y its giving error, uncomment and check it later
- /*   @Test
-    public void Should_Call_synchronize_when_fetchResult_isError(){
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
 
-        when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
-        when(firstFetcherMock.fetchDataSince(null)).thenThrow(retrofitErrorMock);
-
-        synchronise.startSynchronise(null,2);
-        runExecutor();
-
-    }*/
 
     @Test
     public void ShouldRunSyncInDifferentThreads() throws Exception {
         givenUserIsLoggedIn();
-        synchronise.startSynchronise(NOW, EVENT_ID);
+        whenSynchronisationIsStarted();
         runExecutor();
 //        verify(executorMock, times(2)).execute(any(Runnable.class));
     }
 
+    /*   @Test
+       public void Should_Call_synchronize_when_fetchResult_isError(){
+           when(accessProviderMock.isLoggedIn()).thenReturn(true);
+
+           when(retrofitErrorMock.getKind()).thenReturn(RetrofitError.Kind.HTTP);
+           when(firstFetcherMock.fetchDataSince(null)).thenThrow(retrofitErrorMock);
+
+           synchronise.startSynchronise(null,2);
+           runExecutor();
+
+       }*/
+    /*@Test
+    public void ShouldIgnoreSyncStart_WhenSyncIsAlreadyStarted() throws Exception {
+
+        synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.startSynchronise(NOW, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
+
+       // verify(executorMock, times(2)).execute(any(Runnable.class));
+    }*/
+
     private void givenUserIsLoggedIn() {
         userAccessProviderSpy.isLoggedIn = true;
     }
-
 
     private void givenUserIsNotLoggedIn() {
         userAccessProviderSpy.isLoggedIn = false;
     }
 
 
+    private void whenSynchronisationIsStarted() {
+        synchronise.startSynchronise(NOW, EVENT_ID);
+    }
 }
