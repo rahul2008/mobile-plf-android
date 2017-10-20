@@ -35,22 +35,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPullSynchroniseTest {
-    //    DateTime DATE_TIME = new DateTime();
     private static final int EVENT_ID = 2344;
 
     private UserAccessProviderSpy userAccessProviderSpy;
-
-    @Mock
-    private UCoreAdapter uCoreAdapterMock;
-
-    @Mock
-    private MomentsConverter momentsConverterMock;
-
-    @Mock
-    private MomentsClient momentsClientMock;
-
-//    @Mock
-//    private InsightsClient insightsClientMock;
 
     @Captor
     private ArgumentCaptor<BackendResponse> errorEventCaptor;
@@ -69,21 +56,11 @@ public class DataPullSynchroniseTest {
     @Mock
     private Eventing eventingMock;
 
-
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
-    @Mock
-    private retrofit.RetrofitError retrofitErrorMock;
-
     @Captor
     private ArgumentCaptor<Event> eventCaptor;
-
-    @Mock
-    private Moment momentMock;
-
-    @Mock
-    private ConsentDetail consentDetailMock;
 
     @Mock
     SynchronisationManager synchronisationManagerMock;
