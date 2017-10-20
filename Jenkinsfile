@@ -48,23 +48,19 @@ node('Android') {
             }
 
             stage('Build Debug') {
-//                    sh '''#!/bin/bash -l
-//                                chmod -R 755 . 
-//                                cd ./Source/Library 
-//                                ./gradlew --refresh-dependencies -PenvCode="${env.BUILD_NUMBER}" clean assembleDebug lint
-//                            '''
-                    sh(script="#!/bin/bash -l
+                   sh """#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library 
-                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint")
+                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} clean assembleDebug lint
+                            """
             }
 
             stage('Build Release') {
-                    sh '''#!/bin/bash -l
+                    sh """#!/bin/bash -l
                                 chmod -R 755 . 
                                 cd ./Source/Library
-                                ./gradlew --refresh-dependencies -PenvCode="${env.BUILD_NUMBER}" assembleRelease 
-                            '''
+                                ./gradlew --refresh-dependencies -PenvCode=${env.BUILD_NUMBER} assembleRelease 
+                            """
             }
                 
             stage('Archive results') {
