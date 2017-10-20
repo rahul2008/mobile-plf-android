@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.port.common;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
@@ -32,12 +33,13 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
     @Override
     public void processResponse(String jsonResponse) {
-        DevicePortProperties devicePortInfo = parseResponse(jsonResponse);
-        if (devicePortInfo != null) {
+        final DevicePortProperties devicePortInfo = parseResponse(jsonResponse);
+
+        if (devicePortInfo == null) {
+            DICommLog.e(DICommLog.DEVICEPORT, "DevicePort properties should not be null.");
+        } else {
             setPortProperties(devicePortInfo);
-            return;
         }
-        DICommLog.e(DICommLog.DEVICEPORT, "DevicePort Info should never be NULL");
     }
 
     @Override
@@ -62,21 +64,12 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
             return null;
         }
 
-        DevicePortProperties devicePortInfo = null;
         try {
-            devicePortInfo = gson.fromJson(response, DevicePortProperties.class);
-        } catch (Exception e) {
-            DICommLog.e(DICommLog.DEVICEPORT, e.getMessage());
+            return gson.fromJson(response, DevicePortProperties.class);
+        } catch (JsonSyntaxException e) {
+            DICommLog.e(DICommLog.DEVICEPORT, "Error parsing response: " + e.getMessage());
         }
-
-        if (devicePortInfo != null &&
-                (devicePortInfo.getName() == null
-                        || devicePortInfo.getType() == null)
-                ) {
-            return null;
-        } else {
-            return devicePortInfo;
-        }
+        return null;
     }
 
     public void setDeviceName(String name) {
