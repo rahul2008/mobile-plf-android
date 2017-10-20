@@ -11,8 +11,10 @@ import com.philips.platform.datasync.UserAccessProvider;
 
 
 public class UserAccessProviderSpy implements UserAccessProvider {
+    public boolean isLoggedIn;
+
     @Override
     public boolean isLoggedIn() {
-        return false;
+        return isLoggedIn;
     }
 }

@@ -49,8 +49,8 @@ public class DataPullSynchronise {
     @Inject
     UserAccessProvider userAccessProvider;
 
-    @Inject
-    UCoreAccessProvider mUCoreAccessProvider;
+//    @Inject
+//    UCoreAccessProvider mUCoreAccessProvider;
 
     @Inject
     MomentsDataFetcher momentsDataFetcher;
@@ -90,7 +90,7 @@ public class DataPullSynchronise {
 
     void startSynchronise(@Nullable final DateTime lastSyncDateTime, final int referenceId) {
 
-        boolean isLoggedIn = mUCoreAccessProvider.isLoggedIn();
+        boolean isLoggedIn = userAccessProvider.isLoggedIn();
 
         if (!isLoggedIn) {
             postError(referenceId, RetrofitError.unexpectedError("", new IllegalStateException("You're not logged in")));

@@ -45,9 +45,6 @@ public class DataPullSynchroniseTest {
     //    DateTime DATE_TIME = new DateTime();
     private static final int EVENT_ID = 2344;
 
-    @Mock
-    private UCoreAccessProvider accessProviderMock;
-
     private UserAccessProviderSpy userAccessProviderSpy;
 
     @Mock
@@ -109,6 +106,8 @@ public class DataPullSynchroniseTest {
     public void setUp() {
         initMocks(this);
 
+        userAccessProviderSpy = new UserAccessProviderSpy();
+
         verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
         errorHandlerImpl = new ErrorHandlerImplTest();
 
@@ -123,13 +122,12 @@ public class DataPullSynchroniseTest {
         DataServicesManager.getInstance().configureSyncDataType(set);
         Set<String> dataTypeList = DataServicesManager.getInstance().getSyncTypes();
 
-        //  when(accessProviderMock.isLoggedIn()).thenReturn(true);
         synchronise = new DataPullSynchronise(
                 Arrays.asList(firstFetcherMock, secondFetcherMock)
         );
 
         synchronise.userAccessProvider = userAccessProviderSpy;
-        synchronise.mUCoreAccessProvider = accessProviderMock;
+
         synchronise.eventing = eventingMock;
         synchronise.synchronisationManager = synchronisationManagerMock;
         synchronise.executor = executorMock;
@@ -142,7 +140,7 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void ShouldReturnError_WhenUserIsNotLoggedIn() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        givenUserIsNotLoggedIn();
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
@@ -150,9 +148,10 @@ public class DataPullSynchroniseTest {
         assertThat(errorEventCaptor.getValue().getReferenceId()).isEqualTo(EVENT_ID);
     }
 
+
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedIn() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        givenUserIsNotLoggedIn();
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
         verify(eventingMock).post(isA(BackendResponse.class));
     }
@@ -160,7 +159,7 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void ShouldFetchData_WhenUserIsNotLoggedIn() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        givenUserIsLoggedIn();
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
     }
 
@@ -227,7 +226,7 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void Should_Call_performFetch() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        givenUserIsLoggedIn();
         synchronise.startSynchronise(new DateTime(), 2);
         runExecutor();
         //TODO: Spoorti - Fix it and see what has to be verified
@@ -236,7 +235,7 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void Should_Call_synchronize_when_user_logged_out() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(false);
+        givenUserIsNotLoggedIn();
         synchronise.startSynchronise(new DateTime(), 2);
         //  verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
         verify(eventingMock).post(isA(BackendResponse.class));
@@ -244,11 +243,12 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void Should_Call_synchronize_when_no_sync_type_configured() {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        givenUserIsLoggedIn();
         synchronise.configurableFetchers = new ArrayList<>();
         synchronise.startSynchronise(new DateTime(), 2);
         verifyNoMoreInteractions(executorMock);
     }
+
 
     //TODO: Spoort -  Not sure Y its giving error, uncomment and check it later
  /*   @Test
@@ -265,10 +265,20 @@ public class DataPullSynchroniseTest {
 
     @Test
     public void ShouldRunSyncInDifferentThreads() throws Exception {
-        when(accessProviderMock.isLoggedIn()).thenReturn(true);
+        givenUserIsLoggedIn();
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
         runExecutor();
 //        verify(executorMock, times(2)).execute(any(Runnable.class));
     }
+
+    private void givenUserIsLoggedIn() {
+        userAccessProviderSpy.isLoggedIn = true;
+    }
+
+
+    private void givenUserIsNotLoggedIn() {
+        userAccessProviderSpy.isLoggedIn = false;
+    }
+
 
 }
