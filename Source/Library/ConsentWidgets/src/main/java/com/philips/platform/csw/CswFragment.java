@@ -109,5 +109,8 @@ public class CswFragment extends Fragment implements
         return !(onBackPressed());
     }
 
+    protected void setChildFragmentManager(FragmentManager fragmentManager) {
+        mFragmentManager = fragmentManager;
+    }
 
 }
