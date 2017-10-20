@@ -7,6 +7,7 @@ package com.philips.cdp2.ews.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -57,7 +58,7 @@ public class EWSActivity extends UiKitActivity {
         setUpToolBar();
         setUpCancelButton();
 
-        ewsComponent = createEWSComponent();
+        ewsComponent = createEWSComponent(getBundle(savedInstanceState));
         ewsComponent.inject(this);
         ewsEventingChannel.start();
 
@@ -68,9 +69,27 @@ public class EWSActivity extends UiKitActivity {
         navigator.navigateToGettingStartedScreen();
     }
 
-    private EWSComponent createEWSComponent() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         ContentConfiguration contentConfiguration =
-                BundleUtils.extractParcelableFromIntentOrNull(getIntent(), KEY_CONTENT_CONFIGURATION);
+                BundleUtils.extractParcelableFromIntentOrNull(getIntent().getExtras(), KEY_CONTENT_CONFIGURATION);
+        outState.putParcelable(KEY_CONTENT_CONFIGURATION, contentConfiguration);
+    }
+
+    private Bundle getBundle(Bundle savedInstanceState) {
+        Bundle bundle;
+        if (savedInstanceState == null) {
+            bundle = getIntent().getExtras();
+        } else {
+            bundle = savedInstanceState;
+        }
+        return bundle;
+    }
+
+    private EWSComponent createEWSComponent(@Nullable Bundle bundle) {
+        ContentConfiguration contentConfiguration =
+                BundleUtils.extractParcelableFromIntentOrNull(bundle, KEY_CONTENT_CONFIGURATION);
 
         // TODO Handle null config object
         if (contentConfiguration == null) {
