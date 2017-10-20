@@ -5,6 +5,7 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.datasync.spy.EventingSpy;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.joda.time.DateTime;
@@ -23,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -49,6 +51,8 @@ public class DataPullSynchroniseTest {
     @Mock
     private ExecutorService executorMock;
 
+    private EventingSpy eventingSpy;
+
     @Mock
     private Eventing eventingMock;
 
@@ -70,6 +74,7 @@ public class DataPullSynchroniseTest {
         initMocks(this);
 
         userAccessProviderSpy = new UserAccessProviderSpy();
+        eventingSpy = new EventingSpy();
 
         DataServicesManager.getInstance().setAppComponant(appComponentMock);
 
@@ -87,8 +92,8 @@ public class DataPullSynchroniseTest {
         );
 
         synchronise.userAccessProvider = userAccessProviderSpy;
+        synchronise.eventing = eventingSpy;
 
-        synchronise.eventing = eventingMock;
         synchronise.synchronisationManager = synchronisationManagerMock;
         synchronise.executor = executorMock;
         ArrayList list = new ArrayList();
@@ -99,25 +104,16 @@ public class DataPullSynchroniseTest {
     }
 
     @Test
-    public void ShouldReturnError_WhenUserIsNotLoggedIn() {
+    public void PostError_WhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
-        whenSynchronisationIsStarted();
-
-        verify(eventingMock).post(errorEventCaptor.capture());
-        assertThat(errorEventCaptor.getValue().getReferenceId()).isEqualTo(EVENT_ID);
+        whenSynchronisationIsStarted(EVENT_ID);
+        thenAnErrorWasPostedWithReferenceId(EVENT_ID);
     }
 
     @Test
-    public void ShouldPostError_WhenUserIsNotLoggedIn() {
-        givenUserIsNotLoggedIn();
-        whenSynchronisationIsStarted();
-        verify(eventingMock).post(isA(BackendResponse.class));
-    }
-
-    @Test
-    public void ShouldFetchData_WhenUserIsNotLoggedIn() {
+    public void ShouldFetchData_WhenUserIsLoggedIn() {
         givenUserIsLoggedIn();
-        whenSynchronisationIsStarted();
+        whenSynchronisationIsStarted(EVENT_ID);
     }
 
 
@@ -157,20 +153,6 @@ public class DataPullSynchroniseTest {
     }
 */
 
-
-    private <T> T getEvent(Class<T> clazz) {
-        verify(eventingMock, atLeastOnce()).post(eventCaptor.capture());
-
-        final List<Event> allValues = eventCaptor.getAllValues();
-        for (Event e : allValues) {
-            if (clazz.isInstance(e)) {
-                return clazz.cast(e);
-            }
-        }
-
-        return null;
-    }
-
     @Test
     public void Should_Call_performFetch() {
         givenUserIsLoggedIn();
@@ -178,14 +160,6 @@ public class DataPullSynchroniseTest {
         runExecutor();
         //TODO: Spoorti - Fix it and see what has to be verified
 //        verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
-    }
-
-    @Test
-    public void Should_Call_synchronize_when_user_logged_out() {
-        givenUserIsNotLoggedIn();
-        synchronise.startSynchronise(new DateTime(), 2);
-        //  verify(synchronisationManagerMock).shutdownAndAwaitTermination(executorMock);
-        verify(eventingMock).post(isA(BackendResponse.class));
     }
 
     @Test
@@ -202,7 +176,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldRunSyncInDifferentThreads() throws Exception {
         givenUserIsLoggedIn();
-        whenSynchronisationIsStarted();
+        whenSynchronisationIsStarted(EVENT_ID);
         runExecutor();
 //        verify(executorMock, times(2)).execute(any(Runnable.class));
     }
@@ -239,7 +213,13 @@ public class DataPullSynchroniseTest {
     }
 
 
-    private void whenSynchronisationIsStarted() {
-        synchronise.startSynchronise(NOW, EVENT_ID);
+    private void whenSynchronisationIsStarted(final int eventId) {
+        synchronise.startSynchronise(NOW, eventId);
     }
+
+    private void thenAnErrorWasPostedWithReferenceId(final int expectedEventId) {
+        assertEquals(expectedEventId, eventingSpy.postedEvent.getReferenceId());
+    }
+
+
 }
