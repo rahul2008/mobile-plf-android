@@ -1,7 +1,5 @@
 package com.philips.platform.datasync.synchronisation;
 
-import android.app.Application;
-
 import com.philips.platform.core.Eventing;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Moment;
@@ -9,14 +7,10 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.moments.MomentsClient;
 import com.philips.platform.datasync.moments.MomentsConverter;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
-import com.philips.testing.verticals.ErrorHandlerImplTest;
-import com.philips.testing.verticals.OrmCreatorTest;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -38,7 +32,6 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPullSynchroniseTest {
@@ -91,9 +84,6 @@ public class DataPullSynchroniseTest {
 
     @Mock
     private ConsentDetail consentDetailMock;
-    private Application context;
-    private OrmCreatorTest verticalDataCreater;
-    private ErrorHandlerImplTest errorHandlerImpl;
 
     @Mock
     SynchronisationManager synchronisationManagerMock;
@@ -107,9 +97,6 @@ public class DataPullSynchroniseTest {
         initMocks(this);
 
         userAccessProviderSpy = new UserAccessProviderSpy();
-
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
-        errorHandlerImpl = new ErrorHandlerImplTest();
 
         DataServicesManager.getInstance().setAppComponant(appComponantMock);
 
