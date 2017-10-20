@@ -48,9 +48,6 @@ public class DataPullSynchronise {
     @Inject
     UserAccessProvider userAccessProvider;
 
-//    @Inject
-//    UCoreAccessProvider mUCoreAccessProvider;
-
     @Inject
     MomentsDataFetcher momentsDataFetcher;
 
