@@ -8,6 +8,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.spy.UserAccessProviderSpy;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
-import static com.philips.platform.datasync.moments.MomentsDataSenderTest.DATE_TIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.atLeastOnce;
@@ -31,6 +31,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DataPullSynchroniseTest {
     private static final int EVENT_ID = 2344;
+    private static final DateTime NOW = DateTime.now(DateTimeZone.UTC);
 
     private UserAccessProviderSpy userAccessProviderSpy;
 
@@ -101,7 +102,7 @@ public class DataPullSynchroniseTest {
     public void ShouldReturnError_WhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
 
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
 
         verify(eventingMock).post(errorEventCaptor.capture());
         assertThat(errorEventCaptor.getValue().getReferenceId()).isEqualTo(EVENT_ID);
@@ -111,7 +112,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldPostError_WhenUserIsNotLoggedIn() {
         givenUserIsNotLoggedIn();
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
         verify(eventingMock).post(isA(BackendResponse.class));
     }
 
@@ -119,7 +120,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldFetchData_WhenUserIsNotLoggedIn() {
         givenUserIsLoggedIn();
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
     }
 
 
@@ -127,12 +128,12 @@ public class DataPullSynchroniseTest {
 
     /*@Test
     public void ShouldPostSuccess_WhenSyncSucceed() throws Exception {
-        when(firstFetcherMock.fetchDataSince(DATE_TIME)).thenReturn(null);
-        when(secondFetcherMock.fetchDataSince(DATE_TIME)).thenReturn(null);
+        when(firstFetcherMock.fetchDataSince(NOW)).thenReturn(null);
+        when(secondFetcherMock.fetchDataSince(NOW)).thenReturn(null);
 
         synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
 
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
 
        // runExecutor();
 
@@ -150,7 +151,7 @@ public class DataPullSynchroniseTest {
    /* @Test
     public void ShouldNotPostAnything_WhenSyncIsNotFinished() throws Exception {
 
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
 
         //final GetNonSynchronizedConsentsRequest event = getEvent(GetNonSynchronizedConsentsRequest.class);
        // assertThat(event).isNull();
@@ -162,10 +163,10 @@ public class DataPullSynchroniseTest {
     public void ShouldIgnoreSyncStart_WhenSyncIsAlreadyStarted() throws Exception {
 
         synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
 
        // verify(executorMock, times(2)).execute(any(Runnable.class));
     }*/
@@ -225,7 +226,7 @@ public class DataPullSynchroniseTest {
     @Test
     public void ShouldRunSyncInDifferentThreads() throws Exception {
         givenUserIsLoggedIn();
-        synchronise.startSynchronise(DATE_TIME, EVENT_ID);
+        synchronise.startSynchronise(NOW, EVENT_ID);
         runExecutor();
 //        verify(executorMock, times(2)).execute(any(Runnable.class));
     }
